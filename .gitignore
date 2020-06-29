@@ -1,0 +1,41 @@
+.DS_Store
+.idea/
+.vscode/
+.env
+.env.local
+.env.development
+.env.development.local
+.env.production
+.env.production.local
+.env.test
+.env.test.local
+
+# Production build directory
+build/
+/.firebase
+
+# Dependency directory
+node_modules/
+/.pnp
+.pnp.js
+
+# Code coverage directory
+coverage/
+
+# Secrets
+auth_config.json
+auth_config*.json
+gae*.yaml
+src/assets/scripts/metrics/*.json
+recidiviz-production-*.json
+recidiviz-dev-*.json
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Package files
+package-lock.json
