@@ -10,8 +10,6 @@ const NavList = styled.ul``;
 const NavItem = styled.li``;
 
 export default function NavBar() {
-  // eventually it will be possible to change this;
-  // for initial launch it is hard-coded to a single value
   return (
     <NavContainer>
       <NavList>

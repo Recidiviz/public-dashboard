@@ -5,6 +5,8 @@ import { DEFAULT_TENANT } from "./constants";
 import SiteLayout from "./site-layout";
 
 function App() {
+  // eventually it will be possible to change this;
+  // for initial launch it is hard-coded to a single value
   const currentTenant = DEFAULT_TENANT;
 
   return (
