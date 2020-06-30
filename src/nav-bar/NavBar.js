@@ -1,70 +1,36 @@
 import { Link } from "@reach/router";
 import React from "react";
 
-import { DEFAULT_TENANT, PATHS } from "../constants";
+import styled from "styled-components";
+import { PATHS } from "../constants";
 
-function addTenantIdToPath({ path, tenantId }) {
-  return path.replace(":tenantId", tenantId);
-}
+const NavContainer = styled.nav``;
+
+const NavList = styled.ul``;
+const NavItem = styled.li``;
 
 export default function NavBar() {
   // eventually it will be possible to change this;
   // for initial launch it is hard-coded to a single value
-  const currentTenant = DEFAULT_TENANT;
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link
-            to={addTenantIdToPath({
-              path: PATHS.overview,
-              tenantId: currentTenant,
-            })}
-          >
-            Overview
-          </Link>
-        </li>
-        <li>
-          <Link
-            to={addTenantIdToPath({
-              path: PATHS.sentencing,
-              tenantId: currentTenant,
-            })}
-          >
-            Sentencing
-          </Link>
-        </li>
-        <li>
-          <Link
-            to={addTenantIdToPath({
-              path: PATHS.prison,
-              tenantId: currentTenant,
-            })}
-          >
-            Prison
-          </Link>
-        </li>
-        <li>
-          <Link
-            to={addTenantIdToPath({
-              path: PATHS.probation,
-              tenantId: currentTenant,
-            })}
-          >
-            Probation
-          </Link>
-        </li>
-        <li>
-          <Link
-            to={addTenantIdToPath({
-              path: PATHS.parole,
-              tenantId: currentTenant,
-            })}
-          >
-            Parole
-          </Link>
-        </li>
-      </ul>
-    </nav>
+    <NavContainer>
+      <NavList>
+        <NavItem>
+          <Link to={PATHS.overview}>Overview</Link>
+        </NavItem>
+        <NavItem>
+          <Link to={PATHS.sentencing}>Sentencing</Link>
+        </NavItem>
+        <NavItem>
+          <Link to={PATHS.prison}>Prison</Link>
+        </NavItem>
+        <NavItem>
+          <Link to={PATHS.probation}>Probation</Link>
+        </NavItem>
+        <NavItem>
+          <Link to={PATHS.parole}>Parole</Link>
+        </NavItem>
+      </NavList>
+    </NavContainer>
   );
 }

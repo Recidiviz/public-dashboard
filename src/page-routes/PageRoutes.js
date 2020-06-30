@@ -1,13 +1,14 @@
-import { Router } from "@reach/router";
+import { Router, Redirect } from "@reach/router";
 import React from "react";
 
 import { PATHS } from "../constants";
 import Page from "../page";
 
-export default function Routes() {
+export default function PageRoutes() {
   return (
     <Router>
-      <Page name="overview" path={PATHS.home} />
+      <Redirect from="/" to={PATHS.overview} noThrow replace />
+      <Page name="overview" path={PATHS.overview} />
       <Page name="sentencing" path={PATHS.sentencing} />
       <Page name="prison" path={PATHS.prison} />
       <Page name="probation" path={PATHS.probation} />

@@ -1,15 +1,13 @@
 import PropTypes from "prop-types";
 import React from "react";
+import styled from "styled-components";
 
-export default function Page({ name, tenantId }) {
-  return (
-    <div>
-      Page: {name} - Tenant: {tenantId}
-    </div>
-  );
+const PageContainer = styled.main``;
+
+export default function Page({ name }) {
+  return <PageContainer>Page: {name}</PageContainer>;
 }
 
 Page.propTypes = {
   name: PropTypes.string.isRequired,
-  tenantId: PropTypes.string.isRequired,
 };
