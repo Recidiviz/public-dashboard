@@ -9,7 +9,9 @@
     "react/jsx-wrap-multilines": [
       "error",
       { "declaration": false, "assignment": false }
-    ]
+    ],
+    // this doesn't always play nice with prettier; let prettier win
+    "react/jsx-one-expression-per-line": 0
   },
   "env": {
     "browser": true,
