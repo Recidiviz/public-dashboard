@@ -1,19 +1,20 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import DimensionControl from "../dimension-control";
 
 const PageContainer = styled.article``;
 const HeadingContainer = styled.header``;
 const HeadingTitle = styled.h1`
   color: ${(props) => props.theme.colors.heading};
-  font: ${(props) => props.theme.displayFont};
+  font: ${(props) => props.theme.fonts.display};
   font-size: 32px;
   margin-top: 0;
   margin-bottom: 16px;
 `;
 const HeadingDescription = styled.p`
   color: ${(props) => props.theme.colors.body};
-  font: ${(props) => props.theme.bodyFont};
+  font: ${(props) => props.theme.fonts.body};
   font-size: 24px;
   margin-top: 0;
 `;
@@ -23,24 +24,60 @@ const SectionDivider = styled.hr``;
 const sectionTextWidth = 420;
 
 const DetailSectionContainer = styled.section``;
+
+const DetailSectionHeader = styled.header`
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
 const DetailSectionTitle = styled.h1`
   color: ${(props) => props.theme.colors.heading};
-  font: ${(props) => props.theme.displayFont};
+  flex: 0 1 auto;
+  font: ${(props) => props.theme.fonts.display};
   font-size: 20px;
   margin-bottom: 16px;
   width: ${sectionTextWidth}px;
 `;
-const DetailSectionDescription = styled.p`
-  color: ${(props) => props.theme.colors.body};
-  font: ${(props) => props.theme.bodyFont};
-  width: ${sectionTextWidth}px;
+const DetailSectionControls = styled.div`
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
 `;
 
-function DetailSection({ title, description }) {
+const DetailSectionDescription = styled.p`
+  color: ${(props) => props.theme.colors.body};
+  font: ${(props) => props.theme.fonts.body};
+  max-width: ${sectionTextWidth}px;
+`;
+
+function DetailSection({
+  title,
+  description,
+  showDimensionControl,
+  showTimeSlider,
+}) {
+  const showControls = showDimensionControl || showTimeSlider;
+
+  const [dimension, setDimension] = useState();
+
   return (
     <DetailSectionContainer>
-      <DetailSectionTitle>{title}</DetailSectionTitle>
+      <DetailSectionHeader>
+        <DetailSectionTitle>{title}</DetailSectionTitle>
+        {showControls && (
+          <DetailSectionControls>
+            {showDimensionControl && (
+              <DimensionControl onChange={setDimension} />
+            )}
+          </DetailSectionControls>
+        )}
+      </DetailSectionHeader>
       <DetailSectionDescription>{description}</DetailSectionDescription>
+      <div>
+        <h3>chart goes here</h3>
+        <p>{dimension && `Dimension: ${dimension}`}</p>
+      </div>
     </DetailSectionContainer>
   );
 }
@@ -48,6 +85,8 @@ function DetailSection({ title, description }) {
 DetailSection.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  showDimensionControl: PropTypes.bool.isRequired,
+  showTimeSlider: PropTypes.bool.isRequired,
 };
 
 export default function DetailPage({ title, description, sections }) {

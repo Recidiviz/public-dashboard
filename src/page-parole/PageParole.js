@@ -13,6 +13,8 @@ const SECTIONS = [
     Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
     ipsum dui gravida.`,
+    showDimensionControl: false,
+    showTimeSlider: false,
   },
   {
     title: "What happens after parole?",
@@ -20,6 +22,8 @@ const SECTIONS = [
     Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
     ipsum dui gravida.`,
+    showDimensionControl: true,
+    showTimeSlider: false,
   },
   {
     title: "Why do revocations happen?",
@@ -27,6 +31,8 @@ const SECTIONS = [
     Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
     ipsum dui gravida.`,
+    showDimensionControl: true,
+    showTimeSlider: true,
   },
   {
     title: "Free Through Recovery Program",
@@ -34,6 +40,8 @@ const SECTIONS = [
     Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
     ipsum dui gravida.`,
+    showDimensionControl: true,
+    showTimeSlider: false,
   },
 ];
 

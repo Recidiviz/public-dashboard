@@ -8,7 +8,7 @@ import { PATHS } from "../constants";
 const NavContainer = styled.nav``;
 
 const NavList = styled.ul`
-  font: ${(props) => props.theme.bodyFont};
+  font: ${(props) => props.theme.fonts.body};
   font-size: 11px;
   font-weight: 600;
   line-height: 2;
