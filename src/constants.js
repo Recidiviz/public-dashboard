@@ -24,6 +24,9 @@ export const THEME = {
   bodyLineHeight,
   bodyFontWeight,
   colors: {
+    // descriptive
+    blue: "#3e8df7",
+    // functional
     background: "#FAFAFA",
     body: "rgba(90, 101, 117, 0.9)",
     heading: "rgba(39, 43, 49, 0.9)",
