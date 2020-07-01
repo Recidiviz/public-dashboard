@@ -2,16 +2,43 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
+const headingTextWidth = 550;
+
 const PageContainer = styled.article``;
 const HeadingContainer = styled.header``;
-const HeadingTitle = styled.h1``;
-const HeadingDescription = styled.p``;
+const HeadingTitle = styled.h1`
+  color: ${(props) => props.theme.colors.heading};
+  font: ${(props) => props.theme.displayFont};
+  font-size: 32px;
+  margin-top: 0;
+  margin-bottom: 16px;
+  max-width: ${headingTextWidth}px;
+`;
+const HeadingDescription = styled.p`
+  color: ${(props) => props.theme.colors.body};
+  font: ${(props) => props.theme.bodyFont};
+  font-size: 15px;
+  margin-top: 0;
+  max-width: ${headingTextWidth}px;
+`;
 
 const SectionDivider = styled.hr``;
 
+const sectionTextWidth = 270;
+
 const DetailSectionContainer = styled.section``;
-const DetailSectionTitle = styled.h1``;
-const DetailSectionDescription = styled.p``;
+const DetailSectionTitle = styled.h1`
+  color: ${(props) => props.theme.colors.heading};
+  font: ${(props) => props.theme.displayFont};
+  font-size: 20px;
+  margin-bottom: 16px;
+  width: ${sectionTextWidth}px;
+`;
+const DetailSectionDescription = styled.p`
+  color: ${(props) => props.theme.colors.body};
+  font: ${(props) => props.theme.bodyFont};
+  width: ${sectionTextWidth}px;
+`;
 
 function DetailSection({ title, description }) {
   return (
@@ -34,10 +61,10 @@ export default function DetailPage({ title, description, sections }) {
         <HeadingTitle>{title}</HeadingTitle>
         <HeadingDescription>{description}</HeadingDescription>
         {sections.map((section) => (
-          <>
+          <React.Fragment key={section.title}>
             <SectionDivider />
             <DetailSection {...section} />
-          </>
+          </React.Fragment>
         ))}
       </HeadingContainer>
     </PageContainer>
@@ -47,7 +74,7 @@ export default function DetailPage({ title, description, sections }) {
 DetailPage.propTypes = {
   title: PropTypes.node.isRequired,
   description: PropTypes.node.isRequired,
-  sections: PropTypes.arrayOf(DetailSection.propTypes),
+  sections: PropTypes.arrayOf(PropTypes.shape(DetailSection.propTypes)),
 };
 
 DetailPage.defaultProps = {
