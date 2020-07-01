@@ -32,7 +32,7 @@ export const THEME = {
     heading: "rgba(39, 43, 49, 0.9)",
   },
   // font size is inline because it's really just a placeholder
-  displayFont: `${displayFontWeight} 1.6em/${bodyLineHeight} ${bodyFontFamily}`,
+  displayFont: `${displayFontWeight} 1.6em/${displayLineHeight} ${displayFontFamily}`,
   displayFontFamily,
   displayFontWeight,
   displayLineHeight,

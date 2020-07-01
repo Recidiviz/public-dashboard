@@ -2,8 +2,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-const headingTextWidth = 550;
-
 const PageContainer = styled.article``;
 const HeadingContainer = styled.header``;
 const HeadingTitle = styled.h1`
@@ -12,19 +10,17 @@ const HeadingTitle = styled.h1`
   font-size: 32px;
   margin-top: 0;
   margin-bottom: 16px;
-  max-width: ${headingTextWidth}px;
 `;
 const HeadingDescription = styled.p`
   color: ${(props) => props.theme.colors.body};
   font: ${(props) => props.theme.bodyFont};
-  font-size: 15px;
+  font-size: 24px;
   margin-top: 0;
-  max-width: ${headingTextWidth}px;
 `;
 
 const SectionDivider = styled.hr``;
 
-const sectionTextWidth = 270;
+const sectionTextWidth = 420;
 
 const DetailSectionContainer = styled.section``;
 const DetailSectionTitle = styled.h1`
