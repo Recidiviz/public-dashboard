@@ -20,7 +20,10 @@ const HeadingDescription = styled.p`
   margin-top: 0;
 `;
 
-const SectionDivider = styled.hr``;
+const SectionDivider = styled.hr`
+  border: none;
+  border-top: 1px solid ${(props) => props.theme.colors.divider};
+`;
 
 const sectionTextWidth = 420;
 

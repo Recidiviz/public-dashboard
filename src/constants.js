@@ -31,6 +31,7 @@ export const THEME = {
     controlBackground: "#ECEDEF",
     controlLabel: "#3D4045",
     controlValue: "#5A6575",
+    divider: "#E5E7EB",
     heading: "#2A4163",
     highlight: "#25b894",
   },
