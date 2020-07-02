@@ -88,7 +88,7 @@ function DetailSection({
       <DetailSectionDescription>{description}</DetailSectionDescription>
       <div>
         <h3>chart goes here</h3>
-        <p>{dimension && `Dimension: ${dimension}`}</p>
+        <p>{dimension && `Dimension: ${dimension.label}`}</p>
         <p>{month && `Month: ${month}`}</p>
       </div>
     </DetailSectionContainer>
