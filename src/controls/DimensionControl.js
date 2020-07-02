@@ -1,20 +1,15 @@
-import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { Wrapper, Button, Menu, MenuItem } from "react-aria-menubutton";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
+import {
+  ControlContainer,
+  ControlLabel,
+  ControlValue,
+  controlTypeProperties,
+} from "./shared";
 
-const PILL_HEIGHT = 32;
-
-const dimensionTypeProperties = css`
-  font: ${(props) => props.theme.fonts.body};
-  font-size: 10px;
-`;
-
-const DimensionControlContainer = styled.div`
-  align-items: center;
-  display: flex;
-  height: ${PILL_HEIGHT}px;
-  margin-left: 10px;
+const DimensionControlContainer = styled(ControlContainer)`
   position: relative;
   z-index: ${(props) => props.theme.zIndex.base};
 
@@ -24,7 +19,7 @@ const DimensionControlContainer = styled.div`
     }
 
     &__menu {
-      ${dimensionTypeProperties}
+      ${controlTypeProperties}
       background: ${(props) => props.theme.colors.controlBackground};
       list-style: none;
       margin-top: 4px;
@@ -45,25 +40,6 @@ const DimensionControlContainer = styled.div`
       }
     }
   }
-`;
-
-const DimensionControlLabel = styled.span`
-  display: inline-block;
-  font: ${(props) => props.theme.fonts.bodyBold};
-  font-size: 10px;
-  margin-right: 8px;
-`;
-
-const DimensionControlValue = styled.span`
-  ${dimensionTypeProperties}
-  align-items: center;
-  background: ${(props) => props.theme.colors.controlBackground};
-  border-radius: ${PILL_HEIGHT / 2}px;
-  display: inline-flex;
-  height: ${PILL_HEIGHT}px;
-  justify-content: center;
-  min-width: ${PILL_HEIGHT * 1.5}px;
-  padding: 8px;
 `;
 
 const DIMENSIONS = {
@@ -93,8 +69,8 @@ export default function DimensionControl({ onChange }) {
     <DimensionControlContainer>
       <Wrapper onSelection={(value) => setCurrentDimension(value)}>
         <Button className="DimensionControl__button">
-          <DimensionControlLabel>View</DimensionControlLabel>
-          <DimensionControlValue>{currentDimension}</DimensionControlValue>
+          <ControlLabel>View</ControlLabel>
+          <ControlValue>{currentDimension}</ControlValue>
         </Button>
         <Menu className="DimensionControl__menu" tag="ul">
           {DIMENSIONS_LIST.map((dimension) => (

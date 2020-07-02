@@ -24,11 +24,15 @@ export const THEME = {
   colors: {
     // descriptive
     blue: "#3e8df7",
+    darkGreen: "#005450",
     // functional
-    background: "#FAFAFA",
-    body: "rgba(90, 101, 117, 0.9)",
-    controlBackground: "#F0F1F3",
-    heading: "rgba(39, 43, 49, 0.9)",
+    background: "#FCFCFC",
+    body: "#707F96",
+    controlBackground: "#ECEDEF",
+    controlLabel: "#3D4045",
+    controlValue: "#5A6575",
+    heading: "#2A4163",
+    highlight: "#25b894",
   },
   fonts: {
     body: bodyMedium,

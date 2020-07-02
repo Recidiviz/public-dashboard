@@ -1,7 +1,8 @@
+import { subYears } from "date-fns";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import styled from "styled-components";
-import DimensionControl from "../dimension-control";
+import { DimensionControl, TimeControl } from "../controls";
 
 const PageContainer = styled.article``;
 const HeadingContainer = styled.header``;
@@ -55,11 +56,16 @@ function DetailSection({
   title,
   description,
   showDimensionControl,
-  showTimeSlider,
+  showTimeControl,
 }) {
-  const showControls = showDimensionControl || showTimeSlider;
+  const showControls = showDimensionControl || showTimeControl;
 
   const [dimension, setDimension] = useState();
+  const [month, setMonth] = useState();
+
+  // these are placeholders; replace them with values derived from data
+  const [endDate] = useState(new Date());
+  const [startDate] = useState(subYears(endDate, 3));
 
   return (
     <DetailSectionContainer>
@@ -67,6 +73,9 @@ function DetailSection({
         <DetailSectionTitle>{title}</DetailSectionTitle>
         {showControls && (
           <DetailSectionControls>
+            {showTimeControl && (
+              <TimeControl {...{ startDate, endDate }} onChange={setMonth} />
+            )}
             {showDimensionControl && (
               <DimensionControl onChange={setDimension} />
             )}
@@ -77,6 +86,7 @@ function DetailSection({
       <div>
         <h3>chart goes here</h3>
         <p>{dimension && `Dimension: ${dimension}`}</p>
+        <p>{month && `Month: ${month}`}</p>
       </div>
     </DetailSectionContainer>
   );
@@ -86,7 +96,7 @@ DetailSection.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   showDimensionControl: PropTypes.bool.isRequired,
-  showTimeSlider: PropTypes.bool.isRequired,
+  showTimeControl: PropTypes.bool.isRequired,
 };
 
 export default function DetailPage({ title, description, sections }) {
