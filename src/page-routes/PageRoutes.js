@@ -1,18 +1,27 @@
 import { Router, Redirect } from "@reach/router";
 import React from "react";
 
+import styled from "styled-components";
 import { PATHS } from "../constants";
-import Page from "../page";
+import PageOverview from "../page-overview";
+import PageSentencing from "../page-sentencing";
+import PagePrison from "../page-prison";
+import PageProbation from "../page-probation";
+import PageParole from "../page-parole";
+
+const PagesContainer = styled.main``;
 
 export default function PageRoutes() {
   return (
-    <Router>
-      <Redirect from="/" to={PATHS.overview} noThrow replace />
-      <Page name="overview" path={PATHS.overview} />
-      <Page name="sentencing" path={PATHS.sentencing} />
-      <Page name="prison" path={PATHS.prison} />
-      <Page name="probation" path={PATHS.probation} />
-      <Page name="parole" path={PATHS.parole} />
-    </Router>
+    <PagesContainer>
+      <Router>
+        <Redirect from="/" to={PATHS.overview} noThrow replace />
+        <PageOverview path={PATHS.overview} />
+        <PageSentencing path={PATHS.sentencing} />
+        <PagePrison path={PATHS.prison} />
+        <PageProbation path={PATHS.probation} />
+        <PageParole path={PATHS.parole} />
+      </Router>
+    </PagesContainer>
   );
 }
