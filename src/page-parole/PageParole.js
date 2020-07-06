@@ -1,5 +1,6 @@
 import React from "react";
 import DetailPage from "../detail-page";
+import StateMap from "../state-map";
 
 const TITLE = "Parole";
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -14,6 +15,7 @@ const SECTIONS = [
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
     ipsum dui gravida.`,
     showDistrictControl: true,
+    VizComponent: StateMap,
   },
   {
     title: "What happens after parole?",

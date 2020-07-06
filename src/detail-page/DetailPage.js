@@ -61,6 +61,7 @@ function DetailSection({
   showDimensionControl,
   showDistrictControl,
   showTimeControl,
+  VizComponent,
 }) {
   const [dimension, setDimension] = useState();
   const [month, setMonth] = useState();
@@ -97,6 +98,7 @@ function DetailSection({
         <p>{dimension && `Dimension: ${dimension.label}`}</p>
         <p>{month && `Month: ${month}`}</p>
         <p>{currentDistrict && `District: ${currentDistrict.label}`}</p>
+        <VizComponent />
       </div>
     </DetailSectionContainer>
   );
@@ -108,12 +110,15 @@ DetailSection.propTypes = {
   showDimensionControl: PropTypes.bool,
   showTimeControl: PropTypes.bool,
   showDistrictControl: PropTypes.bool,
+  // TODO: should be required
+  VizComponent: PropTypes.func,
 };
 
 DetailSection.defaultProps = {
   showDimensionControl: false,
   showTimeControl: false,
   showDistrictControl: false,
+  VizComponent: () => null,
 };
 
 export default function DetailPage({ title, description, sections }) {
