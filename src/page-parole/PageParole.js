@@ -13,8 +13,7 @@ const SECTIONS = [
     Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
     ipsum dui gravida.`,
-    showDimensionControl: false,
-    showTimeControl: false,
+    showDistrictControl: true,
   },
   {
     title: "What happens after parole?",
@@ -23,7 +22,6 @@ const SECTIONS = [
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
     ipsum dui gravida.`,
     showDimensionControl: true,
-    showTimeControl: false,
   },
   {
     title: "Why do revocations happen?",
@@ -41,7 +39,6 @@ const SECTIONS = [
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
     ipsum dui gravida.`,
     showDimensionControl: true,
-    showTimeControl: false,
   },
 ];
 

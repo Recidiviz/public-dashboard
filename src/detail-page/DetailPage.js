@@ -2,7 +2,7 @@ import { subYears } from "date-fns";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import styled from "styled-components";
-import { DimensionControl, TimeControl } from "../controls";
+import { DimensionControl, TimeControl, DistrictControl } from "../controls";
 
 const PageContainer = styled.article``;
 const HeadingContainer = styled.header``;
@@ -59,10 +59,9 @@ function DetailSection({
   title,
   description,
   showDimensionControl,
+  showDistrictControl,
   showTimeControl,
 }) {
-  const showControls = showDimensionControl || showTimeControl;
-
   const [dimension, setDimension] = useState();
   const [month, setMonth] = useState();
 
@@ -70,26 +69,34 @@ function DetailSection({
   const [endDate] = useState(new Date());
   const [startDate] = useState(subYears(endDate, 3));
 
+  // this is also a placeholder;
+  // once data is loaded this should be updated with a list of districts
+  const [districts] = useState(["ALL", "1", "2", "3"]);
+  const [currentDistrict, setCurrentDistrict] = useState();
+
   return (
     <DetailSectionContainer>
       <DetailSectionHeader>
         <DetailSectionTitle>{title}</DetailSectionTitle>
-        {showControls && (
-          <DetailSectionControls>
-            {showTimeControl && (
-              <TimeControl {...{ startDate, endDate }} onChange={setMonth} />
-            )}
-            {showDimensionControl && (
-              <DimensionControl onChange={setDimension} />
-            )}
-          </DetailSectionControls>
-        )}
+        <DetailSectionControls>
+          {showTimeControl && (
+            <TimeControl {...{ startDate, endDate }} onChange={setMonth} />
+          )}
+          {showDimensionControl && <DimensionControl onChange={setDimension} />}
+          {showDistrictControl && (
+            <DistrictControl
+              districts={districts}
+              onChange={setCurrentDistrict}
+            />
+          )}
+        </DetailSectionControls>
       </DetailSectionHeader>
       <DetailSectionDescription>{description}</DetailSectionDescription>
       <div>
         <h3>chart goes here</h3>
         <p>{dimension && `Dimension: ${dimension.label}`}</p>
         <p>{month && `Month: ${month}`}</p>
+        <p>{currentDistrict && `District: ${currentDistrict.label}`}</p>
       </div>
     </DetailSectionContainer>
   );
@@ -98,8 +105,15 @@ function DetailSection({
 DetailSection.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  showDimensionControl: PropTypes.bool.isRequired,
-  showTimeControl: PropTypes.bool.isRequired,
+  showDimensionControl: PropTypes.bool,
+  showTimeControl: PropTypes.bool,
+  showDistrictControl: PropTypes.bool,
+};
+
+DetailSection.defaultProps = {
+  showDimensionControl: false,
+  showTimeControl: false,
+  showDistrictControl: false,
 };
 
 export default function DetailPage({ title, description, sections }) {

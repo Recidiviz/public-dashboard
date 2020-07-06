@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 
 const PILL_HEIGHT = 32;
@@ -34,3 +35,8 @@ export const ControlValue = styled.span`
   min-width: ${PILL_HEIGHT * 1.5}px;
   padding: 8px ${PILL_HEIGHT / 2}px;
 `;
+
+export const DropdownOption = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+};

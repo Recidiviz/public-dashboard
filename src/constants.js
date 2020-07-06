@@ -8,6 +8,8 @@ export const PATHS = {
   sentencing: "sentencing",
 };
 
+export const TOTAL_KEY = "ALL";
+
 const bodyFontFamily = "'Libre Franklin', sans-serif";
 const bodyFontSize = "12px";
 const bodyLineHeight = 1.5;

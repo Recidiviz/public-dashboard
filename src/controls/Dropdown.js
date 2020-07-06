@@ -7,6 +7,7 @@ import {
   ControlLabel,
   ControlValue,
   controlTypeProperties,
+  DropdownOption,
 } from "./shared";
 
 const DropdownContainer = styled(ControlContainer)`
@@ -42,16 +43,25 @@ const DropdownContainer = styled(ControlContainer)`
   }
 `;
 
-export default function Dropdown({ label, onChange, options }) {
-  const [currentOption, setCurrentOption] = useState(options[0]);
+// if value prop is provided, this behaves like a controlled component;
+// in the absence of that it will be uncontrolled and expose its value
+// via a listener
+export default function Dropdown({ label, onChange, options, value }) {
+  const [currentOption, setCurrentOption] = useState(value || options[0]);
 
   useEffect(() => {
     onChange(currentOption);
   }, [currentOption, onChange]);
 
+  useEffect(() => {
+    if (value) {
+      setCurrentOption(value);
+    }
+  }, [value]);
+
   return (
     <DropdownContainer>
-      <Wrapper onSelection={(value) => setCurrentOption(value)}>
+      <Wrapper onSelection={(selectedValue) => setCurrentOption(selectedValue)}>
         <Button className="Dropdown__button">
           <ControlLabel>{label}</ControlLabel>
           <ControlValue>{currentOption.label}</ControlValue>
@@ -76,10 +86,10 @@ export default function Dropdown({ label, onChange, options }) {
 Dropdown.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape(DropdownOption)).isRequired,
+  value: PropTypes.shape(DropdownOption),
+};
+
+Dropdown.defaultProps = {
+  value: undefined,
 };
