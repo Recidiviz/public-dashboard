@@ -84,12 +84,11 @@ export default function StateDistrictMap({
         }}
       >
         <Geographies geography={ndGeography}>
-          {({ geographies, projection }) => {
+          {({ geographies }) => {
             return geographies.map((geography) => (
               <Geography
                 key={geography.properties.NAME}
                 geography={geography}
-                projection={projection}
                 {...THEME.maps.default}
               />
             ));
