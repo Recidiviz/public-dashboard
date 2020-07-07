@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import Dropdown from "./Dropdown";
 import { TOTAL_KEY } from "../constants";
-import { DropdownOption } from "./shared";
 
 export default function DistrictControl({ districts, onChange, value }) {
   const options = districts.map((districtId) => {
@@ -17,7 +16,7 @@ export default function DistrictControl({ districts, onChange, value }) {
       label="District"
       onChange={onChange}
       options={options}
-      value={value}
+      selectedId={value}
     />
   );
 }
@@ -25,7 +24,7 @@ export default function DistrictControl({ districts, onChange, value }) {
 DistrictControl.propTypes = {
   districts: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.shape(DropdownOption),
+  value: PropTypes.string,
 };
 
 DistrictControl.defaultProps = {
