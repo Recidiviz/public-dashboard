@@ -11,7 +11,7 @@ import {
 import styled from "styled-components";
 import { mesh } from "topojson";
 import ndGeography from "../assets/maps/us_nd.json";
-import { THEME } from "../constants";
+import { THEME, TOTAL_KEY } from "../constants";
 
 const MAX_MARKER_RADIUS = 19;
 
@@ -71,6 +71,13 @@ export default function StateDistrictMap({
     onDistrictClick(record.district);
   };
 
+  const handleCountyClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // clear the current district selection
+    onDistrictClick(TOTAL_KEY);
+  };
+
   return (
     <StateDistrictMapContainer>
       <ComposableMap
@@ -89,6 +96,7 @@ export default function StateDistrictMap({
               <Geography
                 key={geography.properties.NAME}
                 geography={geography}
+                onClick={handleCountyClick}
                 {...THEME.maps.default}
               />
             ));
