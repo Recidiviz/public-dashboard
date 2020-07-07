@@ -32,7 +32,9 @@ export default function VizParolePopulation({
     )
     .map((record) => {
       const districtData = districtOffices.find(
-        (office) => +office.district === +record.district
+        // these are stored as both strings and numbers;
+        // doing an extra typecast here just to be safe
+        (office) => `${office.district}` === `${record.district}`
       );
       if (districtData) {
         return {
@@ -44,6 +46,7 @@ export default function VizParolePopulation({
       }
       return null;
     })
+    // drop any nulls from the previous step
     .filter((record) => record);
   return (
     <VizParolePopulationContainer>
