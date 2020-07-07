@@ -43,6 +43,14 @@ export const THEME = {
     display: displayBold,
     displayMedium,
   },
+  maps: {
+    // these are style objects that we can pass directly to react-simple-maps
+    default: {
+      fill: "#D6E3E2",
+      stroke: "#FFF",
+      strokeWidth: 1.5,
+    },
+  },
   zIndex: {
     base: 1,
     menu: 10,
