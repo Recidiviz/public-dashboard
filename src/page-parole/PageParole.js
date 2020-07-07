@@ -1,7 +1,9 @@
 import React from "react";
 import DetailPage from "../detail-page";
 // once the backend is in place, stop using these untracked test files
+// eslint-disable-next-line import/no-unresolved
 import parolePopulationData from "../assets/test_data/US_ND_parole_population_by_district_by_demographics.json";
+// eslint-disable-next-line import/no-unresolved
 import paroleDistrictOffices from "../assets/test_data/US_ND_site_offices.json";
 import VizParolePopulation from "../viz-parole-population";
 
