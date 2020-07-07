@@ -22,11 +22,15 @@ const displayLineHeight = 1.3;
 const displayBold = `600 ${displayFontSize}/${displayLineHeight} ${displayFontFamily}`;
 const displayMedium = `500 ${displayFontSize}/${displayLineHeight} ${displayFontFamily}`;
 
+const brightGreen = "#25b894";
+const darkGreen = "#005450";
+const white = "#fff";
+
 export const THEME = {
   colors: {
     // descriptive
     blue: "#3e8df7",
-    darkGreen: "#005450",
+    darkGreen,
     // functional
     background: "#FCFCFC",
     body: "#707F96",
@@ -35,7 +39,7 @@ export const THEME = {
     controlValue: "#5A6575",
     divider: "#E5E7EB",
     heading: "#2A4163",
-    highlight: "#25b894",
+    highlight: brightGreen,
   },
   fonts: {
     body: bodyMedium,
@@ -47,8 +51,22 @@ export const THEME = {
     // these are style objects that we can pass directly to react-simple-maps
     default: {
       fill: "#D6E3E2",
-      stroke: "#FFF",
+      stroke: white,
       strokeWidth: 1.5,
+    },
+  },
+  mapMarkers: {
+    default: {
+      fill: darkGreen,
+      fillOpacity: 0.8,
+      stroke: white,
+      strokeWidth: 1,
+    },
+    hover: {
+      fill: brightGreen,
+    },
+    pressed: {
+      fill: darkGreen,
     },
   },
   zIndex: {

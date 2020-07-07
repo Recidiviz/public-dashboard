@@ -55,6 +55,11 @@ const DetailSectionDescription = styled.p`
   max-width: ${sectionTextWidth}px;
 `;
 
+const DetailSectionVizContainer = styled.div`
+  margin-bottom: 50px;
+  margin-top: 30px;
+`;
+
 function DetailSection({
   title,
   description,
@@ -62,6 +67,7 @@ function DetailSection({
   showDistrictControl,
   showTimeControl,
   VizComponent,
+  vizData,
 }) {
   const [dimension, setDimension] = useState();
   const [month, setMonth] = useState();
@@ -72,8 +78,8 @@ function DetailSection({
 
   // this is also a placeholder;
   // once data is loaded this should be updated with a list of districts
-  const [districts] = useState(["ALL", "1", "2", "3"]);
-  const [currentDistrict, setCurrentDistrict] = useState();
+  const [districtList] = useState(["ALL", "1", "2", "3"]);
+  const [district, setDistrict] = useState();
 
   return (
     <DetailSectionContainer>
@@ -85,21 +91,14 @@ function DetailSection({
           )}
           {showDimensionControl && <DimensionControl onChange={setDimension} />}
           {showDistrictControl && (
-            <DistrictControl
-              districts={districts}
-              onChange={setCurrentDistrict}
-            />
+            <DistrictControl districts={districtList} onChange={setDistrict} />
           )}
         </DetailSectionControls>
       </DetailSectionHeader>
       <DetailSectionDescription>{description}</DetailSectionDescription>
-      <div>
-        <h3>chart goes here</h3>
-        <p>{dimension && `Dimension: ${dimension.label}`}</p>
-        <p>{month && `Month: ${month}`}</p>
-        <p>{currentDistrict && `District: ${currentDistrict.label}`}</p>
-        <VizComponent />
-      </div>
+      <DetailSectionVizContainer>
+        <VizComponent data={vizData} {...{ dimension, month, district }} />
+      </DetailSectionVizContainer>
     </DetailSectionContainer>
   );
 }
@@ -110,15 +109,14 @@ DetailSection.propTypes = {
   showDimensionControl: PropTypes.bool,
   showTimeControl: PropTypes.bool,
   showDistrictControl: PropTypes.bool,
-  // TODO: should be required
-  VizComponent: PropTypes.func,
+  VizComponent: PropTypes.func.isRequired,
+  vizData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
 };
 
 DetailSection.defaultProps = {
   showDimensionControl: false,
   showTimeControl: false,
   showDistrictControl: false,
-  VizComponent: () => null,
 };
 
 export default function DetailPage({ title, description, sections }) {
