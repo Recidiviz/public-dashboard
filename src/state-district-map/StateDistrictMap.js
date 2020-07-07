@@ -36,13 +36,15 @@ const StateDistrictMapContainer = styled.div`
 const DistrictMarker = styled.circle`
   cursor: pointer;
 
-  fill: ${(props) => props.theme.mapMarkers.default.fill};
+  fill: ${(props) =>
+    props.selected
+      ? props.theme.mapMarkers.hover.fill
+      : props.theme.mapMarkers.default.fill};
   fill-opacity: ${(props) => props.theme.mapMarkers.default.fillOpacity};
   stroke: ${(props) => props.theme.mapMarkers.default.stroke};
   stroke-width: ${(props) => props.theme.mapMarkers.default.strokeWidth};
 
-  &:hover,
-  &.selected {
+  &:hover {
     fill: ${(props) => props.theme.mapMarkers.hover.fill};
   }
 
@@ -51,13 +53,23 @@ const DistrictMarker = styled.circle`
   }
 `;
 
-export default function StateDistrictMap({ data }) {
+export default function StateDistrictMap({
+  currentDistrict,
+  data,
+  onDistrictClick,
+}) {
   const maxValue = Math.max(...data.map(({ value }) => value));
 
   // using sqrt to linear-scale by circle area, not radius
   const markerRadiusScale = scaleSqrt()
     .domain([0, maxValue])
     .range([0, MAX_MARKER_RADIUS]);
+
+  const handleDistrictClick = (e, record) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onDistrictClick(record.district);
+  };
 
   return (
     <StateDistrictMapContainer>
@@ -66,7 +78,7 @@ export default function StateDistrictMap({ data }) {
         width={ND_WIDTH}
         height={ND_HEIGHT}
         style={{
-          height: "100%",
+          height: "auto",
           overflow: "visible",
           width: "100%",
         }}
@@ -85,7 +97,11 @@ export default function StateDistrictMap({ data }) {
         </Geographies>
         {data.map((record) => (
           <Marker key={record.district} coordinates={[record.long, record.lat]}>
-            <DistrictMarker r={markerRadiusScale(record.value)} />
+            <DistrictMarker
+              onClick={(e) => handleDistrictClick(e, record)}
+              r={markerRadiusScale(record.value)}
+              selected={record.district === currentDistrict}
+            />
           </Marker>
         ))}
       </ComposableMap>
@@ -102,4 +118,10 @@ StateDistrictMap.propTypes = {
       value: PropTypes.number.isRequired,
     })
   ).isRequired,
+  currentDistrict: PropTypes.string,
+  onDistrictClick: PropTypes.func.isRequired,
+};
+
+StateDistrictMap.defaultProps = {
+  currentDistrict: undefined,
 };

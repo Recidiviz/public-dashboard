@@ -36,7 +36,7 @@ export const ControlValue = styled.span`
   padding: 8px ${PILL_HEIGHT / 2}px;
 `;
 
-export const DropdownOption = {
+export const DropdownOptionType = PropTypes.shape({
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-};
+});

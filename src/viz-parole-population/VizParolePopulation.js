@@ -1,10 +1,27 @@
 import PropTypes from "prop-types";
 import React from "react";
+import styled from "styled-components";
 import { TOTAL_KEY } from "../constants";
 import StateDistrictMap from "../state-district-map";
 
+const VizParolePopulationContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
+const ParoleViz = styled.figure`
+  margin: 0;
+  flex: 0 1 auto;
+`;
+const MapCaption = styled.figcaption`
+  color: ${(props) => props.theme.colors.body};
+  font: ${(props) => props.theme.fonts.body};
+`;
+
 export default function VizParolePopulation({
   data: { populationDemographics, districtOffices },
+  districtId,
+  onDistrictClick,
 }) {
   const districtTotals = populationDemographics
     .filter(
@@ -28,27 +45,29 @@ export default function VizParolePopulation({
       return null;
     })
     .filter((record) => record);
-  return <StateDistrictMap data={districtTotals} />;
+  return (
+    <VizParolePopulationContainer>
+      <ParoleViz>
+        <StateDistrictMap
+          data={districtTotals}
+          currentDistrict={districtId}
+          onDistrictClick={onDistrictClick}
+        />
+        <MapCaption>Parole districts in North Dakota</MapCaption>
+      </ParoleViz>
+    </VizParolePopulationContainer>
+  );
 }
-
-// TODO: figure this out
-// const ControlOptionType = PropTypes.shape({
-//   id: string,
-//   label: string,
-// });
 
 VizParolePopulation.propTypes = {
   data: PropTypes.shape({
     populationDemographics: PropTypes.arrayOf(PropTypes.object).isRequired,
     districtOffices: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  // dimension: ControlOptionType,
-  // month: ControlOptionType,
-  // district: ControlOptionType,
+  districtId: PropTypes.string,
+  onDistrictClick: PropTypes.func.isRequired,
 };
 
 VizParolePopulation.defaultProps = {
-  // dimension: undefined,
-  // month: undefined,
-  // district: undefined,
+  districtId: undefined,
 };

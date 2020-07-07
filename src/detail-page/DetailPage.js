@@ -2,6 +2,7 @@ import { subYears } from "date-fns";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { TOTAL_KEY } from "../constants";
 import { DimensionControl, TimeControl, DistrictControl } from "../controls";
 
 const PageContainer = styled.article``;
@@ -76,10 +77,15 @@ function DetailSection({
   const [endDate] = useState(new Date());
   const [startDate] = useState(subYears(endDate, 3));
 
-  // this is also a placeholder;
-  // once data is loaded this should be updated with a list of districts
-  const [districtList] = useState(["ALL", "1", "2", "3"]);
-  const [district, setDistrict] = useState();
+  let initialDistrictList;
+  if (showDistrictControl && vizData.districtOffices) {
+    initialDistrictList = vizData.districtOffices.map(
+      ({ district }) => `${district}`
+    );
+    initialDistrictList.unshift(TOTAL_KEY);
+  }
+  const [districtList] = useState(initialDistrictList);
+  const [districtId, setDistrictId] = useState();
 
   return (
     <DetailSectionContainer>
@@ -90,14 +96,25 @@ function DetailSection({
             <TimeControl {...{ startDate, endDate }} onChange={setMonth} />
           )}
           {showDimensionControl && <DimensionControl onChange={setDimension} />}
-          {showDistrictControl && (
-            <DistrictControl districts={districtList} onChange={setDistrict} />
-          )}
+          {
+            // we need both a flag and data to enable district control
+            showDistrictControl && districtList && (
+              <DistrictControl
+                districts={districtList}
+                onChange={setDistrictId}
+                value={districtId}
+              />
+            )
+          }
         </DetailSectionControls>
       </DetailSectionHeader>
       <DetailSectionDescription>{description}</DetailSectionDescription>
       <DetailSectionVizContainer>
-        <VizComponent data={vizData} {...{ dimension, month, district }} />
+        <VizComponent
+          data={vizData}
+          {...{ dimension, month, districtId }}
+          onDistrictClick={setDistrictId}
+        />
       </DetailSectionVizContainer>
     </DetailSectionContainer>
   );

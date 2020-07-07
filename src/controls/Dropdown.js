@@ -7,7 +7,7 @@ import {
   ControlLabel,
   ControlValue,
   controlTypeProperties,
-  DropdownOption,
+  DropdownOptionType,
 } from "./shared";
 
 const DropdownContainer = styled(ControlContainer)`
@@ -43,28 +43,37 @@ const DropdownContainer = styled(ControlContainer)`
   }
 `;
 
-// if value prop is provided, this behaves like a controlled component;
-// in the absence of that it will be uncontrolled and expose its value
-// via a listener
-export default function Dropdown({ label, onChange, options, value }) {
-  const [currentOption, setCurrentOption] = useState(value || options[0]);
+// if selectedId prop is provided, this behaves like a controlled component;
+// in the absence of that it will be uncontrolled and expose the ID of
+// its selected option via a listener
+export default function Dropdown({ label, onChange, options, selectedId }) {
+  const [currentOptionId, setCurrentOptionId] = useState(
+    selectedId || options[0].id
+  );
+  const selectedOption = options.find(
+    (option) => option.id === currentOptionId
+  );
 
+  // this lets the parent listen to the selected value
   useEffect(() => {
-    onChange(currentOption);
-  }, [currentOption, onChange]);
+    onChange(currentOptionId);
+  }, [currentOptionId, onChange]);
 
+  // this lets the parent explicitly set the selected value
   useEffect(() => {
-    if (value) {
-      setCurrentOption(value);
+    if (selectedId) {
+      setCurrentOptionId(selectedId);
     }
-  }, [value]);
+  }, [selectedId]);
 
   return (
     <DropdownContainer>
-      <Wrapper onSelection={(selectedValue) => setCurrentOption(selectedValue)}>
+      <Wrapper
+        onSelection={(selectedValue) => setCurrentOptionId(selectedValue.id)}
+      >
         <Button className="Dropdown__button">
           <ControlLabel>{label}</ControlLabel>
-          <ControlValue>{currentOption.label}</ControlValue>
+          <ControlValue>{selectedOption.label}</ControlValue>
         </Button>
         <Menu className="Dropdown__menu" tag="ul">
           {options.map((option) => (
@@ -86,10 +95,10 @@ export default function Dropdown({ label, onChange, options, value }) {
 Dropdown.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(PropTypes.shape(DropdownOption)).isRequired,
-  value: PropTypes.shape(DropdownOption),
+  options: PropTypes.arrayOf(DropdownOptionType).isRequired,
+  selectedId: PropTypes.string,
 };
 
 Dropdown.defaultProps = {
-  value: undefined,
+  selectedId: undefined,
 };
