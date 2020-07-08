@@ -24,6 +24,8 @@ const displayMedium = `500 ${displayFontSize}/${displayLineHeight} ${displayFont
 
 const brightGreen = "#25b894";
 const darkGreen = "#005450";
+const darkGray = "#5A6575";
+const lightGray = "#ECEDEF";
 const white = "#fff";
 
 export const THEME = {
@@ -35,12 +37,14 @@ export const THEME = {
     background: "#FCFCFC",
     body: "#707F96",
     bodyLight: white,
-    controlBackground: "#ECEDEF",
+    controlBackground: lightGray,
     controlLabel: "#3D4045",
-    controlValue: "#5A6575",
+    controlValue: darkGray,
     divider: "#E5E7EB",
     heading: "#2A4163",
     highlight: brightGreen,
+    pillBackground: lightGray,
+    pillValue: darkGray,
     tooltipBackground: "#132c52",
   },
   fonts: {
