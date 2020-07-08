@@ -34,12 +34,14 @@ export const THEME = {
     // functional
     background: "#FCFCFC",
     body: "#707F96",
+    bodyLight: white,
     controlBackground: "#ECEDEF",
     controlLabel: "#3D4045",
     controlValue: "#5A6575",
     divider: "#E5E7EB",
     heading: "#2A4163",
     highlight: brightGreen,
+    tooltipBackground: "#132c52",
   },
   fonts: {
     body: bodyMedium,
@@ -72,6 +74,7 @@ export const THEME = {
   zIndex: {
     base: 1,
     menu: 10,
+    tooltip: 50,
     modal: 100,
   },
 };
