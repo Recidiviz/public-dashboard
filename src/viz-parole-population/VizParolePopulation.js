@@ -9,9 +9,12 @@ const VizParolePopulationContainer = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
 `;
-const ParoleViz = styled.figure`
-  margin: 0;
+const VizWrapper = styled.div`
   flex: 0 1 auto;
+`;
+
+const MapWrapper = styled.figure`
+  margin: 0;
 `;
 const MapCaption = styled.figcaption`
   color: ${(props) => props.theme.colors.body};
@@ -50,14 +53,16 @@ export default function VizParolePopulation({
     .filter((record) => record);
   return (
     <VizParolePopulationContainer>
-      <ParoleViz>
-        <StateDistrictMap
-          data={districtTotals}
-          currentDistrict={districtId}
-          onDistrictClick={onDistrictClick}
-        />
-        <MapCaption>Parole districts in North Dakota</MapCaption>
-      </ParoleViz>
+      <VizWrapper>
+        <MapWrapper>
+          <StateDistrictMap
+            data={districtTotals}
+            currentDistrict={districtId}
+            onDistrictClick={onDistrictClick}
+          />
+          <MapCaption>Parole districts in North Dakota</MapCaption>
+        </MapWrapper>
+      </VizWrapper>
     </VizParolePopulationContainer>
   );
 }
