@@ -12,7 +12,7 @@ import {
 
 const DropdownContainer = styled(ControlContainer)`
   position: relative;
-  z-index: ${(props) => props.theme.zIndex.base};
+  z-index: ${(props) => props.theme.zIndex.menu};
 
   .Dropdown {
     &__button {
