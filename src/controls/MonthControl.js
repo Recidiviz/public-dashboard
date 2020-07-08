@@ -1,5 +1,4 @@
 import { Slider, Track, Thumb } from "@accessible/slider";
-import { eachMonthOfInterval, format } from "date-fns";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -38,15 +37,33 @@ const SliderContainer = styled.div`
   }
 `;
 
-const TimeControlValue = styled(ControlValue)`
+const MonthControlValue = styled(ControlValue)`
   white-space: nowrap;
   width: 80px;
 `;
 
-export default function TimeControl({ startDate, endDate, onChange }) {
-  const [months, setMonths] = useState(
-    eachMonthOfInterval({ start: startDate, end: endDate })
-  );
+const monthNames = [
+  null,
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+const formatMonthValue = (monthStr) => {
+  const [year, month] = monthStr.split("-");
+  return `${monthNames[month]} ${year}`;
+};
+
+export default function MonthControl({ onChange, months }) {
   const maxSliderValue = months.length - 1;
 
   const [monthIndex, setMonthIndex] = useState(maxSliderValue);
@@ -54,10 +71,6 @@ export default function TimeControl({ startDate, endDate, onChange }) {
   useEffect(() => {
     onChange(months[monthIndex]);
   }, [monthIndex, months, onChange]);
-
-  useEffect(() => {
-    setMonths(eachMonthOfInterval({ start: startDate, end: endDate }));
-  }, [endDate, startDate]);
 
   return (
     <ControlContainer>
@@ -78,15 +91,14 @@ export default function TimeControl({ startDate, endDate, onChange }) {
           </Track>
         </SliderContainer>
       </Slider>
-      <TimeControlValue>
-        {format(months[monthIndex], "MMM yyyy")}
-      </TimeControlValue>
+      <MonthControlValue>
+        {formatMonthValue(months[monthIndex])}
+      </MonthControlValue>
     </ControlContainer>
   );
 }
 
-TimeControl.propTypes = {
-  endDate: PropTypes.instanceOf(Date).isRequired,
+MonthControl.propTypes = {
   onChange: PropTypes.func.isRequired,
-  startDate: PropTypes.instanceOf(Date).isRequired,
+  months: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
