@@ -34,6 +34,13 @@ export const DIMENSIONS_LIST = [
   { id: "age", label: DIMENSIONS.age },
 ];
 
+export const VIOLATION_TYPES = {
+  ABSCONDED: "Absconsion",
+  FELONY: "New Offense",
+  TECHNICAL: "Technical Violation",
+  EXTERNAL_UNKNOWN: "Unknown Type",
+};
+
 const bodyFontFamily = "'Libre Franklin', sans-serif";
 const bodyFontSize = "12px";
 const bodyLineHeight = 1.5;
@@ -66,6 +73,12 @@ export const THEME = {
     heading: "#2A4163",
     highlight: brightGreen,
     tooltipBackground: "#132c52",
+    violationReasons: {
+      ABSCONDED: "#327672",
+      FELONY: "#659795",
+      TECHNICAL: darkGreen,
+      EXTERNAL_UNKNOWN: "#97b9b7",
+    },
   },
   fonts: {
     body: bodyMedium,

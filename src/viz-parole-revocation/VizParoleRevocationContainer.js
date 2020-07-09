@@ -2,7 +2,12 @@ import PropTypes from "prop-types";
 import { ascending, group } from "d3-array";
 import React, { useState, useEffect } from "react";
 import VizParoleRevocation from "./VizParoleRevocation";
-import { DIMENSION_KEYS, TOTAL_KEY } from "../constants";
+import {
+  DIMENSION_KEYS,
+  TOTAL_KEY,
+  VIOLATION_TYPES,
+  THEME,
+} from "../constants";
 
 // TODO: may not be necessary if source files change
 function typeCastRecords(records) {
@@ -22,19 +27,7 @@ function groupByMonth(records) {
   return group(sorted, ({ month, year }) => `${year}-${month}`);
 }
 
-const VIOLATION_TYPES = {
-  ABSCONDED: "Absconsion",
-  FELONY: "New Offense",
-  TECHNICAL: "Technical Violation",
-  EXTERNAL_UNKNOWN: "Unknown Type",
-};
-
-const VIOLATION_REASONS_COLORS = {
-  ABSCONDED: "#327672",
-  FELONY: "#659795",
-  TECHNICAL: "#005450",
-  EXTERNAL_UNKNOWN: "#97b9b7",
-};
+const VIOLATION_REASONS_COLORS = THEME.colors.violationReasons;
 
 export default function VizParoleRevocationContainer({
   data: { paroleRevocationByMonth },
@@ -88,11 +81,12 @@ VizParoleRevocationContainer.propTypes = {
   data: PropTypes.shape({
     paroleRevocationByMonth: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  dimension: PropTypes.string.isRequired,
+  dimension: PropTypes.string,
   month: PropTypes.string,
   setMonthList: PropTypes.func.isRequired,
 };
 
 VizParoleRevocationContainer.defaultProps = {
+  dimension: undefined,
   month: undefined,
 };
