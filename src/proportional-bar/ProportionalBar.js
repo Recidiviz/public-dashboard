@@ -49,7 +49,7 @@ const ProportionalBarTooltipText = styled.p`
 // the chart height will adjust as necessary
 const INITIAL_METADATA_HEIGHT = 28;
 
-export default function ProportionalBar({ data, title }) {
+export default function ProportionalBar({ data, title, showLegend }) {
   // to both avoid janky chart animations and avoid height overflows
   // when the legend wraps to multiple lines, we need to measure its height
   // explicitly to determine the chart height
@@ -105,7 +105,7 @@ export default function ProportionalBar({ data, title }) {
         {({ measureRef }) => (
           <ProportionalBarMetadata ref={measureRef}>
             <ProportionalBarTitle>{title}</ProportionalBarTitle>
-            <ColorLegend items={data} />
+            {showLegend && <ColorLegend items={data} />}
           </ProportionalBarMetadata>
         )}
       </Measure>
@@ -122,4 +122,9 @@ ProportionalBar.propTypes = {
     })
   ).isRequired,
   title: PropTypes.string.isRequired,
+  showLegend: PropTypes.bool,
+};
+
+ProportionalBar.defaultProps = {
+  showLegend: false,
 };
