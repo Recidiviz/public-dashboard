@@ -1,5 +1,7 @@
 import React from "react";
+import breakpoint from "styled-components-breakpoint";
 import styled from "styled-components";
+
 import { CONTAINER_WIDTH } from "../constants";
 import RecidivizSrc from "../assets/icons/recidiviz.svg";
 
@@ -12,32 +14,70 @@ const FooterContainer = styled.footer`
 const FooterContent = styled.div`
   align-items: center;
   display: flex;
-  justify-content: space-between;
-  margin: 0 auto;
-  max-width: ${CONTAINER_WIDTH}px;
+  flex-direction: column;
   min-height: ${(props) => props.theme.spacing[74]};
+
+  ${breakpoint("md")`
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: ${CONTAINER_WIDTH}px;
+  `}
 `;
 
 const FooterCredits = styled.div`
-  min-height: ${(props) => props.theme.spacing[24]};
-  width: 40%;
+  padding: ${(props) => props.theme.spacing[8]};
+
+  ${breakpoint("md")`
+    min-height: ${(props) => props.theme.spacing[24]};
+    width: 40%;
+  `}
+
+  /* 
+    There is a bug in styled-components-breakpoint libary which doesn't allow multiple
+    interpreted values to be used within the same 'breakpoint' block:
+    https://github.com/jameslnewell/styled-components-breakpoint/issues/26
+
+    As a workaround, it is possible to achieve the desired result by using a separate
+    breakpoint block for each interpreted property.
+  */
+  ${breakpoint("md")`
+    padding: ${(props) => props.theme.spacing[0]};
+  `}
 `;
 
 const FooterLegal = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: ${(props) => props.theme.spacing[24]};
-  text-align: right;
-  width: 40%;
+  text-align: center;
+
+  ${breakpoint("md")`
+    min-height: ${(props) => props.theme.spacing[24]};
+    text-align: right;
+    width: 40%;
+  `}
 `;
 
 const FooterLegalContent = styled.div``;
-const RecidivizBrandingContainer = styled.div``;
+
+const RecidivizBrandingContainer = styled.div`
+  margin-bottom: ${(props) => props.theme.spacing[8]};
+
+  ${breakpoint("md")`
+    margin-bottom: ${(props) => props.theme.spacing[0]};
+  `}
+`;
+
 const RecidivizBranding = styled.img``;
 
 const FooterLegalese = styled.span`
-  margin-left: ${(props) => props.theme.spacing[8]};
+  display: block;
+
+  ${breakpoint("md")`
+    display: inline;
+    margin-left: ${(props) => props.theme.spacing[8]};
+  `}
 `;
 
 const PrivacyLink = styled.a`

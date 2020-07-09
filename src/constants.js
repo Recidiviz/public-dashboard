@@ -34,6 +34,13 @@ const lightGray = "#ECEDEF";
 const white = "#fff";
 
 export const THEME = {
+  breakpoints: {
+    xs: 320,
+    sm: 640,
+    md: 768,
+    lg: 1024,
+    xl: 1280,
+  },
   colors: {
     // descriptive
     blue: "#3e8df7",
