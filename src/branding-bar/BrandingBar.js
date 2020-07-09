@@ -12,7 +12,7 @@ const brandingBarFlexProperties = css`
 const BrandingBarContainer = styled.header`
   display: flex;
   justify-content: space-between;
-  margin-bottom: ${(props) => props.theme.spacing[20]};
+  margin-bottom: 75px;
 `;
 
 const BrandingBarHeader = styled.div`
@@ -25,7 +25,7 @@ const BrandingBarTitle = styled.h1`
   color: ${(props) => props.theme.colors.heading};
   font: ${(props) => props.theme.fonts.display};
   display: inline;
-  margin-left: ${(props) => props.theme.spacing[4]};
+  margin-left: 16px;
 `;
 
 const BrandingBarLinkContainer = styled.div``;
@@ -37,7 +37,7 @@ const BrandingBarLinksList = styled.ul`
 
 const BrandingBarLink = styled.li`
   list-style-type: none;
-  margin-left: ${(props) => props.theme.spacing[4]};
+  margin-left: 16px;
 `;
 
 export default function BrandingBar() {
