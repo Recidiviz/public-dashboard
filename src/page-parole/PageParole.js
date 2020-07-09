@@ -5,7 +5,10 @@ import DetailPage from "../detail-page";
 import parolePopulationData from "../assets/test_data/US_ND_parole_population_by_district_by_demographics.json";
 // eslint-disable-next-line import/no-unresolved
 import paroleDistrictOffices from "../assets/test_data/US_ND_site_offices.json";
+// eslint-disable-next-line import/no-unresolved
+import paroleRevocationByMonth from "../assets/test_data/US_ND_parole_revocations_by_month_by_type_by_demographics.json";
 import VizParolePopulation from "../viz-parole-population";
+import VizParoleRevocation from "../viz-parole-revocation";
 
 const TITLE = "Parole";
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -43,9 +46,9 @@ const SECTIONS = [
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
     ipsum dui gravida.`,
     showDimensionControl: true,
-    showTimeControl: true,
-    VizComponent: () => null,
-    vizData: {},
+    showMonthControl: true,
+    VizComponent: VizParoleRevocation,
+    vizData: { paroleRevocationByMonth },
   },
   {
     title: "Free Through Recovery Program",

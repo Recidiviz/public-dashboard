@@ -1,16 +1,22 @@
+import PropTypes from "prop-types";
 import { forceCenter, forceCollide, forceSimulation, forceX } from "d3-force";
 import d3ForceLimit from "d3-force-limit";
 import { scaleSqrt } from "d3-scale";
 import React from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import styled from "styled-components";
-
-const HEIGHT = 450;
-const WIDTH = 994;
-
-const step = WIDTH / 6;
+import useDataWithPct from "../hooks/useDataWithPct";
+import formatAsPct from "../utils/formatAsPct";
 
 const margin = { top: 0, left: 0, right: 0, bottom: 35 };
+
+const BubbleChartWrapper = styled.div`
+  .annotation-layer-svg {
+    g {
+      transition: all 1s ease-in-out;
+    }
+  }
+`;
 
 const BubbleNameLabel = styled.text`
   dominant-baseline: hanging;
@@ -27,20 +33,16 @@ const BubbleValueLabel = styled.text`
   text-anchor: middle;
 `;
 
-export default function BubbleChart() {
-  const data = [
-    { label: "Absconsion", value: 14, color: "#327672" },
-    { label: "Technical Revocation", value: 37, color: "#005450" },
-    { label: "Unknown Type", value: 9, color: "#97b9b7" },
-    { label: "New Offense", value: 40, color: "#659795" },
-  ];
+export default function BubbleChart({ data: initialData, height, width }) {
+  const data = useDataWithPct(initialData);
 
-  const height = HEIGHT;
-  const width = WIDTH;
+  const step = width / (data.length + 2);
 
   const rScale = scaleSqrt()
-    .domain([0, 100])
+    .domain([0, 1])
     .range([0, Math.min(height, width) / 2]);
+
+  const getRadius = (record) => rScale(record.pct);
 
   const combinedFociSimulation = forceSimulation()
     // left-to-right ordering
@@ -54,44 +56,51 @@ export default function BubbleChart() {
     .force(
       "limit",
       d3ForceLimit()
-        .radius((d) => rScale(d.value))
+        .radius(getRadius)
         .x0(margin.left)
         .x1(width - margin.right)
         .y0(margin.top)
         .y1(height - margin.bottom)
     )
     // keep bubbles from overlapping
-    .force(
-      "collide",
-      forceCollide()
-        .radius((d) => rScale(d.value))
-        .strength(0.1)
-    );
+    .force("collide", forceCollide().radius(getRadius).strength(0.3));
 
   return (
-    <NetworkFrame
-      margin={margin}
-      networkType={{
-        type: "force",
-        // this number is based on trial and error, no special knowledge
-        iterations: 500,
-        simulation: combinedFociSimulation,
-        zoom: false,
-      }}
-      nodeIDAccessor="label"
-      nodeLabels={(d) => (
-        <>
-          <BubbleValueLabel>{d.value}</BubbleValueLabel>
-          <BubbleNameLabel dy={rScale(d.value) + 10}>{d.label}</BubbleNameLabel>
-        </>
-      )}
-      nodeSizeAccessor={(d) => rScale(d.value)}
-      nodeStyle={(d) => ({ fill: d.color })}
-      nodes={data}
-      renderKey="label"
-      responsiveHeight
-      responsiveWidth
-      size={[width, height]}
-    />
+    <BubbleChartWrapper>
+      <NetworkFrame
+        margin={margin}
+        networkType={{
+          type: "force",
+          // this number is based on trial and error, no special knowledge
+          iterations: 500,
+          simulation: combinedFociSimulation,
+          zoom: false,
+        }}
+        nodeIDAccessor="label"
+        nodeLabels={(d) => (
+          <>
+            <BubbleValueLabel>{formatAsPct(d.pct)}</BubbleValueLabel>
+            <BubbleNameLabel dy={getRadius(d) + 10}>{d.label}</BubbleNameLabel>
+          </>
+        )}
+        nodeSizeAccessor={getRadius}
+        nodeStyle={(d) => ({ fill: d.color })}
+        nodes={data}
+        renderKey="label"
+        size={[width, height]}
+      />
+    </BubbleChartWrapper>
   );
 }
+
+BubbleChart.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      color: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      value: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+  height: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
+};

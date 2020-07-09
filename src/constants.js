@@ -10,6 +10,30 @@ export const PATHS = {
 
 export const TOTAL_KEY = "ALL";
 
+export const DIMENSION_KEYS = {
+  age: "age",
+  gender: "gender",
+  race: "race",
+  raceAndGender: "raceAndGender",
+  total: "total",
+};
+
+const DIMENSIONS = {
+  [DIMENSION_KEYS.age]: "Age",
+  [DIMENSION_KEYS.gender]: "Gender",
+  [DIMENSION_KEYS.race]: "Race",
+  [DIMENSION_KEYS.raceAndGender]: "Race & Gender",
+  [DIMENSION_KEYS.total]: "Total",
+};
+
+export const DIMENSIONS_LIST = [
+  { id: "total", label: DIMENSIONS.total },
+  { id: "race", label: DIMENSIONS.race },
+  { id: "gender", label: DIMENSIONS.gender },
+  { id: "raceAndGender", label: DIMENSIONS.raceAndGender },
+  { id: "age", label: DIMENSIONS.age },
+];
+
 const bodyFontFamily = "'Libre Franklin', sans-serif";
 const bodyFontSize = "12px";
 const bodyLineHeight = 1.5;
