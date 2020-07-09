@@ -10,13 +10,7 @@ import formatAsPct from "../utils/formatAsPct";
 
 const margin = { top: 0, left: 0, right: 0, bottom: 35 };
 
-const BubbleChartWrapper = styled.div`
-  .annotation-layer-svg {
-    g {
-      transition: all 1s ease-in-out;
-    }
-  }
-`;
+const BubbleChartWrapper = styled.div``;
 
 const BubbleNameLabel = styled.text`
   dominant-baseline: hanging;
@@ -36,11 +30,14 @@ const BubbleValueLabel = styled.text`
 export default function BubbleChart({ data: initialData, height, width }) {
   const data = useDataWithPct(initialData);
 
-  const step = width / (data.length + 2);
+  const vizWidth = width - margin.left - margin.right;
+  const vizHeight = height - margin.top - margin.bottom;
+
+  const step = vizWidth / (data.length + 2);
 
   const rScale = scaleSqrt()
     .domain([0, 1])
-    .range([0, Math.min(height, width) / 2]);
+    .range([0, Math.min(vizHeight, vizWidth) / 2]);
 
   const getRadius = (record) => rScale(record.pct);
 
@@ -48,10 +45,10 @@ export default function BubbleChart({ data: initialData, height, width }) {
     // left-to-right ordering
     .force(
       "x",
-      forceX((d, i) => step * (i + 1))
+      forceX((d, i) => margin.left + step * (i + 1))
     )
     // pull bubbles toward the bottom middle
-    .force("center", forceCenter(width / 2, height))
+    .force("center", forceCenter(margin.left + vizWidth / 2, height))
     // don't let bubbles overflow the container
     .force(
       "limit",
