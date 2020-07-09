@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import { getYear } from "date-fns";
+
 import { CONTAINER_WIDTH } from "../constants";
 import RecidivizSrc from "../assets/icons/recidiviz.svg";
 
 const FooterContainer = styled.footer`
-  background: ${(props) => props.theme.colors.darkerGreen};
+  background: ${(props) => props.theme.colors.footerBackground};
   color: ${(props) => props.theme.colors.footer};
   font: ${(props) => props.theme.fonts.body};
 `;
@@ -12,27 +14,33 @@ const FooterContainer = styled.footer`
 const FooterContent = styled.div`
   align-items: center;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin: 0 auto;
   max-width: ${CONTAINER_WIDTH}px;
-  min-height: 300px;
+  min-height: 320px;
 `;
 
 const FooterCredits = styled.div`
-  min-height: 100px;
-  width: 40%;
+  flex: 0 1 auto;
+  min-height: 96px;
+  width: 440px;
 `;
 
 const FooterLegal = styled.div`
+  align-items: flex-end;
   display: flex;
+  flex: 0 1 auto;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 100px;
-  text-align: right;
-  width: 40%;
+  min-height: 96px;
 `;
 
-const FooterLegalContent = styled.div``;
+const FooterLegalContent = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
 const RecidivizBrandingContainer = styled.div``;
 const RecidivizBranding = styled.img``;
 
@@ -66,7 +74,7 @@ export default function Footer() {
           </RecidivizBrandingContainer>
           <FooterLegalContent>
             <FooterLegalese>
-              &copy; 2020 Recidiviz. All Rights Reserved.
+              &copy; {getYear(new Date())} Recidiviz. All Rights Reserved.
             </FooterLegalese>
             <FooterLegalese>
               <PrivacyLink href="#">Privacy Policy</PrivacyLink>

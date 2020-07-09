@@ -12,7 +12,7 @@ const brandingBarFlexProperties = css`
 const BrandingBarContainer = styled.header`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 75px;
+  margin-bottom: 80px;
 `;
 
 const BrandingBarHeader = styled.div`

@@ -4,13 +4,11 @@ import styled from "styled-components";
 
 import { PillContainer, PillValue } from "./shared";
 
-const LinkPillContainer = styled(PillContainer)`
-  a {
-    text-decoration: none;
-  }
-`;
+const LinkPillContainer = styled(PillContainer)``;
 
-const LinkPillLink = styled.a``;
+const LinkPillLink = styled.a`
+  text-decoration: none;
+`;
 
 const LinkPillValue = styled(PillValue)``;
 

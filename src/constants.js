@@ -1,5 +1,3 @@
-import hexAlpha from "hex-alpha";
-
 export const DEFAULT_TENANT = "us_nd";
 
 export const PATHS = {
@@ -38,7 +36,6 @@ export const THEME = {
     // descriptive
     blue: "#3e8df7",
     darkGreen,
-    darkerGreen,
     // functional
     background: "#FCFCFC",
     body: "#707F96",
@@ -46,7 +43,8 @@ export const THEME = {
     controlBackground: lightGray,
     controlLabel: "#3D4045",
     controlValue: darkGray,
-    footer: hexAlpha("#E5ECEC", 0.6),
+    footer: "#91A6A5",
+    footerBackground: darkerGreen,
     divider: "#E5E7EB",
     heading: "#2A4163",
     highlight: brightGreen,
