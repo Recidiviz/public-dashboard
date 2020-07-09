@@ -2,13 +2,18 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import BrandingBar from "../branding-bar";
+import { CONTAINER_WIDTH } from "../constants";
+import Footer from "../footer";
 import NavBar from "../nav-bar";
 import PageRoutes from "../page-routes";
 
-const CONTAINER_WIDTH = 1144;
 const NAV_WIDTH = 150;
 
 const SiteContainer = styled.div`
+  width: 100%;
+`;
+
+const BodyWrapper = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -36,22 +41,31 @@ const MainContentWrapper = styled.div`
   width: 320px;
 `;
 
+const FooterWrapper = styled.div`
+  width: 100%;
+`;
+
 function SiteLayout({ tenantId }) {
   return (
     <SiteContainer>
-      <BrandingBarWrapper>
-        <BrandingBar />
-      </BrandingBarWrapper>
-      {tenantId && (
-        <>
-          <NavBarWrapper>
-            <NavBar />
-          </NavBarWrapper>
-          <MainContentWrapper>
-            <PageRoutes />
-          </MainContentWrapper>
-        </>
-      )}
+      <BodyWrapper>
+        <BrandingBarWrapper>
+          <BrandingBar />
+        </BrandingBarWrapper>
+        {tenantId && (
+          <>
+            <NavBarWrapper>
+              <NavBar />
+            </NavBarWrapper>
+            <MainContentWrapper>
+              <PageRoutes />
+            </MainContentWrapper>
+          </>
+        )}
+      </BodyWrapper>
+      <FooterWrapper>
+        <Footer />
+      </FooterWrapper>
     </SiteContainer>
   );
 }

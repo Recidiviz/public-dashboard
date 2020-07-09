@@ -10,6 +10,8 @@ export const PATHS = {
 
 export const TOTAL_KEY = "ALL";
 
+export const CONTAINER_WIDTH = 1144;
+
 const bodyFontFamily = "'Libre Franklin', sans-serif";
 const bodyFontSize = "12px";
 const bodyLineHeight = 1.5;
@@ -24,6 +26,9 @@ const displayMedium = `500 ${displayFontSize}/${displayLineHeight} ${displayFont
 
 const brightGreen = "#25b894";
 const darkGreen = "#005450";
+const darkerGreen = "#00413E";
+const darkGray = "#5A6575";
+const lightGray = "#ECEDEF";
 const white = "#fff";
 
 export const THEME = {
@@ -35,12 +40,16 @@ export const THEME = {
     background: "#FCFCFC",
     body: "#707F96",
     bodyLight: white,
-    controlBackground: "#ECEDEF",
+    controlBackground: lightGray,
     controlLabel: "#3D4045",
-    controlValue: "#5A6575",
+    controlValue: darkGray,
+    footer: "#91A6A5",
+    footerBackground: darkerGreen,
     divider: "#E5E7EB",
     heading: "#2A4163",
     highlight: brightGreen,
+    pillBackground: lightGray,
+    pillValue: darkGray,
     tooltipBackground: "#132c52",
   },
   fonts: {
