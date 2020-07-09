@@ -66,7 +66,7 @@ export default function Footer() {
           </RecidivizBrandingContainer>
           <FooterLegalContent>
             <FooterLegalese>
-              &copy; 2019 Recidiviz. All Rights Reserved.
+              &copy; 2020 Recidiviz. All Rights Reserved.
             </FooterLegalese>
             <FooterLegalese>
               <PrivacyLink href="#">Privacy Policy</PrivacyLink>

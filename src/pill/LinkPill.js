@@ -10,14 +10,16 @@ const LinkPillContainer = styled(PillContainer)`
   }
 `;
 
+const LinkPillLink = styled.a``;
+
 const LinkPillValue = styled(PillValue)``;
 
 export default function LinkControl({ href, children }) {
   return (
     <LinkPillContainer>
-      <a href={href}>
+      <LinkPillLink href={href}>
         <LinkPillValue>{children}</LinkPillValue>
-      </a>
+      </LinkPillLink>
     </LinkPillContainer>
   );
 }
