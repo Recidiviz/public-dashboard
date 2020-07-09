@@ -1,3 +1,5 @@
+import hexAlpha from "hex-alpha";
+
 export const DEFAULT_TENANT = "us_nd";
 
 export const PATHS = {
@@ -9,6 +11,8 @@ export const PATHS = {
 };
 
 export const TOTAL_KEY = "ALL";
+
+export const CONTAINER_WIDTH = 1144;
 
 const bodyFontFamily = "'Libre Franklin', sans-serif";
 const bodyFontSize = "12px";
@@ -24,6 +28,7 @@ const displayMedium = `500 ${displayFontSize}/${displayLineHeight} ${displayFont
 
 const brightGreen = "#25b894";
 const darkGreen = "#005450";
+const darkerGreen = "#00413E";
 const darkGray = "#5A6575";
 const lightGray = "#ECEDEF";
 const white = "#fff";
@@ -33,6 +38,7 @@ export const THEME = {
     // descriptive
     blue: "#3e8df7",
     darkGreen,
+    darkerGreen,
     // functional
     background: "#FCFCFC",
     body: "#707F96",
@@ -40,6 +46,7 @@ export const THEME = {
     controlBackground: lightGray,
     controlLabel: "#3D4045",
     controlValue: darkGray,
+    footer: hexAlpha("#E5ECEC", 0.6),
     divider: "#E5E7EB",
     heading: "#2A4163",
     highlight: brightGreen,
