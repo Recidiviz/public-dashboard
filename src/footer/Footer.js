@@ -15,11 +15,11 @@ const FooterContent = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   max-width: ${CONTAINER_WIDTH}px;
-  min-height: 300px;
+  min-height: ${(props) => props.theme.spacing[74]};
 `;
 
 const FooterCredits = styled.div`
-  min-height: 100px;
+  min-height: ${(props) => props.theme.spacing[24]};
   width: 40%;
 `;
 
@@ -27,7 +27,7 @@ const FooterLegal = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 100px;
+  min-height: ${(props) => props.theme.spacing[24]};
   text-align: right;
   width: 40%;
 `;
@@ -37,7 +37,7 @@ const RecidivizBrandingContainer = styled.div``;
 const RecidivizBranding = styled.img``;
 
 const FooterLegalese = styled.span`
-  margin-left: 32px;
+  margin-left: ${(props) => props.theme.spacing[8]};
 `;
 
 const PrivacyLink = styled.a`
