@@ -27,11 +27,11 @@ const DIMENSIONS = {
 };
 
 export const DIMENSIONS_LIST = [
-  { id: "total", label: DIMENSIONS.total },
-  { id: "race", label: DIMENSIONS.race },
-  { id: "gender", label: DIMENSIONS.gender },
-  { id: "raceAndGender", label: DIMENSIONS.raceAndGender },
-  { id: "age", label: DIMENSIONS.age },
+  { id: DIMENSION_KEYS.total, label: DIMENSIONS.total },
+  { id: DIMENSION_KEYS.race, label: DIMENSIONS.race },
+  { id: DIMENSION_KEYS.gender, label: DIMENSIONS.gender },
+  { id: DIMENSION_KEYS.raceAndGender, label: DIMENSIONS.raceAndGender },
+  { id: DIMENSION_KEYS.age, label: DIMENSIONS.age },
 ];
 
 export const VIOLATION_TYPES = {

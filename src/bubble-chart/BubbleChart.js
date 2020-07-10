@@ -5,8 +5,7 @@ import { scaleSqrt } from "d3-scale";
 import React from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import styled from "styled-components";
-import useDataWithPct from "../hooks/useDataWithPct";
-import formatAsPct from "../utils/formatAsPct";
+import { formatAsPct, getDataWithPct } from "../utils";
 
 const margin = { top: 0, left: 0, right: 0, bottom: 35 };
 
@@ -28,7 +27,7 @@ const BubbleValueLabel = styled.text`
 `;
 
 export default function BubbleChart({ data: initialData, height, width }) {
-  const data = useDataWithPct(initialData);
+  const data = getDataWithPct(initialData);
 
   const vizWidth = width - margin.left - margin.right;
   const vizHeight = height - margin.top - margin.bottom;

@@ -1,1 +1,1 @@
-export { default } from "./VizParoleRevocationContainer";
+export { default } from "./VizParoleRevocation";
