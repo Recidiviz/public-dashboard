@@ -5,7 +5,7 @@ import ResponsiveOrdinalFrame from "semiotic/lib/ResponsiveOrdinalFrame";
 import styled from "styled-components";
 import ColorLegend from "../color-legend";
 import Tooltip from "../tooltip";
-import useDataWithPct from "../hooks/useDataWithPct";
+import { getDataWithPct } from "../utils";
 import formatAsPct from "../utils/formatAsPct";
 
 const ProportionalBarContainer = styled.figure`
@@ -57,7 +57,7 @@ export default function ProportionalBar({ data, title }) {
 
   const TOOLTIP_PADDING = 3;
 
-  const dataWithPct = useDataWithPct(data);
+  const dataWithPct = getDataWithPct(data);
 
   return (
     <ProportionalBarContainer>
