@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import { forceCenter, forceCollide, forceSimulation, forceX } from "d3-force";
-import d3ForceLimit from "d3-force-limit";
+import { cumsum } from "d3-array";
+import { forceSimulation, forceX, forceY } from "d3-force";
 import { scaleSqrt } from "d3-scale";
 import React from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
@@ -33,34 +33,47 @@ export default function BubbleChart({ data: initialData, height, width }) {
   const vizWidth = width - margin.left - margin.right;
   const vizHeight = height - margin.top - margin.bottom;
 
-  const step = vizWidth / (data.length + 2);
-
   const rScale = scaleSqrt()
     .domain([0, 1])
     .range([0, Math.min(vizHeight, vizWidth) / 2]);
 
   const getRadius = (record) => rScale(record.pct);
 
+  // To pack all the circles against the bottom edge and center them,
+  // we're going to have to do some geometry and fix their positions.
+  let centerXCoordinates = [];
+  data.forEach((record, i) => {
+    if (i === 0) {
+      centerXCoordinates.push(getRadius(record));
+      return;
+    }
+    const prev = data[i - 1];
+    const r1 = getRadius(prev);
+    const r2 = getRadius(record);
+    // This obscure next line is algebra with the Pythagorean Theorem;
+    // because the bottom edge of each circle is aligned with the bottom,
+    // and the hypotenuse is a line connecting the centers, we know that
+    // c is the sum of the radii and b is the difference between them.
+    // Then we just solve for a
+    const newLeftOffset = Math.sqrt(
+      (r1 + r2) ** 2 - Math.max(r2 - r1, r1 - r2) ** 2
+    );
+    centerXCoordinates.push(newLeftOffset);
+  });
+  // convert the offsets from piecewise differences to absolute X values
+  centerXCoordinates = cumsum(centerXCoordinates);
+  // distribute any leftover space evenly between left and right
+  const groupWidth =
+    centerXCoordinates[centerXCoordinates.length - 1] +
+    getRadius(data[data.length - 1]);
+  const leftoverSpace = vizWidth - groupWidth;
+  centerXCoordinates = centerXCoordinates.map((val) => val + leftoverSpace / 2);
+
   const combinedFociSimulation = forceSimulation()
-    // left-to-right ordering
-    .force(
-      "x",
-      forceX((d, i) => margin.left + step * (i + 1))
-    )
-    // pull bubbles toward the bottom middle
-    .force("center", forceCenter(margin.left + vizWidth / 2, height))
-    // don't let bubbles overflow the container
-    .force(
-      "limit",
-      d3ForceLimit()
-        .radius(getRadius)
-        .x0(margin.left)
-        .x1(width - margin.right)
-        .y0(margin.top)
-        .y1(height - margin.bottom)
-    )
-    // keep bubbles from overlapping
-    .force("collide", forceCollide().radius(getRadius).strength(0.3));
+    // all we need to do here is force the bubbles towards the x/y positions
+    // that we have already calculated
+    .force("x", forceX((d, i) => centerXCoordinates[i]).strength(1))
+    .force("y", forceY((d) => vizHeight - getRadius(d)).strength(1));
 
   return (
     <BubbleChartWrapper>
@@ -69,7 +82,7 @@ export default function BubbleChart({ data: initialData, height, width }) {
         networkType={{
           type: "force",
           // this number is based on trial and error, no special knowledge
-          iterations: 500,
+          iterations: 100,
           simulation: combinedFociSimulation,
           zoom: false,
         }}
