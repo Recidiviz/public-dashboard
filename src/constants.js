@@ -10,6 +10,37 @@ export const PATHS = {
 
 export const TOTAL_KEY = "ALL";
 
+export const DIMENSION_KEYS = {
+  age: "age",
+  gender: "gender",
+  race: "race",
+  raceAndGender: "raceAndGender",
+  total: "total",
+};
+
+const DIMENSIONS = {
+  [DIMENSION_KEYS.age]: "Age",
+  [DIMENSION_KEYS.gender]: "Gender",
+  [DIMENSION_KEYS.race]: "Race",
+  [DIMENSION_KEYS.raceAndGender]: "Race & Gender",
+  [DIMENSION_KEYS.total]: "Total",
+};
+
+export const DIMENSIONS_LIST = [
+  { id: DIMENSION_KEYS.total, label: DIMENSIONS.total },
+  { id: DIMENSION_KEYS.race, label: DIMENSIONS.race },
+  { id: DIMENSION_KEYS.gender, label: DIMENSIONS.gender },
+  { id: DIMENSION_KEYS.raceAndGender, label: DIMENSIONS.raceAndGender },
+  { id: DIMENSION_KEYS.age, label: DIMENSIONS.age },
+];
+
+export const VIOLATION_TYPES = {
+  ABSCONDED: "Absconsion",
+  FELONY: "New Offense",
+  TECHNICAL: "Technical Violation",
+  EXTERNAL_UNKNOWN: "Unknown Type",
+};
+
 export const CONTAINER_WIDTH = 1144;
 
 const bodyFontFamily = "'Libre Franklin', sans-serif";
@@ -51,6 +82,12 @@ export const THEME = {
     pillBackground: lightGray,
     pillValue: darkGray,
     tooltipBackground: "#132c52",
+    violationReasons: {
+      ABSCONDED: "#327672",
+      FELONY: "#659795",
+      TECHNICAL: darkGreen,
+      EXTERNAL_UNKNOWN: "#97b9b7",
+    },
   },
   fonts: {
     body: bodyMedium,

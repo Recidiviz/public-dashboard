@@ -1,9 +1,8 @@
-import { subYears } from "date-fns";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { TOTAL_KEY } from "../constants";
-import { DimensionControl, TimeControl, DistrictControl } from "../controls";
+import { DimensionControl, MonthControl, DistrictControl } from "../controls";
 
 const PageContainer = styled.article``;
 const HeadingContainer = styled.header``;
@@ -66,16 +65,16 @@ function DetailSection({
   description,
   showDimensionControl,
   showDistrictControl,
-  showTimeControl,
+  showMonthControl,
   VizComponent,
   vizData,
 }) {
   const [dimension, setDimension] = useState();
   const [month, setMonth] = useState();
 
-  // these are placeholders; replace them with values derived from data
-  const [endDate] = useState(new Date());
-  const [startDate] = useState(subYears(endDate, 3));
+  // a viz component that wants to use months will be responsible
+  // for parsing its data and updating this value
+  const [monthList, setMonthList] = useState();
 
   let initialDistrictList;
   if (showDistrictControl && vizData.districtOffices) {
@@ -92,8 +91,8 @@ function DetailSection({
       <DetailSectionHeader>
         <DetailSectionTitle>{title}</DetailSectionTitle>
         <DetailSectionControls>
-          {showTimeControl && (
-            <TimeControl {...{ startDate, endDate }} onChange={setMonth} />
+          {showMonthControl && monthList && (
+            <MonthControl months={monthList} onChange={setMonth} />
           )}
           {showDimensionControl && <DimensionControl onChange={setDimension} />}
           {
@@ -112,7 +111,7 @@ function DetailSection({
       <DetailSectionVizContainer>
         <VizComponent
           data={vizData}
-          {...{ dimension, month, districtId }}
+          {...{ dimension, month, districtId, setMonthList }}
           onDistrictClick={setDistrictId}
         />
       </DetailSectionVizContainer>
@@ -124,7 +123,7 @@ DetailSection.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   showDimensionControl: PropTypes.bool,
-  showTimeControl: PropTypes.bool,
+  showMonthControl: PropTypes.bool,
   showDistrictControl: PropTypes.bool,
   VizComponent: PropTypes.func.isRequired,
   vizData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
@@ -132,7 +131,7 @@ DetailSection.propTypes = {
 
 DetailSection.defaultProps = {
   showDimensionControl: false,
-  showTimeControl: false,
+  showMonthControl: false,
   showDistrictControl: false,
 };
 
