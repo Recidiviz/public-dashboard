@@ -34,11 +34,31 @@ export const DIMENSIONS_LIST = [
   { id: DIMENSION_KEYS.age, label: DIMENSIONS.age },
 ];
 
-export const VIOLATION_TYPES = {
-  ABSCONDED: "Absconsion",
-  FELONY: "New Offense",
-  TECHNICAL: "Technical Violation",
-  EXTERNAL_UNKNOWN: "Unknown Type",
+const VIOLATION_TYPES = {
+  abscond: "abscond",
+  offend: "offend",
+  technical: "technical",
+  unknown: "unknown",
+};
+
+export const VIOLATION_LABELS = {
+  [VIOLATION_TYPES.abscond]: "Absconsion",
+  [VIOLATION_TYPES.offend]: "New Offense",
+  [VIOLATION_TYPES.technical]: "Technical Violation",
+  [VIOLATION_TYPES.unknown]: "Unknown Type",
+};
+
+// these correspond to expected fields in fetched data
+export const VIOLATION_COUNT_KEYS = {
+  [VIOLATION_TYPES.abscond]: "absconsion_count",
+  [VIOLATION_TYPES.offend]: "new_crime_count",
+  [VIOLATION_TYPES.technical]: "technical_count",
+  [VIOLATION_TYPES.unknown]: "unknown_count",
+};
+
+export const SUPERVISION_TYPES = {
+  parole: "PAROLE",
+  probation: "PROBATION",
 };
 
 export const CONTAINER_WIDTH = 1144;
@@ -83,10 +103,10 @@ export const THEME = {
     pillValue: darkGray,
     tooltipBackground: "#132c52",
     violationReasons: {
-      ABSCONDED: "#327672",
-      FELONY: "#659795",
-      TECHNICAL: darkGreen,
-      EXTERNAL_UNKNOWN: "#97b9b7",
+      [VIOLATION_TYPES.abscond]: "#327672",
+      [VIOLATION_TYPES.offend]: "#659795",
+      [VIOLATION_TYPES.technical]: darkGreen,
+      [VIOLATION_TYPES.unknown]: "#97b9b7",
     },
   },
   fonts: {

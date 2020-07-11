@@ -6,9 +6,10 @@ import parolePopulationData from "../assets/test_data/US_ND_parole_population_by
 // eslint-disable-next-line import/no-unresolved
 import paroleDistrictOffices from "../assets/test_data/US_ND_site_offices.json";
 // eslint-disable-next-line import/no-unresolved
-import paroleRevocationByMonth from "../assets/test_data/US_ND_parole_revocations_by_month_by_type_by_demographics.json";
+import supervisionRevocationByMonth from "../assets/test_data/US_ND_supervision_revocations_by_month_by_type_by_demographics.json";
 import VizParolePopulation from "../viz-parole-population";
 import VizParoleRevocation from "../viz-parole-revocation";
+import { SUPERVISION_TYPES } from "../constants";
 
 const TITLE = "Parole";
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -48,7 +49,11 @@ const SECTIONS = [
     showDimensionControl: true,
     showMonthControl: true,
     VizComponent: VizParoleRevocation,
-    vizData: { paroleRevocationByMonth },
+    vizData: {
+      paroleRevocationByMonth: supervisionRevocationByMonth.filter(
+        (record) => record.supervision_type === SUPERVISION_TYPES.parole
+      ),
+    },
   },
   {
     title: "Free Through Recovery Program",

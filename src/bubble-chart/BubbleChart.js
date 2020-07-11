@@ -27,7 +27,7 @@ const BubbleValueLabel = styled.text`
 `;
 
 export default function BubbleChart({ data: initialData, height, width }) {
-  const data = getDataWithPct(initialData);
+  const data = getDataWithPct(initialData).filter(({ value }) => value > 0);
 
   const vizWidth = width - margin.left - margin.right;
   const vizHeight = height - margin.top - margin.bottom;

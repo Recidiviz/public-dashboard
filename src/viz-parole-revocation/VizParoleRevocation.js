@@ -6,9 +6,10 @@ import styled from "styled-components";
 import BubbleChart from "../bubble-chart";
 import {
   DIMENSION_KEYS,
-  TOTAL_KEY,
-  VIOLATION_TYPES,
   THEME,
+  TOTAL_KEY,
+  VIOLATION_LABELS,
+  VIOLATION_COUNT_KEYS,
 } from "../constants";
 
 const HEIGHT = 450;
@@ -51,7 +52,11 @@ function typeCastRecords(records) {
     ...record,
     year: +record.year,
     month: +record.month,
-    revocation_count: +record.revocation_count,
+    // convert all of the enumerated count keys and replace them
+    ...Object.values(VIOLATION_COUNT_KEYS).reduce(
+      (acc, key) => ({ ...acc, [key]: +record[key] }),
+      {}
+    ),
   }));
 }
 
@@ -84,20 +89,22 @@ export default function VizParoleRevocationContainer({
   const currentMonthData = new Map();
 
   if (dimension === DIMENSION_KEYS.total) {
+    const monthlyTotals = monthlyData
+      .get(month)
+      .find(
+        (record) =>
+          record.race_or_ethnicity === TOTAL_KEY &&
+          record.gender === TOTAL_KEY &&
+          record.age_bucket === TOTAL_KEY
+      );
+
     currentMonthData.set(
       TOTAL_KEY,
-      monthlyData
-        .get(month)
-        .filter(
-          (record) =>
-            record.race_or_ethnicity === TOTAL_KEY &&
-            record.gender === TOTAL_KEY &&
-            record.age_bucket === TOTAL_KEY
-        )
-        .map((record) => ({
-          color: VIOLATION_REASONS_COLORS[record.source_violation_type],
-          label: VIOLATION_TYPES[record.source_violation_type],
-          value: record.revocation_count,
+      Object.entries(VIOLATION_COUNT_KEYS)
+        .map(([violationType, dataKey]) => ({
+          color: VIOLATION_REASONS_COLORS[violationType],
+          label: VIOLATION_LABELS[violationType],
+          value: monthlyTotals[dataKey],
         }))
         .sort((a, b) => ascending(a.label, b.label))
     );
