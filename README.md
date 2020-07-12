@@ -27,14 +27,20 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `firebase serve`
+### Deploys
+
+The frontend of the app is deployed to Firebase. To have deploy access, you need to be an admin on the Firebase/GCP account.
+
+Once you have the required permissions, you can set up your environment for deploys by following [these instructions](https://firebase.google.com/docs/cli?install-cli-mac-linux). Specifically, follow the steps entitled "Install the Firebase CLI" and "Log in and test the Firebase CLI."
+
+#### `firebase serve`
 
 Serves the app as it will appear when deployed to Firebase.
 
 Once you have built the app with `yarn build`, the `/build` directory will contain the built assets ready for deploy.
 `firebase serve` will serve the app out of the `/build` directory and should function exactly as it will once deployed.
 
-### `firebase deploy`
+#### `firebase deploy`
 
 Deploys the app to Firebase Hosting.
 
