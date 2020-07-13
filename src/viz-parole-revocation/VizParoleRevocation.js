@@ -31,12 +31,12 @@ const BreakdownBarWrapper = styled.div`
   padding-bottom: 24px;
 `;
 
-function Breakdowns({ data }) {
+function Breakdowns({ data, dimension }) {
   const breakdownHeight = HEIGHT / data.size;
   return Array.from(data, ([key, value], i) => (
     <BreakdownBarWrapper key={key} height={breakdownHeight}>
       <ProportionalBar
-        title={formatDemographicValue(key)}
+        title={formatDemographicValue(key, dimension)}
         data={value}
         showLegend={i === data.size - 1}
       />
@@ -64,7 +64,7 @@ function VizParoleRevocation({ currentMonthData, dimension }) {
                 />
               )
             ) : (
-              <Breakdowns data={currentMonthData} />
+              <Breakdowns data={currentMonthData} dimension={dimension} />
             )}
           </VizParoleRevocationWrapper>
         );

@@ -65,17 +65,35 @@ export const SUPERVISION_TYPES = {
   probation: "PROBATION",
 };
 
+export const DEMOGRAPHIC_OTHER = "OTHER";
+
+export const DEMOGRAPHIC_UNKNOWN = "EXTERNAL_UNKNOWN";
+
+const DEMOGRAPHIC_UNKNOWN_MAPPING = {
+  [DEMOGRAPHIC_UNKNOWN]: "Unknown",
+};
+
+export const AGE_KEYS = {
+  under25: "<25",
+  "25_29": "25-29",
+  "30_34": "30-34",
+  "35_39": "35-39",
+  over40: "40<",
+};
+
 export const AGES = {
-  "<25": "<25",
-  "25-29": "25-29",
-  "30-34": "30-34",
-  "35-39": "35-39",
-  "40<": "40<",
+  [AGE_KEYS.under25]: "<25",
+  [AGE_KEYS["25_29"]]: "25-29",
+  [AGE_KEYS["30_34"]]: "30-34",
+  [AGE_KEYS["35_39"]]: "35-39",
+  [AGE_KEYS.over40]: "40<",
+  ...DEMOGRAPHIC_UNKNOWN_MAPPING,
 };
 
 export const GENDERS = {
   FEMALE: "Female",
   MALE: "Male",
+  ...DEMOGRAPHIC_UNKNOWN_MAPPING,
 };
 
 export const RACES = {
@@ -84,9 +102,15 @@ export const RACES = {
   BLACK: "Black",
   HISPANIC: "Hispanic",
   NATIVE_HAWAIIAN_PACIFIC_ISLANDER: "Native Hawaiian or Pacific Islander",
-  OTHER: "Other",
+  [DEMOGRAPHIC_OTHER]: "Other",
   WHITE: "White",
 };
+
+export const DIMENSION_MAPPINGS = new Map([
+  [DIMENSION_KEYS.gender, GENDERS],
+  [DIMENSION_KEYS.age, AGES],
+  [DIMENSION_KEYS.race, RACES],
+]);
 
 export const CONTAINER_WIDTH = 1144;
 
