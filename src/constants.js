@@ -24,7 +24,7 @@ export const DIMENSION_DATA_KEYS = {
   [DIMENSION_KEYS.race]: "race_or_ethnicity",
 };
 
-const DIMENSION_LABELS = {
+export const DIMENSION_LABELS = {
   [DIMENSION_KEYS.age]: "Age",
   [DIMENSION_KEYS.gender]: "Gender",
   [DIMENSION_KEYS.race]: "Race",
@@ -63,6 +63,29 @@ export const VIOLATION_COUNT_KEYS = {
 export const SUPERVISION_TYPES = {
   parole: "PAROLE",
   probation: "PROBATION",
+};
+
+export const AGES = {
+  "<25": "<25",
+  "25-29": "25-29",
+  "30-34": "30-34",
+  "35-39": "35-39",
+  "40<": "40<",
+};
+
+export const GENDERS = {
+  FEMALE: "Female",
+  MALE: "Male",
+};
+
+export const RACES = {
+  AMERICAN_INDIAN_ALASKAN_NATIVE: "American Indian or Alaskan Native",
+  ASIAN: "Asian",
+  BLACK: "Black",
+  HISPANIC: "Hispanic",
+  NATIVE_HAWAIIAN_PACIFIC_ISLANDER: "Native Hawaiian or Pacific Islander",
+  OTHER: "Other",
+  WHITE: "White",
 };
 
 export const CONTAINER_WIDTH = 1144;
