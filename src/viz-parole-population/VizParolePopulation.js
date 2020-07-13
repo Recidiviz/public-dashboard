@@ -8,6 +8,7 @@ const VizParolePopulationContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  width: 100%;
 `;
 const VizWrapper = styled.div`
   flex: 0 1 auto;

@@ -41,12 +41,15 @@ const DetailSectionTitle = styled.h1`
   font: ${(props) => props.theme.fonts.display};
   font-size: 20px;
   margin-bottom: 16px;
+  margin-right: 32px;
   width: ${sectionTextWidth}px;
 `;
 const DetailSectionControls = styled.div`
-  flex: 0 0 auto;
   display: flex;
-  justify-content: flex-end;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  max-width: 100%;
 `;
 
 const DetailSectionDescription = styled.p`

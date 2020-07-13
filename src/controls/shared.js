@@ -9,7 +9,11 @@ export const controlTypeProperties = css`
 `;
 
 export const ControlContainer = styled(PillContainer)`
-  margin-left: 32px;
+  margin-right: 32px;
+
+  &:last-child {
+    margin-right: 0;
+  }
 `;
 
 export const ControlLabel = styled.span`
