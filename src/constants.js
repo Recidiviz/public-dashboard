@@ -18,13 +18,14 @@ export const DIMENSION_KEYS = {
   total: "total",
 };
 
-export const DATA_KEY_TRANSLATIONS = {
+// these correspond to fields in fetched data
+export const DIMENSION_DATA_KEYS = {
   [DIMENSION_KEYS.gender]: "gender",
   [DIMENSION_KEYS.age]: "age_bucket",
   [DIMENSION_KEYS.race]: "race_or_ethnicity",
 };
 
-export const DIMENSIONS = {
+export const DIMENSION_LABELS = {
   [DIMENSION_KEYS.age]: "Age",
   [DIMENSION_KEYS.gender]: "Gender",
   [DIMENSION_KEYS.race]: "Race",
@@ -33,11 +34,11 @@ export const DIMENSIONS = {
 };
 
 export const DIMENSIONS_LIST = [
-  { id: DIMENSION_KEYS.total, label: DIMENSIONS.total },
-  { id: DIMENSION_KEYS.race, label: DIMENSIONS.race },
-  { id: DIMENSION_KEYS.gender, label: DIMENSIONS.gender },
-  { id: DIMENSION_KEYS.raceAndGender, label: DIMENSIONS.raceAndGender },
-  { id: DIMENSION_KEYS.age, label: DIMENSIONS.age },
+  { id: DIMENSION_KEYS.total, label: DIMENSION_LABELS.total },
+  { id: DIMENSION_KEYS.race, label: DIMENSION_LABELS.race },
+  { id: DIMENSION_KEYS.gender, label: DIMENSION_LABELS.gender },
+  { id: DIMENSION_KEYS.raceAndGender, label: DIMENSION_LABELS.raceAndGender },
+  { id: DIMENSION_KEYS.age, label: DIMENSION_LABELS.age },
 ];
 
 export const AGES = {
@@ -92,6 +93,7 @@ const brightGreen = "#25b894";
 // The numbers behind the "darkGreen" colors represent an opacity
 // percentage when using #FCFCFC as a background color.  Example,
 // 9 === 0.9 opacity.
+// Conversion tool: http://marcodiiga.github.io/rgba-to-rgb-conversion
 const darkGreen = "#005450";
 const darkGreen9 = "#196561";
 const darkGreen8 = "#327672";

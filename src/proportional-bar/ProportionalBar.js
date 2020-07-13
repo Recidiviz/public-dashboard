@@ -126,5 +126,5 @@ ProportionalBar.propTypes = {
 };
 
 ProportionalBar.defaultProps = {
-  showLegend: false,
+  showLegend: true,
 };

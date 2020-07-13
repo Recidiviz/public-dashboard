@@ -4,9 +4,9 @@ import { group, sum } from "d3-array";
 import styled from "styled-components";
 import {
   AGES,
-  DATA_KEY_TRANSLATIONS,
-  DIMENSIONS,
+  DIMENSION_DATA_KEYS,
   DIMENSION_KEYS,
+  DIMENSION_LABELS,
   GENDERS,
   RACES,
   TOTAL_KEY,
@@ -108,7 +108,7 @@ function VizParoleDemographicBarChart({ data, currentDistrict, dimension }) {
         .filter(
           (record) =>
             // i.e. record["race_or_ethnicity"] === "OTHER"
-            record[DATA_KEY_TRANSLATIONS[dimensionKey]] === demographic
+            record[DIMENSION_DATA_KEYS[dimensionKey]] === demographic
         )
         .map((record) => ({
           // i.e. BAR_CHART_VISUALIZATION_COLORS["gender"]["FEMALE"]
@@ -122,7 +122,10 @@ function VizParoleDemographicBarChart({ data, currentDistrict, dimension }) {
 
   return (
     <ParoleDemographicsWrapper>
-      <ProportionalBar data={dimensionData} title={DIMENSIONS[dimension.key]} />
+      <ProportionalBar
+        data={dimensionData}
+        title={DIMENSION_LABELS[dimension.key]}
+      />
     </ParoleDemographicsWrapper>
   );
 }
