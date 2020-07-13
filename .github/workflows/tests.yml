@@ -1,0 +1,39 @@
+name: CI Checks
+
+on: push
+
+jobs:
+  lint:
+    name: linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1.1.0
+        with:
+          node-version: "10.x"
+
+      # https://github.com/marketplace/actions/yarn-install-cache
+      - uses: c-hive/gha-yarn-cache@v1
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Lint
+        run: yarn run lint
+  # uncomment to enable running in CI
+  # it is disabled for now because our use of untracked test data files breaks it
+  # test-js:
+  #   name: test JS
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - uses: actions/setup-node@v1.1.0
+  #       with:
+  #         node-version: "10.x"
+  #     # https://github.com/marketplace/actions/yarn-install-cache
+  #     - uses: c-hive/gha-yarn-cache@v1
+  #     - name: Install Dependencies
+  #       run: yarn install
+  #     - name: Test
+  #       run: yarn run test

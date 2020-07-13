@@ -15,6 +15,12 @@ You will also see any lint errors in the console.
 ### `yarn test`
 
 Launches the test runner in the interactive watch mode.<br />
+
+We use [`@testing-library/react`](https://testing-library.com/docs/react-testing-library/intro)
+for component tests you will want to import the testing-library functions via `src/testUtils.js`
+instead; it re-exports the full API from `@testing-library/react` with a wrapper around `render`
+that includes any globally expected React Context providers (e.g. the `ThemeProvider` for `styled-components`).
+
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `yarn build`
