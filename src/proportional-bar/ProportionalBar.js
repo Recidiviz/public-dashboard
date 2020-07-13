@@ -26,7 +26,7 @@ const ProportionalBarMetadata = styled.figcaption`
   bottom: 0;
   display: flex;
   justify-content: space-between;
-  padding-top: 10px;
+  padding-top: 4px;
   position: absolute;
   width: 100%;
   z-index: ${(props) => props.theme.zIndex.base};

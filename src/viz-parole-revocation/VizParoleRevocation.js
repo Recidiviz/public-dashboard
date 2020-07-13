@@ -28,13 +28,19 @@ const VizParoleRevocationWrapper = styled.div`
 
 const BreakdownBarWrapper = styled.div`
   height: ${(props) => props.height}px;
-  padding-bottom: 24px;
+  padding-bottom: 16px;
+  position: relative;
+  z-index: ${(props) => props.theme.zIndex.base + props.stackOrder};
 `;
 
 function Breakdowns({ data, dimension }) {
   const breakdownHeight = HEIGHT / data.size;
   return Array.from(data, ([key, value], i) => (
-    <BreakdownBarWrapper key={key} height={breakdownHeight}>
+    <BreakdownBarWrapper
+      key={key}
+      height={breakdownHeight}
+      stackOrder={data.size - i}
+    >
       <ProportionalBar
         title={formatDemographicValue(key, dimension)}
         data={value}
