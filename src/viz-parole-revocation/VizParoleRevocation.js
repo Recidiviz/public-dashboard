@@ -28,7 +28,7 @@ const VizParoleRevocationWrapper = styled.div`
 
 const BreakdownBarWrapper = styled.div`
   height: ${(props) => props.height}px;
-  padding-bottom: 16px;
+  padding-bottom: 24px;
 `;
 
 function Breakdowns({ data }) {
