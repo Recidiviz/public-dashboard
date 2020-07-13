@@ -14,24 +14,28 @@ export const DIMENSION_KEYS = {
   age: "age",
   gender: "gender",
   race: "race",
-  raceAndGender: "raceAndGender",
   total: "total",
 };
 
-const DIMENSIONS = {
+// these correspond to fields in fetched data
+export const DIMENSION_DATA_KEYS = {
+  [DIMENSION_KEYS.age]: "age_bucket",
+  [DIMENSION_KEYS.gender]: "gender",
+  [DIMENSION_KEYS.race]: "race_or_ethnicity",
+};
+
+const DIMENSION_LABELS = {
   [DIMENSION_KEYS.age]: "Age",
   [DIMENSION_KEYS.gender]: "Gender",
   [DIMENSION_KEYS.race]: "Race",
-  [DIMENSION_KEYS.raceAndGender]: "Race & Gender",
   [DIMENSION_KEYS.total]: "Total",
 };
 
 export const DIMENSIONS_LIST = [
-  { id: DIMENSION_KEYS.total, label: DIMENSIONS.total },
-  { id: DIMENSION_KEYS.race, label: DIMENSIONS.race },
-  { id: DIMENSION_KEYS.gender, label: DIMENSIONS.gender },
-  { id: DIMENSION_KEYS.raceAndGender, label: DIMENSIONS.raceAndGender },
-  { id: DIMENSION_KEYS.age, label: DIMENSIONS.age },
+  { id: DIMENSION_KEYS.total, label: DIMENSION_LABELS.total },
+  { id: DIMENSION_KEYS.race, label: DIMENSION_LABELS.race },
+  { id: DIMENSION_KEYS.gender, label: DIMENSION_LABELS.gender },
+  { id: DIMENSION_KEYS.age, label: DIMENSION_LABELS.age },
 ];
 
 const VIOLATION_TYPES = {

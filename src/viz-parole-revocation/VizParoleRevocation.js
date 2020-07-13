@@ -5,12 +5,19 @@ import Measure from "react-measure";
 import styled from "styled-components";
 import BubbleChart from "../bubble-chart";
 import {
+  DIMENSION_DATA_KEYS,
   DIMENSION_KEYS,
   THEME,
   TOTAL_KEY,
   VIOLATION_LABELS,
   VIOLATION_COUNT_KEYS,
 } from "../constants";
+import ProportionalBar from "../proportional-bar";
+import {
+  demographicsAscending,
+  formatDemographicValue,
+  recordIsTotal,
+} from "../utils";
 
 const HEIGHT = 450;
 
@@ -18,6 +25,24 @@ const VizParoleRevocationWrapper = styled.div`
   height: ${HEIGHT}px;
   width: 100%;
 `;
+
+const BreakdownBarWrapper = styled.div`
+  height: ${(props) => props.height}px;
+  padding-bottom: 16px;
+`;
+
+function Breakdowns({ data }) {
+  const breakdownHeight = HEIGHT / data.size;
+  return Array.from(data, ([key, value], i) => (
+    <BreakdownBarWrapper key={key} height={breakdownHeight}>
+      <ProportionalBar
+        title={formatDemographicValue(key)}
+        data={value}
+        showLegend={i === data.size - 1}
+      />
+    </BreakdownBarWrapper>
+  ));
+}
 
 function VizParoleRevocation({ currentMonthData, dimension }) {
   return (
@@ -27,17 +52,23 @@ function VizParoleRevocation({ currentMonthData, dimension }) {
         contentRect: {
           bounds: { width },
         },
-      }) => (
-        <VizParoleRevocationWrapper ref={measureRef}>
-          {width && dimension === DIMENSION_KEYS.total && (
-            <BubbleChart
-              data={currentMonthData.get(TOTAL_KEY)}
-              height={HEIGHT}
-              width={width}
-            />
-          )}
-        </VizParoleRevocationWrapper>
-      )}
+      }) => {
+        return (
+          <VizParoleRevocationWrapper ref={measureRef}>
+            {dimension === DIMENSION_KEYS.total ? (
+              width && (
+                <BubbleChart
+                  data={currentMonthData.get(TOTAL_KEY)}
+                  height={HEIGHT}
+                  width={width}
+                />
+              )
+            ) : (
+              <Breakdowns data={currentMonthData} />
+            )}
+          </VizParoleRevocationWrapper>
+        );
+      }}
     </Measure>
   );
 }
@@ -70,6 +101,27 @@ function groupByMonth(records) {
 
 const VIOLATION_REASONS_COLORS = THEME.colors.violationReasons;
 
+function splitByViolationType(record) {
+  return Object.entries(VIOLATION_COUNT_KEYS)
+    .map(([violationType, dataKey]) => ({
+      color: VIOLATION_REASONS_COLORS[violationType],
+      label: VIOLATION_LABELS[violationType],
+      value: record[dataKey],
+    }))
+    .sort((a, b) => ascending(a.label, b.label));
+}
+
+function recordIsTotalByDimension(dimension) {
+  const keysEnum = { ...DIMENSION_DATA_KEYS };
+  delete keysEnum[dimension];
+  const otherDataKeys = Object.values(keysEnum);
+  return (record) =>
+    // filter out totals
+    record[DIMENSION_DATA_KEYS[dimension]] !== TOTAL_KEY &&
+    // filter out subset permutations
+    otherDataKeys.every((key) => record[key] === TOTAL_KEY);
+}
+
 export default function VizParoleRevocationContainer({
   data: { paroleRevocationByMonth },
   month,
@@ -89,25 +141,25 @@ export default function VizParoleRevocationContainer({
   const currentMonthData = new Map();
 
   if (dimension === DIMENSION_KEYS.total) {
-    const monthlyTotals = monthlyData
-      .get(month)
-      .find(
-        (record) =>
-          record.race_or_ethnicity === TOTAL_KEY &&
-          record.gender === TOTAL_KEY &&
-          record.age_bucket === TOTAL_KEY
-      );
+    const monthlyTotals = monthlyData.get(month).find(recordIsTotal);
 
-    currentMonthData.set(
-      TOTAL_KEY,
-      Object.entries(VIOLATION_COUNT_KEYS)
-        .map(([violationType, dataKey]) => ({
-          color: VIOLATION_REASONS_COLORS[violationType],
-          label: VIOLATION_LABELS[violationType],
-          value: monthlyTotals[dataKey],
-        }))
-        .sort((a, b) => ascending(a.label, b.label))
-    );
+    currentMonthData.set(TOTAL_KEY, splitByViolationType(monthlyTotals));
+  } else {
+    monthlyData
+      .get(month)
+      .filter(recordIsTotalByDimension(dimension))
+      .sort((a, b) =>
+        demographicsAscending(
+          a[DIMENSION_DATA_KEYS[dimension]],
+          b[DIMENSION_DATA_KEYS[dimension]]
+        )
+      )
+      .forEach((record) => {
+        currentMonthData.set(
+          record[DIMENSION_DATA_KEYS[dimension]],
+          splitByViolationType(record)
+        );
+      });
   }
 
   return (
