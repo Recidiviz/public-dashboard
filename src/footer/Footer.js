@@ -6,7 +6,6 @@ import { CONTAINER_WIDTH } from "../constants";
 import RecidivizSrc from "../assets/icons/recidiviz.svg";
 
 const FooterContainer = styled.footer`
-  background: ${(props) => props.theme.colors.footerBackground};
   color: ${(props) => props.theme.colors.footer};
   font: ${(props) => props.theme.fonts.body};
 `;

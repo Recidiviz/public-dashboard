@@ -5,12 +5,13 @@ import LogoIconSrc from "../assets/icons/recidiviz_logo.svg";
 import { LinkPill } from "../pill";
 
 const brandingBarFlexProperties = css`
-  align-items: center;
+  align-items: baseline;
   display: flex;
 `;
 
 const BrandingBarContainer = styled.header`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 80px;
 `;
@@ -28,16 +29,25 @@ const BrandingBarTitle = styled.h1`
   margin-left: 16px;
 `;
 
-const BrandingBarLinkContainer = styled.div``;
+const BrandingBarLinkContainer = styled.div`
+  align-items: center;
+  display: flex;
+`;
 
 const BrandingBarLinksList = styled.ul`
   ${brandingBarFlexProperties}
   justify-content: space-between;
+  margin: 0;
+  padding: 0;
 `;
 
 const BrandingBarLink = styled.li`
   list-style-type: none;
-  margin-left: 16px;
+  margin-right: 16px;
+
+  &:last-child {
+    margin-right: 0;
+  }
 `;
 
 export default function BrandingBar() {
