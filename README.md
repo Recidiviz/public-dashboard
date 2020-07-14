@@ -33,6 +33,32 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### Deploys
+
+The frontend of the app is deployed to Firebase. To have deploy access, you need to be an admin on the Firebase/GCP account.
+
+Once you have the required permissions, you can set up your environment for deploys by following [these instructions](https://firebase.google.com/docs/cli?install-cli-mac-linux). Specifically, follow the steps entitled "Install the Firebase CLI" and "Log in and test the Firebase CLI."
+
+#### `firebase serve`
+
+Serves the app as it will appear when deployed to Firebase.
+
+Once you have built the app with `yarn build`, the `/build` directory will contain the built assets ready for deploy.
+`firebase serve` will serve the app out of the `/build` directory and should function exactly as it will once deployed.
+
+#### `firebase deploy`
+
+Deploys the app to Firebase Hosting.
+
+**NOTE**: Before deploying, make sure there is no real data under `/src/assets/test_data`! This should only be fake data.
+
+You can deploy the app to either [staging](https://recidiviz-public-dashboard-stg.firebaseapp.com/) or [production](https://recidiviz-public-dashboard.firebaseapp.com/) via:
+  * `firebase deploy -P staging`
+  * `firebase deploy -P production`
+
+Once you have built the app with `yarn build`, the `/build` directory will contain the built assets ready for deploy.
+`firebase deploy` will deploy the app as it exists in that directory. Run `firebase serve` before you deploy to make sure everything functions as expected.
+
 ### `yarn eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**

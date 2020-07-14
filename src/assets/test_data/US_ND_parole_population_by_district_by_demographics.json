@@ -1,0 +1,1829 @@
+[
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 16,
+    "supervision_type": "PAROLE",
+    "district": "10",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 21,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "BLACK",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 44,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "OTHER",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 27,
+    "supervision_type": "PAROLE",
+    "district": "6",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 41,
+    "supervision_type": "PAROLE",
+    "district": "8",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 22,
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 17,
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 51,
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "ASIAN",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 64,
+    "supervision_type": "PAROLE",
+    "district": "12",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 38,
+    "supervision_type": "PAROLE",
+    "district": "14",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 22,
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "<25"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 74,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "HISPANIC",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 67,
+    "supervision_type": "PAROLE",
+    "district": "5",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "<25"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 71,
+    "supervision_type": "PAROLE",
+    "district": "7",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 60,
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "HISPANIC",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 12,
+    "supervision_type": "PAROLE",
+    "district": "11",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 66,
+    "supervision_type": "PAROLE",
+    "district": "11",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 47,
+    "supervision_type": "PAROLE",
+    "district": "14",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 2,
+    "supervision_type": "PAROLE",
+    "district": "14",
+    "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 66,
+    "supervision_type": "PAROLE",
+    "district": "18",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 26,
+    "supervision_type": "PAROLE",
+    "district": "1",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 58,
+    "supervision_type": "PAROLE",
+    "district": "11",
+    "race_or_ethnicity": "HISPANIC",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 44,
+    "supervision_type": "PAROLE",
+    "district": "17",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 1,
+    "supervision_type": "PAROLE",
+    "district": "16",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 5,
+    "supervision_type": "PAROLE",
+    "district": "5",
+    "race_or_ethnicity": "BLACK",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 35,
+    "supervision_type": "PAROLE",
+    "district": "8",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 23,
+    "supervision_type": "PAROLE",
+    "district": "8",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 11,
+    "supervision_type": "PAROLE",
+    "district": "10",
+    "race_or_ethnicity": "HISPANIC",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 74,
+    "supervision_type": "PAROLE",
+    "district": "11",
+    "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 66,
+    "supervision_type": "PAROLE",
+    "district": "3",
+    "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 69,
+    "supervision_type": "PAROLE",
+    "district": "3",
+    "race_or_ethnicity": "BLACK",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 32,
+    "supervision_type": "PAROLE",
+    "district": "6",
+    "race_or_ethnicity": "HISPANIC",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 70,
+    "supervision_type": "PAROLE",
+    "district": "13",
+    "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 57,
+    "supervision_type": "PAROLE",
+    "district": "1",
+    "race_or_ethnicity": "BLACK",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 18,
+    "supervision_type": "PAROLE",
+    "district": "10",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 68,
+    "supervision_type": "PAROLE",
+    "district": "8",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 6,
+    "supervision_type": "PAROLE",
+    "district": "10",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 51,
+    "supervision_type": "PAROLE",
+    "district": "11",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 12,
+    "supervision_type": "PAROLE",
+    "district": "13",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 70,
+    "supervision_type": "PAROLE",
+    "district": "14",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 10,
+    "supervision_type": "PAROLE",
+    "district": "16",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "<25"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 11,
+    "supervision_type": "PAROLE",
+    "district": "3",
+    "race_or_ethnicity": "HISPANIC",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 62,
+    "supervision_type": "PAROLE",
+    "district": "9",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 66,
+    "supervision_type": "PAROLE",
+    "district": "13",
+    "race_or_ethnicity": "HISPANIC",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 72,
+    "supervision_type": "PAROLE",
+    "district": "16",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 41,
+    "supervision_type": "PAROLE",
+    "district": "17",
+    "race_or_ethnicity": "HISPANIC",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 73,
+    "supervision_type": "PAROLE",
+    "district": "3",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 73,
+    "supervision_type": "PAROLE",
+    "district": "7",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 38,
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 68,
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "NATIVE_HAWAIIAN_PACIFIC_ISLANDER",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 59,
+    "supervision_type": "PAROLE",
+    "district": "2",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 75,
+    "supervision_type": "PAROLE",
+    "district": "17",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 1,
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 37,
+    "supervision_type": "PAROLE",
+    "district": "1",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 17,
+    "supervision_type": "PAROLE",
+    "district": "10",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 2,
+    "supervision_type": "PAROLE",
+    "district": "12",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 13,
+    "supervision_type": "PAROLE",
+    "district": "2",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 50,
+    "supervision_type": "PAROLE",
+    "district": "2",
+    "race_or_ethnicity": "HISPANIC",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 70,
+    "supervision_type": "PAROLE",
+    "district": "13",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 8,
+    "supervision_type": "PAROLE",
+    "district": "13",
+    "race_or_ethnicity": "NATIVE_HAWAIIAN_PACIFIC_ISLANDER",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 59,
+    "supervision_type": "PAROLE",
+    "district": "6",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 46,
+    "supervision_type": "PAROLE",
+    "district": "6",
+    "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 45,
+    "supervision_type": "PAROLE",
+    "district": "9",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 59,
+    "supervision_type": "PAROLE",
+    "district": "10",
+    "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 44,
+    "supervision_type": "PAROLE",
+    "district": "14",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 41,
+    "supervision_type": "PAROLE",
+    "district": "17",
+    "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 45,
+    "supervision_type": "PAROLE",
+    "district": "2",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 10,
+    "supervision_type": "PAROLE",
+    "district": "7",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 70,
+    "supervision_type": "PAROLE",
+    "district": "1",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 9,
+    "supervision_type": "PAROLE",
+    "district": "10",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 22,
+    "supervision_type": "PAROLE",
+    "district": "12",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 4,
+    "supervision_type": "PAROLE",
+    "district": "13",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "<25"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 27,
+    "supervision_type": "PAROLE",
+    "district": "16",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 15,
+    "supervision_type": "PAROLE",
+    "district": "17",
+    "race_or_ethnicity": "BLACK",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 67,
+    "supervision_type": "PAROLE",
+    "district": "10",
+    "race_or_ethnicity": "BLACK",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 31,
+    "supervision_type": "PAROLE",
+    "district": "2",
+    "race_or_ethnicity": "BLACK",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 60,
+    "supervision_type": "PAROLE",
+    "district": "3",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 75,
+    "supervision_type": "PAROLE",
+    "district": "6",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "<25"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 42,
+    "supervision_type": "PAROLE",
+    "district": "9",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 73,
+    "supervision_type": "PAROLE",
+    "district": "9",
+    "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 59,
+    "supervision_type": "PAROLE",
+    "district": "14",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 44,
+    "supervision_type": "PAROLE",
+    "district": "15",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 45,
+    "supervision_type": "PAROLE",
+    "district": "5",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 41,
+    "supervision_type": "PAROLE",
+    "district": "2",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 52,
+    "supervision_type": "PAROLE",
+    "district": "5",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 38,
+    "supervision_type": "PAROLE",
+    "district": "5",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 46,
+    "supervision_type": "PAROLE",
+    "district": "5",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 10,
+    "supervision_type": "PAROLE",
+    "district": "6",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 69,
+    "supervision_type": "PAROLE",
+    "district": "2",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 48,
+    "supervision_type": "PAROLE",
+    "district": "6",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 34,
+    "supervision_type": "PAROLE",
+    "district": "6",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 46,
+    "supervision_type": "PAROLE",
+    "district": "15",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 50,
+    "supervision_type": "PAROLE",
+    "district": "3",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 25,
+    "supervision_type": "PAROLE",
+    "district": "11",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 8,
+    "supervision_type": "PAROLE",
+    "district": "12",
+    "race_or_ethnicity": "HISPANIC",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 55,
+    "supervision_type": "PAROLE",
+    "district": "16",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 30,
+    "supervision_type": "PAROLE",
+    "district": "18",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 21,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 48,
+    "supervision_type": "PAROLE",
+    "district": "1",
+    "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 62,
+    "supervision_type": "PAROLE",
+    "district": "18",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 68,
+    "supervision_type": "PAROLE",
+    "district": "1",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 68,
+    "supervision_type": "PAROLE",
+    "district": "1",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 10,
+    "supervision_type": "PAROLE",
+    "district": "2",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 24,
+    "supervision_type": "PAROLE",
+    "district": "3",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 55,
+    "supervision_type": "PAROLE",
+    "district": "7",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 33,
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 64,
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 2,
+    "supervision_type": "PAROLE",
+    "district": "11",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 30,
+    "supervision_type": "PAROLE",
+    "district": "11",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 31,
+    "supervision_type": "PAROLE",
+    "district": "12",
+    "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 30,
+    "supervision_type": "PAROLE",
+    "district": "13",
+    "race_or_ethnicity": "BLACK",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 70,
+    "supervision_type": "PAROLE",
+    "district": "3",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "<25"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 74,
+    "supervision_type": "PAROLE",
+    "district": "5",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 9,
+    "supervision_type": "PAROLE",
+    "district": "6",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 74,
+    "supervision_type": "PAROLE",
+    "district": "8",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 14,
+    "supervision_type": "PAROLE",
+    "district": "2",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 12,
+    "supervision_type": "PAROLE",
+    "district": "9",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 34,
+    "supervision_type": "PAROLE",
+    "district": "18",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 3,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 66,
+    "supervision_type": "PAROLE",
+    "district": "5",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 24,
+    "supervision_type": "PAROLE",
+    "district": "1",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 35,
+    "supervision_type": "PAROLE",
+    "district": "11",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 16,
+    "supervision_type": "PAROLE",
+    "district": "15",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 5,
+    "supervision_type": "PAROLE",
+    "district": "17",
+    "race_or_ethnicity": "NATIVE_HAWAIIAN_PACIFIC_ISLANDER",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 19,
+    "supervision_type": "PAROLE",
+    "district": "2",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 65,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 36,
+    "supervision_type": "PAROLE",
+    "district": "12",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 38,
+    "supervision_type": "PAROLE",
+    "district": "16",
+    "race_or_ethnicity": "HISPANIC",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 48,
+    "supervision_type": "PAROLE",
+    "district": "17",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 58,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 25,
+    "supervision_type": "PAROLE",
+    "district": "17",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 11,
+    "supervision_type": "PAROLE",
+    "district": "5",
+    "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 11,
+    "supervision_type": "PAROLE",
+    "district": "9",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 63,
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "OTHER",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 25,
+    "supervision_type": "PAROLE",
+    "district": "11",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 75,
+    "supervision_type": "PAROLE",
+    "district": "18",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 65,
+    "supervision_type": "PAROLE",
+    "district": "18",
+    "race_or_ethnicity": "ASIAN",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 25,
+    "supervision_type": "PAROLE",
+    "district": "3",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 20,
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 68,
+    "supervision_type": "PAROLE",
+    "district": "5",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 46,
+    "supervision_type": "PAROLE",
+    "district": "5",
+    "race_or_ethnicity": "ASIAN",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 20,
+    "supervision_type": "PAROLE",
+    "district": "14",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 75,
+    "supervision_type": "PAROLE",
+    "district": "17",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 7,
+    "supervision_type": "PAROLE",
+    "district": "17",
+    "race_or_ethnicity": "OTHER",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 18,
+    "supervision_type": "PAROLE",
+    "district": "18",
+    "race_or_ethnicity": "BLACK",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 64,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 1,
+    "supervision_type": "PAROLE",
+    "district": "10",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "<25"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 71,
+    "supervision_type": "PAROLE",
+    "district": "12",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 64,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "NATIVE_HAWAIIAN_PACIFIC_ISLANDER",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 25,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 32,
+    "supervision_type": "PAROLE",
+    "district": "7",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 64,
+    "supervision_type": "PAROLE",
+    "district": "10",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 6,
+    "supervision_type": "PAROLE",
+    "district": "13",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 66,
+    "supervision_type": "PAROLE",
+    "district": "17",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 64,
+    "supervision_type": "PAROLE",
+    "district": "17",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 68,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "ASIAN",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 39,
+    "supervision_type": "PAROLE",
+    "district": "8",
+    "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 7,
+    "supervision_type": "PAROLE",
+    "district": "11",
+    "race_or_ethnicity": "BLACK",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 31,
+    "supervision_type": "PAROLE",
+    "district": "8",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 35,
+    "supervision_type": "PAROLE",
+    "district": "12",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 26,
+    "supervision_type": "PAROLE",
+    "district": "16",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 33,
+    "supervision_type": "PAROLE",
+    "district": "16",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 15,
+    "supervision_type": "PAROLE",
+    "district": "17",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 22,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 44,
+    "supervision_type": "PAROLE",
+    "district": "13",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 34,
+    "supervision_type": "PAROLE",
+    "district": "3",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 24,
+    "supervision_type": "PAROLE",
+    "district": "9",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 35,
+    "supervision_type": "PAROLE",
+    "district": "9",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 2,
+    "supervision_type": "PAROLE",
+    "district": "9",
+    "race_or_ethnicity": "HISPANIC",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 21,
+    "supervision_type": "PAROLE",
+    "district": "1",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 32,
+    "supervision_type": "PAROLE",
+    "district": "12",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 68,
+    "supervision_type": "PAROLE",
+    "district": "13",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "30-34"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 24,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "<25"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 58,
+    "supervision_type": "PAROLE",
+    "district": "13",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 43,
+    "supervision_type": "PAROLE",
+    "district": "16",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 74,
+    "supervision_type": "PAROLE",
+    "district": "3",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 32,
+    "supervision_type": "PAROLE",
+    "district": "5",
+    "race_or_ethnicity": "HISPANIC",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 62,
+    "supervision_type": "PAROLE",
+    "district": "15",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 3,
+    "supervision_type": "PAROLE",
+    "district": "18",
+    "race_or_ethnicity": "ALL",
+    "gender": "MALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 32,
+    "supervision_type": "PAROLE",
+    "district": "6",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 25,
+    "supervision_type": "PAROLE",
+    "district": "8",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 13,
+    "supervision_type": "PAROLE",
+    "district": "1",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 7,
+    "supervision_type": "PAROLE",
+    "district": "11",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "<25"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 8,
+    "supervision_type": "PAROLE",
+    "district": "13",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 30,
+    "supervision_type": "PAROLE",
+    "district": "17",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "<25"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 45,
+    "supervision_type": "PAROLE",
+    "district": "3",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 53,
+    "supervision_type": "PAROLE",
+    "district": "8",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "<25"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 2,
+    "supervision_type": "PAROLE",
+    "district": "1",
+    "race_or_ethnicity": "HISPANIC",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 15,
+    "supervision_type": "PAROLE",
+    "district": "10",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 72,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 38,
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 73,
+    "supervision_type": "PAROLE",
+    "district": "1",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "<25"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 62,
+    "supervision_type": "PAROLE",
+    "district": "10",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 61,
+    "supervision_type": "PAROLE",
+    "district": "12",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 4,
+    "supervision_type": "PAROLE",
+    "district": "18",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 69,
+    "supervision_type": "PAROLE",
+    "district": "5",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "40<"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 18,
+    "supervision_type": "PAROLE",
+    "district": "6",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 72,
+    "supervision_type": "PAROLE",
+    "district": "9",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "25-29"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 39,
+    "supervision_type": "PAROLE",
+    "district": "13",
+    "race_or_ethnicity": "WHITE",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 65,
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "BLACK",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 12,
+    "supervision_type": "PAROLE",
+    "district": "15",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "35-39"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 68,
+    "supervision_type": "PAROLE",
+    "district": "4",
+    "race_or_ethnicity": "ALL",
+    "gender": "FEMALE",
+    "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "total_supervision_count": 35,
+    "supervision_type": "PAROLE",
+    "district": "8",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL"
+  }
+]
