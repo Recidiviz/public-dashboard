@@ -12,7 +12,7 @@ import {
   TOTAL_KEY,
   THEME,
 } from "../constants";
-import { formatAsNumber } from "../utils";
+import { formatAsNumber, recordIsTotal } from "../utils";
 import ProportionalBar from "../proportional-bar";
 import StateDistrictMap from "../state-district-map";
 import Statistic from "../statistic";
@@ -149,12 +149,7 @@ export default function VizParolePopulation({
   onDistrictClick,
 }) {
   const districtTotals = populationDemographics
-    .filter(
-      (record) =>
-        record.race_or_ethnicity === TOTAL_KEY &&
-        record.gender === TOTAL_KEY &&
-        record.age_bucket === TOTAL_KEY
-    )
+    .filter(recordIsTotal)
     .map((record) => {
       const districtData = districtOffices.find(
         // these are stored as both strings and numbers;
