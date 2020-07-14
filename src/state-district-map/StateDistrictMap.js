@@ -15,22 +15,10 @@ import { THEME, TOTAL_KEY } from "../constants";
 
 const MAX_MARKER_RADIUS = 19;
 
-const ND_HEIGHT = 300;
-const ND_WIDTH = 500;
-
-// this projection will fit the entire map viewport to ND
-const ND_PROJECTION = geoAlbers().fitExtent(
-  [
-    [0, 0],
-    [ND_WIDTH, ND_HEIGHT],
-  ],
-  mesh(ndGeography)
-);
+const ND_ASPECT_RATIO = 5 / 3;
 
 const StateDistrictMapContainer = styled.div`
-  height: ${ND_HEIGHT}px;
   margin-bottom: 20px;
-  width: ${ND_WIDTH}px;
 `;
 
 const DistrictMarker = styled.circle`
@@ -57,6 +45,7 @@ export default function StateDistrictMap({
   currentDistrict,
   data,
   onDistrictClick,
+  width,
 }) {
   const maxValue = Math.max(...data.map(({ value }) => value));
 
@@ -78,12 +67,20 @@ export default function StateDistrictMap({
     onDistrictClick(TOTAL_KEY);
   };
 
+  const ND_PROJECTION = geoAlbers().fitExtent(
+    [
+      [0, 0],
+      [width, width / ND_ASPECT_RATIO],
+    ],
+    mesh(ndGeography)
+  );
+
   return (
     <StateDistrictMapContainer>
       <ComposableMap
         projection={ND_PROJECTION}
-        width={ND_WIDTH}
-        height={ND_HEIGHT}
+        width={width}
+        height={width / ND_ASPECT_RATIO}
         style={{
           height: "auto",
           overflow: "visible",
@@ -127,8 +124,10 @@ StateDistrictMap.propTypes = {
   ).isRequired,
   currentDistrict: PropTypes.string,
   onDistrictClick: PropTypes.func.isRequired,
+  width: PropTypes.number,
 };
 
 StateDistrictMap.defaultProps = {
   currentDistrict: undefined,
+  width: 0,
 };

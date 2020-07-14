@@ -59,8 +59,8 @@ const DetailSectionDescription = styled.p`
 `;
 
 const DetailSectionVizContainer = styled.div`
-  margin-bottom: 50px;
-  margin-top: 30px;
+  margin-bottom: 24px;
+  margin-top: 32px;
 `;
 
 function DetailSection({
