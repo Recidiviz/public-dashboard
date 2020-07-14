@@ -14,32 +14,103 @@ export const DIMENSION_KEYS = {
   age: "age",
   gender: "gender",
   race: "race",
-  raceAndGender: "raceAndGender",
   total: "total",
 };
 
-const DIMENSIONS = {
+// these correspond to fields in fetched data
+export const DIMENSION_DATA_KEYS = {
+  [DIMENSION_KEYS.age]: "age_bucket",
+  [DIMENSION_KEYS.gender]: "gender",
+  [DIMENSION_KEYS.race]: "race_or_ethnicity",
+};
+
+export const DIMENSION_LABELS = {
   [DIMENSION_KEYS.age]: "Age",
   [DIMENSION_KEYS.gender]: "Gender",
   [DIMENSION_KEYS.race]: "Race",
-  [DIMENSION_KEYS.raceAndGender]: "Race & Gender",
   [DIMENSION_KEYS.total]: "Total",
 };
 
 export const DIMENSIONS_LIST = [
-  { id: DIMENSION_KEYS.total, label: DIMENSIONS.total },
-  { id: DIMENSION_KEYS.race, label: DIMENSIONS.race },
-  { id: DIMENSION_KEYS.gender, label: DIMENSIONS.gender },
-  { id: DIMENSION_KEYS.raceAndGender, label: DIMENSIONS.raceAndGender },
-  { id: DIMENSION_KEYS.age, label: DIMENSIONS.age },
+  { id: DIMENSION_KEYS.total, label: DIMENSION_LABELS.total },
+  { id: DIMENSION_KEYS.race, label: DIMENSION_LABELS.race },
+  { id: DIMENSION_KEYS.gender, label: DIMENSION_LABELS.gender },
+  { id: DIMENSION_KEYS.age, label: DIMENSION_LABELS.age },
 ];
 
-export const VIOLATION_TYPES = {
-  ABSCONDED: "Absconsion",
-  FELONY: "New Offense",
-  TECHNICAL: "Technical Violation",
-  EXTERNAL_UNKNOWN: "Unknown Type",
+const VIOLATION_TYPES = {
+  abscond: "abscond",
+  offend: "offend",
+  technical: "technical",
+  unknown: "unknown",
 };
+
+export const VIOLATION_LABELS = {
+  [VIOLATION_TYPES.abscond]: "Absconsion",
+  [VIOLATION_TYPES.offend]: "New Offense",
+  [VIOLATION_TYPES.technical]: "Technical Violation",
+  [VIOLATION_TYPES.unknown]: "Unknown Type",
+};
+
+// these correspond to expected fields in fetched data
+export const VIOLATION_COUNT_KEYS = {
+  [VIOLATION_TYPES.abscond]: "absconsion_count",
+  [VIOLATION_TYPES.offend]: "new_crime_count",
+  [VIOLATION_TYPES.technical]: "technical_count",
+  [VIOLATION_TYPES.unknown]: "unknown_count",
+};
+
+export const SUPERVISION_TYPES = {
+  parole: "PAROLE",
+  probation: "PROBATION",
+};
+
+export const DEMOGRAPHIC_OTHER = "OTHER";
+
+export const DEMOGRAPHIC_UNKNOWN = "EXTERNAL_UNKNOWN";
+
+const DEMOGRAPHIC_UNKNOWN_MAPPING = {
+  [DEMOGRAPHIC_UNKNOWN]: "Unknown",
+};
+
+export const AGE_KEYS = {
+  under25: "<25",
+  "25_29": "25-29",
+  "30_34": "30-34",
+  "35_39": "35-39",
+  over40: "40<",
+};
+
+export const AGES = {
+  [AGE_KEYS.under25]: "<25",
+  [AGE_KEYS["25_29"]]: "25-29",
+  [AGE_KEYS["30_34"]]: "30-34",
+  [AGE_KEYS["35_39"]]: "35-39",
+  [AGE_KEYS.over40]: "40<",
+  ...DEMOGRAPHIC_UNKNOWN_MAPPING,
+};
+
+export const GENDERS = {
+  FEMALE: "Female",
+  MALE: "Male",
+  ...DEMOGRAPHIC_UNKNOWN_MAPPING,
+};
+
+export const RACES = {
+  AMERICAN_INDIAN_ALASKAN_NATIVE: "American Indian or Alaskan Native",
+  ASIAN: "Asian",
+  BLACK: "Black",
+  HISPANIC: "Hispanic",
+  NATIVE_HAWAIIAN_PACIFIC_ISLANDER: "Native Hawaiian or Pacific Islander",
+  [DEMOGRAPHIC_OTHER]: "Other",
+  WHITE: "White",
+};
+
+export const DIMENSION_MAPPINGS = new Map([
+  [DIMENSION_KEYS.gender, GENDERS],
+  [DIMENSION_KEYS.age, AGES],
+  [DIMENSION_KEYS.race, RACES],
+]);
 
 export const CONTAINER_WIDTH = 1144;
 
@@ -83,10 +154,10 @@ export const THEME = {
     pillValue: darkGray,
     tooltipBackground: "#132c52",
     violationReasons: {
-      ABSCONDED: "#327672",
-      FELONY: "#659795",
-      TECHNICAL: darkGreen,
-      EXTERNAL_UNKNOWN: "#97b9b7",
+      [VIOLATION_TYPES.abscond]: "#327672",
+      [VIOLATION_TYPES.offend]: "#659795",
+      [VIOLATION_TYPES.technical]: darkGreen,
+      [VIOLATION_TYPES.unknown]: "#97b9b7",
     },
   },
   fonts: {

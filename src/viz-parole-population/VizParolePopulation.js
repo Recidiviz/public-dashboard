@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import { TOTAL_KEY } from "../constants";
 import StateDistrictMap from "../state-district-map";
+import { recordIsTotal } from "../utils";
 
 const VizParolePopulationContainer = styled.div`
   display: flex;
@@ -27,12 +27,7 @@ export default function VizParolePopulation({
   onDistrictClick,
 }) {
   const districtTotals = populationDemographics
-    .filter(
-      (record) =>
-        record.race_or_ethnicity === TOTAL_KEY &&
-        record.gender === TOTAL_KEY &&
-        record.age_bucket === TOTAL_KEY
-    )
+    .filter(recordIsTotal)
     .map((record) => {
       const districtData = districtOffices.find(
         // these are stored as both strings and numbers;
