@@ -9,7 +9,6 @@
   "dependencies": {
     "@accessible/slider": "^2.0.2",
     "@reach/router": "^1.3.4",
-    "case": "^1.6.3",
     "classnames": "^2.2.6",
     "d3-array": "^2.4.0",
     "d3-force": "^2.0.1",
