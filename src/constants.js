@@ -131,7 +131,9 @@ const darkGreen = "#005450";
 const darkerGreen = "#00413E";
 const darkGray = "#5A6575";
 const lightGray = "#ECEDEF";
+const medGray = "#707F96";
 const white = "#fff";
+const medGreen = "#7EA8A6";
 
 export const THEME = {
   colors: {
@@ -139,8 +141,9 @@ export const THEME = {
     blue: "#3e8df7",
     darkGreen,
     // functional
+    chartAxis: medGray,
     background: "#FCFCFC",
-    body: "#707F96",
+    body: medGray,
     bodyLight: white,
     controlBackground: lightGray,
     controlLabel: "#3D4045",
@@ -152,6 +155,7 @@ export const THEME = {
     highlight: brightGreen,
     pillBackground: lightGray,
     pillValue: darkGray,
+    monthlyTimeseriesBar: medGreen,
     tooltipBackground: "#132c52",
     violationReasons: {
       [VIOLATION_TYPES.abscond]: "#327672",
