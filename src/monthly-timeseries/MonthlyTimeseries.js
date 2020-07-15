@@ -56,13 +56,13 @@ export default function MonthlyTimeseries({ data }) {
         data={data}
         margin={chartMargins}
         oAccessor="month"
-        oLabel={(labelText) =>
-          labelText.startsWith("1-") ? (
-            <TimeLabel>{labelText.split("-")[1]}</TimeLabel>
-          ) : null
-        }
+        oLabel={(labelText) => {
+          const [year, month] = labelText.split("-");
+          return month === "1" ? <TimeLabel>{year}</TimeLabel> : null;
+        }}
         rAccessor="value"
         rExtent={[0, 1]}
+        renderKey="month"
         responsiveHeight
         responsiveWidth
         style={{ fill: THEME.colors.monthlyTimeseriesBar }}

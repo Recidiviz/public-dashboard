@@ -94,7 +94,6 @@ function DetailSection({
           {showMonthControl && monthList && (
             <MonthControl months={monthList} onChange={setMonth} />
           )}
-          {showDimensionControl && <DimensionControl onChange={setDimension} />}
           {
             // we need both a flag and data to enable district control
             showDistrictControl && districtList && (
@@ -105,6 +104,7 @@ function DetailSection({
               />
             )
           }
+          {showDimensionControl && <DimensionControl onChange={setDimension} />}
         </DetailSectionControls>
       </DetailSectionHeader>
       <DetailSectionDescription>{description}</DetailSectionDescription>
