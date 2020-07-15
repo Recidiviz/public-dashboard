@@ -50,7 +50,7 @@ const ParoleDemographicsWrapper = styled.div`
   width: 100%;
 `;
 
-const ParaoleDemographicsDistrictCountWrapper = styled.div`
+const ParoleDemographicsDistrictCountWrapper = styled.div`
   margin-bottom: 16px;
   text-align: right;
 `;
@@ -63,7 +63,7 @@ const ParoleDemographicsBarChartWrapper = styled.div`
   z-index: ${(props) => props.theme.zIndex.base + props.stackOrder};
 `;
 
-function ParaoleDemographicsDistrictCount({ data }) {
+function ParoleDemographicsDistrictCount({ data }) {
   if (!data) return null;
 
   const count = sum(
@@ -71,17 +71,17 @@ function ParaoleDemographicsDistrictCount({ data }) {
   );
 
   return (
-    <ParaoleDemographicsDistrictCountWrapper>
+    <ParoleDemographicsDistrictCountWrapper>
       <Statistic value={formatAsNumber(count)} label="People on parole" />
-    </ParaoleDemographicsDistrictCountWrapper>
+    </ParoleDemographicsDistrictCountWrapper>
   );
 }
 
-ParaoleDemographicsDistrictCount.propTypes = {
+ParoleDemographicsDistrictCount.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
 };
 
-ParaoleDemographicsDistrictCount.defaultProps = {
+ParoleDemographicsDistrictCount.defaultProps = {
   data: undefined,
 };
 
@@ -167,7 +167,7 @@ export default function VizParolePopulation({
       </VizWrapper>
       <VizWrapper>
         <ParoleDemographicsWrapper>
-          <ParaoleDemographicsDistrictCount
+          <ParoleDemographicsDistrictCount
             data={populationDemographicsByDistrict[districtId]}
           />
           {Array.from(DIMENSION_MAPPINGS, ([dimension], index) => (
