@@ -50,6 +50,7 @@ const Gutter = styled.div`
 
 const MapWrapper = styled.figure`
   margin: 0;
+  width: 100%;
 `;
 
 const MapCaption = styled.figcaption`
