@@ -69,9 +69,7 @@ export const DEMOGRAPHIC_OTHER = "OTHER";
 
 export const DEMOGRAPHIC_UNKNOWN = "EXTERNAL_UNKNOWN";
 
-const DEMOGRAPHIC_UNKNOWN_MAPPING = {
-  [DEMOGRAPHIC_UNKNOWN]: "Unknown",
-};
+const DEMOGRAPHIC_UNKNOWN_MAPPING = [[DEMOGRAPHIC_UNKNOWN, "Unknown"]];
 
 export const AGE_KEYS = {
   under25: "<25",
@@ -81,30 +79,30 @@ export const AGE_KEYS = {
   over40: "40<",
 };
 
-export const AGES = {
-  [AGE_KEYS.under25]: "<25",
-  [AGE_KEYS["25_29"]]: "25-29",
-  [AGE_KEYS["30_34"]]: "30-34",
-  [AGE_KEYS["35_39"]]: "35-39",
-  [AGE_KEYS.over40]: "40<",
+const AGES = new Map([
+  [AGE_KEYS.under25, "<25"],
+  [AGE_KEYS["25_29"], "25-29"],
+  [AGE_KEYS["30_34"], "30-34"],
+  [AGE_KEYS["35_39"], "35-39"],
+  [AGE_KEYS.over40, "40<"],
   ...DEMOGRAPHIC_UNKNOWN_MAPPING,
-};
+]);
 
-export const GENDERS = {
-  FEMALE: "Female",
-  MALE: "Male",
+const GENDERS = new Map([
+  ["FEMALE", "Female"],
+  ["MALE", "Male"],
   ...DEMOGRAPHIC_UNKNOWN_MAPPING,
-};
+]);
 
-export const RACES = {
-  AMERICAN_INDIAN_ALASKAN_NATIVE: "American Indian or Alaskan Native",
-  ASIAN: "Asian",
-  BLACK: "Black",
-  HISPANIC: "Hispanic",
-  NATIVE_HAWAIIAN_PACIFIC_ISLANDER: "Native Hawaiian or Pacific Islander",
-  [DEMOGRAPHIC_OTHER]: "Other",
-  WHITE: "White",
-};
+const RACES = new Map([
+  ["AMERICAN_INDIAN_ALASKAN_NATIVE", "American Indian or Alaskan Native"],
+  ["ASIAN", "Asian"],
+  ["BLACK", "Black"],
+  ["HISPANIC", "Hispanic"],
+  ["NATIVE_HAWAIIAN_PACIFIC_ISLANDER", "Native Hawaiian or Pacific Islander"],
+  ["WHITE", "White"],
+  [DEMOGRAPHIC_OTHER, "Other"],
+]);
 
 export const DIMENSION_MAPPINGS = new Map([
   [DIMENSION_KEYS.gender, GENDERS],
@@ -125,9 +123,23 @@ const displayFontSize = "20px";
 const displayLineHeight = 1.3;
 const displayBold = `600 ${displayFontSize}/${displayLineHeight} ${displayFontFamily}`;
 const displayMedium = `500 ${displayFontSize}/${displayLineHeight} ${displayFontFamily}`;
+const displayNormal = `400 ${displayFontSize}/${displayLineHeight} ${displayFontFamily}`;
+
+const darkBlue = "#132C52";
 
 const brightGreen = "#25b894";
+
+// The numbers behind the "darkGreen" colors represent an opacity
+// percentage when using #FCFCFC as a background color.  Example,
+// 9 === 0.9 opacity.
+// Conversion tool: http://marcodiiga.github.io/rgba-to-rgb-conversion
 const darkGreen = "#005450";
+const darkGreen9 = "#196561";
+const darkGreen8 = "#327672";
+const darkGreen7 = "#4C8684";
+const darkGreen6 = "#659795";
+const darkGreen5 = "#7EA8A6";
+const darkGreen4 = "#97B9B7";
 const darkerGreen = "#00413E";
 const darkGray = "#5A6575";
 const lightGray = "#ECEDEF";
@@ -141,27 +153,48 @@ export const THEME = {
     blue: "#3e8df7",
     darkGreen,
     // functional
-    chartAxis: medGray,
+    age: {
+      "<25": darkGreen,
+      "25-29": darkGreen9,
+      "30-34": darkGreen8,
+      "35-39": darkGreen7,
+      "40<": darkGreen6,
+    },
     background: "#FCFCFC",
     body: medGray,
     bodyLight: white,
+    chartAxis: medGray,
     controlBackground: lightGray,
     controlLabel: "#3D4045",
     controlValue: darkGray,
     footer: "#91A6A5",
     footerBackground: darkerGreen,
     divider: "#E5E7EB",
+    gender: {
+      FEMALE: darkGreen,
+      MALE: darkGreen7,
+    },
     heading: "#2A4163",
     highlight: brightGreen,
     pillBackground: lightGray,
     pillValue: darkGray,
     monthlyTimeseriesBar: medGreen,
-    tooltipBackground: "#132c52",
+    race: {
+      AMERICAN_INDIAN_ALASKAN_NATIVE: darkGreen,
+      ASIAN: darkGreen9,
+      BLACK: darkGreen8,
+      HISPANIC: darkGreen7,
+      NATIVE_HAWAIIAN_PACIFIC_ISLANDER: darkGreen6,
+      WHITE: darkGreen5,
+      OTHER: darkGreen4,
+    },
+    statistic: darkBlue,
+    tooltipBackground: darkBlue,
     violationReasons: {
-      [VIOLATION_TYPES.abscond]: "#327672",
-      [VIOLATION_TYPES.offend]: "#659795",
+      [VIOLATION_TYPES.abscond]: darkGreen8,
+      [VIOLATION_TYPES.offend]: darkGreen6,
       [VIOLATION_TYPES.technical]: darkGreen,
-      [VIOLATION_TYPES.unknown]: "#97b9b7",
+      [VIOLATION_TYPES.unknown]: darkGreen4,
     },
   },
   fonts: {
@@ -169,6 +202,7 @@ export const THEME = {
     bodyBold,
     display: displayBold,
     displayMedium,
+    displayNormal,
   },
   maps: {
     // these are style objects that we can pass directly to react-simple-maps
