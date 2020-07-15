@@ -69,9 +69,7 @@ export const DEMOGRAPHIC_OTHER = "OTHER";
 
 export const DEMOGRAPHIC_UNKNOWN = "EXTERNAL_UNKNOWN";
 
-const DEMOGRAPHIC_UNKNOWN_MAPPING = {
-  [DEMOGRAPHIC_UNKNOWN]: "Unknown",
-};
+const DEMOGRAPHIC_UNKNOWN_MAPPING = [[DEMOGRAPHIC_UNKNOWN, "Unknown"]];
 
 export const AGE_KEYS = {
   under25: "<25",
@@ -81,30 +79,30 @@ export const AGE_KEYS = {
   over40: "40<",
 };
 
-export const AGES = {
-  [AGE_KEYS.under25]: "<25",
-  [AGE_KEYS["25_29"]]: "25-29",
-  [AGE_KEYS["30_34"]]: "30-34",
-  [AGE_KEYS["35_39"]]: "35-39",
-  [AGE_KEYS.over40]: "40<",
+const AGES = new Map([
+  [AGE_KEYS.under25, "<25"],
+  [AGE_KEYS["25_29"], "25-29"],
+  [AGE_KEYS["30_34"], "30-34"],
+  [AGE_KEYS["35_39"], "35-39"],
+  [AGE_KEYS.over40, "40<"],
   ...DEMOGRAPHIC_UNKNOWN_MAPPING,
-};
+]);
 
-export const GENDERS = {
-  FEMALE: "Female",
-  MALE: "Male",
+const GENDERS = new Map([
+  ["FEMALE", "Female"],
+  ["MALE", "Male"],
   ...DEMOGRAPHIC_UNKNOWN_MAPPING,
-};
+]);
 
-export const RACES = {
-  AMERICAN_INDIAN_ALASKAN_NATIVE: "American Indian or Alaskan Native",
-  ASIAN: "Asian",
-  BLACK: "Black",
-  HISPANIC: "Hispanic",
-  NATIVE_HAWAIIAN_PACIFIC_ISLANDER: "Native Hawaiian or Pacific Islander",
-  [DEMOGRAPHIC_OTHER]: "Other",
-  WHITE: "White",
-};
+const RACES = new Map([
+  ["AMERICAN_INDIAN_ALASKAN_NATIVE", "American Indian or Alaskan Native"],
+  ["ASIAN", "Asian"],
+  ["BLACK", "Black"],
+  ["HISPANIC", "Hispanic"],
+  ["NATIVE_HAWAIIAN_PACIFIC_ISLANDER", "Native Hawaiian or Pacific Islander"],
+  ["WHITE", "White"],
+  [DEMOGRAPHIC_OTHER, "Other"],
+]);
 
 export const DIMENSION_MAPPINGS = new Map([
   [DIMENSION_KEYS.gender, GENDERS],
@@ -183,16 +181,16 @@ export const THEME = {
       BLACK: darkGreen8,
       HISPANIC: darkGreen7,
       NATIVE_HAWAIIAN_PACIFIC_ISLANDER: darkGreen6,
-      OTHER: darkGreen5,
-      WHITE: darkGreen4,
+      WHITE: darkGreen5,
+      OTHER: darkGreen4,
     },
     statistic: darkBlue,
     tooltipBackground: darkBlue,
     violationReasons: {
-      [VIOLATION_TYPES.abscond]: "#327672",
-      [VIOLATION_TYPES.offend]: "#659795",
+      [VIOLATION_TYPES.abscond]: darkGreen8,
+      [VIOLATION_TYPES.offend]: darkGreen6,
       [VIOLATION_TYPES.technical]: darkGreen,
-      [VIOLATION_TYPES.unknown]: "#97b9b7",
+      [VIOLATION_TYPES.unknown]: darkGreen4,
     },
   },
   fonts: {

@@ -3,25 +3,20 @@ import React from "react";
 import { group, sum } from "d3-array";
 import styled from "styled-components";
 import {
-  AGES,
   DIMENSION_DATA_KEYS,
   DIMENSION_KEYS,
   DIMENSION_LABELS,
-  GENDERS,
-  RACES,
-  TOTAL_KEY,
+  DIMENSION_MAPPINGS,
   THEME,
 } from "../constants";
-import { formatAsNumber, recordIsTotal } from "../utils";
+import {
+  formatAsNumber,
+  formatDemographicValue,
+  recordIsTotal,
+} from "../utils";
 import ProportionalBar from "../proportional-bar";
 import StateDistrictMap from "../state-district-map";
 import Statistic from "../statistic";
-
-const DIMENSION_MAPPINGS = [
-  { key: DIMENSION_KEYS.gender, values: GENDERS },
-  { key: DIMENSION_KEYS.age, values: AGES },
-  { key: DIMENSION_KEYS.race, values: RACES },
-];
 
 const BAR_CHART_VISUALIZATION_COLORS = {
   [DIMENSION_KEYS.gender]: THEME.colors.gender,
@@ -34,86 +29,74 @@ const VizParolePopulationContainer = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
 `;
+
 const VizWrapper = styled.div`
-  flex: 0 1 auto;
+  flex: 0 1 49%;
 `;
 
 const MapWrapper = styled.figure`
   margin: 0;
 `;
+
 const MapCaption = styled.figcaption`
   color: ${(props) => props.theme.colors.body};
   font: ${(props) => props.theme.fonts.body};
 `;
 
-const ParoleDemographicsWrapper = styled.figure`
-  height: 64px;
-  width: 376px;
+const ParoleDemographicsWrapper = styled.div`
+  height: 100%;
+  margin: 0;
+  padding-left: 56px;
+  width: 100%;
 `;
 
-const ParoleDistrictCountWrapper = styled.div`
+const ParaoleDemographicsDistrictCountWrapper = styled.div`
+  margin-bottom: 16px;
   text-align: right;
 `;
 
-function VizParaoleDistrictCount({ data, currentDistrict }) {
-  if (!currentDistrict) return null;
+const ParoleDemographicsBarChartWrapper = styled.div`
+  height: 64px;
+  margin-bottom: 16px;
+  position: relative;
+  width: 100%;
+  z-index: ${(props) => props.theme.zIndex.base + props.stackOrder};
+`;
 
-  const districtData = data[currentDistrict];
-
-  // Each individual district has an "aggregate record" which is defined
-  // by each of its demographic entries being set to "ALL".  Unfortunately,
-  // when no district is selected, there is no "aggregate record" so to get
-  // the population total, we sum the total of the population across a
-  // single dimension, in this case GENDER.
-  const genderKeys =
-    currentDistrict === TOTAL_KEY ? Object.keys(GENDERS) : [TOTAL_KEY];
+function ParaoleDemographicsDistrictCount({ data }) {
+  if (!data) return null;
 
   const count = sum(
-    districtData
-      .filter(
-        (record) =>
-          record.race_or_ethnicity === TOTAL_KEY &&
-          genderKeys.includes(record.gender) &&
-          record.age_bucket === TOTAL_KEY
-      )
-      .map((record) => +record.total_supervision_count)
+    data.filter(recordIsTotal).map((record) => +record.total_supervision_count)
   );
 
   return (
-    <ParoleDistrictCountWrapper>
+    <ParaoleDemographicsDistrictCountWrapper>
       <Statistic value={formatAsNumber(count)} label="People on parole" />
-    </ParoleDistrictCountWrapper>
+    </ParaoleDemographicsDistrictCountWrapper>
   );
 }
 
-VizParaoleDistrictCount.propTypes = {
-  data: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
-  currentDistrict: PropTypes.string,
+ParaoleDemographicsDistrictCount.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object),
 };
 
-VizParaoleDistrictCount.defaultProps = {
-  currentDistrict: undefined,
+ParaoleDemographicsDistrictCount.defaultProps = {
+  data: undefined,
 };
 
-function VizParoleDemographicBarChart({ data, currentDistrict, dimension }) {
-  if (!currentDistrict) return null;
+function ParoleDemographicBarChart({ data, dimension, stackOrder }) {
+  if (!data) return null;
 
-  const districtData = data[currentDistrict];
-  const dimensionKey = dimension.key;
-  const dimensionValues = dimension.values;
-
-  const dimensionData = Object.entries(dimensionValues)
-    .map(([demographic, label]) => {
-      return districtData
+  const dimensionData = Array.from(DIMENSION_MAPPINGS.get(dimension))
+    .map(([demographic]) => {
+      return data
         .filter(
-          (record) =>
-            // i.e. record["race_or_ethnicity"] === "OTHER"
-            record[DIMENSION_DATA_KEYS[dimensionKey]] === demographic
+          (record) => record[DIMENSION_DATA_KEYS[dimension]] === demographic
         )
         .map((record) => ({
-          // i.e. BAR_CHART_VISUALIZATION_COLORS["gender"]["FEMALE"]
-          color: BAR_CHART_VISUALIZATION_COLORS[dimensionKey][demographic],
-          label,
+          color: BAR_CHART_VISUALIZATION_COLORS[dimension][demographic],
+          label: formatDemographicValue(demographic, dimension),
           value: +record.total_supervision_count,
         }))
         .shift();
@@ -121,26 +104,23 @@ function VizParoleDemographicBarChart({ data, currentDistrict, dimension }) {
     .filter((record) => record);
 
   return (
-    <ParoleDemographicsWrapper>
+    <ParoleDemographicsBarChartWrapper stackOrder={stackOrder}>
       <ProportionalBar
         data={dimensionData}
-        title={DIMENSION_LABELS[dimension.key]}
+        title={DIMENSION_LABELS[dimension]}
       />
-    </ParoleDemographicsWrapper>
+    </ParoleDemographicsBarChartWrapper>
   );
 }
 
-VizParoleDemographicBarChart.propTypes = {
-  data: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
-  currentDistrict: PropTypes.string,
-  dimension: PropTypes.shape({
-    key: PropTypes.string.isRequired,
-    values: PropTypes.object.isRequired,
-  }).isRequired,
+ParoleDemographicBarChart.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object),
+  dimension: PropTypes.string.isRequired,
+  stackOrder: PropTypes.number.isRequired,
 };
 
-VizParoleDemographicBarChart.defaultProps = {
-  currentDistrict: undefined,
+ParoleDemographicBarChart.defaultProps = {
+  data: undefined,
 };
 
 export default function VizParolePopulation({
@@ -186,18 +166,19 @@ export default function VizParolePopulation({
         </MapWrapper>
       </VizWrapper>
       <VizWrapper>
-        <VizParaoleDistrictCount
-          data={populationDemographicsByDistrict}
-          currentDistrict={districtId}
-        />
-        {DIMENSION_MAPPINGS.map((dimension) => (
-          <VizParoleDemographicBarChart
-            key={dimension.key}
-            data={populationDemographicsByDistrict}
-            currentDistrict={districtId}
-            dimension={dimension}
+        <ParoleDemographicsWrapper>
+          <ParaoleDemographicsDistrictCount
+            data={populationDemographicsByDistrict[districtId]}
           />
-        ))}
+          {Array.from(DIMENSION_MAPPINGS, ([dimension], index) => (
+            <ParoleDemographicBarChart
+              key={dimension}
+              data={populationDemographicsByDistrict[districtId]}
+              dimension={dimension}
+              stackOrder={DIMENSION_MAPPINGS.size - index}
+            />
+          ))}
+        </ParoleDemographicsWrapper>
       </VizWrapper>
     </VizParolePopulationContainer>
   );

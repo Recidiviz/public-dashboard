@@ -2,25 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-const StatisticsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+const StatisticsWrapper = styled.figure`
+  margin: 0;
 `;
 
-const ValueWrapper = styled.figure`
+const ValueWrapper = styled.h1`
   color: ${(props) => props.theme.colors.statistic};
   font: ${(props) => props.theme.fonts.displayNormal};
   font-size: 88px;
-  line-height: 40%;
+  line-height: 100%;
   letter-spacing: -0.05em;
-  margin-block-start: 0;
-  margin-block-end: 0;
+  margin: 0;
 `;
 
-const LabelWrapper = styled.figure`
+const LabelWrapper = styled.figcaption`
   color: ${(props) => props.theme.colors.body};
   font: ${(props) => props.theme.fonts.body};
-  margin-top: 24px;
 `;
 
 export default function Statistic({ value, label }) {

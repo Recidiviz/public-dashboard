@@ -1825,5 +1825,14 @@
     "race_or_ethnicity": "ALL",
     "gender": "ALL",
     "age_bucket": "ALL"
+  },
+  {
+    "state_code": "US_ND",
+    "supervision_type": "PAROLE",
+    "district": "ALL",
+    "race_or_ethnicity": "ALL",
+    "gender": "ALL",
+    "age_bucket": "ALL",
+    "total_supervision_count": "4235"
   }
 ]
