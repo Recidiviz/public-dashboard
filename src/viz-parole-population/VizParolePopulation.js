@@ -32,16 +32,24 @@ const VizParolePopulationContainer = styled.div`
   width: 100%;
 `;
 
+const GUTTER_WIDTH = "56px";
+
 const VizWrapper = styled.div`
+  align-items: center;
+  display: flex;
   flex: 1 1 auto;
   margin-bottom: 24px;
+  min-width: 340px;
+  width: calc((100% - ${GUTTER_WIDTH}) / 2);
 `;
 
-const MAP_WIDTH = 500;
+const Gutter = styled.div`
+  height: 1px;
+  width: ${GUTTER_WIDTH};
+`;
 
 const MapWrapper = styled.figure`
   margin: 0;
-  max-width: ${MAP_WIDTH}px;
 `;
 
 const MapCaption = styled.figcaption`
@@ -52,7 +60,6 @@ const MapCaption = styled.figcaption`
 const ParoleDemographicsWrapper = styled.div`
   height: 100%;
   margin: 0;
-  padding-left: 56px;
   width: 100%;
 `;
 
@@ -181,6 +188,7 @@ export default function VizParolePopulation({
           )}
         </Measure>
       </VizWrapper>
+      <Gutter />
       <VizWrapper>
         <ParoleDemographicsWrapper>
           <ParoleDemographicsDistrictCount
