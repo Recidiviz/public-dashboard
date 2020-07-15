@@ -143,6 +143,7 @@ const darkGreen4 = "#97B9B7";
 const darkerGreen = "#00413E";
 const darkGray = "#5A6575";
 const lightGray = "#ECEDEF";
+const medGray = "#707F96";
 const white = "#fff";
 
 export const THEME = {
@@ -159,8 +160,9 @@ export const THEME = {
       "40<": darkGreen6,
     },
     background: "#FCFCFC",
-    body: "#707F96",
+    body: medGray,
     bodyLight: white,
+    chartAxis: medGray,
     controlBackground: lightGray,
     controlLabel: "#3D4045",
     controlValue: darkGray,
@@ -175,6 +177,7 @@ export const THEME = {
     highlight: brightGreen,
     pillBackground: lightGray,
     pillValue: darkGray,
+    monthlyTimeseriesBar: darkGreen5,
     race: {
       AMERICAN_INDIAN_ALASKAN_NATIVE: darkGreen,
       ASIAN: darkGreen9,

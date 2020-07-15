@@ -4,3 +4,4 @@ export { default as formatAsPct } from "./formatAsPct";
 export { default as formatDemographicValue } from "./formatDemographicValue";
 export { default as getDataWithPct } from "./getDataWithPct";
 export { default as recordIsTotal } from "./recordIsTotal";
+export { default as addEmptyMonthsToData } from "./addEmptyMonthsToData";
