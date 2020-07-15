@@ -30,7 +30,7 @@ export default function SiteStyles() {
     <>
       <Helmet>
         <link
-          href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600&family=Poppins:wght@500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600&family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet"
         />
       </Helmet>
