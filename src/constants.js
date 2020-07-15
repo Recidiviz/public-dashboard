@@ -145,7 +145,6 @@ const darkGray = "#5A6575";
 const lightGray = "#ECEDEF";
 const medGray = "#707F96";
 const white = "#fff";
-const medGreen = "#7EA8A6";
 
 export const THEME = {
   colors: {
@@ -178,7 +177,7 @@ export const THEME = {
     highlight: brightGreen,
     pillBackground: lightGray,
     pillValue: darkGray,
-    monthlyTimeseriesBar: medGreen,
+    monthlyTimeseriesBar: darkGreen5,
     race: {
       AMERICAN_INDIAN_ALASKAN_NATIVE: darkGreen,
       ASIAN: darkGreen9,
