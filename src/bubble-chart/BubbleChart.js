@@ -104,7 +104,10 @@ export default function BubbleChart({ data: initialData, height, width }) {
     // that we have already calculated
     simulation
       .force("x", forceX((d, i) => centerXCoordinates[i]).strength(1))
-      .force("y", forceY((d) => vizHeight - getRadius(d)).strength(1));
+      .force("y", forceY((d) => vizHeight - getRadius(d)).strength(1))
+      // overlaps are still possible, e.g. when a small bubble is
+      // between two large ones. this should prevent that
+      .force("collide", forceCollide().radius(getRadius));
   } else {
     simulation
       // this force keeps them from overflowing the container
