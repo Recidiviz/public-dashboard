@@ -111,6 +111,8 @@ export const DIMENSION_MAPPINGS = new Map([
 ]);
 
 export const CONTAINER_WIDTH = 1144;
+export const X_PADDING = 8;
+export const FIXED_HEADER_HEIGHT = 50;
 
 const bodyFontFamily = "'Libre Franklin', sans-serif";
 const bodyFontSize = "12px";
@@ -229,6 +231,7 @@ export const THEME = {
     base: 1,
     menu: 10,
     tooltip: 50,
+    header: 75,
     modal: 100,
   },
 };

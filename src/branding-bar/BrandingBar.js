@@ -1,7 +1,13 @@
+import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
 import React from "react";
+import useCollapse from "react-collapsed";
 import styled, { css } from "styled-components";
 
+import MenuClosedIconSrc from "../assets/icons/menuClosed.svg";
+import MenuOpenIconSrc from "../assets/icons/menuOpen.svg";
 import LogoIconSrc from "../assets/icons/recidiviz_logo.svg";
+import { FIXED_HEADER_HEIGHT, X_PADDING } from "../constants";
+import NavBar from "../nav-bar";
 import { LinkPill } from "../pill";
 
 const brandingBarFlexProperties = css`
@@ -9,18 +15,33 @@ const brandingBarFlexProperties = css`
   display: flex;
 `;
 
-const BrandingBarContainer = styled.header`
+const brandingBarFixedStyles = `
+  left: 0;
+  min-height: ${FIXED_HEADER_HEIGHT}px;
+  padding: 0 ${X_PADDING}px;
+  position: fixed;
+  right: 0;
+  top: 0;
+`;
+
+const BrandingBarWrapper = styled.header`
+  background: ${(props) => props.theme.colors.background};
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 80px;
+
+  ${mediaQuery(["mobile-", brandingBarFixedStyles])}
 `;
 
 const BrandingBarHeader = styled.div`
   ${brandingBarFlexProperties}
 `;
 
-const Logo = styled.img``;
+const Logo = styled.img`
+  margin: 12px 0;
+`;
+
+const Icon = styled.img``;
 
 const BrandingBarTitle = styled.h1`
   color: ${(props) => props.theme.colors.heading};
@@ -29,12 +50,12 @@ const BrandingBarTitle = styled.h1`
   margin-left: 16px;
 `;
 
-const BrandingBarLinkContainer = styled.div`
+const BrandingBarLinkListWrapper = styled.div`
   align-items: center;
   display: flex;
 `;
 
-const BrandingBarLinksList = styled.ul`
+const BrandingBarLinkList = styled.ul`
   ${brandingBarFlexProperties}
   justify-content: space-between;
   margin: 0;
@@ -50,23 +71,57 @@ const BrandingBarLink = styled.li`
   }
 `;
 
+const MenuButton = styled.button`
+  background: none;
+  border: none;
+`;
+
+const CollapsibleMenuWrapper = styled.div`
+  background: ${(props) => props.theme.colors.background};
+  height: calc(100vh - ${FIXED_HEADER_HEIGHT}px);
+  width: 100%;
+`;
+
+const SITE_TITLE = "North Dakota Corrections";
+
 export default function BrandingBar() {
+  const useCollapsibleNav = useBreakpoint(false, ["mobile-", true]);
+  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
+
   return (
-    <BrandingBarContainer>
+    <BrandingBarWrapper>
       <BrandingBarHeader>
         <Logo alt="Recidiviz" src={LogoIconSrc} />
-        <BrandingBarTitle>North Dakota Corrections</BrandingBarTitle>
+        {!useCollapsibleNav && (
+          <BrandingBarTitle>{SITE_TITLE}</BrandingBarTitle>
+        )}
       </BrandingBarHeader>
-      <BrandingBarLinkContainer>
-        <BrandingBarLinksList>
-          <BrandingBarLink>
-            <LinkPill href="#">Share</LinkPill>
-          </BrandingBarLink>
-          <BrandingBarLink>
-            <LinkPill href="#">Download Data</LinkPill>
-          </BrandingBarLink>
-        </BrandingBarLinksList>
-      </BrandingBarLinkContainer>
-    </BrandingBarContainer>
+      {!useCollapsibleNav && (
+        <BrandingBarLinkListWrapper>
+          <BrandingBarLinkList>
+            <BrandingBarLink>
+              <LinkPill href="#">Share</LinkPill>
+            </BrandingBarLink>
+            <BrandingBarLink>
+              <LinkPill href="#">Download Data</LinkPill>
+            </BrandingBarLink>
+          </BrandingBarLinkList>
+        </BrandingBarLinkListWrapper>
+      )}
+      {useCollapsibleNav && (
+        <>
+          <MenuButton {...getToggleProps()}>
+            {isExpanded ? (
+              <Icon src={MenuOpenIconSrc} />
+            ) : (
+              <Icon src={MenuClosedIconSrc} />
+            )}
+          </MenuButton>
+          <CollapsibleMenuWrapper {...getCollapseProps()}>
+            <NavBar large />
+          </CollapsibleMenuWrapper>
+        </>
+      )}
+    </BrandingBarWrapper>
   );
 }

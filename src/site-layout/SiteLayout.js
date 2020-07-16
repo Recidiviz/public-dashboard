@@ -1,15 +1,14 @@
+import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import BrandingBar from "../branding-bar";
-import { CONTAINER_WIDTH } from "../constants";
+import { CONTAINER_WIDTH, FIXED_HEADER_HEIGHT, X_PADDING } from "../constants";
 import Footer from "../footer";
 import NavBar from "../nav-bar";
 import PageRoutes from "../page-routes";
 
 const NAV_WIDTH = 150;
-
-const X_PADDING = 8;
 
 const SiteContainer = styled.div`
   width: 100%;
@@ -26,7 +25,12 @@ const BodyWrapper = styled.div`
 
 const BrandingBarWrapper = styled.div`
   flex: 0 0 auto;
+  margin-bottom: 64px;
+  min-height: ${FIXED_HEADER_HEIGHT}px;
   width: 100%;
+  z-index: ${(props) => props.theme.zIndex.header};
+
+  ${mediaQuery(["mobile-", "margin-bottom: 16px;"])}
 `;
 
 const NavBarWrapper = styled.div`
@@ -51,6 +55,8 @@ const FooterWrapper = styled.div`
 `;
 
 function SiteLayout({ tenantId }) {
+  const showNav = useBreakpoint(false, ["tablet+", true]);
+
   return (
     <SiteContainer>
       <BodyWrapper>
@@ -59,9 +65,11 @@ function SiteLayout({ tenantId }) {
         </BrandingBarWrapper>
         {tenantId && (
           <>
-            <NavBarWrapper>
-              <NavBar />
-            </NavBarWrapper>
+            {showNav && (
+              <NavBarWrapper>
+                <NavBar />
+              </NavBarWrapper>
+            )}
             <MainContentWrapper>
               <PageRoutes />
             </MainContentWrapper>
