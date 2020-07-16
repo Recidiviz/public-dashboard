@@ -1,5 +1,11 @@
 export const DEFAULT_TENANT = "us_nd";
 
+export const TENANTS = {
+  us_nd: {
+    aspectRatio: 5 / 3,
+  },
+};
+
 export const PATHS = {
   overview: "overview",
   parole: "parole",
@@ -152,6 +158,7 @@ const darkGreen5 = "#7EA8A6";
 const darkGreen4 = "#97B9B7";
 const darkerGreen = "#00413E";
 const darkGray = "#5A6575";
+const darkerGray = "#403F3F";
 const lightGray = "#ECEDEF";
 const medGray = "#707F96";
 const white = "#fff";
@@ -188,6 +195,7 @@ export const THEME = {
     pillBackground: lightGray,
     pillValue: darkGray,
     monthlyTimeseriesBar: darkGreen5,
+    programParticipation: darkerGray,
     race: {
       AMERICAN_INDIAN_ALASKAN_NATIVE: darkGreen,
       ASIAN: darkGreen9,

@@ -1,0 +1,320 @@
+[
+  {
+    "state_code": "US_ND",
+    "county_code": "ADAMS",
+    "judicial_district_code": "SOUTHWEST",
+    "program_region_code": 8
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "BARNES",
+    "judicial_district_code": "SOUTHEAST",
+    "program_region_code": 6
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "BENSON",
+    "judicial_district_code": "NORTHEAST",
+    "program_region_code": 3
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "BILLINGS",
+    "judicial_district_code": "SOUTHWEST",
+    "program_region_code": 8
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "BOTTINEAU",
+    "judicial_district_code": "NORTHEAST",
+    "program_region_code": 2
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "BOWMAN",
+    "judicial_district_code": "SOUTHWEST",
+    "program_region_code": 8
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "BURKE",
+    "judicial_district_code": "NORTH_CENTRAL",
+    "program_region_code": 2
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "BURLEIGH",
+    "judicial_district_code": "SOUTH_CENTRAL",
+    "program_region_code": 7
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "CASS",
+    "judicial_district_code": "EAST_CENTRAL",
+    "program_region_code": 5
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "CAVALIER",
+    "judicial_district_code": "NORTHEAST",
+    "program_region_code": 3
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "DICKEY",
+    "judicial_district_code": "SOUTHEAST",
+    "program_region_code": 6
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "DIVIDE",
+    "judicial_district_code": "NORTHWEST",
+    "program_region_code": 1
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "DUNN",
+    "judicial_district_code": "SOUTHWEST",
+    "program_region_code": 8
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "EDDY",
+    "judicial_district_code": "SOUTHEAST",
+    "program_region_code": 3
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "EMMONS",
+    "judicial_district_code": "SOUTH_CENTRAL",
+    "program_region_code": 7
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "FOSTER",
+    "judicial_district_code": "SOUTHEAST",
+    "program_region_code": 6
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "GOLDEN_VALLEY",
+    "judicial_district_code": "SOUTHWEST",
+    "program_region_code": 8
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "GRAND_FORKS",
+    "judicial_district_code": "NORTHEAST_CENTRAL",
+    "program_region_code": 4
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "GRANT",
+    "judicial_district_code": "SOUTH_CENTRAL",
+    "program_region_code": 7
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "GRIGGS",
+    "judicial_district_code": "SOUTHEAST",
+    "program_region_code": 6
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "HETTINGER",
+    "judicial_district_code": "SOUTHWEST",
+    "program_region_code": 8
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "KIDDER",
+    "judicial_district_code": "SOUTH_CENTRAL",
+    "program_region_code": 6
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "LAMOURE",
+    "judicial_district_code": "SOUTHEAST",
+    "program_region_code": 6
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "LOGAN",
+    "judicial_district_code": "SOUTH_CENTRAL",
+    "program_region_code": 6
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "MCHENRY",
+    "judicial_district_code": "NORTHEAST",
+    "program_region_code": 2
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "MCINTOSH",
+    "judicial_district_code": "SOUTH_CENTRAL",
+    "program_region_code": 6
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "MCKENZIE",
+    "judicial_district_code": "NORTHWEST",
+    "program_region_code": 1
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "MCLEAN",
+    "judicial_district_code": "SOUTH_CENTRAL",
+    "program_region_code": 7
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "MERCER",
+    "judicial_district_code": "SOUTH_CENTRAL",
+    "program_region_code": 7
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "MORTON",
+    "judicial_district_code": "SOUTH_CENTRAL",
+    "program_region_code": 7
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "MOUNTRAIL",
+    "judicial_district_code": "NORTH_CENTRAL",
+    "program_region_code": 2
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "NELSON",
+    "judicial_district_code": "NORTHEAST_CENTRAL",
+    "program_region_code": 4
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "OLIVER",
+    "judicial_district_code": "SOUTH_CENTRAL",
+    "program_region_code": 7
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "PEMBINA",
+    "judicial_district_code": "NORTHEAST",
+    "program_region_code": 4
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "PIERCE",
+    "judicial_district_code": "NORTHEAST",
+    "program_region_code": 2
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "RAMSEY",
+    "judicial_district_code": "NORTHEAST",
+    "program_region_code": 3
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "RANSOM",
+    "judicial_district_code": "SOUTHEAST",
+    "program_region_code": 5
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "RENVILLE",
+    "judicial_district_code": "NORTHEAST",
+    "program_region_code": 2
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "RICHLAND",
+    "judicial_district_code": "SOUTHEAST",
+    "program_region_code": 5
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "ROLETTE",
+    "judicial_district_code": "NORTHEAST",
+    "program_region_code": 3
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "SARGENT",
+    "judicial_district_code": "SOUTHEAST",
+    "program_region_code": 5
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "SHERIDAN",
+    "judicial_district_code": "SOUTH_CENTRAL",
+    "program_region_code": 7
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "SIOUX",
+    "judicial_district_code": "SOUTH_CENTRAL",
+    "program_region_code": 7
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "SLOPE",
+    "judicial_district_code": "SOUTHWEST",
+    "program_region_code": 8
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "STARK",
+    "judicial_district_code": "SOUTHWEST",
+    "program_region_code": 8
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "STEELE",
+    "judicial_district_code": "EAST_CENTRAL",
+    "program_region_code": 5
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "STUTSMAN",
+    "judicial_district_code": "SOUTHEAST",
+    "program_region_code": 6
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "TOWNER",
+    "judicial_district_code": "NORTHEAST",
+    "program_region_code": 3
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "TRAILL",
+    "judicial_district_code": "EAST_CENTRAL",
+    "program_region_code": 5
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "WALSH",
+    "judicial_district_code": "NORTHEAST",
+    "program_region_code": 4
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "WARD",
+    "judicial_district_code": "NORTH_CENTRAL",
+    "program_region_code": 2
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "WELLS",
+    "judicial_district_code": "SOUTHEAST",
+    "program_region_code": 6
+  },
+  {
+    "state_code": "US_ND",
+    "county_code": "WILLIAMS",
+    "judicial_district_code": "NORTHWEST",
+    "program_region_code": 1
+  }
+]

@@ -11,11 +11,11 @@ import {
 import styled from "styled-components";
 import { mesh } from "topojson";
 import ndGeography from "../assets/maps/us_nd.json";
-import { THEME, TOTAL_KEY } from "../constants";
+import { DEFAULT_TENANT, TENANTS, THEME, TOTAL_KEY } from "../constants";
 
 const MAX_MARKER_RADIUS = 19;
 
-const ND_ASPECT_RATIO = 5 / 3;
+const ASPECT_RATIO = TENANTS[DEFAULT_TENANT].aspectRatio;
 
 const StateDistrictMapContainer = styled.div`
   margin-bottom: 20px;
@@ -70,7 +70,7 @@ export default function StateDistrictMap({
   const ND_PROJECTION = geoAlbers().fitExtent(
     [
       [0, 0],
-      [width, width / ND_ASPECT_RATIO],
+      [width, width / ASPECT_RATIO],
     ],
     mesh(ndGeography)
   );
@@ -80,7 +80,7 @@ export default function StateDistrictMap({
       <ComposableMap
         projection={ND_PROJECTION}
         width={width}
-        height={width / ND_ASPECT_RATIO}
+        height={width / ASPECT_RATIO}
         style={{
           height: "auto",
           overflow: "visible",
