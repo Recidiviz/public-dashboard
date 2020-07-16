@@ -3,9 +3,11 @@ import DetailPage from "../detail-page";
 // once the backend is in place, stop using these test files
 import parolePopulationData from "../assets/test_data/US_ND_parole_population_by_district_by_demographics.json";
 import paroleDistrictOffices from "../assets/test_data/US_ND_site_offices.json";
+import supervisionProgramParticipationByRegion from "../assets/test_data/US_ND_active_program_participation_by_region.json";
 import supervisionRevocationByMonth from "../assets/test_data/US_ND_supervision_revocations_by_month_by_type_by_demographics.json";
 import supervisionSuccessByMonth from "../assets/test_data/US_ND_supervision_success_by_month.json";
 import VizParolePopulation from "../viz-parole-population";
+import VizParoleProgram from "../viz-parole-program";
 import VizParoleRevocation from "../viz-parole-revocation";
 import VizParoleSuccess from "../viz-parole-success";
 import { SUPERVISION_TYPES } from "../constants";
@@ -67,9 +69,12 @@ const SECTIONS = [
     Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
     ipsum dui gravida.`,
-    showDimensionControl: true,
-    VizComponent: () => null,
-    vizData: {},
+    VizComponent: VizParoleProgram,
+    vizData: {
+      paroleProgramParticipationByRegion: supervisionProgramParticipationByRegion.filter(
+        recordIsParole
+      ),
+    },
   },
 ];
 
