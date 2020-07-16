@@ -17,6 +17,8 @@ const brandingBarFlexProperties = css`
 
 const ICON_SIZE = "26px";
 
+const Y_MARGIN = "12px";
+
 const brandingBarFixedStyles = `
   left: 0;
   min-height: ${FIXED_HEADER_HEIGHT}px;
@@ -52,7 +54,7 @@ const Icon = styled.img`
 `;
 
 const Logo = styled(Icon)`
-  margin: 12px 0;
+  margin: ${Y_MARGIN} 0;
 `;
 
 const BrandingBarTitle = styled.h1`
@@ -74,7 +76,7 @@ const BrandingBarTitle = styled.h1`
 const BrandingBarLinkListWrapper = styled.div`
   align-items: center;
   display: flex;
-  margin-top: ${(props) => (props.collapsible ? "16px" : 0)};
+  margin-top: ${(props) => (props.collapsible ? "16px" : Y_MARGIN)};
   order: ${(props) => (props.collapsible ? 2 : 0)};
 `;
 
@@ -97,22 +99,30 @@ const BrandingBarLink = styled.li`
 const MenuButton = styled.button`
   background: none;
   border: none;
-  margin: 12px 0;
+  margin: ${Y_MARGIN} 0;
 `;
 
 const CollapsibleMenuWrapper = styled.div`
   background: ${(props) => props.theme.colors.background};
   height: calc(100vh - ${FIXED_HEADER_HEIGHT}px);
-  margin-top: 32px;
   order: 3;
   width: 100%;
+`;
+
+const NavBarWrapper = styled.div`
+  margin-top: 32px;
 `;
 
 const SITE_TITLE = "North Dakota Corrections";
 
 export default function BrandingBar() {
   const useCollapsibleNav = useBreakpoint(false, ["mobile-", true]);
-  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
+  const {
+    getCollapseProps,
+    getToggleProps,
+    isExpanded,
+    setExpanded,
+  } = useCollapse();
 
   return (
     <BrandingBarWrapper>
@@ -150,7 +160,9 @@ export default function BrandingBar() {
             )}
           </MenuButton>
           <CollapsibleMenuWrapper {...getCollapseProps()}>
-            <NavBar large />
+            <NavBarWrapper>
+              <NavBar large onClick={() => setExpanded(false)} />
+            </NavBarWrapper>
           </CollapsibleMenuWrapper>
         </>
       )}

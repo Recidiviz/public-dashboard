@@ -46,32 +46,40 @@ const addLinkClasses = ({ isCurrent }) => ({
   }),
 });
 
-export default function NavBar({ large }) {
+export default function NavBar({ large, onClick }) {
   return (
     <NavContainer>
       <NavList large={large}>
         <NavItem>
-          <Link getProps={addLinkClasses} to={PATHS.overview}>
+          <Link getProps={addLinkClasses} to={PATHS.overview} onClick={onClick}>
             Overview
           </Link>
         </NavItem>
         <NavItem>
-          <Link getProps={addLinkClasses} to={PATHS.sentencing}>
+          <Link
+            getProps={addLinkClasses}
+            to={PATHS.sentencing}
+            onClick={onClick}
+          >
             Sentencing
           </Link>
         </NavItem>
         <NavItem>
-          <Link getProps={addLinkClasses} to={PATHS.prison}>
+          <Link getProps={addLinkClasses} to={PATHS.prison} onClick={onClick}>
             Prison
           </Link>
         </NavItem>
         <NavItem>
-          <Link getProps={addLinkClasses} to={PATHS.probation}>
+          <Link
+            getProps={addLinkClasses}
+            to={PATHS.probation}
+            onClick={onClick}
+          >
             Probation
           </Link>
         </NavItem>
         <NavItem>
-          <Link getProps={addLinkClasses} to={PATHS.parole}>
+          <Link getProps={addLinkClasses} to={PATHS.parole} onClick={onClick}>
             Parole
           </Link>
         </NavItem>
@@ -82,8 +90,10 @@ export default function NavBar({ large }) {
 
 NavBar.propTypes = {
   large: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 NavBar.defaultProps = {
   large: false,
+  onClick: undefined,
 };
