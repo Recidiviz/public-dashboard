@@ -16,7 +16,7 @@ import ProportionalBar from "../proportional-bar";
 import {
   demographicsAscending,
   formatDemographicValue,
-  recordIsTotal,
+  recordIsTotalByDimension,
 } from "../utils";
 
 const HEIGHT = 450;
@@ -117,17 +117,6 @@ function splitByViolationType(record) {
     .sort((a, b) => ascending(a.label, b.label));
 }
 
-function recordIsTotalByDimension(dimension) {
-  const keysEnum = { ...DIMENSION_DATA_KEYS };
-  delete keysEnum[dimension];
-  const otherDataKeys = Object.values(keysEnum);
-  return (record) =>
-    // filter out totals
-    record[DIMENSION_DATA_KEYS[dimension]] !== TOTAL_KEY &&
-    // filter out subset permutations
-    otherDataKeys.every((key) => record[key] === TOTAL_KEY);
-}
-
 export default function VizParoleRevocationContainer({
   data: { paroleRevocationByMonth },
   month,
@@ -147,7 +136,9 @@ export default function VizParoleRevocationContainer({
   const currentMonthData = new Map();
 
   if (dimension === DIMENSION_KEYS.total) {
-    const monthlyTotals = monthlyData.get(month).find(recordIsTotal);
+    const monthlyTotals = monthlyData
+      .get(month)
+      .find(recordIsTotalByDimension(dimension));
 
     currentMonthData.set(TOTAL_KEY, splitByViolationType(monthlyTotals));
   } else {

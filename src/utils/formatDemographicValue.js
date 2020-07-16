@@ -1,5 +1,11 @@
-import { DIMENSION_MAPPINGS } from "../constants";
+import {
+  DIMENSION_KEYS,
+  DIMENSION_LABELS,
+  DIMENSION_MAPPINGS,
+} from "../constants";
 
 export default function formatDemographicValue(val, dimensionType) {
-  return DIMENSION_MAPPINGS.get(dimensionType).get(val);
+  return dimensionType === DIMENSION_KEYS.total
+    ? DIMENSION_LABELS[DIMENSION_KEYS.total]
+    : DIMENSION_MAPPINGS.get(dimensionType).get(val);
 }
