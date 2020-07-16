@@ -1780,6 +1780,11 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
+"@w11r/use-breakpoint@^1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@w11r/use-breakpoint/-/use-breakpoint-1.7.0.tgz#3a03cb912ef71b7cd5e6e7bf2f6c0aec69fd0cba"
+  integrity sha512-i33XDEI0h+X7MBNi1pLrsT2nLlxYCBGSGZHBGZYm2JkUTRy3brAvkqLoUexTfj4qKDC89qY1QcGLn4AcLcVR4Q==
+
 "@webassemblyjs/ast@1.8.5":
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.8.5.tgz#51b1c5fe6576a34953bf4b253df9f0d490d9e359"
@@ -9433,6 +9438,14 @@ react-aria-menubutton@^7.0.0:
     prop-types "^15.6.0"
     teeny-tap "^0.2.0"
 
+react-collapsed@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-collapsed/-/react-collapsed-3.0.0.tgz#75da88b7dbdc7f63f4d7c5ea1818ec84f4768483"
+  integrity sha512-/ZY1jaI+Woqd900dfiykTrm4zhGOvv7MTjbOB377joUdcEIiR6O90g0DvEFBI4IbBHv5rquYWwJG6Qtr0DuVJw==
+  dependencies:
+    raf "^3.4.1"
+    tiny-warning "^1.0.3"
+
 react-dev-utils@^10.2.1:
   version "10.2.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-10.2.1.tgz#f6de325ae25fa4d546d09df4bb1befdc6dd19c19"
@@ -11091,6 +11104,11 @@ timsort@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
+
+tiny-warning@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/tiny-warning/-/tiny-warning-1.0.3.tgz#94a30db453df4c643d0fd566060d60a875d84754"
+  integrity sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==
 
 tinyqueue@^1.1.0:
   version "1.2.3"

@@ -117,6 +117,16 @@ export const DIMENSION_MAPPINGS = new Map([
 ]);
 
 export const CONTAINER_WIDTH = 1144;
+export const X_PADDING = 8;
+export const FIXED_HEADER_HEIGHT = 50;
+
+// these are overrides to defaults in @w11r/use-breakpoint
+export const CUSTOM_BREAKPOINTS = {
+  mobile: [320, 767],
+  tablet: [768, 1023],
+  desktop: [1024, 1279],
+  xl: [1280, 10000],
+};
 
 const bodyFontFamily = "'Libre Franklin', sans-serif";
 const bodyFontSize = "12px";
@@ -210,6 +220,8 @@ export const THEME = {
     display: displayBold,
     displayMedium,
     displayNormal,
+    brandSizeSmall: "14px",
+    brandSizeLarge: "22px",
   },
   maps: {
     // these are style objects that we can pass directly to react-simple-maps
@@ -233,10 +245,15 @@ export const THEME = {
       fill: darkGreen,
     },
   },
+  transition: {
+    defaultDuration: "0.5s",
+    defaultEasing: "ease-in-out",
+  },
   zIndex: {
     base: 1,
     menu: 10,
     tooltip: 50,
+    header: 75,
     modal: 100,
   },
 };
