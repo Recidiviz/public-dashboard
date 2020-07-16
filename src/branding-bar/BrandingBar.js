@@ -70,7 +70,6 @@ const BrandingBarTitle = styled.h1`
   transition: all
     ${(props) =>
       `${props.theme.transition.defaultDuration} ${props.theme.transition.defaultEasing}`};
-  width: ${(props) => (props.small ? "110px" : "auto")};
 `;
 
 const BrandingBarLinkListWrapper = styled.div`
@@ -78,6 +77,7 @@ const BrandingBarLinkListWrapper = styled.div`
   display: flex;
   margin-top: ${(props) => (props.collapsible ? "16px" : Y_MARGIN)};
   order: ${(props) => (props.collapsible ? 2 : 0)};
+  width: ${(props) => (props.collapsible ? "100%" : "auto")};
 `;
 
 const BrandingBarLinkList = styled.ul`

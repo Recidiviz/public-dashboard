@@ -114,6 +114,14 @@ export const CONTAINER_WIDTH = 1144;
 export const X_PADDING = 8;
 export const FIXED_HEADER_HEIGHT = 50;
 
+// these are overrides to defaults in @w11r/use-breakpoint
+export const CUSTOM_BREAKPOINTS = {
+  mobile: [320, 767],
+  tablet: [768, 1023],
+  desktop: [1024, 1279],
+  xl: [1280, 10000],
+};
+
 const bodyFontFamily = "'Libre Franklin', sans-serif";
 const bodyFontSize = "12px";
 const bodyLineHeight = 1.5;
