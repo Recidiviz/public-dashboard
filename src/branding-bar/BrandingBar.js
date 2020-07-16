@@ -15,6 +15,8 @@ const brandingBarFlexProperties = css`
   display: flex;
 `;
 
+const ICON_SIZE = "26px";
+
 const brandingBarFixedStyles = `
   left: 0;
   min-height: ${FIXED_HEADER_HEIGHT}px;
@@ -25,6 +27,7 @@ const brandingBarFixedStyles = `
 `;
 
 const BrandingBarWrapper = styled.header`
+  align-items: flex-start;
   background: ${(props) => props.theme.colors.background};
   display: flex;
   flex-wrap: wrap;
@@ -35,24 +38,44 @@ const BrandingBarWrapper = styled.header`
 
 const BrandingBarHeader = styled.div`
   ${brandingBarFlexProperties}
+
+  ${(props) => (props.collapsible ? "align-items: center;" : "")}
+  margin-top: ${(props) => (props.expanded ? `${FIXED_HEADER_HEIGHT}px` : 0)};
+  transition: all
+    ${(props) =>
+      `${props.theme.transition.defaultDuration} ${props.theme.transition.defaultEasing}`};
 `;
 
-const Logo = styled.img`
+const Icon = styled.img`
+  height: ${ICON_SIZE};
+  width: ${ICON_SIZE};
+`;
+
+const Logo = styled(Icon)`
   margin: 12px 0;
 `;
-
-const Icon = styled.img``;
 
 const BrandingBarTitle = styled.h1`
   color: ${(props) => props.theme.colors.heading};
   font: ${(props) => props.theme.fonts.display};
-  display: inline;
+  font-size: ${(props) =>
+    props.small
+      ? props.theme.fonts.brandSizeSmall
+      : props.theme.fonts.brandSizeLarge};
+  display: inline-block;
   margin-left: 16px;
+  opacity: ${(props) => (props.hide ? 0 : 1)};
+  transition: all
+    ${(props) =>
+      `${props.theme.transition.defaultDuration} ${props.theme.transition.defaultEasing}`};
+  width: ${(props) => (props.small ? "110px" : "auto")};
 `;
 
 const BrandingBarLinkListWrapper = styled.div`
   align-items: center;
   display: flex;
+  margin-top: ${(props) => (props.collapsible ? "16px" : 0)};
+  order: ${(props) => (props.collapsible ? 2 : 0)};
 `;
 
 const BrandingBarLinkList = styled.ul`
@@ -74,11 +97,14 @@ const BrandingBarLink = styled.li`
 const MenuButton = styled.button`
   background: none;
   border: none;
+  margin: 12px 0;
 `;
 
 const CollapsibleMenuWrapper = styled.div`
   background: ${(props) => props.theme.colors.background};
   height: calc(100vh - ${FIXED_HEADER_HEIGHT}px);
+  margin-top: 32px;
+  order: 3;
   width: 100%;
 `;
 
@@ -90,14 +116,20 @@ export default function BrandingBar() {
 
   return (
     <BrandingBarWrapper>
-      <BrandingBarHeader>
+      <BrandingBarHeader
+        collapsible={useCollapsibleNav}
+        expanded={useCollapsibleNav && isExpanded}
+      >
         <Logo alt="Recidiviz" src={LogoIconSrc} />
-        {!useCollapsibleNav && (
-          <BrandingBarTitle>{SITE_TITLE}</BrandingBarTitle>
-        )}
+        <BrandingBarTitle
+          hide={useCollapsibleNav && !isExpanded}
+          small={useCollapsibleNav}
+        >
+          {SITE_TITLE}
+        </BrandingBarTitle>
       </BrandingBarHeader>
-      {!useCollapsibleNav && (
-        <BrandingBarLinkListWrapper>
+      {(!useCollapsibleNav || isExpanded) && (
+        <BrandingBarLinkListWrapper collapsible={useCollapsibleNav}>
           <BrandingBarLinkList>
             <BrandingBarLink>
               <LinkPill href="#">Share</LinkPill>

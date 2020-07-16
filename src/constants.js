@@ -204,6 +204,8 @@ export const THEME = {
     display: displayBold,
     displayMedium,
     displayNormal,
+    brandSizeSmall: "14px",
+    brandSizeLarge: "22px",
   },
   maps: {
     // these are style objects that we can pass directly to react-simple-maps
@@ -226,6 +228,10 @@ export const THEME = {
     pressed: {
       fill: darkGreen,
     },
+  },
+  transition: {
+    defaultDuration: "0.5s",
+    defaultEasing: "ease-in-out",
   },
   zIndex: {
     base: 1,
