@@ -1,6 +1,7 @@
+import { group, sum } from "d3-array";
 import PropTypes from "prop-types";
 import React from "react";
-import { group, sum } from "d3-array";
+import Measure from "react-measure";
 import styled from "styled-components";
 import {
   DIMENSION_DATA_KEYS,
@@ -28,14 +29,28 @@ const VizParolePopulationContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  width: 100%;
 `;
 
+const GUTTER_WIDTH = "56px";
+
 const VizWrapper = styled.div`
-  flex: 0 1 49%;
+  align-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  margin-bottom: 24px;
+  min-width: 340px;
+  width: calc((100% - ${GUTTER_WIDTH}) / 2);
+`;
+
+const Gutter = styled.div`
+  height: 1px;
+  width: ${GUTTER_WIDTH};
 `;
 
 const MapWrapper = styled.figure`
   margin: 0;
+  width: 100%;
 `;
 
 const MapCaption = styled.figcaption`
@@ -46,7 +61,6 @@ const MapCaption = styled.figcaption`
 const ParoleDemographicsWrapper = styled.div`
   height: 100%;
   margin: 0;
-  padding-left: 56px;
   width: 100%;
 `;
 
@@ -156,15 +170,26 @@ export default function VizParolePopulation({
   return (
     <VizParolePopulationContainer>
       <VizWrapper>
-        <MapWrapper>
-          <StateDistrictMap
-            data={districtTotals}
-            currentDistrict={districtId}
-            onDistrictClick={onDistrictClick}
-          />
-          <MapCaption>Parole districts in North Dakota</MapCaption>
-        </MapWrapper>
+        <Measure bounds>
+          {({
+            measureRef,
+            contentRect: {
+              bounds: { width },
+            },
+          }) => (
+            <MapWrapper ref={measureRef}>
+              <StateDistrictMap
+                data={districtTotals}
+                currentDistrict={districtId}
+                onDistrictClick={onDistrictClick}
+                width={width}
+              />
+              <MapCaption>Parole districts in North Dakota</MapCaption>
+            </MapWrapper>
+          )}
+        </Measure>
       </VizWrapper>
+      <Gutter />
       <VizWrapper>
         <ParoleDemographicsWrapper>
           <ParoleDemographicsDistrictCount

@@ -9,6 +9,8 @@ import PageRoutes from "../page-routes";
 
 const NAV_WIDTH = 150;
 
+const X_PADDING = 8;
+
 const SiteContainer = styled.div`
   width: 100%;
 `;
@@ -19,6 +21,7 @@ const BodyWrapper = styled.div`
   flex-wrap: wrap;
   margin: 0 auto;
   max-width: ${CONTAINER_WIDTH}px;
+  padding: 0 ${X_PADDING}px;
 `;
 
 const BrandingBarWrapper = styled.div`
@@ -42,6 +45,8 @@ const MainContentWrapper = styled.div`
 `;
 
 const FooterWrapper = styled.div`
+  background: ${(props) => props.theme.colors.footerBackground};
+  padding: 0 ${X_PADDING}px;
   width: 100%;
 `;
 
