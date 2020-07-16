@@ -1,9 +1,17 @@
 import { Router, Redirect } from "@reach/router";
+import { setup as setupBreakpoints } from "@w11r/use-breakpoint";
 import React from "react";
 import { ThemeProvider } from "styled-components";
 import SiteStyles from "./site-styles";
-import { DEFAULT_TENANT, THEME } from "./constants";
+import { CUSTOM_BREAKPOINTS, DEFAULT_TENANT, THEME } from "./constants";
 import SiteLayout from "./site-layout";
+
+// set custom breakpoints for media queries
+setupBreakpoints({
+  breakpoints: {
+    ...CUSTOM_BREAKPOINTS,
+  },
+});
 
 function App() {
   // eventually it will be possible to change this;
