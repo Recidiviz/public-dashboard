@@ -23,7 +23,6 @@ const StateDistrictMapContainer = styled.div`
 
 const DistrictMarker = styled.circle`
   cursor: pointer;
-
   fill: ${(props) =>
     props.selected
       ? props.theme.mapMarkers.hover.fill
@@ -31,6 +30,7 @@ const DistrictMarker = styled.circle`
   fill-opacity: ${(props) => props.theme.mapMarkers.default.fillOpacity};
   stroke: ${(props) => props.theme.mapMarkers.default.stroke};
   stroke-width: ${(props) => props.theme.mapMarkers.default.strokeWidth};
+  transition: ${(props) => props.theme.mapMarkers.default.transition};
 
   &:hover {
     fill: ${(props) => props.theme.mapMarkers.hover.fill};

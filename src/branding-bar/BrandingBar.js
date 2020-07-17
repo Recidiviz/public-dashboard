@@ -43,9 +43,7 @@ const BrandingBarHeader = styled.div`
 
   ${(props) => (props.collapsible ? "align-items: center;" : "")}
   margin-top: ${(props) => (props.expanded ? `${FIXED_HEADER_HEIGHT}px` : 0)};
-  transition: all
-    ${(props) =>
-      `${props.theme.transition.defaultDuration} ${props.theme.transition.defaultEasing}`};
+  transition: all ${(props) => props.theme.transition.defaultTimeSettings};
 `;
 
 const Icon = styled.img`
@@ -67,9 +65,7 @@ const BrandingBarTitle = styled.h1`
   display: inline-block;
   margin-left: 16px;
   opacity: ${(props) => (props.hide ? 0 : 1)};
-  transition: all
-    ${(props) =>
-      `${props.theme.transition.defaultDuration} ${props.theme.transition.defaultEasing}`};
+  transition: all ${(props) => props.theme.transition.defaultTimeSettings};
 `;
 
 const BrandingBarLinkListWrapper = styled.div`

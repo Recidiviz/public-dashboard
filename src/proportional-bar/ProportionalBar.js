@@ -17,6 +17,19 @@ const ProportionalBarChartWrapper = styled.div`
   height: 100%;
   position: relative;
   z-index: ${(props) => props.theme.zIndex.base + 1};
+
+  .ProportionalBarChart__segment {
+    stroke: ${(props) => props.theme.colors.background};
+    stroke-width: 2;
+
+    &:hover {
+      fill: ${(props) => props.theme.colors.highlight};
+      /* the hover target is actually an invisible overlay, this reveals it */
+      opacity: 1 !important;
+      transition: opacity
+        ${(props) => props.theme.transition.defaultTimeSettings};
+    }
+  }
 `;
 
 const ProportionalBarMetadata = styled.figcaption`
@@ -53,6 +66,7 @@ export default function ProportionalBar({ data, height, showLegend, title }) {
           data={dataWithPct}
           margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
           oAccessor={() => title}
+          pieceClass="ProportionalBarChart__segment"
           pieceHoverAnnotation
           projection="horizontal"
           rAccessor="value"
