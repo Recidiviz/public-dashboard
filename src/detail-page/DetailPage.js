@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { ascending } from "d3-array";
 import { TOTAL_KEY } from "../constants";
-import { DimensionControl, MonthControl, DistrictControl } from "../controls";
+import { DimensionControl, MonthControl, OfficeControl } from "../controls";
 
 const PageContainer = styled.article``;
 const HeadingContainer = styled.header``;
@@ -68,7 +68,7 @@ function DetailSection({
   title,
   description,
   showDimensionControl,
-  showDistrictControl,
+  showOfficeControl,
   showMonthControl,
   VizComponent,
   vizData,
@@ -80,9 +80,9 @@ function DetailSection({
   // for parsing its data and updating this value
   const [monthList, setMonthList] = useState();
 
-  let initialDistrictList;
-  if (showDistrictControl && vizData.districtOffices) {
-    initialDistrictList = vizData.districtOffices
+  let initialOfficeList;
+  if (showOfficeControl && vizData.paroleOffices) {
+    initialOfficeList = vizData.paroleOffices
       .map((record) => {
         return {
           id: `${record.district}`,
@@ -91,10 +91,10 @@ function DetailSection({
       })
       .sort((a, b) => ascending(a.label, b.label));
 
-    initialDistrictList.unshift({ id: TOTAL_KEY, label: "All" });
+    initialOfficeList.unshift({ id: TOTAL_KEY, label: "All" });
   }
-  const [districtList] = useState(initialDistrictList);
-  const [districtId, setDistrictId] = useState();
+  const [officeList] = useState(initialOfficeList);
+  const [officeId, setOfficeId] = useState();
 
   return (
     <DetailSectionContainer>
@@ -105,12 +105,12 @@ function DetailSection({
             <MonthControl months={monthList} onChange={setMonth} />
           )}
           {
-            // we need both a flag and data to enable district control
-            showDistrictControl && districtList && (
-              <DistrictControl
-                districts={districtList}
-                onChange={setDistrictId}
-                value={districtId}
+            // we need both a flag and data to enable office control
+            showOfficeControl && officeList && (
+              <OfficeControl
+                offices={officeList}
+                onChange={setOfficeId}
+                value={officeId}
               />
             )
           }
@@ -121,8 +121,8 @@ function DetailSection({
       <DetailSectionVizContainer>
         <VizComponent
           data={vizData}
-          {...{ dimension, month, districtId, setMonthList }}
-          onDistrictClick={setDistrictId}
+          {...{ dimension, month, officeId, setMonthList }}
+          onOfficeClick={setOfficeId}
         />
       </DetailSectionVizContainer>
     </DetailSectionContainer>
@@ -134,7 +134,7 @@ DetailSection.propTypes = {
   description: PropTypes.string.isRequired,
   showDimensionControl: PropTypes.bool,
   showMonthControl: PropTypes.bool,
-  showDistrictControl: PropTypes.bool,
+  showOfficeControl: PropTypes.bool,
   VizComponent: PropTypes.func.isRequired,
   vizData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
 };
@@ -142,7 +142,7 @@ DetailSection.propTypes = {
 DetailSection.defaultProps = {
   showDimensionControl: false,
   showMonthControl: false,
-  showDistrictControl: false,
+  showOfficeControl: false,
 };
 
 export default function DetailPage({ title, description, sections }) {

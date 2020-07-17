@@ -17,11 +17,11 @@ const MAX_MARKER_RADIUS = 19;
 
 const ASPECT_RATIO = TENANTS[DEFAULT_TENANT].aspectRatio;
 
-const StateDistrictMapContainer = styled.div`
+const StateOfficeMapContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-const DistrictMarker = styled.circle`
+const OfficeMarker = styled.circle`
   cursor: pointer;
 
   fill: ${(props) =>
@@ -41,10 +41,10 @@ const DistrictMarker = styled.circle`
   }
 `;
 
-export default function StateDistrictMap({
-  currentDistrict,
+export default function StateOfficeMap({
+  currentOffice,
   data,
-  onDistrictClick,
+  onOfficeClick,
   width,
 }) {
   const maxValue = Math.max(...data.map(({ value }) => value));
@@ -54,17 +54,17 @@ export default function StateDistrictMap({
     .domain([0, maxValue])
     .range([0, MAX_MARKER_RADIUS]);
 
-  const handleDistrictClick = (e, record) => {
+  const handleOfficeClick = (e, record) => {
     e.preventDefault();
     e.stopPropagation();
-    onDistrictClick(record.district);
+    onOfficeClick(record.office);
   };
 
   const handleCountyClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    // clear the current district selection
-    onDistrictClick(TOTAL_KEY);
+    // clear the current office selection
+    onOfficeClick(TOTAL_KEY);
   };
 
   const ND_PROJECTION = geoAlbers().fitExtent(
@@ -76,7 +76,7 @@ export default function StateDistrictMap({
   );
 
   return (
-    <StateDistrictMapContainer>
+    <StateOfficeMapContainer>
       <ComposableMap
         projection={ND_PROJECTION}
         width={width}
@@ -100,34 +100,34 @@ export default function StateDistrictMap({
           }}
         </Geographies>
         {data.map((record) => (
-          <Marker key={record.district} coordinates={[record.long, record.lat]}>
-            <DistrictMarker
-              onClick={(e) => handleDistrictClick(e, record)}
+          <Marker key={record.office} coordinates={[record.long, record.lat]}>
+            <OfficeMarker
+              onClick={(e) => handleOfficeClick(e, record)}
               r={markerRadiusScale(record.value)}
-              selected={record.district === currentDistrict}
+              selected={record.office === currentOffice}
             />
           </Marker>
         ))}
       </ComposableMap>
-    </StateDistrictMapContainer>
+    </StateOfficeMapContainer>
   );
 }
 
-StateDistrictMap.propTypes = {
+StateOfficeMap.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      district: PropTypes.string.isRequired,
+      office: PropTypes.string.isRequired,
       lat: PropTypes.number.isRequired,
       long: PropTypes.number.isRequired,
       value: PropTypes.number.isRequired,
     })
   ).isRequired,
-  currentDistrict: PropTypes.string,
-  onDistrictClick: PropTypes.func.isRequired,
+  currentOffice: PropTypes.string,
+  onOfficeClick: PropTypes.func.isRequired,
   width: PropTypes.number,
 };
 
-StateDistrictMap.defaultProps = {
-  currentDistrict: undefined,
+StateOfficeMap.defaultProps = {
+  currentOffice: undefined,
   width: 0,
 };

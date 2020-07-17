@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import Dropdown from "./Dropdown";
 
-export default function DistrictControl({ districts, onChange, value }) {
-  const options = districts.map((district) => {
+export default function OfficeControl({ offices, onChange, value }) {
+  const options = offices.map((office) => {
     return {
-      id: district.id,
-      label: district.label,
+      id: office.id,
+      label: office.label,
     };
   });
 
@@ -20,8 +20,8 @@ export default function DistrictControl({ districts, onChange, value }) {
   );
 }
 
-DistrictControl.propTypes = {
-  districts: PropTypes.arrayOf(
+OfficeControl.propTypes = {
+  offices: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
@@ -31,6 +31,6 @@ DistrictControl.propTypes = {
   value: PropTypes.string,
 };
 
-DistrictControl.defaultProps = {
+OfficeControl.defaultProps = {
   value: undefined,
 };

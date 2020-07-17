@@ -23,11 +23,11 @@ function normalizeMonth(record) {
 
 export default function VizParoleSuccess({
   data: { successByMonth },
-  districtId,
+  officeId,
 }) {
   const chartData = addEmptyMonthsToData({
     dataPoints: successByMonth
-      .filter((record) => record.district === districtId)
+      .filter((record) => record.district === officeId)
       .map(normalizeMonth),
     monthCount: 36,
     valueKey: "success_rate",
@@ -49,9 +49,9 @@ VizParoleSuccess.propTypes = {
       })
     ).isRequired,
   }).isRequired,
-  districtId: PropTypes.string,
+  officeId: PropTypes.string,
 };
 
 VizParoleSuccess.defaultProps = {
-  districtId: undefined,
+  officeId: undefined,
 };
