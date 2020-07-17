@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled, { css } from "styled-components";
-import { CUSTOM_BREAKPOINTS } from "../constants";
+import styled from "styled-components";
+
+import { fluidFontSizeStyles } from "../utils";
 
 const StatisticsWrapper = styled.figure`
   margin: 0;
@@ -9,27 +10,6 @@ const StatisticsWrapper = styled.figure`
 
 const MAX_VALUE_SIZE = "88";
 const MIN_VALUE_SIZE = "24";
-const [mobileMin] = CUSTOM_BREAKPOINTS.mobile;
-const [desktopMin] = CUSTOM_BREAKPOINTS.desktop;
-
-const fluidFontSizeStyles = css`
-  /*
-    Fluid typography technique to scale text size by viewport from min to max
-    https://css-tricks.com/simplified-fluid-typography/
-  */
-  font-size: ${MIN_VALUE_SIZE}px;
-
-  @media screen and (min-width: ${mobileMin}px) {
-    font-size: calc(
-      ${MIN_VALUE_SIZE}px + ${MAX_VALUE_SIZE - MIN_VALUE_SIZE} *
-        ((100vw - ${mobileMin}px) / ${desktopMin - mobileMin})
-    );
-  }
-
-  @media screen and (min-width: ${desktopMin}px) {
-    font-size: ${MAX_VALUE_SIZE}px;
-  }
-`;
 
 const ValueWrapper = styled.h1`
   color: ${(props) => props.theme.colors.statistic};
@@ -39,7 +19,8 @@ const ValueWrapper = styled.h1`
   letter-spacing: -0.05em;
   margin: 0;
 
-  ${(props) => (props.fluidSize ? fluidFontSizeStyles : "")}
+  ${(props) =>
+    props.fluidSize ? fluidFontSizeStyles(MIN_VALUE_SIZE, MAX_VALUE_SIZE) : ""}
 `;
 
 const LabelWrapper = styled.figcaption`

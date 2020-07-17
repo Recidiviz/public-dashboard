@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import { Link } from "@reach/router";
 import classNames from "classnames";
 import React from "react";
-
 import styled from "styled-components";
-import { PATHS } from "../constants";
+
+import { PATHS, ALL_PAGES } from "../constants";
 
 const NavContainer = styled.nav``;
 
@@ -12,12 +12,15 @@ const NavItem = styled.li``;
 
 const NavList = styled.ul`
   font: ${(props) => props.theme.fonts.body};
-  font-size: ${(props) => (props.large ? "24px" : "11px")};
+  font-size: 11px;
   font-weight: 600;
   line-height: 2;
   list-style: none;
   margin: 0;
   padding: 0;
+
+  /* Overrides */
+  ${(props) => props.navigationStyles.ul};
 
   ${NavItem} {
     .NavItem__link {
@@ -30,12 +33,15 @@ const NavList = styled.ul`
         &::after {
           content: "";
           position: absolute;
-          left: calc(100% + ${(props) => (props.large ? 16 : 8)}px);
+          left: calc(100% + 8px);
           top: 50%;
-          width: ${(props) => (props.large ? 56 : 24)}px;
+          width: 24px;
           border-top: 2px solid ${(props) => props.theme.colors.highlight};
         }
       }
+
+      /* Overrides */
+      ${(props) => props.navigationStyles.li};
     }
   }
 `;
@@ -46,54 +52,39 @@ const addLinkClasses = ({ isCurrent }) => ({
   }),
 });
 
-export default function NavBar({ large, onClick }) {
+export default function NavBar({ pages, onClick, navigationStyles, nested }) {
   return (
     <NavContainer>
-      <NavList large={large}>
-        <NavItem>
-          <Link getProps={addLinkClasses} to={PATHS.overview} onClick={onClick}>
-            Overview
-          </Link>
-        </NavItem>
-        <NavItem>
-          <Link
-            getProps={addLinkClasses}
-            to={PATHS.sentencing}
-            onClick={onClick}
-          >
-            Sentencing
-          </Link>
-        </NavItem>
-        <NavItem>
-          <Link getProps={addLinkClasses} to={PATHS.prison} onClick={onClick}>
-            Prison
-          </Link>
-        </NavItem>
-        <NavItem>
-          <Link
-            getProps={addLinkClasses}
-            to={PATHS.probation}
-            onClick={onClick}
-          >
-            Probation
-          </Link>
-        </NavItem>
-        <NavItem>
-          <Link getProps={addLinkClasses} to={PATHS.parole} onClick={onClick}>
-            Parole
-          </Link>
-        </NavItem>
+      <NavList navigationStyles={navigationStyles}>
+        {Array.from(pages, ([path, label]) => (
+          <NavItem key={path}>
+            <Link
+              getProps={addLinkClasses}
+              to={`${nested ? "../" : ""}${PATHS[path]}`}
+              onClick={onClick}
+            >
+              {label}
+            </Link>
+          </NavItem>
+        ))}
       </NavList>
     </NavContainer>
   );
 }
 
 NavBar.propTypes = {
-  large: PropTypes.bool,
+  pages: PropTypes.instanceOf(Map),
   onClick: PropTypes.func,
+  navigationStyles: PropTypes.shape({
+    ul: PropTypes.array,
+    li: PropTypes.array,
+  }),
+  nested: PropTypes.bool,
 };
 
 NavBar.defaultProps = {
-  large: false,
+  pages: ALL_PAGES,
   onClick: undefined,
+  navigationStyles: {},
+  nested: false,
 };

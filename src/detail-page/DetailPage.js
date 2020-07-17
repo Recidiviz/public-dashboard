@@ -4,22 +4,10 @@ import styled from "styled-components";
 import { ascending } from "d3-array";
 import { TOTAL_KEY } from "../constants";
 import { DimensionControl, MonthControl, OfficeControl } from "../controls";
+import { HeadingTitle, HeadingDescription } from "../heading";
 
 const PageContainer = styled.article``;
 const HeadingContainer = styled.header``;
-const HeadingTitle = styled.h1`
-  color: ${(props) => props.theme.colors.heading};
-  font: ${(props) => props.theme.fonts.display};
-  font-size: 32px;
-  margin-top: 0;
-  margin-bottom: 16px;
-`;
-const HeadingDescription = styled.p`
-  color: ${(props) => props.theme.colors.body};
-  font: ${(props) => props.theme.fonts.body};
-  font-size: 24px;
-  margin-top: 0;
-`;
 
 const SectionDivider = styled.hr`
   border: none;

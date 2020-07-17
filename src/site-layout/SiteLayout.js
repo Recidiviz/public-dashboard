@@ -1,16 +1,33 @@
 import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
 import PropTypes from "prop-types";
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { useLocation } from "@reach/router";
 import BrandingBar from "../branding-bar";
-import { CONTAINER_WIDTH, FIXED_HEADER_HEIGHT, X_PADDING } from "../constants";
+import {
+  CONTAINER_WIDTH,
+  FIXED_HEADER_HEIGHT,
+  PATHS,
+  X_PADDING,
+} from "../constants";
 import Footer from "../footer";
 import NavBar from "../nav-bar";
 import PageRoutes from "../page-routes";
+import BackgroundImageSrc from "../assets/images/background.png";
+import SecondaryNav from "../secondary-nav";
 
 const NAV_WIDTH = 150;
 
 const SiteContainer = styled.div`
+  ${(props) =>
+    props.showBackground &&
+    css`
+      background-image: url(${BackgroundImageSrc});
+      background-size: cover;
+      ${mediaQuery(["mobile-", "background-size: contain;"])}
+      background-repeat: no-repeat;
+    `}
+
   width: 100%;
 `;
 
@@ -39,6 +56,11 @@ const NavBarWrapper = styled.div`
   width: ${NAV_WIDTH}px;
 `;
 
+const SecondaryNavWrapper = styled.div`
+  padding: 10%;
+  width: 100%;
+`;
+
 const MainContentWrapper = styled.div`
   /*
     flex-grow is mega large because we want this component to take up
@@ -56,9 +78,11 @@ const FooterWrapper = styled.div`
 
 function SiteLayout({ tenantId }) {
   const showNav = useBreakpoint(false, ["tablet+", true]);
+  const location = useLocation();
+  const onOverviewPage = `/${tenantId}/${PATHS.overview}` === location.pathname;
 
   return (
-    <SiteContainer>
+    <SiteContainer showBackground={onOverviewPage}>
       <BodyWrapper>
         <BrandingBarWrapper>
           <BrandingBar />
@@ -72,6 +96,11 @@ function SiteLayout({ tenantId }) {
             )}
             <MainContentWrapper>
               <PageRoutes />
+              {!onOverviewPage && (
+                <SecondaryNavWrapper>
+                  <SecondaryNav />
+                </SecondaryNavWrapper>
+              )}
             </MainContentWrapper>
           </>
         )}
