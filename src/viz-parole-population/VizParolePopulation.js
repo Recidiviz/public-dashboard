@@ -16,7 +16,7 @@ import {
   recordIsTotal,
 } from "../utils";
 import ProportionalBar from "../proportional-bar";
-import StateDistrictMap from "../state-district-map";
+import StateOfficeMap from "../state-office-map";
 import Statistic from "../statistic";
 
 const BAR_CHART_VISUALIZATION_COLORS = {
@@ -67,7 +67,7 @@ const ParoleDemographicsWrapper = styled.div`
   width: 100%;
 `;
 
-const ParoleDemographicsDistrictCountWrapper = styled.div`
+const ParoleDemographicsOfficeCountWrapper = styled.div`
   margin-bottom: 16px;
   text-align: right;
 `;
@@ -79,7 +79,7 @@ const ParoleDemographicsBarChartWrapper = styled.div`
   z-index: ${(props) => props.theme.zIndex.base + props.stackOrder};
 `;
 
-function ParoleDemographicsDistrictCount({ data }) {
+function ParoleDemographicsOfficeCount({ data }) {
   if (!data) return null;
 
   const count = sum(
@@ -87,17 +87,17 @@ function ParoleDemographicsDistrictCount({ data }) {
   );
 
   return (
-    <ParoleDemographicsDistrictCountWrapper>
+    <ParoleDemographicsOfficeCountWrapper>
       <Statistic value={formatAsNumber(count)} label="People on parole" />
-    </ParoleDemographicsDistrictCountWrapper>
+    </ParoleDemographicsOfficeCountWrapper>
   );
 }
 
-ParoleDemographicsDistrictCount.propTypes = {
+ParoleDemographicsOfficeCount.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
 };
 
-ParoleDemographicsDistrictCount.defaultProps = {
+ParoleDemographicsOfficeCount.defaultProps = {
   data: undefined,
 };
 
@@ -141,23 +141,23 @@ ParoleDemographicBarChart.defaultProps = {
 };
 
 export default function VizParolePopulation({
-  data: { populationDemographics, districtOffices },
-  districtId,
-  onDistrictClick,
+  data: { populationDemographics, paroleOffices },
+  officeId,
+  onOfficeClick,
 }) {
-  const districtTotals = populationDemographics
+  const officeTotals = populationDemographics
     .filter(recordIsTotal)
     .map((record) => {
-      const districtData = districtOffices.find(
+      const officeData = paroleOffices.find(
         // these are stored as both strings and numbers;
         // doing an extra typecast here just to be safe
         (office) => `${office.district}` === `${record.district}`
       );
-      if (districtData) {
+      if (officeData) {
         return {
-          district: `${record.district}`,
-          lat: districtData.lat,
-          long: districtData.long,
+          office: `${record.district}`,
+          lat: officeData.lat,
+          long: officeData.long,
           value: +record.total_supervision_count,
         };
       }
@@ -166,7 +166,7 @@ export default function VizParolePopulation({
     // drop any nulls from the previous step
     .filter((record) => record);
 
-  const populationDemographicsByDistrict = Object.fromEntries(
+  const populationDemographicsByOffice = Object.fromEntries(
     group(populationDemographics, (record) => record.district)
   );
 
@@ -181,13 +181,13 @@ export default function VizParolePopulation({
             },
           }) => (
             <MapWrapper ref={measureRef}>
-              <StateDistrictMap
-                data={districtTotals}
-                currentDistrict={districtId}
-                onDistrictClick={onDistrictClick}
+              <StateOfficeMap
+                data={officeTotals}
+                currentOffice={officeId}
+                onOfficeClick={onOfficeClick}
                 width={width}
               />
-              <MapCaption>Parole districts in North Dakota</MapCaption>
+              <MapCaption>Parole offices in North Dakota</MapCaption>
             </MapWrapper>
           )}
         </Measure>
@@ -195,13 +195,13 @@ export default function VizParolePopulation({
       <Gutter />
       <VizWrapper>
         <ParoleDemographicsWrapper>
-          <ParoleDemographicsDistrictCount
-            data={populationDemographicsByDistrict[districtId]}
+          <ParoleDemographicsOfficeCount
+            data={populationDemographicsByOffice[officeId]}
           />
           {Array.from(DIMENSION_MAPPINGS, ([dimension], index) => (
             <ParoleDemographicBarChart
               key={dimension}
-              data={populationDemographicsByDistrict[districtId]}
+              data={populationDemographicsByOffice[officeId]}
               dimension={dimension}
               stackOrder={DIMENSION_MAPPINGS.size - index}
             />
@@ -215,12 +215,12 @@ export default function VizParolePopulation({
 VizParolePopulation.propTypes = {
   data: PropTypes.shape({
     populationDemographics: PropTypes.arrayOf(PropTypes.object).isRequired,
-    districtOffices: PropTypes.arrayOf(PropTypes.object).isRequired,
+    paroleOffices: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  districtId: PropTypes.string,
-  onDistrictClick: PropTypes.func.isRequired,
+  officeId: PropTypes.string,
+  onOfficeClick: PropTypes.func.isRequired,
 };
 
 VizParolePopulation.defaultProps = {
-  districtId: undefined,
+  officeId: undefined,
 };

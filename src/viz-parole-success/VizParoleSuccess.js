@@ -45,7 +45,7 @@ const BreakdownStat = styled.div`
 export default function VizParoleSuccess({
   data: { successByDemographics, successByMonth },
   dimension,
-  districtId,
+  officeId,
 }) {
   // this may be undefined when first mounted; wait for it
   if (!dimension) return null;
@@ -54,10 +54,10 @@ export default function VizParoleSuccess({
   const getDimensionValue = (record) =>
     record[DIMENSION_DATA_KEYS[dimension]] || DIMENSION_LABELS[dimension];
 
-  const isSelectedDistrict = (record) => record.district === districtId;
+  const isSelectedOffice = (record) => record.district === officeId;
 
   const chartData = addEmptyMonthsToData({
-    dataPoints: successByMonth.filter(isSelectedDistrict).map(normalizeMonth),
+    dataPoints: successByMonth.filter(isSelectedOffice).map(normalizeMonth),
     monthCount: 36,
     valueKey: "success_rate",
     emptyValue: 0,
@@ -66,7 +66,7 @@ export default function VizParoleSuccess({
     .sort((a, b) => ascending(a.month, b.month));
 
   const breakdownData = successByDemographics
-    .filter(isSelectedDistrict)
+    .filter(isSelectedOffice)
     .filter(recordIsTotalByDimension(dimension))
     .sort((a, b) =>
       demographicsAscending(getDimensionValue(a), getDimensionValue(b))
@@ -116,10 +116,10 @@ VizParoleSuccess.propTypes = {
     ).isRequired,
   }).isRequired,
   dimension: PropTypes.string,
-  districtId: PropTypes.string,
+  officeId: PropTypes.string,
 };
 
 VizParoleSuccess.defaultProps = {
   dimension: undefined,
-  districtId: undefined,
+  officeId: undefined,
 };
