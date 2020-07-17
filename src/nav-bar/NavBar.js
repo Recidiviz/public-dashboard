@@ -33,7 +33,7 @@ const NavList = styled.ul`
           left: calc(100% + ${(props) => (props.large ? 16 : 8)}px);
           top: 50%;
           width: ${(props) => (props.large ? 56 : 24)}px;
-          border-top: 2px solid ${(props) => props.theme.colors.blue};
+          border-top: 2px solid ${(props) => props.theme.colors.highlight};
         }
       }
     }
