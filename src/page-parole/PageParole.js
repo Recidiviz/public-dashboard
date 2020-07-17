@@ -6,6 +6,7 @@ import paroleOffices from "../assets/test_data/US_ND_site_offices.json";
 import supervisionProgramParticipationByRegion from "../assets/test_data/US_ND_active_program_participation_by_region.json";
 import supervisionRevocationByMonth from "../assets/test_data/US_ND_supervision_revocations_by_month_by_type_by_demographics.json";
 import supervisionSuccessByMonth from "../assets/test_data/US_ND_supervision_success_by_month.json";
+import supervisionSuccessDemographics from "../assets/test_data/US_ND_supervision_success_by_period_by_demographics.json";
 import VizParolePopulation from "../viz-parole-population";
 import VizParoleProgram from "../viz-parole-program";
 import VizParoleRevocation from "../viz-parole-revocation";
@@ -46,6 +47,9 @@ const SECTIONS = [
     vizData: {
       paroleOffices,
       successByMonth: supervisionSuccessByMonth.filter(recordIsParole),
+      successByDemographics: supervisionSuccessDemographics
+        .filter(recordIsParole)
+        .filter((record) => record.metric_period_months === "36"),
     },
   },
   {

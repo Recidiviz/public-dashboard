@@ -1,3 +1,5 @@
+import deepMerge from "deepmerge";
+
 export const DEFAULT_TENANT = "us_nd";
 
 export const TENANTS = {
@@ -163,12 +165,11 @@ const lightGray = "#ECEDEF";
 const medGray = "#707F96";
 const white = "#fff";
 
-export const THEME = {
+const defaultDuration = "0.25s";
+const defaultEasing = "ease-in-out";
+
+export const defaultTheme = {
   colors: {
-    // descriptive
-    blue: "#3e8df7",
-    darkGreen,
-    // functional
     age: {
       "<25": darkGreen,
       "25-29": darkGreen9,
@@ -205,6 +206,7 @@ export const THEME = {
       WHITE: darkGreen5,
       OTHER: darkGreen4,
     },
+    sliderThumb: darkGreen,
     statistic: darkBlue,
     tooltipBackground: darkBlue,
     violationReasons: {
@@ -237,6 +239,7 @@ export const THEME = {
       fillOpacity: 0.8,
       stroke: white,
       strokeWidth: 1,
+      transition: `fill ${defaultDuration} ${defaultEasing}`,
     },
     hover: {
       fill: brightGreen,
@@ -246,8 +249,9 @@ export const THEME = {
     },
   },
   transition: {
-    defaultDuration: "0.5s",
-    defaultEasing: "ease-in-out",
+    defaultDuration,
+    defaultEasing,
+    defaultTimeSettings: `${defaultDuration} ${defaultEasing}`,
   },
   zIndex: {
     base: 1,
@@ -257,3 +261,97 @@ export const THEME = {
     modal: 100,
   },
 };
+
+// ND colors are tinted with the theme background color (i.e. converted from opacity)
+const ndColors = {
+  background: "#F2F1F0",
+  backgroundTealShade9: "#DAE3E4",
+  black: "#303030",
+  blackTint9: "#434343",
+  blackTint6: "#7E7D7D",
+  blackTint1: "#DFDEDD",
+  brandOrange: "#D34727",
+  brandOrangeTint8: "#D9694F",
+  brandTeal: "#006775",
+  brandTealTint9: "#187581",
+  brandTealTint8: "#30838E",
+  brandTealTint7: "#49909A",
+  brandTealTint6: "#619EA6",
+  brandTealTint5: "#79ACB3",
+  brandTealTint4: "#91BABF",
+  brandTealTint3: "#A9C8CB",
+  brandTealTint2: "#C2D5D7",
+  medGray: "#E9E8E7",
+};
+
+const northDakotaTheme = {
+  colors: {
+    age: {
+      "<25": ndColors.brandTeal,
+      "25-29": ndColors.brandTealTint9,
+      "30-34": ndColors.brandTealTint8,
+      "35-39": ndColors.brandTealTint7,
+      "40<": ndColors.brandTealTint6,
+    },
+    background: ndColors.background,
+    body: ndColors.blackTint6,
+    bodyLight: ndColors.background,
+    chartAxis: ndColors.blackTint6,
+    controlBackground: ndColors.medGray,
+    controlLabel: ndColors.blackTint9,
+    controlValue: ndColors.black,
+    footer: ndColors.backgroundTealShade9,
+    footerBackground: ndColors.brandTeal,
+    divider: "#CECAC7",
+    gender: {
+      FEMALE: ndColors.brandTeal,
+      MALE: ndColors.brandTealTint7,
+    },
+    heading: ndColors.blackTint9,
+    highlight: ndColors.brandOrange,
+    pillBackground: ndColors.medGray,
+    pillValue: ndColors.black,
+    monthlyTimeseriesBar: ndColors.brandTealTint2,
+    programParticipation: ndColors.blackTint9,
+    race: {
+      AMERICAN_INDIAN_ALASKAN_NATIVE: ndColors.brandTeal,
+      ASIAN: ndColors.brandTealTint9,
+      BLACK: ndColors.brandTealTint8,
+      HISPANIC: ndColors.brandTealTint7,
+      NATIVE_HAWAIIAN_PACIFIC_ISLANDER: ndColors.brandTealTint6,
+      WHITE: ndColors.brandTealTint5,
+      OTHER: ndColors.brandTealTint4,
+    },
+    sliderThumb: ndColors.brandTeal,
+    statistic: ndColors.blackTint9,
+    tooltipBackground: ndColors.black,
+    violationReasons: {
+      [VIOLATION_TYPES.abscond]: ndColors.brandTeal,
+      [VIOLATION_TYPES.offend]: ndColors.brandTealTint8,
+      [VIOLATION_TYPES.technical]: ndColors.brandTealTint6,
+      [VIOLATION_TYPES.unknown]: ndColors.brandTealTint4,
+    },
+  },
+  maps: {
+    // these are style objects that we can pass directly to react-simple-maps
+    default: {
+      fill: ndColors.blackTint1,
+      stroke: ndColors.background,
+    },
+  },
+  mapMarkers: {
+    default: {
+      fill: ndColors.brandTeal,
+      fillOpacity: 0.8,
+      stroke: ndColors.background,
+    },
+    hover: {
+      fill: ndColors.brandOrange,
+    },
+    pressed: {
+      fill: ndColors.brandOrangeTint8,
+    },
+  },
+};
+
+export const THEME = deepMerge(defaultTheme, northDakotaTheme);

@@ -14,7 +14,7 @@ const SliderTrack = styled.div`
 
 const THUMB_SIZE = 10;
 const SliderThumb = styled.div`
-  background: ${(props) => props.theme.colors.darkGreen};
+  background: ${(props) => props.theme.colors.sliderThumb};
   border-radius: ${THUMB_SIZE / 2}px;
   height: ${THUMB_SIZE}px;
   margin-top: -${THUMB_SIZE / 2 - TRACK_WIDTH / 2}px;
