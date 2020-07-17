@@ -140,7 +140,8 @@
     "age_bucket": "ALL",
     "successful_termination_count": "47",
     "projected_completion_count": "195",
-    "success_rate": 0.24102564102564103
+    "success_rate": 0.24102564102564103,
+    "district": "EXTERNAL_UNKNOWN"
   },
   {
     "state_code": "US_ND",
@@ -1663,7 +1664,8 @@
     "age_bucket": "40<",
     "successful_termination_count": "34",
     "projected_completion_count": "92",
-    "success_rate": 0.3695652173913043
+    "success_rate": 0.3695652173913043,
+    "district": "EXTERNAL_UNKNOWN"
   },
   {
     "state_code": "US_ND",
@@ -9678,7 +9680,8 @@
     "age_bucket": "ALL",
     "successful_termination_count": "156",
     "projected_completion_count": "526",
-    "success_rate": 0.2965779467680608
+    "success_rate": 0.2965779467680608,
+    "district": "EXTERNAL_UNKNOWN"
   },
   {
     "state_code": "US_ND",
@@ -10049,7 +10052,8 @@
     "age_bucket": "ALL",
     "successful_termination_count": "160",
     "projected_completion_count": "425",
-    "success_rate": 0.3764705882352941
+    "success_rate": 0.3764705882352941,
+    "district": "EXTERNAL_UNKNOWN"
   },
   {
     "state_code": "US_ND",
@@ -13828,7 +13832,8 @@
     "age_bucket": "40<",
     "successful_termination_count": "211",
     "projected_completion_count": "221",
-    "success_rate": 0.9547511312217195
+    "success_rate": 0.9547511312217195,
+    "district": "EXTERNAL_UNKNOWN"
   },
   {
     "state_code": "US_ND",
@@ -14019,7 +14024,8 @@
     "age_bucket": "ALL",
     "successful_termination_count": "249",
     "projected_completion_count": "393",
-    "success_rate": 0.6335877862595419
+    "success_rate": 0.6335877862595419,
+    "district": "EXTERNAL_UNKNOWN"
   },
   {
     "state_code": "US_ND",
@@ -15722,7 +15728,8 @@
     "age_bucket": "ALL",
     "successful_termination_count": "198",
     "projected_completion_count": "320",
-    "success_rate": 0.61875
+    "success_rate": 0.61875,
+    "district": "EXTERNAL_UNKNOWN"
   },
   {
     "state_code": "US_ND",
@@ -16033,7 +16040,8 @@
     "age_bucket": "ALL",
     "successful_termination_count": "410",
     "projected_completion_count": "507",
-    "success_rate": 0.8086785009861933
+    "success_rate": 0.8086785009861933,
+    "district": "EXTERNAL_UNKNOWN"
   },
   {
     "state_code": "US_ND",
@@ -16584,7 +16592,8 @@
     "age_bucket": "ALL",
     "successful_termination_count": "155",
     "projected_completion_count": "288",
-    "success_rate": 0.5381944444444444
+    "success_rate": 0.5381944444444444,
+    "district": "EXTERNAL_UNKNOWN"
   },
   {
     "state_code": "US_ND",

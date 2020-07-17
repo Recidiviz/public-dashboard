@@ -98,7 +98,7 @@ VizParoleSuccess.propTypes = {
     successByDemographics: PropTypes.arrayOf(
       PropTypes.shape({
         age_bucket: PropTypes.string.isRequired,
-        district: PropTypes.string,
+        district: PropTypes.string.isRequired,
         gender: PropTypes.string.isRequired,
         projected_completion_count: PropTypes.string.isRequired,
         race_or_ethnicity: PropTypes.string.isRequired,
@@ -108,7 +108,7 @@ VizParoleSuccess.propTypes = {
     ).isRequired,
     successByMonth: PropTypes.arrayOf(
       PropTypes.shape({
-        district: PropTypes.string,
+        district: PropTypes.string.isRequired,
         projected_month: PropTypes.string.isRequired,
         projected_year: PropTypes.string.isRequired,
         success_rate: PropTypes.string.isRequired,
