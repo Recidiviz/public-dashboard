@@ -19,10 +19,10 @@ import {
   recordIsTotal,
 } from "../utils";
 
-const HEIGHT = 450;
+const SECTION_HEIGHT = 450;
+const GUTTER = 42;
 
 const VizParoleRevocationWrapper = styled.div`
-  height: ${HEIGHT}px;
   width: 100%;
 `;
 
@@ -34,16 +34,13 @@ const BreakdownBarWrapper = styled.div`
 `;
 
 function Breakdowns({ data, dimension }) {
-  const breakdownHeight = HEIGHT / data.size;
+  const breakdownHeight = SECTION_HEIGHT / data.size;
   return Array.from(data, ([key, value], i) => (
-    <BreakdownBarWrapper
-      key={key}
-      height={breakdownHeight}
-      stackOrder={data.size - i}
-    >
+    <BreakdownBarWrapper key={key} stackOrder={data.size - i}>
       <ProportionalBar
-        title={formatDemographicValue(key, dimension)}
         data={value}
+        height={breakdownHeight - GUTTER}
+        title={formatDemographicValue(key, dimension)}
         showLegend={i === data.size - 1}
       />
     </BreakdownBarWrapper>
@@ -65,7 +62,7 @@ function VizParoleRevocation({ currentMonthData, dimension }) {
               width && (
                 <BubbleChart
                   data={currentMonthData.get(TOTAL_KEY)}
-                  height={HEIGHT}
+                  height={SECTION_HEIGHT}
                   width={width}
                 />
               )

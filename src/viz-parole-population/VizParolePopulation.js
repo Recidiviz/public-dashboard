@@ -25,6 +25,8 @@ const BAR_CHART_VISUALIZATION_COLORS = {
   [DIMENSION_KEYS.race]: THEME.colors.race,
 };
 
+const BAR_CHART_HEIGHT = 43;
+
 const VizParolePopulationContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -50,6 +52,7 @@ const Gutter = styled.div`
 
 const MapWrapper = styled.figure`
   margin: 0;
+  padding-top: 24px;
   width: 100%;
 `;
 
@@ -70,7 +73,6 @@ const ParoleDemographicsDistrictCountWrapper = styled.div`
 `;
 
 const ParoleDemographicsBarChartWrapper = styled.div`
-  height: 64px;
   margin-bottom: 16px;
   position: relative;
   width: 100%;
@@ -121,6 +123,7 @@ function ParoleDemographicBarChart({ data, dimension, stackOrder }) {
     <ParoleDemographicsBarChartWrapper stackOrder={stackOrder}>
       <ProportionalBar
         data={dimensionData}
+        height={BAR_CHART_HEIGHT}
         title={DIMENSION_LABELS[dimension]}
       />
     </ParoleDemographicsBarChartWrapper>
