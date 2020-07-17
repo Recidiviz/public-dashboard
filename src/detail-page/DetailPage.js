@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { ascending } from "d3-array";
 import { TOTAL_KEY } from "../constants";
 import { DimensionControl, MonthControl, DistrictControl } from "../controls";
 
@@ -81,10 +82,16 @@ function DetailSection({
 
   let initialDistrictList;
   if (showDistrictControl && vizData.districtOffices) {
-    initialDistrictList = vizData.districtOffices.map(
-      ({ district }) => `${district}`
-    );
-    initialDistrictList.unshift(TOTAL_KEY);
+    initialDistrictList = vizData.districtOffices
+      .map((record) => {
+        return {
+          id: `${record.district}`,
+          label: record.site_name,
+        };
+      })
+      .sort((a, b) => ascending(a.label, b.label));
+
+    initialDistrictList.unshift({ id: TOTAL_KEY, label: "All" });
   }
   const [districtList] = useState(initialDistrictList);
   const [districtId, setDistrictId] = useState();

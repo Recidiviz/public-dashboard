@@ -1,19 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Dropdown from "./Dropdown";
-import { TOTAL_KEY } from "../constants";
 
 export default function DistrictControl({ districts, onChange, value }) {
-  const options = districts.map((districtId) => {
+  const options = districts.map((district) => {
     return {
-      id: districtId,
-      label: districtId === TOTAL_KEY ? "All" : districtId,
+      id: district.id,
+      label: district.label,
     };
   });
 
   return (
     <Dropdown
-      label="District"
+      label="Office"
       onChange={onChange}
       options={options}
       selectedId={value}
@@ -22,7 +21,12 @@ export default function DistrictControl({ districts, onChange, value }) {
 }
 
 DistrictControl.propTypes = {
-  districts: PropTypes.arrayOf(PropTypes.string).isRequired,
+  districts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    })
+  ).isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
 };
