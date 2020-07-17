@@ -4780,6 +4780,7 @@
     "state_code": "US_ND"
   },
   {
+    "district": "EXTERNAL_UNKNOWN",
     "successful_termination_count": "104",
     "success_rate": "0.604651162791",
     "projected_completion_count": "172",
@@ -4839,6 +4840,7 @@
     "state_code": "US_ND"
   },
   {
+    "district": "EXTERNAL_UNKNOWN",
     "successful_termination_count": "232",
     "success_rate": "0.73417721519",
     "projected_completion_count": "316",
@@ -9788,6 +9790,7 @@
     "state_code": "US_ND"
   },
   {
+    "district": "EXTERNAL_UNKNOWN",
     "successful_termination_count": "237",
     "success_rate": "0.771986970684",
     "projected_completion_count": "307",
