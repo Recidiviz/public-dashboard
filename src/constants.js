@@ -206,6 +206,11 @@ export const defaultTheme = {
       WHITE: darkGreen5,
       OTHER: darkGreen4,
     },
+    sentencing: {
+      incarceration: darkGreen,
+      probation: darkGreen5,
+      target: darkGreen4,
+    },
     sliderThumb: darkGreen,
     statistic: darkBlue,
     tooltipBackground: darkBlue,
@@ -321,6 +326,11 @@ const northDakotaTheme = {
       NATIVE_HAWAIIAN_PACIFIC_ISLANDER: ndColors.brandTealTint6,
       WHITE: ndColors.brandTealTint5,
       OTHER: ndColors.brandTealTint4,
+    },
+    sentencing: {
+      incarceration: ndColors.brandTeal,
+      probation: ndColors.brandTealTint5,
+      target: ndColors.brandTealTint3,
     },
     sliderThumb: ndColors.brandTeal,
     statistic: ndColors.blackTint9,
