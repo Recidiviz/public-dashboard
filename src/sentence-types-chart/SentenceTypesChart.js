@@ -5,12 +5,12 @@ import styled from "styled-components";
 import { THEME } from "../constants";
 import { formatAsNumber } from "../utils";
 
-const MARGIN = { top: 10, bottom: 10, left: 120, right: 110 };
+const MARGIN = { top: 10, bottom: 10, left: 140, right: 140 };
 const MIN_WIDTH = 600;
-const NODE_WIDTH = 50;
+const NODE_WIDTH = 72;
 
-const SankeyDiagramWrapper = styled.div`
-  overflow: auto;
+const ChartWrapper = styled.div`
+  overflow: ${(props) => (props.width < MIN_WIDTH ? "auto" : "visible")};
   position: relative;
   width: ${(props) => props.width}px;
 `;
@@ -25,7 +25,7 @@ const SourceValue = styled.text`
   color: ${(props) => props.theme.colors.heading};
   font: ${(props) => props.theme.fonts.displayNormal};
   font-size: ${SOURCE_VALUE_SIZE}px;
-  letter-spacing: -0.1em;
+  letter-spacing: -0.09em;
   transform: ${sourceLabelXOffsetTransform}
     translateY(-${(props) => props.yOffset - SOURCE_VALUE_SIZE}px);
 `;
@@ -38,16 +38,19 @@ const SourceLabel = styled.text`
   font-size: ${SOURCE_LABEL_SIZE}px;
   transform: ${sourceLabelXOffsetTransform}
     translateY(
-      -${(props) => props.yOffset - SOURCE_VALUE_SIZE - SOURCE_LABEL_SIZE}px
+      -${(props) => props.yOffset - SOURCE_VALUE_SIZE - SOURCE_LABEL_SIZE - 8}px
     );
 `;
 
+const TARGET_LABEL_PADDING = 8;
 const TargetLabel = styled.text`
   color: ${(props) => props.theme.colors.body};
   dominant-baseline: middle;
   font: ${(props) => props.theme.fonts.body};
+  font-size: 16px;
   text-anchor: start;
-  transform: translateX(${NODE_WIDTH / 2 + 8}px);
+  transform: translateX(${NODE_WIDTH / 2 + TARGET_LABEL_PADDING}px);
+  width: ${MARGIN.right - TARGET_LABEL_PADDING}px;
 `;
 
 const GRADIENTS = [
@@ -122,7 +125,7 @@ export default function SentenceTypesChart({ data, width }) {
   };
 
   return (
-    <SankeyDiagramWrapper width={width}>
+    <ChartWrapper width={width}>
       <NetworkFrame
         additionalDefs={GRADIENTS}
         edges={data}
@@ -142,7 +145,7 @@ export default function SentenceTypesChart({ data, width }) {
         nodeStyle={(d) => ({ fill: d.color })}
         size={[Math.max(width, MIN_WIDTH), 500]}
       />
-    </SankeyDiagramWrapper>
+    </ChartWrapper>
   );
 }
 
