@@ -277,6 +277,7 @@ const ndColors = {
   blackTint1: "#DFDEDD",
   brandOrange: "#D34727",
   brandOrangeTint8: "#D9694F",
+  brandOrangeTint1: "#EFE0DC",
   brandTeal: "#006775",
   brandTealTint9: "#187581",
   brandTealTint8: "#30838E",
@@ -346,6 +347,14 @@ const northDakotaTheme = {
     // these are style objects that we can pass directly to react-simple-maps
     default: {
       fill: ndColors.blackTint1,
+      stroke: ndColors.background,
+    },
+    hover: {
+      fill: ndColors.brandOrangeTint1,
+      stroke: ndColors.background,
+    },
+    pressed: {
+      fill: ndColors.brandOrange,
       stroke: ndColors.background,
     },
   },
