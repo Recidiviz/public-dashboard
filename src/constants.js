@@ -238,6 +238,14 @@ export const defaultTheme = {
       stroke: white,
       strokeWidth: 1.5,
     },
+    hover: {
+      fill: darkGreen4,
+      stroke: white,
+    },
+    pressed: {
+      fill: darkGreen8,
+      stroke: white,
+    },
   },
   mapMarkers: {
     default: {
