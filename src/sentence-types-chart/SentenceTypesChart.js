@@ -4,7 +4,7 @@ import NetworkFrame from "semiotic/lib/NetworkFrame";
 import styled from "styled-components";
 import { THEME } from "../constants";
 import Tooltip from "../tooltip";
-import { formatAsNumber, formatAsPct } from "../utils";
+import { demographicsAscending, formatAsNumber, formatAsPct } from "../utils";
 
 const MARGIN = { top: 10, bottom: 10, left: 140, right: 140 };
 const MIN_WIDTH = 600;
@@ -125,6 +125,41 @@ export default function SentenceTypesChart({ data, width }) {
     return null;
   };
 
+  const makeTooltip = (d) => {
+    let links;
+    if ((d.sourceLinks || []).length > 1) {
+      links = d.sourceLinks
+        .map((link) => ({
+          id: link.target.id,
+          value: link.value,
+          pct: link.value / d.value,
+        }))
+        .sort((a, b) => demographicsAscending(a.id, b.id));
+    } else if ((d.targetLinks || []).length > 1) {
+      links = d.targetLinks
+        .map((link) => ({
+          id: link.source.id,
+          value: link.value,
+          pct: link.value / d.value,
+        }))
+        .sort((a, b) => demographicsAscending(a.id, b.id));
+    }
+    return (
+      <Tooltip>
+        {d.id}
+        <br />
+        {links &&
+          links.map((link) => (
+            <span key={link.id}>
+              <strong>{formatAsNumber(link.value)}</strong> (
+              {formatAsPct(link.pct)}) {link.id}
+              <br />
+            </span>
+          ))}
+      </Tooltip>
+    );
+  };
+
   return (
     <ChartWrapper width={width}>
       <NetworkFrame
@@ -146,39 +181,7 @@ export default function SentenceTypesChart({ data, width }) {
         nodeLabels={renderNodeLabel}
         nodeStyle={(d) => ({ fill: d.color })}
         size={[Math.max(width, MIN_WIDTH), 500]}
-        tooltipContent={(d) => {
-          let links;
-          if ((d.sourceLinks || []).length > 1) {
-            links = d.sourceLinks.map((link) => ({
-              id: link.target.id,
-              value: link.value,
-              pct: link.value / d.value,
-            }));
-          } else if ((d.targetLinks || []).length > 1) {
-            links = d.targetLinks.map((link) => ({
-              id: link.source.id,
-              value: link.value,
-              pct: link.value / d.value,
-            }));
-          }
-          return (
-            <Tooltip>
-              {d.id}
-              <br />
-              <strong>{formatAsNumber(d.value)}</strong>
-              <br />
-              {links &&
-                links.map((link) => (
-                  <span key={link.id}>
-                    {link.id}
-                    <br />
-                    {formatAsNumber(link.value)} ({formatAsPct(link.pct)})
-                    <br />
-                  </span>
-                ))}
-            </Tooltip>
-          );
-        }}
+        tooltipContent={makeTooltip}
       />
     </ChartWrapper>
   );
