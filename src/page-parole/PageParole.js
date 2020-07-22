@@ -1,8 +1,8 @@
 import React from "react";
 import DetailPage from "../detail-page";
 // once the backend is in place, stop using these test files
-import parolePopulationData from "../assets/test_data/US_ND_parole_population_by_district_by_demographics.json";
 import paroleOffices from "../assets/test_data/US_ND_site_offices.json";
+import supervisionPopulationData from "../assets/test_data/US_ND_supervision_population_by_district_by_demographics.json";
 import supervisionProgramParticipationByRegion from "../assets/test_data/US_ND_active_program_participation_by_region.json";
 import supervisionRevocationByMonth from "../assets/test_data/US_ND_supervision_revocations_by_month_by_type_by_demographics.json";
 import supervisionSuccessByMonth from "../assets/test_data/US_ND_supervision_success_by_month.json";
@@ -42,7 +42,7 @@ const SECTIONS = [
     locationControlLabel: "Office",
     VizComponent: VizParolePopulation,
     vizData: {
-      populationDemographics: parolePopulationData,
+      populationDemographics: supervisionPopulationData.filter(recordIsParole),
       locations: officeLocations,
     },
   },
