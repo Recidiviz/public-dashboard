@@ -2,12 +2,23 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import judicialDistrictsTopology from "../assets/maps/us_nd_judicial_districts.json";
-import { DEFAULT_TENANT, TENANTS, TOTAL_KEY } from "../constants";
+import {
+  DEFAULT_TENANT,
+  OTHER_LABEL,
+  TENANTS,
+  TOTAL_KEY,
+  OTHER,
+} from "../constants";
 import PopulationViz from "../population-viz";
 import StateMap from "../state-map";
 import { recordIsTotal } from "../utils";
 
 const ASPECT_RATIO = TENANTS[DEFAULT_TENANT].aspectRatio;
+
+const ProbationMapWrapper = styled.div`
+  align-items: center;
+  display: flex;
+`;
 
 const ParticipantCount = styled.text`
   dominant-baseline: middle;
@@ -24,10 +35,32 @@ const ParticipantCount = styled.text`
   text-anchor: middle;
 `;
 
+const OtherWrapper = styled.button`
+  background: none;
+  border: 0;
+  color: ${(props) =>
+    props.active ? props.theme.colors.highlight : props.theme.colors.heading};
+  cursor: pointer;
+  padding: 16px;
+  margin-left: -16px;
+  text-align: center;
+
+  &:hover {
+    color: ${(props) => props.theme.colors.highlight};
+  }
+`;
+
+const OtherLabel = styled.div`
+  font: ${(props) => props.theme.fonts.body};
+`;
+
+const findDistrictRecord = (district) => (record) =>
+  record.district === district;
+
 function ProbationMap({ currentLocation, data, onLocationClick, width }) {
   // eslint-disable-next-line react/prop-types
   const DistrictLabel = ({ hover, locationId, objectId }) => {
-    const districtRecord = data.find((record) => record.district === objectId);
+    const districtRecord = data.find(findDistrictRecord(objectId));
     return districtRecord ? (
       <ParticipantCount
         active={locationId === districtRecord.district}
@@ -38,15 +71,31 @@ function ProbationMap({ currentLocation, data, onLocationClick, width }) {
     ) : null;
   };
 
+  const otherRecord = data.find(findDistrictRecord(OTHER));
+
   return (
-    <StateMap
-      aspectRatio={ASPECT_RATIO}
-      LabelComponent={DistrictLabel}
-      locationId={currentLocation}
-      onRegionClick={onLocationClick}
-      stateTopology={judicialDistrictsTopology}
-      width={width}
-    />
+    <ProbationMapWrapper>
+      <StateMap
+        aspectRatio={ASPECT_RATIO}
+        LabelComponent={DistrictLabel}
+        locationId={currentLocation}
+        onRegionClick={onLocationClick}
+        stateTopology={judicialDistrictsTopology}
+        width={width}
+      />
+      {otherRecord && (
+        <OtherWrapper
+          active={currentLocation === OTHER}
+          onClick={(e) => {
+            e.preventDefault();
+            onLocationClick(OTHER);
+          }}
+        >
+          <ParticipantCount as="div">{otherRecord.value}</ParticipantCount>
+          <OtherLabel>{OTHER_LABEL}</OtherLabel>
+        </OtherWrapper>
+      )}
+    </ProbationMapWrapper>
   );
 }
 

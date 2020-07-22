@@ -73,7 +73,8 @@ export const SUPERVISION_TYPES = {
   probation: "PROBATION",
 };
 
-export const DEMOGRAPHIC_OTHER = "OTHER";
+export const OTHER = "OTHER";
+export const OTHER_LABEL = "Other";
 
 export const DEMOGRAPHIC_UNKNOWN = "EXTERNAL_UNKNOWN";
 
@@ -109,7 +110,7 @@ const RACES = new Map([
   ["HISPANIC", "Hispanic"],
   ["NATIVE_HAWAIIAN_PACIFIC_ISLANDER", "Native Hawaiian or Pacific Islander"],
   ["WHITE", "White"],
-  [DEMOGRAPHIC_OTHER, "Other"],
+  [OTHER, "Other"],
 ]);
 
 export const DIMENSION_MAPPINGS = new Map([
