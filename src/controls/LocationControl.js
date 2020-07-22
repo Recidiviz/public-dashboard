@@ -2,17 +2,17 @@ import React from "react";
 import PropTypes from "prop-types";
 import Dropdown from "./Dropdown";
 
-export default function OfficeControl({ offices, onChange, value }) {
-  const options = offices.map((office) => {
+export default function LocationControl({ label, locations, onChange, value }) {
+  const options = locations.map((location) => {
     return {
-      id: office.id,
-      label: office.label,
+      id: location.id,
+      label: location.label,
     };
   });
 
   return (
     <Dropdown
-      label="Office"
+      label={label}
       onChange={onChange}
       options={options}
       selectedId={value}
@@ -20,8 +20,9 @@ export default function OfficeControl({ offices, onChange, value }) {
   );
 }
 
-OfficeControl.propTypes = {
-  offices: PropTypes.arrayOf(
+LocationControl.propTypes = {
+  label: PropTypes.string.isRequired,
+  locations: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
@@ -31,6 +32,6 @@ OfficeControl.propTypes = {
   value: PropTypes.string,
 };
 
-OfficeControl.defaultProps = {
+LocationControl.defaultProps = {
   value: undefined,
 };

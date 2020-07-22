@@ -45,7 +45,7 @@ const BreakdownStat = styled.div`
 export default function VizParoleSuccess({
   data: { successByDemographics, successByMonth },
   dimension,
-  officeId,
+  locationId: officeId,
 }) {
   // this may be undefined when first mounted; wait for it
   if (!dimension) return null;
@@ -116,10 +116,10 @@ VizParoleSuccess.propTypes = {
     ).isRequired,
   }).isRequired,
   dimension: PropTypes.string,
-  officeId: PropTypes.string,
+  locationId: PropTypes.string,
 };
 
 VizParoleSuccess.defaultProps = {
   dimension: undefined,
-  officeId: undefined,
+  locationId: undefined,
 };

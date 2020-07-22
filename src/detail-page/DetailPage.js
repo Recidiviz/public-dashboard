@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { ascending } from "d3-array";
 import { TOTAL_KEY } from "../constants";
-import { DimensionControl, MonthControl, OfficeControl } from "../controls";
+import { DimensionControl, MonthControl, LocationControl } from "../controls";
 import { HeadingTitle, HeadingDescription } from "../heading";
 
 const PageContainer = styled.article``;
@@ -56,7 +56,8 @@ function DetailSection({
   title,
   description,
   showDimensionControl,
-  showOfficeControl,
+  showLocationControl,
+  locationControlLabel,
   showMonthControl,
   VizComponent,
   vizData,
@@ -68,21 +69,17 @@ function DetailSection({
   // for parsing its data and updating this value
   const [monthList, setMonthList] = useState();
 
-  let initialOfficeList;
-  if (showOfficeControl && vizData.paroleOffices) {
-    initialOfficeList = vizData.paroleOffices
-      .map((record) => {
-        return {
-          id: `${record.district}`,
-          label: record.site_name,
-        };
-      })
+  let initialLocationList;
+  if (showLocationControl && vizData.locations) {
+    initialLocationList = vizData.locations
+      // there may be other fields on these objects, filter them out for cleanliness
+      .map(({ id, label }) => ({ id, label }))
       .sort((a, b) => ascending(a.label, b.label));
 
-    initialOfficeList.unshift({ id: TOTAL_KEY, label: "All" });
+    initialLocationList.unshift({ id: TOTAL_KEY, label: "All" });
   }
-  const [officeList] = useState(initialOfficeList);
-  const [officeId, setOfficeId] = useState();
+  const [locationList] = useState(initialLocationList);
+  const [locationId, setLocationId] = useState();
 
   return (
     <DetailSectionContainer>
@@ -93,12 +90,13 @@ function DetailSection({
             <MonthControl months={monthList} onChange={setMonth} />
           )}
           {
-            // we need both a flag and data to enable office control
-            showOfficeControl && officeList && (
-              <OfficeControl
-                offices={officeList}
-                onChange={setOfficeId}
-                value={officeId}
+            // we need both a flag and data to enable location control
+            showLocationControl && locationList && (
+              <LocationControl
+                label={locationControlLabel}
+                locations={locationList}
+                onChange={setLocationId}
+                value={locationId}
               />
             )
           }
@@ -109,8 +107,8 @@ function DetailSection({
       <DetailSectionVizContainer>
         <VizComponent
           data={vizData}
-          {...{ dimension, month, officeId, setMonthList }}
-          onOfficeClick={setOfficeId}
+          {...{ dimension, month, locationId, setMonthList }}
+          onLocationClick={setLocationId}
         />
       </DetailSectionVizContainer>
     </DetailSectionContainer>
@@ -122,7 +120,8 @@ DetailSection.propTypes = {
   description: PropTypes.string.isRequired,
   showDimensionControl: PropTypes.bool,
   showMonthControl: PropTypes.bool,
-  showOfficeControl: PropTypes.bool,
+  showLocationControl: PropTypes.bool,
+  locationControlLabel: PropTypes.string,
   VizComponent: PropTypes.func.isRequired,
   vizData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
 };
@@ -130,7 +129,8 @@ DetailSection.propTypes = {
 DetailSection.defaultProps = {
   showDimensionControl: false,
   showMonthControl: false,
-  showOfficeControl: false,
+  showLocationControl: false,
+  locationControlLabel: "Location",
 };
 
 export default function DetailPage({ title, description, sections }) {

@@ -141,9 +141,9 @@ ParoleDemographicBarChart.defaultProps = {
 };
 
 export default function VizParolePopulation({
-  data: { populationDemographics, paroleOffices },
-  officeId,
-  onOfficeClick,
+  data: { populationDemographics, locations: paroleOffices },
+  locationId: officeId,
+  onLocationClick: onOfficeClick,
 }) {
   const officeTotals = populationDemographics
     .filter(recordIsTotal)
@@ -215,12 +215,12 @@ export default function VizParolePopulation({
 VizParolePopulation.propTypes = {
   data: PropTypes.shape({
     populationDemographics: PropTypes.arrayOf(PropTypes.object).isRequired,
-    paroleOffices: PropTypes.arrayOf(PropTypes.object).isRequired,
+    locations: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  officeId: PropTypes.string,
-  onOfficeClick: PropTypes.func.isRequired,
+  locationId: PropTypes.string,
+  onLocationClick: PropTypes.func.isRequired,
 };
 
 VizParolePopulation.defaultProps = {
-  officeId: undefined,
+  locationId: undefined,
 };

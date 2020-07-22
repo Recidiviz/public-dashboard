@@ -16,6 +16,16 @@ import { SUPERVISION_TYPES } from "../constants";
 const recordIsParole = (record) =>
   record.supervision_type === SUPERVISION_TYPES.parole;
 
+const officeLocations = paroleOffices.map((record) => {
+  return {
+    // retain the original fields, which may be of use to viz components
+    ...record,
+    // transform office list into the format required for location controls
+    id: `${record.district}`,
+    label: record.site_name,
+  };
+});
+
 const TITLE = "Parole";
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
@@ -28,11 +38,12 @@ const SECTIONS = [
     Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
     ipsum dui gravida.`,
-    showOfficeControl: true,
+    showLocationControl: true,
+    locationControlLabel: "Office",
     VizComponent: VizParolePopulation,
     vizData: {
       populationDemographics: parolePopulationData,
-      paroleOffices,
+      locations: officeLocations,
     },
   },
   {
@@ -42,10 +53,11 @@ const SECTIONS = [
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
     ipsum dui gravida.`,
     showDimensionControl: true,
-    showOfficeControl: true,
+    showLocationControl: true,
+    locationControlLabel: "Office",
     VizComponent: VizParoleSuccess,
     vizData: {
-      paroleOffices,
+      locations: officeLocations,
       successByMonth: supervisionSuccessByMonth.filter(recordIsParole),
       successByDemographics: supervisionSuccessDemographics
         .filter(recordIsParole)
