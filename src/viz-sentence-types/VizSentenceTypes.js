@@ -2,14 +2,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import Measure from "react-measure";
 import styled from "styled-components";
-import {
-  DIMENSION_DATA_KEYS,
-  DIMENSION_MAPPINGS,
-  DIMENSION_KEYS,
-  DIMENSION_LABELS,
-} from "../constants";
+import { DIMENSION_DATA_KEYS } from "../constants";
 import SentenceTypesChart from "../sentence-types-chart";
-import { recordIsTotalByDimension } from "../utils";
+import { formatDemographicValue, recordIsTotalByDimension } from "../utils";
 
 const VizSentenceTypesWrapper = styled.div`
   width: 100%;
@@ -24,14 +19,10 @@ export default function VizSentenceTypes({
     .filter(({ district }) => district === locationId)
     .filter(recordIsTotalByDimension(dimension))
     .map((record) => {
-      let target;
-      if (dimension === DIMENSION_KEYS.total) {
-        target = DIMENSION_LABELS[DIMENSION_KEYS.total];
-      } else {
-        target = DIMENSION_MAPPINGS.get(dimension).get(
-          record[DIMENSION_DATA_KEYS[dimension]]
-        );
-      }
+      const target = formatDemographicValue(
+        record[DIMENSION_DATA_KEYS[dimension]],
+        dimension
+      );
       return [
         { source: "Incarceration", target, value: record.incarceration_count },
         { source: "Probation", target, value: record.probation_count },
