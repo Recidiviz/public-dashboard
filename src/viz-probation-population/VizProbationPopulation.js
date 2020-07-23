@@ -59,8 +59,8 @@ const findDistrictRecord = (district) => (record) =>
 
 function ProbationMap({ currentLocation, data, onLocationClick, width }) {
   // eslint-disable-next-line react/prop-types
-  const DistrictLabel = ({ hover, locationId, objectId }) => {
-    const districtRecord = data.find(findDistrictRecord(objectId));
+  const DistrictLabel = ({ hover, locationId, topologyObjectId }) => {
+    const districtRecord = data.find(findDistrictRecord(topologyObjectId));
     return districtRecord ? (
       <ParticipantCount
         active={locationId === districtRecord.district}

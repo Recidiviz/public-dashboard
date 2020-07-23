@@ -16,8 +16,10 @@ const ProgramParticipants = styled.text`
 
 export default function StateProgramMap({ data, width, scale }) {
   // eslint-disable-next-line react/prop-types
-  const RegionLabel = ({ objectId }) => {
-    const programRegion = data.find((record) => record.region_id === objectId);
+  const RegionLabel = ({ topologyObjectId }) => {
+    const programRegion = data.find(
+      (record) => record.region_id === topologyObjectId
+    );
     return (
       <ProgramParticipants scale={scale}>
         {programRegion.participation_count}

@@ -91,7 +91,7 @@ function DemographicBarChart({ data, dimension, stackOrder }) {
         .map((record) => ({
           color: BAR_CHART_VISUALIZATION_COLORS[dimension][demographic],
           label: formatDemographicValue(demographic, dimension),
-          value: +record.total_supervision_count,
+          value: Number(record.total_supervision_count),
         }))
         .shift();
     })

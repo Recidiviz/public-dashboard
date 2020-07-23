@@ -77,7 +77,7 @@ export default function StateMap({
                     <LabelComponent
                       hover={hoveredLocationId === geography.id}
                       locationId={locationId}
-                      objectId={geography.id}
+                      topologyObjectId={geography.id}
                     />
                   </Marker>
                 )}
