@@ -8,8 +8,8 @@ import supervisionRevocationByMonth from "../assets/test_data/US_ND_supervision_
 import supervisionSuccessByMonth from "../assets/test_data/US_ND_supervision_success_by_month.json";
 import supervisionSuccessDemographics from "../assets/test_data/US_ND_supervision_success_by_period_by_demographics.json";
 import VizParolePopulation from "../viz-parole-population";
-import VizParoleProgram from "../viz-parole-program";
 import VizParoleSuccess from "../viz-parole-success";
+import VizSupervisionProgram from "../viz-supervision-program";
 import VizSupervisionRevocation from "../viz-supervision-revocation";
 import { SUPERVISION_TYPES } from "../constants";
 
@@ -85,9 +85,9 @@ const SECTIONS = [
     Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
     ipsum dui gravida.`,
-    VizComponent: VizParoleProgram,
+    VizComponent: VizSupervisionProgram,
     vizData: {
-      paroleProgramParticipationByRegion: supervisionProgramParticipationByRegion.filter(
+      supervisionProgramParticipationByRegion: supervisionProgramParticipationByRegion.filter(
         recordIsParole
       ),
     },

@@ -12,8 +12,8 @@ const MapWrapper = styled.figure`
   max-width: ${MAX_WIDTH}px;
 `;
 
-export default function VizParoleProgram({
-  data: { paroleProgramParticipationByRegion },
+export default function VizSupervisionProgram({
+  data: { supervisionProgramParticipationByRegion },
 }) {
   return (
     <Measure bounds>
@@ -25,7 +25,7 @@ export default function VizParoleProgram({
       }) => (
         <MapWrapper ref={measureRef}>
           <StateProgramMap
-            data={paroleProgramParticipationByRegion}
+            data={supervisionProgramParticipationByRegion}
             scale={(width || 0) / MAX_WIDTH}
             width={width}
           />
@@ -35,9 +35,9 @@ export default function VizParoleProgram({
   );
 }
 
-VizParoleProgram.propTypes = {
+VizSupervisionProgram.propTypes = {
   data: PropTypes.shape({
-    paroleProgramParticipationByRegion: PropTypes.arrayOf(
+    supervisionProgramParticipationByRegion: PropTypes.arrayOf(
       PropTypes.shape({
         region_id: PropTypes.string.isRequired,
         participation_count: PropTypes.string.isRequired,
