@@ -5,13 +5,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 0,
-    "1-2_count": 21,
+    "<1_count": 23,
+    "1-2_count": 13,
     "2-3_count": 11,
-    "3-5_count": 13,
+    "3-5_count": 26,
     "5-10_count": 21,
-    "10-20_count": 23,
-    "20+_count": 26
+    "10-20_count": 0,
+    "20+_count": 21
   },
   {
     "state_code": "US_ND",
@@ -19,13 +19,13 @@
     "gender": "ALL",
     "age_bucket": "<25",
     "race_or_ethnicity": "ALL",
-    "<1_count": 0,
-    "1-2_count": 5,
-    "2-3_count": 2,
-    "3-5_count": 3,
-    "5-10_count": 5,
+    "<1_count": 6,
+    "1-2_count": 2,
+    "2-3_count": 5,
+    "3-5_count": 5,
+    "5-10_count": 3,
     "10-20_count": 5,
-    "20+_count": 6
+    "20+_count": 0
   },
   {
     "state_code": "US_ND",
@@ -33,13 +33,13 @@
     "gender": "ALL",
     "age_bucket": "25-29",
     "race_or_ethnicity": "ALL",
-    "<1_count": 0,
+    "<1_count": 4,
     "1-2_count": 4,
-    "2-3_count": 2,
-    "3-5_count": 3,
-    "5-10_count": 4,
-    "10-20_count": 5,
-    "20+_count": 6
+    "2-3_count": 5,
+    "3-5_count": 6,
+    "5-10_count": 2,
+    "10-20_count": 0,
+    "20+_count": 3
   },
   {
     "state_code": "US_ND",
@@ -47,13 +47,13 @@
     "gender": "ALL",
     "age_bucket": "30-34",
     "race_or_ethnicity": "ALL",
-    "<1_count": 0,
-    "1-2_count": 4,
-    "2-3_count": 2,
-    "3-5_count": 2,
-    "5-10_count": 4,
+    "<1_count": 4,
+    "1-2_count": 5,
+    "2-3_count": 4,
+    "3-5_count": 0,
+    "5-10_count": 2,
     "10-20_count": 4,
-    "20+_count": 5
+    "20+_count": 2
   },
   {
     "state_code": "US_ND",
@@ -61,13 +61,13 @@
     "gender": "ALL",
     "age_bucket": "35-39",
     "race_or_ethnicity": "ALL",
-    "<1_count": 0,
-    "1-2_count": 7,
-    "2-3_count": 4,
-    "3-5_count": 4,
-    "5-10_count": 7,
-    "10-20_count": 8,
-    "20+_count": 9
+    "<1_count": 4,
+    "1-2_count": 4,
+    "2-3_count": 7,
+    "3-5_count": 9,
+    "5-10_count": 8,
+    "10-20_count": 0,
+    "20+_count": 7
   },
   {
     "state_code": "US_ND",
@@ -77,11 +77,11 @@
     "race_or_ethnicity": "ALL",
     "<1_count": 0,
     "1-2_count": 1,
-    "2-3_count": 0,
-    "3-5_count": 0,
-    "5-10_count": 1,
+    "2-3_count": 1,
+    "3-5_count": 1,
+    "5-10_count": 0,
     "10-20_count": 1,
-    "20+_count": 1
+    "20+_count": 0
   },
   {
     "state_code": "US_ND",
@@ -89,13 +89,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
-    "<1_count": 0,
-    "1-2_count": 4,
-    "2-3_count": 2,
-    "3-5_count": 3,
-    "5-10_count": 4,
+    "<1_count": 4,
+    "1-2_count": 5,
+    "2-3_count": 4,
+    "3-5_count": 2,
+    "5-10_count": 0,
     "10-20_count": 4,
-    "20+_count": 5
+    "20+_count": 3
   },
   {
     "state_code": "US_ND",
@@ -103,13 +103,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "BLACK",
-    "<1_count": 0,
+    "<1_count": 8,
     "1-2_count": 8,
     "2-3_count": 4,
-    "3-5_count": 5,
+    "3-5_count": 0,
     "5-10_count": 8,
-    "10-20_count": 8,
-    "20+_count": 9
+    "10-20_count": 9,
+    "20+_count": 5
   },
   {
     "state_code": "US_ND",
@@ -117,13 +117,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "HISPANIC",
-    "<1_count": 0,
-    "1-2_count": 1,
+    "<1_count": 1,
+    "1-2_count": 2,
     "2-3_count": 1,
-    "3-5_count": 1,
+    "3-5_count": 2,
     "5-10_count": 1,
-    "10-20_count": 2,
-    "20+_count": 2
+    "10-20_count": 0,
+    "20+_count": 1
   },
   {
     "state_code": "US_ND",
@@ -134,9 +134,9 @@
     "<1_count": 0,
     "1-2_count": 1,
     "2-3_count": 0,
-    "3-5_count": 0,
+    "3-5_count": 1,
     "5-10_count": 1,
-    "10-20_count": 1,
+    "10-20_count": 0,
     "20+_count": 1
   },
   {
@@ -145,13 +145,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "OTHER",
-    "<1_count": 0,
+    "<1_count": 4,
     "1-2_count": 7,
-    "2-3_count": 4,
+    "2-3_count": 7,
     "3-5_count": 5,
-    "5-10_count": 7,
-    "10-20_count": 8,
-    "20+_count": 9
+    "5-10_count": 8,
+    "10-20_count": 9,
+    "20+_count": 0
   },
   {
     "state_code": "US_ND",
@@ -161,11 +161,11 @@
     "race_or_ethnicity": "ALL",
     "<1_count": 0,
     "1-2_count": 8,
-    "2-3_count": 4,
-    "3-5_count": 5,
-    "5-10_count": 8,
-    "10-20_count": 8,
-    "20+_count": 9
+    "2-3_count": 8,
+    "3-5_count": 4,
+    "5-10_count": 9,
+    "10-20_count": 5,
+    "20+_count": 8
   },
   {
     "state_code": "US_ND",
@@ -173,13 +173,13 @@
     "gender": "FEMALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 0,
-    "1-2_count": 13,
+    "<1_count": 15,
+    "1-2_count": 8,
     "2-3_count": 7,
-    "3-5_count": 8,
+    "3-5_count": 13,
     "5-10_count": 13,
-    "10-20_count": 15,
-    "20+_count": 17
+    "10-20_count": 17,
+    "20+_count": 0
   },
   {
     "state_code": "US_ND",
@@ -187,13 +187,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 729,
+    "<1_count": 346,
     "1-2_count": 12,
-    "2-3_count": 609,
-    "3-5_count": 346,
-    "5-10_count": 404,
-    "10-20_count": 210,
-    "20+_count": 31
+    "2-3_count": 404,
+    "3-5_count": 729,
+    "5-10_count": 609,
+    "10-20_count": 31,
+    "20+_count": 210
   },
   {
     "state_code": "US_ND",
@@ -201,13 +201,13 @@
     "gender": "ALL",
     "age_bucket": "<25",
     "race_or_ethnicity": "ALL",
-    "<1_count": 221,
-    "1-2_count": 4,
+    "<1_count": 105,
+    "1-2_count": 123,
     "2-3_count": 185,
-    "3-5_count": 105,
-    "5-10_count": 123,
-    "10-20_count": 64,
-    "20+_count": 9
+    "3-5_count": 9,
+    "5-10_count": 221,
+    "10-20_count": 4,
+    "20+_count": 64
   },
   {
     "state_code": "US_ND",
@@ -215,13 +215,13 @@
     "gender": "ALL",
     "age_bucket": "25-29",
     "race_or_ethnicity": "ALL",
-    "<1_count": 40,
-    "1-2_count": 1,
+    "<1_count": 22,
+    "1-2_count": 11,
     "2-3_count": 33,
-    "3-5_count": 19,
-    "5-10_count": 22,
-    "10-20_count": 11,
-    "20+_count": 2
+    "3-5_count": 40,
+    "5-10_count": 19,
+    "10-20_count": 2,
+    "20+_count": 1
   },
   {
     "state_code": "US_ND",
@@ -230,12 +230,12 @@
     "age_bucket": "30-34",
     "race_or_ethnicity": "ALL",
     "<1_count": 119,
-    "1-2_count": 2,
+    "1-2_count": 5,
     "2-3_count": 99,
     "3-5_count": 56,
     "5-10_count": 66,
-    "10-20_count": 34,
-    "20+_count": 5
+    "10-20_count": 2,
+    "20+_count": 34
   },
   {
     "state_code": "US_ND",
@@ -243,13 +243,13 @@
     "gender": "ALL",
     "age_bucket": "35-39",
     "race_or_ethnicity": "ALL",
-    "<1_count": 126,
-    "1-2_count": 2,
-    "2-3_count": 105,
-    "3-5_count": 60,
+    "<1_count": 60,
+    "1-2_count": 36,
+    "2-3_count": 126,
+    "3-5_count": 2,
     "5-10_count": 70,
-    "10-20_count": 36,
-    "20+_count": 5
+    "10-20_count": 5,
+    "20+_count": 105
   },
   {
     "state_code": "US_ND",
@@ -257,13 +257,13 @@
     "gender": "ALL",
     "age_bucket": "40<",
     "race_or_ethnicity": "ALL",
-    "<1_count": 224,
+    "<1_count": 64,
     "1-2_count": 4,
-    "2-3_count": 187,
-    "3-5_count": 106,
-    "5-10_count": 124,
-    "10-20_count": 64,
-    "20+_count": 10
+    "2-3_count": 10,
+    "3-5_count": 187,
+    "5-10_count": 106,
+    "10-20_count": 124,
+    "20+_count": 224
   },
   {
     "state_code": "US_ND",
@@ -271,13 +271,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
-    "<1_count": 208,
-    "1-2_count": 3,
-    "2-3_count": 174,
-    "3-5_count": 99,
-    "5-10_count": 115,
-    "10-20_count": 60,
-    "20+_count": 9
+    "<1_count": 3,
+    "1-2_count": 9,
+    "2-3_count": 99,
+    "3-5_count": 115,
+    "5-10_count": 174,
+    "10-20_count": 208,
+    "20+_count": 60
   },
   {
     "state_code": "US_ND",
@@ -285,13 +285,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "BLACK",
-    "<1_count": 89,
-    "1-2_count": 1,
-    "2-3_count": 74,
-    "3-5_count": 42,
-    "5-10_count": 49,
-    "10-20_count": 26,
-    "20+_count": 4
+    "<1_count": 1,
+    "1-2_count": 42,
+    "2-3_count": 49,
+    "3-5_count": 4,
+    "5-10_count": 26,
+    "10-20_count": 89,
+    "20+_count": 74
   },
   {
     "state_code": "US_ND",
@@ -299,13 +299,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "HISPANIC",
-    "<1_count": 208,
-    "1-2_count": 3,
+    "<1_count": 3,
+    "1-2_count": 60,
     "2-3_count": 174,
-    "3-5_count": 99,
+    "3-5_count": 208,
     "5-10_count": 115,
-    "10-20_count": 60,
-    "20+_count": 9
+    "10-20_count": 9,
+    "20+_count": 99
   },
   {
     "state_code": "US_ND",
@@ -313,13 +313,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "WHITE",
-    "<1_count": 218,
-    "1-2_count": 4,
-    "2-3_count": 182,
+    "<1_count": 9,
+    "1-2_count": 218,
+    "2-3_count": 4,
     "3-5_count": 104,
-    "5-10_count": 121,
-    "10-20_count": 63,
-    "20+_count": 9
+    "5-10_count": 63,
+    "10-20_count": 121,
+    "20+_count": 182
   },
   {
     "state_code": "US_ND",
@@ -327,13 +327,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "OTHER",
-    "<1_count": 5,
+    "<1_count": 1,
     "1-2_count": 0,
-    "2-3_count": 4,
-    "3-5_count": 2,
-    "5-10_count": 3,
-    "10-20_count": 1,
-    "20+_count": 0
+    "2-3_count": 2,
+    "3-5_count": 3,
+    "5-10_count": 0,
+    "10-20_count": 4,
+    "20+_count": 5
   },
   {
     "state_code": "US_ND",
@@ -341,13 +341,13 @@
     "gender": "MALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 394,
-    "1-2_count": 6,
-    "2-3_count": 329,
-    "3-5_count": 187,
+    "<1_count": 17,
+    "1-2_count": 329,
+    "2-3_count": 187,
+    "3-5_count": 394,
     "5-10_count": 218,
-    "10-20_count": 114,
-    "20+_count": 17
+    "10-20_count": 6,
+    "20+_count": 114
   },
   {
     "state_code": "US_ND",
@@ -355,13 +355,13 @@
     "gender": "FEMALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 335,
-    "1-2_count": 6,
-    "2-3_count": 280,
-    "3-5_count": 159,
-    "5-10_count": 186,
-    "10-20_count": 96,
-    "20+_count": 14
+    "<1_count": 280,
+    "1-2_count": 14,
+    "2-3_count": 186,
+    "3-5_count": 96,
+    "5-10_count": 159,
+    "10-20_count": 335,
+    "20+_count": 6
   },
   {
     "state_code": "US_ND",
@@ -369,13 +369,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 53,
-    "1-2_count": 26,
-    "2-3_count": 58,
-    "3-5_count": 93,
-    "5-10_count": 101,
+    "<1_count": 93,
+    "1-2_count": 101,
+    "2-3_count": 1,
+    "3-5_count": 58,
+    "5-10_count": 53,
     "10-20_count": 63,
-    "20+_count": 1
+    "20+_count": 26
   },
   {
     "state_code": "US_ND",
@@ -398,12 +398,12 @@
     "age_bucket": "25-29",
     "race_or_ethnicity": "ALL",
     "<1_count": 11,
-    "1-2_count": 6,
-    "2-3_count": 12,
-    "3-5_count": 20,
-    "5-10_count": 22,
+    "1-2_count": 12,
+    "2-3_count": 6,
+    "3-5_count": 0,
+    "5-10_count": 20,
     "10-20_count": 13,
-    "20+_count": 0
+    "20+_count": 22
   },
   {
     "state_code": "US_ND",
@@ -411,13 +411,13 @@
     "gender": "ALL",
     "age_bucket": "30-34",
     "race_or_ethnicity": "ALL",
-    "<1_count": 4,
-    "1-2_count": 2,
+    "<1_count": 0,
+    "1-2_count": 7,
     "2-3_count": 4,
-    "3-5_count": 7,
-    "5-10_count": 7,
-    "10-20_count": 5,
-    "20+_count": 0
+    "3-5_count": 2,
+    "5-10_count": 5,
+    "10-20_count": 4,
+    "20+_count": 7
   },
   {
     "state_code": "US_ND",
@@ -425,13 +425,13 @@
     "gender": "ALL",
     "age_bucket": "35-39",
     "race_or_ethnicity": "ALL",
-    "<1_count": 10,
-    "1-2_count": 5,
-    "2-3_count": 11,
-    "3-5_count": 18,
-    "5-10_count": 20,
-    "10-20_count": 12,
-    "20+_count": 0
+    "<1_count": 12,
+    "1-2_count": 11,
+    "2-3_count": 18,
+    "3-5_count": 10,
+    "5-10_count": 0,
+    "10-20_count": 20,
+    "20+_count": 5
   },
   {
     "state_code": "US_ND",
@@ -439,13 +439,13 @@
     "gender": "ALL",
     "age_bucket": "40<",
     "race_or_ethnicity": "ALL",
-    "<1_count": 27,
+    "<1_count": 32,
     "1-2_count": 13,
-    "2-3_count": 30,
-    "3-5_count": 47,
-    "5-10_count": 52,
-    "10-20_count": 32,
-    "20+_count": 1
+    "2-3_count": 27,
+    "3-5_count": 52,
+    "5-10_count": 47,
+    "10-20_count": 1,
+    "20+_count": 30
   },
   {
     "state_code": "US_ND",
@@ -453,13 +453,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
-    "<1_count": 14,
-    "1-2_count": 7,
-    "2-3_count": 15,
-    "3-5_count": 25,
-    "5-10_count": 27,
-    "10-20_count": 17,
-    "20+_count": 0
+    "<1_count": 15,
+    "1-2_count": 14,
+    "2-3_count": 7,
+    "3-5_count": 27,
+    "5-10_count": 17,
+    "10-20_count": 0,
+    "20+_count": 25
   },
   {
     "state_code": "US_ND",
@@ -467,13 +467,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "BLACK",
-    "<1_count": 12,
-    "1-2_count": 6,
+    "<1_count": 0,
+    "1-2_count": 21,
     "2-3_count": 13,
-    "3-5_count": 21,
-    "5-10_count": 23,
-    "10-20_count": 14,
-    "20+_count": 0
+    "3-5_count": 12,
+    "5-10_count": 14,
+    "10-20_count": 23,
+    "20+_count": 6
   },
   {
     "state_code": "US_ND",
@@ -481,13 +481,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "HISPANIC",
-    "<1_count": 11,
-    "1-2_count": 6,
-    "2-3_count": 13,
-    "3-5_count": 20,
-    "5-10_count": 22,
-    "10-20_count": 14,
-    "20+_count": 0
+    "<1_count": 22,
+    "1-2_count": 20,
+    "2-3_count": 0,
+    "3-5_count": 6,
+    "5-10_count": 14,
+    "10-20_count": 13,
+    "20+_count": 11
   },
   {
     "state_code": "US_ND",
@@ -495,12 +495,12 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "WHITE",
-    "<1_count": 10,
-    "1-2_count": 5,
+    "<1_count": 18,
+    "1-2_count": 17,
     "2-3_count": 10,
-    "3-5_count": 17,
-    "5-10_count": 18,
-    "10-20_count": 11,
+    "3-5_count": 11,
+    "5-10_count": 5,
+    "10-20_count": 10,
     "20+_count": 0
   },
   {
@@ -510,12 +510,12 @@
     "age_bucket": "ALL",
     "race_or_ethnicity": "OTHER",
     "<1_count": 6,
-    "1-2_count": 3,
-    "2-3_count": 6,
-    "3-5_count": 10,
-    "5-10_count": 11,
-    "10-20_count": 7,
-    "20+_count": 0
+    "1-2_count": 7,
+    "2-3_count": 10,
+    "3-5_count": 0,
+    "5-10_count": 6,
+    "10-20_count": 3,
+    "20+_count": 11
   },
   {
     "state_code": "US_ND",
@@ -523,13 +523,13 @@
     "gender": "MALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 35,
-    "1-2_count": 17,
-    "2-3_count": 39,
-    "3-5_count": 62,
-    "5-10_count": 67,
-    "10-20_count": 42,
-    "20+_count": 1
+    "<1_count": 17,
+    "1-2_count": 42,
+    "2-3_count": 1,
+    "3-5_count": 67,
+    "5-10_count": 62,
+    "10-20_count": 39,
+    "20+_count": 35
   },
   {
     "state_code": "US_ND",
@@ -537,12 +537,12 @@
     "gender": "FEMALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 18,
+    "<1_count": 21,
     "1-2_count": 9,
-    "2-3_count": 19,
-    "3-5_count": 31,
-    "5-10_count": 34,
-    "10-20_count": 21,
+    "2-3_count": 31,
+    "3-5_count": 18,
+    "5-10_count": 19,
+    "10-20_count": 34,
     "20+_count": 0
   },
   {
@@ -551,13 +551,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 15,
+    "<1_count": 11,
     "1-2_count": 7,
-    "2-3_count": 11,
-    "3-5_count": 9,
-    "5-10_count": 12,
-    "10-20_count": 8,
-    "20+_count": 10
+    "2-3_count": 8,
+    "3-5_count": 12,
+    "5-10_count": 10,
+    "10-20_count": 15,
+    "20+_count": 9
   },
   {
     "state_code": "US_ND",
@@ -593,12 +593,12 @@
     "gender": "ALL",
     "age_bucket": "30-34",
     "race_or_ethnicity": "ALL",
-    "<1_count": 4,
-    "1-2_count": 2,
+    "<1_count": 2,
+    "1-2_count": 3,
     "2-3_count": 3,
     "3-5_count": 2,
-    "5-10_count": 3,
-    "10-20_count": 2,
+    "5-10_count": 2,
+    "10-20_count": 4,
     "20+_count": 3
   },
   {
@@ -607,13 +607,13 @@
     "gender": "ALL",
     "age_bucket": "35-39",
     "race_or_ethnicity": "ALL",
-    "<1_count": 4,
-    "1-2_count": 2,
+    "<1_count": 3,
+    "1-2_count": 4,
     "2-3_count": 3,
     "3-5_count": 3,
     "5-10_count": 3,
     "10-20_count": 2,
-    "20+_count": 3
+    "20+_count": 2
   },
   {
     "state_code": "US_ND",
@@ -622,12 +622,12 @@
     "age_bucket": "40<",
     "race_or_ethnicity": "ALL",
     "<1_count": 5,
-    "1-2_count": 2,
-    "2-3_count": 4,
+    "1-2_count": 4,
+    "2-3_count": 3,
     "3-5_count": 3,
     "5-10_count": 4,
     "10-20_count": 3,
-    "20+_count": 3
+    "20+_count": 2
   },
   {
     "state_code": "US_ND",
@@ -635,13 +635,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
-    "<1_count": 1,
+    "<1_count": 0,
     "1-2_count": 0,
     "2-3_count": 0,
     "3-5_count": 0,
     "5-10_count": 0,
     "10-20_count": 0,
-    "20+_count": 0
+    "20+_count": 1
   },
   {
     "state_code": "US_ND",
@@ -649,13 +649,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "BLACK",
-    "<1_count": 4,
+    "<1_count": 3,
     "1-2_count": 2,
-    "2-3_count": 3,
+    "2-3_count": 4,
     "3-5_count": 3,
-    "5-10_count": 4,
+    "5-10_count": 3,
     "10-20_count": 2,
-    "20+_count": 3
+    "20+_count": 4
   },
   {
     "state_code": "US_ND",
@@ -667,9 +667,9 @@
     "1-2_count": 2,
     "2-3_count": 2,
     "3-5_count": 2,
-    "5-10_count": 3,
+    "5-10_count": 2,
     "10-20_count": 2,
-    "20+_count": 2
+    "20+_count": 3
   },
   {
     "state_code": "US_ND",
@@ -677,12 +677,12 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "WHITE",
-    "<1_count": 3,
-    "1-2_count": 1,
-    "2-3_count": 2,
-    "3-5_count": 2,
+    "<1_count": 2,
+    "1-2_count": 2,
+    "2-3_count": 1,
+    "3-5_count": 1,
     "5-10_count": 2,
-    "10-20_count": 1,
+    "10-20_count": 3,
     "20+_count": 2
   },
   {
@@ -691,13 +691,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "OTHER",
-    "<1_count": 4,
-    "1-2_count": 2,
+    "<1_count": 2,
+    "1-2_count": 3,
     "2-3_count": 3,
     "3-5_count": 3,
     "5-10_count": 3,
     "10-20_count": 2,
-    "20+_count": 3
+    "20+_count": 4
   },
   {
     "state_code": "US_ND",
@@ -705,13 +705,13 @@
     "gender": "MALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 13,
-    "1-2_count": 6,
+    "<1_count": 6,
+    "1-2_count": 8,
     "2-3_count": 9,
-    "3-5_count": 8,
-    "5-10_count": 10,
-    "10-20_count": 7,
-    "20+_count": 8
+    "3-5_count": 13,
+    "5-10_count": 7,
+    "10-20_count": 8,
+    "20+_count": 10
   },
   {
     "state_code": "US_ND",
@@ -719,12 +719,12 @@
     "gender": "FEMALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 2,
+    "<1_count": 1,
     "1-2_count": 1,
     "2-3_count": 2,
-    "3-5_count": 1,
-    "5-10_count": 2,
-    "10-20_count": 1,
+    "3-5_count": 2,
+    "5-10_count": 1,
+    "10-20_count": 2,
     "20+_count": 2
   },
   {
@@ -733,13 +733,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 11,
-    "1-2_count": 16,
-    "2-3_count": 30,
-    "3-5_count": 28,
-    "5-10_count": 19,
-    "10-20_count": 36,
-    "20+_count": 23
+    "<1_count": 19,
+    "1-2_count": 28,
+    "2-3_count": 36,
+    "3-5_count": 11,
+    "5-10_count": 23,
+    "10-20_count": 30,
+    "20+_count": 16
   },
   {
     "state_code": "US_ND",
@@ -747,13 +747,13 @@
     "gender": "ALL",
     "age_bucket": "<25",
     "race_or_ethnicity": "ALL",
-    "<1_count": 2,
-    "1-2_count": 4,
-    "2-3_count": 7,
-    "3-5_count": 6,
-    "5-10_count": 4,
-    "10-20_count": 8,
-    "20+_count": 5
+    "<1_count": 7,
+    "1-2_count": 8,
+    "2-3_count": 6,
+    "3-5_count": 4,
+    "5-10_count": 2,
+    "10-20_count": 5,
+    "20+_count": 4
   },
   {
     "state_code": "US_ND",
@@ -762,12 +762,12 @@
     "age_bucket": "25-29",
     "race_or_ethnicity": "ALL",
     "<1_count": 2,
-    "1-2_count": 3,
+    "1-2_count": 4,
     "2-3_count": 6,
     "3-5_count": 5,
     "5-10_count": 3,
-    "10-20_count": 7,
-    "20+_count": 4
+    "10-20_count": 3,
+    "20+_count": 7
   },
   {
     "state_code": "US_ND",
@@ -775,11 +775,11 @@
     "gender": "ALL",
     "age_bucket": "30-34",
     "race_or_ethnicity": "ALL",
-    "<1_count": 2,
-    "1-2_count": 3,
-    "2-3_count": 6,
+    "<1_count": 3,
+    "1-2_count": 4,
+    "2-3_count": 2,
     "3-5_count": 6,
-    "5-10_count": 4,
+    "5-10_count": 6,
     "10-20_count": 7,
     "20+_count": 5
   },
@@ -789,13 +789,13 @@
     "gender": "ALL",
     "age_bucket": "35-39",
     "race_or_ethnicity": "ALL",
-    "<1_count": 2,
-    "1-2_count": 2,
-    "2-3_count": 5,
-    "3-5_count": 4,
-    "5-10_count": 3,
+    "<1_count": 5,
+    "1-2_count": 3,
+    "2-3_count": 3,
+    "3-5_count": 2,
+    "5-10_count": 2,
     "10-20_count": 5,
-    "20+_count": 3
+    "20+_count": 4
   },
   {
     "state_code": "US_ND",
@@ -803,13 +803,13 @@
     "gender": "ALL",
     "age_bucket": "40<",
     "race_or_ethnicity": "ALL",
-    "<1_count": 3,
+    "<1_count": 4,
     "1-2_count": 4,
-    "2-3_count": 7,
+    "2-3_count": 5,
     "3-5_count": 7,
-    "5-10_count": 4,
+    "5-10_count": 3,
     "10-20_count": 8,
-    "20+_count": 5
+    "20+_count": 7
   },
   {
     "state_code": "US_ND",
@@ -817,12 +817,12 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
-    "<1_count": 3,
-    "1-2_count": 5,
+    "<1_count": 10,
+    "1-2_count": 8,
     "2-3_count": 8,
-    "3-5_count": 8,
+    "3-5_count": 3,
     "5-10_count": 5,
-    "10-20_count": 10,
+    "10-20_count": 5,
     "20+_count": 7
   },
   {
@@ -832,11 +832,11 @@
     "age_bucket": "ALL",
     "race_or_ethnicity": "BLACK",
     "<1_count": 2,
-    "1-2_count": 2,
-    "2-3_count": 4,
-    "3-5_count": 4,
+    "1-2_count": 4,
+    "2-3_count": 5,
+    "3-5_count": 2,
     "5-10_count": 3,
-    "10-20_count": 5,
+    "10-20_count": 4,
     "20+_count": 3
   },
   {
@@ -845,13 +845,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "HISPANIC",
-    "<1_count": 3,
-    "1-2_count": 5,
-    "2-3_count": 8,
+    "<1_count": 10,
+    "1-2_count": 3,
+    "2-3_count": 5,
     "3-5_count": 8,
     "5-10_count": 5,
-    "10-20_count": 10,
-    "20+_count": 6
+    "10-20_count": 6,
+    "20+_count": 8
   },
   {
     "state_code": "US_ND",
@@ -859,13 +859,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "WHITE",
-    "<1_count": 2,
-    "1-2_count": 3,
-    "2-3_count": 6,
-    "3-5_count": 5,
-    "5-10_count": 4,
-    "10-20_count": 7,
-    "20+_count": 4
+    "<1_count": 4,
+    "1-2_count": 4,
+    "2-3_count": 3,
+    "3-5_count": 7,
+    "5-10_count": 6,
+    "10-20_count": 2,
+    "20+_count": 5
   },
   {
     "state_code": "US_ND",
@@ -873,8 +873,8 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "OTHER",
-    "<1_count": 1,
-    "1-2_count": 2,
+    "<1_count": 2,
+    "1-2_count": 1,
     "2-3_count": 3,
     "3-5_count": 3,
     "5-10_count": 2,
@@ -889,11 +889,11 @@
     "race_or_ethnicity": "ALL",
     "<1_count": 5,
     "1-2_count": 8,
-    "2-3_count": 15,
-    "3-5_count": 14,
-    "5-10_count": 9,
-    "10-20_count": 17,
-    "20+_count": 11
+    "2-3_count": 17,
+    "3-5_count": 11,
+    "5-10_count": 14,
+    "10-20_count": 9,
+    "20+_count": 15
   },
   {
     "state_code": "US_ND",
@@ -901,12 +901,12 @@
     "gender": "FEMALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 6,
-    "1-2_count": 8,
-    "2-3_count": 15,
-    "3-5_count": 14,
-    "5-10_count": 10,
-    "10-20_count": 19,
+    "<1_count": 15,
+    "1-2_count": 6,
+    "2-3_count": 8,
+    "3-5_count": 19,
+    "5-10_count": 14,
+    "10-20_count": 10,
     "20+_count": 12
   },
   {
@@ -915,13 +915,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 82,
-    "1-2_count": 96,
-    "2-3_count": 63,
-    "3-5_count": 29,
+    "<1_count": 50,
+    "1-2_count": 82,
+    "2-3_count": 29,
+    "3-5_count": 78,
     "5-10_count": 47,
-    "10-20_count": 50,
-    "20+_count": 78
+    "10-20_count": 96,
+    "20+_count": 63
   },
   {
     "state_code": "US_ND",
@@ -930,12 +930,12 @@
     "age_bucket": "<25",
     "race_or_ethnicity": "ALL",
     "<1_count": 20,
-    "1-2_count": 23,
-    "2-3_count": 15,
-    "3-5_count": 7,
-    "5-10_count": 11,
-    "10-20_count": 12,
-    "20+_count": 19
+    "1-2_count": 12,
+    "2-3_count": 19,
+    "3-5_count": 11,
+    "5-10_count": 23,
+    "10-20_count": 15,
+    "20+_count": 7
   },
   {
     "state_code": "US_ND",
@@ -943,13 +943,13 @@
     "gender": "ALL",
     "age_bucket": "25-29",
     "race_or_ethnicity": "ALL",
-    "<1_count": 30,
-    "1-2_count": 35,
-    "2-3_count": 23,
-    "3-5_count": 11,
-    "5-10_count": 17,
-    "10-20_count": 18,
-    "20+_count": 29
+    "<1_count": 29,
+    "1-2_count": 18,
+    "2-3_count": 17,
+    "3-5_count": 35,
+    "5-10_count": 11,
+    "10-20_count": 30,
+    "20+_count": 23
   },
   {
     "state_code": "US_ND",
@@ -957,13 +957,13 @@
     "gender": "ALL",
     "age_bucket": "30-34",
     "race_or_ethnicity": "ALL",
-    "<1_count": 3,
+    "<1_count": 2,
     "1-2_count": 4,
-    "2-3_count": 3,
-    "3-5_count": 1,
-    "5-10_count": 2,
-    "10-20_count": 2,
-    "20+_count": 3
+    "2-3_count": 1,
+    "3-5_count": 3,
+    "5-10_count": 3,
+    "10-20_count": 3,
+    "20+_count": 2
   },
   {
     "state_code": "US_ND",
@@ -972,12 +972,12 @@
     "age_bucket": "35-39",
     "race_or_ethnicity": "ALL",
     "<1_count": 11,
-    "1-2_count": 13,
+    "1-2_count": 11,
     "2-3_count": 9,
     "3-5_count": 4,
-    "5-10_count": 6,
-    "10-20_count": 7,
-    "20+_count": 11
+    "5-10_count": 7,
+    "10-20_count": 6,
+    "20+_count": 13
   },
   {
     "state_code": "US_ND",
@@ -985,13 +985,13 @@
     "gender": "ALL",
     "age_bucket": "40<",
     "race_or_ethnicity": "ALL",
-    "<1_count": 18,
-    "1-2_count": 21,
-    "2-3_count": 14,
+    "<1_count": 21,
+    "1-2_count": 11,
+    "2-3_count": 17,
     "3-5_count": 6,
-    "5-10_count": 10,
-    "10-20_count": 11,
-    "20+_count": 17
+    "5-10_count": 18,
+    "10-20_count": 14,
+    "20+_count": 10
   },
   {
     "state_code": "US_ND",
@@ -999,13 +999,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
-    "<1_count": 18,
-    "1-2_count": 21,
-    "2-3_count": 14,
+    "<1_count": 17,
+    "1-2_count": 18,
+    "2-3_count": 11,
     "3-5_count": 6,
-    "5-10_count": 10,
-    "10-20_count": 11,
-    "20+_count": 17
+    "5-10_count": 14,
+    "10-20_count": 21,
+    "20+_count": 10
   },
   {
     "state_code": "US_ND",
@@ -1013,13 +1013,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "BLACK",
-    "<1_count": 24,
-    "1-2_count": 29,
-    "2-3_count": 19,
-    "3-5_count": 9,
-    "5-10_count": 14,
-    "10-20_count": 15,
-    "20+_count": 23
+    "<1_count": 15,
+    "1-2_count": 14,
+    "2-3_count": 23,
+    "3-5_count": 19,
+    "5-10_count": 24,
+    "10-20_count": 29,
+    "20+_count": 9
   },
   {
     "state_code": "US_ND",
@@ -1027,13 +1027,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "HISPANIC",
-    "<1_count": 27,
-    "1-2_count": 32,
+    "<1_count": 10,
+    "1-2_count": 27,
     "2-3_count": 21,
-    "3-5_count": 10,
-    "5-10_count": 15,
-    "10-20_count": 16,
-    "20+_count": 26
+    "3-5_count": 32,
+    "5-10_count": 16,
+    "10-20_count": 26,
+    "20+_count": 15
   },
   {
     "state_code": "US_ND",
@@ -1041,13 +1041,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "WHITE",
-    "<1_count": 7,
-    "1-2_count": 8,
+    "<1_count": 4,
+    "1-2_count": 2,
     "2-3_count": 5,
-    "3-5_count": 2,
-    "5-10_count": 4,
-    "10-20_count": 4,
-    "20+_count": 7
+    "3-5_count": 4,
+    "5-10_count": 7,
+    "10-20_count": 7,
+    "20+_count": 8
   },
   {
     "state_code": "US_ND",
@@ -1055,13 +1055,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "OTHER",
-    "<1_count": 6,
-    "1-2_count": 7,
-    "2-3_count": 4,
-    "3-5_count": 2,
-    "5-10_count": 3,
+    "<1_count": 2,
+    "1-2_count": 6,
+    "2-3_count": 3,
+    "3-5_count": 4,
+    "5-10_count": 6,
     "10-20_count": 4,
-    "20+_count": 6
+    "20+_count": 7
   },
   {
     "state_code": "US_ND",
@@ -1069,13 +1069,13 @@
     "gender": "MALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 66,
-    "1-2_count": 77,
-    "2-3_count": 51,
-    "3-5_count": 23,
-    "5-10_count": 38,
+    "<1_count": 23,
+    "1-2_count": 38,
+    "2-3_count": 77,
+    "3-5_count": 63,
+    "5-10_count": 51,
     "10-20_count": 40,
-    "20+_count": 63
+    "20+_count": 66
   },
   {
     "state_code": "US_ND",
@@ -1083,13 +1083,13 @@
     "gender": "FEMALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 16,
-    "1-2_count": 19,
-    "2-3_count": 12,
-    "3-5_count": 6,
-    "5-10_count": 9,
-    "10-20_count": 10,
-    "20+_count": 15
+    "<1_count": 19,
+    "1-2_count": 15,
+    "2-3_count": 10,
+    "3-5_count": 9,
+    "5-10_count": 12,
+    "10-20_count": 16,
+    "20+_count": 6
   },
   {
     "state_code": "US_ND",
@@ -1097,13 +1097,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 126,
+    "<1_count": 12,
     "1-2_count": 21,
-    "2-3_count": 64,
-    "3-5_count": 2,
+    "2-3_count": 2,
+    "3-5_count": 131,
     "5-10_count": 131,
-    "10-20_count": 131,
-    "20+_count": 12
+    "10-20_count": 126,
+    "20+_count": 64
   },
   {
     "state_code": "US_ND",
@@ -1112,12 +1112,12 @@
     "age_bucket": "<25",
     "race_or_ethnicity": "ALL",
     "<1_count": 21,
-    "1-2_count": 3,
-    "2-3_count": 10,
-    "3-5_count": 0,
+    "1-2_count": 21,
+    "2-3_count": 2,
+    "3-5_count": 3,
     "5-10_count": 21,
-    "10-20_count": 21,
-    "20+_count": 2
+    "10-20_count": 10,
+    "20+_count": 0
   },
   {
     "state_code": "US_ND",
@@ -1126,12 +1126,12 @@
     "age_bucket": "25-29",
     "race_or_ethnicity": "ALL",
     "<1_count": 24,
-    "1-2_count": 4,
-    "2-3_count": 12,
-    "3-5_count": 0,
-    "5-10_count": 25,
+    "1-2_count": 2,
+    "2-3_count": 0,
+    "3-5_count": 25,
+    "5-10_count": 4,
     "10-20_count": 25,
-    "20+_count": 2
+    "20+_count": 12
   },
   {
     "state_code": "US_ND",
@@ -1140,12 +1140,12 @@
     "age_bucket": "30-34",
     "race_or_ethnicity": "ALL",
     "<1_count": 24,
-    "1-2_count": 4,
-    "2-3_count": 12,
-    "3-5_count": 0,
-    "5-10_count": 25,
+    "1-2_count": 2,
+    "2-3_count": 0,
+    "3-5_count": 25,
+    "5-10_count": 4,
     "10-20_count": 25,
-    "20+_count": 2
+    "20+_count": 12
   },
   {
     "state_code": "US_ND",
@@ -1153,13 +1153,13 @@
     "gender": "ALL",
     "age_bucket": "35-39",
     "race_or_ethnicity": "ALL",
-    "<1_count": 28,
-    "1-2_count": 5,
-    "2-3_count": 14,
-    "3-5_count": 0,
-    "5-10_count": 29,
-    "10-20_count": 29,
-    "20+_count": 3
+    "<1_count": 29,
+    "1-2_count": 29,
+    "2-3_count": 5,
+    "3-5_count": 3,
+    "5-10_count": 0,
+    "10-20_count": 28,
+    "20+_count": 14
   },
   {
     "state_code": "US_ND",
@@ -1167,13 +1167,13 @@
     "gender": "ALL",
     "age_bucket": "40<",
     "race_or_ethnicity": "ALL",
-    "<1_count": 30,
+    "<1_count": 31,
     "1-2_count": 5,
-    "2-3_count": 15,
+    "2-3_count": 3,
     "3-5_count": 0,
-    "5-10_count": 31,
+    "5-10_count": 15,
     "10-20_count": 31,
-    "20+_count": 3
+    "20+_count": 30
   },
   {
     "state_code": "US_ND",
@@ -1181,13 +1181,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
-    "<1_count": 38,
-    "1-2_count": 6,
-    "2-3_count": 19,
-    "3-5_count": 1,
-    "5-10_count": 40,
-    "10-20_count": 40,
-    "20+_count": 4
+    "<1_count": 6,
+    "1-2_count": 1,
+    "2-3_count": 40,
+    "3-5_count": 40,
+    "5-10_count": 19,
+    "10-20_count": 4,
+    "20+_count": 38
   },
   {
     "state_code": "US_ND",
@@ -1195,13 +1195,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "BLACK",
-    "<1_count": 29,
+    "<1_count": 30,
     "1-2_count": 5,
-    "2-3_count": 15,
-    "3-5_count": 0,
-    "5-10_count": 30,
-    "10-20_count": 30,
-    "20+_count": 3
+    "2-3_count": 30,
+    "3-5_count": 29,
+    "5-10_count": 3,
+    "10-20_count": 15,
+    "20+_count": 0
   },
   {
     "state_code": "US_ND",
@@ -1209,13 +1209,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "HISPANIC",
-    "<1_count": 27,
-    "1-2_count": 5,
-    "2-3_count": 14,
-    "3-5_count": 0,
-    "5-10_count": 28,
-    "10-20_count": 28,
-    "20+_count": 3
+    "<1_count": 5,
+    "1-2_count": 28,
+    "2-3_count": 0,
+    "3-5_count": 28,
+    "5-10_count": 27,
+    "10-20_count": 3,
+    "20+_count": 14
   },
   {
     "state_code": "US_ND",
@@ -1223,13 +1223,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "WHITE",
-    "<1_count": 13,
-    "1-2_count": 2,
-    "2-3_count": 7,
-    "3-5_count": 0,
-    "5-10_count": 14,
-    "10-20_count": 14,
-    "20+_count": 1
+    "<1_count": 14,
+    "1-2_count": 14,
+    "2-3_count": 2,
+    "3-5_count": 1,
+    "5-10_count": 0,
+    "10-20_count": 7,
+    "20+_count": 13
   },
   {
     "state_code": "US_ND",
@@ -1237,13 +1237,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "OTHER",
-    "<1_count": 19,
-    "1-2_count": 3,
-    "2-3_count": 9,
-    "3-5_count": 0,
-    "5-10_count": 19,
+    "<1_count": 9,
+    "1-2_count": 2,
+    "2-3_count": 19,
+    "3-5_count": 3,
+    "5-10_count": 0,
     "10-20_count": 19,
-    "20+_count": 2
+    "20+_count": 19
   },
   {
     "state_code": "US_ND",
@@ -1251,13 +1251,13 @@
     "gender": "MALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 67,
-    "1-2_count": 11,
-    "2-3_count": 34,
-    "3-5_count": 1,
+    "<1_count": 34,
+    "1-2_count": 1,
+    "2-3_count": 6,
+    "3-5_count": 69,
     "5-10_count": 69,
-    "10-20_count": 69,
-    "20+_count": 6
+    "10-20_count": 11,
+    "20+_count": 67
   },
   {
     "state_code": "US_ND",
@@ -1265,13 +1265,13 @@
     "gender": "FEMALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 59,
-    "1-2_count": 10,
-    "2-3_count": 30,
+    "<1_count": 10,
+    "1-2_count": 6,
+    "2-3_count": 59,
     "3-5_count": 1,
     "5-10_count": 62,
-    "10-20_count": 62,
-    "20+_count": 6
+    "10-20_count": 30,
+    "20+_count": 62
   },
   {
     "state_code": "US_ND",
@@ -1279,12 +1279,12 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 27,
+    "<1_count": 40,
     "1-2_count": 12,
-    "2-3_count": 8,
-    "3-5_count": 40,
+    "2-3_count": 68,
+    "3-5_count": 8,
     "5-10_count": 39,
-    "10-20_count": 68,
+    "10-20_count": 27,
     "20+_count": 41
   },
   {
@@ -1295,10 +1295,10 @@
     "race_or_ethnicity": "ALL",
     "<1_count": 0,
     "1-2_count": 0,
-    "2-3_count": 0,
+    "2-3_count": 1,
     "3-5_count": 0,
     "5-10_count": 0,
-    "10-20_count": 1,
+    "10-20_count": 0,
     "20+_count": 0
   },
   {
@@ -1307,12 +1307,12 @@
     "gender": "ALL",
     "age_bucket": "25-29",
     "race_or_ethnicity": "ALL",
-    "<1_count": 8,
-    "1-2_count": 4,
-    "2-3_count": 2,
-    "3-5_count": 12,
-    "5-10_count": 12,
-    "10-20_count": 21,
+    "<1_count": 4,
+    "1-2_count": 8,
+    "2-3_count": 12,
+    "3-5_count": 21,
+    "5-10_count": 2,
+    "10-20_count": 12,
     "20+_count": 12
   },
   {
@@ -1321,11 +1321,11 @@
     "gender": "ALL",
     "age_bucket": "30-34",
     "race_or_ethnicity": "ALL",
-    "<1_count": 11,
-    "1-2_count": 5,
-    "2-3_count": 3,
-    "3-5_count": 17,
-    "5-10_count": 17,
+    "<1_count": 3,
+    "1-2_count": 17,
+    "2-3_count": 17,
+    "3-5_count": 11,
+    "5-10_count": 5,
     "10-20_count": 29,
     "20+_count": 17
   },
@@ -1336,10 +1336,10 @@
     "age_bucket": "35-39",
     "race_or_ethnicity": "ALL",
     "<1_count": 4,
-    "1-2_count": 2,
-    "2-3_count": 1,
+    "1-2_count": 1,
+    "2-3_count": 6,
     "3-5_count": 6,
-    "5-10_count": 6,
+    "5-10_count": 2,
     "10-20_count": 10,
     "20+_count": 6
   },
@@ -1349,11 +1349,11 @@
     "gender": "ALL",
     "age_bucket": "40<",
     "race_or_ethnicity": "ALL",
-    "<1_count": 3,
+    "<1_count": 1,
     "1-2_count": 1,
-    "2-3_count": 1,
+    "2-3_count": 4,
     "3-5_count": 5,
-    "5-10_count": 4,
+    "5-10_count": 3,
     "10-20_count": 8,
     "20+_count": 5
   },
@@ -1363,13 +1363,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
-    "<1_count": 10,
-    "1-2_count": 4,
-    "2-3_count": 3,
-    "3-5_count": 14,
+    "<1_count": 15,
+    "1-2_count": 24,
+    "2-3_count": 14,
+    "3-5_count": 10,
     "5-10_count": 14,
-    "10-20_count": 24,
-    "20+_count": 15
+    "10-20_count": 3,
+    "20+_count": 4
   },
   {
     "state_code": "US_ND",
@@ -1391,13 +1391,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "HISPANIC",
-    "<1_count": 12,
-    "1-2_count": 5,
-    "2-3_count": 3,
+    "<1_count": 3,
+    "1-2_count": 18,
+    "2-3_count": 30,
     "3-5_count": 17,
-    "5-10_count": 17,
-    "10-20_count": 30,
-    "20+_count": 18
+    "5-10_count": 5,
+    "10-20_count": 12,
+    "20+_count": 17
   },
   {
     "state_code": "US_ND",
@@ -1419,13 +1419,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "OTHER",
-    "<1_count": 5,
+    "<1_count": 2,
     "1-2_count": 2,
-    "2-3_count": 2,
+    "2-3_count": 8,
     "3-5_count": 8,
     "5-10_count": 8,
-    "10-20_count": 14,
-    "20+_count": 8
+    "10-20_count": 5,
+    "20+_count": 14
   },
   {
     "state_code": "US_ND",
@@ -1433,13 +1433,13 @@
     "gender": "MALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 11,
+    "<1_count": 17,
     "1-2_count": 5,
-    "2-3_count": 3,
-    "3-5_count": 17,
-    "5-10_count": 16,
-    "10-20_count": 28,
-    "20+_count": 17
+    "2-3_count": 16,
+    "3-5_count": 28,
+    "5-10_count": 17,
+    "10-20_count": 3,
+    "20+_count": 11
   },
   {
     "state_code": "US_ND",
@@ -1448,12 +1448,12 @@
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
     "<1_count": 16,
-    "1-2_count": 7,
+    "1-2_count": 23,
     "2-3_count": 5,
-    "3-5_count": 23,
-    "5-10_count": 23,
-    "10-20_count": 40,
-    "20+_count": 24
+    "3-5_count": 7,
+    "5-10_count": 40,
+    "10-20_count": 24,
+    "20+_count": 23
   },
   {
     "state_code": "US_ND",
@@ -1461,13 +1461,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 25,
-    "1-2_count": 20,
-    "2-3_count": 31,
-    "3-5_count": 6,
-    "5-10_count": 20,
-    "10-20_count": 14,
-    "20+_count": 2
+    "<1_count": 6,
+    "1-2_count": 2,
+    "2-3_count": 20,
+    "3-5_count": 25,
+    "5-10_count": 14,
+    "10-20_count": 20,
+    "20+_count": 31
   },
   {
     "state_code": "US_ND",
@@ -1475,13 +1475,13 @@
     "gender": "ALL",
     "age_bucket": "<25",
     "race_or_ethnicity": "ALL",
-    "<1_count": 8,
-    "1-2_count": 6,
-    "2-3_count": 10,
-    "3-5_count": 2,
-    "5-10_count": 6,
-    "10-20_count": 4,
-    "20+_count": 1
+    "<1_count": 10,
+    "1-2_count": 1,
+    "2-3_count": 2,
+    "3-5_count": 8,
+    "5-10_count": 4,
+    "10-20_count": 6,
+    "20+_count": 6
   },
   {
     "state_code": "US_ND",
@@ -1489,13 +1489,13 @@
     "gender": "ALL",
     "age_bucket": "25-29",
     "race_or_ethnicity": "ALL",
-    "<1_count": 3,
-    "1-2_count": 3,
-    "2-3_count": 4,
-    "3-5_count": 1,
+    "<1_count": 1,
+    "1-2_count": 4,
+    "2-3_count": 0,
+    "3-5_count": 3,
     "5-10_count": 3,
     "10-20_count": 2,
-    "20+_count": 0
+    "20+_count": 3
   },
   {
     "state_code": "US_ND",
@@ -1503,13 +1503,13 @@
     "gender": "ALL",
     "age_bucket": "30-34",
     "race_or_ethnicity": "ALL",
-    "<1_count": 2,
-    "1-2_count": 2,
-    "2-3_count": 3,
-    "3-5_count": 1,
-    "5-10_count": 2,
-    "10-20_count": 1,
-    "20+_count": 0
+    "<1_count": 1,
+    "1-2_count": 1,
+    "2-3_count": 2,
+    "3-5_count": 0,
+    "5-10_count": 3,
+    "10-20_count": 2,
+    "20+_count": 2
   },
   {
     "state_code": "US_ND",
@@ -1518,12 +1518,12 @@
     "age_bucket": "35-39",
     "race_or_ethnicity": "ALL",
     "<1_count": 11,
-    "1-2_count": 9,
+    "1-2_count": 6,
     "2-3_count": 13,
-    "3-5_count": 3,
-    "5-10_count": 9,
-    "10-20_count": 6,
-    "20+_count": 1
+    "3-5_count": 1,
+    "5-10_count": 3,
+    "10-20_count": 9,
+    "20+_count": 9
   },
   {
     "state_code": "US_ND",
@@ -1531,13 +1531,13 @@
     "gender": "ALL",
     "age_bucket": "40<",
     "race_or_ethnicity": "ALL",
-    "<1_count": 1,
+    "<1_count": 0,
     "1-2_count": 1,
     "2-3_count": 1,
     "3-5_count": 0,
     "5-10_count": 1,
     "10-20_count": 0,
-    "20+_count": 0
+    "20+_count": 1
   },
   {
     "state_code": "US_ND",
@@ -1547,11 +1547,11 @@
     "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
     "<1_count": 10,
     "1-2_count": 8,
-    "2-3_count": 12,
-    "3-5_count": 2,
+    "2-3_count": 2,
+    "3-5_count": 1,
     "5-10_count": 8,
     "10-20_count": 6,
-    "20+_count": 1
+    "20+_count": 12
   },
   {
     "state_code": "US_ND",
@@ -1559,13 +1559,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "BLACK",
-    "<1_count": 2,
-    "1-2_count": 1,
-    "2-3_count": 2,
-    "3-5_count": 0,
-    "5-10_count": 1,
+    "<1_count": 1,
+    "1-2_count": 2,
+    "2-3_count": 0,
+    "3-5_count": 2,
+    "5-10_count": 0,
     "10-20_count": 1,
-    "20+_count": 0
+    "20+_count": 1
   },
   {
     "state_code": "US_ND",
@@ -1587,13 +1587,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "WHITE",
-    "<1_count": 10,
-    "1-2_count": 8,
+    "<1_count": 5,
+    "1-2_count": 1,
     "2-3_count": 12,
-    "3-5_count": 2,
-    "5-10_count": 8,
-    "10-20_count": 5,
-    "20+_count": 1
+    "3-5_count": 8,
+    "5-10_count": 2,
+    "10-20_count": 10,
+    "20+_count": 8
   },
   {
     "state_code": "US_ND",
@@ -1603,11 +1603,11 @@
     "race_or_ethnicity": "OTHER",
     "<1_count": 3,
     "1-2_count": 3,
-    "2-3_count": 4,
-    "3-5_count": 1,
-    "5-10_count": 3,
-    "10-20_count": 2,
-    "20+_count": 0
+    "2-3_count": 1,
+    "3-5_count": 2,
+    "5-10_count": 4,
+    "10-20_count": 0,
+    "20+_count": 3
   },
   {
     "state_code": "US_ND",
@@ -1615,13 +1615,13 @@
     "gender": "MALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 20,
-    "1-2_count": 16,
-    "2-3_count": 25,
-    "3-5_count": 5,
+    "<1_count": 2,
+    "1-2_count": 5,
+    "2-3_count": 16,
+    "3-5_count": 20,
     "5-10_count": 16,
-    "10-20_count": 11,
-    "20+_count": 2
+    "10-20_count": 25,
+    "20+_count": 11
   },
   {
     "state_code": "US_ND",
@@ -1629,25 +1629,11 @@
     "gender": "FEMALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 5,
-    "1-2_count": 4,
-    "2-3_count": 6,
-    "3-5_count": 1,
-    "5-10_count": 4,
-    "10-20_count": 3,
-    "20+_count": 0
-  },
-  {
-    "state_code": "US_ND",
-    "district": "NORTHEAST",
-    "gender": "ALL",
-    "age_bucket": "ALL",
-    "race_or_ethnicity": "ALL",
-    "<1_count": 7,
-    "1-2_count": 14,
-    "2-3_count": 11,
-    "3-5_count": 12,
-    "5-10_count": 16,
+    "<1_count": 3,
+    "1-2_count": 5,
+    "2-3_count": 1,
+    "3-5_count": 6,
+    "5-10_count": 0,
     "10-20_count": 4,
     "20+_count": 4
   },
@@ -1655,14 +1641,28 @@
     "state_code": "US_ND",
     "district": "NORTHEAST",
     "gender": "ALL",
+    "age_bucket": "ALL",
+    "race_or_ethnicity": "ALL",
+    "<1_count": 4,
+    "1-2_count": 12,
+    "2-3_count": 14,
+    "3-5_count": 7,
+    "5-10_count": 11,
+    "10-20_count": 4,
+    "20+_count": 16
+  },
+  {
+    "state_code": "US_ND",
+    "district": "NORTHEAST",
+    "gender": "ALL",
     "age_bucket": "<25",
     "race_or_ethnicity": "ALL",
-    "<1_count": 3,
-    "1-2_count": 6,
-    "2-3_count": 5,
-    "3-5_count": 5,
-    "5-10_count": 7,
-    "10-20_count": 2,
+    "<1_count": 5,
+    "1-2_count": 2,
+    "2-3_count": 3,
+    "3-5_count": 7,
+    "5-10_count": 5,
+    "10-20_count": 6,
     "20+_count": 2
   },
   {
@@ -1671,12 +1671,12 @@
     "gender": "ALL",
     "age_bucket": "25-29",
     "race_or_ethnicity": "ALL",
-    "<1_count": 2,
+    "<1_count": 1,
     "1-2_count": 3,
-    "2-3_count": 3,
-    "3-5_count": 3,
-    "5-10_count": 4,
-    "10-20_count": 1,
+    "2-3_count": 4,
+    "3-5_count": 2,
+    "5-10_count": 3,
+    "10-20_count": 3,
     "20+_count": 1
   },
   {
@@ -1688,10 +1688,10 @@
     "<1_count": 1,
     "1-2_count": 2,
     "2-3_count": 2,
-    "3-5_count": 2,
-    "5-10_count": 3,
+    "3-5_count": 3,
+    "5-10_count": 1,
     "10-20_count": 1,
-    "20+_count": 1
+    "20+_count": 2
   },
   {
     "state_code": "US_ND",
@@ -1699,13 +1699,13 @@
     "gender": "ALL",
     "age_bucket": "35-39",
     "race_or_ethnicity": "ALL",
-    "<1_count": 1,
+    "<1_count": 0,
     "1-2_count": 1,
     "2-3_count": 1,
     "3-5_count": 1,
-    "5-10_count": 1,
-    "10-20_count": 0,
-    "20+_count": 0
+    "5-10_count": 0,
+    "10-20_count": 1,
+    "20+_count": 1
   },
   {
     "state_code": "US_ND",
@@ -1715,11 +1715,11 @@
     "race_or_ethnicity": "ALL",
     "<1_count": 1,
     "1-2_count": 1,
-    "2-3_count": 1,
+    "2-3_count": 0,
     "3-5_count": 1,
     "5-10_count": 1,
     "10-20_count": 0,
-    "20+_count": 0
+    "20+_count": 1
   },
   {
     "state_code": "US_ND",
@@ -1727,13 +1727,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
-    "<1_count": 1,
-    "1-2_count": 2,
-    "2-3_count": 2,
+    "<1_count": 3,
+    "1-2_count": 1,
+    "2-3_count": 1,
     "3-5_count": 2,
-    "5-10_count": 3,
+    "5-10_count": 2,
     "10-20_count": 1,
-    "20+_count": 1
+    "20+_count": 2
   },
   {
     "state_code": "US_ND",
@@ -1742,12 +1742,12 @@
     "age_bucket": "ALL",
     "race_or_ethnicity": "BLACK",
     "<1_count": 1,
-    "1-2_count": 2,
+    "1-2_count": 1,
     "2-3_count": 2,
     "3-5_count": 2,
-    "5-10_count": 3,
-    "10-20_count": 1,
-    "20+_count": 1
+    "5-10_count": 1,
+    "10-20_count": 3,
+    "20+_count": 2
   },
   {
     "state_code": "US_ND",
@@ -1755,13 +1755,13 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "HISPANIC",
-    "<1_count": 2,
-    "1-2_count": 4,
-    "2-3_count": 3,
-    "3-5_count": 4,
-    "5-10_count": 5,
+    "<1_count": 1,
+    "1-2_count": 2,
+    "2-3_count": 4,
+    "3-5_count": 3,
+    "5-10_count": 4,
     "10-20_count": 1,
-    "20+_count": 1
+    "20+_count": 5
   },
   {
     "state_code": "US_ND",
@@ -1783,12 +1783,12 @@
     "gender": "ALL",
     "age_bucket": "ALL",
     "race_or_ethnicity": "OTHER",
-    "<1_count": 3,
+    "<1_count": 2,
     "1-2_count": 5,
     "2-3_count": 4,
-    "3-5_count": 5,
-    "5-10_count": 6,
-    "10-20_count": 2,
+    "3-5_count": 6,
+    "5-10_count": 5,
+    "10-20_count": 3,
     "20+_count": 2
   },
   {
@@ -1797,13 +1797,13 @@
     "gender": "MALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 4,
-    "1-2_count": 8,
-    "2-3_count": 7,
-    "3-5_count": 7,
-    "5-10_count": 10,
+    "<1_count": 7,
+    "1-2_count": 7,
+    "2-3_count": 8,
+    "3-5_count": 2,
+    "5-10_count": 4,
     "10-20_count": 2,
-    "20+_count": 2
+    "20+_count": 10
   },
   {
     "state_code": "US_ND",
@@ -1811,12 +1811,12 @@
     "gender": "FEMALE",
     "age_bucket": "ALL",
     "race_or_ethnicity": "ALL",
-    "<1_count": 3,
-    "1-2_count": 6,
-    "2-3_count": 4,
-    "3-5_count": 5,
-    "5-10_count": 6,
-    "10-20_count": 2,
-    "20+_count": 2
+    "<1_count": 2,
+    "1-2_count": 2,
+    "2-3_count": 6,
+    "3-5_count": 3,
+    "5-10_count": 5,
+    "10-20_count": 6,
+    "20+_count": 4
   }
 ]

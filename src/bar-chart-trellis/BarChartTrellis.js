@@ -51,7 +51,7 @@ export default function BarChartTrellis({ data, width }) {
     <Wrapper>
       <FacetController
         baseMarkProps={{
-          transitionDuration: { default: THEME.transition.defaultDurationMs },
+          transitionDuration: { fill: THEME.transition.defaultDurationMs },
         }}
         margin={MARGIN}
         oAccessor="label"
@@ -79,7 +79,12 @@ export default function BarChartTrellis({ data, width }) {
             }
             data={chartData}
             hoverAnnotation
-            key={title}
+            // using indices actually makes a better experience here;
+            // the charts animate in and out based on how many there are
+            // and we avoid bugs that happen when values change but the
+            // identifiers (i.e. titles) stay the same
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
             title={
               <ChartTitle x={0 - chartWidth / 2 + MARGIN.left}>
                 {title}
