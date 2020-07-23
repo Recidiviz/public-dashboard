@@ -22,7 +22,7 @@ import {
 const SECTION_HEIGHT = 450;
 const GUTTER = 42;
 
-const VizParoleRevocationWrapper = styled.div`
+const VizSupervisionRevocationWrapper = styled.div`
   width: 100%;
 `;
 
@@ -47,7 +47,7 @@ function Breakdowns({ data, dimension }) {
   ));
 }
 
-function VizParoleRevocation({ currentMonthData, dimension }) {
+function VizSupervisionRevocation({ currentMonthData, dimension }) {
   return (
     <Measure bounds>
       {({
@@ -57,7 +57,7 @@ function VizParoleRevocation({ currentMonthData, dimension }) {
         },
       }) => {
         return (
-          <VizParoleRevocationWrapper ref={measureRef}>
+          <VizSupervisionRevocationWrapper ref={measureRef}>
             {dimension === DIMENSION_KEYS.total ? (
               width && (
                 <BubbleChart
@@ -69,14 +69,14 @@ function VizParoleRevocation({ currentMonthData, dimension }) {
             ) : (
               <Breakdowns data={currentMonthData} dimension={dimension} />
             )}
-          </VizParoleRevocationWrapper>
+          </VizSupervisionRevocationWrapper>
         );
       }}
     </Measure>
   );
 }
 
-VizParoleRevocation.propTypes = {
+VizSupervisionRevocation.propTypes = {
   currentMonthData: PropTypes.instanceOf(Map).isRequired,
   dimension: PropTypes.string.isRequired,
 };
@@ -114,14 +114,14 @@ function splitByViolationType(record) {
     .sort((a, b) => ascending(a.label, b.label));
 }
 
-export default function VizParoleRevocationContainer({
-  data: { paroleRevocationByMonth },
+export default function VizSupervisionRevocationContainer({
+  data: { supervisionRevocationByMonth },
   month,
   setMonthList,
   dimension,
   ...passThruProps
 }) {
-  const [monthlyData] = useState(groupByMonth(paroleRevocationByMonth));
+  const [monthlyData] = useState(groupByMonth(supervisionRevocationByMonth));
 
   useEffect(() => {
     setMonthList(Array.from(monthlyData.keys()));
@@ -157,7 +157,7 @@ export default function VizParoleRevocationContainer({
   }
 
   return (
-    <VizParoleRevocation
+    <VizSupervisionRevocation
       currentMonthData={currentMonthData}
       dimension={dimension}
       {...passThruProps}
@@ -165,16 +165,17 @@ export default function VizParoleRevocationContainer({
   );
 }
 
-VizParoleRevocationContainer.propTypes = {
+VizSupervisionRevocationContainer.propTypes = {
   data: PropTypes.shape({
-    paroleRevocationByMonth: PropTypes.arrayOf(PropTypes.object).isRequired,
+    supervisionRevocationByMonth: PropTypes.arrayOf(PropTypes.object)
+      .isRequired,
   }).isRequired,
   dimension: PropTypes.string,
   month: PropTypes.string,
   setMonthList: PropTypes.func.isRequired,
 };
 
-VizParoleRevocationContainer.defaultProps = {
+VizSupervisionRevocationContainer.defaultProps = {
   dimension: undefined,
   month: undefined,
 };
