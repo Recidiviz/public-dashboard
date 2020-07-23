@@ -2,17 +2,28 @@ import PropTypes from "prop-types";
 import { Link } from "@reach/router";
 import classNames from "classnames";
 import React from "react";
-
 import styled from "styled-components";
-import { PATHS } from "../constants";
+import { mediaQuery } from "@w11r/use-breakpoint";
 
-const NavContainer = styled.nav``;
+import { PATHS, ALL_PAGES } from "../constants";
+import { fluidFontSizeStyles } from "../utils";
+
+const NavContainer = styled.nav`
+  /* List Style Overrides */
+
+  .secondary {
+    display: flex;
+    ${mediaQuery(["mobile-", "display: inline-block;"])}
+    font-size: 20px;
+    justify-content: space-between;
+  }
+`;
 
 const NavItem = styled.li``;
 
 const NavList = styled.ul`
   font: ${(props) => props.theme.fonts.body};
-  font-size: ${(props) => (props.large ? "24px" : "11px")};
+  font-size: 11px;
   font-weight: 600;
   line-height: 2;
   list-style: none;
@@ -20,6 +31,8 @@ const NavList = styled.ul`
   padding: 0;
 
   ${NavItem} {
+    /* Default List Item Link Styles */
+
     .NavItem__link {
       color: ${(props) => props.theme.colors.heading};
       display: inline-block;
@@ -37,63 +50,81 @@ const NavList = styled.ul`
         }
       }
     }
+
+    /* List Item Link Style Overrides */
+
+    .branding-bar {
+      font-size: 24px;
+      &--active {
+        &::after {
+          content: "";
+          position: absolute;
+          left: calc(100% + 16px);
+          top: 50%;
+          width: 56px;
+          border-top: 2px solid ${(props) => props.theme.colors.highlight};
+        }
+      }
+    }
+
+    .overview {
+      border-top: 1px solid ${(props) => props.theme.colors.divider};
+      font-size: 64px;
+      width: 100%;
+      ${fluidFontSizeStyles(32, 64)}
+    }
+
+    .secondary {
+      &--active {
+        border-bottom: 2px solid ${(props) => props.theme.colors.highlight};
+
+        &::after {
+          content: none;
+        }
+      }
+    }
   }
 `;
 
-const addLinkClasses = ({ isCurrent }) => ({
-  className: classNames("NavItem__link", {
-    "NavItem__link--active": isCurrent,
-  }),
+const addLinkClasses = (overrideClass, isCurrent) => ({
+  className: classNames(
+    "NavItem__link",
+    overrideClass,
+    { "NavItem__link--active": isCurrent },
+    { [`${overrideClass}--active`]: isCurrent }
+  ),
 });
 
-export default function NavBar({ large, onClick }) {
+export default function NavBar({ pages, onClick, className, nested }) {
   return (
     <NavContainer>
-      <NavList large={large}>
-        <NavItem>
-          <Link getProps={addLinkClasses} to={PATHS.overview} onClick={onClick}>
-            Overview
-          </Link>
-        </NavItem>
-        <NavItem>
-          <Link
-            getProps={addLinkClasses}
-            to={PATHS.sentencing}
-            onClick={onClick}
-          >
-            Sentencing
-          </Link>
-        </NavItem>
-        <NavItem>
-          <Link getProps={addLinkClasses} to={PATHS.prison} onClick={onClick}>
-            Prison
-          </Link>
-        </NavItem>
-        <NavItem>
-          <Link
-            getProps={addLinkClasses}
-            to={PATHS.probation}
-            onClick={onClick}
-          >
-            Probation
-          </Link>
-        </NavItem>
-        <NavItem>
-          <Link getProps={addLinkClasses} to={PATHS.parole} onClick={onClick}>
-            Parole
-          </Link>
-        </NavItem>
+      <NavList className={className}>
+        {Array.from(pages, ([path, label]) => (
+          <NavItem key={path}>
+            <Link
+              getProps={({ isCurrent }) => addLinkClasses(className, isCurrent)}
+              to={`${nested ? "../" : ""}${PATHS[path]}`}
+              onClick={onClick}
+            >
+              {label}
+            </Link>
+          </NavItem>
+        ))}
       </NavList>
     </NavContainer>
   );
 }
 
 NavBar.propTypes = {
-  large: PropTypes.bool,
+  pages: PropTypes.instanceOf(Map),
   onClick: PropTypes.func,
+  className: PropTypes.string,
+  nested: PropTypes.bool,
 };
 
 NavBar.defaultProps = {
-  large: false,
+  pages: ALL_PAGES,
   onClick: undefined,
+  className: "",
+  nested: false,
 };
