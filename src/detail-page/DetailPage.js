@@ -1,8 +1,9 @@
+import { ascending } from "d3-array";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+import { exact, tail } from "set-order";
 import styled from "styled-components";
-import { ascending } from "d3-array";
-import { TOTAL_KEY } from "../constants";
+import { OTHER_LABEL, TOTAL_KEY } from "../constants";
 import { DimensionControl, MonthControl, LocationControl } from "../controls";
 import { HeadingTitle, HeadingDescription } from "../heading";
 
@@ -52,6 +53,8 @@ const DetailSectionVizContainer = styled.div`
   margin-top: 32px;
 `;
 
+const sortLocations = exact([tail(OTHER_LABEL)], ascending);
+
 function DetailSection({
   title,
   description,
@@ -74,7 +77,7 @@ function DetailSection({
     initialLocationList = vizData.locations
       // there may be other fields on these objects, filter them out for cleanliness
       .map(({ id, label }) => ({ id, label }))
-      .sort((a, b) => ascending(a.label, b.label));
+      .sort((a, b) => sortLocations(a.label, b.label));
 
     initialLocationList.unshift({ id: TOTAL_KEY, label: "All" });
   }
