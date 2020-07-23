@@ -1,16 +1,9 @@
-import { geoAlbers, geoCentroid } from "d3-geo";
 import PropTypes from "prop-types";
 import React from "react";
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Marker,
-} from "react-simple-maps";
 import styled from "styled-components";
-import { mesh } from "topojson";
 import ndGeography from "../assets/maps/us_nd_program_regions.json";
-import { DEFAULT_TENANT, TENANTS, THEME } from "../constants";
+import { DEFAULT_TENANT, TENANTS } from "../constants";
+import StateMap from "../state-map";
 
 const ASPECT_RATIO = TENANTS[DEFAULT_TENANT].aspectRatio;
 
@@ -22,51 +15,25 @@ const ProgramParticipants = styled.text`
 `;
 
 export default function StateProgramMap({ data, width, scale }) {
-  const ND_PROJECTION = geoAlbers().fitExtent(
-    [
-      [0, 0],
-      [width, width / ASPECT_RATIO],
-    ],
-    mesh(ndGeography)
-  );
+  // eslint-disable-next-line react/prop-types
+  const RegionLabel = ({ topologyObjectId }) => {
+    const programRegion = data.find(
+      (record) => record.region_id === topologyObjectId
+    );
+    return (
+      <ProgramParticipants scale={scale}>
+        {programRegion.participation_count}
+      </ProgramParticipants>
+    );
+  };
 
   return (
-    <ComposableMap
-      projection={ND_PROJECTION}
+    <StateMap
+      aspectRatio={ASPECT_RATIO}
+      LabelComponent={RegionLabel}
+      stateTopology={ndGeography}
       width={width}
-      height={width / ASPECT_RATIO}
-      style={{
-        height: "auto",
-        overflow: "visible",
-        width: "100%",
-      }}
-    >
-      <Geographies geography={ndGeography}>
-        {({ geographies }) => {
-          return geographies.map((geography) => {
-            const centroid = geoCentroid(geography);
-            const programRegion = data.find(
-              (record) => record.region_id === geography.id
-            );
-
-            return (
-              <React.Fragment key={geography.id}>
-                <Geography
-                  key={`region_{geography.id}`}
-                  geography={geography}
-                  {...THEME.maps.default}
-                />
-                <Marker key={`marker_{geography.id}`} coordinates={centroid}>
-                  <ProgramParticipants scale={scale}>
-                    {programRegion.participation_count}
-                  </ProgramParticipants>
-                </Marker>
-              </React.Fragment>
-            );
-          });
-        }}
-      </Geographies>
-    </ComposableMap>
+    />
   );
 }
 
