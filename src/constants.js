@@ -118,7 +118,7 @@ export const DIMENSION_MAPPINGS = new Map([
   [DIMENSION_KEYS.total, new Map([[TOTAL_KEY, "Total"]])],
 ]);
 
-const SENTENCE_LENGTH_KEYS = {
+export const SENTENCE_LENGTH_KEYS = {
   lessThanOne: "<1_count",
   oneTwo: "1-2_count",
   twoThree: "2-3_count",

@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { FacetController, OrdinalFrame } from "semiotic";
 import styled from "styled-components";
-import { THEME } from "../constants";
+import { SENTENCE_LENGTH_KEYS, SENTENCE_LENGTHS, THEME } from "../constants";
 import ChartWrapper from "../chart-wrapper";
 import Tooltip from "../tooltip";
 
@@ -19,11 +19,15 @@ const ChartTitle = styled.text`
   text-anchor: start;
 `;
 
+const ColumnLabel = styled.text`
+  text-anchor: middle;
+`;
+
 const renderTooltip = (chartTitle) => ({ pieces: [d] }) => (
   <Tooltip>
     {chartTitle}
     <br />
-    {d.value} serving {d.label} years
+    {d.value} serving {d.label} year(s)
   </Tooltip>
 );
 
@@ -44,7 +48,13 @@ export default function BarChartTrellis({ data, width }) {
         }}
         margin={MARGIN}
         oAccessor="label"
-        oLabel
+        oLabel={(label) => {
+          const postfix =
+            label === SENTENCE_LENGTHS.get(SENTENCE_LENGTH_KEYS.lessThanOne)
+              ? " year"
+              : "";
+          return <ColumnLabel>{`${label}${postfix}`}</ColumnLabel>;
+        }}
         oPadding={8}
         rAccessor="value"
         sharedRExtent
