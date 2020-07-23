@@ -129,7 +129,7 @@ const SENTENCE_LENGTH_KEYS = {
 };
 
 export const SENTENCE_LENGTHS = new Map([
-  [SENTENCE_LENGTH_KEYS.lessThanOne, "<1 year"],
+  [SENTENCE_LENGTH_KEYS.lessThanOne, "<1"],
   [SENTENCE_LENGTH_KEYS.oneTwo, "1-2"],
   [SENTENCE_LENGTH_KEYS.twoThree, "2-3"],
   [SENTENCE_LENGTH_KEYS.threeFive, "3-5"],
@@ -187,6 +187,7 @@ const medGray = "#707F96";
 const white = "#fff";
 
 const defaultDuration = "0.25s";
+const defaultDurationMs = Number(defaultDuration.replace("s", "")) * 1000;
 const defaultEasing = "ease-in-out";
 
 export const defaultTheme = {
@@ -293,6 +294,7 @@ export const defaultTheme = {
   },
   transition: {
     defaultDuration,
+    defaultDurationMs,
     defaultEasing,
     defaultTimeSettings: `${defaultDuration} ${defaultEasing}`,
   },
