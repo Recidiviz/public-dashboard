@@ -7,6 +7,7 @@ import ChartWrapper from "../chart-wrapper";
 import Tooltip from "../tooltip";
 
 const CHART_HEIGHT = 360;
+const CHART_MIN_WIDTH = 320;
 
 const MARGIN = { top: 40, bottom: 56, left: 48, right: 0 };
 
@@ -34,7 +35,13 @@ const renderTooltip = (chartTitle) => ({ pieces: [d] }) => (
 export default function BarChartTrellis({ data, width }) {
   const [highlightedLabel, setHighlightedLabel] = useState();
 
-  const chartWidth = data.length > 1 ? width / 2 : width;
+  let chartWidth = data.length > 1 ? width / 2 : width;
+
+  let alternatingAxes = true;
+  if (chartWidth < CHART_MIN_WIDTH) {
+    chartWidth = width;
+    alternatingAxes = false;
+  }
 
   const axes = [
     { baseline: false, orient: "left", tickLineGenerator: () => null },
@@ -66,7 +73,7 @@ export default function BarChartTrellis({ data, width }) {
       >
         {data.map(({ title, data: chartData }, index) => (
           <OrdinalFrame
-            axes={index % 2 ? undefined : axes}
+            axes={alternatingAxes && index % 2 ? undefined : axes}
             customHoverBehavior={(d) =>
               d ? setHighlightedLabel(d.column.name) : setHighlightedLabel()
             }
