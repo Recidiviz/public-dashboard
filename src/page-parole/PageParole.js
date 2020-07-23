@@ -8,9 +8,9 @@ import supervisionRevocationByMonth from "../assets/test_data/US_ND_supervision_
 import supervisionSuccessByMonth from "../assets/test_data/US_ND_supervision_success_by_month.json";
 import supervisionSuccessDemographics from "../assets/test_data/US_ND_supervision_success_by_period_by_demographics.json";
 import VizParolePopulation from "../viz-parole-population";
-import VizSupervisionProgram from "../viz-supervision-program";
 import VizParoleRevocation from "../viz-parole-revocation";
 import VizParoleSuccess from "../viz-parole-success";
+import VizSupervisionProgram from "../viz-supervision-program";
 import { SUPERVISION_TYPES } from "../constants";
 
 const recordIsParole = (record) =>
