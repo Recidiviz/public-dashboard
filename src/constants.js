@@ -366,6 +366,15 @@ const northDakotaTheme = {
       WHITE: ndColors.brandTealTint5,
       OTHER: ndColors.brandTealTint4,
     },
+    sentenceLengths: {
+      [SENTENCE_LENGTH_KEYS.lessThanOne]: ndColors.brandTeal,
+      [SENTENCE_LENGTH_KEYS.oneTwo]: ndColors.brandTealTint9,
+      [SENTENCE_LENGTH_KEYS.twoThree]: ndColors.brandTealTint7,
+      [SENTENCE_LENGTH_KEYS.threeFive]: ndColors.brandTealTint6,
+      [SENTENCE_LENGTH_KEYS.fiveTen]: ndColors.brandTealTint5,
+      [SENTENCE_LENGTH_KEYS.tenTwenty]: ndColors.brandTealTint4,
+      [SENTENCE_LENGTH_KEYS.moreThanTwenty]: ndColors.brandTealTint3,
+    },
     sentencing: {
       incarceration: ndColors.brandTeal,
       probation: ndColors.brandTealTint5,
