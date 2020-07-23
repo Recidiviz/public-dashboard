@@ -39,6 +39,19 @@ export default function StateMap({
 
   const [hoveredLocationId, setHoveredLocationId] = useState();
 
+  const clickable = !!onRegionClick;
+  const hoverable = clickable;
+
+  // don't change style on hover and click if there aren't actually
+  // any interactions that are possible
+  const mapStyles = {
+    default: THEME.maps.default,
+    hover: THEME.maps.default,
+    pressed: THEME.maps.default,
+  };
+  if (clickable) mapStyles.pressed = THEME.maps.pressed;
+  if (hoverable) mapStyles.hover = THEME.maps.hover;
+
   return (
     <ComposableMap
       projection={stateProjection}
@@ -58,9 +71,12 @@ export default function StateMap({
             return (
               <React.Fragment key={geography.id}>
                 <GeoRegion
-                  clickable={onRegionClick ? 1 : 0}
-                  key={`region_{geography.id}`}
+                  // this 1:0 business is a workaround because React objects to arbitrary
+                  // boolean attributes (these get passed all the way down to the DOM
+                  // by styled-components and react-simple-maps)
+                  clickable={clickable ? 1 : 0}
                   highlighted={locationId === geography.id ? 1 : 0}
+                  key={`region_{geography.id}`}
                   geography={geography}
                   onBlur={() => setHoveredLocationId()}
                   onClick={(e) => {
@@ -70,7 +86,7 @@ export default function StateMap({
                   onFocus={() => setHoveredLocationId(geography.id)}
                   onMouseOut={() => setHoveredLocationId()}
                   onMouseOver={() => setHoveredLocationId(geography.id)}
-                  style={THEME.maps}
+                  style={mapStyles}
                 />
                 {LabelComponent && (
                   <Marker key={`marker_{geography.id}`} coordinates={centroid}>
