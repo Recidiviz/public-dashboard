@@ -16,6 +16,18 @@ export const PATHS = {
   sentencing: "sentencing",
 };
 
+export const DETAIL_PAGES = new Map([
+  [PATHS.sentencing, "Sentencing"],
+  [PATHS.prison, "Prison"],
+  [PATHS.probation, "Probation"],
+  [PATHS.parole, "Parole"],
+]);
+
+export const ALL_PAGES = new Map([
+  [PATHS.overview, "Overview"],
+  ...DETAIL_PAGES,
+]);
+
 export const TOTAL_KEY = "ALL";
 
 export const DIMENSION_KEYS = {
