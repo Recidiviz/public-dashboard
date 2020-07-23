@@ -1,0 +1,10 @@
+runtime: nodejs10
+
+service: {SERVICE_NAME}
+
+includes:
+- base-gae-handlers.yaml
+
+env_variables:
+  GOOGLE_APPLICATION_CREDENTIALS: {GOOGLE_APPLICATION_CREDENTIALS}
+  METRIC_BUCKET: {METRIC_BUCKET}
