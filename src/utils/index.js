@@ -1,4 +1,5 @@
 export { default as addEmptyMonthsToData } from "./addEmptyMonthsToData";
+export { default as categoryIsNotUnknown } from "./categoryIsNotUnknown";
 export { default as demographicsAscending } from "./demographicsAscending";
 export { default as formatAsNumber } from "./formatAsNumber";
 export { default as formatAsPct } from "./formatAsPct";

@@ -2,31 +2,13 @@ import PropTypes from "prop-types";
 import React from "react";
 import ResponsiveOrdinalFrame from "semiotic/lib/ResponsiveOrdinalFrame";
 import styled from "styled-components";
+import ChartWrapper from "../chart-wrapper";
 import { THEME } from "../constants";
 import { formatAsPct } from "../utils";
 
-const MonthlyTimeseriesWrapper = styled.div`
+const MonthlyTimeseriesWrapper = styled(ChartWrapper)`
   height: 350px;
   width: 100%;
-
-  /* classes provided by Semiotic */
-  .frame {
-    .axis-baseline {
-      stroke: ${(props) => props.theme.colors.chartAxis};
-    }
-
-    .axis-label,
-    .ordinal-labels {
-      fill: ${(props) => props.theme.colors.chartAxis};
-      font: ${(props) => props.theme.fonts.body};
-      font-size: 12px;
-    }
-
-    .background-graphics,
-    .visualization-layer {
-      shape-rendering: crispEdges;
-    }
-  }
 `;
 
 const chartMargins = {
