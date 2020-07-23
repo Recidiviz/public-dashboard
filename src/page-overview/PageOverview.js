@@ -1,27 +1,14 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { DETAIL_PAGES } from "../constants";
 import { HeadingTitle, HeadingDescription } from "../heading";
 import NavBar from "../nav-bar";
-import { fluidFontSizeStyles } from "../utils";
 
 const OverviewWrapper = styled.div``;
 const HeadingWrapper = styled.header`
   margin-bottom: 64px;
 `;
-
-const MIN_FONT_SIZE = 32;
-const MAX_FONT_SIZE = 64;
-
-const navigationStyles = {
-  li: css`
-    border-top: 1px solid ${(props) => props.theme.colors.divider};
-    font-size: ${MAX_FONT_SIZE}px;
-    width: 100%;
-    ${fluidFontSizeStyles(MIN_FONT_SIZE, MAX_FONT_SIZE)}
-  `,
-};
 
 export default function PageOverview() {
   return (
@@ -38,7 +25,7 @@ export default function PageOverview() {
           quis justo, in diam fermentum.
         </HeadingDescription>
       </HeadingWrapper>
-      <NavBar pages={DETAIL_PAGES} navigationStyles={navigationStyles} nested />
+      <NavBar pages={DETAIL_PAGES} className="overview" nested />
     </OverviewWrapper>
   );
 }

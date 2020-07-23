@@ -112,22 +112,6 @@ const NavBarWrapper = styled.div`
 
 const SITE_TITLE = "North Dakota Corrections";
 
-const navigationStyles = {
-  li: css`
-    font-size: 24px;
-    &--active {
-      &::after {
-        content: "";
-        position: absolute;
-        left: calc(100% + 16px);
-        top: 50%;
-        width: 56px;
-        border-top: 2px solid ${(props) => props.theme.colors.highlight};
-      }
-    }
-  `,
-};
-
 export default function BrandingBar() {
   const useCollapsibleNav = useBreakpoint(false, ["mobile-", true]);
   const {
@@ -176,7 +160,7 @@ export default function BrandingBar() {
             <NavBarWrapper>
               <NavBar
                 onClick={() => setExpanded(false)}
-                navigationStyles={navigationStyles}
+                className="branding-bar"
               />
             </NavBarWrapper>
           </CollapsibleMenuWrapper>

@@ -1,6 +1,5 @@
 import React from "react";
-import styled, { css } from "styled-components";
-import { mediaQuery } from "@w11r/use-breakpoint";
+import styled from "styled-components";
 
 import NavBar from "../nav-bar";
 import { DETAIL_PAGES } from "../constants";
@@ -21,30 +20,13 @@ const SecondaryNavHeading = styled.h1`
   margin-bottom: 32px;
 `;
 
-const navigationStyles = {
-  ul: css`
-    display: flex;
-    ${mediaQuery(["mobile-", "display: inline-block;"])}
-    font-size: 20px;
-    justify-content: space-between;
-  `,
-  li: css`
-    &--active {
-      border-bottom: 2px solid ${(props) => props.theme.colors.highlight};
-      &::after {
-        content: none;
-      }
-    }
-  `,
-};
-
 export default function SecondaryNav() {
   return (
     <SecondaryNavWrapper>
       <SecondaryNavHeading>
         Explore more of the corrections system and our efforts.
       </SecondaryNavHeading>
-      <NavBar pages={DETAIL_PAGES} navigationStyles={navigationStyles} />
+      <NavBar pages={DETAIL_PAGES} className="secondary" />
     </SecondaryNavWrapper>
   );
 }
