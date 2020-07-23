@@ -9,8 +9,8 @@ import supervisionSuccessByMonth from "../assets/test_data/US_ND_supervision_suc
 import supervisionSuccessDemographics from "../assets/test_data/US_ND_supervision_success_by_period_by_demographics.json";
 import VizParolePopulation from "../viz-parole-population";
 import VizParoleProgram from "../viz-parole-program";
-import VizParoleRevocation from "../viz-parole-revocation";
 import VizParoleSuccess from "../viz-parole-success";
+import VizSupervisionRevocation from "../viz-supervision-revocation";
 import { SUPERVISION_TYPES } from "../constants";
 
 const recordIsParole = (record) =>
@@ -72,9 +72,9 @@ const SECTIONS = [
     ipsum dui gravida.`,
     showDimensionControl: true,
     showMonthControl: true,
-    VizComponent: VizParoleRevocation,
+    VizComponent: VizSupervisionRevocation,
     vizData: {
-      paroleRevocationByMonth: supervisionRevocationByMonth.filter(
+      supervisionRevocationByMonth: supervisionRevocationByMonth.filter(
         recordIsParole
       ),
     },
