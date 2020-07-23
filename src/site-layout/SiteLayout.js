@@ -2,7 +2,7 @@ import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
 import PropTypes from "prop-types";
 import React from "react";
 import styled, { css } from "styled-components";
-import { useLocation } from "@reach/router";
+import { useMatch } from "@reach/router";
 import BrandingBar from "../branding-bar";
 import {
   CONTAINER_WIDTH,
@@ -78,8 +78,7 @@ const FooterWrapper = styled.div`
 
 function SiteLayout({ tenantId }) {
   const showNav = useBreakpoint(false, ["tablet+", true]);
-  const location = useLocation();
-  const onOverviewPage = `/${tenantId}/${PATHS.overview}` === location.pathname;
+  const onOverviewPage = useMatch(`/:tenantId/${PATHS.overview}`);
 
   return (
     <SiteContainer showBackground={onOverviewPage}>
