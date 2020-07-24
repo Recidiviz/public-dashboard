@@ -59,6 +59,8 @@ const FILES_BY_METRIC_TYPE = {
     "judicial_districts.json",
     "supervision_population_by_district_by_demographics.json",
     "supervision_revocations_by_month_by_type_by_demographics.json",
+    "supervision_success_by_month.json",
+    "supervision_success_by_period_by_demographics.json",
   ],
   sentencing: [
     "judicial_districts.json",

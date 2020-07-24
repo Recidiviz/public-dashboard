@@ -5,6 +5,7 @@ import useChartData from "../hooks/useChartData";
 import VizProbationPopulation from "../viz-probation-population";
 import VizSupervisionProgram from "../viz-supervision-program";
 import VizSupervisionRevocation from "../viz-supervision-revocation";
+import VizSupervisionSuccess from "../viz-supervision-success";
 
 export default function PageProbation() {
   const { apiData, isLoading } = useChartData("us_nd/probation");
@@ -37,6 +38,26 @@ export default function PageProbation() {
           recordIsProbation
         ),
         locations: apiData.judicial_districts,
+      },
+    },
+    {
+      title: "What happens after probation?",
+      description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
+      tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
+      ipsum dui gravida.`,
+      showDimensionControl: true,
+      showLocationControl: true,
+      locationControlLabel: "Judicial District",
+      VizComponent: VizSupervisionSuccess,
+      vizData: {
+        locations: apiData.judicial_districts,
+        successByMonth: apiData.supervision_success_by_month.filter(
+          recordIsProbation
+        ),
+        successByDemographics: apiData.supervision_success_by_period_by_demographics
+          .filter(recordIsProbation)
+          .filter((record) => record.metric_period_months === "36"),
       },
     },
     {

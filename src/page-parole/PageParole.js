@@ -2,9 +2,9 @@ import React from "react";
 import DetailPage from "../detail-page";
 import useChartData from "../hooks/useChartData";
 import VizParolePopulation from "../viz-parole-population";
-import VizParoleSuccess from "../viz-parole-success";
 import VizSupervisionProgram from "../viz-supervision-program";
 import VizSupervisionRevocation from "../viz-supervision-revocation";
+import VizSupervisionSuccess from "../viz-supervision-success";
 import { SUPERVISION_TYPES } from "../constants";
 
 export default function PageParole() {
@@ -58,7 +58,7 @@ export default function PageParole() {
       showDimensionControl: true,
       showLocationControl: true,
       locationControlLabel: "Office",
-      VizComponent: VizParoleSuccess,
+      VizComponent: VizSupervisionSuccess,
       vizData: {
         locations: officeLocations,
         successByMonth: apiData.supervision_success_by_month.filter(
