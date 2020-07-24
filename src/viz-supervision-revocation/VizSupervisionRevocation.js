@@ -5,7 +5,6 @@ import Measure from "react-measure";
 import styled from "styled-components";
 import BubbleChart from "../bubble-chart";
 import {
-  DIMENSION_DATA_KEYS,
   DIMENSION_KEYS,
   THEME,
   TOTAL_KEY,
@@ -13,11 +12,7 @@ import {
   VIOLATION_COUNT_KEYS,
 } from "../constants";
 import ProportionalBar from "../proportional-bar";
-import {
-  demographicsAscending,
-  formatDemographicValue,
-  recordIsTotalByDimension,
-} from "../utils";
+import { formatDemographicValue, getDimensionalBreakdown } from "../utils";
 
 const SECTION_HEIGHT = 450;
 const GUTTER = 42;
@@ -109,7 +104,7 @@ function splitByViolationType(record) {
     .map(([violationType, dataKey]) => ({
       color: VIOLATION_REASONS_COLORS[violationType],
       label: VIOLATION_LABELS[violationType],
-      value: record[dataKey],
+      value: record ? record[dataKey] : 0,
     }))
     .sort((a, b) => ascending(a.label, b.label));
 }
@@ -130,31 +125,13 @@ export default function VizSupervisionRevocationContainer({
   if (!month) {
     return null;
   }
-  const currentMonthData = new Map();
 
-  if (dimension === DIMENSION_KEYS.total) {
-    const monthlyTotals = monthlyData
-      .get(month)
-      .find(recordIsTotalByDimension(dimension));
-
-    currentMonthData.set(TOTAL_KEY, splitByViolationType(monthlyTotals));
-  } else {
-    monthlyData
-      .get(month)
-      .filter(recordIsTotalByDimension(dimension))
-      .sort((a, b) =>
-        demographicsAscending(
-          a[DIMENSION_DATA_KEYS[dimension]],
-          b[DIMENSION_DATA_KEYS[dimension]]
-        )
-      )
-      .forEach((record) => {
-        currentMonthData.set(
-          record[DIMENSION_DATA_KEYS[dimension]],
-          splitByViolationType(record)
-        );
-      });
-  }
+  const currentMonthData = new Map(
+    getDimensionalBreakdown({
+      data: monthlyData.get(month),
+      dimension,
+    }).map(({ id, record }) => [id, splitByViolationType(record)])
+  );
 
   return (
     <VizSupervisionRevocation
