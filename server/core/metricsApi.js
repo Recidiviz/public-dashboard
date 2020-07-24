@@ -52,7 +52,8 @@ const FILES_BY_METRIC_TYPE = {
     "supervision_success_by_period_by_demographics.json",
   ],
   prison: [
-    // TKTK
+    "incarceration_facilities.json",
+    "incarceration_population_by_facility_by_demographics.json",
   ],
   probation: [
     "active_program_participation_by_region.json",

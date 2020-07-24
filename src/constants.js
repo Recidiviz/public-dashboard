@@ -210,6 +210,7 @@ export const defaultTheme = {
       "30-34": darkGreen8,
       "35-39": darkGreen7,
       "40<": darkGreen6,
+      [DEMOGRAPHIC_UNKNOWN]: darkGreen5,
     },
     background: "#FCFCFC",
     body: medGray,
@@ -224,6 +225,7 @@ export const defaultTheme = {
     gender: {
       FEMALE: darkGreen,
       MALE: darkGreen7,
+      [DEMOGRAPHIC_UNKNOWN]: darkGreen4,
     },
     heading: "#2A4163",
     highlight: brightGreen,
@@ -351,6 +353,7 @@ const northDakotaTheme = {
       "30-34": ndColors.brandTealTint8,
       "35-39": ndColors.brandTealTint7,
       "40<": ndColors.brandTealTint6,
+      [DEMOGRAPHIC_UNKNOWN]: ndColors.brandTealTint5,
     },
     background: ndColors.background,
     body: ndColors.blackTint6,
@@ -365,6 +368,7 @@ const northDakotaTheme = {
     gender: {
       FEMALE: ndColors.brandTeal,
       MALE: ndColors.brandTealTint7,
+      [DEMOGRAPHIC_UNKNOWN]: ndColors.brandTealTint4,
     },
     heading: ndColors.blackTint9,
     highlight: ndColors.brandOrange,

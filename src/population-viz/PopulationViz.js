@@ -79,7 +79,12 @@ const DemographicsBarChartWrapper = styled.div`
   z-index: ${(props) => props.theme.zIndex.base + props.stackOrder};
 `;
 
-function DemographicBarChart({ data, dimension, stackOrder }) {
+function DemographicBarChart({
+  data,
+  dimension,
+  populationAccessorFn,
+  stackOrder,
+}) {
   if (!data) return null;
 
   const dimensionData = Array.from(DIMENSION_MAPPINGS.get(dimension))
@@ -91,7 +96,7 @@ function DemographicBarChart({ data, dimension, stackOrder }) {
         .map((record) => ({
           color: BAR_CHART_VISUALIZATION_COLORS[dimension][demographic],
           label: formatDemographicValue(demographic, dimension),
-          value: Number(record.total_supervision_count),
+          value: Number(populationAccessorFn(record)),
         }))
         .shift();
     })
@@ -111,6 +116,7 @@ function DemographicBarChart({ data, dimension, stackOrder }) {
 DemographicBarChart.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
   dimension: PropTypes.string.isRequired,
+  populationAccessorFn: PropTypes.func.isRequired,
   stackOrder: PropTypes.number.isRequired,
 };
 
@@ -173,6 +179,7 @@ export default function PopulationViz({
                   key={dimension}
                   data={filteredData}
                   dimension={dimension}
+                  populationAccessorFn={populationAccessorFn}
                   stackOrder={DIMENSION_MAPPINGS.size - index}
                 />
               )
