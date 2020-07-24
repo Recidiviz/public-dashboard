@@ -117,10 +117,8 @@ const GENDERS = new Map([
 
 const RACES = new Map([
   ["AMERICAN_INDIAN_ALASKAN_NATIVE", "American Indian or Alaskan Native"],
-  ["ASIAN", "Asian"],
   ["BLACK", "Black"],
   ["HISPANIC", "Hispanic"],
-  ["NATIVE_HAWAIIAN_PACIFIC_ISLANDER", "Native Hawaiian or Pacific Islander"],
   ["WHITE", "White"],
   [OTHER, "Other"],
 ]);
@@ -129,6 +127,27 @@ export const DIMENSION_MAPPINGS = new Map([
   [DIMENSION_KEYS.gender, GENDERS],
   [DIMENSION_KEYS.age, AGES],
   [DIMENSION_KEYS.race, RACES],
+  [DIMENSION_KEYS.total, new Map([[TOTAL_KEY, "Total"]])],
+]);
+
+export const SENTENCE_LENGTH_KEYS = {
+  lessThanOne: "<1_count",
+  oneTwo: "1-2_count",
+  twoThree: "2-3_count",
+  threeFive: "3-5_count",
+  fiveTen: "5-10_count",
+  tenTwenty: "10-20_count",
+  moreThanTwenty: "20+_count",
+};
+
+export const SENTENCE_LENGTHS = new Map([
+  [SENTENCE_LENGTH_KEYS.lessThanOne, "<1"],
+  [SENTENCE_LENGTH_KEYS.oneTwo, "1-2"],
+  [SENTENCE_LENGTH_KEYS.twoThree, "2-3"],
+  [SENTENCE_LENGTH_KEYS.threeFive, "3-5"],
+  [SENTENCE_LENGTH_KEYS.fiveTen, "5-10"],
+  [SENTENCE_LENGTH_KEYS.tenTwenty, "10-20"],
+  [SENTENCE_LENGTH_KEYS.moreThanTwenty, "20+"],
 ]);
 
 export const CONTAINER_WIDTH = 1144;
@@ -171,6 +190,7 @@ const darkGreen7 = "#4C8684";
 const darkGreen6 = "#659795";
 const darkGreen5 = "#7EA8A6";
 const darkGreen4 = "#97B9B7";
+const darkGreen3 = "#B0CAC8";
 const darkerGreen = "#00413E";
 const darkGray = "#5A6575";
 const darkerGray = "#403F3F";
@@ -179,6 +199,7 @@ const medGray = "#707F96";
 const white = "#fff";
 
 const defaultDuration = "0.25s";
+const defaultDurationMs = Number(defaultDuration.replace("s", "")) * 1000;
 const defaultEasing = "ease-in-out";
 
 export const defaultTheme = {
@@ -218,6 +239,15 @@ export const defaultTheme = {
       NATIVE_HAWAIIAN_PACIFIC_ISLANDER: darkGreen6,
       WHITE: darkGreen5,
       OTHER: darkGreen4,
+    },
+    sentenceLengths: {
+      [SENTENCE_LENGTH_KEYS.lessThanOne]: darkGreen,
+      [SENTENCE_LENGTH_KEYS.oneTwo]: darkGreen9,
+      [SENTENCE_LENGTH_KEYS.twoThree]: darkGreen7,
+      [SENTENCE_LENGTH_KEYS.threeFive]: darkGreen6,
+      [SENTENCE_LENGTH_KEYS.fiveTen]: darkGreen5,
+      [SENTENCE_LENGTH_KEYS.tenTwenty]: darkGreen4,
+      [SENTENCE_LENGTH_KEYS.moreThanTwenty]: darkGreen3,
     },
     sentencing: {
       incarceration: darkGreen,
@@ -276,6 +306,7 @@ export const defaultTheme = {
   },
   transition: {
     defaultDuration,
+    defaultDurationMs,
     defaultEasing,
     defaultTimeSettings: `${defaultDuration} ${defaultEasing}`,
   },
@@ -348,6 +379,15 @@ const northDakotaTheme = {
       NATIVE_HAWAIIAN_PACIFIC_ISLANDER: ndColors.brandTealTint6,
       WHITE: ndColors.brandTealTint5,
       OTHER: ndColors.brandTealTint4,
+    },
+    sentenceLengths: {
+      [SENTENCE_LENGTH_KEYS.lessThanOne]: ndColors.brandTeal,
+      [SENTENCE_LENGTH_KEYS.oneTwo]: ndColors.brandTealTint9,
+      [SENTENCE_LENGTH_KEYS.twoThree]: ndColors.brandTealTint7,
+      [SENTENCE_LENGTH_KEYS.threeFive]: ndColors.brandTealTint6,
+      [SENTENCE_LENGTH_KEYS.fiveTen]: ndColors.brandTealTint5,
+      [SENTENCE_LENGTH_KEYS.tenTwenty]: ndColors.brandTealTint4,
+      [SENTENCE_LENGTH_KEYS.moreThanTwenty]: ndColors.brandTealTint3,
     },
     sentencing: {
       incarceration: ndColors.brandTeal,

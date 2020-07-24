@@ -62,6 +62,7 @@ const FILES_BY_METRIC_TYPE = {
   ],
   sentencing: [
     "judicial_districts.json",
+    "sentence_lengths_by_district_by_demographics.json",
     "sentence_type_by_district_by_demographics.json",
   ],
 };

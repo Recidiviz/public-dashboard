@@ -165,14 +165,18 @@ export default function PopulationViz({
               label={totalPopulationLabel}
             />
           </DemographicsTotalCountWrapper>
-          {Array.from(DIMENSION_MAPPINGS, ([dimension], index) => (
-            <DemographicBarChart
-              key={dimension}
-              data={filteredData}
-              dimension={dimension}
-              stackOrder={DIMENSION_MAPPINGS.size - index}
-            />
-          ))}
+          {Array.from(
+            DIMENSION_MAPPINGS,
+            ([dimension], index) =>
+              dimension !== DIMENSION_KEYS.total && (
+                <DemographicBarChart
+                  key={dimension}
+                  data={filteredData}
+                  dimension={dimension}
+                  stackOrder={DIMENSION_MAPPINGS.size - index}
+                />
+              )
+          )}
         </DemographicsWrapper>
       </VizWrapper>
     </PopulationVizWrapper>
