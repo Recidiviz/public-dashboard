@@ -55,8 +55,10 @@ const FILES_BY_METRIC_TYPE = {
     // TKTK
   ],
   probation: [
+    "active_program_participation_by_region.json",
     "judicial_districts.json",
     "supervision_population_by_district_by_demographics.json",
+    "supervision_revocations_by_month_by_type_by_demographics.json",
   ],
   sentencing: [
     "judicial_districts.json",

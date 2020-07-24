@@ -56,7 +56,7 @@ A yarn script is available for starting the development servers. The React front
 
 The development servers will remain active until you either close your terminal or shut down the entire setup at once using `control+c`.
 
-**Note:** The frontend server does not need to be restarted when frontend source code is modified. The assets will automatically be recompiled and the browser will be refreshed. The same is not true for the backend server, which does need to be restarted when backend source code is changed.
+**Note:** The frontend server does not need to be restarted when frontend source code is modified. The assets will automatically be recompiled and the browser will be refreshed. The same is true true for the backend server, except in the case of changing fixture data in `/server/core/demo_data`.
 
 ### Demo mode
 
