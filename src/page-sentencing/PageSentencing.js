@@ -44,8 +44,8 @@ export default function PageSentencing() {
       locationControlLabel: "Judicial District",
       VizComponent: VizSentenceLengths,
       vizData: {
-        // sentenceLengths,
-        // locations: judicialDistricts,
+        sentenceLengths: apiData.sentence_lengths_by_district_by_demographics,
+        locations: apiData.judicial_districts,
       },
     },
   ];
