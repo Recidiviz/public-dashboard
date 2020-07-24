@@ -42,10 +42,10 @@ const BreakdownStat = styled.div`
   margin: 0 24px 24px;
 `;
 
-export default function VizParoleSuccess({
+export default function VizSupervisionSuccess({
   data: { successByDemographics, successByMonth },
   dimension,
-  locationId: officeId,
+  locationId,
 }) {
   // this may be undefined when first mounted; wait for it
   if (!dimension) return null;
@@ -54,10 +54,10 @@ export default function VizParoleSuccess({
   const getDimensionValue = (record) =>
     record[DIMENSION_DATA_KEYS[dimension]] || DIMENSION_LABELS[dimension];
 
-  const isSelectedOffice = (record) => record.district === officeId;
+  const isSelectedLocation = (record) => record.district === locationId;
 
   const chartData = addEmptyMonthsToData({
-    dataPoints: successByMonth.filter(isSelectedOffice).map(normalizeMonth),
+    dataPoints: successByMonth.filter(isSelectedLocation).map(normalizeMonth),
     monthCount: 36,
     valueKey: "success_rate",
     emptyValue: 0,
@@ -66,7 +66,7 @@ export default function VizParoleSuccess({
     .sort((a, b) => ascending(a.month, b.month));
 
   const breakdownData = successByDemographics
-    .filter(isSelectedOffice)
+    .filter(isSelectedLocation)
     .filter(recordIsTotalByDimension(dimension))
     .sort((a, b) =>
       demographicsAscending(getDimensionValue(a), getDimensionValue(b))
@@ -93,7 +93,7 @@ export default function VizParoleSuccess({
   );
 }
 
-VizParoleSuccess.propTypes = {
+VizSupervisionSuccess.propTypes = {
   data: PropTypes.shape({
     successByDemographics: PropTypes.arrayOf(
       PropTypes.shape({
@@ -111,7 +111,7 @@ VizParoleSuccess.propTypes = {
         district: PropTypes.string.isRequired,
         projected_month: PropTypes.string.isRequired,
         projected_year: PropTypes.string.isRequired,
-        success_rate: PropTypes.string.isRequired,
+        success_rate: PropTypes.number.isRequired,
       })
     ).isRequired,
   }).isRequired,
@@ -119,7 +119,7 @@ VizParoleSuccess.propTypes = {
   locationId: PropTypes.string,
 };
 
-VizParoleSuccess.defaultProps = {
+VizSupervisionSuccess.defaultProps = {
   dimension: undefined,
   locationId: undefined,
 };
