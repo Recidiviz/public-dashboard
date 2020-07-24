@@ -35,7 +35,7 @@ For the frontend: copy the `.env.frontend.example` file and set variables accord
 
 Expected frontend environment variables include:
 
-- `REACT_APP_API_URL` - the base URL of the backend API server.
+- `REACT_APP_API_URL` - the base URL of the backend API server. This should be set to http://localhost:3001 by default when running locally.
 - `REACT_APP_IS_DEMO (OPTIONAL)` - whether or not to run the frontend in demo mode, which will run the app without attempting to reach remote metric files. This should only be set when running locally and should be provided through the command line, along with the backend sibling below. To run the app in demo mode, use the following command: `./run_in_demo_mode.sh`
 
 The build process, as described below, ensures that the proper values are compiled and included in the static bundle at build time, for the right environment.

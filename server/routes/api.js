@@ -41,7 +41,7 @@ function responder(res) {
 function parole(req, res) {
   metricsApi.fetchParoleMetrics(
     isDemoMode,
-    req.params.stateCode,
+    req.params.tenantId,
     responder(res)
   );
 }
@@ -49,7 +49,7 @@ function parole(req, res) {
 function prison(req, res) {
   metricsApi.fetchPrisonMetrics(
     isDemoMode,
-    req.params.stateCode,
+    req.params.tenantId,
     responder(res)
   );
 }
@@ -57,7 +57,7 @@ function prison(req, res) {
 function probation(req, res) {
   metricsApi.fetchProbationMetrics(
     isDemoMode,
-    req.params.stateCode,
+    req.params.tenantId,
     responder(res)
   );
 }
@@ -65,7 +65,7 @@ function probation(req, res) {
 function sentencing(req, res) {
   metricsApi.fetchSentencingMetrics(
     isDemoMode,
-    req.params.stateCode,
+    req.params.tenantId,
     responder(res)
   );
 }

@@ -19,8 +19,7 @@ import logger from "./logger";
 
 /**
  * An asynchronous function that returns a promise which will eventually return the results from
- * invoking the given API endpoint. Takes in the |endpoint| as a string and the |getTokenSilently|
- * function, which will be used to authenticate the client against the API.
+ * invoking the given API endpoint.
  */
 async function callMetricsApi(endpoint) {
   try {

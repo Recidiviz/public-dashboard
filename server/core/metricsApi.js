@@ -118,7 +118,7 @@ function filesForMetricType(metricType, file) {
  *   - `file`: (optional) a specific metric file under this metric type to request. If absent,
  *             requests all files for the given metric type.
  */
-function fetchMetricsFromGCS(stateCode, metricType, file) {
+function fetchMetricsFromGCS(tenantId, metricType, file) {
   const promises = [];
 
   const files = filesForMetricType(metricType, file);
@@ -126,7 +126,7 @@ function fetchMetricsFromGCS(stateCode, metricType, file) {
     const fileKey = filename.replace(".json", "");
     promises.push(
       objectStorage
-        .downloadFile(BUCKET_NAME, stateCode, filename)
+        .downloadFile(BUCKET_NAME, tenantId, filename)
         .then((contents) => ({ fileKey, contents }))
     );
   });
@@ -138,7 +138,7 @@ function fetchMetricsFromGCS(stateCode, metricType, file) {
  * This is a parallel to fetchMetricsFromGCS, but instead fetches metric files from the local
  * file system.
  */
-function fetchMetricsFromLocal(stateCode, metricType, file) {
+function fetchMetricsFromLocal(tenantId, metricType, file) {
   const promises = [];
 
   const files = filesForMetricType(metricType, file);
@@ -168,8 +168,8 @@ function fetchMetricsFromLocal(stateCode, metricType, file) {
  * If we are in demo mode, then fetches the files from a static directory, /server/core/demo_data/.
  * Otherwise, fetches from Google Cloud Storage.
  */
-function fetchMetrics(stateCode, metricType, file, isDemo, callback) {
-  const cacheKey = `${stateCode}-${metricType}-${file}`;
+function fetchMetrics(tenantId, metricType, file, isDemo, callback) {
+  const cacheKey = `${tenantId}-${metricType}-${file}`;
   console.log(`Handling call to fetch ${cacheKey} metrics...`);
 
   return memoryCache.wrap(
@@ -186,7 +186,7 @@ function fetchMetrics(stateCode, metricType, file, isDemo, callback) {
       }
 
       console.log(`Fetching ${cacheKey} metrics from ${source}...`);
-      const metricPromises = fetcher(stateCode.toUpperCase(), metricType, file);
+      const metricPromises = fetcher(tenantId.toUpperCase(), metricType, file);
 
       Promise.all(metricPromises).then((allFileContents) => {
         const results = {};
@@ -204,20 +204,20 @@ function fetchMetrics(stateCode, metricType, file, isDemo, callback) {
   );
 }
 
-function fetchParoleMetrics(isDemo, stateCode, callback) {
-  return fetchMetrics(stateCode, "parole", null, isDemo, callback);
+function fetchParoleMetrics(isDemo, tenantId, callback) {
+  return fetchMetrics(tenantId, "parole", null, isDemo, callback);
 }
 
-function fetchPrisonMetrics(isDemo, stateCode, callback) {
-  return fetchMetrics(stateCode, "prison", null, isDemo, callback);
+function fetchPrisonMetrics(isDemo, tenantId, callback) {
+  return fetchMetrics(tenantId, "prison", null, isDemo, callback);
 }
 
-function fetchProbationMetrics(isDemo, stateCode, callback) {
-  return fetchMetrics(stateCode, "probation", null, isDemo, callback);
+function fetchProbationMetrics(isDemo, tenantId, callback) {
+  return fetchMetrics(tenantId, "probation", null, isDemo, callback);
 }
 
-function fetchSentencingMetrics(isDemo, stateCode, callback) {
-  return fetchMetrics(stateCode, "sentencing", null, isDemo, callback);
+function fetchSentencingMetrics(isDemo, tenantId, callback) {
+  return fetchMetrics(tenantId, "sentencing", null, isDemo, callback);
 }
 
 module.exports = {
