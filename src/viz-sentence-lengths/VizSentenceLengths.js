@@ -26,7 +26,7 @@ export default function VizSentenceLengths({
   locationId,
 }) {
   if (!dimension || !locationId) return null;
-  // TODO: factor out all this filtering logic for other breakdown sections?
+
   const filteredData = sentenceLengths
     .filter(({ district }) => district === locationId)
     .filter(recordIsTotalByDimension(dimension));
