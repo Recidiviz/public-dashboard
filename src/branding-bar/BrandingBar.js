@@ -6,7 +6,7 @@ import styled, { css } from "styled-components";
 import MenuClosedIconSrc from "../assets/icons/menuClosed.svg";
 import MenuOpenIconSrc from "../assets/icons/menuOpen.svg";
 import LogoIconSrc from "../assets/icons/recidiviz_logo.svg";
-import { FIXED_HEADER_HEIGHT, X_PADDING } from "../constants";
+import { FIXED_HEADER_HEIGHT, X_PADDING, THEME } from "../constants";
 import NavBar from "../nav-bar";
 import { LinkPill } from "../pill";
 
@@ -20,6 +20,7 @@ const ICON_SIZE = "26px";
 const Y_MARGIN = "12px";
 
 const brandingBarFixedStyles = `
+  background: ${THEME.colors.background};
   left: 0;
   min-height: ${FIXED_HEADER_HEIGHT}px;
   padding: 0 ${X_PADDING}px;
@@ -30,7 +31,7 @@ const brandingBarFixedStyles = `
 
 const BrandingBarWrapper = styled.header`
   align-items: flex-start;
-  background: ${(props) => props.theme.colors.background};
+  background: "transparent";
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -157,7 +158,10 @@ export default function BrandingBar() {
           </MenuButton>
           <CollapsibleMenuWrapper {...getCollapseProps()}>
             <NavBarWrapper>
-              <NavBar large onClick={() => setExpanded(false)} />
+              <NavBar
+                onClick={() => setExpanded(false)}
+                className="branding-bar"
+              />
             </NavBarWrapper>
           </CollapsibleMenuWrapper>
         </>
