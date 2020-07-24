@@ -24,41 +24,43 @@
  * those files to be quickly reflected in the app without frequent requests to GCS.
  */
 
-const cacheManager = require('cache-manager');
-const fs = require('fs');
-const path = require('path');
-const util = require('util');
-const objectStorage = require('./objectStorage');
+const cacheManager = require("cache-manager");
+const fs = require("fs");
+const path = require("path");
+const util = require("util");
+const objectStorage = require("./objectStorage");
 
 const BUCKET_NAME = process.env.METRIC_BUCKET;
 const METRIC_CACHE_TTL_SECONDS = 60 * 60; // Expire items in the cache after 1 hour
 const METRIC_REFRESH_SECONDS = 60 * 10;
 
-const memoryCache = cacheManager.caching(
-  { store: 'memory', ttl: METRIC_CACHE_TTL_SECONDS, refreshThreshold: METRIC_REFRESH_SECONDS },
-);
+const memoryCache = cacheManager.caching({
+  store: "memory",
+  ttl: METRIC_CACHE_TTL_SECONDS,
+  refreshThreshold: METRIC_REFRESH_SECONDS,
+});
 
 const asyncReadFile = util.promisify(fs.readFile);
 
 const FILES_BY_METRIC_TYPE = {
   parole: [
-    'active_program_participation_by_region.json',
-    'site_offices.json',
-    'supervision_population_by_district_by_demographics.json',
-    'supervision_revocations_by_month_by_type_by_demographics.json',
-    'supervision_success_by_month.json',
-    'supervision_success_by_period_by_demographics.json',
+    "active_program_participation_by_region.json",
+    "site_offices.json",
+    "supervision_population_by_district_by_demographics.json",
+    "supervision_revocations_by_month_by_type_by_demographics.json",
+    "supervision_success_by_month.json",
+    "supervision_success_by_period_by_demographics.json",
   ],
   prison: [
     // TKTK
   ],
   probation: [
-    'judicial_districts.json',
-    'supervision_population_by_district_by_demographics.json',
+    "judicial_districts.json",
+    "supervision_population_by_district_by_demographics.json",
   ],
   sentencing: [
-    'judicial_districts.json',
-    'sentence_type_by_district_by_demographics.json',
+    "judicial_districts.json",
+    "sentence_type_by_district_by_demographics.json",
   ],
 };
 
@@ -72,7 +74,7 @@ function convertDownloadToJson(contents) {
   }
 
   const jsonObject = [];
-  const splitStrings = stringContents.split('\n');
+  const splitStrings = stringContents.split("\n");
   splitStrings.forEach((line) => {
     if (line) {
       jsonObject.push(JSON.parse(line));
@@ -98,7 +100,9 @@ function filesForMetricType(metricType, file) {
     if (files.indexOf(normalizedFile) > -1) {
       return [normalizedFile];
     }
-    throw new Error(`Metric file ${normalizedFile} not registered for metric type ${metricType}`);
+    throw new Error(
+      `Metric file ${normalizedFile} not registered for metric type ${metricType}`
+    );
   }
 
   return files;
@@ -119,9 +123,12 @@ function fetchMetricsFromGCS(stateCode, metricType, file) {
 
   const files = filesForMetricType(metricType, file);
   files.forEach((filename) => {
-    const fileKey = filename.replace('.json', '');
-    promises.push(objectStorage.downloadFile(BUCKET_NAME, stateCode, filename)
-      .then((contents) => ({ fileKey, contents })));
+    const fileKey = filename.replace(".json", "");
+    promises.push(
+      objectStorage
+        .downloadFile(BUCKET_NAME, stateCode, filename)
+        .then((contents) => ({ fileKey, contents }))
+    );
   });
 
   return promises;
@@ -136,10 +143,12 @@ function fetchMetricsFromLocal(stateCode, metricType, file) {
 
   const files = filesForMetricType(metricType, file);
   files.forEach((filename) => {
-    const fileKey = filename.replace('.json', '');
+    const fileKey = filename.replace(".json", "");
     const filePath = path.resolve(__dirname, `./demo_data/${filename}`);
 
-    promises.push(asyncReadFile(filePath).then((contents) => ({ fileKey, contents })));
+    promises.push(
+      asyncReadFile(filePath).then((contents) => ({ fileKey, contents }))
+    );
   });
 
   return promises;
@@ -163,48 +172,52 @@ function fetchMetrics(stateCode, metricType, file, isDemo, callback) {
   const cacheKey = `${stateCode}-${metricType}-${file}`;
   console.log(`Handling call to fetch ${cacheKey} metrics...`);
 
-  return memoryCache.wrap(cacheKey, (cacheCb) => {
-    let fetcher = null;
-    let source = null;
-    if (isDemo) {
-      source = 'local';
-      fetcher = fetchMetricsFromLocal;
-    } else {
-      source = 'GCS';
-      fetcher = fetchMetricsFromGCS;
-    }
+  return memoryCache.wrap(
+    cacheKey,
+    (cacheCb) => {
+      let fetcher = null;
+      let source = null;
+      if (isDemo) {
+        source = "local";
+        fetcher = fetchMetricsFromLocal;
+      } else {
+        source = "GCS";
+        fetcher = fetchMetricsFromGCS;
+      }
 
-    console.log(`Fetching ${cacheKey} metrics from ${source}...`);
-    const metricPromises = fetcher(stateCode.toUpperCase(), metricType, file);
+      console.log(`Fetching ${cacheKey} metrics from ${source}...`);
+      const metricPromises = fetcher(stateCode.toUpperCase(), metricType, file);
 
-    Promise.all(metricPromises).then((allFileContents) => {
-      const results = {};
-      allFileContents.forEach((contents) => {
-        console.log(`Fetched contents for fileKey ${contents.fileKey}`);
-        const deserializedFile = convertDownloadToJson(contents.contents);
-        results[contents.fileKey] = deserializedFile;
+      Promise.all(metricPromises).then((allFileContents) => {
+        const results = {};
+        allFileContents.forEach((contents) => {
+          console.log(`Fetched contents for fileKey ${contents.fileKey}`);
+          const deserializedFile = convertDownloadToJson(contents.contents);
+          results[contents.fileKey] = deserializedFile;
+        });
+
+        console.log(`Fetched all ${cacheKey} metrics from ${source}`);
+        cacheCb(null, results);
       });
-
-      console.log(`Fetched all ${cacheKey} metrics from ${source}`);
-      cacheCb(null, results);
-    });
-  }, callback);
+    },
+    callback
+  );
 }
 
 function fetchParoleMetrics(isDemo, stateCode, callback) {
-  return fetchMetrics(stateCode, 'parole', null, isDemo, callback);
+  return fetchMetrics(stateCode, "parole", null, isDemo, callback);
 }
 
 function fetchPrisonMetrics(isDemo, stateCode, callback) {
-  return fetchMetrics(stateCode, 'prison', null, isDemo, callback);
+  return fetchMetrics(stateCode, "prison", null, isDemo, callback);
 }
 
 function fetchProbationMetrics(isDemo, stateCode, callback) {
-  return fetchMetrics(stateCode, 'probation', null, isDemo, callback);
+  return fetchMetrics(stateCode, "probation", null, isDemo, callback);
 }
 
 function fetchSentencingMetrics(isDemo, stateCode, callback) {
-  return fetchMetrics(stateCode, 'sentencing', null, isDemo, callback);
+  return fetchMetrics(stateCode, "sentencing", null, isDemo, callback);
 }
 
 module.exports = {
