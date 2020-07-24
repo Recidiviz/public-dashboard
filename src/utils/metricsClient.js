@@ -15,6 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import logger from "./logger";
+
 /**
  * An asynchronous function that returns a promise which will eventually return the results from
  * invoking the given API endpoint. Takes in the |endpoint| as a string and the |getTokenSilently|
@@ -29,7 +31,7 @@ async function callMetricsApi(endpoint) {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return null;
   }
 }
