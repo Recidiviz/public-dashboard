@@ -230,6 +230,7 @@ export const defaultTheme = {
     pillBackground: lightGray,
     pillValue: darkGray,
     monthlyTimeseriesBar: darkGreen5,
+    noData: "#EFEDEC",
     programParticipation: darkerGray,
     race: {
       AMERICAN_INDIAN_ALASKAN_NATIVE: darkGreen,
@@ -321,7 +322,7 @@ export const defaultTheme = {
 
 // ND colors are tinted with the theme background color (i.e. converted from opacity)
 const ndColors = {
-  background: "#F2F1F0",
+  background: "#FAF9F9",
   backgroundTealShade9: "#DAE3E4",
   black: "#303030",
   blackTint9: "#434343",

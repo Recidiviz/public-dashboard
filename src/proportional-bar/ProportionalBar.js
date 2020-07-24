@@ -1,11 +1,11 @@
+import { sum } from "d3-array";
 import PropTypes from "prop-types";
 import React from "react";
 import ResponsiveOrdinalFrame from "semiotic/lib/ResponsiveOrdinalFrame";
 import styled from "styled-components";
 import ColorLegend from "../color-legend";
 import Tooltip from "../tooltip";
-import { getDataWithPct } from "../utils";
-import formatAsPct from "../utils/formatAsPct";
+import { formatAsPct, getDataWithPct } from "../utils";
 
 const ProportionalBarContainer = styled.figure`
   height: 100%;
@@ -14,6 +14,7 @@ const ProportionalBarContainer = styled.figure`
 `;
 
 const ProportionalBarChartWrapper = styled.div`
+  background: ${(props) => props.theme.colors.noData};
   height: 100%;
   position: relative;
   z-index: ${(props) => props.theme.zIndex.base + 1};
@@ -58,6 +59,7 @@ export default function ProportionalBar({ data, height, showLegend, title }) {
   const TOOLTIP_PADDING = 3;
 
   const dataWithPct = getDataWithPct(data);
+  const noData = data.length === 0 || sum(data.map(({ value }) => value)) === 0;
 
   return (
     <ProportionalBarContainer>
@@ -100,7 +102,10 @@ export default function ProportionalBar({ data, height, showLegend, title }) {
         />
       </ProportionalBarChartWrapper>
       <ProportionalBarMetadata>
-        <ProportionalBarTitle>{title}</ProportionalBarTitle>
+        <ProportionalBarTitle>
+          {title}
+          {noData && ", No Data"}
+        </ProportionalBarTitle>
         {showLegend && <ColorLegend items={data} />}
       </ProportionalBarMetadata>
     </ProportionalBarContainer>
