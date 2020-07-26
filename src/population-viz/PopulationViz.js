@@ -190,21 +190,29 @@ export default function PopulationViz({
   );
 }
 
-PopulationViz.propTypes = {
+export const basePopulationVizPropTypes = {
   data: PropTypes.shape({
     populationDemographics: PropTypes.arrayOf(PropTypes.object).isRequired,
     locations: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  locationAccessorFn: PropTypes.func.isRequired,
   locationId: PropTypes.string,
+  onLocationClick: PropTypes.func.isRequired,
+};
+
+PopulationViz.propTypes = {
+  ...basePopulationVizPropTypes,
+  locationAccessorFn: PropTypes.func.isRequired,
   MapComponent: PropTypes.func.isRequired,
   mapComponentProps: PropTypes.objectOf(PropTypes.any).isRequired,
   mapLabel: PropTypes.string.isRequired,
-  onLocationClick: PropTypes.func.isRequired,
   populationAccessorFn: PropTypes.func.isRequired,
   totalPopulationLabel: PropTypes.string.isRequired,
 };
 
 PopulationViz.defaultProps = {
+  // Our linter can't quite figure out that the locationId property is
+  // actually defined in basePopulationVizPropTypes then pulled into
+  // the component's actual propTypes definition.
+  // eslint-disable-next-line react/default-props-match-prop-types
   locationId: undefined,
 };

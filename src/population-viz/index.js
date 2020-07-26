@@ -1,1 +1,1 @@
-export { default } from "./PopulationViz";
+export { default, basePopulationVizPropTypes } from "./PopulationViz";

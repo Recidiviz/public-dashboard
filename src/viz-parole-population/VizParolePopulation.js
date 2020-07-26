@@ -1,64 +1,39 @@
-import PropTypes from "prop-types";
 import React from "react";
-
-import PopulationViz from "../population-viz";
-import StateOfficeMap from "../state-office-map";
-import { recordIsTotal } from "../utils";
+import PopulationViz, { basePopulationVizPropTypes } from "../population-viz";
+import StateCountyMap from "../state-county-map";
+import { locationTotals } from "../utils";
 
 export default function VizParolePopulation(props) {
   const {
-    data: { populationDemographics, locations: paroleOffices },
-    locationId: officeId,
-    onLocationClick: onOfficeClick,
+    data: { populationDemographics, locations },
+    locationId,
+    onLocationClick,
   } = props;
 
-  const officeTotals = populationDemographics
-    .filter(recordIsTotal)
-    .map((record) => {
-      const officeData = paroleOffices.find(
-        // these are stored as both strings and numbers;
-        // doing an extra typecast here just to be safe
-        (office) => `${office.district}` === `${record.district}`
-      );
-      if (officeData) {
-        return {
-          office: `${record.district}`,
-          lat: officeData.lat,
-          long: officeData.long,
-          value: +record.total_supervision_count,
-        };
-      }
-      return null;
-    })
-    // drop any nulls from the previous step
-    .filter((record) => record);
+  const locationAccessorFn = (record) => record.district;
+  const populationAccessorFn = (record) =>
+    Number(record.total_supervision_count);
 
   return (
     <PopulationViz
       {...props}
-      MapComponent={StateOfficeMap}
+      MapComponent={StateCountyMap}
       mapComponentProps={{
-        data: officeTotals,
-        currentOffice: officeId,
-        onOfficeClick,
+        data: locationTotals(
+          populationDemographics,
+          locations,
+          populationAccessorFn,
+          locationAccessorFn
+        ),
+        currentLocation: locationId,
+        onLocationClick,
       }}
-      mapLabel="Parole offices in North Dakota"
-      locationAccessorFn={(record) => record.district}
-      populationAccessorFn={(record) => Number(record.total_supervision_count)}
+      mapLabel="Parole locations in North Dakota"
+      locationAccessorFn={locationAccessorFn}
+      populationAccessorFn={populationAccessorFn}
       totalPopulationLabel="People on parole"
     />
   );
 }
 
-VizParolePopulation.propTypes = {
-  data: PropTypes.shape({
-    populationDemographics: PropTypes.arrayOf(PropTypes.object).isRequired,
-    locations: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
-  locationId: PropTypes.string,
-  onLocationClick: PropTypes.func.isRequired,
-};
-
-VizParolePopulation.defaultProps = {
-  locationId: undefined,
-};
+VizParolePopulation.propTypes = basePopulationVizPropTypes;

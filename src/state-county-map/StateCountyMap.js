@@ -17,11 +17,11 @@ const MAX_MARKER_RADIUS = 19;
 
 const ASPECT_RATIO = TENANTS[DEFAULT_TENANT].aspectRatio;
 
-const StateOfficeMapContainer = styled.div`
+const StateCountyMapContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-const OfficeMarker = styled.circle`
+const LocationMarker = styled.circle`
   cursor: pointer;
   fill: ${(props) =>
     props.selected
@@ -41,10 +41,10 @@ const OfficeMarker = styled.circle`
   }
 `;
 
-export default function StateOfficeMap({
-  currentOffice,
+export default function StateCountyMap({
+  currentLocation,
   data,
-  onOfficeClick,
+  onLocationClick,
   width,
 }) {
   const maxValue = Math.max(...data.map(({ value }) => value));
@@ -54,17 +54,17 @@ export default function StateOfficeMap({
     .domain([0, maxValue])
     .range([0, MAX_MARKER_RADIUS]);
 
-  const handleOfficeClick = (e, record) => {
+  const handleLocationClick = (e, record) => {
     e.preventDefault();
     e.stopPropagation();
-    onOfficeClick(record.office);
+    onLocationClick(record.location);
   };
 
   const handleCountyClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    // clear the current office selection
-    onOfficeClick(TOTAL_KEY);
+    // clear the current location selection
+    onLocationClick(TOTAL_KEY);
   };
 
   const ND_PROJECTION = geoAlbers().fitExtent(
@@ -76,7 +76,7 @@ export default function StateOfficeMap({
   );
 
   return (
-    <StateOfficeMapContainer>
+    <StateCountyMapContainer>
       <ComposableMap
         projection={ND_PROJECTION}
         width={width}
@@ -100,34 +100,34 @@ export default function StateOfficeMap({
           }}
         </Geographies>
         {data.map((record) => (
-          <Marker key={record.office} coordinates={[record.long, record.lat]}>
-            <OfficeMarker
-              onClick={(e) => handleOfficeClick(e, record)}
+          <Marker key={record.location} coordinates={[record.long, record.lat]}>
+            <LocationMarker
+              onClick={(e) => handleLocationClick(e, record)}
               r={markerRadiusScale(record.value)}
-              selected={record.office === currentOffice}
+              selected={record.location === currentLocation}
             />
           </Marker>
         ))}
       </ComposableMap>
-    </StateOfficeMapContainer>
+    </StateCountyMapContainer>
   );
 }
 
-StateOfficeMap.propTypes = {
+StateCountyMap.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      office: PropTypes.string.isRequired,
+      location: PropTypes.string.isRequired,
       lat: PropTypes.number.isRequired,
       long: PropTypes.number.isRequired,
       value: PropTypes.number.isRequired,
     })
   ).isRequired,
-  currentOffice: PropTypes.string,
-  onOfficeClick: PropTypes.func.isRequired,
+  currentLocation: PropTypes.string,
+  onLocationClick: PropTypes.func.isRequired,
   width: PropTypes.number,
 };
 
-StateOfficeMap.defaultProps = {
-  currentOffice: undefined,
+StateCountyMap.defaultProps = {
+  currentLocation: undefined,
   width: 0,
 };

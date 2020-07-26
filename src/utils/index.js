@@ -8,5 +8,7 @@ export { default as formatAsPct } from "./formatAsPct";
 export { default as formatDemographicValue } from "./formatDemographicValue";
 export { default as getDataWithPct } from "./getDataWithPct";
 export { default as getDimensionalBreakdown } from "./getDimensionalBreakdown";
+export { default as judicialDistrictTotals } from "./judicialDistrictTotals";
+export { default as locationTotals } from "./locationTotals";
 export { default as recordIsTotal } from "./recordIsTotal";
 export { default as recordIsTotalByDimension } from "./recordIsTotalByDimension";

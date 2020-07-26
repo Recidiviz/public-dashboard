@@ -1,64 +1,38 @@
-import PropTypes from "prop-types";
 import React from "react";
-
-import PopulationViz from "../population-viz";
-import StateOfficeMap from "../state-office-map";
-import { recordIsTotal } from "../utils";
+import PopulationViz, { basePopulationVizPropTypes } from "../population-viz";
+import StateCountyMap from "../state-county-map";
+import { locationTotals } from "../utils";
 
 export default function VizPrisonPopulation(props) {
   const {
-    data: { populationDemographics, locations: facilities },
-    locationId: facilityId,
-    onLocationClick: onFacilityClick,
+    data: { populationDemographics, locations },
+    locationId,
+    onLocationClick,
   } = props;
 
-  const facilityTotals = populationDemographics
-    .filter(recordIsTotal)
-    .map((record) => {
-      const facilityData = facilities.find(
-        // these are stored as both strings and numbers;
-        // doing an extra typecast here just to be safe
-        (facility) => `${facility.facility}` === `${record.facility}`
-      );
-      if (facilityData) {
-        return {
-          office: `${record.facility}`,
-          lat: facilityData.lat,
-          long: facilityData.long,
-          value: +record.total_population,
-        };
-      }
-      return null;
-    })
-    // drop any nulls from the previous step
-    .filter((record) => record);
+  const locationAccessorFn = (record) => record.facility;
+  const populationAccessorFn = (record) => Number(record.total_population);
 
   return (
     <PopulationViz
       {...props}
-      MapComponent={StateOfficeMap}
+      MapComponent={StateCountyMap}
       mapComponentProps={{
-        data: facilityTotals,
-        currentOffice: facilityId,
-        onOfficeClick: onFacilityClick,
+        data: locationTotals(
+          populationDemographics,
+          locations,
+          populationAccessorFn,
+          locationAccessorFn
+        ),
+        currentLocation: locationId,
+        onLocationClick,
       }}
       mapLabel="Prison facilities in North Dakota"
-      locationAccessorFn={(record) => record.facility}
-      populationAccessorFn={(record) => Number(record.total_population)}
+      locationAccessorFn={locationAccessorFn}
+      populationAccessorFn={populationAccessorFn}
       totalPopulationLabel="People on prison"
     />
   );
 }
 
-VizPrisonPopulation.propTypes = {
-  data: PropTypes.shape({
-    populationDemographics: PropTypes.arrayOf(PropTypes.object).isRequired,
-    locations: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
-  locationId: PropTypes.string,
-  onLocationClick: PropTypes.func.isRequired,
-};
-
-VizPrisonPopulation.defaultProps = {
-  locationId: undefined,
-};
+VizPrisonPopulation.propTypes = basePopulationVizPropTypes;
