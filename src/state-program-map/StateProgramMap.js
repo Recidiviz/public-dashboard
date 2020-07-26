@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import ndGeography from "../assets/maps/us_nd_program_regions.json";
 import { DEFAULT_TENANT, TENANTS } from "../constants";
-import StateMap from "../state-map";
+import ClickableRegionMap from "../clickable-region-map";
 
 const ASPECT_RATIO = TENANTS[DEFAULT_TENANT].aspectRatio;
 
@@ -28,10 +28,10 @@ export default function StateProgramMap({ data, width, scale }) {
   };
 
   return (
-    <StateMap
+    <ClickableRegionMap
       aspectRatio={ASPECT_RATIO}
       LabelComponent={RegionLabel}
-      stateTopology={ndGeography}
+      topology={ndGeography}
       width={width}
     />
   );
