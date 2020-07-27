@@ -175,6 +175,7 @@ function fetchMetricsFromLocal(tenantId, metricType, file) {
  */
 function fetchMetrics(tenantId, metricType, file, isDemo, callback) {
   const cacheKey = `${tenantId}-${metricType}-${file}`;
+  // eslint-disable-next-line no-console
   console.log(`Handling call to fetch ${cacheKey} metrics...`);
 
   return memoryCache.wrap(
@@ -190,17 +191,20 @@ function fetchMetrics(tenantId, metricType, file, isDemo, callback) {
         fetcher = fetchMetricsFromGCS;
       }
 
+      // eslint-disable-next-line no-console
       console.log(`Fetching ${cacheKey} metrics from ${source}...`);
       const metricPromises = fetcher(tenantId.toUpperCase(), metricType, file);
 
       Promise.all(metricPromises).then((allFileContents) => {
         const results = {};
         allFileContents.forEach((contents) => {
+          // eslint-disable-next-line no-console
           console.log(`Fetched contents for fileKey ${contents.fileKey}`);
           const deserializedFile = convertDownloadToJson(contents.contents);
           results[contents.fileKey] = deserializedFile;
         });
 
+        // eslint-disable-next-line no-console
         console.log(`Fetched all ${cacheKey} metrics from ${source}`);
         cacheCb(null, results);
       });
