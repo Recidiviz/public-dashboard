@@ -150,6 +150,22 @@ export const SENTENCE_LENGTHS = new Map([
   [SENTENCE_LENGTH_KEYS.moreThanTwenty, "20+"],
 ]);
 
+export const RELEASE_TYPE_KEYS = new Map([
+  ["transfer", "external_transfer_count"],
+  ["completion", "sentence_completion_count"],
+  ["parole", "parole_count"],
+  ["probation", "probation_count"],
+  ["death", "death_count"],
+]);
+
+export const RELEASE_TYPE_LABELS = {
+  transfer: "Transfer to custody outside of ND",
+  completion: "Sentence completion",
+  parole: "Parole",
+  probation: "Probation",
+  death: "Death",
+};
+
 export const CONTAINER_WIDTH = 1144;
 export const X_PADDING = 8;
 export const FIXED_HEADER_HEIGHT = 50;
@@ -240,6 +256,13 @@ export const defaultTheme = {
       NATIVE_HAWAIIAN_PACIFIC_ISLANDER: darkGreen6,
       WHITE: darkGreen5,
       OTHER: darkGreen4,
+    },
+    releaseTypes: {
+      transfer: darkGreen,
+      completion: darkGreen7,
+      parole: darkGreen6,
+      probation: darkGreen5,
+      death: darkGreen4,
     },
     sentenceLengths: {
       [SENTENCE_LENGTH_KEYS.lessThanOne]: darkGreen,
@@ -380,6 +403,13 @@ const northDakotaTheme = {
       NATIVE_HAWAIIAN_PACIFIC_ISLANDER: ndColors.brandTealTint6,
       WHITE: ndColors.brandTealTint5,
       OTHER: ndColors.brandTealTint4,
+    },
+    releaseTypes: {
+      transfer: ndColors.brandTeal,
+      completion: ndColors.brandTealTint7,
+      parole: ndColors.brandTealTint6,
+      probation: ndColors.brandTealTint5,
+      death: ndColors.brandTealTint4,
     },
     sentenceLengths: {
       [SENTENCE_LENGTH_KEYS.lessThanOne]: ndColors.brandTeal,
