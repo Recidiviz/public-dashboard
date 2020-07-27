@@ -18,7 +18,7 @@ export default function PagePrison() {
 
   const SECTIONS = [
     {
-      title: "How long do they serve?",
+      title: "Where do they go from there?",
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,

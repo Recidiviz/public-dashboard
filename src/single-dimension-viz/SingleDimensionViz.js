@@ -10,7 +10,7 @@ import { formatDemographicValue } from "../utils";
 const SECTION_HEIGHT = 450;
 const GUTTER = 42;
 
-const VizSupervisionRevocationWrapper = styled.div`
+const SingleDimensionVizWrapper = styled.div`
   width: 100%;
 `;
 
@@ -45,7 +45,7 @@ export default function SingleDimensionViz({ data, dimension }) {
         },
       }) => {
         return (
-          <VizSupervisionRevocationWrapper ref={measureRef}>
+          <SingleDimensionVizWrapper ref={measureRef}>
             {dimension === DIMENSION_KEYS.total ? (
               width && (
                 <BubbleChart
@@ -57,7 +57,7 @@ export default function SingleDimensionViz({ data, dimension }) {
             ) : (
               <Breakdowns data={data} dimension={dimension} />
             )}
-          </VizSupervisionRevocationWrapper>
+          </SingleDimensionVizWrapper>
         );
       }}
     </Measure>
