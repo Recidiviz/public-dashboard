@@ -166,6 +166,20 @@ export const RELEASE_TYPE_LABELS = {
   death: "Death",
 };
 
+export const INCARCERATION_REASON_KEYS = new Map([
+  ["newAdmission", "new_admission_count"],
+  ["paroleRevoked", "parole_revocation_count"],
+  ["probationRevoked", "probation_revocation_count"],
+  ["other", "other_count"],
+]);
+
+export const INCARCERATION_REASON_LABELS = {
+  newAdmission: "New admissions",
+  paroleRevoked: "Parole revocations",
+  probationRevoked: "Probation revocations",
+  other: "Other",
+};
+
 export const CONTAINER_WIDTH = 1144;
 export const X_PADDING = 8;
 export const FIXED_HEADER_HEIGHT = 50;
@@ -243,6 +257,12 @@ export const defaultTheme = {
     },
     heading: "#2A4163",
     highlight: brightGreen,
+    incarcerationReasons: {
+      newAdmission: darkGreen,
+      paroleRevoked: darkGreen8,
+      probationRevoked: darkGreen6,
+      other: darkGreen4,
+    },
     pillBackground: lightGray,
     pillValue: darkGray,
     monthlyTimeseriesBar: darkGreen5,
@@ -391,6 +411,12 @@ const northDakotaTheme = {
     },
     heading: ndColors.blackTint9,
     highlight: ndColors.brandOrange,
+    incarcerationReasons: {
+      newAdmission: ndColors.brandTeal,
+      paroleRevoked: ndColors.brandTealTint8,
+      probationRevoked: ndColors.brandTealTint6,
+      other: ndColors.brandTealTint4,
+    },
     pillBackground: ndColors.medGray,
     pillValue: ndColors.black,
     monthlyTimeseriesBar: ndColors.brandTealTint2,

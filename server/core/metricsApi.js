@@ -51,7 +51,10 @@ const FILES_BY_METRIC_TYPE = {
     "supervision_success_by_month.json",
     "supervision_success_by_period_by_demographics.json",
   ],
-  prison: ["incarceration_releases_by_type_by_period.json"],
+  prison: [
+    "incarceration_population_by_admission_reason.json",
+    "incarceration_releases_by_type_by_period.json",
+  ],
   probation: [
     "active_program_participation_by_region.json",
     "judicial_districts.json",
