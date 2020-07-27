@@ -2,6 +2,7 @@ import React from "react";
 import DetailPage from "../detail-page";
 import useChartData from "../hooks/useChartData";
 import VizPrisonReleases from "../viz-prison-releases";
+import VizPrisonReasons from "../viz-prison-reasons";
 
 const TITLE = "Prison";
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -17,6 +18,19 @@ export default function PagePrison() {
   }
 
   const SECTIONS = [
+    {
+      title: "How did they get there?",
+      description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
+    tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
+    ipsum dui gravida.`,
+      showDimensionControl: true,
+      VizComponent: VizPrisonReasons,
+      vizData: {
+        incarcerationReasons:
+          apiData.incarceration_population_by_admission_reason,
+      },
+    },
     {
       title: "Where do they go from there?",
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
