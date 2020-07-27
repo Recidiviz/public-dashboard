@@ -69,7 +69,13 @@ export default function BubbleChart({ data: initialData, height, width }) {
         centerXCoordinates.push(getRadius(record));
         return;
       }
-      const prev = data[i - 1];
+      // skip over any zero-value records to calculate placement
+      // relative to nearest visible bubble; OK if there are no non-zero records
+      const prev =
+        data
+          .filter((...[, index]) => index < i)
+          .reverse()
+          .find(({ value }) => value > 0) || data[i - 1];
       const r1 = getRadius(prev);
       const r2 = getRadius(record);
       // This obscure next line is algebra with the Pythagorean Theorem;
@@ -133,7 +139,7 @@ export default function BubbleChart({ data: initialData, height, width }) {
           // slightly hacky solution here to a couple of issues:
           // 1) if the value is zero there will be no bubble, so no label
           // 2) if the bubble is really small (less than ~1%) the label won't fit
-          d.pct >= 0.1 && (
+          d.pct >= 0.01 && (
             <BubbleValueLabel>{formatAsPct(d.pct)}</BubbleValueLabel>
           )
         }
@@ -144,7 +150,7 @@ export default function BubbleChart({ data: initialData, height, width }) {
         size={[width, height]}
       />
       <LegendWrapper>
-        <ColorLegend items={data} />
+        <ColorLegend items={initialData} />
       </LegendWrapper>
     </BubbleChartWrapper>
   );
