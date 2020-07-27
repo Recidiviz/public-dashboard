@@ -9,3 +9,4 @@ export { default as getDataWithPct } from "./getDataWithPct";
 export { default as getDimensionalBreakdown } from "./getDimensionalBreakdown";
 export { default as recordIsTotal } from "./recordIsTotal";
 export { default as recordIsTotalByDimension } from "./recordIsTotalByDimension";
+export { default as transposeFieldsToRecords } from "./transposeFieldsToRecords";

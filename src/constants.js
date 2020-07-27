@@ -73,12 +73,12 @@ export const VIOLATION_LABELS = {
 };
 
 // these correspond to expected fields in fetched data
-export const VIOLATION_COUNT_KEYS = {
-  [VIOLATION_TYPES.abscond]: "absconsion_count",
-  [VIOLATION_TYPES.offend]: "new_crime_count",
-  [VIOLATION_TYPES.technical]: "technical_count",
-  [VIOLATION_TYPES.unknown]: "unknown_count",
-};
+export const VIOLATION_COUNT_KEYS = new Map([
+  [VIOLATION_TYPES.abscond, "absconsion_count"],
+  [VIOLATION_TYPES.offend, "new_crime_count"],
+  [VIOLATION_TYPES.technical, "technical_count"],
+  [VIOLATION_TYPES.unknown, "unknown_count"],
+]);
 
 export const SUPERVISION_TYPES = {
   parole: "PAROLE",

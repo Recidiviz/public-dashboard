@@ -2,17 +2,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import { RELEASE_TYPE_KEYS, RELEASE_TYPE_LABELS, THEME } from "../constants";
 import SingleDimensionViz from "../single-dimension-viz";
-import { getDimensionalBreakdown } from "../utils";
+import { getDimensionalBreakdown, transposeFieldsToRecords } from "../utils";
 
 const RELEASE_TYPE_COLORS = THEME.colors.releaseTypes;
-
-function splitByReleaseType(record) {
-  return Array.from(RELEASE_TYPE_KEYS, ([releaseType, dataKey]) => ({
-    color: RELEASE_TYPE_COLORS[releaseType],
-    label: RELEASE_TYPE_LABELS[releaseType],
-    value: record ? Number(record[dataKey]) : 0,
-  }));
-}
 
 export default function VizPrisonReleases({
   data: { releaseTypes },
@@ -24,7 +16,14 @@ export default function VizPrisonReleases({
     getDimensionalBreakdown({
       data: releaseTypes,
       dimension,
-    }).map(({ id, record }) => [id, splitByReleaseType(record)])
+    }).map(({ id, record }) => [
+      id,
+      transposeFieldsToRecords(record, {
+        colors: RELEASE_TYPE_COLORS,
+        keys: RELEASE_TYPE_KEYS,
+        labels: RELEASE_TYPE_LABELS,
+      }),
+    ])
   );
 
   return <SingleDimensionViz data={chartData} dimension={dimension} />;
