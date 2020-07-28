@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { FacetController, OrdinalFrame } from "semiotic";
 import styled from "styled-components";
 import { SENTENCE_LENGTH_KEYS, SENTENCE_LENGTHS, THEME } from "../constants";
@@ -27,6 +27,12 @@ const ColumnLabel = styled.text`
 export default function BarChartTrellis({ data, width }) {
   const [highlightedLabel, setHighlightedLabel] = useState();
   const [selectedChartTitle, setSelectedChartTitle] = useState();
+
+  // ResponsiveTooltipController expects this to be a stable reference
+  const setHighlighted = useCallback(
+    (d) => setHighlightedLabel(d ? d.column.name : undefined),
+    [setHighlightedLabel]
+  );
 
   let chartWidth = data.length > 1 ? width / 2 : width;
 
@@ -124,9 +130,7 @@ export default function BarChartTrellis({ data, width }) {
             ))}
           </FacetController>
         )}
-        setHighlighted={(d) =>
-          setHighlightedLabel(d ? d.column.name : undefined)
-        }
+        setHighlighted={setHighlighted}
       />
     </Wrapper>
   );
