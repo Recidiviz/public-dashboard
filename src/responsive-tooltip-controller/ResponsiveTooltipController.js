@@ -1,6 +1,7 @@
+import empty from "empty-lite";
 import PropTypes from "prop-types";
-import React from "react";
-import { useInfoPanelDispatch } from "../info-panel";
+import React, { useEffect } from "react";
+import { useInfoPanelDispatch, useInfoPanelState } from "../info-panel";
 import Tooltip from "../tooltip";
 
 function chartDataToTooltipProps({ label, value, pct }) {
@@ -26,8 +27,17 @@ export default function ResponsiveTooltipController({
   hoverAnnotation,
   pieceHoverAnnotation,
   render,
+  setHighlighted,
 }) {
   const infoPanelDispatch = useInfoPanelDispatch();
+  const infoPanelState = useInfoPanelState();
+
+  useEffect(() => {
+    // when state is cleared, make sure highlight is cleared also
+    if (empty(infoPanelState) && setHighlighted) {
+      setHighlighted();
+    }
+  }, [infoPanelState, setHighlighted]);
 
   // childProps are props that Semiotic will recognize; non-Semiotic children
   // should implement the same API if they want to use this controller
@@ -39,11 +49,21 @@ export default function ResponsiveTooltipController({
   if (pieceHoverAnnotation)
     childProps.pieceHoverAnnotation = pieceHoverAnnotation;
 
-  childProps.customClickBehavior = (d) =>
+  childProps.customClickBehavior = (d) => {
     infoPanelDispatch({
       type: "update",
       payload: { data: d, renderContents: tooltipContent },
     });
+    if (setHighlighted) {
+      setHighlighted(d);
+    }
+  };
+
+  childProps.customHoverBehavior = (d) => {
+    if (setHighlighted) {
+      setHighlighted(d);
+    }
+  };
 
   if (render) {
     return render(childProps);
@@ -67,6 +87,7 @@ ResponsiveTooltipController.propTypes = {
   hoverAnnotation: PropTypes.bool,
   pieceHoverAnnotation: PropTypes.bool,
   render: PropTypes.func,
+  setHighlighted: PropTypes.func,
 };
 
 ResponsiveTooltipController.defaultProps = {
@@ -75,4 +96,5 @@ ResponsiveTooltipController.defaultProps = {
   hoverAnnotation: undefined,
   pieceHoverAnnotation: undefined,
   render: undefined,
+  setHighlighted: undefined,
 };

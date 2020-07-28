@@ -10,7 +10,6 @@ const TooltipWrapper = styled.div`
   color: ${(props) => props.theme.colors.bodyLight};
   font: ${(props) => props.theme.fonts.body};
   padding: 16px;
-  padding-bottom: 8px;
   z-index: ${(props) => props.theme.zIndex.tooltip};
 
   .InfoPanel & {
@@ -38,6 +37,10 @@ const TooltipRecordList = styled.div`
 `;
 const TooltipRecord = styled.div`
   margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   .InfoPanel & {
     font: ${(props) => props.theme.fonts.displayMedium};

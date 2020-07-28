@@ -42,15 +42,15 @@ export default function BarChartTrellis({ data, width }) {
 
   const renderTooltip = (columnData) => {
     const {
-      pieces: [d],
+      summary: [d],
     } = columnData;
 
     return {
       title: selectedChartTitle || "",
       records: [
         {
-          label: `${d.label} year${
-            d.label === SENTENCE_LENGTHS.get(SENTENCE_LENGTH_KEYS.lessThanOne)
+          label: `${d.column} year${
+            d.column === SENTENCE_LENGTHS.get(SENTENCE_LENGTH_KEYS.lessThanOne)
               ? ""
               : "s"
           }`,
@@ -65,7 +65,11 @@ export default function BarChartTrellis({ data, width }) {
       <ResponsiveTooltipController
         getTooltipProps={renderTooltip}
         hoverAnnotation
-        render={(responsiveTooltipProps) => (
+        render={({
+          customClickBehavior,
+          customHoverBehavior,
+          ...responsiveTooltipProps
+        }) => (
           <FacetController
             baseMarkProps={{
               transitionDuration: { fill: THEME.transition.defaultDurationMs },
@@ -92,13 +96,16 @@ export default function BarChartTrellis({ data, width }) {
             {data.map(({ title, data: chartData }, index) => (
               <OrdinalFrame
                 axes={alternatingAxes && index % 2 ? undefined : axes}
+                // we have to extend these custom behavior functions
+                // to get the chart title into state for the tooltip;
+                // they are guaranteed to be provided by ResponsiveTooltipController
+                customClickBehavior={(d) => {
+                  setSelectedChartTitle(title);
+                  customClickBehavior(d);
+                }}
                 customHoverBehavior={(d) => {
                   setSelectedChartTitle(title);
-                  if (d) {
-                    setHighlightedLabel(d.column.name);
-                  } else {
-                    setHighlightedLabel();
-                  }
+                  customHoverBehavior(d);
                 }}
                 data={chartData}
                 // using indices actually makes a better experience here;
@@ -117,6 +124,9 @@ export default function BarChartTrellis({ data, width }) {
             ))}
           </FacetController>
         )}
+        setHighlighted={(d) =>
+          setHighlightedLabel(d ? d.column.name : undefined)
+        }
       />
     </Wrapper>
   );

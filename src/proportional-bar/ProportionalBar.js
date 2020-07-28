@@ -1,9 +1,10 @@
 import { sum } from "d3-array";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 import ResponsiveOrdinalFrame from "semiotic/lib/ResponsiveOrdinalFrame";
 import styled from "styled-components";
 import ColorLegend from "../color-legend";
+import { THEME } from "../constants";
 import { getDataWithPct } from "../utils";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
 
@@ -22,14 +23,6 @@ const ProportionalBarChartWrapper = styled.div`
   .ProportionalBarChart__segment {
     stroke: ${(props) => props.theme.colors.background};
     stroke-width: 2;
-
-    &:hover {
-      fill: ${(props) => props.theme.colors.highlight};
-      /* the hover target is actually an invisible overlay, this reveals it */
-      opacity: 1 !important;
-      transition: opacity
-        ${(props) => props.theme.transition.defaultTimeSettings};
-    }
   }
 `;
 
@@ -49,14 +42,22 @@ const ProportionalBarTitle = styled.div`
 `;
 
 export default function ProportionalBar({ data, height, showLegend, title }) {
+  const [highlighted, setHighlighted] = useState();
+
   const dataWithPct = getDataWithPct(data);
   const noData = data.length === 0 || sum(data.map(({ value }) => value)) === 0;
 
   return (
     <ProportionalBarContainer>
       <ProportionalBarChartWrapper>
-        <ResponsiveTooltipController pieceHoverAnnotation>
+        <ResponsiveTooltipController
+          pieceHoverAnnotation
+          setHighlighted={setHighlighted}
+        >
           <ResponsiveOrdinalFrame
+            baseMarkProps={{
+              transitionDuration: { fill: THEME.transition.defaultDurationMs },
+            }}
             data={dataWithPct}
             margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
             oAccessor={() => title}
@@ -67,7 +68,12 @@ export default function ProportionalBar({ data, height, showLegend, title }) {
             responsiveWidth
             // the width value is just a placeholder, it will be 100% per responsiveWidth
             size={[0, height]}
-            style={(d) => ({ fill: d.color })}
+            style={(d) => ({
+              fill:
+                (highlighted || {}).label === d.label
+                  ? THEME.colors.highlight
+                  : d.color,
+            })}
             type="bar"
           />
         </ResponsiveTooltipController>
