@@ -2,8 +2,9 @@ import { Router, Redirect } from "@reach/router";
 import { setup as setupBreakpoints } from "@w11r/use-breakpoint";
 import React from "react";
 import { ThemeProvider } from "styled-components";
-import SiteStyles from "./site-styles";
 import { CUSTOM_BREAKPOINTS, DEFAULT_TENANT, THEME } from "./constants";
+import { InfoPanelProvider } from "./info-panel";
+import SiteStyles from "./site-styles";
 import SiteLayout from "./site-layout";
 
 // set custom breakpoints for media queries
@@ -20,11 +21,13 @@ function App() {
 
   return (
     <ThemeProvider theme={THEME}>
-      <SiteStyles />
-      <Router>
-        <Redirect from="/" to={`/${currentTenant}`} noThrow replace />
-        <SiteLayout path=":tenantId/*" />
-      </Router>
+      <InfoPanelProvider>
+        <SiteStyles />
+        <Router>
+          <Redirect from="/" to={`/${currentTenant}`} noThrow replace />
+          <SiteLayout path=":tenantId/*" />
+        </Router>
+      </InfoPanelProvider>
     </ThemeProvider>
   );
 }
