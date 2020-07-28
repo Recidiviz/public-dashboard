@@ -1,10 +1,9 @@
 import React from "react";
 import DetailPage from "../detail-page";
 import useChartData from "../hooks/useChartData";
-import VizSentenceTypes from "../viz-sentence-types";
 import VizSentenceLengths from "../viz-sentence-lengths";
-
 import VizSentencePopulation from "../viz-sentence-population";
+import VizSentenceTypes from "../viz-sentence-types";
 
 export default function PageSentencing() {
   const { apiData, isLoading } = useChartData("us_nd/sentencing");

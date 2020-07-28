@@ -28,7 +28,7 @@ export default function VizParolePopulation(props) {
         currentLocation: locationId,
         onLocationClick,
       }}
-      mapLabel="Parole locations in North Dakota"
+      mapLabel="Parole offices in North Dakota"
       locationAccessorFn={locationAccessorFn}
       populationAccessorFn={populationAccessorFn}
       totalPopulationLabel="People on parole"
