@@ -15,7 +15,7 @@ export default function VizSentenceLengths({
   dimension,
   locationId,
 }) {
-  if (!dimension || !locationId) return null;
+  if (!dimension) return null;
 
   const chartData = getDimensionalBreakdown({
     data: sentenceLengths.filter(({ district }) => district === locationId),

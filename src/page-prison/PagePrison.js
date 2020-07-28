@@ -3,6 +3,7 @@ import DetailPage from "../detail-page";
 import useChartData from "../hooks/useChartData";
 import VizPrisonReleases from "../viz-prison-releases";
 import VizPrisonReasons from "../viz-prison-reasons";
+import VizSentenceLengths from "../viz-sentence-lengths";
 
 const TITLE = "Prison";
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -21,14 +22,26 @@ export default function PagePrison() {
     {
       title: "How did they get there?",
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
-    tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
-    ipsum dui gravida.`,
+        Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
+        tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
+        ipsum dui gravida.`,
       showDimensionControl: true,
       VizComponent: VizPrisonReasons,
       vizData: {
         incarcerationReasons:
           apiData.incarceration_population_by_admission_reason,
+      },
+    },
+    {
+      title: "How long are they there?",
+      description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
+        tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
+        ipsum dui gravida.`,
+      showDimensionControl: true,
+      VizComponent: VizSentenceLengths,
+      vizData: {
+        sentenceLengths: apiData.incarceration_lengths_by_demographics,
       },
     },
     {
