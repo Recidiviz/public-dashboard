@@ -12,3 +12,4 @@ export { default as judicialDistrictTotals } from "./judicialDistrictTotals";
 export { default as locationTotals } from "./locationTotals";
 export { default as recordIsTotal } from "./recordIsTotal";
 export { default as recordIsTotalByDimension } from "./recordIsTotalByDimension";
+export { default as transposeFieldsToRecords } from "./transposeFieldsToRecords";

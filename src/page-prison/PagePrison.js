@@ -3,6 +3,8 @@ import DetailPage from "../detail-page";
 import { formatLocation } from "../utils";
 import useChartData from "../hooks/useChartData";
 import VizPrisonPopulation from "../viz-prison-population";
+import VizPrisonReleases from "../viz-prison-releases";
+import VizPrisonReasons from "../viz-prison-reasons";
 
 export default function PagePrison() {
   const { apiData, isLoading } = useChartData("us_nd/prison");
@@ -37,6 +39,33 @@ export default function PagePrison() {
         populationDemographics:
           apiData.incarceration_population_by_facility_by_demographics,
         locations: facilityLocations,
+      },
+    },
+    {
+      title: "How did they get there?",
+      description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
+    tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
+    ipsum dui gravida.`,
+      showDimensionControl: true,
+      VizComponent: VizPrisonReasons,
+      vizData: {
+        incarcerationReasons:
+          apiData.incarceration_population_by_admission_reason,
+      },
+    },
+    {
+      title: "Where do they go from there?",
+      description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
+    tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
+    ipsum dui gravida.`,
+      showDimensionControl: true,
+      VizComponent: VizPrisonReleases,
+      vizData: {
+        releaseTypes: apiData.incarceration_releases_by_type_by_period.filter(
+          (record) => record.metric_period_months === "36"
+        ),
       },
     },
   ];

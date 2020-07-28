@@ -73,12 +73,12 @@ export const VIOLATION_LABELS = {
 };
 
 // these correspond to expected fields in fetched data
-export const VIOLATION_COUNT_KEYS = {
-  [VIOLATION_TYPES.abscond]: "absconsion_count",
-  [VIOLATION_TYPES.offend]: "new_crime_count",
-  [VIOLATION_TYPES.technical]: "technical_count",
-  [VIOLATION_TYPES.unknown]: "unknown_count",
-};
+export const VIOLATION_COUNT_KEYS = new Map([
+  [VIOLATION_TYPES.abscond, "absconsion_count"],
+  [VIOLATION_TYPES.offend, "new_crime_count"],
+  [VIOLATION_TYPES.technical, "technical_count"],
+  [VIOLATION_TYPES.unknown, "unknown_count"],
+]);
 
 export const SUPERVISION_TYPES = {
   parole: "PAROLE",
@@ -149,6 +149,36 @@ export const SENTENCE_LENGTHS = new Map([
   [SENTENCE_LENGTH_KEYS.tenTwenty, "10-20"],
   [SENTENCE_LENGTH_KEYS.moreThanTwenty, "20+"],
 ]);
+
+export const RELEASE_TYPE_KEYS = new Map([
+  ["transfer", "external_transfer_count"],
+  ["completion", "sentence_completion_count"],
+  ["parole", "parole_count"],
+  ["probation", "probation_count"],
+  ["death", "death_count"],
+]);
+
+export const RELEASE_TYPE_LABELS = {
+  transfer: "Transfer to custody outside of ND",
+  completion: "Sentence completion",
+  parole: "Parole",
+  probation: "Probation",
+  death: "Death",
+};
+
+export const INCARCERATION_REASON_KEYS = new Map([
+  ["newAdmission", "new_admission_count"],
+  ["paroleRevoked", "parole_revocation_count"],
+  ["probationRevoked", "probation_revocation_count"],
+  ["other", "other_count"],
+]);
+
+export const INCARCERATION_REASON_LABELS = {
+  newAdmission: "New admissions",
+  paroleRevoked: "Parole revocations",
+  probationRevoked: "Probation revocations",
+  other: "Other",
+};
 
 export const CONTAINER_WIDTH = 1144;
 export const X_PADDING = 8;
@@ -229,6 +259,12 @@ export const defaultTheme = {
     },
     heading: "#2A4163",
     highlight: brightGreen,
+    incarcerationReasons: {
+      newAdmission: darkGreen,
+      paroleRevoked: darkGreen8,
+      probationRevoked: darkGreen6,
+      other: darkGreen4,
+    },
     pillBackground: lightGray,
     pillValue: darkGray,
     monthlyTimeseriesBar: darkGreen5,
@@ -242,6 +278,13 @@ export const defaultTheme = {
       NATIVE_HAWAIIAN_PACIFIC_ISLANDER: darkGreen6,
       WHITE: darkGreen5,
       OTHER: darkGreen4,
+    },
+    releaseTypes: {
+      transfer: darkGreen,
+      completion: darkGreen7,
+      parole: darkGreen6,
+      probation: darkGreen5,
+      death: darkGreen4,
     },
     sentenceLengths: {
       [SENTENCE_LENGTH_KEYS.lessThanOne]: darkGreen,
@@ -372,6 +415,12 @@ const northDakotaTheme = {
     },
     heading: ndColors.blackTint9,
     highlight: ndColors.brandOrange,
+    incarcerationReasons: {
+      newAdmission: ndColors.brandTeal,
+      paroleRevoked: ndColors.brandTealTint8,
+      probationRevoked: ndColors.brandTealTint6,
+      other: ndColors.brandTealTint4,
+    },
     pillBackground: ndColors.medGray,
     pillValue: ndColors.black,
     monthlyTimeseriesBar: ndColors.brandTealTint2,
@@ -384,6 +433,13 @@ const northDakotaTheme = {
       NATIVE_HAWAIIAN_PACIFIC_ISLANDER: ndColors.brandTealTint6,
       WHITE: ndColors.brandTealTint5,
       OTHER: ndColors.brandTealTint4,
+    },
+    releaseTypes: {
+      transfer: ndColors.brandTeal,
+      completion: ndColors.brandTealTint7,
+      parole: ndColors.brandTealTint6,
+      probation: ndColors.brandTealTint5,
+      death: ndColors.brandTealTint4,
     },
     sentenceLengths: {
       [SENTENCE_LENGTH_KEYS.lessThanOne]: ndColors.brandTeal,

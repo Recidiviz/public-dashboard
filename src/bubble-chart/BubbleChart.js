@@ -22,13 +22,6 @@ const BubbleChartWrapper = styled.div`
   }
 `;
 
-const BubbleNameLabel = styled.text`
-  dominant-baseline: hanging;
-  fill: ${(props) => props.theme.colors.body};
-  font: ${(props) => props.theme.fonts.body};
-  text-anchor: middle;
-`;
-
 const BubbleValueLabel = styled.text`
   dominant-baseline: central;
   fill: ${(props) => props.theme.colors.bodyLight};
@@ -43,7 +36,7 @@ const LegendWrapper = styled.div`
 `;
 
 export default function BubbleChart({ data: initialData, height, width }) {
-  const data = getDataWithPct(initialData).filter(({ value }) => value > 0);
+  const data = getDataWithPct(initialData);
 
   const vizWidth = width - margin.left - margin.right;
   const vizHeight = height - margin.top - margin.bottom;
@@ -76,7 +69,13 @@ export default function BubbleChart({ data: initialData, height, width }) {
         centerXCoordinates.push(getRadius(record));
         return;
       }
-      const prev = data[i - 1];
+      // skip over any zero-value records to calculate placement
+      // relative to nearest visible bubble; OK if there are no non-zero records
+      const prev =
+        data
+          .filter((...[, index]) => index < i)
+          .reverse()
+          .find(({ value }) => value > 0) || data[i - 1];
       const r1 = getRadius(prev);
       const r2 = getRadius(record);
       // This obscure next line is algebra with the Pythagorean Theorem;
@@ -136,27 +135,23 @@ export default function BubbleChart({ data: initialData, height, width }) {
           zoom: false,
         }}
         nodeIDAccessor="label"
-        nodeLabels={(d) => (
-          <>
+        nodeLabels={(d) =>
+          // slightly hacky solution here to a couple of issues:
+          // 1) if the value is zero there will be no bubble, so no label
+          // 2) if the bubble is really small (less than ~1%) the label won't fit
+          d.pct >= 0.01 && (
             <BubbleValueLabel>{formatAsPct(d.pct)}</BubbleValueLabel>
-            {useHorizontalLayout && (
-              <BubbleNameLabel dy={getRadius(d) + 10}>
-                {d.label}
-              </BubbleNameLabel>
-            )}
-          </>
-        )}
+          )
+        }
         nodeSizeAccessor={getRadius}
         nodeStyle={(d) => ({ fill: d.color })}
         nodes={data}
         renderKey="label"
         size={[width, height]}
       />
-      {!useHorizontalLayout && (
-        <LegendWrapper>
-          <ColorLegend items={data} />
-        </LegendWrapper>
-      )}
+      <LegendWrapper>
+        <ColorLegend items={initialData} />
+      </LegendWrapper>
     </BubbleChartWrapper>
   );
 }
