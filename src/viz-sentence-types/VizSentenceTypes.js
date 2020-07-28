@@ -24,8 +24,12 @@ export default function VizSentenceTypes({
         dimension
       );
       return [
-        { source: "Incarceration", target, value: record.incarceration_count },
-        { source: "Probation", target, value: record.probation_count },
+        {
+          source: "Incarceration",
+          target,
+          value: Number(record.incarceration_count),
+        },
+        { source: "Probation", target, value: Number(record.probation_count) },
       ];
     })
     .reduce((flat, val) => flat.concat(val), []);

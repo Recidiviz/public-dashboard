@@ -3,8 +3,8 @@ import React from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import styled from "styled-components";
 import { THEME } from "../constants";
-import Tooltip from "../tooltip";
-import { demographicsAscending, formatAsNumber, formatAsPct } from "../utils";
+import ResponsiveTooltipController from "../responsive-tooltip-controller";
+import { demographicsAscending, formatAsNumber } from "../utils";
 
 const MARGIN = { top: 10, bottom: 10, left: 140, right: 140 };
 const MIN_WIDTH = 600;
@@ -91,6 +91,37 @@ const GRADIENTS = [
   </linearGradient>,
 ];
 
+const linksToTooltipProps = (d) => {
+  let links;
+
+  if ((d.sourceLinks || []).length > 0) {
+    links = d.sourceLinks
+      .map((link) => ({
+        id: link.target.id,
+        value: link.value,
+        pct: link.value / d.value,
+      }))
+      .sort((a, b) => demographicsAscending(a.id, b.id));
+  } else if ((d.targetLinks || []).length > 0) {
+    links = d.targetLinks
+      .map((link) => ({
+        id: link.source.id,
+        value: link.value,
+        pct: link.value / d.value,
+      }))
+      .sort((a, b) => demographicsAscending(a.id, b.id));
+  }
+
+  return {
+    title: d.id,
+    records: links.map((link) => ({
+      label: link.id,
+      value: link.value,
+      pct: link.pct,
+    })),
+  };
+};
+
 export default function SentenceTypesChart({ data, width }) {
   // width may be undefined when chart is first mounted; wait for it
   if (!width) return null;
@@ -125,64 +156,32 @@ export default function SentenceTypesChart({ data, width }) {
     return null;
   };
 
-  const makeTooltip = (d) => {
-    let links;
-    if ((d.sourceLinks || []).length > 1) {
-      links = d.sourceLinks
-        .map((link) => ({
-          id: link.target.id,
-          value: link.value,
-          pct: link.value / d.value,
-        }))
-        .sort((a, b) => demographicsAscending(a.id, b.id));
-    } else if ((d.targetLinks || []).length > 1) {
-      links = d.targetLinks
-        .map((link) => ({
-          id: link.source.id,
-          value: link.value,
-          pct: link.value / d.value,
-        }))
-        .sort((a, b) => demographicsAscending(a.id, b.id));
-    }
-    return (
-      <Tooltip>
-        {d.id}
-        <br />
-        {links &&
-          links.map((link) => (
-            <span key={link.id}>
-              <strong>{formatAsNumber(link.value)}</strong> (
-              {formatAsPct(link.pct)}) {link.id}
-              <br />
-            </span>
-          ))}
-      </Tooltip>
-    );
-  };
-
   return (
     <ChartWrapper width={width}>
-      <NetworkFrame
-        additionalDefs={GRADIENTS}
-        edges={data}
-        edgeStyle={(d) => ({
-          fill: `url(#${d.source.id.toLowerCase()}Gradient)`,
-        })}
+      <ResponsiveTooltipController
+        getTooltipProps={linksToTooltipProps}
         hoverAnnotation
-        margin={MARGIN}
-        networkType={{
-          nodePaddingRatio: 0.1,
-          nodeWidth: NODE_WIDTH,
-          orient: "justify",
-          projection: "horizontal",
-          type: "sankey",
-        }}
-        nodes={nodes}
-        nodeLabels={renderNodeLabel}
-        nodeStyle={(d) => ({ fill: d.color })}
-        size={[Math.max(width, MIN_WIDTH), 500]}
-        tooltipContent={makeTooltip}
-      />
+      >
+        <NetworkFrame
+          additionalDefs={GRADIENTS}
+          edges={data}
+          edgeStyle={(d) => ({
+            fill: `url(#${d.source.id.toLowerCase()}Gradient)`,
+          })}
+          margin={MARGIN}
+          networkType={{
+            nodePaddingRatio: 0.1,
+            nodeWidth: NODE_WIDTH,
+            orient: "justify",
+            projection: "horizontal",
+            type: "sankey",
+          }}
+          nodes={nodes}
+          nodeLabels={renderNodeLabel}
+          nodeStyle={(d) => ({ fill: d.color })}
+          size={[Math.max(width, MIN_WIDTH), 500]}
+        />
+      </ResponsiveTooltipController>
     </ChartWrapper>
   );
 }

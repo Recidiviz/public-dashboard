@@ -10,14 +10,15 @@ const TooltipWrapper = styled.div`
   color: ${(props) => props.theme.colors.bodyLight};
   font: ${(props) => props.theme.fonts.body};
   padding: 16px;
+  padding-bottom: 8px;
   z-index: ${(props) => props.theme.zIndex.tooltip};
 
   .InfoPanel & {
     background: transparent;
     border-radius: 0;
     box-shadow: none;
-    padding: 32px;
-    padding-top: 0px;
+    overflow-x: auto;
+    padding: 0 32px 16px;
     width: 100%;
   }
 `;
@@ -29,14 +30,27 @@ const TooltipTitle = styled.div`
     margin-bottom: 24px;
   }
 `;
-const TooltipRecordList = styled.div``;
+const TooltipRecordList = styled.div`
+  .InfoPanel & {
+    display: flex;
+  }
+`;
 const TooltipRecord = styled.div`
+  margin-bottom: 16px;
+
   .InfoPanel & {
     font: ${(props) => props.theme.fonts.displayMedium};
     font-size: 24px;
+    margin-right: 24px;
   }
 `;
-const TooltipLabel = styled.div``;
+const TooltipLabel = styled.div`
+  .InfoPanel & {
+    font: ${(props) => props.theme.fonts.body};
+    font-size: 16px;
+    opacity: 0.6;
+  }
+`;
 const TooltipValue = styled.div``;
 const TooltipPct = styled.div``;
 
