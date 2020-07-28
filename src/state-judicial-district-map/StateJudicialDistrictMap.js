@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import judicialDistrictsTopology from "../assets/maps/us_nd_judicial_districts.json";
 import { DEFAULT_TENANT, OTHER_LABEL, TENANTS, OTHER } from "../constants";
-import ClickableRegionMap from "../clickable-region-map";
+import StateMap from "../state-map";
 
 const ASPECT_RATIO = TENANTS[DEFAULT_TENANT].aspectRatio;
 
@@ -72,12 +72,12 @@ export default function StateJudicialDistrictMap({
 
   return (
     <StateJudicialDistrictMapWrapper>
-      <ClickableRegionMap
+      <StateMap
         aspectRatio={ASPECT_RATIO}
         LabelComponent={DistrictLabel}
         locationId={currentLocation}
         onRegionClick={onLocationClick}
-        topology={judicialDistrictsTopology}
+        stateTopology={judicialDistrictsTopology}
         width={width}
       />
       {otherRecord && (

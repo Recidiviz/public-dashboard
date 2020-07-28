@@ -21,20 +21,20 @@ const GeoRegion = styled(Geography)`
   transition: fill ${(props) => props.theme.transition.defaultTimeSettings};
 `;
 
-export default function ClickableRegionMap({
+export default function StateMap({
   aspectRatio,
   LabelComponent,
   locationId,
   onRegionClick,
-  topology,
+  stateTopology,
   width,
 }) {
-  const projection = geoAlbers().fitExtent(
+  const stateProjection = geoAlbers().fitExtent(
     [
       [0, 0],
       [width, width / aspectRatio],
     ],
-    mesh(topology)
+    mesh(stateTopology)
   );
 
   const [hoveredLocationId, setHoveredLocationId] = useState();
@@ -54,7 +54,7 @@ export default function ClickableRegionMap({
 
   return (
     <ComposableMap
-      projection={projection}
+      projection={stateProjection}
       width={width}
       height={width / aspectRatio}
       style={{
@@ -63,7 +63,7 @@ export default function ClickableRegionMap({
         width: "100%",
       }}
     >
-      <Geographies geography={topology}>
+      <Geographies geography={stateTopology}>
         {({ geographies }) => {
           return geographies.map((geography) => {
             const centroid = geoCentroid(geography);
@@ -106,16 +106,16 @@ export default function ClickableRegionMap({
   );
 }
 
-ClickableRegionMap.propTypes = {
+StateMap.propTypes = {
   aspectRatio: PropTypes.number.isRequired,
   LabelComponent: PropTypes.func,
   locationId: PropTypes.string,
   onRegionClick: PropTypes.func,
-  topology: PropTypes.objectOf(PropTypes.any).isRequired,
+  stateTopology: PropTypes.objectOf(PropTypes.any).isRequired,
   width: PropTypes.number,
 };
 
-ClickableRegionMap.defaultProps = {
+StateMap.defaultProps = {
   LabelComponent: undefined,
   locationId: undefined,
   onRegionClick: undefined,
