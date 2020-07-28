@@ -25,6 +25,7 @@ export default function ResponsiveTooltipController({
   getTooltipProps,
   hoverAnnotation,
   pieceHoverAnnotation,
+  render,
 }) {
   const infoPanelDispatch = useInfoPanelDispatch();
 
@@ -44,24 +45,34 @@ export default function ResponsiveTooltipController({
       payload: { data: d, renderContents: tooltipContent },
     });
 
-  return (
-    <>
-      {React.Children.map(children, (child) =>
-        React.cloneElement(child, childProps)
-      )}
-    </>
-  );
+  if (render) {
+    return render(childProps);
+  }
+  if (children) {
+    return (
+      <>
+        {React.Children.map(children, (child) =>
+          React.cloneElement(child, childProps)
+        )}
+      </>
+    );
+  }
+
+  throw new Error("You must provide either children or a render prop");
 }
 
 ResponsiveTooltipController.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   getTooltipProps: PropTypes.func,
   hoverAnnotation: PropTypes.bool,
   pieceHoverAnnotation: PropTypes.bool,
+  render: PropTypes.func,
 };
 
 ResponsiveTooltipController.defaultProps = {
+  children: undefined,
   getTooltipProps: chartDataToTooltipProps,
   hoverAnnotation: undefined,
   pieceHoverAnnotation: undefined,
+  render: undefined,
 };
