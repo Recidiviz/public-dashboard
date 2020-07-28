@@ -32,6 +32,7 @@ const TooltipTitle = styled.div`
 `;
 const TooltipRecordList = styled.div`
   .InfoPanel & {
+    align-items: flex-end;
     display: flex;
   }
 `;
@@ -51,8 +52,35 @@ const TooltipLabel = styled.div`
     opacity: 0.6;
   }
 `;
-const TooltipValue = styled.div``;
-const TooltipPct = styled.div``;
+const TooltipValue = styled.div`
+  display: inline-block;
+
+  .InfoPanel & {
+    display: block;
+  }
+`;
+const TooltipPct = styled.div`
+  display: inline-block;
+  margin-left: 8px;
+
+  &::before {
+    content: "(";
+  }
+
+  &::after {
+    content: ")";
+  }
+
+  .InfoPanel & {
+    display: block;
+    margin-left: 0;
+
+    &::before,
+    &::after {
+      content: "";
+    }
+  }
+`;
 
 export const Tooltip = ({ title, records }) => {
   return (
