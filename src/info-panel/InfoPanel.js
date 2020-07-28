@@ -13,7 +13,18 @@ const InfoPanelWrapper = styled.div`
   padding-top: 8px;
   position: fixed;
   right: 0;
-  z-index: ${(props) => props.theme.zIndex.tooltip};
+  z-index: ${(props) => props.theme.zIndex.modal};
+`;
+
+const InfoPanelOverlay = styled.div`
+  background: ${(props) => props.theme.colors.tooltipBackground};
+  bottom: 0;
+  left: 0%;
+  opacity: 0.1;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: ${(props) => props.theme.zIndex.modal};
 `;
 
 const CloseButtonWrapper = styled.div`
@@ -39,22 +50,25 @@ export default function InfoPanel({ data, renderContents }) {
   const enabled = useBreakpoint(false, ["mobile-", true]);
   const infoPanelDispatch = useInfoPanelDispatch();
 
+  const dismiss = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    infoPanelDispatch({ type: "clear" });
+  };
+
   if (enabled && data && renderContents) {
     return (
-      <InfoPanelWrapper className="InfoPanel">
-        <CloseButtonWrapper>
-          <CloseButton
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              infoPanelDispatch({ type: "clear" });
-            }}
-          >
-            <MenuOpenIcon width={ICON_SIZE} height={ICON_SIZE} />
-          </CloseButton>
-        </CloseButtonWrapper>
-        {renderContents(data)}
-      </InfoPanelWrapper>
+      <>
+        <InfoPanelOverlay onClick={dismiss} />
+        <InfoPanelWrapper className="InfoPanel">
+          <CloseButtonWrapper>
+            <CloseButton onClick={dismiss}>
+              <MenuOpenIcon width={ICON_SIZE} height={ICON_SIZE} />
+            </CloseButton>
+          </CloseButtonWrapper>
+          {renderContents(data)}
+        </InfoPanelWrapper>
+      </>
     );
   }
   return null;

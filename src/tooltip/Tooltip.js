@@ -17,7 +17,7 @@ const TooltipWrapper = styled.div`
     border-radius: 0;
     box-shadow: none;
     overflow-x: auto;
-    padding: 0 32px 16px;
+    padding: 0 32px 32px;
     width: 100%;
   }
 `;
@@ -46,6 +46,7 @@ const TooltipRecord = styled.div`
     font: ${(props) => props.theme.fonts.displayMedium};
     font-size: 24px;
     margin-right: 24px;
+    margin-bottom: 0;
   }
 `;
 const TooltipLabel = styled.div`

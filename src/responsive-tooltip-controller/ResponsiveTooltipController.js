@@ -1,3 +1,4 @@
+import useBreakpoint from "@w11r/use-breakpoint";
 import empty from "empty-lite";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
@@ -31,6 +32,7 @@ export default function ResponsiveTooltipController({
 }) {
   const infoPanelDispatch = useInfoPanelDispatch();
   const infoPanelState = useInfoPanelState();
+  const enableInfoPanel = useBreakpoint(false, ["mobile-", true]);
 
   useEffect(() => {
     // when state is cleared, make sure highlight is cleared also
@@ -38,6 +40,13 @@ export default function ResponsiveTooltipController({
       setHighlighted();
     }
   }, [infoPanelState, setHighlighted]);
+
+  // if info panel becomes disabled we should clear its state
+  useEffect(() => {
+    if (!enableInfoPanel) {
+      infoPanelDispatch({ type: "clear" });
+    }
+  }, [enableInfoPanel, infoPanelDispatch]);
 
   // childProps are props that Semiotic will recognize; non-Semiotic children
   // should implement the same API if they want to use this controller
@@ -50,12 +59,14 @@ export default function ResponsiveTooltipController({
     childProps.pieceHoverAnnotation = pieceHoverAnnotation;
 
   childProps.customClickBehavior = (d) => {
-    infoPanelDispatch({
-      type: "update",
-      payload: { data: d, renderContents: tooltipContent },
-    });
-    if (setHighlighted) {
-      setHighlighted(d);
+    if (enableInfoPanel) {
+      infoPanelDispatch({
+        type: "update",
+        payload: { data: d, renderContents: tooltipContent },
+      });
+      if (setHighlighted) {
+        setHighlighted(d);
+      }
     }
   };
 
