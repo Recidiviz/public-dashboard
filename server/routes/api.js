@@ -70,9 +70,14 @@ function sentencing(req, res) {
   );
 }
 
+function race(req, res) {
+  metricsApi.fetchRaceMetrics(isDemoMode, req.params.tenantId, responder(res));
+}
+
 module.exports = {
   parole,
   prison,
   probation,
   sentencing,
+  race,
 };

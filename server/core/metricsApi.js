@@ -73,6 +73,7 @@ const FILES_BY_METRIC_TYPE = {
     "sentence_lengths_by_district_by_demographics.json",
     "sentence_type_by_district_by_demographics.json",
   ],
+  race: ["racial_disparities.json"],
 };
 
 /**
@@ -235,9 +236,14 @@ function fetchSentencingMetrics(isDemo, tenantId, callback) {
   return fetchMetrics(tenantId, "sentencing", null, isDemo, callback);
 }
 
+function fetchRaceMetrics(isDemo, tenantId, callback) {
+  return fetchMetrics(tenantId, "race", null, isDemo, callback);
+}
+
 module.exports = {
   fetchParoleMetrics,
   fetchPrisonMetrics,
   fetchProbationMetrics,
   fetchSentencingMetrics,
+  fetchRaceMetrics,
 };
