@@ -22,7 +22,7 @@ export default function addEmptyMonthsToData({
   const newDataPoints = [...dataPoints];
 
   const end = new Date();
-  const start = subMonths(end, monthCount);
+  const start = subMonths(end, monthCount - 1);
   eachMonthOfInterval({ start, end }).forEach((monthDate) => {
     const year = monthDate.getFullYear();
     // months are 1-indexed in our data source

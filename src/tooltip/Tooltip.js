@@ -94,8 +94,10 @@ export const Tooltip = ({ title, records }) => {
         {records.map(({ label, value, pct }, i) => (
           <TooltipRecord key={label || i}>
             {label && <TooltipLabel>{label}</TooltipLabel>}
-            <TooltipValue>{formatAsNumber(value)}</TooltipValue>
-            {pct && <TooltipPct>{formatAsPct(pct)}</TooltipPct>}
+            <TooltipValue>
+              {typeof value === "number" ? formatAsNumber(value) : value}
+            </TooltipValue>
+            {pct !== undefined && <TooltipPct>{formatAsPct(pct)}</TooltipPct>}
           </TooltipRecord>
         ))}
       </TooltipRecordList>
@@ -107,7 +109,8 @@ Tooltip.propTypes = {
   records: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
-      value: PropTypes.number.isRequired,
+      value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+        .isRequired,
       pct: PropTypes.number,
     })
   ).isRequired,
