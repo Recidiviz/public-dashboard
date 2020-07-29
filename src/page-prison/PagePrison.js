@@ -1,6 +1,8 @@
 import React from "react";
 import DetailPage from "../detail-page";
+import { formatLocation } from "../utils";
 import useChartData from "../hooks/useChartData";
+import VizPrisonPopulation from "../viz-prison-population";
 import VizPrisonReleases from "../viz-prison-releases";
 import VizPrisonReasons from "../viz-prison-reasons";
 import VizSentenceLengths from "../viz-sentence-lengths";
@@ -18,7 +20,28 @@ export default function PagePrison() {
     return null;
   }
 
+  const facilityLocations = formatLocation({
+    locations: apiData.incarceration_facilities,
+    idFn: (record) => `${record.facility}`,
+    labelFn: (record) => record.name,
+  });
+
   const SECTIONS = [
+    {
+      title: "Who is in prison?",
+      description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
+      tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
+      ipsum dui gravida.`,
+      showLocationControl: true,
+      locationControlLabel: "Facility",
+      VizComponent: VizPrisonPopulation,
+      vizData: {
+        populationDemographics:
+          apiData.incarceration_population_by_facility_by_demographics,
+        locations: facilityLocations,
+      },
+    },
     {
       title: "How did they get there?",
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.

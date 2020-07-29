@@ -79,23 +79,36 @@ const DemographicsBarChartWrapper = styled.div`
   z-index: ${(props) => props.theme.zIndex.base + props.stackOrder};
 `;
 
-function DemographicBarChart({ data, dimension, stackOrder }) {
-  if (!data) return null;
+const NO_DATA_BAR = [
+  {
+    color: THEME.colors.noData,
+    label: "",
+    value: 0,
+  },
+];
 
-  const dimensionData = Array.from(DIMENSION_MAPPINGS.get(dimension))
-    .map(([demographic]) => {
-      return data
-        .filter(
-          (record) => record[DIMENSION_DATA_KEYS[dimension]] === demographic
-        )
-        .map((record) => ({
-          color: BAR_CHART_VISUALIZATION_COLORS[dimension][demographic],
-          label: formatDemographicValue(demographic, dimension),
-          value: Number(record.total_supervision_count),
-        }))
-        .shift();
-    })
-    .filter((record) => record);
+function DemographicBarChart({
+  data,
+  dimension,
+  populationAccessorFn,
+  stackOrder,
+}) {
+  const dimensionData = data
+    ? Array.from(DIMENSION_MAPPINGS.get(dimension))
+        .map(([demographic]) => {
+          return data
+            .filter(
+              (record) => record[DIMENSION_DATA_KEYS[dimension]] === demographic
+            )
+            .map((record) => ({
+              color: BAR_CHART_VISUALIZATION_COLORS[dimension][demographic],
+              label: formatDemographicValue(demographic, dimension),
+              value: Number(populationAccessorFn(record)),
+            }))
+            .shift();
+        })
+        .filter((record) => record)
+    : NO_DATA_BAR;
 
   return (
     <DemographicsBarChartWrapper stackOrder={stackOrder}>
@@ -111,6 +124,7 @@ function DemographicBarChart({ data, dimension, stackOrder }) {
 DemographicBarChart.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
   dimension: PropTypes.string.isRequired,
+  populationAccessorFn: PropTypes.func.isRequired,
   stackOrder: PropTypes.number.isRequired,
 };
 
@@ -135,9 +149,9 @@ export default function PopulationViz({
     locationId
   );
 
-  const totalPopulation = sum(
-    filteredData.filter(recordIsTotal).map(populationAccessorFn)
-  );
+  const totalPopulation =
+    filteredData &&
+    sum(filteredData.filter(recordIsTotal).map(populationAccessorFn));
 
   return (
     <PopulationVizWrapper>
@@ -161,8 +175,8 @@ export default function PopulationViz({
         <DemographicsWrapper>
           <DemographicsTotalCountWrapper>
             <Statistic
-              value={formatAsNumber(totalPopulation)}
-              label={totalPopulationLabel}
+              value={totalPopulation && formatAsNumber(totalPopulation)}
+              label={totalPopulation && totalPopulationLabel}
             />
           </DemographicsTotalCountWrapper>
           {Array.from(
@@ -173,6 +187,7 @@ export default function PopulationViz({
                   key={dimension}
                   data={filteredData}
                   dimension={dimension}
+                  populationAccessorFn={populationAccessorFn}
                   stackOrder={DIMENSION_MAPPINGS.size - index}
                 />
               )
@@ -183,21 +198,29 @@ export default function PopulationViz({
   );
 }
 
-PopulationViz.propTypes = {
+export const basePopulationVizPropTypes = {
   data: PropTypes.shape({
     populationDemographics: PropTypes.arrayOf(PropTypes.object).isRequired,
     locations: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  locationAccessorFn: PropTypes.func.isRequired,
   locationId: PropTypes.string,
+  onLocationClick: PropTypes.func.isRequired,
+};
+
+PopulationViz.propTypes = {
+  ...basePopulationVizPropTypes,
+  locationAccessorFn: PropTypes.func.isRequired,
   MapComponent: PropTypes.func.isRequired,
   mapComponentProps: PropTypes.objectOf(PropTypes.any).isRequired,
   mapLabel: PropTypes.string.isRequired,
-  onLocationClick: PropTypes.func.isRequired,
   populationAccessorFn: PropTypes.func.isRequired,
   totalPopulationLabel: PropTypes.string.isRequired,
 };
 
 PopulationViz.defaultProps = {
+  // Our linter can't quite figure out that the locationId property is
+  // actually defined in basePopulationVizPropTypes then pulled into
+  // the component's actual propTypes definition.
+  // eslint-disable-next-line react/default-props-match-prop-types
   locationId: undefined,
 };

@@ -3,7 +3,7 @@ import StateJudicialDistrictMap from "../state-judicial-district-map";
 import PopulationViz, { basePopulationVizPropTypes } from "../population-viz";
 import { judicialDistrictTotals } from "../utils";
 
-export default function VizProbationPopulation(props) {
+export default function VizSentencePopulation(props) {
   const {
     data: { populationDemographics, locations },
     locationId,
@@ -11,7 +11,7 @@ export default function VizProbationPopulation(props) {
   } = props;
 
   const populationAccessorFn = (record) =>
-    Number(record.total_supervision_count);
+    Number(record.incarceration_count) + Number(record.probation_count);
 
   return (
     <PopulationViz
@@ -29,9 +29,9 @@ export default function VizProbationPopulation(props) {
       mapLabel="Judicial districts in North Dakota"
       locationAccessorFn={(record) => record.district}
       populationAccessorFn={populationAccessorFn}
-      totalPopulationLabel="People on probation"
+      totalPopulationLabel="People sentenced"
     />
   );
 }
 
-VizProbationPopulation.propTypes = basePopulationVizPropTypes;
+VizSentencePopulation.propTypes = basePopulationVizPropTypes;

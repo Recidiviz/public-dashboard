@@ -3,16 +3,15 @@ import PopulationViz, { basePopulationVizPropTypes } from "../population-viz";
 import StateCountyMap from "../state-county-map";
 import { locationTotals } from "../utils";
 
-export default function VizParolePopulation(props) {
+export default function VizPrisonPopulation(props) {
   const {
     data: { populationDemographics, locations },
     locationId,
     onLocationClick,
   } = props;
 
-  const locationAccessorFn = (record) => record.district;
-  const populationAccessorFn = (record) =>
-    Number(record.total_supervision_count);
+  const locationAccessorFn = (record) => record.facility;
+  const populationAccessorFn = (record) => Number(record.total_population);
 
   return (
     <PopulationViz
@@ -28,12 +27,12 @@ export default function VizParolePopulation(props) {
         currentLocation: locationId,
         onLocationClick,
       }}
-      mapLabel="Parole offices in North Dakota"
+      mapLabel="Prison facilities in North Dakota"
       locationAccessorFn={locationAccessorFn}
       populationAccessorFn={populationAccessorFn}
-      totalPopulationLabel="People on parole"
+      totalPopulationLabel="People on prison"
     />
   );
 }
 
-VizParolePopulation.propTypes = basePopulationVizPropTypes;
+VizPrisonPopulation.propTypes = basePopulationVizPropTypes;

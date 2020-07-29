@@ -1,5 +1,6 @@
 import React from "react";
 import DetailPage from "../detail-page";
+import { formatLocation } from "../utils";
 import useChartData from "../hooks/useChartData";
 import VizParolePopulation from "../viz-parole-population";
 import VizSupervisionProgram from "../viz-supervision-program";
@@ -17,14 +18,10 @@ export default function PageParole() {
   const recordIsParole = (record) =>
     record.supervision_type === SUPERVISION_TYPES.parole;
 
-  const officeLocations = apiData.site_offices.map((record) => {
-    return {
-      // retain the original fields, which may be of use to viz components
-      ...record,
-      // transform office list into the format required for location controls
-      id: `${record.district}`,
-      label: record.site_name,
-    };
+  const officeLocations = formatLocation({
+    locations: apiData.site_offices,
+    idFn: (record) => `${record.district}`,
+    labelFn: (record) => record.site_name,
   });
 
   const TITLE = "Parole";
