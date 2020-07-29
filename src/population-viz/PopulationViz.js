@@ -79,28 +79,36 @@ const DemographicsBarChartWrapper = styled.div`
   z-index: ${(props) => props.theme.zIndex.base + props.stackOrder};
 `;
 
+const NO_DATA_BAR = [
+  {
+    color: THEME.colors.noData,
+    label: "",
+    value: 0,
+  },
+];
+
 function DemographicBarChart({
   data,
   dimension,
   populationAccessorFn,
   stackOrder,
 }) {
-  if (!data) return null;
-
-  const dimensionData = Array.from(DIMENSION_MAPPINGS.get(dimension))
-    .map(([demographic]) => {
-      return data
-        .filter(
-          (record) => record[DIMENSION_DATA_KEYS[dimension]] === demographic
-        )
-        .map((record) => ({
-          color: BAR_CHART_VISUALIZATION_COLORS[dimension][demographic],
-          label: formatDemographicValue(demographic, dimension),
-          value: Number(populationAccessorFn(record)),
-        }))
-        .shift();
-    })
-    .filter((record) => record);
+  const dimensionData = data
+    ? Array.from(DIMENSION_MAPPINGS.get(dimension))
+        .map(([demographic]) => {
+          return data
+            .filter(
+              (record) => record[DIMENSION_DATA_KEYS[dimension]] === demographic
+            )
+            .map((record) => ({
+              color: BAR_CHART_VISUALIZATION_COLORS[dimension][demographic],
+              label: formatDemographicValue(demographic, dimension),
+              value: Number(populationAccessorFn(record)),
+            }))
+            .shift();
+        })
+        .filter((record) => record)
+    : NO_DATA_BAR;
 
   return (
     <DemographicsBarChartWrapper stackOrder={stackOrder}>
@@ -141,9 +149,9 @@ export default function PopulationViz({
     locationId
   );
 
-  const totalPopulation = sum(
-    filteredData.filter(recordIsTotal).map(populationAccessorFn)
-  );
+  const totalPopulation =
+    filteredData &&
+    sum(filteredData.filter(recordIsTotal).map(populationAccessorFn));
 
   return (
     <PopulationVizWrapper>
@@ -167,8 +175,8 @@ export default function PopulationViz({
         <DemographicsWrapper>
           <DemographicsTotalCountWrapper>
             <Statistic
-              value={formatAsNumber(totalPopulation)}
-              label={totalPopulationLabel}
+              value={totalPopulation && formatAsNumber(totalPopulation)}
+              label={totalPopulation && totalPopulationLabel}
             />
           </DemographicsTotalCountWrapper>
           {Array.from(

@@ -40,10 +40,11 @@ export default function Statistic({ value, label, fluidSize }) {
 Statistic.propTypes = {
   fluidSize: PropTypes.bool,
   label: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
 };
 
 Statistic.defaultProps = {
   fluidSize: false,
   label: undefined,
+  value: "No data",
 };

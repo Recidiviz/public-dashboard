@@ -12,13 +12,6 @@ export default function PageSentencing() {
     return null;
   }
 
-  const sentenceTypeByDistrictByDemographics =
-    apiData.sentence_type_by_district_by_demographics;
-  const populatedDistricts = new Set(
-    sentenceTypeByDistrictByDemographics.map((record) => record.district)
-  );
-  const districtIsPopulated = (record) => populatedDistricts.has(record.id);
-
   const TITLE = "Sentencing";
   const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
@@ -36,8 +29,9 @@ export default function PageSentencing() {
       locationControlLabel: "Judicial District",
       VizComponent: VizSentencePopulation,
       vizData: {
-        populationDemographics: sentenceTypeByDistrictByDemographics,
-        locations: apiData.judicial_districts.filter(districtIsPopulated),
+        populationDemographics:
+          apiData.sentence_type_by_district_by_demographics,
+        locations: apiData.judicial_districts,
       },
     },
 
@@ -52,7 +46,7 @@ export default function PageSentencing() {
       locationControlLabel: "Judicial District",
       VizComponent: VizSentenceTypes,
       vizData: {
-        sentenceTypes: sentenceTypeByDistrictByDemographics,
+        sentenceTypes: apiData.sentence_type_by_district_by_demographics,
         locations: apiData.judicial_districts,
       },
     },
