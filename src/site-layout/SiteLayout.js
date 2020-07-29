@@ -45,7 +45,6 @@ const BrandingBarWrapper = styled.div`
   margin-bottom: 64px;
   min-height: ${FIXED_HEADER_HEIGHT}px;
   width: 100%;
-  z-index: ${(props) => props.theme.zIndex.header};
 
   ${mediaQuery(["mobile-", "margin-bottom: 16px;"])}
 `;

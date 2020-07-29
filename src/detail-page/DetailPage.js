@@ -1,9 +1,11 @@
+import useBreakpoint from "@w11r/use-breakpoint";
+import classNames from "classnames";
 import { ascending } from "d3-array";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { exact, tail } from "set-order";
 import styled from "styled-components";
-import { OTHER_LABEL, TOTAL_KEY } from "../constants";
+import { FIXED_HEADER_HEIGHT, OTHER_LABEL, TOTAL_KEY } from "../constants";
 import { DimensionControl, MonthControl, LocationControl } from "../controls";
 import { HeadingTitle, HeadingDescription } from "../heading";
 
@@ -17,14 +19,13 @@ const SectionDivider = styled.hr`
 
 const sectionTextWidth = 420;
 
-const DetailSectionContainer = styled.section``;
-
-const DetailSectionHeader = styled.header`
+const DetailSectionContainer = styled.section`
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 `;
+
 const DetailSectionTitle = styled.h1`
   color: ${(props) => props.theme.colors.heading};
   flex: 0 1 auto;
@@ -34,23 +35,35 @@ const DetailSectionTitle = styled.h1`
   margin-right: 32px;
   width: ${sectionTextWidth}px;
 `;
+
 const DetailSectionControls = styled.div`
+  background: ${(props) => props.theme.colors.background};
   display: flex;
   flex: 0 0 auto;
   flex-wrap: wrap;
   justify-content: flex-start;
   max-width: 100%;
+  padding-bottom: 16px;
+
+  &.sticky {
+    position: sticky;
+    top: ${FIXED_HEADER_HEIGHT}px;
+    width: 100%;
+    z-index: ${(props) => props.theme.zIndex.control};
+  }
 `;
 
 const DetailSectionDescription = styled.p`
   color: ${(props) => props.theme.colors.body};
   font: ${(props) => props.theme.fonts.body};
-  max-width: ${sectionTextWidth}px;
+  padding-right: calc(100% - ${sectionTextWidth}px);
+  width: 100%;
 `;
 
 const DetailSectionVizContainer = styled.div`
   margin-bottom: 24px;
   margin-top: 32px;
+  width: 100%;
 `;
 
 const sortLocations = exact([tail(OTHER_LABEL)], ascending);
@@ -84,28 +97,29 @@ function DetailSection({
   const [locationList] = useState(initialLocationList);
   const [locationId, setLocationId] = useState();
 
+  const sticky = useBreakpoint(false, ["mobile-", true]);
+
   return (
     <DetailSectionContainer>
-      <DetailSectionHeader>
-        <DetailSectionTitle>{title}</DetailSectionTitle>
-        <DetailSectionControls>
-          {showMonthControl && monthList && (
-            <MonthControl months={monthList} onChange={setMonth} />
-          )}
-          {
-            // we need both a flag and data to enable location control
-            showLocationControl && locationList && (
-              <LocationControl
-                label={locationControlLabel}
-                locations={locationList}
-                onChange={setLocationId}
-                value={locationId}
-              />
-            )
-          }
-          {showDimensionControl && <DimensionControl onChange={setDimension} />}
-        </DetailSectionControls>
-      </DetailSectionHeader>
+      <DetailSectionTitle>{title}</DetailSectionTitle>
+      <DetailSectionControls className={classNames({ sticky })}>
+        {showMonthControl && monthList && (
+          <MonthControl months={monthList} onChange={setMonth} />
+        )}
+        {
+          // we need both a flag and data to enable location control
+          showLocationControl && locationList && (
+            <LocationControl
+              label={locationControlLabel}
+              locations={locationList}
+              onChange={setLocationId}
+              value={locationId}
+            />
+          )
+        }
+        {showDimensionControl && <DimensionControl onChange={setDimension} />}
+      </DetailSectionControls>
+
       <DetailSectionDescription>{description}</DetailSectionDescription>
       <DetailSectionVizContainer>
         <VizComponent
