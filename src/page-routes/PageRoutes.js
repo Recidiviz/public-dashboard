@@ -8,6 +8,7 @@ import PageSentencing from "../page-sentencing";
 import PagePrison from "../page-prison";
 import PageProbation from "../page-probation";
 import PageParole from "../page-parole";
+import PageRacialDisparities from "../page-racial-disparities/PageRacialDisparities";
 
 const PagesContainer = styled.main``;
 
@@ -21,6 +22,7 @@ export default function PageRoutes() {
         <PagePrison path={PATHS.prison} />
         <PageProbation path={PATHS.probation} />
         <PageParole path={PATHS.parole} />
+        <PageRacialDisparities path={PATHS.race} />
       </Router>
     </PagesContainer>
   );

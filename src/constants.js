@@ -14,6 +14,7 @@ export const PATHS = {
   prison: "prison",
   probation: "probation",
   sentencing: "sentencing",
+  race: "race",
 };
 
 export const DETAIL_PAGES = new Map([
@@ -23,9 +24,12 @@ export const DETAIL_PAGES = new Map([
   [PATHS.parole, "Parole"],
 ]);
 
+const NARRATIVE_PAGES = new Map([[PATHS.race, "Racial Disparities"]]);
+
 export const ALL_PAGES = new Map([
-  [PATHS.overview, "Overview"],
+  [PATHS.overview, "Introduction"],
   ...DETAIL_PAGES,
+  ...NARRATIVE_PAGES,
 ]);
 
 export const TOTAL_KEY = "ALL";
