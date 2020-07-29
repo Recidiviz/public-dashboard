@@ -1,10 +1,12 @@
+import { parse, format } from "date-fns";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 import ResponsiveOrdinalFrame from "semiotic/lib/ResponsiveOrdinalFrame";
 import styled from "styled-components";
 import ChartWrapper from "../chart-wrapper";
 import { THEME } from "../constants";
-import { formatAsPct } from "../utils";
+import ResponsiveTooltipController from "../responsive-tooltip-controller";
+import { formatAsPct, formatAsNumber } from "../utils";
 
 const MonthlyTimeseriesWrapper = styled(ChartWrapper)`
   height: 350px;
@@ -22,34 +24,64 @@ const TimeLabel = styled.text`
   text-anchor: middle;
 `;
 
+const makeTooltipData = ({ summary: [d] }) => {
+  return {
+    title: format(parse(d.column, "yyyy-M", new Date()), "MMM y"),
+    records: [
+      {
+        label: "Completion rate",
+        value: `${formatAsNumber(d.data.actual || 0)} of ${formatAsNumber(
+          d.data.projected || 0
+        )}`,
+        pct: d.data.rate,
+      },
+    ],
+  };
+};
+
 export default function MonthlyTimeseries({ data }) {
+  const [highlighted, setHighlighted] = useState();
   return (
     <MonthlyTimeseriesWrapper>
-      <ResponsiveOrdinalFrame
-        axes={[
-          {
-            baseline: false,
-            orient: "left",
-            tickFormat: formatAsPct,
-            tickLineGenerator: () => null,
-            ticks: 3,
-          },
-        ]}
-        data={data}
-        margin={chartMargins}
-        oAccessor="month"
-        oLabel={(labelText) => {
-          const [year, month] = labelText.split("-");
-          return month === "1" ? <TimeLabel>{year}</TimeLabel> : null;
-        }}
-        rAccessor="value"
-        rExtent={[0, 1]}
-        renderKey="month"
-        responsiveHeight
-        responsiveWidth
-        style={{ fill: THEME.colors.monthlyTimeseriesBar }}
-        type="bar"
-      />
+      <ResponsiveTooltipController
+        getTooltipProps={makeTooltipData}
+        hoverAnnotation
+        setHighlighted={setHighlighted}
+      >
+        <ResponsiveOrdinalFrame
+          axes={[
+            {
+              baseline: false,
+              orient: "left",
+              tickFormat: formatAsPct,
+              tickLineGenerator: () => null,
+              ticks: 3,
+            },
+          ]}
+          baseMarkProps={{
+            transitionDuration: { fill: THEME.transition.defaultDurationMs },
+          }}
+          data={data}
+          margin={chartMargins}
+          oAccessor="month"
+          oLabel={(labelText) => {
+            const [year, month] = labelText.split("-");
+            return month === "1" ? <TimeLabel>{year}</TimeLabel> : null;
+          }}
+          rAccessor="rate"
+          rExtent={[0, 1]}
+          renderKey="month"
+          responsiveHeight
+          responsiveWidth
+          style={(d) => ({
+            fill:
+              highlighted && d.column === highlighted.column.name
+                ? THEME.colors.highlight
+                : THEME.colors.monthlyTimeseriesBar,
+          })}
+          type="bar"
+        />
+      </ResponsiveTooltipController>
     </MonthlyTimeseriesWrapper>
   );
 }
@@ -58,7 +90,9 @@ MonthlyTimeseries.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       month: PropTypes.string.isRequired,
-      value: PropTypes.number.isRequired,
+      projected: PropTypes.number.isRequired,
+      actual: PropTypes.number.isRequired,
+      rate: PropTypes.number.isRequired,
     })
   ).isRequired,
 };

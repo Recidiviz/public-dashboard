@@ -15,6 +15,7 @@ import NavBar from "../nav-bar";
 import PageRoutes from "../page-routes";
 import BackgroundImageSrc from "../assets/images/background.png";
 import SecondaryNav from "../secondary-nav";
+import InfoPanel from "../info-panel";
 
 const NAV_WIDTH = 150;
 
@@ -106,6 +107,7 @@ function SiteLayout({ tenantId }) {
       <FooterWrapper>
         <Footer />
       </FooterWrapper>
+      <InfoPanel />
     </SiteContainer>
   );
 }

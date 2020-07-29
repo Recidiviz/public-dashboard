@@ -265,6 +265,7 @@ export const defaultTheme = {
       probationRevoked: darkGreen6,
       other: darkGreen4,
     },
+    infoPanelTitle: "#F57E62",
     pillBackground: lightGray,
     pillValue: darkGray,
     monthlyTimeseriesBar: darkGreen5,

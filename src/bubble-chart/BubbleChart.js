@@ -3,10 +3,12 @@ import { cumsum } from "d3-array";
 import { forceCollide, forceSimulation, forceX, forceY } from "d3-force";
 import forceLimit from "d3-force-limit";
 import { scaleSqrt } from "d3-scale";
-import React from "react";
+import React, { useState } from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import styled from "styled-components";
 import ColorLegend from "../color-legend";
+import { THEME } from "../constants";
+import ResponsiveTooltipController from "../responsive-tooltip-controller";
 import { formatAsPct, getDataWithPct } from "../utils";
 
 const margin = { top: 0, left: 0, right: 0, bottom: 40 };
@@ -123,32 +125,47 @@ export default function BubbleChart({ data: initialData, height, width }) {
       .force("collide", forceCollide().radius(getRadius).strength(1));
   }
 
+  const [highlighted, setHighlighted] = useState();
+
   return (
     <BubbleChartWrapper>
-      <NetworkFrame
-        margin={margin}
-        networkType={{
-          type: "force",
-          // this number is based on trial and error, no special knowledge
-          iterations: 300,
-          simulation,
-          zoom: false,
-        }}
-        nodeIDAccessor="label"
-        nodeLabels={(d) =>
-          // slightly hacky solution here to a couple of issues:
-          // 1) if the value is zero there will be no bubble, so no label
-          // 2) if the bubble is really small (less than ~1%) the label won't fit
-          d.pct >= 0.01 && (
-            <BubbleValueLabel>{formatAsPct(d.pct)}</BubbleValueLabel>
-          )
-        }
-        nodeSizeAccessor={getRadius}
-        nodeStyle={(d) => ({ fill: d.color })}
-        nodes={data}
-        renderKey="label"
-        size={[width, height]}
-      />
+      <ResponsiveTooltipController
+        hoverAnnotation
+        setHighlighted={setHighlighted}
+      >
+        <NetworkFrame
+          baseMarkProps={{
+            transitionDuration: { fill: THEME.transition.defaultDurationMs },
+          }}
+          margin={margin}
+          networkType={{
+            type: "force",
+            // this number is based on trial and error, no special knowledge
+            iterations: 300,
+            simulation,
+            zoom: false,
+          }}
+          nodeIDAccessor="label"
+          nodeLabels={(d) =>
+            // slightly hacky solution here to a couple of issues:
+            // 1) if the value is zero there will be no bubble, so no label
+            // 2) if the bubble is really small (less than ~1%) the label won't fit
+            d.pct >= 0.01 && (
+              <BubbleValueLabel>{formatAsPct(d.pct)}</BubbleValueLabel>
+            )
+          }
+          nodeSizeAccessor={getRadius}
+          nodeStyle={(d) => ({
+            fill:
+              (highlighted || {}).label === d.label
+                ? THEME.colors.highlight
+                : d.color,
+          })}
+          nodes={data}
+          renderKey="label"
+          size={[width, height]}
+        />
+      </ResponsiveTooltipController>
       <LegendWrapper>
         <ColorLegend items={initialData} />
       </LegendWrapper>

@@ -16,7 +16,9 @@ import {
 function makeTimeseriesRecord(record) {
   return {
     month: `${record.year}-${record.month}`,
-    value: parseFloat(record.success_rate),
+    projected: Number(record.projected_completion_count),
+    actual: Number(record.successful_termination_count),
+    rate: parseFloat(record.success_rate),
   };
 }
 
@@ -63,7 +65,13 @@ export default function VizSupervisionSuccess({
     emptyValue: 0,
   })
     .map(makeTimeseriesRecord)
-    .sort((a, b) => ascending(a.month, b.month));
+    .sort((a, b) => {
+      const [yearA, monthA] = a.month.split("-");
+      const [yearB, monthB] = b.month.split("-");
+      return (
+        ascending(yearA, yearB) || ascending(Number(monthA), Number(monthB))
+      );
+    });
 
   const breakdownData = successByDemographics
     .filter(isSelectedLocation)

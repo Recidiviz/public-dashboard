@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { FacetController, OrdinalFrame } from "semiotic";
 import styled from "styled-components";
 import { SENTENCE_LENGTH_KEYS, SENTENCE_LENGTHS, THEME } from "../constants";
 import ChartWrapper from "../chart-wrapper";
-import Tooltip from "../tooltip";
+import ResponsiveTooltipController from "../responsive-tooltip-controller";
 
 const CHART_HEIGHT = 360;
 const CHART_MIN_WIDTH = 320;
@@ -24,16 +24,15 @@ const ColumnLabel = styled.text`
   text-anchor: middle;
 `;
 
-const renderTooltip = (chartTitle) => ({ pieces: [d] }) => (
-  <Tooltip>
-    {chartTitle}
-    <br />
-    {d.value} serving {d.label} year(s)
-  </Tooltip>
-);
-
 export default function BarChartTrellis({ data, width }) {
   const [highlightedLabel, setHighlightedLabel] = useState();
+  const [selectedChartTitle, setSelectedChartTitle] = useState();
+
+  // ResponsiveTooltipController expects this to be a stable reference
+  const setHighlighted = useCallback(
+    (d) => setHighlightedLabel(d ? d.column.name : undefined),
+    [setHighlightedLabel]
+  );
 
   let chartWidth = data.length > 1 ? width / 2 : width;
 
@@ -47,53 +46,92 @@ export default function BarChartTrellis({ data, width }) {
     { baseline: false, orient: "left", tickLineGenerator: () => null },
   ];
 
+  const renderTooltip = (columnData) => {
+    const {
+      summary: [d],
+    } = columnData;
+
+    return {
+      title: selectedChartTitle || "",
+      records: [
+        {
+          label: `${d.column} year${
+            d.column === SENTENCE_LENGTHS.get(SENTENCE_LENGTH_KEYS.lessThanOne)
+              ? ""
+              : "s"
+          }`,
+          value: d.value,
+        },
+      ],
+    };
+  };
+
   return (
     <Wrapper>
-      <FacetController
-        baseMarkProps={{
-          transitionDuration: { fill: THEME.transition.defaultDurationMs },
-        }}
-        margin={MARGIN}
-        oAccessor="label"
-        oLabel={(label) => {
-          const postfix =
-            label === SENTENCE_LENGTHS.get(SENTENCE_LENGTH_KEYS.lessThanOne)
-              ? " year"
-              : "";
-          return <ColumnLabel>{`${label}${postfix}`}</ColumnLabel>;
-        }}
-        oPadding={8}
-        rAccessor="value"
-        sharedRExtent
-        size={[chartWidth, CHART_HEIGHT]}
-        style={(d) => ({
-          fill: highlightedLabel === d.label ? THEME.colors.highlight : d.color,
-        })}
-        type="bar"
-      >
-        {data.map(({ title, data: chartData }, index) => (
-          <OrdinalFrame
-            axes={alternatingAxes && index % 2 ? undefined : axes}
-            customHoverBehavior={(d) =>
-              d ? setHighlightedLabel(d.column.name) : setHighlightedLabel()
-            }
-            data={chartData}
-            hoverAnnotation
-            // using indices actually makes a better experience here;
-            // the charts animate in and out based on how many there are
-            // and we avoid bugs that happen when values change but the
-            // identifiers (i.e. titles) stay the same
-            // eslint-disable-next-line react/no-array-index-key
-            key={index}
-            title={
-              <ChartTitle x={0 - chartWidth / 2 + MARGIN.left}>
-                {title}
-              </ChartTitle>
-            }
-            tooltipContent={renderTooltip(title)}
-          />
-        ))}
-      </FacetController>
+      <ResponsiveTooltipController
+        getTooltipProps={renderTooltip}
+        hoverAnnotation
+        render={({
+          customClickBehavior,
+          customHoverBehavior,
+          ...responsiveTooltipProps
+        }) => (
+          <FacetController
+            baseMarkProps={{
+              transitionDuration: { fill: THEME.transition.defaultDurationMs },
+            }}
+            margin={MARGIN}
+            oAccessor="label"
+            oLabel={(label) => {
+              const postfix =
+                label === SENTENCE_LENGTHS.get(SENTENCE_LENGTH_KEYS.lessThanOne)
+                  ? " year"
+                  : "";
+              return <ColumnLabel>{`${label}${postfix}`}</ColumnLabel>;
+            }}
+            oPadding={8}
+            rAccessor="value"
+            sharedRExtent
+            size={[chartWidth, CHART_HEIGHT]}
+            style={(d) => ({
+              fill:
+                highlightedLabel === d.label ? THEME.colors.highlight : d.color,
+            })}
+            type="bar"
+          >
+            {data.map(({ title, data: chartData }, index) => (
+              <OrdinalFrame
+                axes={alternatingAxes && index % 2 ? undefined : axes}
+                // we have to extend these custom behavior functions
+                // to get the chart title into state for the tooltip;
+                // they are guaranteed to be provided by ResponsiveTooltipController
+                customClickBehavior={(d) => {
+                  setSelectedChartTitle(title);
+                  customClickBehavior(d);
+                }}
+                customHoverBehavior={(d) => {
+                  setSelectedChartTitle(title);
+                  customHoverBehavior(d);
+                }}
+                data={chartData}
+                // using indices actually makes a better experience here;
+                // the charts animate in and out based on how many there are
+                // and we avoid bugs that happen when values change but the
+                // identifiers (i.e. titles) stay the same
+                // eslint-disable-next-line react/no-array-index-key
+                key={index}
+                title={
+                  <ChartTitle x={0 - chartWidth / 2 + MARGIN.left}>
+                    {title}
+                  </ChartTitle>
+                }
+                {...responsiveTooltipProps}
+              />
+            ))}
+          </FacetController>
+        )}
+        setHighlighted={setHighlighted}
+      />
     </Wrapper>
   );
 }
