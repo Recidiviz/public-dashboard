@@ -1,12 +1,12 @@
-import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
+import classNames from "classnames";
+import useBreakpoint from "@w11r/use-breakpoint";
 import React from "react";
 import useCollapse from "react-collapsed";
 import styled, { css } from "styled-components";
-
 import MenuClosedIconSrc from "../assets/icons/menuClosed.svg";
 import MenuOpenIconSrc from "../assets/icons/menuOpen.svg";
 import LogoIconSrc from "../assets/icons/recidiviz_logo.svg";
-import { FIXED_HEADER_HEIGHT, X_PADDING, THEME } from "../constants";
+import { FIXED_HEADER_HEIGHT, X_PADDING } from "../constants";
 import NavBar from "../nav-bar";
 import { LinkPill } from "../pill";
 
@@ -19,24 +19,24 @@ const ICON_SIZE = "26px";
 
 const Y_MARGIN = "12px";
 
-const brandingBarFixedStyles = `
-  background: ${THEME.colors.background};
-  left: 0;
-  min-height: ${FIXED_HEADER_HEIGHT}px;
-  padding: 0 ${X_PADDING}px;
-  position: fixed;
-  right: 0;
-  top: 0;
-`;
-
 const BrandingBarWrapper = styled.header`
   align-items: flex-start;
   background: "transparent";
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  z-index: ${(props) => props.theme.zIndex.header};
 
-  ${mediaQuery(["mobile-", brandingBarFixedStyles])}
+  &.fixed {
+    background: ${(props) => props.theme.colors.background};
+    left: 0;
+    height: ${(props) =>
+      props.expanded ? "auto" : `${FIXED_HEADER_HEIGHT}px`};
+    padding: 0 ${X_PADDING}px;
+    position: fixed;
+    right: 0;
+    top: 0;
+  }
 `;
 
 const BrandingBarHeader = styled.div`
@@ -122,7 +122,10 @@ export default function BrandingBar() {
   } = useCollapse();
 
   return (
-    <BrandingBarWrapper>
+    <BrandingBarWrapper
+      className={classNames({ fixed: useCollapsibleNav })}
+      expanded={useCollapsibleNav && isExpanded}
+    >
       <BrandingBarHeader
         collapsible={useCollapsibleNav}
         expanded={useCollapsibleNav && isExpanded}

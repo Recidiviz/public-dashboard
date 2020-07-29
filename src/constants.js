@@ -358,10 +358,11 @@ export const defaultTheme = {
   },
   zIndex: {
     base: 1,
-    menu: 10,
-    tooltip: 50,
-    header: 75,
-    modal: 100,
+    control: 50,
+    menu: 100,
+    tooltip: 500,
+    header: 750,
+    modal: 1000,
   },
 };
 
