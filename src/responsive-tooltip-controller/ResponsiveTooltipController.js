@@ -51,7 +51,14 @@ export default function ResponsiveTooltipController({
   // childProps are props that Semiotic will recognize; non-Semiotic children
   // should implement the same API if they want to use this controller
   const tooltipContent = (d) => <Tooltip {...getTooltipProps(d)} />;
-  const childProps = { hoverAnnotation, tooltipContent };
+  const renderNull = () => null;
+
+  const childProps = {
+    hoverAnnotation,
+    // some mobile browsers fire hover events on tap;
+    // returning null prevents us from showing both tooltip and info panel simultaneously
+    tooltipContent: enableInfoPanel ? renderNull : tooltipContent,
+  };
 
   // not all chart frames support this so don't include it by default
   // or Semiotic will yell at you
