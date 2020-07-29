@@ -1,6 +1,7 @@
 import React from "react";
 import { SUPERVISION_TYPES } from "../constants";
 import DetailPage from "../detail-page";
+import { recordIsMetricPeriodMonths } from "../utils";
 import useChartData from "../hooks/useChartData";
 import VizProbationPopulation from "../viz-probation-population";
 import VizSupervisionProgram from "../viz-supervision-program";
@@ -57,7 +58,7 @@ export default function PageProbation() {
         ),
         successByDemographics: apiData.supervision_success_by_period_by_demographics
           .filter(recordIsProbation)
-          .filter((record) => record.metric_period_months === "36"),
+          .filter(recordIsMetricPeriodMonths(36)),
       },
     },
     {
@@ -67,12 +68,11 @@ export default function PageProbation() {
       tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
       ipsum dui gravida.`,
       showDimensionControl: true,
-      showMonthControl: true,
       VizComponent: VizSupervisionRevocation,
       vizData: {
-        supervisionRevocationByMonth: apiData.supervision_revocations_by_month_by_type_by_demographics.filter(
-          recordIsProbation
-        ),
+        revocationsByDemographics: apiData.supervision_revocations_by_period_by_type_by_demographics
+          .filter(recordIsProbation)
+          .filter(recordIsMetricPeriodMonths(36)),
       },
     },
     {

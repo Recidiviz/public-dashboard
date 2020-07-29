@@ -1,6 +1,6 @@
 import React from "react";
 import DetailPage from "../detail-page";
-import { formatLocation } from "../utils";
+import { formatLocation, recordIsMetricPeriodMonths } from "../utils";
 import useChartData from "../hooks/useChartData";
 import VizPrisonPopulation from "../viz-prison-population";
 import VizPrisonReleases from "../viz-prison-releases";
@@ -77,7 +77,7 @@ export default function PagePrison() {
       VizComponent: VizPrisonReleases,
       vizData: {
         releaseTypes: apiData.incarceration_releases_by_type_by_period.filter(
-          (record) => record.metric_period_months === "36"
+          recordIsMetricPeriodMonths(36)
         ),
       },
     },
