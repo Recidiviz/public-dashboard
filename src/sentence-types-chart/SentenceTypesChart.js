@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import styled from "styled-components";
 import { THEME } from "../constants";
@@ -123,6 +123,8 @@ const linksToTooltipProps = (d) => {
 };
 
 export default function SentenceTypesChart({ data, width }) {
+  const [highlighted, setHighlighted] = useState();
+
   // width may be undefined when chart is first mounted; wait for it
   if (!width) return null;
   // we are assuming these are mutually exclusive; no intermediate nodes
@@ -156,17 +158,33 @@ export default function SentenceTypesChart({ data, width }) {
     return null;
   };
 
+  const shouldHighlight = (d) => {
+    return (
+      highlighted &&
+      (highlighted.id === d.id ||
+        // edges connected to this node
+        (d.source || {}).id === highlighted.id ||
+        (d.target || {}).id === highlighted.id)
+    );
+  };
+
   return (
     <ChartWrapper width={width}>
       <ResponsiveTooltipController
         getTooltipProps={linksToTooltipProps}
         hoverAnnotation
+        setHighlighted={setHighlighted}
       >
         <NetworkFrame
           additionalDefs={GRADIENTS}
+          baseMarkProps={{
+            transitionDuration: { fill: THEME.transition.defaultDurationMs },
+          }}
           edges={data}
           edgeStyle={(d) => ({
-            fill: `url(#${d.source.id.toLowerCase()}Gradient)`,
+            fill: shouldHighlight(d)
+              ? THEME.colors.highlight
+              : `url(#${d.source.id.toLowerCase()}Gradient)`,
           })}
           margin={MARGIN}
           networkType={{
@@ -178,7 +196,9 @@ export default function SentenceTypesChart({ data, width }) {
           }}
           nodes={nodes}
           nodeLabels={renderNodeLabel}
-          nodeStyle={(d) => ({ fill: d.color })}
+          nodeStyle={(d) => ({
+            fill: shouldHighlight(d) ? THEME.colors.highlight : d.color,
+          })}
           size={[Math.max(width, MIN_WIDTH), 500]}
         />
       </ResponsiveTooltipController>
