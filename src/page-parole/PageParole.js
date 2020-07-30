@@ -1,6 +1,6 @@
 import React from "react";
 import DetailPage from "../detail-page";
-import { formatLocation } from "../utils";
+import { formatLocation, recordIsMetricPeriodMonths } from "../utils";
 import useChartData from "../hooks/useChartData";
 import VizParolePopulation from "../viz-parole-population";
 import VizSupervisionProgram from "../viz-supervision-program";
@@ -63,7 +63,7 @@ export default function PageParole() {
         ),
         successByDemographics: apiData.supervision_success_by_period_by_demographics
           .filter(recordIsParole)
-          .filter((record) => record.metric_period_months === "36"),
+          .filter(recordIsMetricPeriodMonths(36)),
       },
     },
     {
@@ -73,12 +73,11 @@ export default function PageParole() {
       tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
       ipsum dui gravida.`,
       showDimensionControl: true,
-      showMonthControl: true,
       VizComponent: VizSupervisionRevocation,
       vizData: {
-        supervisionRevocationByMonth: apiData.supervision_revocations_by_month_by_type_by_demographics.filter(
-          recordIsParole
-        ),
+        revocationsByDemographics: apiData.supervision_revocations_by_period_by_type_by_demographics
+          .filter(recordIsParole)
+          .filter(recordIsMetricPeriodMonths(36)),
       },
     },
     {
