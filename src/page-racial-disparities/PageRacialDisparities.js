@@ -28,6 +28,8 @@ const DynamicText = styled.span`
 
 const BodySizeP = styled.p`
   font: ${(props) => props.theme.fonts.body};
+
+  padding-right: calc(100% - ${(props) => props.theme.sectionTextWidthWide}px);
 `;
 
 const Footnote = styled.span`
@@ -528,8 +530,9 @@ export default function PageRacialDisparities() {
 
   return (
     <DetailPage
-      title={TITLE}
+      className="RaceNarrativePage"
       description={DESCRIPTION}
+      title={TITLE}
       sections={SECTIONS}
       pageControls={pageControls}
     />

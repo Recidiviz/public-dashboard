@@ -17,8 +17,6 @@ const SectionDivider = styled.hr`
   border-top: 1px solid ${(props) => props.theme.colors.divider};
 `;
 
-const sectionTextWidth = 420;
-
 const DetailSectionContainer = styled.section`
   align-items: center;
   display: flex;
@@ -33,7 +31,11 @@ const DetailSectionTitle = styled.h1`
   font-size: 20px;
   margin-bottom: 16px;
   margin-right: 32px;
-  width: ${sectionTextWidth}px;
+  width: ${(props) => props.theme.sectionTextWidthNormal}px;
+
+  .RaceNarrativePage & {
+    width: ${(props) => props.theme.sectionTextWidthWide}px;
+  }
 `;
 
 const DetailSectionControls = styled.div`
@@ -57,8 +59,16 @@ const DetailSectionDescription = styled.div`
   color: ${(props) => props.theme.colors.body};
   font: ${(props) => props.theme.fonts.body};
   margin-bottom: 16px;
-  padding-right: calc(100% - ${sectionTextWidth}px);
+  padding-right: calc(
+    100% - ${(props) => props.theme.sectionTextWidthNormal}px
+  );
   width: 100%;
+
+  .RaceNarrativePage & {
+    padding-right: calc(
+      100% - ${(props) => props.theme.sectionTextWidthWide}px
+    );
+  }
 `;
 
 const DetailSectionVizContainer = styled.div`
@@ -163,13 +173,14 @@ DetailSection.defaultProps = {
 };
 
 export default function DetailPage({
+  className,
   title,
   description,
   sections,
   pageControls,
 }) {
   return (
-    <PageContainer>
+    <PageContainer className={className}>
       <HeadingContainer>
         <HeadingTitle>{title}</HeadingTitle>
         <HeadingDescription>{description}</HeadingDescription>
@@ -188,6 +199,7 @@ export default function DetailPage({
 }
 
 DetailPage.propTypes = {
+  className: PropTypes.string,
   title: PropTypes.node.isRequired,
   description: PropTypes.node.isRequired,
   sections: PropTypes.arrayOf(PropTypes.shape(DetailSection.propTypes)),
@@ -195,6 +207,7 @@ DetailPage.propTypes = {
 };
 
 DetailPage.defaultProps = {
+  className: undefined,
   sections: [],
   pageControls: null,
 };

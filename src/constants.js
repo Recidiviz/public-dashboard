@@ -364,6 +364,8 @@ export const defaultTheme = {
       fill: darkGreen,
     },
   },
+  sectionTextWidthNormal: 420,
+  sectionTextWidthWide: 780,
   transition: {
     defaultDuration,
     defaultDurationMs,
