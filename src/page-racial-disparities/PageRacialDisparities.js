@@ -339,12 +339,7 @@ export default function PageRacialDisparities() {
             <DynamicText>
               {formatAsPct(metrics.proportionSupervisionOverall)}
             </DynamicText>{" "}
-            on supervision. &nbsp;Maximum sentences for{" "}
-            <DynamicText>{ethnonym}</DynamicText> average{" "}
-            <DynamicText>TK years</DynamicText> in prison or{" "}
-            <DynamicText>TK years</DynamicText> on probation compared with a
-            state average of <DynamicText>TK years</DynamicText> in prison and{" "}
-            <DynamicText>TK years</DynamicText> on probation.
+            on supervision.
           </p>
         </>
       ),
@@ -373,12 +368,7 @@ export default function PageRacialDisparities() {
             <DynamicText>
               {formatAsPct(metrics.prisonPopulationRate)}
             </DynamicText>{" "}
-            of the overall prison population.{" "}
-            <DynamicText>{sentenceCase(ethnonym)}</DynamicText> typically served
-            a <DynamicText>longer/shorter</DynamicText> proportion of their
-            sentence prior to release, serving on average{" "}
-            <DynamicText>TK%</DynamicText> of their sentence relative to the{" "}
-            <DynamicText>TK%</DynamicText> served before release on average.
+            of the overall prison population.
           </p>
         </>
       ),
