@@ -2,8 +2,6 @@ import { sum } from "d3-array";
 import React, { useState } from "react";
 import styled from "styled-components";
 import DetailPage from "../detail-page";
-import { Dropdown } from "../controls";
-import useChartData from "../hooks/useChartData";
 import {
   RACE_LABELS,
   RACES,
@@ -12,6 +10,9 @@ import {
   VIOLATION_COUNT_KEYS,
   VIOLATION_TYPES,
 } from "../constants";
+import { Dropdown } from "../controls";
+import useChartData from "../hooks/useChartData";
+import Loading from "../loading";
 import { formatAsPct, sentenceCase } from "../utils";
 
 const ETHNONYMS = {
@@ -236,7 +237,7 @@ export default function PageRacialDisparities() {
   const [supervisionType, setSupervisionType] = useState(TOTAL_KEY);
 
   if (isLoading) {
-    return null;
+    return <Loading />;
   }
 
   const metrics = getMetricsForGroup(apiData.racial_disparities, category);
