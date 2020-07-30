@@ -81,6 +81,7 @@ function DetailSection({
   showLocationControl,
   locationControlLabel,
   showMonthControl,
+  otherControls,
   VizComponent,
   vizData,
 }) {
@@ -124,6 +125,7 @@ function DetailSection({
           )
         }
         {showDimensionControl && <DimensionControl onChange={setDimension} />}
+        {otherControls}
       </DetailSectionControls>
 
       <DetailSectionDescription>{description}</DetailSectionDescription>
@@ -145,6 +147,7 @@ DetailSection.propTypes = {
   showMonthControl: PropTypes.bool,
   showLocationControl: PropTypes.bool,
   locationControlLabel: PropTypes.string,
+  otherControls: PropTypes.node,
   VizComponent: PropTypes.func,
   vizData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)),
 };
@@ -154,6 +157,7 @@ DetailSection.defaultProps = {
   showMonthControl: false,
   showLocationControl: false,
   locationControlLabel: "Location",
+  otherControls: null,
   VizComponent: () => null,
   vizData: {},
 };
@@ -169,10 +173,10 @@ export default function DetailPage({
       <HeadingContainer>
         <HeadingTitle>{title}</HeadingTitle>
         <HeadingDescription>{description}</HeadingDescription>
+        {pageControls && (
+          <PageControlsWrapper>{pageControls}</PageControlsWrapper>
+        )}
       </HeadingContainer>
-      {pageControls && (
-        <PageControlsWrapper>{pageControls}</PageControlsWrapper>
-      )}
       {sections.map((section) => (
         <React.Fragment key={section.title}>
           <SectionDivider />

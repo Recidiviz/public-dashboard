@@ -7,6 +7,7 @@ import useChartData from "../hooks/useChartData";
 import {
   RACE_LABELS,
   RACES,
+  SUPERVISION_TYPES,
   TOTAL_KEY,
   VIOLATION_COUNT_KEYS,
   VIOLATION_TYPES,
@@ -173,9 +174,11 @@ function getMetricsForGroup(data, category) {
     proportionSupervisionOverall,
     paroleRate,
     prisonPopulationRate,
-    parole,
-    probation,
-    supervision,
+    supervisionMetrics: {
+      [SUPERVISION_TYPES.parole]: parole,
+      [SUPERVISION_TYPES.probation]: probation,
+      [TOTAL_KEY]: supervision,
+    },
     ftrPopulationRate,
     pretrialPopulationRate,
   };
@@ -214,15 +217,30 @@ function getOverallMetrics(data) {
   return comparedToWhite;
 }
 
+// these are for use in inline dynamic text; not necessarily the same as control labels
+const supervisionTypeText = {
+  [SUPERVISION_TYPES.parole]: "parole",
+  [SUPERVISION_TYPES.probation]: "probation",
+  [TOTAL_KEY]: "supervision",
+};
+
+const supervisionTypeOptions = [
+  { id: TOTAL_KEY, label: "Everyone" },
+  { id: SUPERVISION_TYPES.probation, label: "Probation" },
+  { id: SUPERVISION_TYPES.parole, label: "Parole" },
+];
+
 export default function PageRacialDisparities() {
   const { apiData, isLoading } = useChartData("us_nd/race");
   const [category, setCategory] = useState(RACES.black);
+  const [supervisionType, setSupervisionType] = useState(TOTAL_KEY);
 
   if (isLoading) {
     return null;
   }
 
   const metrics = getMetricsForGroup(apiData.racial_disparities, category);
+  const supervisionTypeMetrics = metrics.supervisionMetrics[supervisionType];
   const overallMetrics = getOverallMetrics(apiData.racial_disparities);
 
   const { noun, adjective } = ETHNONYMS[category];
@@ -367,6 +385,14 @@ export default function PageRacialDisparities() {
     },
     {
       title: "How can community supervision impact disparities?",
+      otherControls: (
+        <Dropdown
+          label="Supervision Type"
+          onChange={setSupervisionType}
+          selectedId={supervisionType}
+          options={supervisionTypeOptions}
+        />
+      ),
       description: (
         <>
           <p>
@@ -376,20 +402,17 @@ export default function PageRacialDisparities() {
             them in prison.
           </p>
           <p>
-            Examine{" "}
-            <DynamicText>
-              everyone on supervision / just parole / just probation
-            </DynamicText>
-            .
+            Use the &ldquo;Supervision Type&rdquo; dropdown above to view
+            everyone on supervision, just parolees, or just probationers.
           </p>
           <p>
             <DynamicText>{noun}</DynamicText> represent{" "}
             <DynamicText>
-              {formatAsPct(metrics.supervision.populationRate)}
+              {formatAsPct(supervisionTypeMetrics.populationRate)}
             </DynamicText>{" "}
-            of the supervision population, but are{" "}
+            of the {supervisionTypeText[supervisionType]} population, but are{" "}
             <DynamicText>
-              {formatAsPct(metrics.supervision.revocationPopulationRate)}
+              {formatAsPct(supervisionTypeMetrics.revocationPopulationRate)}
             </DynamicText>{" "}
             of revocation admissions to prison.
           </p>
@@ -397,29 +420,30 @@ export default function PageRacialDisparities() {
             Reasons for a revocation can vary: <DynamicText>{noun}</DynamicText>{" "}
             are revoked{" "}
             <DynamicText>
-              {formatAsPct(metrics.supervision.technicalRate)}
+              {formatAsPct(supervisionTypeMetrics.technicalRate)}
             </DynamicText>{" "}
-            of the time for technical violations (a rule of supervision, rather
-            than a crime),{" "}
+            of the time for technical violations (a rule of{" "}
+            {supervisionTypeText[supervisionType]}, rather than a crime),{" "}
             <DynamicText>
-              {formatAsPct(metrics.supervision.absconsionRate)}
+              {formatAsPct(supervisionTypeMetrics.absconsionRate)}
             </DynamicText>{" "}
-            of the time for absconsion from supervision, and{" "}
+            of the time for absconsion from{" "}
+            {supervisionTypeText[supervisionType]}, and{" "}
             <DynamicText>
-              {formatAsPct(metrics.supervision.newOffenseRate)}
+              {formatAsPct(supervisionTypeMetrics.newOffenseRate)}
             </DynamicText>{" "}
             of the time for new crimes. In contrast, overall revocations for
             technical violations are{" "}
             <DynamicText>
-              {formatAsPct(metrics.supervision.technicalRateOverall)}
+              {formatAsPct(supervisionTypeMetrics.technicalRateOverall)}
             </DynamicText>
             , revocations for absconsion{" "}
             <DynamicText>
-              {formatAsPct(metrics.supervision.absconsionRateOverall)}
+              {formatAsPct(supervisionTypeMetrics.absconsionRateOverall)}
             </DynamicText>{" "}
             and revocations for new crime{" "}
             <DynamicText>
-              {formatAsPct(metrics.supervision.newOffenseRateOverall)}
+              {formatAsPct(supervisionTypeMetrics.newOffenseRateOverall)}
             </DynamicText>
             .
           </p>
@@ -443,7 +467,9 @@ export default function PageRacialDisparities() {
             <DynamicText>{formatAsPct(metrics.ftrPopulationRate)}</DynamicText>{" "}
             of referrals to FTR, a greater representation than their overall{" "}
             <DynamicText>
-              {formatAsPct(metrics.supervision.populationRate)}
+              {formatAsPct(
+                metrics.supervisionMetrics[TOTAL_KEY].populationRate
+              )}
             </DynamicText>{" "}
             of the supervision population.
           </p>
@@ -501,6 +527,7 @@ export default function PageRacialDisparities() {
 
   const pageControls = (
     <Dropdown
+      highlighted
       label="Race"
       onChange={setCategory}
       selectedId={category}
