@@ -12,16 +12,14 @@ import {
   VIOLATION_COUNT_KEYS,
   VIOLATION_TYPES,
 } from "../constants";
-import { formatAsPct } from "../utils";
+import { formatAsPct, sentenceCase } from "../utils";
 
 const ETHNONYMS = {
-  [RACES.nativeAmerican]: {
-    noun: "Native Americans",
-    adjective: "Native American",
-  },
-  [RACES.black]: { noun: "Black people", adjective: "Black" },
-  [RACES.white]: { noun: "White people", adjective: "White" },
-  [RACES.hispanic]: { noun: "Latinos", adjective: "Latino" },
+  [RACES.nativeAmerican]: "people who are Native American",
+  [RACES.black]: "people who are Black",
+  [RACES.white]: "people who are white",
+  [RACES.hispanic]: "people who are Hispanic and/or Latino",
+  [RACES.other]: "people of other races",
 };
 
 const DynamicText = styled.span`
@@ -243,7 +241,7 @@ export default function PageRacialDisparities() {
   const supervisionTypeMetrics = metrics.supervisionMetrics[supervisionType];
   const overallMetrics = getOverallMetrics(apiData.racial_disparities);
 
-  const { noun, adjective } = ETHNONYMS[category];
+  const ethnonym = ETHNONYMS[category];
 
   const TITLE = "Racial Disparities";
   const DESCRIPTION = (
@@ -287,7 +285,7 @@ export default function PageRacialDisparities() {
             role in creating the disparities that we see in sentencing data.
           </p>
           <p>
-            <DynamicText>{noun}</DynamicText> make up{" "}
+            <DynamicText>{sentenceCase(ethnonym)}</DynamicText> make up{" "}
             <DynamicText>{formatAsPct(metrics.populationRate)}</DynamicText> of
             North Dakota&rsquo;s population, but{" "}
             <DynamicText>
@@ -321,8 +319,8 @@ export default function PageRacialDisparities() {
             <DynamicText>
               {formatAsPct(metrics.proportionIncarcerated)}
             </DynamicText>{" "}
-            of <DynamicText>{noun}</DynamicText> under DOCR jurisdiction were
-            incarcerated while{" "}
+            of <DynamicText>{ethnonym}</DynamicText> under DOCR jurisdiction
+            were incarcerated while{" "}
             <DynamicText>
               {formatAsPct(metrics.proportionSupervision)}
             </DynamicText>{" "}
@@ -341,8 +339,8 @@ export default function PageRacialDisparities() {
             <DynamicText>
               {formatAsPct(metrics.proportionSupervisionOverall)}
             </DynamicText>{" "}
-            on supervision. &nbsp;Maximum sentences for people who are{" "}
-            <DynamicText>{adjective}</DynamicText> average{" "}
+            on supervision. &nbsp;Maximum sentences for{" "}
+            <DynamicText>{ethnonym}</DynamicText> average{" "}
             <DynamicText>TK years</DynamicText> in prison or{" "}
             <DynamicText>TK years</DynamicText> on probation compared with a
             state average of <DynamicText>TK years</DynamicText> in prison and{" "}
@@ -368,15 +366,17 @@ export default function PageRacialDisparities() {
             disparities in the population granted parole.
           </p>
           <p>
-            In the last 6 months, <DynamicText>{noun}</DynamicText> comprised{" "}
+            In the last 6 months, <DynamicText>{ethnonym}</DynamicText>{" "}
+            comprised{" "}
             <DynamicText>{formatAsPct(metrics.paroleRate)}</DynamicText> of the
             individuals released on parole. They make up{" "}
             <DynamicText>
               {formatAsPct(metrics.prisonPopulationRate)}
             </DynamicText>{" "}
-            of the overall prison population. <DynamicText>{noun}</DynamicText>{" "}
-            typically served a <DynamicText>longer/shorter</DynamicText>{" "}
-            proportion of their sentence prior to release, serving on average{" "}
+            of the overall prison population.{" "}
+            <DynamicText>{sentenceCase(ethnonym)}</DynamicText> typically served
+            a <DynamicText>longer/shorter</DynamicText> proportion of their
+            sentence prior to release, serving on average{" "}
             <DynamicText>TK%</DynamicText> of their sentence relative to the{" "}
             <DynamicText>TK%</DynamicText> served before release on average.
           </p>
@@ -406,7 +406,7 @@ export default function PageRacialDisparities() {
             everyone on supervision, just parolees, or just probationers.
           </p>
           <p>
-            <DynamicText>{noun}</DynamicText> represent{" "}
+            <DynamicText>{sentenceCase(ethnonym)}</DynamicText> represent{" "}
             <DynamicText>
               {formatAsPct(supervisionTypeMetrics.populationRate)}
             </DynamicText>{" "}
@@ -417,8 +417,8 @@ export default function PageRacialDisparities() {
             of revocation admissions to prison.
           </p>
           <p>
-            Reasons for a revocation can vary: <DynamicText>{noun}</DynamicText>{" "}
-            are revoked{" "}
+            Reasons for a revocation can vary:{" "}
+            <DynamicText>{ethnonym}</DynamicText> are revoked{" "}
             <DynamicText>
               {formatAsPct(supervisionTypeMetrics.technicalRate)}
             </DynamicText>{" "}
@@ -463,7 +463,7 @@ export default function PageRacialDisparities() {
             In 2018, North Dakota launched Free Through Recovery, a wrap-around
             behavioral health program that helps those with behavioral health
             challenges to succeed on community supervision.{" "}
-            <DynamicText>{noun}</DynamicText> are{" "}
+            <DynamicText>{sentenceCase(ethnonym)}</DynamicText> are{" "}
             <DynamicText>{formatAsPct(metrics.ftrPopulationRate)}</DynamicText>{" "}
             of referrals to FTR, a greater representation than their overall{" "}
             <DynamicText>
@@ -477,7 +477,8 @@ export default function PageRacialDisparities() {
             On July 1, 2020, the DOCR began a pilot of pre-trial services,
             programming designed to reduce the number of people held in jail
             between arrest and appearance before a judge.{" "}
-            <DynamicText>{noun}</DynamicText> make up{" "}
+            <DynamicText>{sentenceCase(sentenceCase(ethnonym))}</DynamicText>{" "}
+            make up{" "}
             <DynamicText>
               {formatAsPct(metrics.pretrialPopulationRate)}
             </DynamicText>{" "}
