@@ -127,7 +127,7 @@ export const RACES = {
   other: OTHER,
 };
 
-const RACE_LABELS = new Map([
+export const RACE_LABELS = new Map([
   [RACES.nativeAmerican, "American Indian or Alaskan Native"],
   [RACES.black, "Black"],
   [RACES.hispanic, "Hispanic"],

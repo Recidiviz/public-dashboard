@@ -67,6 +67,11 @@ const DetailSectionVizContainer = styled.div`
   width: 100%;
 `;
 
+const PageControlsWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 const sortLocations = exact([tail(OTHER_LABEL)], ascending);
 
 function DetailSection({
@@ -153,19 +158,27 @@ DetailSection.defaultProps = {
   vizData: {},
 };
 
-export default function DetailPage({ title, description, sections }) {
+export default function DetailPage({
+  title,
+  description,
+  sections,
+  pageControls,
+}) {
   return (
     <PageContainer>
       <HeadingContainer>
         <HeadingTitle>{title}</HeadingTitle>
         <HeadingDescription>{description}</HeadingDescription>
-        {sections.map((section) => (
-          <React.Fragment key={section.title}>
-            <SectionDivider />
-            <DetailSection {...section} />
-          </React.Fragment>
-        ))}
       </HeadingContainer>
+      {pageControls && (
+        <PageControlsWrapper>{pageControls}</PageControlsWrapper>
+      )}
+      {sections.map((section) => (
+        <React.Fragment key={section.title}>
+          <SectionDivider />
+          <DetailSection {...section} />
+        </React.Fragment>
+      ))}
     </PageContainer>
   );
 }
@@ -174,8 +187,10 @@ DetailPage.propTypes = {
   title: PropTypes.node.isRequired,
   description: PropTypes.node.isRequired,
   sections: PropTypes.arrayOf(PropTypes.shape(DetailSection.propTypes)),
+  pageControls: PropTypes.node,
 };
 
 DetailPage.defaultProps = {
   sections: [],
+  pageControls: null,
 };

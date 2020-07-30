@@ -1,15 +1,27 @@
 import { sum } from "d3-array";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import DetailPage from "../detail-page";
+import { Dropdown } from "../controls";
 import useChartData from "../hooks/useChartData";
 import {
+  RACE_LABELS,
   RACES,
   TOTAL_KEY,
   VIOLATION_COUNT_KEYS,
   VIOLATION_TYPES,
 } from "../constants";
 import { formatAsPct } from "../utils";
+
+const ETHNONYMS = {
+  [RACES.nativeAmerican]: {
+    noun: "Native Americans",
+    adjective: "Native American",
+  },
+  [RACES.black]: { noun: "Black people", adjective: "Black" },
+  [RACES.white]: { noun: "White people", adjective: "White" },
+  [RACES.hispanic]: { noun: "Latinos", adjective: "Latino" },
+};
 
 const DynamicText = styled.span`
   color: ${(props) => props.theme.colors.highlight};
@@ -40,7 +52,6 @@ const formatDecimal = (number) => number.toFixed(1);
 function getMetricsForGroup(data, category) {
   const totals = data.find(matchRace(TOTAL_KEY));
   const selected = data.find(matchRace(category));
-  console.dir(selected);
 
   const populationRate =
     selected.total_state_population / totals.total_state_population;
@@ -191,7 +202,6 @@ function getOverallMetrics(data) {
   const whiteLikelihood = whiteCorrectionsRate / totalCorrectionsRate;
 
   const comparedToWhite = {
-    // TODO: should be difference in relative populations, not total
     black: getCorrectionsRate(black) / totalCorrectionsRate / whiteLikelihood,
     hispanic:
       getCorrectionsRate(hispanic) / totalCorrectionsRate / whiteLikelihood,
@@ -206,15 +216,16 @@ function getOverallMetrics(data) {
 
 export default function PageRacialDisparities() {
   const { apiData, isLoading } = useChartData("us_nd/race");
+  const [category, setCategory] = useState(RACES.black);
 
   if (isLoading) {
     return null;
   }
 
-  const category = "BLACK";
   const metrics = getMetricsForGroup(apiData.racial_disparities, category);
   const overallMetrics = getOverallMetrics(apiData.racial_disparities);
-  console.dir(metrics);
+
+  const { noun, adjective } = ETHNONYMS[category];
 
   const TITLE = "Racial Disparities";
   const DESCRIPTION = (
@@ -258,7 +269,7 @@ export default function PageRacialDisparities() {
             role in creating the disparities that we see in sentencing data.
           </p>
           <p>
-            <DynamicText>Native Americans</DynamicText> make up{" "}
+            <DynamicText>{noun}</DynamicText> make up{" "}
             <DynamicText>{formatAsPct(metrics.populationRate)}</DynamicText> of
             North Dakota&rsquo;s population, but{" "}
             <DynamicText>
@@ -292,8 +303,8 @@ export default function PageRacialDisparities() {
             <DynamicText>
               {formatAsPct(metrics.proportionIncarcerated)}
             </DynamicText>{" "}
-            of <DynamicText>Native Americans</DynamicText> under DOCR
-            jurisdiction were incarcerated while{" "}
+            of <DynamicText>{noun}</DynamicText> under DOCR jurisdiction were
+            incarcerated while{" "}
             <DynamicText>
               {formatAsPct(metrics.proportionSupervision)}
             </DynamicText>{" "}
@@ -313,7 +324,7 @@ export default function PageRacialDisparities() {
               {formatAsPct(metrics.proportionSupervisionOverall)}
             </DynamicText>{" "}
             on supervision. &nbsp;Maximum sentences for people who are{" "}
-            <DynamicText>Native American</DynamicText> average{" "}
+            <DynamicText>{adjective}</DynamicText> average{" "}
             <DynamicText>TK years</DynamicText> in prison or{" "}
             <DynamicText>TK years</DynamicText> on probation compared with a
             state average of <DynamicText>TK years</DynamicText> in prison and{" "}
@@ -339,16 +350,15 @@ export default function PageRacialDisparities() {
             disparities in the population granted parole.
           </p>
           <p>
-            In the last 6 months, Native Americans comprised{" "}
+            In the last 6 months, <DynamicText>{noun}</DynamicText> comprised{" "}
             <DynamicText>{formatAsPct(metrics.paroleRate)}</DynamicText> of the
             individuals released on parole. They make up{" "}
             <DynamicText>
               {formatAsPct(metrics.prisonPopulationRate)}
             </DynamicText>{" "}
-            of the overall prison population.{" "}
-            <DynamicText>Native Americans</DynamicText> typically served a{" "}
-            <DynamicText>longer/shorter</DynamicText> proportion of their
-            sentence prior to release, serving on average{" "}
+            of the overall prison population. <DynamicText>{noun}</DynamicText>{" "}
+            typically served a <DynamicText>longer/shorter</DynamicText>{" "}
+            proportion of their sentence prior to release, serving on average{" "}
             <DynamicText>TK%</DynamicText> of their sentence relative to the{" "}
             <DynamicText>TK%</DynamicText> served before release on average.
           </p>
@@ -373,7 +383,7 @@ export default function PageRacialDisparities() {
             .
           </p>
           <p>
-            <DynamicText>Native Americans</DynamicText> represent{" "}
+            <DynamicText>{noun}</DynamicText> represent{" "}
             <DynamicText>
               {formatAsPct(metrics.supervision.populationRate)}
             </DynamicText>{" "}
@@ -384,8 +394,8 @@ export default function PageRacialDisparities() {
             of revocation admissions to prison.
           </p>
           <p>
-            Reasons for a revocation can vary:{" "}
-            <DynamicText>Native Americans</DynamicText> are revoked{" "}
+            Reasons for a revocation can vary: <DynamicText>{noun}</DynamicText>{" "}
+            are revoked{" "}
             <DynamicText>
               {formatAsPct(metrics.supervision.technicalRate)}
             </DynamicText>{" "}
@@ -429,7 +439,7 @@ export default function PageRacialDisparities() {
             In 2018, North Dakota launched Free Through Recovery, a wrap-around
             behavioral health program that helps those with behavioral health
             challenges to succeed on community supervision.{" "}
-            <DynamicText>Native Americans</DynamicText> are{" "}
+            <DynamicText>{noun}</DynamicText> are{" "}
             <DynamicText>{formatAsPct(metrics.ftrPopulationRate)}</DynamicText>{" "}
             of referrals to FTR, a greater representation than their overall{" "}
             <DynamicText>
@@ -441,7 +451,7 @@ export default function PageRacialDisparities() {
             On July 1, 2020, the DOCR began a pilot of pre-trial services,
             programming designed to reduce the number of people held in jail
             between arrest and appearance before a judge.{" "}
-            <DynamicText>Native Americans</DynamicText> make up{" "}
+            <DynamicText>{noun}</DynamicText> make up{" "}
             <DynamicText>
               {formatAsPct(metrics.pretrialPopulationRate)}
             </DynamicText>{" "}
@@ -489,8 +499,22 @@ export default function PageRacialDisparities() {
     },
   ];
 
+  const pageControls = (
+    <Dropdown
+      label="Race"
+      onChange={setCategory}
+      selectedId={category}
+      options={[...RACE_LABELS].map(([id, label]) => ({ id, label }))}
+    />
+  );
+
   return (
-    <DetailPage title={TITLE} description={DESCRIPTION} sections={SECTIONS} />
+    <DetailPage
+      title={TITLE}
+      description={DESCRIPTION}
+      sections={SECTIONS}
+      pageControls={pageControls}
+    />
   );
 }
 
