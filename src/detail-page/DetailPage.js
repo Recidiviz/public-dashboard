@@ -159,7 +159,9 @@ DetailSection.propTypes = {
   locationControlLabel: PropTypes.string,
   otherControls: PropTypes.node,
   VizComponent: PropTypes.func,
-  vizData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)),
+  vizData: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.string])
+  ),
 };
 
 DetailSection.defaultProps = {

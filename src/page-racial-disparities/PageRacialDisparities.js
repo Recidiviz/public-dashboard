@@ -14,8 +14,9 @@ import { Dropdown } from "../controls";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
 import { formatAsPct, sentenceCase } from "../utils";
-import { getCorrectionsPopulation } from "./helpers";
+import { DynamicText, getCorrectionsPopulation, matchRace } from "./helpers";
 import VizPopulationDisparity from "./VizPopulationDisparity";
+import VizRevocationDisparity from "./VizRevocationDisparity";
 
 const ETHNONYMS = {
   [RACES.nativeAmerican]: "people who are Native American",
@@ -24,10 +25,6 @@ const ETHNONYMS = {
   [RACES.hispanic]: "people who are Hispanic and/or Latino",
   [RACES.other]: "people of other races",
 };
-
-const DynamicText = styled.span`
-  color: ${(props) => props.theme.colors.highlight};
-`;
 
 const BodySizeP = styled.p`
   font: ${(props) => props.theme.fonts.body};
@@ -43,8 +40,6 @@ const Footnote = styled.span`
 const FootnoteText = styled.p`
   font-size: 0.8em;
 `;
-
-const matchRace = (race) => (record) => record.race_or_ethnicity === race;
 
 const formatDecimal = (number) => number.toFixed(1);
 
@@ -444,6 +439,13 @@ export default function PageRacialDisparities() {
           </p>
         </>
       ),
+      VizComponent: VizRevocationDisparity,
+      vizData: {
+        category,
+        ethnonym,
+        countsByRace: apiData.racial_disparities,
+        supervisionType,
+      },
     },
     {
       title: "Can programming help reduce disparities?",

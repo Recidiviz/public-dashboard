@@ -99,7 +99,7 @@ ProportionalBar.propTypes = {
   ).isRequired,
   height: PropTypes.number.isRequired,
   showLegend: PropTypes.bool,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.node.isRequired,
 };
 
 ProportionalBar.defaultProps = {
