@@ -14,6 +14,8 @@ import { Dropdown } from "../controls";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
 import { formatAsPct, sentenceCase } from "../utils";
+import { getCorrectionsPopulation } from "./helpers";
+import VizPopulationDisparity from "./VizPopulationDisparity";
 
 const ETHNONYMS = {
   [RACES.nativeAmerican]: "people who are Native American",
@@ -43,11 +45,6 @@ const FootnoteText = styled.p`
 `;
 
 const matchRace = (race) => (record) => record.race_or_ethnicity === race;
-
-const getCorrectionsPopulation = (record) =>
-  record.total_incarcerated_population +
-  record.total_parole_population +
-  record.total_probation_population;
 
 const formatDecimal = (number) => number.toFixed(1);
 
@@ -304,6 +301,11 @@ export default function PageRacialDisparities() {
           </FootnoteText>
         </>
       ),
+      VizComponent: VizPopulationDisparity,
+      vizData: {
+        category,
+        countsByRace: apiData.racial_disparities,
+      },
     },
     {
       title: "How can sentencing impact disparities?",
