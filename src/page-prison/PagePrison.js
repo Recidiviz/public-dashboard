@@ -2,6 +2,7 @@ import React from "react";
 import DetailPage from "../detail-page";
 import { formatLocation } from "../utils";
 import useChartData from "../hooks/useChartData";
+import Loading from "../loading";
 import VizPrisonPopulation from "../viz-prison-population";
 import VizPrisonReleases from "../viz-prison-releases";
 import VizPrisonReasons from "../viz-prison-reasons";
@@ -17,7 +18,7 @@ export default function PagePrison() {
   const { apiData, isLoading } = useChartData("us_nd/prison");
 
   if (isLoading) {
-    return null;
+    return <Loading />;
   }
 
   const facilityLocations = formatLocation({

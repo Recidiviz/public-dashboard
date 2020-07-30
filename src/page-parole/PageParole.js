@@ -2,6 +2,7 @@ import React from "react";
 import DetailPage from "../detail-page";
 import { formatLocation } from "../utils";
 import useChartData from "../hooks/useChartData";
+import Loading from "../loading";
 import VizParolePopulation from "../viz-parole-population";
 import VizSupervisionProgram from "../viz-supervision-program";
 import VizSupervisionRevocation from "../viz-supervision-revocation";
@@ -12,7 +13,7 @@ export default function PageParole() {
   const { apiData, isLoading } = useChartData("us_nd/parole");
 
   if (isLoading) {
-    return null;
+    return <Loading />;
   }
 
   const recordIsParole = (record) =>

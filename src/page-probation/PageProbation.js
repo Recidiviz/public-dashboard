@@ -2,6 +2,7 @@ import React from "react";
 import { SUPERVISION_TYPES } from "../constants";
 import DetailPage from "../detail-page";
 import useChartData from "../hooks/useChartData";
+import Loading from "../loading";
 import VizProbationPopulation from "../viz-probation-population";
 import VizSupervisionProgram from "../viz-supervision-program";
 import VizSupervisionRevocation from "../viz-supervision-revocation";
@@ -11,7 +12,7 @@ export default function PageProbation() {
   const { apiData, isLoading } = useChartData("us_nd/probation");
 
   if (isLoading) {
-    return null;
+    return <Loading />;
   }
 
   const recordIsProbation = (record) =>
