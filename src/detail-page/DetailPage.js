@@ -53,9 +53,10 @@ const DetailSectionControls = styled.div`
   }
 `;
 
-const DetailSectionDescription = styled.p`
+const DetailSectionDescription = styled.div`
   color: ${(props) => props.theme.colors.body};
   font: ${(props) => props.theme.fonts.body};
+  margin-bottom: 16px;
   padding-right: calc(100% - ${sectionTextWidth}px);
   width: 100%;
 `;
@@ -134,13 +135,13 @@ function DetailSection({
 
 DetailSection.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.node.isRequired,
   showDimensionControl: PropTypes.bool,
   showMonthControl: PropTypes.bool,
   showLocationControl: PropTypes.bool,
   locationControlLabel: PropTypes.string,
-  VizComponent: PropTypes.func.isRequired,
-  vizData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
+  VizComponent: PropTypes.func,
+  vizData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)),
 };
 
 DetailSection.defaultProps = {
@@ -148,6 +149,8 @@ DetailSection.defaultProps = {
   showMonthControl: false,
   showLocationControl: false,
   locationControlLabel: "Location",
+  VizComponent: () => null,
+  vizData: {},
 };
 
 export default function DetailPage({ title, description, sections }) {
