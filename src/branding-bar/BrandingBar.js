@@ -9,6 +9,7 @@ import LogoIconSrc from "../assets/icons/recidiviz_logo.svg";
 import { FIXED_HEADER_HEIGHT, X_PADDING } from "../constants";
 import NavBar from "../nav-bar";
 import { LinkPill } from "../pill";
+import MethodologyModal from "../methodology-modal";
 
 const brandingBarFlexProperties = css`
   align-items: baseline;
@@ -145,7 +146,9 @@ export default function BrandingBar() {
               <LinkPill href="#">Share</LinkPill>
             </BrandingBarLink>
             <BrandingBarLink>
-              <LinkPill href="#">Download Data</LinkPill>
+              <MethodologyModal
+                trigger={<LinkPill href="#">Methodology</LinkPill>}
+              />
             </BrandingBarLink>
           </BrandingBarLinkList>
         </BrandingBarLinkListWrapper>
