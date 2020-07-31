@@ -272,7 +272,7 @@ export default function PageRacialDisparities() {
       VizComponent: VizPopulationDisparity,
       vizData: {
         category,
-        countsByRace: apiData.racial_disparities,
+        countsByRace: racialDisparityCounts,
       },
     },
     {
@@ -416,7 +416,7 @@ export default function PageRacialDisparities() {
       vizData: {
         category,
         ethnonym,
-        countsByRace: apiData.racial_disparities,
+        countsByRace: racialDisparityCounts,
         supervisionType,
       },
     },
