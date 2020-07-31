@@ -194,7 +194,6 @@ export const INCARCERATION_REASON_LABELS = {
 
 export const CONTAINER_WIDTH = 1144;
 export const X_PADDING = 8;
-export const FIXED_HEADER_HEIGHT = 50;
 
 // these are overrides to defaults in @w11r/use-breakpoint
 export const CUSTOM_BREAKPOINTS = {
@@ -203,6 +202,8 @@ export const CUSTOM_BREAKPOINTS = {
   desktop: [1024, 1279],
   xl: [1280, 10000],
 };
+
+export const COLLAPSIBLE_NAV_BREAKPOINT = "mobile-";
 
 const bodyFontFamily = "'Libre Franklin', sans-serif";
 export const BODY_FONT_SIZE = 12;
@@ -334,6 +335,8 @@ export const defaultTheme = {
     brandSizeSmall: "14px",
     brandSizeLarge: "22px",
   },
+  headerHeightSmall: 50,
+  headerHeight: 112,
   maps: {
     // these are style objects that we can pass directly to react-simple-maps
     default: {

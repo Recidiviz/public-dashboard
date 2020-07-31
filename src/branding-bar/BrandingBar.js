@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import useBreakpoint from "@w11r/use-breakpoint";
+import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
 import React from "react";
 import useCollapse from "react-collapsed";
 import styled, { css } from "styled-components";
@@ -7,7 +7,12 @@ import MenuClosedIconSrc from "../assets/icons/menuClosed.svg";
 import MenuOpenIconSrc from "../assets/icons/menuOpen.svg";
 import ExternalLinkSrc from "../assets/icons/externalLink.svg";
 import LogoIconSrc from "../assets/icons/recidiviz_logo.svg";
-import { FIXED_HEADER_HEIGHT, X_PADDING } from "../constants";
+import {
+  COLLAPSIBLE_NAV_BREAKPOINT,
+  CONTAINER_WIDTH,
+  THEME,
+  X_PADDING,
+} from "../constants";
 import NavBar from "../nav-bar";
 import { LinkPill } from "../pill";
 import MethodologyModal from "../methodology-modal";
@@ -22,31 +27,43 @@ const ICON_SIZE = "26px";
 const Y_MARGIN = "12px";
 
 const BrandingBarWrapper = styled.header`
-  align-items: flex-start;
-  background: "transparent";
+  align-items: center;
   display: flex;
   flex-wrap: wrap;
+  height: ${(props) => props.theme.headerHeight}px;
   justify-content: space-between;
-  z-index: ${(props) => props.theme.zIndex.header};
+  margin: 0 auto;
+  max-width: ${CONTAINER_WIDTH}px;
+  padding: 0 ${X_PADDING}px;
+  width: 100%;
 
-  &.fixed {
-    background: ${(props) => props.theme.colors.background};
-    left: 0;
-    height: ${(props) =>
-      props.expanded ? "auto" : `${FIXED_HEADER_HEIGHT}px`};
-    padding: 0 ${X_PADDING}px;
-    position: fixed;
-    right: 0;
-    top: 0;
-  }
+  ${mediaQuery([
+    COLLAPSIBLE_NAV_BREAKPOINT,
+    `
+      height: ${THEME.headerHeightSmall}px;
+
+      &.expanded {
+        height: auto;
+      }
+    `,
+  ])}
 `;
 
 const BrandingBarHeader = styled.div`
   ${brandingBarFlexProperties}
-
-  ${(props) => (props.collapsible ? "align-items: center;" : "")}
-  margin-top: ${(props) => (props.expanded ? `${FIXED_HEADER_HEIGHT}px` : 0)};
+  margin-top: 0;
   transition: all ${(props) => props.theme.transition.defaultTimeSettings};
+
+  ${mediaQuery([
+    COLLAPSIBLE_NAV_BREAKPOINT,
+    `
+      align-items: center;
+
+      ${BrandingBarWrapper}.expanded & {
+        margin-top: ${THEME.headerHeightSmall}px;
+      }
+    `,
+  ])}
 `;
 
 const Icon = styled.img`
@@ -67,22 +84,39 @@ const Logo = styled(Icon)`
 const BrandingBarTitle = styled.h1`
   color: ${(props) => props.theme.colors.heading};
   font: ${(props) => props.theme.fonts.display};
-  font-size: ${(props) =>
-    props.small
-      ? props.theme.fonts.brandSizeSmall
-      : props.theme.fonts.brandSizeLarge};
+  font-size: ${(props) => props.theme.fonts.brandSizeLarge};
   display: inline-block;
   margin-left: 16px;
-  opacity: ${(props) => (props.hide ? 0 : 1)};
   transition: all ${(props) => props.theme.transition.defaultTimeSettings};
+
+  ${mediaQuery([
+    COLLAPSIBLE_NAV_BREAKPOINT,
+    `
+      font-size: ${THEME.fonts.brandSizeSmall};
+      opacity: 0;
+
+      ${BrandingBarWrapper}.expanded & {
+        opacity: 1;
+      }
+    `,
+  ])}
 `;
 
 const BrandingBarLinkListWrapper = styled.div`
   align-items: center;
   display: flex;
-  margin-top: ${(props) => (props.collapsible ? "16px" : Y_MARGIN)};
-  order: ${(props) => (props.collapsible ? 2 : 0)};
-  width: ${(props) => (props.collapsible ? "100%" : "auto")};
+  margin-top: ${Y_MARGIN};
+  order: 0;
+  width: auto;
+
+  ${mediaQuery([
+    COLLAPSIBLE_NAV_BREAKPOINT,
+    `
+      margin-top: 16px;
+      order: 2;
+      width: 100%;
+    `,
+  ])}
 `;
 
 const BrandingBarLinkList = styled.ul`
@@ -104,12 +138,14 @@ const BrandingBarLink = styled.li`
 const MenuButton = styled.button`
   background: none;
   border: none;
-  margin: ${Y_MARGIN} 0;
+  position: fixed;
+  top: ${Y_MARGIN};
+  right: 0;
 `;
 
 const CollapsibleMenuWrapper = styled.div`
   background: ${(props) => props.theme.colors.background};
-  height: calc(100vh - ${FIXED_HEADER_HEIGHT}px);
+  height: calc(100vh - ${(props) => props.theme.headerHeightSmall}px);
   order: 3;
   width: 100%;
 `;
@@ -121,7 +157,10 @@ const NavBarWrapper = styled.div`
 const SITE_TITLE = "North Dakota Corrections";
 
 export default function BrandingBar() {
-  const useCollapsibleNav = useBreakpoint(false, ["mobile-", true]);
+  const useCollapsibleNav = useBreakpoint(false, [
+    COLLAPSIBLE_NAV_BREAKPOINT,
+    true,
+  ]);
   const {
     getCollapseProps,
     getToggleProps,
@@ -131,23 +170,16 @@ export default function BrandingBar() {
 
   return (
     <BrandingBarWrapper
-      className={classNames({ fixed: useCollapsibleNav })}
-      expanded={useCollapsibleNav && isExpanded}
+      className={classNames({
+        expanded: isExpanded,
+      })}
     >
-      <BrandingBarHeader
-        collapsible={useCollapsibleNav}
-        expanded={useCollapsibleNav && isExpanded}
-      >
+      <BrandingBarHeader>
         <Logo alt="Recidiviz" src={LogoIconSrc} />
-        <BrandingBarTitle
-          hide={useCollapsibleNav && !isExpanded}
-          small={useCollapsibleNav}
-        >
-          {SITE_TITLE}
-        </BrandingBarTitle>
+        <BrandingBarTitle>{SITE_TITLE}</BrandingBarTitle>
       </BrandingBarHeader>
       {(!useCollapsibleNav || isExpanded) && (
-        <BrandingBarLinkListWrapper collapsible={useCollapsibleNav}>
+        <BrandingBarLinkListWrapper>
           <BrandingBarLinkList>
             <BrandingBarLink>
               <LinkPill
@@ -169,11 +201,7 @@ export default function BrandingBar() {
       {useCollapsibleNav && (
         <>
           <MenuButton {...getToggleProps()}>
-            {isExpanded ? (
-              <Icon src={MenuOpenIconSrc} />
-            ) : (
-              <Icon src={MenuClosedIconSrc} />
-            )}
+            <Icon src={isExpanded ? MenuOpenIconSrc : MenuClosedIconSrc} />
           </MenuButton>
           <CollapsibleMenuWrapper {...getCollapseProps()}>
             <NavBarWrapper>

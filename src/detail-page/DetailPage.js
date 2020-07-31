@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { exact, tail } from "set-order";
 import styled from "styled-components";
-import { FIXED_HEADER_HEIGHT, OTHER_LABEL, TOTAL_KEY } from "../constants";
+import { OTHER_LABEL, TOTAL_KEY } from "../constants";
 import { DimensionControl, MonthControl, LocationControl } from "../controls";
 import { HeadingTitle, HeadingDescription } from "../heading";
 
@@ -49,7 +49,7 @@ const DetailSectionControls = styled.div`
 
   &.sticky {
     position: sticky;
-    top: ${FIXED_HEADER_HEIGHT}px;
+    top: ${(props) => props.theme.headerHeightSmall}px;
     width: 100%;
     z-index: ${(props) => props.theme.zIndex.control};
   }
