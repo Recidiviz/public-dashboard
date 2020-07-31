@@ -118,7 +118,7 @@ function getMetricsForGroup(data, category) {
   );
 
   const ftrPopulationRate =
-    selected.ftr_admission_count / totals.ftr_admission_count;
+    selected.ftr_referral_count / totals.ftr_referral_count;
   const pretrialPopulationRate =
     selected.pretrial_enrollment_count / totals.pretrial_enrollment_count;
 
