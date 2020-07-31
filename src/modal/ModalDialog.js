@@ -47,6 +47,12 @@ export default function ModalDialog(props) {
   const { open, closeModal, height, width, children } = props;
   const smallScreen = useBreakpoint(false, ["mobile-", true]);
   const PADDING = smallScreen ? DEFAULT_PADDING / 4 : DEFAULT_PADDING;
+  // WARNING: On smaller screens we are explicitly setting the width of
+  // the modal to 90% and otherwise ignorning any value that is passed
+  // in. This could lead to confusing results in the case that a smaller
+  // width modal is actually desired on smaller screens. Mostly this was
+  // a hack to meet a launch deadline and some additional care should be
+  // taken to make this more robust.
   const WIDTH = smallScreen ? "90%" : width;
 
   const ref = useRef(null);
