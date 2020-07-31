@@ -11,7 +11,7 @@ export default function VizSentencePopulation(props) {
   } = props;
 
   const populationAccessorFn = (record) =>
-    Number(record.incarceration_count) + Number(record.probation_count);
+    Number(record.total_population_count);
 
   return (
     <PopulationViz
