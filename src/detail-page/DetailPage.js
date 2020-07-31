@@ -1,12 +1,17 @@
 import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
-import classNames from "classnames";
 import { ascending } from "d3-array";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+import Measure from "react-measure";
 import { StickyContainer, Sticky } from "react-sticky";
 import { exact, tail } from "set-order";
 import styled from "styled-components";
-import { OTHER_LABEL, TOTAL_KEY, THEME } from "../constants";
+import {
+  COLLAPSIBLE_NAV_BREAKPOINT,
+  OTHER_LABEL,
+  TOTAL_KEY,
+  THEME,
+} from "../constants";
 import { DimensionControl, MonthControl, LocationControl } from "../controls";
 import { HeadingTitle, HeadingDescription } from "../heading";
 
@@ -54,10 +59,7 @@ const DetailSectionControls = styled.div`
   justify-content: flex-start;
   max-width: 100%;
   padding-bottom: 16px;
-
-  &.is-sticky {
-    z-index: ${(props) => props.theme.zIndex.control};
-  }
+  z-index: ${(props) => props.theme.zIndex.control};
 `;
 
 const DetailSectionDescription = styled.div`
@@ -83,11 +85,21 @@ const DetailSectionVizContainer = styled.div`
 `;
 
 const PageControlsWrapper = styled.div`
+  background: ${(props) => props.theme.colors.background};
   display: flex;
   justify-content: flex-end;
+  padding-bottom: 8px;
+  z-index: ${(props) => props.theme.zIndex.menu + 10};
 `;
 
 const sortLocations = exact([tail(OTHER_LABEL)], ascending);
+
+const adjustStickyStyles = ({ stickyStyles, topOffset }) => ({
+  ...stickyStyles,
+  // need to compensate for the height of other fixed or sticky elements,
+  // because we stack multiple under each other
+  top: (stickyStyles.top || 0) + topOffset,
+});
 
 function DetailSection({
   title,
@@ -97,6 +109,7 @@ function DetailSection({
   locationControlLabel,
   showMonthControl,
   otherControls,
+  stickyOffset,
   VizComponent,
   vizData,
 }) {
@@ -121,26 +134,20 @@ function DetailSection({
 
   const enableStickyControls = useBreakpoint(false, ["mobile-", true]);
 
-  // TODO: this may change when we stack multiple sticky things
-  const stickyControlOffset = THEME.headerHeightSmall;
-
   return (
     <StickyContainer>
       <DetailSectionContainer>
         <DetailSectionHeading>
           <DetailSectionTitle>{title}</DetailSectionTitle>
           <Sticky disableCompensation={!enableStickyControls} bottomOffset={32}>
-            {({ style: stickyStyles, isSticky }) => (
+            {({ style: stickyStyles }) => (
               <DetailSectionControls
-                className={classNames({
-                  "is-sticky": enableStickyControls && isSticky,
-                })}
                 style={
                   enableStickyControls
-                    ? {
-                        ...stickyStyles,
-                        top: (stickyStyles.top || 0) + stickyControlOffset,
-                      }
+                    ? adjustStickyStyles({
+                        stickyStyles,
+                        topOffset: stickyOffset,
+                      })
                     : undefined
                 }
               >
@@ -188,6 +195,7 @@ DetailSection.propTypes = {
   showLocationControl: PropTypes.bool,
   locationControlLabel: PropTypes.string,
   otherControls: PropTypes.node,
+  stickyOffset: PropTypes.number,
   VizComponent: PropTypes.func,
   vizData: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.string])
@@ -200,6 +208,7 @@ DetailSection.defaultProps = {
   showLocationControl: false,
   locationControlLabel: "Location",
   otherControls: null,
+  stickyOffset: 0,
   VizComponent: () => null,
   vizData: {},
 };
@@ -211,21 +220,53 @@ export default function DetailPage({
   sections,
   pageControls,
 }) {
+  const stickyControlOffset = useBreakpoint(THEME.headerHeight, [
+    COLLAPSIBLE_NAV_BREAKPOINT,
+    THEME.headerHeightSmall,
+  ]);
+  const [stickyControlHeight, setStickyControlHeight] = useState(0);
+
   return (
     <PageContainer className={className}>
       <HeadingContainer>
         <HeadingTitle>{title}</HeadingTitle>
         <HeadingDescription>{description}</HeadingDescription>
-        {pageControls && (
-          <PageControlsWrapper>{pageControls}</PageControlsWrapper>
-        )}
       </HeadingContainer>
-      {sections.map((section) => (
-        <React.Fragment key={section.title}>
-          <SectionDivider />
-          <DetailSection {...section} />
-        </React.Fragment>
-      ))}
+      <StickyContainer>
+        {pageControls && (
+          <Sticky topOffset={-stickyControlOffset}>
+            {({ style: stickyStyles }) => (
+              <Measure
+                bounds
+                onResize={({ bounds: { height } }) =>
+                  setStickyControlHeight(height)
+                }
+              >
+                {({ measureRef }) => (
+                  <PageControlsWrapper
+                    ref={measureRef}
+                    style={adjustStickyStyles({
+                      stickyStyles,
+                      topOffset: stickyControlOffset,
+                    })}
+                  >
+                    {pageControls}
+                  </PageControlsWrapper>
+                )}
+              </Measure>
+            )}
+          </Sticky>
+        )}
+        {sections.map((section) => (
+          <React.Fragment key={section.title}>
+            <SectionDivider />
+            <DetailSection
+              {...section}
+              stickyOffset={stickyControlHeight + stickyControlOffset}
+            />
+          </React.Fragment>
+        ))}
+      </StickyContainer>
     </PageContainer>
   );
 }
