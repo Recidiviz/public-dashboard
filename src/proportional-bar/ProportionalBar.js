@@ -29,6 +29,7 @@ const ProportionalBarChartWrapper = styled.div`
 const ProportionalBarMetadata = styled.figcaption`
   align-items: baseline;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   padding-top: 4px;
   width: 100%;
@@ -36,9 +37,19 @@ const ProportionalBarMetadata = styled.figcaption`
 `;
 const ProportionalBarTitle = styled.div`
   color: ${(props) => props.theme.colors.body};
-  flex: 0 0 auto;
+  flex: 0 1 auto;
   font: ${(props) => props.theme.fonts.body};
   margin-right: 15px;
+`;
+
+const ProportionalBarLegendWrapper = styled.div`
+  /*
+    setting a non-auto basis lets the legend try to wrap internally
+    before the container wraps the entire legend to its own line
+  */
+  flex: 1 1 0;
+  display: flex;
+  justify-content: flex-end;
 `;
 
 export default function ProportionalBar({ data, height, showLegend, title }) {
@@ -83,7 +94,11 @@ export default function ProportionalBar({ data, height, showLegend, title }) {
           {title}
           {noData && ", No Data"}
         </ProportionalBarTitle>
-        {showLegend && <ColorLegend items={data} />}
+        {showLegend && (
+          <ProportionalBarLegendWrapper>
+            <ColorLegend items={data} />
+          </ProportionalBarLegendWrapper>
+        )}
       </ProportionalBarMetadata>
     </ProportionalBarContainer>
   );

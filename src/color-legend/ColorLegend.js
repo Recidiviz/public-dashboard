@@ -8,12 +8,17 @@ const ColorLegendWrapper = styled.div`
   flex-wrap: wrap;
   font: ${(props) => props.theme.fonts.body};
 `;
+
 const ColorLegendItem = styled.div`
   align-items: center;
   display: flex;
   flex: 0 0 auto;
-  margin-left: 8px;
+  margin-right: 8px;
   white-space: nowrap;
+
+  &:last-child {
+    margin-right: 0;
+  }
 `;
 const ColorLegendItemLabel = styled.div``;
 const swatchSize = 6;
