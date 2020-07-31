@@ -254,6 +254,7 @@ export const defaultTheme = {
       "40<": darkGreen6,
       [DEMOGRAPHIC_UNKNOWN]: darkGreen5,
     },
+    asideBackground: "rgba(206, 202, 199, 0.8)", // "#CECAC7"
     background: "#FCFCFC",
     body: medGray,
     bodyLight: white,
@@ -384,6 +385,7 @@ export const defaultTheme = {
 
 // ND colors are tinted with the theme background color (i.e. converted from opacity)
 const ndColors = {
+  asideBackground: "rgba(206, 202, 199, 0.8)", // "#CECAC7"
   background: "#FAF9F9",
   backgroundTealShade9: "#DAE3E4",
   black: "#303030",
@@ -415,6 +417,7 @@ const northDakotaTheme = {
       "40<": ndColors.brandTealTint6,
       [DEMOGRAPHIC_UNKNOWN]: ndColors.brandTealTint5,
     },
+    asideBackground: ndColors.asideBackground,
     background: ndColors.background,
     body: ndColors.blackTint6,
     bodyLight: ndColors.background,
