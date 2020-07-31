@@ -17,8 +17,6 @@ const SectionDivider = styled.hr`
   border-top: 1px solid ${(props) => props.theme.colors.divider};
 `;
 
-const sectionTextWidth = 420;
-
 const DetailSectionContainer = styled.section`
   align-items: center;
   display: flex;
@@ -33,7 +31,11 @@ const DetailSectionTitle = styled.h1`
   font-size: 20px;
   margin-bottom: 16px;
   margin-right: 32px;
-  width: ${sectionTextWidth}px;
+  width: ${(props) => props.theme.sectionTextWidthNormal}px;
+
+  .wide-text & {
+    width: ${(props) => props.theme.sectionTextWidthWide}px;
+  }
 `;
 
 const DetailSectionControls = styled.div`
@@ -53,17 +55,31 @@ const DetailSectionControls = styled.div`
   }
 `;
 
-const DetailSectionDescription = styled.p`
+const DetailSectionDescription = styled.div`
   color: ${(props) => props.theme.colors.body};
   font: ${(props) => props.theme.fonts.body};
-  padding-right: calc(100% - ${sectionTextWidth}px);
+  margin-bottom: 16px;
+  padding-right: calc(
+    100% - ${(props) => props.theme.sectionTextWidthNormal}px
+  );
   width: 100%;
+
+  .wide-text & {
+    padding-right: calc(
+      100% - ${(props) => props.theme.sectionTextWidthWide}px
+    );
+  }
 `;
 
 const DetailSectionVizContainer = styled.div`
   margin-bottom: 24px;
   margin-top: 32px;
   width: 100%;
+`;
+
+const PageControlsWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const sortLocations = exact([tail(OTHER_LABEL)], ascending);
@@ -75,6 +91,7 @@ function DetailSection({
   showLocationControl,
   locationControlLabel,
   showMonthControl,
+  otherControls,
   VizComponent,
   vizData,
 }) {
@@ -118,6 +135,7 @@ function DetailSection({
           )
         }
         {showDimensionControl && <DimensionControl onChange={setDimension} />}
+        {otherControls}
       </DetailSectionControls>
 
       <DetailSectionDescription>{description}</DetailSectionDescription>
@@ -134,13 +152,14 @@ function DetailSection({
 
 DetailSection.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.node.isRequired,
   showDimensionControl: PropTypes.bool,
   showMonthControl: PropTypes.bool,
   showLocationControl: PropTypes.bool,
   locationControlLabel: PropTypes.string,
-  VizComponent: PropTypes.func.isRequired,
-  vizData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
+  otherControls: PropTypes.node,
+  VizComponent: PropTypes.func,
+  vizData: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.object)),
 };
 
 DetailSection.defaultProps = {
@@ -148,31 +167,47 @@ DetailSection.defaultProps = {
   showMonthControl: false,
   showLocationControl: false,
   locationControlLabel: "Location",
+  otherControls: null,
+  VizComponent: () => null,
+  vizData: {},
 };
 
-export default function DetailPage({ title, description, sections }) {
+export default function DetailPage({
+  className,
+  title,
+  description,
+  sections,
+  pageControls,
+}) {
   return (
-    <PageContainer>
+    <PageContainer className={className}>
       <HeadingContainer>
         <HeadingTitle>{title}</HeadingTitle>
         <HeadingDescription>{description}</HeadingDescription>
-        {sections.map((section) => (
-          <React.Fragment key={section.title}>
-            <SectionDivider />
-            <DetailSection {...section} />
-          </React.Fragment>
-        ))}
+        {pageControls && (
+          <PageControlsWrapper>{pageControls}</PageControlsWrapper>
+        )}
       </HeadingContainer>
+      {sections.map((section) => (
+        <React.Fragment key={section.title}>
+          <SectionDivider />
+          <DetailSection {...section} />
+        </React.Fragment>
+      ))}
     </PageContainer>
   );
 }
 
 DetailPage.propTypes = {
+  className: PropTypes.string,
   title: PropTypes.node.isRequired,
   description: PropTypes.node.isRequired,
   sections: PropTypes.arrayOf(PropTypes.shape(DetailSection.propTypes)),
+  pageControls: PropTypes.node,
 };
 
 DetailPage.defaultProps = {
+  className: undefined,
   sections: [],
+  pageControls: null,
 };

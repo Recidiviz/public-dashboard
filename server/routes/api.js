@@ -62,6 +62,10 @@ function probation(req, res) {
   );
 }
 
+function race(req, res) {
+  metricsApi.fetchRaceMetrics(isDemoMode, req.params.tenantId, responder(res));
+}
+
 function sentencing(req, res) {
   metricsApi.fetchSentencingMetrics(
     isDemoMode,
@@ -75,4 +79,5 @@ module.exports = {
   prison,
   probation,
   sentencing,
+  race,
 };

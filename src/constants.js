@@ -14,6 +14,7 @@ export const PATHS = {
   prison: "prison",
   probation: "probation",
   sentencing: "sentencing",
+  race: "race",
 };
 
 export const DETAIL_PAGES = new Map([
@@ -23,9 +24,12 @@ export const DETAIL_PAGES = new Map([
   [PATHS.parole, "Parole"],
 ]);
 
+const NARRATIVE_PAGES = new Map([[PATHS.race, "Racial Disparities"]]);
+
 export const ALL_PAGES = new Map([
-  [PATHS.overview, "Overview"],
+  [PATHS.overview, "Introduction"],
   ...DETAIL_PAGES,
+  ...NARRATIVE_PAGES,
 ]);
 
 export const TOTAL_KEY = "ALL";
@@ -58,7 +62,7 @@ export const DIMENSIONS_LIST = [
   { id: DIMENSION_KEYS.age, label: DIMENSION_LABELS.age },
 ];
 
-const VIOLATION_TYPES = {
+export const VIOLATION_TYPES = {
   abscond: "abscond",
   offend: "offend",
   technical: "technical",
@@ -115,18 +119,26 @@ const GENDERS = new Map([
   ...DEMOGRAPHIC_UNKNOWN_MAPPING,
 ]);
 
-const RACES = new Map([
-  ["AMERICAN_INDIAN_ALASKAN_NATIVE", "American Indian or Alaskan Native"],
-  ["BLACK", "Black"],
-  ["HISPANIC", "Hispanic"],
-  ["WHITE", "White"],
-  [OTHER, "Other"],
+export const RACES = {
+  nativeAmerican: "AMERICAN_INDIAN_ALASKAN_NATIVE",
+  black: "BLACK",
+  hispanic: "HISPANIC",
+  white: "WHITE",
+  other: OTHER,
+};
+
+export const RACE_LABELS = new Map([
+  [RACES.nativeAmerican, "American Indian or Alaskan Native"],
+  [RACES.black, "Black"],
+  [RACES.hispanic, "Hispanic"],
+  [RACES.white, "White"],
+  [RACES.other, "Other"],
 ]);
 
 export const DIMENSION_MAPPINGS = new Map([
   [DIMENSION_KEYS.gender, GENDERS],
   [DIMENSION_KEYS.age, AGES],
-  [DIMENSION_KEYS.race, RACES],
+  [DIMENSION_KEYS.race, RACE_LABELS],
   [DIMENSION_KEYS.total, new Map([[TOTAL_KEY, "Total"]])],
 ]);
 
@@ -352,6 +364,8 @@ export const defaultTheme = {
       fill: darkGreen,
     },
   },
+  sectionTextWidthNormal: 420,
+  sectionTextWidthWide: 780,
   transition: {
     defaultDuration,
     defaultDurationMs,
