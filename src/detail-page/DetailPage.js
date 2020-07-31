@@ -33,7 +33,7 @@ const DetailSectionTitle = styled.h1`
   margin-right: 32px;
   width: ${(props) => props.theme.sectionTextWidthNormal}px;
 
-  .RaceNarrativePage & {
+  .wide-text & {
     width: ${(props) => props.theme.sectionTextWidthWide}px;
   }
 `;
@@ -64,7 +64,7 @@ const DetailSectionDescription = styled.div`
   );
   width: 100%;
 
-  .RaceNarrativePage & {
+  .wide-text & {
     padding-right: calc(
       100% - ${(props) => props.theme.sectionTextWidthWide}px
     );
