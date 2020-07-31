@@ -1,4 +1,3 @@
-import { sum } from "d3-array";
 import React, { useState } from "react";
 import styled from "styled-components";
 import DetailPage from "../detail-page";
@@ -7,13 +6,20 @@ import {
   RACES,
   SUPERVISION_TYPES,
   TOTAL_KEY,
-  VIOLATION_COUNT_KEYS,
   VIOLATION_TYPES,
 } from "../constants";
 import { Dropdown } from "../controls";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
 import { formatAsPct, sentenceCase } from "../utils";
+import {
+  DynamicText,
+  getCorrectionsPopulation,
+  getSupervisionCounts,
+  matchRace,
+} from "./helpers";
+import VizPopulationDisparity from "./VizPopulationDisparity";
+import VizRevocationDisparity from "./VizRevocationDisparity";
 
 const ETHNONYMS = {
   [RACES.nativeAmerican]: "people who are Native American",
@@ -22,10 +28,6 @@ const ETHNONYMS = {
   [RACES.hispanic]: "people who are Hispanic and/or Latino",
   [RACES.other]: "people of other races",
 };
-
-const DynamicText = styled.span`
-  color: ${(props) => props.theme.colors.highlight};
-`;
 
 const BodySizeP = styled.p`
   font: ${(props) => props.theme.fonts.body};
@@ -41,13 +43,6 @@ const Footnote = styled.span`
 const FootnoteText = styled.p`
   font-size: 0.8em;
 `;
-
-const matchRace = (race) => (record) => record.race_or_ethnicity === race;
-
-const getCorrectionsPopulation = (record) =>
-  record.total_incarcerated_population +
-  record.total_parole_population +
-  record.total_probation_population;
 
 const formatDecimal = (number) => number.toFixed(1);
 
@@ -101,79 +96,40 @@ function getMetricsForGroup(data, category) {
   const prisonPopulationRate =
     incarceratedPopulation / incarceratedPopulationOverall;
 
-  const [parole, probation, supervision] = ["parole", "probation", "total"].map(
+  const supervisionTotals = getSupervisionCounts(totals);
+  const supervisionSelected = getSupervisionCounts(selected);
+  const supervisionMetrics = {};
+
+  [...Object.values(SUPERVISION_TYPES), TOTAL_KEY].forEach(
     (supervisionType) => {
-      let population = 0;
-      let populationOverall = 0;
-      let revocationCount = 0;
-      let revocationCountOverall = 0;
-      let technicalCount = 0;
-      let absconsionCount = 0;
-      let newOffenseCount = 0;
-      let technicalCountOverall = 0;
-      let absconsionCountOverall = 0;
-      let newOffenseCountOverall = 0;
+      const totalCounts = supervisionTotals[supervisionType];
+      const selectedCounts = supervisionSelected[supervisionType];
 
-      let types;
-      if (supervisionType === "total") {
-        types = ["parole", "probation"];
-      } else {
-        types = [supervisionType];
-      }
-
-      types.forEach((type) => {
-        population += selected[`total_${type}_population`];
-        populationOverall += totals[`total_${type}_population`];
-
-        revocationCount += sum(
-          [...VIOLATION_COUNT_KEYS.values()].map(
-            (key) => selected[`${type}_${key}`]
-          )
-        );
-        revocationCountOverall += sum(
-          [...VIOLATION_COUNT_KEYS.values()].map(
-            (key) => totals[`${type}_${key}`]
-          )
-        );
-        technicalCount +=
-          selected[
-            `${type}_${VIOLATION_COUNT_KEYS.get(VIOLATION_TYPES.technical)}`
-          ];
-        absconsionCount +=
-          selected[
-            `${type}_${VIOLATION_COUNT_KEYS.get(VIOLATION_TYPES.abscond)}`
-          ];
-        newOffenseCount +=
-          selected[
-            `${type}_${VIOLATION_COUNT_KEYS.get(VIOLATION_TYPES.offend)}`
-          ];
-        technicalCountOverall +=
-          totals[
-            `${type}_${VIOLATION_COUNT_KEYS.get(VIOLATION_TYPES.technical)}`
-          ];
-        absconsionCountOverall +=
-          totals[
-            `${type}_${VIOLATION_COUNT_KEYS.get(VIOLATION_TYPES.abscond)}`
-          ];
-        newOffenseCountOverall +=
-          totals[`${type}_${VIOLATION_COUNT_KEYS.get(VIOLATION_TYPES.offend)}`];
-      });
-
-      return {
-        populationRate: population / populationOverall,
-        revocationPopulationRate: revocationCount / revocationCountOverall,
-        technicalRate: technicalCount / revocationCount,
-        technicalRateOverall: technicalCountOverall / revocationCountOverall,
-        absconsionRate: absconsionCount / revocationCount,
-        absconsionRateOverall: absconsionCountOverall / revocationCountOverall,
-        newOffenseRate: newOffenseCount / revocationCount,
-        newOffenseRateOverall: newOffenseCountOverall / revocationCountOverall,
+      supervisionMetrics[supervisionType] = {
+        populationRate: selectedCounts.population / totalCounts.population,
+        revocationPopulationRate:
+          selectedCounts.totalRevocations / totalCounts.totalRevocations,
+        technicalRate:
+          selectedCounts[VIOLATION_TYPES.technical] /
+          selectedCounts.totalRevocations,
+        technicalRateOverall:
+          totalCounts[VIOLATION_TYPES.technical] / totalCounts.totalRevocations,
+        absconsionRate:
+          selectedCounts[VIOLATION_TYPES.abscond] /
+          selectedCounts.totalRevocations,
+        absconsionRateOverall:
+          totalCounts[VIOLATION_TYPES.abscond] / totalCounts.totalRevocations,
+        newOffenseRate:
+          selectedCounts[VIOLATION_TYPES.offend] /
+          selectedCounts.totalRevocations,
+        newOffenseRateOverall:
+          totalCounts[VIOLATION_TYPES.offend] / totalCounts.totalRevocations,
       };
     }
   );
 
   const ftrPopulationRate =
-    selected.ftr_admission_count / totals.ftr_admission_count;
+    selected.ftr_referral_count / totals.ftr_referral_count;
   const pretrialPopulationRate =
     selected.pretrial_enrollment_count / totals.pretrial_enrollment_count;
 
@@ -186,11 +142,7 @@ function getMetricsForGroup(data, category) {
     proportionSupervisionOverall,
     paroleRate,
     prisonPopulationRate,
-    supervisionMetrics: {
-      [SUPERVISION_TYPES.parole]: parole,
-      [SUPERVISION_TYPES.probation]: probation,
-      [TOTAL_KEY]: supervision,
-    },
+    supervisionMetrics,
     ftrPopulationRate,
     pretrialPopulationRate,
   };
@@ -317,6 +269,11 @@ export default function PageRacialDisparities() {
           </FootnoteText>
         </>
       ),
+      VizComponent: VizPopulationDisparity,
+      vizData: {
+        category,
+        countsByRace: racialDisparityCounts,
+      },
     },
     {
       title: "How can sentencing impact disparities?",
@@ -455,6 +412,13 @@ export default function PageRacialDisparities() {
           </p>
         </>
       ),
+      VizComponent: VizRevocationDisparity,
+      vizData: {
+        category,
+        ethnonym,
+        countsByRace: racialDisparityCounts,
+        supervisionType,
+      },
     },
     {
       title: "Can programming help reduce disparities?",
