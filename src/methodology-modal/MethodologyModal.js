@@ -17,11 +17,8 @@ const MethodologyDescription = styled(HeadingDescription)`
 
 const MethodologyBody = styled.div``;
 
-const SectionTitle = styled.h1`
-  color: ${(props) => props.theme.colors.heading};
-  font: ${(props) => props.theme.fonts.display};
+const SectionTitle = styled(HeadingTitle)`
   font-size: 20px;
-  margin-bottom: 16px;
 `;
 
 export default function MethodologyModal({ trigger }) {
