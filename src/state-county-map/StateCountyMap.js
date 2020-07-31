@@ -1,3 +1,4 @@
+import { descending } from "d3-array";
 import { geoAlbers } from "d3-geo";
 import { scaleSqrt } from "d3-scale";
 import PropTypes from "prop-types";
@@ -48,6 +49,13 @@ export default function StateCountyMap({
   width,
 }) {
   const maxValue = Math.max(...data.map(({ value }) => value));
+  // By sorting the data in descending order, the markers will appear
+  // stacked on the map such that the markers with the largest values
+  // are on the "bottom" and the markers with the smallest values are
+  // on the "top".  This prevents the smaller markers from getting
+  // buried underneathe of the larger markers.  Technically this makes
+  // all of the markers clickable, but the experience is still lacking.
+  const sortedData = data.sort((a, b) => descending(a.value, b.value));
 
   // using sqrt to linear-scale by circle area, not radius
   const markerRadiusScale = scaleSqrt()
@@ -99,7 +107,7 @@ export default function StateCountyMap({
             ));
           }}
         </Geographies>
-        {data.map((record) => (
+        {sortedData.map((record) => (
           <Marker key={record.location} coordinates={[record.long, record.lat]}>
             <LocationMarker
               onClick={(e) => handleLocationClick(e, record)}
