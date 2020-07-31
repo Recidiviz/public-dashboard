@@ -1,13 +1,16 @@
-import useBreakpoint from "@w11r/use-breakpoint";
+import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
 import classNames from "classnames";
 import { ascending } from "d3-array";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+import { StickyContainer, Sticky } from "react-sticky";
 import { exact, tail } from "set-order";
 import styled from "styled-components";
-import { OTHER_LABEL, TOTAL_KEY } from "../constants";
+import { OTHER_LABEL, TOTAL_KEY, THEME } from "../constants";
 import { DimensionControl, MonthControl, LocationControl } from "../controls";
 import { HeadingTitle, HeadingDescription } from "../heading";
+
+const STICKY_CONTROLS_BREAKPOINT = "mobile-";
 
 const PageContainer = styled.article``;
 const HeadingContainer = styled.header``;
@@ -17,11 +20,15 @@ const SectionDivider = styled.hr`
   border-top: 1px solid ${(props) => props.theme.colors.divider};
 `;
 
-const DetailSectionContainer = styled.section`
+const DetailSectionContainer = styled.section``;
+
+const DetailSectionHeading = styled.header`
   align-items: center;
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
+  max-width: 100%;
+
+  ${mediaQuery([STICKY_CONTROLS_BREAKPOINT, `display: block;`])};
 `;
 
 const DetailSectionTitle = styled.h1`
@@ -31,6 +38,7 @@ const DetailSectionTitle = styled.h1`
   font-size: 20px;
   margin-bottom: 16px;
   margin-right: 32px;
+  max-width: 100%;
   width: ${(props) => props.theme.sectionTextWidthNormal}px;
 
   .wide-text & {
@@ -47,10 +55,7 @@ const DetailSectionControls = styled.div`
   max-width: 100%;
   padding-bottom: 16px;
 
-  &.sticky {
-    position: sticky;
-    top: ${(props) => props.theme.headerHeightSmall}px;
-    width: 100%;
+  &.is-sticky {
     z-index: ${(props) => props.theme.zIndex.control};
   }
 `;
@@ -114,39 +119,64 @@ function DetailSection({
   const [locationList] = useState(initialLocationList);
   const [locationId, setLocationId] = useState();
 
-  const sticky = useBreakpoint(false, ["mobile-", true]);
+  const enableStickyControls = useBreakpoint(false, ["mobile-", true]);
+
+  // TODO: this may change when we stack multiple sticky things
+  const stickyControlOffset = THEME.headerHeightSmall;
 
   return (
-    <DetailSectionContainer>
-      <DetailSectionTitle>{title}</DetailSectionTitle>
-      <DetailSectionControls className={classNames({ sticky })}>
-        {showMonthControl && monthList && (
-          <MonthControl months={monthList} onChange={setMonth} />
-        )}
-        {
-          // we need both a flag and data to enable location control
-          showLocationControl && locationList && (
-            <LocationControl
-              label={locationControlLabel}
-              locations={locationList}
-              onChange={setLocationId}
-              value={locationId}
-            />
-          )
-        }
-        {showDimensionControl && <DimensionControl onChange={setDimension} />}
-        {otherControls}
-      </DetailSectionControls>
+    <StickyContainer>
+      <DetailSectionContainer>
+        <DetailSectionHeading>
+          <DetailSectionTitle>{title}</DetailSectionTitle>
+          <Sticky disableCompensation={!enableStickyControls} bottomOffset={32}>
+            {({ style: stickyStyles, isSticky }) => (
+              <DetailSectionControls
+                className={classNames({
+                  "is-sticky": enableStickyControls && isSticky,
+                })}
+                style={
+                  enableStickyControls
+                    ? {
+                        ...stickyStyles,
+                        top: (stickyStyles.top || 0) + stickyControlOffset,
+                      }
+                    : undefined
+                }
+              >
+                {showMonthControl && monthList && (
+                  <MonthControl months={monthList} onChange={setMonth} />
+                )}
+                {
+                  // we need both a flag and data to enable location control
+                  showLocationControl && locationList && (
+                    <LocationControl
+                      label={locationControlLabel}
+                      locations={locationList}
+                      onChange={setLocationId}
+                      value={locationId}
+                    />
+                  )
+                }
+                {showDimensionControl && (
+                  <DimensionControl onChange={setDimension} />
+                )}
+                {otherControls}
+              </DetailSectionControls>
+            )}
+          </Sticky>
+        </DetailSectionHeading>
 
-      <DetailSectionDescription>{description}</DetailSectionDescription>
-      <DetailSectionVizContainer>
-        <VizComponent
-          data={vizData}
-          {...{ dimension, month, locationId, setMonthList }}
-          onLocationClick={setLocationId}
-        />
-      </DetailSectionVizContainer>
-    </DetailSectionContainer>
+        <DetailSectionDescription>{description}</DetailSectionDescription>
+        <DetailSectionVizContainer>
+          <VizComponent
+            data={vizData}
+            {...{ dimension, month, locationId, setMonthList }}
+            onLocationClick={setLocationId}
+          />
+        </DetailSectionVizContainer>
+      </DetailSectionContainer>
+    </StickyContainer>
   );
 }
 
