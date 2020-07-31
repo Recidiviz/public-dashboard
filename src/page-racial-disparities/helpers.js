@@ -1,3 +1,4 @@
+import useBreakpoint from "@w11r/use-breakpoint";
 import { sum } from "d3-array";
 import styled from "styled-components";
 import {
@@ -77,3 +78,9 @@ export const matchRace = (race) => (record) =>
 export const DynamicText = styled.span`
   color: ${(props) => props.theme.colors.highlight};
 `;
+
+const BAR_HEIGHTS = { default: 150, small: 70 };
+
+export function useBarHeight() {
+  return useBreakpoint(BAR_HEIGHTS.default, ["mobile-", BAR_HEIGHTS.small]);
+}

@@ -9,7 +9,7 @@ import {
 } from "../constants";
 import ProportionalBar from "../proportional-bar";
 import { demographicsAscending } from "../utils";
-import { getCorrectionsPopulation } from "./helpers";
+import { getCorrectionsPopulation, useBarHeight } from "./helpers";
 
 const Wrapper = styled.div``;
 
@@ -18,8 +18,6 @@ const BreakdownWrapper = styled.div`
   position: relative;
   z-index: ${(props) => props.theme.zIndex.base + props.stackOrder};
 `;
-
-const BAR_HEIGHT = 180;
 
 const notTotal = (record) => record[DIMENSION_DATA_KEYS.race] !== TOTAL_KEY;
 const sortByRace = (a, b) =>
@@ -57,12 +55,14 @@ export default function VizPopulationDisparity({
     };
   });
 
+  const barHeight = useBarHeight();
+
   return (
     <Wrapper>
       <BreakdownWrapper stackOrder={0}>
         <ProportionalBar
           data={totalPopulationData}
-          height={BAR_HEIGHT}
+          height={barHeight}
           title="Proportions of races in the state"
           showLegend={false}
         />
@@ -70,7 +70,7 @@ export default function VizPopulationDisparity({
       <BreakdownWrapper stackOrder={1}>
         <ProportionalBar
           data={correctionsPopulationData}
-          height={BAR_HEIGHT}
+          height={barHeight}
           title="Proportions of races sentenced and under DOCR control"
           showLegend
         />

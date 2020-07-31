@@ -4,7 +4,12 @@ import React from "react";
 import styled from "styled-components";
 import { THEME, TOTAL_KEY, VIOLATION_LABELS } from "../constants";
 import ProportionalBar from "../proportional-bar";
-import { DynamicText, getSupervisionCounts, matchRace } from "./helpers";
+import {
+  DynamicText,
+  getSupervisionCounts,
+  matchRace,
+  useBarHeight,
+} from "./helpers";
 
 const Wrapper = styled.div``;
 
@@ -13,8 +18,6 @@ const BreakdownWrapper = styled.div`
   position: relative;
   z-index: ${(props) => props.theme.zIndex.base + props.stackOrder};
 `;
-
-const BAR_HEIGHT = 180;
 
 export default function VizRevocationDisparity({
   data: { countsByRace, category, ethnonym, supervisionType },
@@ -37,12 +40,14 @@ export default function VizRevocationDisparity({
     }
   );
 
+  const barHeight = useBarHeight();
+
   return (
     <Wrapper>
       <BreakdownWrapper stackOrder={0}>
         <ProportionalBar
           data={totalData}
-          height={BAR_HEIGHT}
+          height={barHeight}
           title="Proportions of revocation reasons overall"
           showLegend={false}
         />
@@ -50,7 +55,7 @@ export default function VizRevocationDisparity({
       <BreakdownWrapper stackOrder={1}>
         <ProportionalBar
           data={categoryData}
-          height={BAR_HEIGHT}
+          height={barHeight}
           title={
             <>
               Proportions of revocation reasons for{" "}
