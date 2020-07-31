@@ -5,6 +5,7 @@ import useCollapse from "react-collapsed";
 import styled, { css } from "styled-components";
 import MenuClosedIconSrc from "../assets/icons/menuClosed.svg";
 import MenuOpenIconSrc from "../assets/icons/menuOpen.svg";
+import ExternalLinkSrc from "../assets/icons/externalLink.svg";
 import LogoIconSrc from "../assets/icons/recidiviz_logo.svg";
 import { FIXED_HEADER_HEIGHT, X_PADDING } from "../constants";
 import NavBar from "../nav-bar";
@@ -51,6 +52,12 @@ const BrandingBarHeader = styled.div`
 const Icon = styled.img`
   height: ${ICON_SIZE};
   width: ${ICON_SIZE};
+`;
+
+const ExternalLinkIcon = styled.img`
+  height: 12px;
+  margin-left: 8px;
+  width: 12px;
 `;
 
 const Logo = styled(Icon)`
@@ -143,7 +150,13 @@ export default function BrandingBar() {
         <BrandingBarLinkListWrapper collapsible={useCollapsibleNav}>
           <BrandingBarLinkList>
             <BrandingBarLink>
-              <LinkPill href="#">Share</LinkPill>
+              <LinkPill
+                href="https://docs.google.com/forms/d/e/1FAIpQLSc3_wV2ltGumMdGTcLehUM41tQri0ZW5RjIKh0JJlhpJGE9Hg/viewform"
+                target="_blank"
+              >
+                Questions or Feedback
+                <ExternalLinkIcon src={ExternalLinkSrc} />
+              </LinkPill>
             </BrandingBarLink>
             <BrandingBarLink>
               <MethodologyModal

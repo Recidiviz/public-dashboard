@@ -12,10 +12,12 @@ const LinkPillLink = styled.a`
 
 const LinkPillValue = styled(PillValue)``;
 
-export default function LinkControl({ href, children }) {
+export default function LinkControl(props) {
+  const { children, ...linkProps } = props;
+
   return (
     <LinkPillContainer>
-      <LinkPillLink href={href}>
+      <LinkPillLink {...linkProps}>
         <LinkPillValue>{children}</LinkPillValue>
       </LinkPillLink>
     </LinkPillContainer>
@@ -23,6 +25,5 @@ export default function LinkControl({ href, children }) {
 }
 
 LinkControl.propTypes = {
-  href: PropTypes.string.isRequired,
-  children: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
