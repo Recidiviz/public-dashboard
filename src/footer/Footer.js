@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import classNames from "classnames";
 import { getYear } from "date-fns";
+import useBreakpoint from "@w11r/use-breakpoint";
+import { fluidFontSizeStyles } from "../utils";
 
-import { CONTAINER_WIDTH } from "../constants";
+import { BODY_FONT_SIZE, CONTAINER_WIDTH } from "../constants";
 import RecidivizSrc from "../assets/icons/recidiviz.svg";
 
 const FooterContainer = styled.footer`
@@ -21,30 +24,37 @@ const FooterContent = styled.div`
 `;
 
 const FooterCredits = styled.div`
-  flex: 0 1 auto;
-  min-height: 96px;
-  width: 440px;
+  &.expanded {
+    min-height: 96px;
+    max-width: 424px;
+    width: 40%;
+  }
 `;
 
 const FooterLegal = styled.div`
-  align-items: flex-end;
+  align-items: center;
   display: flex;
-  flex: 0 1 auto;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
-  min-height: 96px;
+  width: 100%;
+
+  &.expanded {
+    align-items: flex-end;
+    flex-direction: column;
+    min-height: 96px;
+    width: 40%;
+  }
 `;
 
 const FooterLegalContent = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  ${fluidFontSizeStyles(8, BODY_FONT_SIZE)}
 `;
 
 const RecidivizBrandingContainer = styled.div``;
 const RecidivizBranding = styled.img``;
 
 const FooterLegalese = styled.span`
-  margin-left: 32px;
+  margin-left: 16px;
 `;
 
 const PrivacyLink = styled.a`
@@ -57,17 +67,19 @@ const PrivacyLink = styled.a`
 `;
 
 export default function Footer() {
+  const showExpandedFooter = useBreakpoint(false, ["tablet+", true]);
+
   return (
     <FooterContainer>
       <FooterContent>
-        <FooterCredits>
+        <FooterCredits className={classNames({ expanded: showExpandedFooter })}>
           This dashboard was made in collaborations with lorem ipsum dolor sit
           amet, consectetur adipiscing elit. In tincidunt cras diam venenatis,
           id praesent in dignissim. Urna ut justo et et sed ut convallis aliquam
           fermentum. Vel vehicula purus diam lorem sed interdum hendrerit. Eu
           neque sed urna lacus donec iaculis sapien.
         </FooterCredits>
-        <FooterLegal>
+        <FooterLegal className={classNames({ expanded: showExpandedFooter })}>
           <RecidivizBrandingContainer>
             <RecidivizBranding alt="Recidiviz" src={RecidivizSrc} />
           </RecidivizBrandingContainer>

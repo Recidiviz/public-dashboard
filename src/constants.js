@@ -205,10 +205,10 @@ export const CUSTOM_BREAKPOINTS = {
 };
 
 const bodyFontFamily = "'Libre Franklin', sans-serif";
-const bodyFontSize = "12px";
+export const BODY_FONT_SIZE = 12;
 const bodyLineHeight = 1.5;
-const bodyMedium = `500 ${bodyFontSize}/${bodyLineHeight} ${bodyFontFamily}`;
-const bodyBold = `600 ${bodyFontSize}/${bodyLineHeight} ${bodyFontFamily}`;
+const bodyMedium = `500 ${BODY_FONT_SIZE}px/${bodyLineHeight} ${bodyFontFamily}`;
+const bodyBold = `600 ${BODY_FONT_SIZE}px/${bodyLineHeight} ${bodyFontFamily}`;
 
 const displayFontFamily = "'Poppins', sans-serif";
 const displayFontSize = "20px";
