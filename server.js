@@ -36,8 +36,8 @@ app.use(helmet());
 app.get("/api/:tenantId/parole", api.parole);
 app.get("/api/:tenantId/prison", api.prison);
 app.get("/api/:tenantId/probation", api.probation);
-app.get("/api/:tenantId/sentencing", api.sentencing);
 app.get("/api/:tenantId/race", api.race);
+app.get("/api/:tenantId/sentencing", api.sentencing);
 
 // An App Engine-specific API for handling warmup requests on new instance initialization
 app.get("/_ah/warmup", () => {

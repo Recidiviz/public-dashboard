@@ -68,12 +68,12 @@ const FILES_BY_METRIC_TYPE = {
     "supervision_success_by_month.json",
     "supervision_success_by_period_by_demographics.json",
   ],
+  race: ["racial_disparities.json"],
   sentencing: [
     "judicial_districts.json",
     "sentence_lengths_by_district_by_demographics.json",
     "sentence_type_by_district_by_demographics.json",
   ],
-  race: ["racial_disparities.json"],
 };
 
 /**
@@ -232,12 +232,12 @@ function fetchProbationMetrics(isDemo, tenantId, callback) {
   return fetchMetrics(tenantId, "probation", null, isDemo, callback);
 }
 
-function fetchSentencingMetrics(isDemo, tenantId, callback) {
-  return fetchMetrics(tenantId, "sentencing", null, isDemo, callback);
-}
-
 function fetchRaceMetrics(isDemo, tenantId, callback) {
   return fetchMetrics(tenantId, "race", null, isDemo, callback);
+}
+
+function fetchSentencingMetrics(isDemo, tenantId, callback) {
+  return fetchMetrics(tenantId, "sentencing", null, isDemo, callback);
 }
 
 module.exports = {

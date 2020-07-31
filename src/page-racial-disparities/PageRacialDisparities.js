@@ -46,6 +46,17 @@ const FootnoteText = styled.p`
 
 const formatDecimal = (number) => number.toFixed(1);
 
+const typecast = (record) => {
+  const typecastRecord = { ...record };
+  Object.entries(typecastRecord).forEach(([key, value]) => {
+    // we can be blunt here because everything in here should be a number
+    // except state name and racial category identifiers
+    const n = Number(value);
+    if (!Number.isNaN(n)) typecastRecord[key] = n;
+  });
+  return typecastRecord;
+};
+
 function getMetricsForGroup(data, category) {
   const totals = data.find(matchRace(TOTAL_KEY));
   const selected = data.find(matchRace(category));
@@ -192,9 +203,11 @@ export default function PageRacialDisparities() {
     return <Loading />;
   }
 
-  const metrics = getMetricsForGroup(apiData.racial_disparities, category);
+  const racialDisparityCounts = apiData.racial_disparities.map(typecast);
+
+  const metrics = getMetricsForGroup(racialDisparityCounts, category);
   const supervisionTypeMetrics = metrics.supervisionMetrics[supervisionType];
-  const overallMetrics = getOverallMetrics(apiData.racial_disparities);
+  const overallMetrics = getOverallMetrics(racialDisparityCounts);
 
   const ethnonym = ETHNONYMS[category];
 
@@ -316,7 +329,7 @@ export default function PageRacialDisparities() {
             The parole process is governed by the Parole Board, an independent
             commission that works closely with the DOCR. In 2019, under guidance
             from Governor Burgum and then-Director of Corrections Leann Bertsch,
-            The DOCR and the Parole Board began tracking and reporting racial
+            the DOCR and the Parole Board began tracking and reporting racial
             data for the parole process in order to monitor and reduce
             disparities in the population granted parole.
           </p>
@@ -430,18 +443,6 @@ export default function PageRacialDisparities() {
             </DynamicText>{" "}
             of the supervision population.
           </p>
-          <p>
-            On July 1, 2020, the DOCR began a pilot of pre-trial services,
-            programming designed to reduce the number of people held in jail
-            between arrest and appearance before a judge.{" "}
-            <DynamicText>{sentenceCase(sentenceCase(ethnonym))}</DynamicText>{" "}
-            make up{" "}
-            <DynamicText>
-              {formatAsPct(metrics.pretrialPopulationRate)}
-            </DynamicText>{" "}
-            of individuals enrolled in pre-trial services rather than detained
-            prior to appearance in court.
-          </p>
         </>
       ),
     },
@@ -495,7 +496,7 @@ export default function PageRacialDisparities() {
 
   return (
     <DetailPage
-      className="RaceNarrativePage"
+      className="wide-text"
       description={DESCRIPTION}
       title={TITLE}
       sections={SECTIONS}
