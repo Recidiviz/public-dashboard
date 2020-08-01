@@ -17,6 +17,7 @@ import PageRoutes from "../page-routes";
 import BackgroundImageSrc from "../assets/images/background.png";
 import SecondaryNav from "../secondary-nav";
 import InfoPanel from "../info-panel";
+import Cobranding from "../cobranding";
 
 const NAV_WIDTH = 240;
 
@@ -30,20 +31,25 @@ const SiteContainer = styled.div`
       background-size: cover;
       background-repeat: no-repeat;
     `}
-  padding-top: ${(props) => props.theme.headerHeight + BRANDING_BAR_MARGIN}px;
   width: 100%;
-
-  ${mediaQuery([
-    COLLAPSIBLE_NAV_BREAKPOINT,
-    `padding-top: ${THEME.headerHeightSmall + BRANDING_BAR_MARGIN}px;`,
-  ])}
 `;
 
 const BodyWrapper = styled.div`
   margin: 0 auto;
   max-width: ${CONTAINER_WIDTH}px;
+  min-height: 100vh;
+  padding-top: ${(props) => props.theme.headerHeight + BRANDING_BAR_MARGIN}px;
 
-  ${mediaQuery([COLLAPSIBLE_NAV_BREAKPOINT, `padding: 0 ${X_PADDING}px;`])}
+  ${mediaQuery([COLLAPSIBLE_NAV_BREAKPOINT, ``])}
+
+  ${mediaQuery([
+    COLLAPSIBLE_NAV_BREAKPOINT,
+    `
+    padding: ${
+      THEME.headerHeightSmall + BRANDING_BAR_MARGIN
+    }px ${X_PADDING}px 0;
+  `,
+  ])}
 `;
 
 const BrandingBarWrapper = styled.div`
@@ -56,7 +62,12 @@ const BrandingBarWrapper = styled.div`
 `;
 
 const NavBarWrapper = styled.div`
+  bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   position: fixed;
+  top: ${(props) => props.theme.headerHeight + BRANDING_BAR_MARGIN}px;
   width: ${NAV_WIDTH}px;
   z-index: ${(props) => props.theme.zIndex.base};
 `;
@@ -76,7 +87,9 @@ const MainContentWrapper = styled.div`
 const FooterWrapper = styled.div`
   background: ${(props) => props.theme.colors.footerBackground};
   padding: 0 ${X_PADDING}px;
+  position: relative;
   width: 100%;
+  z-index: ${(props) => props.theme.zIndex.base + 1};
 `;
 
 function SiteLayout({ tenantId }) {
@@ -94,6 +107,7 @@ function SiteLayout({ tenantId }) {
             {showNav && (
               <NavBarWrapper>
                 <NavBar />
+                <Cobranding />
               </NavBarWrapper>
             )}
             <MainContentWrapper>
