@@ -70,6 +70,8 @@ function getMetricsForGroup(data, category) {
   const parolePopulationOverall = totals.total_parole_population;
   const probationPopulation = selected.total_probation_population;
   const probationPopulationOverall = totals.total_probation_population;
+  const totalSentenced = selected.total_sentenced_count;
+  const totalSentencedOverall = totals.total_sentenced_count;
 
   const supervisionPopulation = parolePopulation + probationPopulation;
   const supervisionPopulationOverall =
@@ -82,13 +84,16 @@ function getMetricsForGroup(data, category) {
   const correctionsPopulationRate =
     correctionsPopulation / correctionsPopulationOverall;
 
-  const proportionIncarcerated = incarceratedPopulation / correctionsPopulation;
+  const proportionIncarcerated =
+    selected.incarceration_sentence_count / totalSentenced;
 
-  const proportionSupervision = 1 - proportionIncarcerated;
+  const proportionSupervision =
+    selected.probation_sentence_count / totalSentenced;
 
   const proportionIncarceratedOverall =
-    incarceratedPopulationOverall / correctionsPopulationOverall;
-  const proportionSupervisionOverall = 1 - proportionIncarceratedOverall;
+    totals.incarceration_sentence_count / totalSentencedOverall;
+  const proportionSupervisionOverall =
+    totals.probation_sentence_count / totalSentencedOverall;
 
   const paroleRate =
     selected.parole_release_count / totals.parole_release_count;
