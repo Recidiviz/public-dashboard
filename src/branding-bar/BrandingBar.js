@@ -18,7 +18,7 @@ import { LinkPill } from "../pill";
 import MethodologyModal from "../methodology-modal";
 
 const brandingBarFlexProperties = css`
-  align-items: baseline;
+  align-items: center;
   display: flex;
 `;
 
@@ -81,24 +81,43 @@ const Logo = styled(Icon)`
   margin: ${Y_MARGIN} 0;
 `;
 
-const BrandingBarTitle = styled.h1`
-  color: ${(props) => props.theme.colors.heading};
-  font: ${(props) => props.theme.fonts.display};
-  font-size: ${(props) => props.theme.fonts.brandSizeLarge};
+const BrandingBarTitleWrapper = styled.div`
   display: inline-block;
   margin-left: 16px;
   transition: all ${(props) => props.theme.transition.defaultTimeSettings};
-
   ${mediaQuery([
     COLLAPSIBLE_NAV_BREAKPOINT,
     `
-      font-size: ${THEME.fonts.brandSizeSmall};
       opacity: 0;
 
       ${BrandingBarWrapper}.expanded & {
         opacity: 1;
       }
     `,
+  ])}
+`;
+
+const BrandingBarTitle = styled.h1`
+  color: ${(props) => props.theme.colors.heading};
+  font: ${(props) => props.theme.fonts.display};
+  font-size: ${(props) => props.theme.fonts.brandSizeLarge};
+  margin-bottom: 0;
+
+  ${mediaQuery([
+    COLLAPSIBLE_NAV_BREAKPOINT,
+    `font-size: ${THEME.fonts.brandSizeSmall};`,
+  ])}
+`;
+
+const BrandingBarSubtitle = styled.h2`
+  color: ${(props) => props.theme.colors.body};
+  font: ${(props) => props.theme.fonts.body};
+  font-size: ${(props) => props.theme.fonts.brandSubtitleSize};
+  margin: 0;
+
+  ${mediaQuery([
+    COLLAPSIBLE_NAV_BREAKPOINT,
+    `font-size: ${THEME.fonts.brandSubtitleSizeSmall};`,
   ])}
 `;
 
@@ -176,7 +195,12 @@ export default function BrandingBar() {
     >
       <BrandingBarHeader>
         <Logo alt="Recidiviz" src={LogoIconSrc} />
-        <BrandingBarTitle>{SITE_TITLE}</BrandingBarTitle>
+        <BrandingBarTitleWrapper>
+          <BrandingBarTitle>{SITE_TITLE}</BrandingBarTitle>
+          <BrandingBarSubtitle>
+            A Spotlight Dashboard by Recidiviz
+          </BrandingBarSubtitle>
+        </BrandingBarTitleWrapper>
       </BrandingBarHeader>
       {(!useCollapsibleNav || isExpanded) && (
         <BrandingBarLinkListWrapper>

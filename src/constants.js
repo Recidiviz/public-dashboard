@@ -334,6 +334,8 @@ export const defaultTheme = {
     displayNormal,
     brandSizeSmall: "14px",
     brandSizeLarge: "22px",
+    brandSubtitleSize: "14px",
+    brandSubtitleSizeSmall: "13px",
   },
   headerHeightSmall: 50,
   headerHeight: 112,
