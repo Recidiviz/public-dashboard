@@ -8,6 +8,12 @@ import { fluidFontSizeStyles } from "../utils";
 import { BODY_FONT_SIZE, CONTAINER_WIDTH } from "../constants";
 import RecidivizSrc from "../assets/icons/recidiviz.svg";
 
+import Cobranding, {
+  BrandingLink,
+  RecidivizBranding,
+  RecidivizBrandingContainer,
+} from "../cobranding";
+
 const FooterContainer = styled.footer`
   color: ${(props) => props.theme.colors.footer};
   font: ${(props) => props.theme.fonts.body};
@@ -35,12 +41,14 @@ const FooterLegal = styled.div`
   align-items: center;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: center;
   width: 100%;
 
   &.expanded {
     align-items: flex-end;
     flex-direction: column;
+    justify-content: space-between;
     min-height: 96px;
     width: 40%;
   }
@@ -49,9 +57,6 @@ const FooterLegal = styled.div`
 const FooterLegalContent = styled.div`
   ${fluidFontSizeStyles(8, BODY_FONT_SIZE)}
 `;
-
-const RecidivizBrandingContainer = styled.div``;
-const RecidivizBranding = styled.img``;
 
 const FooterLegalese = styled.span`
   margin-left: 16px;
@@ -81,7 +86,10 @@ export default function Footer() {
         </FooterCredits>
         <FooterLegal className={classNames({ expanded: showExpandedFooter })}>
           <RecidivizBrandingContainer>
-            <RecidivizBranding alt="Recidiviz" src={RecidivizSrc} />
+            <Cobranding />
+            <BrandingLink href="https://recidiviz.org">
+              <RecidivizBranding alt="Recidiviz" src={RecidivizSrc} />
+            </BrandingLink>
           </RecidivizBrandingContainer>
           <FooterLegalContent>
             <FooterLegalese>
