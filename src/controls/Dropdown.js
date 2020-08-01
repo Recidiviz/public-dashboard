@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Wrapper, Button, Menu, MenuItem } from "react-aria-menubutton";
+import { Menu, MenuButton, MenuItem, MenuPopover } from "@reach/menu-button";
 import styled from "styled-components";
 import {
   ControlContainer,
@@ -11,42 +11,40 @@ import {
   DropdownOptionType,
 } from "./shared";
 
-const DropdownContainer = styled(ControlContainer)`
+const DropdownWrapper = styled(ControlContainer)`
   position: relative;
   z-index: ${(props) => props.theme.zIndex.menu};
 
-  .Dropdown {
-    &__button {
-      cursor: pointer;
-
-      &--highlighted {
-        ${ControlValue} {
-          background: ${(props) => props.theme.colors.highlight};
-          color: ${(props) => props.theme.colors.bodyLight};
-        }
-      }
+  &.Dropdown--highlighted {
+    ${ControlValue} {
+      background: ${(props) => props.theme.colors.highlight};
+      color: ${(props) => props.theme.colors.bodyLight};
     }
+  }
 
-    &__menu {
-      ${controlTypeProperties}
-      background: ${(props) => props.theme.colors.controlBackground};
-      list-style: none;
-      margin-top: 4px;
-      padding: 12px 18px;
-      position: absolute;
-      right: 0;
-      top: 100%;
-      white-space: nowrap;
-      z-index: ${(props) => props.theme.zIndex.menu};
-    }
+  [data-reach-menu-button] {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+`;
 
-    &__menu-item {
-      cursor: pointer;
-      margin: 8px 0;
+const DropdownMenu = styled.div`
+  ${controlTypeProperties}
+  background: ${(props) => props.theme.colors.controlBackground};
+  list-style: none;
+  padding: 12px 18px;
+  position: relative;
+  white-space: nowrap;
+  z-index: ${(props) => props.theme.zIndex.menu};
 
-      &:hover {
-        text-decoration: underline;
-      }
+  [data-reach-menu-item] {
+    cursor: pointer;
+    margin: 8px 0;
+
+    &:hover {
+      text-decoration: underline;
     }
   }
 `;
@@ -81,32 +79,30 @@ export default function Dropdown({
   }, [selectedId]);
 
   return (
-    <DropdownContainer>
-      <Wrapper
-        onSelection={(selectedValue) => setCurrentOptionId(selectedValue.id)}
-      >
-        <Button
-          className={classNames("Dropdown__button", {
-            "Dropdown__button--highlighted": highlighted,
-          })}
-        >
+    <DropdownWrapper
+      className={classNames({ "Dropdown--highlighted": highlighted })}
+    >
+      <Menu>
+        <ControlContainer>
           <ControlLabel>{label}</ControlLabel>
-          <ControlValue>{selectedOption.label}</ControlValue>
-        </Button>
-        <Menu className="Dropdown__menu" tag="ul">
-          {options.map((option) => (
-            <MenuItem
-              className="Dropdown__menu-item"
-              key={option.id}
-              tag="li"
-              value={option}
-            >
-              {option.label}
-            </MenuItem>
-          ))}
-        </Menu>
-      </Wrapper>
-    </DropdownContainer>
+          <MenuButton>
+            <ControlValue>{selectedOption.label}</ControlValue>
+          </MenuButton>
+          <MenuPopover>
+            <DropdownMenu>
+              {options.map((option) => (
+                <MenuItem
+                  key={option.id}
+                  onSelect={() => setCurrentOptionId(option.id)}
+                >
+                  {option.label}
+                </MenuItem>
+              ))}
+            </DropdownMenu>
+          </MenuPopover>
+        </ControlContainer>
+      </Menu>
+    </DropdownWrapper>
   );
 }
 
