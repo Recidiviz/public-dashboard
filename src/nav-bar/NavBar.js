@@ -95,7 +95,13 @@ const addLinkClasses = (overrideClass, isCurrent) => ({
   ),
 });
 
-export default function NavBar({ pages, onClick, className, nested }) {
+export default function NavBar({
+  pages,
+  onClick,
+  className,
+  nested,
+  extraLinks,
+}) {
   return (
     <NavContainer>
       <NavList className={className}>
@@ -110,6 +116,14 @@ export default function NavBar({ pages, onClick, className, nested }) {
             </Link>
           </NavItem>
         ))}
+        {extraLinks.map(({ text, url }, i) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <NavItem key={i}>
+            <a {...addLinkClasses(className)} href={url}>
+              {text}
+            </a>
+          </NavItem>
+        ))}
       </NavList>
     </NavContainer>
   );
@@ -120,6 +134,12 @@ NavBar.propTypes = {
   onClick: PropTypes.func,
   className: PropTypes.string,
   nested: PropTypes.bool,
+  extraLinks: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.node.isRequired,
+      url: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 NavBar.defaultProps = {
@@ -127,4 +147,5 @@ NavBar.defaultProps = {
   onClick: undefined,
   className: "",
   nested: false,
+  extraLinks: [],
 };

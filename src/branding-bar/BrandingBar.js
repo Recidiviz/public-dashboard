@@ -7,6 +7,7 @@ import MenuClosedIconSrc from "../assets/icons/menuClosed.svg";
 import MenuOpenIconSrc from "../assets/icons/menuOpen.svg";
 import ExternalLinkSrc from "../assets/icons/externalLink.svg";
 import LogoIconSrc from "../assets/icons/recidiviz_logo.svg";
+import Cobranding from "../cobranding";
 import {
   COLLAPSIBLE_NAV_BREAKPOINT,
   CONTAINER_WIDTH,
@@ -22,8 +23,21 @@ const brandingBarFlexProperties = css`
   display: flex;
 `;
 
-const ICON_SIZE = "26px";
+const ExternalLinkIcon = styled.img`
+  height: 12px;
+  margin-left: 8px;
+  width: 12px;
+`;
 
+const FEEDBACK_TEXT = (
+  <>
+    Questions or Feedback
+    <ExternalLinkIcon src={ExternalLinkSrc} />
+  </>
+);
+const FEEDBACK_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSc3_wV2ltGumMdGTcLehUM41tQri0ZW5RjIKh0JJlhpJGE9Hg/viewform";
+const ICON_SIZE = "26px";
 const Y_MARGIN = "12px";
 
 const BrandingBarWrapper = styled.header`
@@ -35,15 +49,20 @@ const BrandingBarWrapper = styled.header`
   margin: 0 auto;
   max-width: ${CONTAINER_WIDTH}px;
   padding: 0 ${X_PADDING}px;
+  transition: height ${(props) => props.theme.transition.defaultTimeSettings};
   width: 100%;
 
   ${mediaQuery([
     COLLAPSIBLE_NAV_BREAKPOINT,
     `
+      align-items: stretch;
       height: ${THEME.headerHeightSmall}px;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
 
       &.expanded {
-        height: auto;
+        height: 100vh;
       }
     `,
   ])}
@@ -52,15 +71,16 @@ const BrandingBarWrapper = styled.header`
 const BrandingBarHeader = styled.div`
   ${brandingBarFlexProperties}
   margin-top: 0;
-  transition: all ${(props) => props.theme.transition.defaultTimeSettings};
+  transition: margin ${(props) => props.theme.transition.defaultTimeSettings};
 
   ${mediaQuery([
     COLLAPSIBLE_NAV_BREAKPOINT,
     `
-      align-items: center;
-
+      width: 100%;
+      
       ${BrandingBarWrapper}.expanded & {
         margin-top: ${THEME.headerHeightSmall}px;
+
       }
     `,
   ])}
@@ -69,12 +89,6 @@ const BrandingBarHeader = styled.div`
 const Icon = styled.img`
   height: ${ICON_SIZE};
   width: ${ICON_SIZE};
-`;
-
-const ExternalLinkIcon = styled.img`
-  height: 12px;
-  margin-left: 8px;
-  width: 12px;
 `;
 
 const Logo = styled(Icon)`
@@ -164,8 +178,12 @@ const MenuButton = styled.button`
 
 const CollapsibleMenuWrapper = styled.div`
   background: ${(props) => props.theme.colors.background};
-  height: calc(100vh - ${(props) => props.theme.headerHeightSmall}px);
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  justify-content: space-between;
   order: 3;
+  padding-bottom: 24px;
   width: 100%;
 `;
 
@@ -185,7 +203,10 @@ export default function BrandingBar() {
     getToggleProps,
     isExpanded,
     setExpanded,
-  } = useCollapse();
+  } = useCollapse({
+    // zero seems to be ignored but we want the expansion to be instantaneous
+    duration: 1,
+  });
 
   return (
     <BrandingBarWrapper
@@ -202,16 +223,12 @@ export default function BrandingBar() {
           </BrandingBarSubtitle>
         </BrandingBarTitleWrapper>
       </BrandingBarHeader>
-      {(!useCollapsibleNav || isExpanded) && (
+      {!useCollapsibleNav && (
         <BrandingBarLinkListWrapper>
           <BrandingBarLinkList>
             <BrandingBarLink>
-              <LinkPill
-                href="https://docs.google.com/forms/d/e/1FAIpQLSc3_wV2ltGumMdGTcLehUM41tQri0ZW5RjIKh0JJlhpJGE9Hg/viewform"
-                target="_blank"
-              >
-                Questions or Feedback
-                <ExternalLinkIcon src={ExternalLinkSrc} />
+              <LinkPill href={FEEDBACK_URL} target="_blank">
+                {FEEDBACK_TEXT}
               </LinkPill>
             </BrandingBarLink>
             <BrandingBarLink>
@@ -232,8 +249,20 @@ export default function BrandingBar() {
               <NavBar
                 onClick={() => setExpanded(false)}
                 className="branding-bar"
+                extraLinks={[
+                  { url: FEEDBACK_URL, text: FEEDBACK_TEXT },
+                  {
+                    url: "#",
+                    text: (
+                      <MethodologyModal
+                        trigger={<span role="button">Methodology</span>}
+                      />
+                    ),
+                  },
+                ]}
               />
             </NavBarWrapper>
+            <Cobranding />
           </CollapsibleMenuWrapper>
         </>
       )}
