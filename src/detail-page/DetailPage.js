@@ -44,11 +44,6 @@ const DetailSectionTitle = styled.h1`
   margin-bottom: 16px;
   margin-right: 32px;
   max-width: 100%;
-  width: ${(props) => props.theme.sectionTextWidthNormal}px;
-
-  .wide-text & {
-    width: ${(props) => props.theme.sectionTextWidthWide}px;
-  }
 `;
 
 const DetailSectionControls = styled.div`
@@ -90,6 +85,8 @@ const PageControlsWrapper = styled.div`
   justify-content: flex-end;
   padding-bottom: 8px;
   z-index: ${(props) => props.theme.zIndex.menu + 10};
+
+  ${mediaQuery([STICKY_CONTROLS_BREAKPOINT, `justify-content: flex-start;`])};
 `;
 
 const sortLocations = exact([tail(OTHER_LABEL)], ascending);
