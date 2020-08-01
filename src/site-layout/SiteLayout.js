@@ -18,7 +18,7 @@ import BackgroundImageSrc from "../assets/images/background.png";
 import SecondaryNav from "../secondary-nav";
 import InfoPanel from "../info-panel";
 
-const NAV_WIDTH = 150;
+const NAV_WIDTH = 240;
 
 const BRANDING_BAR_MARGIN = 16;
 
