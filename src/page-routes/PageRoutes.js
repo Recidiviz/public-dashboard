@@ -1,6 +1,5 @@
-import { Router, Redirect } from "@reach/router";
-import React from "react";
-
+import { Router, Redirect, useLocation } from "@reach/router";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { PATHS } from "../constants";
 import PageOverview from "../page-overview";
@@ -13,6 +12,14 @@ import PageRacialDisparities from "../page-racial-disparities/PageRacialDisparit
 const PagesContainer = styled.main``;
 
 export default function PageRoutes() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // hacky nonsense to make the page scroll to the top after navigation,
+    // per https://github.com/reach/router/issues/198
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   return (
     <PagesContainer>
       <Router>

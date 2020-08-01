@@ -5,9 +5,10 @@ import styled, { css } from "styled-components";
 import { useMatch } from "@reach/router";
 import BrandingBar from "../branding-bar";
 import {
+  COLLAPSIBLE_NAV_BREAKPOINT,
   CONTAINER_WIDTH,
-  FIXED_HEADER_HEIGHT,
   PATHS,
+  THEME,
   X_PADDING,
 } from "../constants";
 import Footer from "../footer";
@@ -17,7 +18,9 @@ import BackgroundImageSrc from "../assets/images/background.png";
 import SecondaryNav from "../secondary-nav";
 import InfoPanel from "../info-panel";
 
-const NAV_WIDTH = 150;
+const NAV_WIDTH = 240;
+
+const BRANDING_BAR_MARGIN = 16;
 
 const SiteContainer = styled.div`
   ${(props) =>
@@ -25,35 +28,37 @@ const SiteContainer = styled.div`
     css`
       background-image: url(${BackgroundImageSrc});
       background-size: cover;
-      ${mediaQuery(["mobile-", "background-size: contain;"])}
       background-repeat: no-repeat;
     `}
-
+  padding-top: ${(props) => props.theme.headerHeight + BRANDING_BAR_MARGIN}px;
   width: 100%;
+
+  ${mediaQuery([
+    COLLAPSIBLE_NAV_BREAKPOINT,
+    `padding-top: ${THEME.headerHeightSmall + BRANDING_BAR_MARGIN}px;`,
+  ])}
 `;
 
 const BodyWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   margin: 0 auto;
   max-width: ${CONTAINER_WIDTH}px;
-  padding: 0 ${X_PADDING}px;
+
+  ${mediaQuery([COLLAPSIBLE_NAV_BREAKPOINT, `padding: 0 ${X_PADDING}px;`])}
 `;
 
 const BrandingBarWrapper = styled.div`
-  flex: 0 0 auto;
-  margin-bottom: 64px;
-  min-height: ${FIXED_HEADER_HEIGHT}px;
-  width: 100%;
-
-  ${mediaQuery(["mobile-", "margin-bottom: 16px;"])}
+  background: ${(props) => props.theme.colors.background};
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: ${(props) => props.theme.zIndex.header};
 `;
 
 const NavBarWrapper = styled.div`
-  /* on small screens this will grow to fill an entire row  */
-  flex: 1 0 auto;
+  position: fixed;
   width: ${NAV_WIDTH}px;
+  z-index: ${(props) => props.theme.zIndex.base};
 `;
 
 const SecondaryNavWrapper = styled.div`
@@ -62,12 +67,10 @@ const SecondaryNavWrapper = styled.div`
 `;
 
 const MainContentWrapper = styled.div`
-  /*
-    flex-grow is mega large because we want this component to take up
-    all available space when it shares a row with NavBarWrapper
-  */
-  flex: 2000 0 auto;
-  width: 320px;
+  padding-left: ${NAV_WIDTH}px;
+  width: 100%;
+
+  ${mediaQuery([COLLAPSIBLE_NAV_BREAKPOINT, `padding-left: 0;`])}
 `;
 
 const FooterWrapper = styled.div`
@@ -77,7 +80,7 @@ const FooterWrapper = styled.div`
 `;
 
 function SiteLayout({ tenantId }) {
-  const showNav = useBreakpoint(false, ["tablet+", true]);
+  const showNav = useBreakpoint(true, [COLLAPSIBLE_NAV_BREAKPOINT, false]);
   const onOverviewPage = useMatch(`/:tenantId/${PATHS.overview}`);
 
   return (

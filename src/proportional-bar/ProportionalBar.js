@@ -39,6 +39,7 @@ const ProportionalBarTitle = styled.div`
   color: ${(props) => props.theme.colors.body};
   flex: 0 1 auto;
   font: ${(props) => props.theme.fonts.body};
+  font-size: 12px;
   margin-right: 15px;
 `;
 
