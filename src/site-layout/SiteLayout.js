@@ -31,20 +31,25 @@ const SiteContainer = styled.div`
       background-size: cover;
       background-repeat: no-repeat;
     `}
-  padding-top: ${(props) => props.theme.headerHeight + BRANDING_BAR_MARGIN}px;
   width: 100%;
-
-  ${mediaQuery([
-    COLLAPSIBLE_NAV_BREAKPOINT,
-    `padding-top: ${THEME.headerHeightSmall + BRANDING_BAR_MARGIN}px;`,
-  ])}
 `;
 
 const BodyWrapper = styled.div`
   margin: 0 auto;
   max-width: ${CONTAINER_WIDTH}px;
+  min-height: 100vh;
+  padding-top: ${(props) => props.theme.headerHeight + BRANDING_BAR_MARGIN}px;
 
-  ${mediaQuery([COLLAPSIBLE_NAV_BREAKPOINT, `padding: 0 ${X_PADDING}px;`])}
+  ${mediaQuery([COLLAPSIBLE_NAV_BREAKPOINT, ``])}
+
+  ${mediaQuery([
+    COLLAPSIBLE_NAV_BREAKPOINT,
+    `
+    padding: ${
+      THEME.headerHeightSmall + BRANDING_BAR_MARGIN
+    }px ${X_PADDING}px 0;
+  `,
+  ])}
 `;
 
 const BrandingBarWrapper = styled.div`
