@@ -206,7 +206,7 @@ export const CUSTOM_BREAKPOINTS = {
 export const COLLAPSIBLE_NAV_BREAKPOINT = "mobile-";
 
 const bodyFontFamily = "'Libre Franklin', sans-serif";
-export const BODY_FONT_SIZE = 12;
+export const BODY_FONT_SIZE = 16;
 const bodyLineHeight = 1.5;
 const bodyMedium = `500 ${BODY_FONT_SIZE}px/${bodyLineHeight} ${bodyFontFamily}`;
 const bodyBold = `600 ${BODY_FONT_SIZE}px/${bodyLineHeight} ${bodyFontFamily}`;

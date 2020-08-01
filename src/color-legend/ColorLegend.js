@@ -7,6 +7,7 @@ const ColorLegendWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   font: ${(props) => props.theme.fonts.body};
+  font-size: 12px;
 `;
 
 const ColorLegendItem = styled.div`
