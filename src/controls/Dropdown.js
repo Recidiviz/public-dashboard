@@ -1,7 +1,13 @@
 import classNames from "classnames";
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Menu, MenuButton, MenuItem, MenuPopover } from "@reach/menu-button";
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  MenuPopover,
+} from "@reach/menu-button";
 import styled from "styled-components";
 import {
   ControlContainer,
@@ -39,11 +45,20 @@ const DropdownMenu = styled.div`
   white-space: nowrap;
   z-index: ${(props) => props.theme.zIndex.menu};
 
+
+  [data-reach-menu-items] {
+    &:focus {
+      outline: none;
+    }
+  }
+
   [data-reach-menu-item] {
     cursor: pointer;
     margin: 8px 0;
 
+    &[data-selected],
     &:hover {
+      color: ${(props) => props.theme.colors.highlight};
       text-decoration: underline;
     }
   }
@@ -90,14 +105,16 @@ export default function Dropdown({
           </MenuButton>
           <MenuPopover>
             <DropdownMenu>
-              {options.map((option) => (
-                <MenuItem
-                  key={option.id}
-                  onSelect={() => setCurrentOptionId(option.id)}
-                >
-                  {option.label}
-                </MenuItem>
-              ))}
+              <MenuItems>
+                {options.map((option) => (
+                  <MenuItem
+                    key={option.id}
+                    onSelect={() => setCurrentOptionId(option.id)}
+                  >
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </MenuItems>
             </DropdownMenu>
           </MenuPopover>
         </ControlContainer>
