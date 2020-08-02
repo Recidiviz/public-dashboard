@@ -14,46 +14,43 @@ export const getCorrectionsPopulation = (record) =>
   record.total_probation_population;
 
 export const getSupervisionCounts = (record) => {
-  const [parole, probation, total] = ["parole", "probation", "total"].map(
+  const [parole, probation, total] = ["parole", "probation", "supervision"].map(
     (supervisionType) => {
-      let population = 0;
-      let revocationCount = 0;
-      let technicalCount = 0;
-      let absconsionCount = 0;
-      let newOffenseCount = 0;
-      let unknownCount = 0;
+      const population = record[`total_${supervisionType}_population`];
 
-      let types;
-      if (supervisionType === "total") {
-        types = ["parole", "probation"];
-      } else {
-        types = [supervisionType];
-      }
+      const revocationCount = sum(
+        [...VIOLATION_COUNT_KEYS.values()].map(
+          (key) => record[`${supervisionType}_${key}`]
+        )
+      );
 
-      types.forEach((type) => {
-        population += record[`total_${type}_population`];
+      const technicalCount =
+        record[
+          `${supervisionType}_${VIOLATION_COUNT_KEYS.get(
+            VIOLATION_TYPES.technical
+          )}`
+        ];
 
-        revocationCount += sum(
-          [...VIOLATION_COUNT_KEYS.values()].map(
-            (key) => record[`${type}_${key}`]
-          )
-        );
-        technicalCount +=
-          record[
-            `${type}_${VIOLATION_COUNT_KEYS.get(VIOLATION_TYPES.technical)}`
-          ];
-        absconsionCount +=
-          record[
-            `${type}_${VIOLATION_COUNT_KEYS.get(VIOLATION_TYPES.abscond)}`
-          ];
-        newOffenseCount +=
-          record[`${type}_${VIOLATION_COUNT_KEYS.get(VIOLATION_TYPES.offend)}`];
+      const absconsionCount =
+        record[
+          `${supervisionType}_${VIOLATION_COUNT_KEYS.get(
+            VIOLATION_TYPES.abscond
+          )}`
+        ];
 
-        unknownCount +=
-          record[
-            `${type}_${VIOLATION_COUNT_KEYS.get(VIOLATION_TYPES.unknown)}`
-          ];
-      });
+      const newOffenseCount =
+        record[
+          `${supervisionType}_${VIOLATION_COUNT_KEYS.get(
+            VIOLATION_TYPES.offend
+          )}`
+        ];
+
+      const unknownCount =
+        record[
+          `${supervisionType}_${VIOLATION_COUNT_KEYS.get(
+            VIOLATION_TYPES.unknown
+          )}`
+        ];
 
       return {
         population,
