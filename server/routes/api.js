@@ -79,12 +79,17 @@ async function download(req, res) {
     });
   });
 
-  const allFileLists = await Promise.all(metricPromises);
-
-  res.zip({
-    files: [].concat(...allFileLists),
-    filename: `${req.params.tenantId}_data.zip`,
-  });
+  try {
+    const allFileLists = await Promise.all(metricPromises);
+    res.zip({
+      files: [].concat(...allFileLists),
+      filename: `${req.params.tenantId}_data.zip`,
+    });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    res.sendStatus(500);
+  }
 }
 
 function parole(req, res) {
