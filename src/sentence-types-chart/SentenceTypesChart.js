@@ -28,7 +28,7 @@ const SourceValue = styled.text`
   font-size: ${SOURCE_VALUE_SIZE}px;
   letter-spacing: -0.09em;
   transform: ${sourceLabelXOffsetTransform}
-    translateY(-${(props) => props.yOffset - SOURCE_VALUE_SIZE}px);
+    translateY(${(props) => -(props.yOffset - SOURCE_VALUE_SIZE)}px);
 `;
 
 const SOURCE_LABEL_SIZE = 16;
