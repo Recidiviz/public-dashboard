@@ -37,6 +37,12 @@ const FEEDBACK_TEXT = (
 );
 const FEEDBACK_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSc3_wV2ltGumMdGTcLehUM41tQri0ZW5RjIKh0JJlhpJGE9Hg/viewform";
+
+const DOWNLOAD_TEXT = "Download Data";
+const DOWNLOAD_URL = `${process.env.REACT_APP_API_URL}/api/us_nd/download`;
+
+const METHODOLOGY_TEXT = "Methodology";
+
 const ICON_SIZE = "26px";
 const Y_MARGIN = "12px";
 
@@ -77,7 +83,7 @@ const BrandingBarHeader = styled.div`
     COLLAPSIBLE_NAV_BREAKPOINT,
     `
       width: 100%;
-      
+
       ${BrandingBarWrapper}.expanded & {
         margin-top: ${THEME.headerHeightSmall}px;
 
@@ -233,8 +239,11 @@ export default function BrandingBar() {
             </BrandingBarLink>
             <BrandingBarLink>
               <MethodologyModal
-                trigger={<LinkPill href="#">Methodology</LinkPill>}
+                trigger={<LinkPill href="#">{METHODOLOGY_TEXT}</LinkPill>}
               />
+            </BrandingBarLink>
+            <BrandingBarLink>
+              <LinkPill href={DOWNLOAD_URL}>{DOWNLOAD_TEXT}</LinkPill>
             </BrandingBarLink>
           </BrandingBarLinkList>
         </BrandingBarLinkListWrapper>
@@ -255,9 +264,13 @@ export default function BrandingBar() {
                     url: "#",
                     text: (
                       <MethodologyModal
-                        trigger={<span role="button">Methodology</span>}
+                        trigger={<span role="button">{METHODOLOGY_TEXT}</span>}
                       />
                     ),
+                  },
+                  {
+                    url: DOWNLOAD_URL,
+                    text: DOWNLOAD_TEXT,
                   },
                 ]}
               />
