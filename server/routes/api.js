@@ -38,6 +38,55 @@ function responder(res) {
   };
 }
 
+/**
+ * A callback which resolves or rejects a Promise with the data or error payload, respectively.
+ */
+function promisifier(resolve, reject) {
+  return function promisify(err, data) {
+    if (err) {
+      reject(err);
+    } else {
+      resolve(
+        Object.entries(data).map(([fileName, content]) => {
+          return {
+            name: `${fileName}.json`,
+            content: JSON.stringify(content),
+          };
+        })
+      );
+    }
+  };
+}
+
+async function download(req, res) {
+  const {
+    fetchParoleMetrics,
+    fetchPrisonMetrics,
+    fetchProbationMetrics,
+    fetchRaceMetrics,
+    fetchSentencingMetrics,
+  } = metricsApi;
+
+  const metricPromises = [
+    fetchParoleMetrics,
+    fetchPrisonMetrics,
+    fetchProbationMetrics,
+    fetchRaceMetrics,
+    fetchSentencingMetrics,
+  ].map((metricFn) => {
+    return new Promise((resolve, reject) => {
+      metricFn(isDemoMode, req.params.tenantId, promisifier(resolve, reject));
+    });
+  });
+
+  const allFileLists = await Promise.all(metricPromises);
+
+  res.zip({
+    files: [].concat(...allFileLists),
+    filename: `${req.params.tenantId}_data.zip`,
+  });
+}
+
 function parole(req, res) {
   metricsApi.fetchParoleMetrics(
     isDemoMode,
@@ -75,6 +124,7 @@ function sentencing(req, res) {
 }
 
 module.exports = {
+  download,
   parole,
   prison,
   probation,

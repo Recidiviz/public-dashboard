@@ -21,6 +21,7 @@ const cors = require("cors");
 const http = require("http");
 const morgan = require("morgan");
 const helmet = require("helmet");
+const zip = require("express-easy-zip");
 const api = require("./server/routes/api");
 
 const app = express();
@@ -32,7 +33,9 @@ app.set("port", port);
 
 app.use(morgan("dev"));
 app.use(helmet());
+app.use(zip());
 
+app.get("/api/:tenantId/download", api.download);
 app.get("/api/:tenantId/parole", api.parole);
 app.get("/api/:tenantId/prison", api.prison);
 app.get("/api/:tenantId/probation", api.probation);
