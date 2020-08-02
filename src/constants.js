@@ -143,13 +143,13 @@ export const DIMENSION_MAPPINGS = new Map([
 ]);
 
 export const SENTENCE_LENGTH_KEYS = {
-  lessThanOne: "<1_count",
-  oneTwo: "1-2_count",
-  twoThree: "2-3_count",
-  threeFive: "3-5_count",
-  fiveTen: "5-10_count",
-  tenTwenty: "10-20_count",
-  moreThanTwenty: "20+_count",
+  lessThanOne: "years_0_1",
+  oneTwo: "years_1_2",
+  twoThree: "years_2_3",
+  threeFive: "years_3_5",
+  fiveTen: "years_5_10",
+  tenTwenty: "years_10_20",
+  moreThanTwenty: "years_20_plus",
 };
 
 export const SENTENCE_LENGTHS = new Map([
