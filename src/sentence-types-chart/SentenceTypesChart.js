@@ -39,7 +39,8 @@ const SourceLabel = styled.text`
   font-size: ${SOURCE_LABEL_SIZE}px;
   transform: ${sourceLabelXOffsetTransform}
     translateY(
-      -${(props) => props.yOffset - SOURCE_VALUE_SIZE - SOURCE_LABEL_SIZE - 8}px
+      ${(props) =>
+        -(props.yOffset - SOURCE_VALUE_SIZE - SOURCE_LABEL_SIZE - 8)}px
     );
 `;
 
