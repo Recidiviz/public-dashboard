@@ -311,7 +311,7 @@ export default function PageRacialDisparities() {
             variations in sentencing add up to significant trends.
           </p>
           <p>
-            In the last 6 months,{" "}
+            In the last 36 months,{" "}
             <DynamicText>
               {formatAsPct(metrics.proportionIncarcerated)}
             </DynamicText>{" "}
@@ -355,7 +355,7 @@ export default function PageRacialDisparities() {
             disparities in the population granted parole.
           </p>
           <p>
-            In the last 6 months, <DynamicText>{ethnonym}</DynamicText>{" "}
+            In the last 36 months, <DynamicText>{ethnonym}</DynamicText>{" "}
             comprised{" "}
             <DynamicText>{formatAsPct(metrics.paroleRate)}</DynamicText> of the
             individuals released on parole. They make up{" "}
