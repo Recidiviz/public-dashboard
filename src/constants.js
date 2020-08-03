@@ -162,7 +162,7 @@ export const RACES = {
 };
 
 export const RACE_LABELS = new Map([
-  [RACES.nativeAmerican, "American Indian or Alaskan Native"],
+  [RACES.nativeAmerican, "Native American"],
   [RACES.black, "Black"],
   [RACES.hispanic, "Hispanic"],
   [RACES.white, "White"],
