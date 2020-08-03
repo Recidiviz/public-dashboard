@@ -22,7 +22,7 @@ export default function PageRoutes() {
 
   useEffect(() => {
     window.analytics.page(location.pathname);
-  }, [location]);
+  }, [location.pathname]);
 
   return (
     <PagesContainer>
