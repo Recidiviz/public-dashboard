@@ -1,5 +1,6 @@
 import React from "react";
 import DetailPage from "../detail-page";
+import { PATHS, ALL_PAGES, SECTION_TITLES } from "../constants";
 import { formatLocation, recordIsMetricPeriodMonths } from "../utils";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
@@ -8,7 +9,7 @@ import VizPrisonReleases from "../viz-prison-releases";
 import VizPrisonReasons from "../viz-prison-reasons";
 import VizSentenceLengths from "../viz-sentence-lengths";
 
-const TITLE = "Prison";
+const TITLE = ALL_PAGES.get(PATHS.prison);
 const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
   tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
@@ -29,7 +30,7 @@ export default function PagePrison() {
 
   const SECTIONS = [
     {
-      title: "Who is in prison?",
+      title: SECTION_TITLES[PATHS.prison].population,
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
       tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
@@ -44,7 +45,7 @@ export default function PagePrison() {
       },
     },
     {
-      title: "How did they get there?",
+      title: SECTION_TITLES[PATHS.prison].reasons,
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
         tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
@@ -57,7 +58,7 @@ export default function PagePrison() {
       },
     },
     {
-      title: "How long are they there?",
+      title: SECTION_TITLES[PATHS.prison].terms,
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
         tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
@@ -69,7 +70,7 @@ export default function PagePrison() {
       },
     },
     {
-      title: "Where do they go from there?",
+      title: SECTION_TITLES[PATHS.prison].releases,
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,

@@ -7,7 +7,12 @@ import VizParolePopulation from "../viz-parole-population";
 import VizSupervisionProgram from "../viz-supervision-program";
 import VizSupervisionRevocation from "../viz-supervision-revocation";
 import VizSupervisionSuccess from "../viz-supervision-success";
-import { SUPERVISION_TYPES } from "../constants";
+import {
+  ALL_PAGES,
+  PATHS,
+  SECTION_TITLES,
+  SUPERVISION_TYPES,
+} from "../constants";
 
 export default function PageParole() {
   const { apiData, isLoading } = useChartData("us_nd/parole");
@@ -25,14 +30,14 @@ export default function PageParole() {
     labelFn: (record) => record.site_name,
   });
 
-  const TITLE = "Parole";
+  const TITLE = ALL_PAGES.get(PATHS.parole);
   const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
     ipsum dui gravida.`;
   const SECTIONS = [
     {
-      title: "Who is on parole?",
+      title: SECTION_TITLES[PATHS.parole].population,
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
       tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
@@ -48,7 +53,7 @@ export default function PageParole() {
       },
     },
     {
-      title: "What happens after parole?",
+      title: SECTION_TITLES[PATHS.parole].completion,
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
       tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
@@ -68,7 +73,7 @@ export default function PageParole() {
       },
     },
     {
-      title: "Why do revocations happen?",
+      title: SECTION_TITLES[PATHS.parole].revocations,
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
       tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
@@ -82,7 +87,7 @@ export default function PageParole() {
       },
     },
     {
-      title: "Free Through Recovery Program",
+      title: SECTION_TITLES[PATHS.parole].ftr,
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
       tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,

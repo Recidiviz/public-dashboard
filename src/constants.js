@@ -46,6 +46,8 @@ export const SECTION_TITLES = {
     parole: "How can parole grant rates impact disparities?",
     supervision: "How can community supervision impact disparities?",
     programming: "Can programming help reduce disparities?",
+    furtherImprovement:
+      "What are we doing to further improve disparities in criminal justice in North Dakota?",
   },
 };
 
