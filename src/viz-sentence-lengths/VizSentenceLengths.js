@@ -25,7 +25,7 @@ export default function VizSentenceLengths({
     data: [...SENTENCE_LENGTHS].map(([key, lengthLabel]) => ({
       color: THEME.colors.sentenceLengths[key],
       label: lengthLabel,
-      value: record ? record[key] : 0,
+      value: record ? Number(record[key]) : 0,
     })),
   }));
 
