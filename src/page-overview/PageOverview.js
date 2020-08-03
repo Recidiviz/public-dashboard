@@ -18,11 +18,18 @@ export default function PageOverview() {
           Insights and initiatives in North Dakota’s corrections system
         </HeadingTitle>
         <HeadingDescription>
-          Introduction lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Id neque, neque cursus ornare. Sed phasellus sociis justo aenean
-          egestas. Sollicitudin erat enim, maecenas pharetra suspendisse. Orci
-          malesuada enim suspendisse mattis bibendum amet et et. Pellentesque
-          quis justo, in diam fermentum.
+          The North Dakota Department of Corrections and Rehabilitation (DOCR)
+          provides correctional services for the state of North Dakota. Our
+          mission is to transform lives, influence change, strengthen community.
+          Transparency is a critical element of our mission. Sharing information
+          builds greater accountability between the DOCR and the communities we
+          serve. To this end, this collection of data visualizations is built to
+          answer important questions that the public may have about the state of
+          our correctional system in North Dakota. The data represented here is
+          updated every day.
+        </HeadingDescription>
+        <HeadingDescription>
+          Click on a stage of the criminal justice system to explore the data:
         </HeadingDescription>
       </HeadingWrapper>
       <NavBar pages={DETAIL_PAGES} className="overview" nested />

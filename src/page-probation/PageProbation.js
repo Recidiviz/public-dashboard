@@ -25,18 +25,29 @@ export default function PageProbation() {
     record.supervision_type === SUPERVISION_TYPES.probation;
 
   const TITLE = ALL_PAGES.get(PATHS.probation);
-  const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
-    tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
-    ipsum dui gravida.`;
+  const DESCRIPTION = (
+    <>
+      Probation refers to adults whom the courts place on supervision in the
+      community in lieu of or in addition to incarceration. In North Dakota,
+      probation is managed by the Department of Corrections and Rehabilitation
+      (DOCR).
+    </>
+  );
 
   const SECTIONS = [
     {
       title: SECTION_TITLES[PATHS.probation].population,
-      description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
-        tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
-        ipsum dui gravida.`,
+      description: (
+        <>
+          Judges may sentence people to a period of probation for a Class A
+          misdemeanor crime or greater. Probation can be either a suspended
+          sentence in which the judge has decided on a carceral sentence but has
+          declined to carry it out unless the defendant does not successfully
+          complete a period of probation supervision, or a deferred sentence, in
+          which the defendant has an opportunity for the crime to be recorded as
+          “dismissed” on the criminal record.
+        </>
+      ),
       showLocationControl: true,
       locationControlLabel: "Judicial District",
       VizComponent: VizProbationPopulation,
@@ -49,10 +60,14 @@ export default function PageProbation() {
     },
     {
       title: SECTION_TITLES[PATHS.probation].completion,
-      description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
-      tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
-      ipsum dui gravida.`,
+      description: (
+        <>
+          After probation, a person may be successfully discharged or revoked to
+          prison. Take a look at how the rate of successful probation completion
+          has changed over time, and how the overall rate of successful
+          probation completion varies by demographic.
+        </>
+      ),
       showDimensionControl: true,
       showLocationControl: true,
       locationControlLabel: "Judicial District",
@@ -69,10 +84,14 @@ export default function PageProbation() {
     },
     {
       title: SECTION_TITLES[PATHS.probation].revocations,
-      description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
-      tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
-      ipsum dui gravida.`,
+      description: (
+        <>
+          Revocations happen when a person on probation violates a condition of
+          their supervision or commits a new crime. In North Dakota, probation
+          revocations fall into one of three categories: technical violation,
+          new offense, and absconsion.
+        </>
+      ),
       showDimensionControl: true,
       VizComponent: VizSupervisionRevocation,
       vizData: {
@@ -83,10 +102,15 @@ export default function PageProbation() {
     },
     {
       title: SECTION_TITLES[PATHS.probation].ftr,
-      description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
-      tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
-      ipsum dui gravida.`,
+      description: (
+        <>
+          Free Through Recovery (FTR) is a community based behavioral health
+          program designed to increase recovery support services to individuals
+          involved with the criminal justice system who have behavioral health
+          concerns. The map below shows the number of people enrolled in the FTR
+          program today.
+        </>
+      ),
       VizComponent: VizSupervisionProgram,
       vizData: {
         supervisionProgramParticipationByRegion: apiData.active_program_participation_by_region.filter(
