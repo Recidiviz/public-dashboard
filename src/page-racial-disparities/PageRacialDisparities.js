@@ -186,6 +186,24 @@ function getOverallMetrics(data) {
   return comparedToWhite;
 }
 
+const getRoundedPct = (number) => Number(number.toFixed(2));
+
+const comparePercentagesAsString = (subject, base) => {
+  const roundedSubject = getRoundedPct(subject);
+  const roundedBase = getRoundedPct(base);
+
+  return (
+    <DynamicText>
+      {/* eslint-disable-next-line no-nested-ternary */}
+      {roundedSubject > roundedBase
+        ? "greater"
+        : roundedSubject < roundedBase
+        ? "smaller"
+        : "similar"}
+    </DynamicText>
+  );
+};
+
 // these are for use in inline dynamic text; not necessarily the same as control labels
 const supervisionTypeText = {
   [SUPERVISION_TYPES.parole]: "parole",
@@ -293,7 +311,7 @@ export default function PageRacialDisparities() {
             variations in sentencing add up to significant trends.
           </p>
           <p>
-            In the last 6 months,{" "}
+            In the last 36 months,{" "}
             <DynamicText>
               {formatAsPct(metrics.proportionIncarcerated)}
             </DynamicText>{" "}
@@ -303,13 +321,11 @@ export default function PageRacialDisparities() {
               {formatAsPct(metrics.proportionSupervision)}
             </DynamicText>{" "}
             were on supervision, a{" "}
-            <DynamicText>
-              {metrics.proportionIncarcerated >
+            {comparePercentagesAsString(
+              metrics.proportionIncarcerated,
               metrics.proportionIncarceratedOverall
-                ? "greater"
-                : "smaller"}
-            </DynamicText>{" "}
-            percent incarcerated than the overall distribution of{" "}
+            )}{" "}
+            percentage incarcerated compared to the overall distribution of{" "}
             <DynamicText>
               {formatAsPct(metrics.proportionIncarceratedOverall)}
             </DynamicText>{" "}
@@ -339,7 +355,7 @@ export default function PageRacialDisparities() {
             disparities in the population granted parole.
           </p>
           <p>
-            In the last 6 months, <DynamicText>{ethnonym}</DynamicText>{" "}
+            In the last 36 months, <DynamicText>{ethnonym}</DynamicText>{" "}
             comprised{" "}
             <DynamicText>{formatAsPct(metrics.paroleRate)}</DynamicText> of the
             individuals released on parole. They make up{" "}
@@ -440,7 +456,12 @@ export default function PageRacialDisparities() {
             challenges to succeed on community supervision.{" "}
             <DynamicText>{sentenceCase(ethnonym)}</DynamicText> are{" "}
             <DynamicText>{formatAsPct(metrics.ftrPopulationRate)}</DynamicText>{" "}
-            of referrals to FTR, a greater representation than their overall{" "}
+            of referrals to FTR, a{" "}
+            {comparePercentagesAsString(
+              metrics.ftrPopulationRate,
+              metrics.supervisionMetrics[TOTAL_KEY].populationRate
+            )}{" "}
+            representation compared to their overall{" "}
             <DynamicText>
               {formatAsPct(
                 metrics.supervisionMetrics[TOTAL_KEY].populationRate
