@@ -254,10 +254,11 @@ export default function PageRacialDisparities() {
         times.
       </p>
       <BodySizeP>
-        Due to a very small number of people with a race marked as Asian or
-        Native Hawaiian Pacific Islander in the North Dakota DOCR population
-        these racial groups have been included in the &ldquo;other&rdquo;
-        category.
+        Use the dropdown control on the right to investigate how a specific race
+        is affected by each part of the system. Due to a very small number of
+        people identified as Asian and Native Hawaiian or Other Pacific Islander
+        in the North Dakota DOCR population, these racial groups are included in
+        the &ldquo;Other&rdquo; category.
       </BodySizeP>
     </>
   );
@@ -269,7 +270,7 @@ export default function PageRacialDisparities() {
         <>
           <p>
             Disparities emerge long before a person is incarcerated. By the time
-            someone comes under the state&rsquo;s care, they have been arrested,
+            someone comes under the DOCR&rsquo;s care, they have been arrested,
             charged, convicted, and sentenced.<Footnote>1</Footnote> Even before
             contact with the criminal justice system, disparities in community
             investment (education, housing, healthcare) may play an important
@@ -311,29 +312,30 @@ export default function PageRacialDisparities() {
             variations in sentencing add up to significant trends.
           </p>
           <p>
-            In the last 36 months,{" "}
+            Currently,{" "}
             <DynamicText>
               {formatAsPct(metrics.proportionIncarcerated)}
             </DynamicText>{" "}
-            of <DynamicText>{ethnonym}</DynamicText> under DOCR jurisdiction
-            were incarcerated while{" "}
+            of <DynamicText>{ethnonym}</DynamicText> under DOCR jurisdiction are
+            serving incarceration sentences, while{" "}
             <DynamicText>
               {formatAsPct(metrics.proportionSupervision)}
             </DynamicText>{" "}
-            were on supervision, a{" "}
+            are serving probation sentences, a{" "}
             {comparePercentagesAsString(
               metrics.proportionIncarcerated,
               metrics.proportionIncarceratedOverall
             )}{" "}
-            percentage incarcerated compared to the overall distribution of{" "}
+            percentage serving incarceration sentences compared to the overall
+            distribution of{" "}
             <DynamicText>
               {formatAsPct(metrics.proportionIncarceratedOverall)}
             </DynamicText>{" "}
-            incarcerated and{" "}
+            serving incarceration sentences versus{" "}
             <DynamicText>
               {formatAsPct(metrics.proportionSupervisionOverall)}
             </DynamicText>{" "}
-            on supervision.
+            serving probation sentences.
           </p>
         </>
       ),
@@ -355,8 +357,7 @@ export default function PageRacialDisparities() {
             disparities in the population granted parole.
           </p>
           <p>
-            In the last 36 months, <DynamicText>{ethnonym}</DynamicText>{" "}
-            comprised{" "}
+            In the last 3 years, <DynamicText>{ethnonym}</DynamicText> comprised{" "}
             <DynamicText>{formatAsPct(metrics.paroleRate)}</DynamicText> of the
             individuals released on parole. They make up{" "}
             <DynamicText>
@@ -394,11 +395,11 @@ export default function PageRacialDisparities() {
             <DynamicText>
               {formatAsPct(supervisionTypeMetrics.populationRate)}
             </DynamicText>{" "}
-            of the {supervisionTypeText[supervisionType]} population, but are{" "}
+            of the {supervisionTypeText[supervisionType]} population, but were{" "}
             <DynamicText>
               {formatAsPct(supervisionTypeMetrics.revocationPopulationRate)}
             </DynamicText>{" "}
-            of revocation admissions to prison.
+            of revocation admissions to prison in the last 3 years.
           </p>
           <p>
             Reasons for a revocation can vary:{" "}
