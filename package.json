@@ -39,6 +39,7 @@
     "empty-lite": "^1.0.3",
     "env-cmd": "^10.1.0",
     "express": "^4.17.1",
+    "express-easy-zip": "^1.1.5",
     "helmet": "^3.23.3",
     "morgan": "^1.10.0",
     "npm-run-all": "^4.1.5",
