@@ -325,7 +325,7 @@ export default function PageRacialDisparities() {
               metrics.proportionIncarcerated,
               metrics.proportionIncarceratedOverall
             )}{" "}
-            percent incarcerated than the overall distribution of{" "}
+            percentage incarcerated compared to the overall distribution of{" "}
             <DynamicText>
               {formatAsPct(metrics.proportionIncarceratedOverall)}
             </DynamicText>{" "}
@@ -461,7 +461,7 @@ export default function PageRacialDisparities() {
               metrics.ftrPopulationRate,
               metrics.supervisionMetrics[TOTAL_KEY].populationRate
             )}{" "}
-            representation than their overall{" "}
+            representation compared to their overall{" "}
             <DynamicText>
               {formatAsPct(
                 metrics.supervisionMetrics[TOTAL_KEY].populationRate
