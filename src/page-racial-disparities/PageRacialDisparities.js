@@ -256,7 +256,7 @@ export default function PageRacialDisparities() {
       <BodySizeP>
         Use the dropdown control on the right to investigate how a specific race
         is affected by each part of the system. Due to a very small number of
-        people identified as Asian and Native Hawaiian or other Pacific Islander
+        people identified as Asian and Native Hawaiian or Other Pacific Islander
         in the North Dakota DOCR population, these racial groups are included in
         the &ldquo;Other&rdquo; category.
       </BodySizeP>
