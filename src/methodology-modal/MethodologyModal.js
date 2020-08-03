@@ -108,7 +108,7 @@ const CONTENTS_BY_PAGE = {
         purpose of this dashboard, distributions by race count individuals with
         more than one reported race or ethnicity towards the racial or ethnic
         identity that is least represented in North Dakota’s population. The
-        “Other” category includes Asian and Native Hawaiian or other Pacific
+        “Other” category includes Asian and Native Hawaiian or Other Pacific
         Islander individuals due to low counts of these reported racial
         identities.
       </MethodologyDescription>
