@@ -8,11 +8,7 @@ import { fluidFontSizeStyles } from "../utils";
 import { BODY_FONT_SIZE, CONTAINER_WIDTH } from "../constants";
 import RecidivizSrc from "../assets/icons/recidiviz.svg";
 
-import Cobranding, {
-  BrandingLink,
-  RecidivizBranding,
-  RecidivizBrandingContainer,
-} from "../cobranding";
+import Cobranding from "../cobranding";
 
 const FooterContainer = styled.footer`
   color: ${(props) => props.theme.colors.footer};
@@ -71,6 +67,17 @@ const PrivacyLink = styled.a`
   }
 `;
 
+const RecidivizBrandingContainer = styled.div`
+  align-items: center;
+  display: flex;
+`;
+
+const BrandingLink = styled.a`
+  margin-left: 16px;
+`;
+
+const RecidivizBranding = styled.img``;
+
 export default function Footer() {
   const showExpandedFooter = useBreakpoint(false, ["tablet+", true]);
 
@@ -86,7 +93,7 @@ export default function Footer() {
         </FooterCredits>
         <FooterLegal className={classNames({ expanded: showExpandedFooter })}>
           <RecidivizBrandingContainer>
-            <Cobranding />
+            <Cobranding light />
             <BrandingLink href="https://recidiviz.org">
               <RecidivizBranding alt="Recidiviz" src={RecidivizSrc} />
             </BrandingLink>
