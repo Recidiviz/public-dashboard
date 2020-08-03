@@ -2,9 +2,10 @@ import PropTypes from "prop-types";
 import React, { useState, useCallback } from "react";
 import { FacetController, OrdinalFrame } from "semiotic";
 import styled from "styled-components";
-import { SENTENCE_LENGTH_KEYS, SENTENCE_LENGTHS, THEME } from "../constants";
 import ChartWrapper from "../chart-wrapper";
+import { SENTENCE_LENGTH_KEYS, SENTENCE_LENGTHS, THEME } from "../constants";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
+import { getDataWithPct, formatAsPct } from "../utils";
 
 const CHART_HEIGHT = 360;
 const CHART_MIN_WIDTH = 320;
@@ -43,24 +44,30 @@ export default function BarChartTrellis({ data, width }) {
   }
 
   const axes = [
-    { baseline: false, orient: "left", tickLineGenerator: () => null },
+    {
+      baseline: false,
+      orient: "left",
+      tickFormat: formatAsPct,
+      tickLineGenerator: () => null,
+    },
   ];
 
   const renderTooltip = (columnData) => {
     const {
       summary: [d],
     } = columnData;
-
     return {
       title: selectedChartTitle || "",
       records: [
         {
-          label: `${d.column} year${
-            d.column === SENTENCE_LENGTHS.get(SENTENCE_LENGTH_KEYS.lessThanOne)
+          label: `${d.data.label} year${
+            d.data.label ===
+            SENTENCE_LENGTHS.get(SENTENCE_LENGTH_KEYS.lessThanOne)
               ? ""
               : "s"
           }`,
-          value: d.value,
+          pct: d.data.pct,
+          value: d.data.value,
         },
       ],
     };
@@ -90,8 +97,7 @@ export default function BarChartTrellis({ data, width }) {
               return <ColumnLabel>{`${label}${postfix}`}</ColumnLabel>;
             }}
             oPadding={8}
-            rAccessor="value"
-            sharedRExtent
+            rAccessor="pct"
             size={[chartWidth, CHART_HEIGHT]}
             style={(d) => ({
               fill:
@@ -113,13 +119,14 @@ export default function BarChartTrellis({ data, width }) {
                   setSelectedChartTitle(title);
                   customHoverBehavior(d);
                 }}
-                data={chartData}
+                data={getDataWithPct(chartData)}
                 // using indices actually makes a better experience here;
                 // the charts animate in and out based on how many there are
                 // and we avoid bugs that happen when values change but the
                 // identifiers (i.e. titles) stay the same
                 // eslint-disable-next-line react/no-array-index-key
                 key={index}
+                rExtent={[0, 1]}
                 title={
                   <ChartTitle x={0 - chartWidth / 2 + MARGIN.left}>
                     {title}
