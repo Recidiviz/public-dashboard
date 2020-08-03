@@ -20,6 +20,10 @@ export default function PageRoutes() {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
+  useEffect(() => {
+    window.analytics.page(location.pathname);
+  }, [location.pathname]);
+
   return (
     <PagesContainer>
       <Router>
