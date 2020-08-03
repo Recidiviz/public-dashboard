@@ -8,11 +8,7 @@ import { fluidFontSizeStyles } from "../utils";
 import { BODY_FONT_SIZE, CONTAINER_WIDTH } from "../constants";
 import RecidivizSrc from "../assets/icons/recidiviz.svg";
 
-import Cobranding, {
-  BrandingLink,
-  RecidivizBranding,
-  RecidivizBrandingContainer,
-} from "../cobranding";
+import Cobranding from "../cobranding";
 
 const FooterContainer = styled.footer`
   color: ${(props) => props.theme.colors.footer};
@@ -70,6 +66,17 @@ const PrivacyLink = styled.a`
     color: ${(props) => props.theme.colors.footer};
   }
 `;
+
+const RecidivizBrandingContainer = styled.div`
+  align-items: center;
+  display: flex;
+`;
+
+const BrandingLink = styled.a`
+  margin-left: 16px;
+`;
+
+const RecidivizBranding = styled.img``;
 
 export default function Footer() {
   const showExpandedFooter = useBreakpoint(false, ["tablet+", true]);
