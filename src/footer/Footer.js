@@ -86,7 +86,7 @@ export default function Footer() {
         </FooterCredits>
         <FooterLegal className={classNames({ expanded: showExpandedFooter })}>
           <RecidivizBrandingContainer>
-            <Cobranding />
+            <Cobranding light />
             <BrandingLink href="https://recidiviz.org">
               <RecidivizBranding alt="Recidiviz" src={RecidivizSrc} />
             </BrandingLink>
