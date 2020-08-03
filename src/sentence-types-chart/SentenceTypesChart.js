@@ -28,7 +28,7 @@ const SourceValue = styled.text`
   font-size: ${SOURCE_VALUE_SIZE}px;
   letter-spacing: -0.09em;
   transform: ${sourceLabelXOffsetTransform}
-    translateY(-${(props) => props.yOffset - SOURCE_VALUE_SIZE}px);
+    translateY(${(props) => -(props.yOffset - SOURCE_VALUE_SIZE)}px);
 `;
 
 const SOURCE_LABEL_SIZE = 16;
@@ -39,7 +39,8 @@ const SourceLabel = styled.text`
   font-size: ${SOURCE_LABEL_SIZE}px;
   transform: ${sourceLabelXOffsetTransform}
     translateY(
-      -${(props) => props.yOffset - SOURCE_VALUE_SIZE - SOURCE_LABEL_SIZE - 8}px
+      ${(props) =>
+        -(props.yOffset - SOURCE_VALUE_SIZE - SOURCE_LABEL_SIZE - 8)}px
     );
 `;
 
