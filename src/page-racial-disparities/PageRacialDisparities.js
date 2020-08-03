@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import DetailPage from "../detail-page";
 import {
+  ALL_PAGES,
+  PATHS,
   RACE_LABELS,
   RACES,
+  SECTION_TITLES,
   SUPERVISION_TYPES,
   TOTAL_KEY,
   VIOLATION_TYPES,
@@ -234,7 +237,7 @@ export default function PageRacialDisparities() {
 
   const ethnonym = ETHNONYMS[category];
 
-  const TITLE = "Racial Disparities";
+  const TITLE = ALL_PAGES.get(PATHS.race);
   const DESCRIPTION = (
     <>
       <p>
@@ -265,7 +268,7 @@ export default function PageRacialDisparities() {
 
   const SECTIONS = [
     {
-      title: "Disparities are already present before incarceration",
+      title: SECTION_TITLES[PATHS.race].beforeIncarceration,
       description: (
         <>
           <p>
@@ -300,7 +303,7 @@ export default function PageRacialDisparities() {
       },
     },
     {
-      title: "How can sentencing impact disparities?",
+      title: SECTION_TITLES[PATHS.race].sentencing,
       description: (
         <>
           <p>
@@ -341,7 +344,7 @@ export default function PageRacialDisparities() {
       ),
     },
     {
-      title: "How can parole grant rates impact disparities?",
+      title: SECTION_TITLES[PATHS.race].parole,
       description: (
         <>
           <p>
@@ -369,7 +372,7 @@ export default function PageRacialDisparities() {
       ),
     },
     {
-      title: "How can community supervision impact disparities?",
+      title: SECTION_TITLES[PATHS.race].supervision,
       otherControls: (
         <Dropdown
           label="Supervision Type"
@@ -443,7 +446,7 @@ export default function PageRacialDisparities() {
       },
     },
     {
-      title: "Can programming help reduce disparities?",
+      title: SECTION_TITLES[PATHS.race].programming,
       description: (
         <>
           <p>
@@ -474,8 +477,7 @@ export default function PageRacialDisparities() {
       ),
     },
     {
-      title:
-        "What are we doing to further improve disparities in criminal justice in North Dakota?",
+      title: SECTION_TITLES[PATHS.race].furtherImprovement,
       description: (
         <>
           <p>

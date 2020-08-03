@@ -17,6 +17,40 @@ export const PATHS = {
   race: "race",
 };
 
+export const SECTION_TITLES = {
+  [PATHS.sentencing]: {
+    population: "Who is being sentenced?",
+    types: "What types of sentences do people receive?",
+  },
+  [PATHS.prison]: {
+    population: "Who is in prison?",
+    reasons: "How did they get there?",
+    terms: "How long are they there?",
+    releases: "Where do they go from there?",
+  },
+  [PATHS.probation]: {
+    population: "Who is on probation?",
+    completion: "What happens after probation?",
+    revocations: "Why do revocations happen?",
+    ftr: "Free Through Recovery program",
+  },
+  [PATHS.parole]: {
+    population: "Who is on parole?",
+    completion: "What happens after parole?",
+    revocations: "Why do revocations happen?",
+    ftr: "Free Through Recovery program",
+  },
+  [PATHS.race]: {
+    beforeIncarceration: "Disparities are already present before incarceration",
+    sentencing: "How can sentencing impact disparities?",
+    parole: "How can parole grant rates impact disparities?",
+    supervision: "How can community supervision impact disparities?",
+    programming: "Can programming help reduce disparities?",
+    furtherImprovement:
+      "What are we doing to further improve disparities in criminal justice in North Dakota?",
+  },
+};
+
 export const DETAIL_PAGES = new Map([
   [PATHS.sentencing, "Sentencing"],
   [PATHS.prison, "Prison"],

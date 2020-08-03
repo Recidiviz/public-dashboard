@@ -1,5 +1,10 @@
 import React from "react";
-import { SUPERVISION_TYPES } from "../constants";
+import {
+  ALL_PAGES,
+  PATHS,
+  SECTION_TITLES,
+  SUPERVISION_TYPES,
+} from "../constants";
 import DetailPage from "../detail-page";
 import { recordIsMetricPeriodMonths } from "../utils";
 import useChartData from "../hooks/useChartData";
@@ -19,7 +24,7 @@ export default function PageProbation() {
   const recordIsProbation = (record) =>
     record.supervision_type === SUPERVISION_TYPES.probation;
 
-  const TITLE = "Probation";
+  const TITLE = ALL_PAGES.get(PATHS.probation);
   const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
@@ -27,7 +32,7 @@ export default function PageProbation() {
 
   const SECTIONS = [
     {
-      title: "Who is on probation?",
+      title: SECTION_TITLES[PATHS.probation].population,
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
         tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
@@ -43,7 +48,7 @@ export default function PageProbation() {
       },
     },
     {
-      title: "What happens after probation?",
+      title: SECTION_TITLES[PATHS.probation].completion,
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
       tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
@@ -63,7 +68,7 @@ export default function PageProbation() {
       },
     },
     {
-      title: "Why do revocations happen?",
+      title: SECTION_TITLES[PATHS.probation].revocations,
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
       tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
@@ -77,7 +82,7 @@ export default function PageProbation() {
       },
     },
     {
-      title: "Free Through Recovery Program",
+      title: SECTION_TITLES[PATHS.probation].ftr,
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
       tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,

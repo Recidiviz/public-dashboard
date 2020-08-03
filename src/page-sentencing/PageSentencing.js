@@ -4,6 +4,7 @@ import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
 import VizSentencePopulation from "../viz-sentence-population";
 import VizSentenceTypes from "../viz-sentence-types";
+import { PATHS, ALL_PAGES, SECTION_TITLES } from "../constants";
 
 export default function PageSentencing() {
   const { apiData, isLoading } = useChartData("us_nd/sentencing");
@@ -12,7 +13,7 @@ export default function PageSentencing() {
     return <Loading />;
   }
 
-  const TITLE = "Sentencing";
+  const TITLE = ALL_PAGES.get(PATHS.sentencing);
   const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
     tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
@@ -20,7 +21,7 @@ export default function PageSentencing() {
 
   const SECTIONS = [
     {
-      title: "Who is being sentenced?",
+      title: SECTION_TITLES[PATHS.sentencing].population,
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
       tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
@@ -35,7 +36,7 @@ export default function PageSentencing() {
       },
     },
     {
-      title: "What types of sentences do people receive?",
+      title: SECTION_TITLES[PATHS.sentencing].types,
       description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
       tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
