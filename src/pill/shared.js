@@ -20,4 +20,10 @@ export const PillValue = styled.span`
   justify-content: center;
   min-width: ${PILL_HEIGHT * 1.5}px;
   padding: 8px ${PILL_HEIGHT / 2}px;
+  transition: background-color
+    ${(props) => props.theme.transition.defaultTimeSettings};
+
+  &:hover {
+    background: ${(props) => props.theme.colors.pillBackgroundHover};
+  }
 `;

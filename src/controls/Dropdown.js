@@ -38,9 +38,11 @@ const DropdownWrapper = styled(ControlContainer)`
 
 const DropdownMenu = styled.div`
   ${controlTypeProperties}
+
   background: ${(props) => props.theme.colors.controlBackground};
+  border-radius: 15px;
   list-style: none;
-  padding: 12px 18px;
+  padding: 12px 0;
   position: relative;
   white-space: nowrap;
   z-index: ${(props) => props.theme.zIndex.menu};
@@ -54,12 +56,13 @@ const DropdownMenu = styled.div`
 
   [data-reach-menu-item] {
     cursor: pointer;
-    margin: 8px 0;
+    padding: 6px 18px;
+    transition: all ${(props) => props.theme.transition.defaultTimeSettings};
 
     &[data-selected],
     &:hover {
-      color: ${(props) => props.theme.colors.highlight};
-      text-decoration: underline;
+      background: ${(props) => props.theme.colors.highlight};
+      color: ${(props) => props.theme.colors.bodyLight};
     }
   }
 `;
@@ -95,7 +98,12 @@ export default function Dropdown({
 
   return (
     <DropdownWrapper
-      className={classNames({ "Dropdown--highlighted": highlighted })}
+      className={classNames({
+        "Dropdown--highlighted":
+          // selecting something other than the default (first) option
+          // causes a highlight
+          highlighted || currentOptionId !== options[0].id,
+      })}
     >
       <Menu>
         <ControlContainer>
