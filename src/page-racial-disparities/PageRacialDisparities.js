@@ -379,7 +379,7 @@ export default function PageRacialDisparities() {
           <p>
             In the last 3 years, <DynamicText>{ethnonym}</DynamicText> comprised{" "}
             <DynamicText>{formatAsPct(metrics.paroleRate36Mo)}</DynamicText> of
-            the individuals released on parole. They make up{" "}
+            the individuals released on parole. They made up{" "}
             <DynamicText>
               {formatAsPct(metrics.prisonPopulationRate36Mo)}
             </DynamicText>{" "}
