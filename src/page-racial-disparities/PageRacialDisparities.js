@@ -383,7 +383,7 @@ export default function PageRacialDisparities() {
             <DynamicText>
               {formatAsPct(metrics.prisonPopulationRate36Mo)}
             </DynamicText>{" "}
-            of the overall prison population.
+            of the overall prison population during that time.
           </p>
         </>
       ),
@@ -479,7 +479,7 @@ export default function PageRacialDisparities() {
             <DynamicText>
               {formatAsPct(metrics.ftrPopulationRateCurrent)}
             </DynamicText>{" "}
-            of referrals to FTR, a{" "}
+            of active participants in FTR, a{" "}
             {comparePercentagesAsString(
               metrics.ftrPopulationRateCurrent,
               metrics.supervisionPopulationRateCurrent
@@ -488,7 +488,7 @@ export default function PageRacialDisparities() {
             <DynamicText>
               {formatAsPct(metrics.supervisionPopulationRateCurrent)}
             </DynamicText>{" "}
-            of the supervision population.
+            of the current supervision population.
           </p>
         </>
       ),
