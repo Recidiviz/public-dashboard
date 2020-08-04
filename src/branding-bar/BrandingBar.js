@@ -1,5 +1,6 @@
-import classNames from "classnames";
+import { Link } from "@reach/router";
 import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
+import classNames from "classnames";
 import React from "react";
 import useCollapse from "react-collapsed";
 import styled, { css } from "styled-components";
@@ -11,6 +12,7 @@ import Cobranding from "../cobranding";
 import {
   COLLAPSIBLE_NAV_BREAKPOINT,
   CONTAINER_WIDTH,
+  DEFAULT_TENANT,
   THEME,
   X_PADDING,
 } from "../constants";
@@ -57,6 +59,10 @@ const BrandingBarWrapper = styled.header`
   padding: 0 ${X_PADDING}px;
   transition: height ${(props) => props.theme.transition.defaultTimeSettings};
   width: 100%;
+
+  .home-link {
+    text-decoration: none;
+  }
 
   ${mediaQuery([
     COLLAPSIBLE_NAV_BREAKPOINT,
@@ -220,15 +226,17 @@ export default function BrandingBar() {
         expanded: isExpanded,
       })}
     >
-      <BrandingBarHeader>
-        <Logo alt="Recidiviz" src={LogoIconSrc} />
-        <BrandingBarTitleWrapper>
-          <BrandingBarTitle>{SITE_TITLE}</BrandingBarTitle>
-          <BrandingBarSubtitle>
-            A Spotlight Dashboard by Recidiviz
-          </BrandingBarSubtitle>
-        </BrandingBarTitleWrapper>
-      </BrandingBarHeader>
+      <Link className="home-link" to={`/${DEFAULT_TENANT}`}>
+        <BrandingBarHeader>
+          <Logo alt="Recidiviz" src={LogoIconSrc} />
+          <BrandingBarTitleWrapper>
+            <BrandingBarTitle>{SITE_TITLE}</BrandingBarTitle>
+            <BrandingBarSubtitle>
+              A Spotlight Dashboard by Recidiviz
+            </BrandingBarSubtitle>
+          </BrandingBarTitleWrapper>
+        </BrandingBarHeader>
+      </Link>
       {!useCollapsibleNav && (
         <BrandingBarLinkListWrapper>
           <BrandingBarLinkList>
