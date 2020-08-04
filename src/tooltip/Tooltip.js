@@ -11,6 +11,7 @@ const TooltipWrapper = styled.div`
   font: ${(props) => props.theme.fonts.body};
   font-size: 14px;
   padding: 16px;
+  position: relative;
   z-index: ${(props) => props.theme.zIndex.tooltip};
 
   .InfoPanel & {
