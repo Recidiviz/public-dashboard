@@ -31,17 +31,24 @@ export default function PageParole() {
   });
 
   const TITLE = ALL_PAGES.get(PATHS.parole);
-  const DESCRIPTION = `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
-    tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
-    ipsum dui gravida.`;
+  const DESCRIPTION = (
+    <>
+      Parole is a period of supervised release after prison. Releases from
+      prison to parole are granted by the parole board. People on parole must
+      regularly check in with their parole officer, who ensures that they are
+      following all the requirements of the release. If these expectations are
+      violated, the person’s parole may be revoked.
+    </>
+  );
   const SECTIONS = [
     {
       title: SECTION_TITLES[PATHS.parole].population,
-      description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
-      tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
-      ipsum dui gravida.`,
+      description: (
+        <>
+          Parole is granted to people in prison with a track record of good
+          behavior as a way to complete their sentences in their communities.
+        </>
+      ),
       showLocationControl: true,
       locationControlLabel: "Office",
       VizComponent: VizParolePopulation,
@@ -54,10 +61,14 @@ export default function PageParole() {
     },
     {
       title: SECTION_TITLES[PATHS.parole].completion,
-      description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
-      tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
-      ipsum dui gravida.`,
+      description: (
+        <>
+          After parole, a person may be successfully discharged or revoked to
+          prison. Take a look at how the rate of successful parole completion
+          has changed over time, and how the overall rate of successful parole
+          completion varies by demographic.
+        </>
+      ),
       showDimensionControl: true,
       showLocationControl: true,
       locationControlLabel: "Office",
@@ -74,10 +85,14 @@ export default function PageParole() {
     },
     {
       title: SECTION_TITLES[PATHS.parole].revocations,
-      description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
-      tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
-      ipsum dui gravida.`,
+      description: (
+        <>
+          Revocations happen when a person on parole violates a condition of
+          their supervision or commits a new crime. In North Dakota, parole
+          revocations fall into one of three categories: technical violation,
+          new offense, and absconsion.
+        </>
+      ),
       showDimensionControl: true,
       VizComponent: VizSupervisionRevocation,
       vizData: {
@@ -88,10 +103,15 @@ export default function PageParole() {
     },
     {
       title: SECTION_TITLES[PATHS.parole].ftr,
-      description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Vestibulum in finibus tellus, et ullamcorper augue. Quisque eleifend
-      tortor vitae iaculis egestas. Donec dictum, nunc nec tincidunt cursus,
-      ipsum dui gravida.`,
+      description: (
+        <>
+          Free Through Recovery (FTR) is a community based behavioral health
+          program designed to increase recovery support services to individuals
+          involved with the criminal justice system who have behavioral health
+          concerns. The map below shows the number of people enrolled in the FTR
+          program today.
+        </>
+      ),
       VizComponent: VizSupervisionProgram,
       vizData: {
         supervisionProgramParticipationByRegion: apiData.active_program_participation_by_region.filter(

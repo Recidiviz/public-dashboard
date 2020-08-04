@@ -85,11 +85,8 @@ export default function Footer() {
     <FooterContainer>
       <FooterContent>
         <FooterCredits className={classNames({ expanded: showExpandedFooter })}>
-          This dashboard was made in collaborations with lorem ipsum dolor sit
-          amet, consectetur adipiscing elit. In tincidunt cras diam venenatis,
-          id praesent in dignissim. Urna ut justo et et sed ut convallis aliquam
-          fermentum. Vel vehicula purus diam lorem sed interdum hendrerit. Eu
-          neque sed urna lacus donec iaculis sapien.
+          This dashboard was created in collaboration with the North Dakota
+          Department of Corrections and Rehabilitation (ND DOCR).
         </FooterCredits>
         <FooterLegal className={classNames({ expanded: showExpandedFooter })}>
           <RecidivizBrandingContainer>
