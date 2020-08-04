@@ -518,7 +518,7 @@ const northDakotaTheme = {
     },
     sliderThumb: ndColors.brandTeal,
     statistic: ndColors.textPrimary,
-    tooltipBackground: ndColors.black,
+    tooltipBackground: ndColors.textPrimary,
     violationReasons: {
       [VIOLATION_TYPES.abscond]: ndColors.dataViz1,
       [VIOLATION_TYPES.offend]: ndColors.dataViz2,
