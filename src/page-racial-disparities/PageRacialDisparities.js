@@ -17,9 +17,9 @@ import Loading from "../loading";
 import { formatAsPct, sentenceCase } from "../utils";
 import {
   DynamicText,
-  getCorrectionsPopulation,
-  getSupervisionCounts,
+  getSupervisionCounts36Mo,
   matchRace,
+  getCorrectionsPopulationCurrent,
 } from "./helpers";
 import VizPopulationDisparity from "./VizPopulationDisparity";
 import VizRevocationDisparity from "./VizRevocationDisparity";
@@ -64,102 +64,110 @@ function getMetricsForGroup(data, category) {
   const totals = data.find(matchRace(TOTAL_KEY));
   const selected = data.find(matchRace(category));
 
-  const populationRate =
+  const populationRateCurrent =
     selected.total_state_population / totals.total_state_population;
 
-  const incarceratedPopulation = selected.total_incarcerated_population;
-  const incarceratedPopulationOverall = totals.total_incarcerated_population;
-  const parolePopulation = selected.total_parole_population;
-  const parolePopulationOverall = totals.total_parole_population;
-  const probationPopulation = selected.total_probation_population;
-  const probationPopulationOverall = totals.total_probation_population;
-  const totalSentenced = selected.total_sentenced_count;
-  const totalSentencedOverall = totals.total_sentenced_count;
+  const incarceratedPopulation36Mo =
+    selected.total_incarcerated_population_36_mo;
+  const incarceratedPopulationOverall36Mo =
+    totals.total_incarcerated_population_36_mo;
+  const totalSentencedCurrent = selected.current_total_sentenced_count;
+  const totalSentencedOverallCurrent = totals.current_total_sentenced_count;
 
-  const supervisionPopulation = parolePopulation + probationPopulation;
-  const supervisionPopulationOverall =
-    parolePopulationOverall + probationPopulationOverall;
+  const supervisionPopulationCurrent = selected.current_supervision_population;
+  const supervisionPopulationOverallCurrent =
+    totals.current_supervision_population;
 
-  const correctionsPopulation = incarceratedPopulation + supervisionPopulation;
-  const correctionsPopulationOverall =
-    incarceratedPopulationOverall + supervisionPopulationOverall;
+  const correctionsPopulationCurrent = getCorrectionsPopulationCurrent(
+    selected
+  );
+  const correctionsPopulationOverallCurrent = getCorrectionsPopulationCurrent(
+    totals
+  );
 
-  const correctionsPopulationRate =
-    correctionsPopulation / correctionsPopulationOverall;
+  const correctionsPopulationRateCurrent =
+    correctionsPopulationCurrent / correctionsPopulationOverallCurrent;
 
-  const proportionIncarcerated =
-    selected.incarceration_sentence_count / totalSentenced;
+  const proportionIncarceratedCurrent =
+    selected.current_incarceration_sentence_count / totalSentencedCurrent;
 
-  const proportionSupervision =
-    selected.probation_sentence_count / totalSentenced;
+  const proportionSupervisionCurrent =
+    selected.current_probation_sentence_count / totalSentencedCurrent;
 
-  const proportionIncarceratedOverall =
-    totals.incarceration_sentence_count / totalSentencedOverall;
-  const proportionSupervisionOverall =
-    totals.probation_sentence_count / totalSentencedOverall;
+  const proportionIncarceratedOverallCurrent =
+    totals.current_incarceration_sentence_count / totalSentencedOverallCurrent;
+  const proportionSupervisionOverallCurrent =
+    totals.current_probation_sentence_count / totalSentencedOverallCurrent;
 
-  const paroleRate =
-    selected.parole_release_count / totals.parole_release_count;
+  const paroleRate36Mo =
+    selected.parole_release_count_36_mo / totals.parole_release_count_36_mo;
 
-  const prisonPopulationRate =
-    incarceratedPopulation / incarceratedPopulationOverall;
+  const prisonPopulationRate36Mo =
+    incarceratedPopulation36Mo / incarceratedPopulationOverall36Mo;
 
-  const supervisionTotals = getSupervisionCounts(totals);
-  const supervisionSelected = getSupervisionCounts(selected);
-  const supervisionMetrics = {};
+  const supervisionTotals36Mo = getSupervisionCounts36Mo(totals);
+  const supervisionSelected36Mo = getSupervisionCounts36Mo(selected);
+  const supervisionMetrics36Mo = {};
 
   [...Object.values(SUPERVISION_TYPES), TOTAL_KEY].forEach(
     (supervisionType) => {
-      const totalCounts = supervisionTotals[supervisionType];
-      const selectedCounts = supervisionSelected[supervisionType];
+      const totalCounts36Mo = supervisionTotals36Mo[supervisionType];
+      const selectedCounts36Mo = supervisionSelected36Mo[supervisionType];
 
-      supervisionMetrics[supervisionType] = {
-        populationRate: selectedCounts.population / totalCounts.population,
+      supervisionMetrics36Mo[supervisionType] = {
+        populationRate:
+          selectedCounts36Mo.population / totalCounts36Mo.population,
         revocationPopulationRate:
-          selectedCounts.totalRevocations / totalCounts.totalRevocations,
+          selectedCounts36Mo.totalRevocations /
+          totalCounts36Mo.totalRevocations,
         technicalRate:
-          selectedCounts[VIOLATION_TYPES.technical] /
-          selectedCounts.totalRevocations,
+          selectedCounts36Mo[VIOLATION_TYPES.technical] /
+          selectedCounts36Mo.totalRevocations,
         technicalRateOverall:
-          totalCounts[VIOLATION_TYPES.technical] / totalCounts.totalRevocations,
+          totalCounts36Mo[VIOLATION_TYPES.technical] /
+          totalCounts36Mo.totalRevocations,
         absconsionRate:
-          selectedCounts[VIOLATION_TYPES.abscond] /
-          selectedCounts.totalRevocations,
+          selectedCounts36Mo[VIOLATION_TYPES.abscond] /
+          selectedCounts36Mo.totalRevocations,
         absconsionRateOverall:
-          totalCounts[VIOLATION_TYPES.abscond] / totalCounts.totalRevocations,
+          totalCounts36Mo[VIOLATION_TYPES.abscond] /
+          totalCounts36Mo.totalRevocations,
         newOffenseRate:
-          selectedCounts[VIOLATION_TYPES.offend] /
-          selectedCounts.totalRevocations,
+          selectedCounts36Mo[VIOLATION_TYPES.offend] /
+          selectedCounts36Mo.totalRevocations,
         newOffenseRateOverall:
-          totalCounts[VIOLATION_TYPES.offend] / totalCounts.totalRevocations,
+          totalCounts36Mo[VIOLATION_TYPES.offend] /
+          totalCounts36Mo.totalRevocations,
       };
     }
   );
 
-  const ftrPopulationRate =
-    selected.ftr_referral_count / totals.ftr_referral_count;
-  const pretrialPopulationRate =
-    selected.pretrial_enrollment_count / totals.pretrial_enrollment_count;
+  const ftrPopulationRateCurrent =
+    selected.current_ftr_participation_count /
+    totals.current_ftr_participation_count;
+
+  const supervisionPopulationRateCurrent =
+    supervisionPopulationCurrent / supervisionPopulationOverallCurrent;
 
   return {
-    populationRate,
-    correctionsPopulationRate,
-    proportionIncarcerated,
-    proportionSupervision,
-    proportionIncarceratedOverall,
-    proportionSupervisionOverall,
-    paroleRate,
-    prisonPopulationRate,
-    supervisionMetrics,
-    ftrPopulationRate,
-    pretrialPopulationRate,
+    correctionsPopulationRateCurrent,
+    ftrPopulationRateCurrent,
+    paroleRate36Mo,
+    populationRateCurrent,
+    prisonPopulationRate36Mo,
+    proportionIncarceratedCurrent,
+    proportionIncarceratedOverallCurrent,
+    proportionSupervisionCurrent,
+    proportionSupervisionOverallCurrent,
+    supervisionMetrics36Mo,
+    supervisionPopulationRateCurrent,
   };
 }
 
-const getCorrectionsRate = (record) => {
-  const correctionsPop = getCorrectionsPopulation(record);
-  const statePop = record.total_state_population;
-  return correctionsPop / statePop;
+const getCorrectionsRateCurrent = (record) => {
+  const correctionsPopCurrent = getCorrectionsPopulationCurrent(record);
+  const statePopCurrent = record.total_state_population;
+  return correctionsPopCurrent / statePopCurrent;
 };
 
 function getOverallMetrics(data) {
@@ -170,20 +178,26 @@ function getOverallMetrics(data) {
   const hispanic = data.find(matchRace(RACES.hispanic));
   const total = data.find(matchRace(TOTAL_KEY));
 
-  const totalCorrectionsRate = getCorrectionsRate(total);
+  const totalCorrectionsRateCurrent = getCorrectionsRateCurrent(total);
 
-  const whiteCorrectionsRate = getCorrectionsRate(white);
+  const whiteCorrectionsRateCurrent = getCorrectionsRateCurrent(white);
 
-  const whiteLikelihood = whiteCorrectionsRate / totalCorrectionsRate;
+  const whiteLikelihoodCurrent =
+    whiteCorrectionsRateCurrent / totalCorrectionsRateCurrent;
 
   const comparedToWhite = {
-    black: getCorrectionsRate(black) / totalCorrectionsRate / whiteLikelihood,
+    black:
+      getCorrectionsRateCurrent(black) /
+      totalCorrectionsRateCurrent /
+      whiteLikelihoodCurrent,
     hispanic:
-      getCorrectionsRate(hispanic) / totalCorrectionsRate / whiteLikelihood,
+      getCorrectionsRateCurrent(hispanic) /
+      totalCorrectionsRateCurrent /
+      whiteLikelihoodCurrent,
     nativeAmerican:
-      getCorrectionsRate(nativeAmerican) /
-      totalCorrectionsRate /
-      whiteLikelihood,
+      getCorrectionsRateCurrent(nativeAmerican) /
+      totalCorrectionsRateCurrent /
+      whiteLikelihoodCurrent,
   };
 
   return comparedToWhite;
@@ -232,7 +246,8 @@ export default function PageRacialDisparities() {
   const racialDisparityCounts = apiData.racial_disparities.map(typecast);
 
   const metrics = getMetricsForGroup(racialDisparityCounts, category);
-  const supervisionTypeMetrics = metrics.supervisionMetrics[supervisionType];
+  const supervisionTypeMetrics36Mo =
+    metrics.supervisionMetrics36Mo[supervisionType];
   const overallMetrics = getOverallMetrics(racialDisparityCounts);
 
   const ethnonym = ETHNONYMS[category];
@@ -281,10 +296,12 @@ export default function PageRacialDisparities() {
           </p>
           <p>
             <DynamicText>{sentenceCase(ethnonym)}</DynamicText> make up{" "}
-            <DynamicText>{formatAsPct(metrics.populationRate)}</DynamicText> of
-            North Dakota&rsquo;s population, but{" "}
             <DynamicText>
-              {formatAsPct(metrics.correctionsPopulationRate)}
+              {formatAsPct(metrics.populationRateCurrent)}
+            </DynamicText>{" "}
+            of North Dakota&rsquo;s population, but{" "}
+            <DynamicText>
+              {formatAsPct(metrics.correctionsPopulationRateCurrent)}
             </DynamicText>{" "}
             of the population sentenced to time under DOCR control.
           </p>
@@ -317,26 +334,26 @@ export default function PageRacialDisparities() {
           <p>
             Currently,{" "}
             <DynamicText>
-              {formatAsPct(metrics.proportionIncarcerated)}
+              {formatAsPct(metrics.proportionIncarceratedCurrent)}
             </DynamicText>{" "}
             of <DynamicText>{ethnonym}</DynamicText> under DOCR jurisdiction are
             serving incarceration sentences, while{" "}
             <DynamicText>
-              {formatAsPct(metrics.proportionSupervision)}
+              {formatAsPct(metrics.proportionSupervisionCurrent)}
             </DynamicText>{" "}
             are serving probation sentences, a{" "}
             {comparePercentagesAsString(
-              metrics.proportionIncarcerated,
-              metrics.proportionIncarceratedOverall
+              metrics.proportionIncarceratedCurrent,
+              metrics.proportionIncarceratedOverallCurrent
             )}{" "}
             percentage serving incarceration sentences compared to the overall
             distribution of{" "}
             <DynamicText>
-              {formatAsPct(metrics.proportionIncarceratedOverall)}
+              {formatAsPct(metrics.proportionIncarceratedOverallCurrent)}
             </DynamicText>{" "}
             serving incarceration sentences versus{" "}
             <DynamicText>
-              {formatAsPct(metrics.proportionSupervisionOverall)}
+              {formatAsPct(metrics.proportionSupervisionOverallCurrent)}
             </DynamicText>{" "}
             serving probation sentences.
           </p>
@@ -361,12 +378,12 @@ export default function PageRacialDisparities() {
           </p>
           <p>
             In the last 3 years, <DynamicText>{ethnonym}</DynamicText> comprised{" "}
-            <DynamicText>{formatAsPct(metrics.paroleRate)}</DynamicText> of the
-            individuals released on parole. They make up{" "}
+            <DynamicText>{formatAsPct(metrics.paroleRate36Mo)}</DynamicText> of
+            the individuals released on parole. They make up{" "}
             <DynamicText>
-              {formatAsPct(metrics.prisonPopulationRate)}
+              {formatAsPct(metrics.prisonPopulationRate36Mo)}
             </DynamicText>{" "}
-            of the overall prison population.
+            of the overall prison population during that time.
           </p>
         </>
       ),
@@ -396,11 +413,11 @@ export default function PageRacialDisparities() {
           <p>
             <DynamicText>{sentenceCase(ethnonym)}</DynamicText> represent{" "}
             <DynamicText>
-              {formatAsPct(supervisionTypeMetrics.populationRate)}
+              {formatAsPct(supervisionTypeMetrics36Mo.populationRate)}
             </DynamicText>{" "}
             of the {supervisionTypeText[supervisionType]} population, but were{" "}
             <DynamicText>
-              {formatAsPct(supervisionTypeMetrics.revocationPopulationRate)}
+              {formatAsPct(supervisionTypeMetrics36Mo.revocationPopulationRate)}
             </DynamicText>{" "}
             of revocation admissions to prison in the last 3 years.
           </p>
@@ -408,30 +425,30 @@ export default function PageRacialDisparities() {
             Reasons for a revocation can vary:{" "}
             <DynamicText>{ethnonym}</DynamicText> are revoked{" "}
             <DynamicText>
-              {formatAsPct(supervisionTypeMetrics.technicalRate)}
+              {formatAsPct(supervisionTypeMetrics36Mo.technicalRate)}
             </DynamicText>{" "}
             of the time for technical violations (a rule of{" "}
             {supervisionTypeText[supervisionType]}, rather than a crime),{" "}
             <DynamicText>
-              {formatAsPct(supervisionTypeMetrics.absconsionRate)}
+              {formatAsPct(supervisionTypeMetrics36Mo.absconsionRate)}
             </DynamicText>{" "}
             of the time for absconsion from{" "}
             {supervisionTypeText[supervisionType]}, and{" "}
             <DynamicText>
-              {formatAsPct(supervisionTypeMetrics.newOffenseRate)}
+              {formatAsPct(supervisionTypeMetrics36Mo.newOffenseRate)}
             </DynamicText>{" "}
             of the time for new crimes. In contrast, overall revocations for
             technical violations are{" "}
             <DynamicText>
-              {formatAsPct(supervisionTypeMetrics.technicalRateOverall)}
+              {formatAsPct(supervisionTypeMetrics36Mo.technicalRateOverall)}
             </DynamicText>
             , revocations for absconsion{" "}
             <DynamicText>
-              {formatAsPct(supervisionTypeMetrics.absconsionRateOverall)}
+              {formatAsPct(supervisionTypeMetrics36Mo.absconsionRateOverall)}
             </DynamicText>{" "}
             and revocations for new crime{" "}
             <DynamicText>
-              {formatAsPct(supervisionTypeMetrics.newOffenseRateOverall)}
+              {formatAsPct(supervisionTypeMetrics36Mo.newOffenseRateOverall)}
             </DynamicText>
             .
           </p>
@@ -459,19 +476,19 @@ export default function PageRacialDisparities() {
             behavioral health program that helps those with behavioral health
             challenges to succeed on community supervision.{" "}
             <DynamicText>{sentenceCase(ethnonym)}</DynamicText> are{" "}
-            <DynamicText>{formatAsPct(metrics.ftrPopulationRate)}</DynamicText>{" "}
-            of referrals to FTR, a{" "}
+            <DynamicText>
+              {formatAsPct(metrics.ftrPopulationRateCurrent)}
+            </DynamicText>{" "}
+            of active participants in FTR, a{" "}
             {comparePercentagesAsString(
-              metrics.ftrPopulationRate,
-              metrics.supervisionMetrics[TOTAL_KEY].populationRate
+              metrics.ftrPopulationRateCurrent,
+              metrics.supervisionPopulationRateCurrent
             )}{" "}
             representation compared to their overall{" "}
             <DynamicText>
-              {formatAsPct(
-                metrics.supervisionMetrics[TOTAL_KEY].populationRate
-              )}
+              {formatAsPct(metrics.supervisionPopulationRateCurrent)}
             </DynamicText>{" "}
-            of the supervision population.
+            of the current supervision population.
           </p>
         </>
       ),

@@ -446,13 +446,15 @@ const CONTENTS_BY_PAGE = {
       <MethodologyDescription>
         Individuals are counted as released to parole if they have been released
         from a period of incarceration where parole is documented as the reason
-        for release.
+        for release. This calculates the percent of the overall incarceration
+        population and overall releases to parole over the last 3 years, or 36
+        months, who were of the selected racial or ethnic group.
       </MethodologyDescription>
       <SectionTitle>{SECTION_TITLES[PATHS.race].supervision}</SectionTitle>
       <MethodologyDescription>
-        This calculates the percent of the supervision population and revocation
-        admissions over the last 3 years, or 36 months, who were of the selected
-        racial or ethnic group.
+        This calculates the percent of the overall supervision population and
+        revocation admissions over the last 3 years, or 36 months, who were of
+        the selected racial or ethnic group.
       </MethodologyDescription>
       <MethodologyDescription>
         Revocation admissions count people who were incarcerated in a DOCR
@@ -496,10 +498,9 @@ const CONTENTS_BY_PAGE = {
       </MethodologyDescription>
       <SectionTitle>{SECTION_TITLES[PATHS.race].programming}</SectionTitle>
       <MethodologyDescription>
-        This calculates the percent of the total number of people referred to
-        Free Through Recovery in the last year that are of the selected racial
-        or ethnic group. It counts referrals: Note that some individuals
-        referred to the program may not have been selected for participation.
+        This calculates the percent of the current Free Through Recovery
+        participants and the current supervision population that are of the
+        selected racial or ethnic group.
       </MethodologyDescription>
     </>
   ),

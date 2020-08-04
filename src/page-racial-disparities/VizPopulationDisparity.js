@@ -9,7 +9,7 @@ import {
 } from "../constants";
 import ProportionalBar from "../proportional-bar";
 import { demographicsAscending } from "../utils";
-import { getCorrectionsPopulation, useBarHeight } from "./helpers";
+import { getCorrectionsPopulationCurrent, useBarHeight } from "./helpers";
 
 const Wrapper = styled.div``;
 
@@ -51,7 +51,7 @@ export default function VizPopulationDisparity({
           ? THEME.colors.highlight
           : THEME.colors.race[raceValue],
       label: RACE_LABELS.get(raceValue),
-      value: getCorrectionsPopulation(record),
+      value: getCorrectionsPopulationCurrent(record),
     };
   });
 
@@ -59,7 +59,7 @@ export default function VizPopulationDisparity({
 
   return (
     <Wrapper>
-      <BreakdownWrapper stackOrder={0}>
+      <BreakdownWrapper stackOrder={1}>
         <ProportionalBar
           data={totalPopulationData}
           height={barHeight}
@@ -67,7 +67,7 @@ export default function VizPopulationDisparity({
           showLegend={false}
         />
       </BreakdownWrapper>
-      <BreakdownWrapper stackOrder={1}>
+      <BreakdownWrapper stackOrder={0}>
         <ProportionalBar
           data={correctionsPopulationData}
           height={barHeight}
