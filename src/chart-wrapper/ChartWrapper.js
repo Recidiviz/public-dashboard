@@ -20,7 +20,7 @@ const ChartWrapper = styled.div`
     }
 
     .frame-title {
-      fill: ${(props) => props.theme.colors.body};
+      fill: ${(props) => props.theme.colors.heading};
       font: ${(props) => props.theme.fonts.body};
       font-size: 16px;
     }

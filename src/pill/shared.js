@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const PILL_HEIGHT = 32;
+const PILL_HEIGHT = 40;
 
 export const PillContainer = styled.div`
   align-items: center;
@@ -15,7 +15,7 @@ export const PillValue = styled.span`
   color: ${(props) => props.theme.colors.pillValue};
   display: inline-flex;
   font: ${(props) => props.theme.fonts.body};
-  font-size: 10px;
+  font-size: 13px;
   height: ${PILL_HEIGHT}px;
   justify-content: center;
   min-width: ${PILL_HEIGHT * 1.5}px;

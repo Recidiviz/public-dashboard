@@ -61,16 +61,7 @@ const DetailSectionDescription = styled.div`
   color: ${(props) => props.theme.colors.body};
   font: ${(props) => props.theme.fonts.body};
   margin-bottom: 16px;
-  padding-right: calc(
-    100% - ${(props) => props.theme.sectionTextWidthNormal}px
-  );
-  width: 100%;
-
-  .wide-text & {
-    padding-right: calc(
-      100% - ${(props) => props.theme.sectionTextWidthWide}px
-    );
-  }
+  max-width: ${(props) => props.theme.sectionTextWidth}px;
 `;
 
 const DetailSectionVizContainer = styled.div`
