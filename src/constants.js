@@ -226,9 +226,6 @@ export const INCARCERATION_REASON_LABELS = {
   other: "Other",
 };
 
-export const CONTAINER_WIDTH = 1144;
-export const X_PADDING = 8;
-
 // these are overrides to defaults in @w11r/use-breakpoint
 export const CUSTOM_BREAKPOINTS = {
   mobile: [320, 767],

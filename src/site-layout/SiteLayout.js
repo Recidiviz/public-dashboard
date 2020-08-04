@@ -4,13 +4,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { useMatch } from "@reach/router";
 import BrandingBar from "../branding-bar";
-import {
-  COLLAPSIBLE_NAV_BREAKPOINT,
-  CONTAINER_WIDTH,
-  PATHS,
-  THEME,
-  X_PADDING,
-} from "../constants";
+import { COLLAPSIBLE_NAV_BREAKPOINT, PATHS, THEME } from "../constants";
 import Footer from "../footer";
 import NavBar from "../nav-bar";
 import PageRoutes from "../page-routes";
@@ -18,6 +12,7 @@ import BackgroundImageSrc from "../assets/images/background.png";
 import SecondaryNav from "../secondary-nav";
 import InfoPanel from "../info-panel";
 import Cobranding from "../cobranding";
+import PageWidthContainer from "../page-width-container";
 
 const NAV_WIDTH = 240;
 
@@ -34,21 +29,14 @@ const SiteContainer = styled.div`
   width: 100%;
 `;
 
-const BodyWrapper = styled.div`
+const BodyWrapper = styled(PageWidthContainer)`
   margin: 0 auto;
-  max-width: ${CONTAINER_WIDTH}px;
   min-height: 100vh;
   padding-top: ${(props) => props.theme.headerHeight + BRANDING_BAR_MARGIN}px;
 
-  ${mediaQuery([COLLAPSIBLE_NAV_BREAKPOINT, ``])}
-
   ${mediaQuery([
     COLLAPSIBLE_NAV_BREAKPOINT,
-    `
-    padding: ${
-      THEME.headerHeightSmall + BRANDING_BAR_MARGIN
-    }px ${X_PADDING}px 0;
-  `,
+    `padding-top: ${THEME.headerHeightSmall + BRANDING_BAR_MARGIN}px;`,
   ])}
 `;
 
@@ -86,7 +74,6 @@ const MainContentWrapper = styled.div`
 
 const FooterWrapper = styled.div`
   background: ${(props) => props.theme.colors.footerBackground};
-  padding: 0 ${X_PADDING}px;
   position: relative;
   width: 100%;
   z-index: ${(props) => props.theme.zIndex.base + 1};

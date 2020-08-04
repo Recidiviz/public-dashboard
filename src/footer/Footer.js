@@ -5,8 +5,9 @@ import { getYear } from "date-fns";
 import useBreakpoint from "@w11r/use-breakpoint";
 import { fluidFontSizeStyles } from "../utils";
 
-import { BODY_FONT_SIZE, CONTAINER_WIDTH } from "../constants";
+import { BODY_FONT_SIZE } from "../constants";
 import RecidivizSrc from "../assets/images/recidiviz.png";
+import PageWidthContainer from "../page-width-container";
 
 import Cobranding from "../cobranding";
 
@@ -15,13 +16,12 @@ const FooterContainer = styled.footer`
   font: ${(props) => props.theme.fonts.body};
 `;
 
-const FooterContent = styled.div`
+const FooterContent = styled(PageWidthContainer)`
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 0 auto;
-  max-width: ${CONTAINER_WIDTH}px;
   min-height: 320px;
 `;
 
