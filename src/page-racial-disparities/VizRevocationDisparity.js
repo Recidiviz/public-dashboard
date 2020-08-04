@@ -6,7 +6,7 @@ import { THEME, TOTAL_KEY, VIOLATION_LABELS } from "../constants";
 import ProportionalBar from "../proportional-bar";
 import {
   DynamicText,
-  getSupervisionCounts,
+  getSupervisionCounts36Mo,
   matchRace,
   useBarHeight,
 } from "./helpers";
@@ -22,8 +22,12 @@ const BreakdownWrapper = styled.div`
 export default function VizRevocationDisparity({
   data: { countsByRace, category, ethnonym, supervisionType },
 }) {
-  const totals = getSupervisionCounts(countsByRace.find(matchRace(TOTAL_KEY)));
-  const selected = getSupervisionCounts(countsByRace.find(matchRace(category)));
+  const totals = getSupervisionCounts36Mo(
+    countsByRace.find(matchRace(TOTAL_KEY))
+  );
+  const selected = getSupervisionCounts36Mo(
+    countsByRace.find(matchRace(category))
+  );
 
   const [totalData, categoryData] = [totals, selected].map(
     (supervisionData) => {
@@ -44,7 +48,7 @@ export default function VizRevocationDisparity({
 
   return (
     <Wrapper>
-      <BreakdownWrapper stackOrder={0}>
+      <BreakdownWrapper stackOrder={1}>
         <ProportionalBar
           data={totalData}
           height={barHeight}
@@ -52,7 +56,7 @@ export default function VizRevocationDisparity({
           showLegend={false}
         />
       </BreakdownWrapper>
-      <BreakdownWrapper stackOrder={1}>
+      <BreakdownWrapper stackOrder={0}>
         <ProportionalBar
           data={categoryData}
           height={barHeight}
