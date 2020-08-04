@@ -14,7 +14,6 @@ export const getCorrectionsPopulation36Mo = (record) =>
   record.total_probation_population_36_mo;
 
 export const getCorrectionsPopulationCurrent = (record) =>
-  // TODO: is this the same thing??
   record.current_total_sentenced_count;
 
 export const getSupervisionCounts36Mo = (record) => {
