@@ -19,7 +19,7 @@ import {
 
 const DropdownWrapper = styled(ControlContainer)`
   position: relative;
-  z-index: ${(props) => props.theme.zIndex.menu};
+  z-index: ${(props) => props.theme.zIndex.control};
 
   &.Dropdown--highlighted {
     ${ControlValue} {

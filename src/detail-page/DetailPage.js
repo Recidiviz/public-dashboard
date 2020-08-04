@@ -75,7 +75,7 @@ const PageControlsWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   padding-bottom: 8px;
-  z-index: ${(props) => props.theme.zIndex.menu + 10};
+  z-index: ${(props) => props.theme.zIndex.control + 10};
 
   ${mediaQuery([STICKY_CONTROLS_BREAKPOINT, `justify-content: flex-start;`])};
 `;
