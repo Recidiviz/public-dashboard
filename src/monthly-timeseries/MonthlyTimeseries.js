@@ -6,7 +6,7 @@ import styled from "styled-components";
 import ChartWrapper from "../chart-wrapper";
 import { THEME } from "../constants";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
-import { formatAsPct, formatAsNumber } from "../utils";
+import { formatAsPct, formatAsNumber, hoverColor } from "../utils";
 
 const MonthlyTimeseriesWrapper = styled(ChartWrapper)`
   height: 350px;
@@ -68,6 +68,7 @@ export default function MonthlyTimeseries({ data }) {
             const [year, month] = labelText.split("-");
             return month === "1" ? <TimeLabel>{year}</TimeLabel> : null;
           }}
+          oPadding={2}
           rAccessor="rate"
           rExtent={[0, 1]}
           renderKey="month"
@@ -76,7 +77,7 @@ export default function MonthlyTimeseries({ data }) {
           style={(d) => ({
             fill:
               highlighted && d.column === highlighted.column.name
-                ? THEME.colors.highlight
+                ? hoverColor(THEME.colors.monthlyTimeseriesBar)
                 : THEME.colors.monthlyTimeseriesBar,
           })}
           type="bar"

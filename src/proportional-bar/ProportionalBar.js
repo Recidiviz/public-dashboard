@@ -5,7 +5,7 @@ import ResponsiveOrdinalFrame from "semiotic/lib/ResponsiveOrdinalFrame";
 import styled from "styled-components";
 import ColorLegend from "../color-legend";
 import { THEME } from "../constants";
-import { getDataWithPct } from "../utils";
+import { getDataWithPct, hoverColor } from "../utils";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
 
 const ProportionalBarContainer = styled.figure`
@@ -83,7 +83,7 @@ export default function ProportionalBar({ data, height, showLegend, title }) {
             style={(d) => ({
               fill:
                 (highlighted || {}).label === d.label
-                  ? THEME.colors.highlight
+                  ? hoverColor(d.color)
                   : d.color,
             })}
             type="bar"

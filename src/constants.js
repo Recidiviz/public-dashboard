@@ -1,4 +1,5 @@
 import deepMerge from "deepmerge";
+import { hcl } from "d3-color";
 
 export const DEFAULT_TENANT = "us_nd";
 
@@ -258,13 +259,8 @@ const brightGreen = "#25b894";
 // 9 === 0.9 opacity.
 // Conversion tool: http://marcodiiga.github.io/rgba-to-rgb-conversion
 const darkGreen = "#005450";
-const darkGreen9 = "#196561";
 const darkGreen8 = "#327672";
-const darkGreen7 = "#4C8684";
-const darkGreen6 = "#659795";
-const darkGreen5 = "#7EA8A6";
 const darkGreen4 = "#97B9B7";
-const darkGreen3 = "#B0CAC8";
 const darkerGreen = "#00413E";
 const darkGray = "#5A6575";
 const darkerGray = "#403F3F";
@@ -273,7 +269,7 @@ const medGray = "#707F96";
 const white = "#fff";
 
 const dataVizColorMap = new Map([
-  ["teal", "#25636F"],
+  ["teal", "#004B5B"],
   ["gold", "#D9A95F"],
   ["red", "#BA4F4F"],
   ["blue", "#4C6290"],
@@ -282,6 +278,7 @@ const dataVizColorMap = new Map([
 ]);
 
 const dataVizColors = Array.from(dataVizColorMap.values());
+const dataVizDefaultColor = dataVizColors[0];
 
 const assignDataVizColors = (keys) =>
   keys.reduce(
@@ -296,6 +293,8 @@ const assignDataVizColors = (keys) =>
 const defaultDuration = "0.25s";
 const defaultDurationMs = Number(defaultDuration.replace("s", "")) * 1000;
 const defaultEasing = "ease-in-out";
+
+const baseSentencingColor = hcl(dataVizDefaultColor);
 
 export const defaultTheme = {
   colors: {
@@ -321,24 +320,16 @@ export const defaultTheme = {
     loadingSpinner: darkerGreen,
     pillBackground: lightGray,
     pillValue: darkGray,
-    monthlyTimeseriesBar: darkGreen5,
+    monthlyTimeseriesBar: dataVizDefaultColor,
     noData: "#EFEDEC",
     programParticipation: darkerGray,
     race: assignDataVizColors(Array.from(RACE_LABELS.keys())),
     releaseTypes: assignDataVizColors(Array.from(RELEASE_TYPE_KEYS.keys())),
-    sentenceLengths: {
-      [SENTENCE_LENGTH_KEYS.lessThanOne]: darkGreen,
-      [SENTENCE_LENGTH_KEYS.oneTwo]: darkGreen9,
-      [SENTENCE_LENGTH_KEYS.twoThree]: darkGreen7,
-      [SENTENCE_LENGTH_KEYS.threeFive]: darkGreen6,
-      [SENTENCE_LENGTH_KEYS.fiveTen]: darkGreen5,
-      [SENTENCE_LENGTH_KEYS.tenTwenty]: darkGreen4,
-      [SENTENCE_LENGTH_KEYS.moreThanTwenty]: darkGreen3,
-    },
+    sentenceLengths: hcl(dataVizDefaultColor).brighter(1.5).hex(),
     sentencing: {
-      incarceration: darkGreen,
-      probation: darkGreen5,
-      target: darkGreen4,
+      incarceration: baseSentencingColor.hex(),
+      probation: baseSentencingColor.brighter(1).hex(),
+      target: baseSentencingColor.brighter(2).hex(),
     },
     sliderThumb: darkGreen,
     statistic: darkBlue,
@@ -457,22 +448,7 @@ const northDakotaTheme = {
     pillBackground: ndColors.buttonBackground,
     pillBackgroundHover: ndColors.buttonBackgroundHover,
     pillValue: ndColors.textPrimary,
-    monthlyTimeseriesBar: ndColors.dataViz6,
     programParticipation: ndColors.textPrimary,
-    sentenceLengths: {
-      [SENTENCE_LENGTH_KEYS.lessThanOne]: ndColors.brandTeal,
-      [SENTENCE_LENGTH_KEYS.oneTwo]: ndColors.brandTealTint9,
-      [SENTENCE_LENGTH_KEYS.twoThree]: ndColors.brandTealTint7,
-      [SENTENCE_LENGTH_KEYS.threeFive]: ndColors.brandTealTint6,
-      [SENTENCE_LENGTH_KEYS.fiveTen]: ndColors.brandTealTint5,
-      [SENTENCE_LENGTH_KEYS.tenTwenty]: ndColors.brandTealTint4,
-      [SENTENCE_LENGTH_KEYS.moreThanTwenty]: ndColors.brandTealTint3,
-    },
-    sentencing: {
-      incarceration: ndColors.dataViz1,
-      probation: ndColors.dataViz3,
-      target: ndColors.dataViz5,
-    },
     sliderThumb: ndColors.brandTeal,
     statistic: ndColors.textPrimary,
     tooltipBackground: ndColors.textPrimary,

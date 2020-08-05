@@ -5,7 +5,7 @@ import styled from "styled-components";
 import ChartWrapper from "../chart-wrapper";
 import { SENTENCE_LENGTH_KEYS, SENTENCE_LENGTHS, THEME } from "../constants";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
-import { getDataWithPct, formatAsPct } from "../utils";
+import { getDataWithPct, formatAsPct, hoverColor } from "../utils";
 
 const CHART_HEIGHT = 360;
 const CHART_MIN_WIDTH = 320;
@@ -101,7 +101,7 @@ export default function BarChartTrellis({ data, width }) {
             size={[chartWidth, CHART_HEIGHT]}
             style={(d) => ({
               fill:
-                highlightedLabel === d.label ? THEME.colors.highlight : d.color,
+                highlightedLabel === d.label ? hoverColor(d.color) : d.color,
             })}
             type="bar"
           >

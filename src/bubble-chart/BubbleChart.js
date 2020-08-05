@@ -9,7 +9,7 @@ import styled from "styled-components";
 import ColorLegend from "../color-legend";
 import { THEME } from "../constants";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
-import { formatAsPct, getDataWithPct } from "../utils";
+import { formatAsPct, getDataWithPct, hoverColor } from "../utils";
 
 const margin = { top: 0, left: 0, right: 0, bottom: 40 };
 
@@ -159,7 +159,7 @@ export default function BubbleChart({ data: initialData, height, width }) {
           nodeStyle={(d) => ({
             fill:
               (highlighted || {}).label === d.label
-                ? THEME.colors.highlight
+                ? hoverColor(d.color)
                 : d.color,
           })}
           nodes={data}
