@@ -27,8 +27,9 @@ const BubbleChartWrapper = styled.div`
 const BubbleValueLabel = styled.text`
   dominant-baseline: central;
   fill: ${(props) => props.theme.colors.bodyLight};
-  font: ${(props) => props.theme.fonts.body};
-  font-size: 18px;
+  font: ${(props) => props.theme.fonts.displayMedium};
+  letter-spacing: -0.09em;
+  font-size: 20px;
   text-anchor: middle;
 `;
 

@@ -5,7 +5,7 @@ import { PillContainer, PillValue } from "../pill";
 
 export const controlTypeProperties = css`
   font: ${(props) => props.theme.fonts.body};
-  font-size: 10px;
+  font-size: 13px;
 `;
 
 export const ControlContainer = styled(PillContainer)`
@@ -20,7 +20,7 @@ export const ControlLabel = styled.span`
   color: ${(props) => props.theme.colors.controlLabel};
   display: inline-block;
   font: ${(props) => props.theme.fonts.bodyBold};
-  font-size: 10px;
+  font-size: 13px;
   margin-right: 8px;
 `;
 

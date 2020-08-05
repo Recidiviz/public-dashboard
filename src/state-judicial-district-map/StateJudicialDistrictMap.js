@@ -4,6 +4,7 @@ import styled from "styled-components";
 import judicialDistrictsTopology from "../assets/maps/us_nd_judicial_districts.json";
 import { DEFAULT_TENANT, OTHER_LABEL, TENANTS, OTHER } from "../constants";
 import StateMap from "../state-map";
+import { formatAsNumber } from "../utils";
 
 const ASPECT_RATIO = TENANTS[DEFAULT_TENANT].aspectRatio;
 
@@ -23,6 +24,7 @@ const ParticipantCount = styled.text`
       : props.theme.colors.programParticipation};
   font: ${(props) => props.theme.fonts.displayMedium};
   font-size: 20px;
+  letter-spacing: -0.09em;
   pointer-events: none;
   text-anchor: middle;
 `;
@@ -36,6 +38,7 @@ const OtherWrapper = styled.button`
   padding: 16px;
   margin-left: -16px;
   text-align: center;
+  transition: color ${(props) => props.theme.transition.defaultTimeSettings};
 
   &:hover {
     color: ${(props) => props.theme.colors.highlight};
@@ -43,7 +46,13 @@ const OtherWrapper = styled.button`
 `;
 
 const OtherLabel = styled.div`
+  color: ${(props) => props.theme.colors.body};
   font: ${(props) => props.theme.fonts.body};
+  font-size: 12px;
+
+  ${OtherWrapper}:hover & {
+    color: ${(props) => props.theme.colors.highlight};
+  }
 `;
 
 const findDistrictRecord = (district) => (record) =>
@@ -63,7 +72,7 @@ export default function StateJudicialDistrictMap({
         active={locationId === districtRecord.district}
         hover={hover}
       >
-        {districtRecord.value}
+        {formatAsNumber(districtRecord.value)}
       </ParticipantCount>
     ) : null;
   };
@@ -88,7 +97,9 @@ export default function StateJudicialDistrictMap({
             onLocationClick(OTHER);
           }}
         >
-          <ParticipantCount as="div">{otherRecord.value}</ParticipantCount>
+          <ParticipantCount as="div">
+            {formatAsNumber(otherRecord.value)}
+          </ParticipantCount>
           <OtherLabel>{OTHER_LABEL}</OtherLabel>
         </OtherWrapper>
       )}

@@ -61,16 +61,7 @@ const DetailSectionDescription = styled.div`
   color: ${(props) => props.theme.colors.body};
   font: ${(props) => props.theme.fonts.body};
   margin-bottom: 16px;
-  padding-right: calc(
-    100% - ${(props) => props.theme.sectionTextWidthNormal}px
-  );
-  width: 100%;
-
-  .wide-text & {
-    padding-right: calc(
-      100% - ${(props) => props.theme.sectionTextWidthWide}px
-    );
-  }
+  max-width: ${(props) => props.theme.sectionTextWidth}px;
 `;
 
 const DetailSectionVizContainer = styled.div`
@@ -84,7 +75,7 @@ const PageControlsWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   padding-bottom: 8px;
-  z-index: ${(props) => props.theme.zIndex.menu + 10};
+  z-index: ${(props) => props.theme.zIndex.control + 10};
 
   ${mediaQuery([STICKY_CONTROLS_BREAKPOINT, `justify-content: flex-start;`])};
 `;

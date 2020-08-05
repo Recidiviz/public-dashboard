@@ -9,14 +9,14 @@ const StatisticsWrapper = styled.figure`
 `;
 
 const MAX_VALUE_SIZE = "88";
-const MIN_VALUE_SIZE = "24";
+const MIN_VALUE_SIZE = "20";
 
 const ValueWrapper = styled.h1`
   color: ${(props) => props.theme.colors.statistic};
-  font: ${(props) => props.theme.fonts.displayNormal};
+  font: ${(props) => props.theme.fonts.displayMedium};
   font-size: ${MAX_VALUE_SIZE}px;
   line-height: 100%;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.09em;
   margin: 0;
 
   ${(props) =>

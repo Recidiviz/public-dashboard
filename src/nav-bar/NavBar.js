@@ -23,7 +23,7 @@ const NavItem = styled.li``;
 
 const NavList = styled.ul`
   font: ${(props) => props.theme.fonts.body};
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 2;
   list-style: none;

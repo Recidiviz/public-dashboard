@@ -35,7 +35,7 @@ const ETHNONYMS = {
 const BodySizeP = styled.p`
   font: ${(props) => props.theme.fonts.body};
 
-  padding-right: calc(100% - ${(props) => props.theme.sectionTextWidthWide}px);
+  max-width: ${(props) => props.theme.sectionTextWidth}px;
 `;
 
 const Footnote = styled.span`
@@ -542,7 +542,6 @@ export default function PageRacialDisparities() {
 
   return (
     <DetailPage
-      className="wide-text"
       description={DESCRIPTION}
       title={TITLE}
       sections={SECTIONS}

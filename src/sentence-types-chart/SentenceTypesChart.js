@@ -24,7 +24,7 @@ const SOURCE_VALUE_SIZE = 48;
 
 const SourceValue = styled.text`
   color: ${(props) => props.theme.colors.heading};
-  font: ${(props) => props.theme.fonts.displayNormal};
+  font: ${(props) => props.theme.fonts.displayMedium};
   font-size: ${SOURCE_VALUE_SIZE}px;
   letter-spacing: -0.09em;
   transform: ${sourceLabelXOffsetTransform}

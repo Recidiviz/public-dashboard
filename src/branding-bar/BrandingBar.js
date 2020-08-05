@@ -11,14 +11,13 @@ import LogoIconSrc from "../assets/icons/recidiviz_logo.svg";
 import Cobranding from "../cobranding";
 import {
   COLLAPSIBLE_NAV_BREAKPOINT,
-  CONTAINER_WIDTH,
   DEFAULT_TENANT,
   THEME,
-  X_PADDING,
 } from "../constants";
 import NavBar from "../nav-bar";
 import { LinkPill } from "../pill";
 import MethodologyModal from "../methodology-modal";
+import PageWidthContainer from "../page-width-container";
 
 const brandingBarFlexProperties = css`
   align-items: center;
@@ -48,15 +47,13 @@ const METHODOLOGY_TEXT = "Methodology";
 const ICON_SIZE = "26px";
 const Y_MARGIN = "12px";
 
-const BrandingBarWrapper = styled.header`
+const BrandingBarWrapper = styled(PageWidthContainer)`
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   height: ${(props) => props.theme.headerHeight}px;
   justify-content: space-between;
   margin: 0 auto;
-  max-width: ${CONTAINER_WIDTH}px;
-  padding: 0 ${X_PADDING}px;
   transition: height ${(props) => props.theme.transition.defaultTimeSettings};
   width: 100%;
 
@@ -147,12 +144,15 @@ const BrandingBarSubtitle = styled.h2`
   ])}
 `;
 
-const BrandingBarLinkListWrapper = styled.div`
-  align-items: center;
-  display: flex;
-  margin-top: ${Y_MARGIN};
+const BrandingBarLinkList = styled.ul`
+  ${brandingBarFlexProperties}
+
+  flex: 1 1 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin: 0;
   order: 0;
-  width: auto;
+  padding: 0;
 
   ${mediaQuery([
     COLLAPSIBLE_NAV_BREAKPOINT,
@@ -164,20 +164,10 @@ const BrandingBarLinkListWrapper = styled.div`
   ])}
 `;
 
-const BrandingBarLinkList = styled.ul`
-  ${brandingBarFlexProperties}
-  justify-content: space-between;
-  margin: 0;
-  padding: 0;
-`;
-
 const BrandingBarLink = styled.li`
   list-style-type: none;
-  margin-right: 16px;
-
-  &:last-child {
-    margin-right: 0;
-  }
+  margin-left: 16px;
+  margin-top: ${Y_MARGIN};
 `;
 
 const MenuButton = styled.button`
@@ -222,6 +212,7 @@ export default function BrandingBar() {
 
   return (
     <BrandingBarWrapper
+      as="header"
       className={classNames({
         expanded: isExpanded,
       })}
@@ -238,23 +229,21 @@ export default function BrandingBar() {
         </BrandingBarHeader>
       </Link>
       {!useCollapsibleNav && (
-        <BrandingBarLinkListWrapper>
-          <BrandingBarLinkList>
-            <BrandingBarLink>
-              <LinkPill href={FEEDBACK_URL} target="_blank">
-                {FEEDBACK_TEXT}
-              </LinkPill>
-            </BrandingBarLink>
-            <BrandingBarLink>
-              <MethodologyModal
-                trigger={<LinkPill href="#">{METHODOLOGY_TEXT}</LinkPill>}
-              />
-            </BrandingBarLink>
-            <BrandingBarLink>
-              <LinkPill href={DOWNLOAD_URL}>{DOWNLOAD_TEXT}</LinkPill>
-            </BrandingBarLink>
-          </BrandingBarLinkList>
-        </BrandingBarLinkListWrapper>
+        <BrandingBarLinkList>
+          <BrandingBarLink>
+            <LinkPill href={FEEDBACK_URL} target="_blank">
+              {FEEDBACK_TEXT}
+            </LinkPill>
+          </BrandingBarLink>
+          <BrandingBarLink>
+            <MethodologyModal
+              trigger={<LinkPill href="#">{METHODOLOGY_TEXT}</LinkPill>}
+            />
+          </BrandingBarLink>
+          <BrandingBarLink>
+            <LinkPill href={DOWNLOAD_URL}>{DOWNLOAD_TEXT}</LinkPill>
+          </BrandingBarLink>
+        </BrandingBarLinkList>
       )}
       {useCollapsibleNav && (
         <>

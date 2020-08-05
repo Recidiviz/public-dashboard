@@ -5,8 +5,9 @@ import { getYear } from "date-fns";
 import useBreakpoint from "@w11r/use-breakpoint";
 import { fluidFontSizeStyles } from "../utils";
 
-import { BODY_FONT_SIZE, CONTAINER_WIDTH } from "../constants";
-import RecidivizSrc from "../assets/icons/recidiviz.svg";
+import { BODY_FONT_SIZE } from "../constants";
+import RecidivizSrc from "../assets/images/recidiviz.png";
+import PageWidthContainer from "../page-width-container";
 
 import Cobranding from "../cobranding";
 
@@ -15,13 +16,12 @@ const FooterContainer = styled.footer`
   font: ${(props) => props.theme.fonts.body};
 `;
 
-const FooterContent = styled.div`
+const FooterContent = styled(PageWidthContainer)`
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 0 auto;
-  max-width: ${CONTAINER_WIDTH}px;
   min-height: 320px;
 `;
 
@@ -76,7 +76,10 @@ const BrandingLink = styled.a`
   margin-left: 16px;
 `;
 
-const RecidivizBranding = styled.img``;
+const RecidivizBranding = styled.img`
+  height: 19px;
+  width: 90px;
+`;
 
 export default function Footer() {
   const showExpandedFooter = useBreakpoint(false, ["tablet+", true]);

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import ndGeography from "../assets/maps/us_nd_program_regions.json";
 import { DEFAULT_TENANT, TENANTS } from "../constants";
 import StateMap from "../state-map";
+import { formatAsNumber } from "../utils";
 
 const ASPECT_RATIO = TENANTS[DEFAULT_TENANT].aspectRatio;
 
@@ -11,6 +12,7 @@ const ProgramParticipants = styled.text`
   fill: ${(props) => props.theme.colors.programParticipation};
   font: ${(props) => props.theme.fonts.displayMedium};
   font-size: ${(props) => props.scale * 32}px;
+  letter-spacing: -0.09em;
   text-anchor: middle;
 `;
 
@@ -22,7 +24,7 @@ export default function StateProgramMap({ data, width, scale }) {
     );
     return (
       <ProgramParticipants scale={scale}>
-        {programRegion.participation_count}
+        {formatAsNumber(programRegion.participation_count)}
       </ProgramParticipants>
     );
   };
