@@ -22,8 +22,6 @@ const displayBold = `600 ${displayFontSize}/${displayLineHeight} ${displayFontFa
 const displayMedium = `500 ${displayFontSize}/${displayLineHeight} ${displayFontFamily}`;
 const displayNormal = `400 ${displayFontSize}/${displayLineHeight} ${displayFontFamily}`;
 
-const darkBlue = "#132C52";
-
 const brightGreen = "#25b894";
 
 // The numbers behind the "darkGreen" colors represent an opacity
@@ -34,11 +32,13 @@ const darkGreen = "#005450";
 const darkGreen8 = "#327672";
 const darkGreen4 = "#97B9B7";
 const darkerGreen = "#00413E";
-const darkGray = "#5A6575";
-const darkerGray = "#403F3F";
-const lightGray = "#ECEDEF";
-const medGray = "#707F96";
-const white = "#fff";
+const white = "#FAF9F9";
+
+const buttonBackground = "#EFEDEC";
+const buttonBackgroundHover = "#E0DFDE";
+const black = "#262420";
+const blackTint1 = "#DFDEDD";
+const charcoal = "#6C6762";
 
 const dataVizColorMap = new Map([
   ["teal", "#25636F"],
@@ -72,18 +72,18 @@ export const defaultTheme = {
   colors: {
     age: assignDataVizColors(Array.from(AGES.keys())),
     asideBackground: "rgba(206, 202, 199, 0.8)", // "#CECAC7"
-    background: "#FCFCFC",
-    body: medGray,
+    background: white,
+    body: charcoal,
     bodyLight: white,
-    chartAxis: medGray,
-    controlBackground: lightGray,
-    controlLabel: "#3D4045",
-    controlValue: darkGray,
-    footer: "#91A6A5",
+    chartAxis: charcoal,
+    controlBackground: buttonBackground,
+    controlLabel: charcoal,
+    controlValue: black,
+    footer: white,
     footerBackground: darkerGreen,
-    divider: "#E5E7EB",
+    divider: "#CECAC7",
     gender: assignDataVizColors(Array.from(GENDERS.keys())),
-    heading: "#2A4163",
+    heading: black,
     highlight: brightGreen,
     incarcerationReasons: assignDataVizColors(
       Array.from(INCARCERATION_REASON_KEYS.keys())
@@ -94,11 +94,12 @@ export const defaultTheme = {
       fill: dataVizDefaultColor,
       stroke: white,
     },
-    pillBackground: lightGray,
-    pillValue: darkGray,
+    pillBackground: buttonBackground,
+    pillBackgroundHover: buttonBackgroundHover,
+    pillValue: black,
     monthlyTimeseriesBar: dataVizDefaultColor,
     noData: "#EFEDEC",
-    programParticipation: darkerGray,
+    programParticipation: black,
     race: assignDataVizColors(Array.from(RACE_LABELS.keys())),
     releaseTypes: assignDataVizColors(Array.from(RELEASE_TYPE_KEYS.keys())),
     sentenceLengths: rgb(dataVizDefaultColor).copy({ opacity: 0.6 }).toString(),
@@ -110,8 +111,8 @@ export const defaultTheme = {
       hover: baseSentencingColor.toString(),
     },
     sliderThumb: darkGreen,
-    statistic: darkBlue,
-    tooltipBackground: darkBlue,
+    statistic: black,
+    tooltipBackground: black,
     violationReasons: assignDataVizColors(
       Array.from(VIOLATION_COUNT_KEYS.keys())
     ),
@@ -132,7 +133,7 @@ export const defaultTheme = {
   maps: {
     // these are style objects that we can pass directly to react-simple-maps
     default: {
-      fill: "#D6E3E2",
+      fill: blackTint1,
       stroke: white,
       strokeWidth: 1.5,
     },
@@ -164,74 +165,25 @@ export const defaultTheme = {
 
 // ND colors are tinted with the theme background color (i.e. converted from opacity)
 const ndColors = {
-  asideBackground: "rgba(206, 202, 199, 0.8)", // "#CECAC7"
-  black: "#303030",
-  blackTint1: "#DFDEDD",
   brandOrange: "#D34727",
   brandOrangeTint1: "#EFE0DC",
-  brandOrangeTint8: "#D9694F",
   brandTeal: "#004B5B",
-  brandTealTint2: "#C2D5D7",
-  brandTealTint3: "#A9C8CB",
-  brandTealTint4: "#91BABF",
-  brandTealTint5: "#79ACB3",
-  brandTealTint6: "#619EA6",
-  brandTealTint7: "#49909A",
-  brandTealTint8: "#30838E",
-  brandTealTint9: "#187581",
-  buttonBackground: "#EFEDEC",
-  buttonBackgroundHover: "#E0DFDE",
-  dataViz1: "#004B5B", // same as brand teal
-  dataViz2: "#006675",
-  dataViz3: "#38808D",
-  dataViz4: "#669AA3",
-  dataViz5: "#8FB4BB",
-  dataViz6: "#B8CED3",
-  textPrimary: "#262420",
-  textSecondary: "#6C6762",
-  white: "#FAF9F9",
+  brandTealDark: "#003C49",
 };
 
 const northDakotaTheme = {
   colors: {
-    asideBackground: ndColors.asideBackground,
-    background: ndColors.white,
-    body: ndColors.textSecondary,
-    bodyLight: ndColors.white,
-    chartAxis: ndColors.textSecondary,
-    controlBackground: ndColors.buttonBackground,
-    controlLabel: ndColors.textSecondary,
-    controlValue: ndColors.textPrimary,
-    footer: ndColors.white,
-    footerBackground: "#003C49",
-    divider: "#CECAC7",
-    heading: ndColors.textPrimary,
+    footerBackground: ndColors.brandTealDark,
     highlight: ndColors.brandOrange,
     loadingSpinner: ndColors.brandTeal,
-    mapMarkers: {
-      stroke: ndColors.white,
-    },
-    pillBackground: ndColors.buttonBackground,
-    pillBackgroundHover: ndColors.buttonBackgroundHover,
-    pillValue: ndColors.textPrimary,
-    programParticipation: ndColors.textPrimary,
     sliderThumb: ndColors.brandTeal,
-    statistic: ndColors.textPrimary,
-    tooltipBackground: ndColors.textPrimary,
   },
   maps: {
-    // these are style objects that we can pass directly to react-simple-maps
-    default: {
-      fill: ndColors.blackTint1,
-      stroke: ndColors.white,
-    },
     hover: {
       fill: ndColors.brandOrangeTint1,
-      stroke: ndColors.white,
     },
     pressed: {
       fill: ndColors.brandOrange,
-      stroke: ndColors.white,
     },
   },
 };
