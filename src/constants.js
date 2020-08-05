@@ -272,20 +272,34 @@ const lightGray = "#ECEDEF";
 const medGray = "#707F96";
 const white = "#fff";
 
+const dataVizColorMap = new Map([
+  ["teal", "#25636F"],
+  ["gold", "#D9A95F"],
+  ["red", "#BA4F4F"],
+  ["blue", "#4C6290"],
+  ["paleGreen", "#90AEB5"],
+  ["pink", "#CC989C"],
+]);
+
+const dataVizColors = Array.from(dataVizColorMap.values());
+
+const assignDataVizColors = (keys) =>
+  keys.reduce(
+    (colorMapping, key, index) => ({
+      ...colorMapping,
+      // color will be undefined if the list overflows
+      [key]: dataVizColors[index],
+    }),
+    {}
+  );
+
 const defaultDuration = "0.25s";
 const defaultDurationMs = Number(defaultDuration.replace("s", "")) * 1000;
 const defaultEasing = "ease-in-out";
 
 export const defaultTheme = {
   colors: {
-    age: {
-      "<25": darkGreen,
-      "25-29": darkGreen9,
-      "30-34": darkGreen8,
-      "35-39": darkGreen7,
-      "40<": darkGreen6,
-      [DEMOGRAPHIC_UNKNOWN]: darkGreen5,
-    },
+    age: assignDataVizColors(Array.from(AGES.keys())),
     asideBackground: "rgba(206, 202, 199, 0.8)", // "#CECAC7"
     background: "#FCFCFC",
     body: medGray,
@@ -297,19 +311,12 @@ export const defaultTheme = {
     footer: "#91A6A5",
     footerBackground: darkerGreen,
     divider: "#E5E7EB",
-    gender: {
-      FEMALE: darkGreen,
-      MALE: darkGreen7,
-      [DEMOGRAPHIC_UNKNOWN]: darkGreen4,
-    },
+    gender: assignDataVizColors(Array.from(GENDERS.keys())),
     heading: "#2A4163",
     highlight: brightGreen,
-    incarcerationReasons: {
-      newAdmission: darkGreen,
-      paroleRevoked: darkGreen8,
-      probationRevoked: darkGreen6,
-      other: darkGreen4,
-    },
+    incarcerationReasons: assignDataVizColors(
+      Array.from(INCARCERATION_REASON_KEYS.keys())
+    ),
     infoPanelTitle: "#F65834",
     loadingSpinner: darkerGreen,
     pillBackground: lightGray,
@@ -317,22 +324,8 @@ export const defaultTheme = {
     monthlyTimeseriesBar: darkGreen5,
     noData: "#EFEDEC",
     programParticipation: darkerGray,
-    race: {
-      AMERICAN_INDIAN_ALASKAN_NATIVE: darkGreen,
-      ASIAN: darkGreen9,
-      BLACK: darkGreen8,
-      HISPANIC: darkGreen7,
-      NATIVE_HAWAIIAN_PACIFIC_ISLANDER: darkGreen6,
-      WHITE: darkGreen5,
-      OTHER: darkGreen4,
-    },
-    releaseTypes: {
-      transfer: darkGreen,
-      completion: darkGreen7,
-      parole: darkGreen6,
-      probation: darkGreen5,
-      death: darkGreen4,
-    },
+    race: assignDataVizColors(Array.from(RACE_LABELS.keys())),
+    releaseTypes: assignDataVizColors(Array.from(RELEASE_TYPE_KEYS.keys())),
     sentenceLengths: {
       [SENTENCE_LENGTH_KEYS.lessThanOne]: darkGreen,
       [SENTENCE_LENGTH_KEYS.oneTwo]: darkGreen9,
@@ -350,12 +343,9 @@ export const defaultTheme = {
     sliderThumb: darkGreen,
     statistic: darkBlue,
     tooltipBackground: darkBlue,
-    violationReasons: {
-      [VIOLATION_TYPES.abscond]: darkGreen8,
-      [VIOLATION_TYPES.offend]: darkGreen6,
-      [VIOLATION_TYPES.technical]: darkGreen,
-      [VIOLATION_TYPES.unknown]: darkGreen4,
-    },
+    violationReasons: assignDataVizColors(
+      Array.from(VIOLATION_COUNT_KEYS.keys())
+    ),
   },
   fonts: {
     body: bodyMedium,
@@ -450,14 +440,6 @@ const ndColors = {
 
 const northDakotaTheme = {
   colors: {
-    age: {
-      "<25": ndColors.dataViz1,
-      "25-29": ndColors.dataViz2,
-      "30-34": ndColors.dataViz3,
-      "35-39": ndColors.dataViz4,
-      "40<": ndColors.dataViz5,
-      [DEMOGRAPHIC_UNKNOWN]: ndColors.dataViz6,
-    },
     asideBackground: ndColors.asideBackground,
     background: ndColors.white,
     body: ndColors.textSecondary,
@@ -469,39 +451,14 @@ const northDakotaTheme = {
     footer: ndColors.white,
     footerBackground: "#003C49",
     divider: "#CECAC7",
-    gender: {
-      FEMALE: ndColors.dataViz1,
-      MALE: ndColors.dataViz2,
-      [DEMOGRAPHIC_UNKNOWN]: ndColors.dataViz3,
-    },
     heading: ndColors.textPrimary,
     highlight: ndColors.brandOrange,
-    incarcerationReasons: {
-      newAdmission: ndColors.dataViz1,
-      paroleRevoked: ndColors.dataViz2,
-      probationRevoked: ndColors.dataViz3,
-      other: ndColors.dataViz4,
-    },
     loadingSpinner: ndColors.brandTeal,
     pillBackground: ndColors.buttonBackground,
     pillBackgroundHover: ndColors.buttonBackgroundHover,
     pillValue: ndColors.textPrimary,
     monthlyTimeseriesBar: ndColors.dataViz6,
     programParticipation: ndColors.textPrimary,
-    race: {
-      AMERICAN_INDIAN_ALASKAN_NATIVE: ndColors.dataViz1,
-      BLACK: ndColors.dataViz2,
-      HISPANIC: ndColors.dataViz3,
-      WHITE: ndColors.dataViz4,
-      OTHER: ndColors.dataViz5,
-    },
-    releaseTypes: {
-      transfer: ndColors.dataViz1,
-      completion: ndColors.dataViz2,
-      parole: ndColors.dataViz3,
-      probation: ndColors.dataViz4,
-      death: ndColors.dataViz5,
-    },
     sentenceLengths: {
       [SENTENCE_LENGTH_KEYS.lessThanOne]: ndColors.brandTeal,
       [SENTENCE_LENGTH_KEYS.oneTwo]: ndColors.brandTealTint9,
@@ -519,12 +476,6 @@ const northDakotaTheme = {
     sliderThumb: ndColors.brandTeal,
     statistic: ndColors.textPrimary,
     tooltipBackground: ndColors.textPrimary,
-    violationReasons: {
-      [VIOLATION_TYPES.abscond]: ndColors.dataViz1,
-      [VIOLATION_TYPES.offend]: ndColors.dataViz2,
-      [VIOLATION_TYPES.technical]: ndColors.dataViz3,
-      [VIOLATION_TYPES.unknown]: ndColors.dataViz4,
-    },
   },
   maps: {
     // these are style objects that we can pass directly to react-simple-maps
