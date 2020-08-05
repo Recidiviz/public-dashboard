@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { ThemeProvider } from "styled-components";
-import { THEME } from "./constants";
+import { THEME } from "./theme";
 
 // eslint-disable-next-line react/prop-types
 const GlobalWrapper = ({ children }) => {

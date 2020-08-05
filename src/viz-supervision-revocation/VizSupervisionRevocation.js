@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { THEME, VIOLATION_LABELS, VIOLATION_COUNT_KEYS } from "../constants";
+import { VIOLATION_LABELS, VIOLATION_COUNT_KEYS } from "../constants";
 import SingleDimensionViz from "../single-dimension-viz";
+import { THEME } from "../theme";
 import { getDimensionalBreakdown, transposeFieldsToRecords } from "../utils";
 
 const VIOLATION_REASONS_COLORS = THEME.colors.violationReasons;

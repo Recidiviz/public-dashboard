@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import styled from "styled-components";
-import { THEME } from "../constants";
+import { THEME } from "../theme";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
-import { demographicsAscending, formatAsNumber, hoverColor } from "../utils";
+import { demographicsAscending, formatAsNumber } from "../utils";
 
 const MARGIN = { top: 10, bottom: 10, left: 140, right: 140 };
 const MIN_WIDTH = 600;
@@ -74,23 +74,6 @@ const GRADIENTS = (
         stopOpacity="1"
       />
     </linearGradient>
-    <linearGradient id="incarcerationGradientHover">
-      <stop
-        offset="0"
-        stopColor={hoverColor(THEME.colors.sentencing.incarceration)}
-        stopOpacity="1"
-      />
-      <stop
-        offset="90%"
-        stopColor={hoverColor(THEME.colors.sentencing.target)}
-        stopOpacity="1"
-      />
-      <stop
-        offset="100%"
-        stopColor={THEME.colors.sentencing.target}
-        stopOpacity="1"
-      />
-    </linearGradient>
     <linearGradient id="probationGradient">
       <stop
         offset="0"
@@ -104,23 +87,6 @@ const GRADIENTS = (
       />
       <stop
         offset="90%"
-        stopColor={THEME.colors.sentencing.target}
-        stopOpacity="1"
-      />
-    </linearGradient>
-    <linearGradient id="probationGradientHover">
-      <stop
-        offset="0"
-        stopColor={hoverColor(THEME.colors.sentencing.probation)}
-        stopOpacity="1"
-      />
-      <stop
-        offset="90%"
-        stopColor={hoverColor(THEME.colors.sentencing.target)}
-        stopOpacity="1"
-      />
-      <stop
-        offset="100%"
         stopColor={THEME.colors.sentencing.target}
         stopOpacity="1"
       />
@@ -219,9 +185,9 @@ export default function SentenceTypesChart({ data, width }) {
           }}
           edges={data}
           edgeStyle={(d) => ({
-            fill: `url(#${d.source.id.toLowerCase()}Gradient${
-              shouldHighlight(d) ? "Hover" : ""
-            })`,
+            fill: shouldHighlight(d)
+              ? THEME.colors.sentencing.hover
+              : `url(#${d.source.id.toLowerCase()}Gradient)`,
           })}
           margin={MARGIN}
           networkType={{
@@ -234,7 +200,7 @@ export default function SentenceTypesChart({ data, width }) {
           nodes={nodes}
           nodeLabels={renderNodeLabel}
           nodeStyle={(d) => ({
-            fill: shouldHighlight(d) ? hoverColor(d.color) : d.color,
+            fill: shouldHighlight(d) ? THEME.colors.sentencing.hover : d.color,
           })}
           size={[Math.max(width, MIN_WIDTH), 500]}
         />

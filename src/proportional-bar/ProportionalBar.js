@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import ResponsiveOrdinalFrame from "semiotic/lib/ResponsiveOrdinalFrame";
 import styled from "styled-components";
 import ColorLegend from "../color-legend";
-import { THEME } from "../constants";
+import { THEME } from "../theme";
 import { getDataWithPct, hoverColor } from "../utils";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
 

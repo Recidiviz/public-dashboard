@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import ResponsiveOrdinalFrame from "semiotic/lib/ResponsiveOrdinalFrame";
 import styled from "styled-components";
 import ChartWrapper from "../chart-wrapper";
-import { THEME } from "../constants";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
+import { THEME } from "../theme";
 import { formatAsPct, formatAsNumber, hoverColor } from "../utils";
 
 const MonthlyTimeseriesWrapper = styled(ChartWrapper)`

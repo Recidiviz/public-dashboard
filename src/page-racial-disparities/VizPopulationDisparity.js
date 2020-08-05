@@ -1,15 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import {
-  DIMENSION_DATA_KEYS,
-  RACE_LABELS,
-  THEME,
-  TOTAL_KEY,
-} from "../constants";
+import { DIMENSION_DATA_KEYS, RACE_LABELS, TOTAL_KEY } from "../constants";
 import ProportionalBar from "../proportional-bar";
 import { demographicsAscending } from "../utils";
 import { getCorrectionsPopulationCurrent, useBarHeight } from "./helpers";
+import { THEME } from "../theme";
 
 const Wrapper = styled.div``;
 

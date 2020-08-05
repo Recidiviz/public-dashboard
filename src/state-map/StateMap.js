@@ -9,7 +9,7 @@ import {
 } from "react-simple-maps";
 import styled from "styled-components";
 import { mesh } from "topojson";
-import { THEME } from "../constants";
+import { THEME } from "../theme";
 
 const GeoRegion = styled(Geography)`
   ${(props) =>
@@ -19,6 +19,12 @@ const GeoRegion = styled(Geography)`
       : ""}
   cursor: ${(props) => (props.clickable ? "pointer" : "default")};
   transition: fill ${(props) => props.theme.transition.defaultTimeSettings};
+`;
+
+const RegionMarker = styled(Marker)`
+  text {
+    transition: fill ${(props) => props.theme.transition.defaultTimeSettings};
+  }
 `;
 
 export default function StateMap({
@@ -89,13 +95,16 @@ export default function StateMap({
                   style={mapStyles}
                 />
                 {LabelComponent && (
-                  <Marker key={`marker_{geography.id}`} coordinates={centroid}>
+                  <RegionMarker
+                    key={`marker_{geography.id}`}
+                    coordinates={centroid}
+                  >
                     <LabelComponent
                       hover={hoveredLocationId === geography.id}
                       locationId={locationId}
                       topologyObjectId={geography.id}
                     />
-                  </Marker>
+                  </RegionMarker>
                 )}
               </React.Fragment>
             );

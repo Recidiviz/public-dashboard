@@ -12,7 +12,9 @@ import {
 import styled from "styled-components";
 import { mesh } from "topojson";
 import ndGeography from "../assets/maps/us_nd.json";
-import { DEFAULT_TENANT, TENANTS, THEME, TOTAL_KEY } from "../constants";
+import { DEFAULT_TENANT, TENANTS, TOTAL_KEY } from "../constants";
+import { THEME } from "../theme";
+import { hoverColor } from "../utils";
 
 const MAX_MARKER_RADIUS = 19;
 
@@ -26,19 +28,24 @@ const LocationMarker = styled.circle`
   cursor: pointer;
   fill: ${(props) =>
     props.selected
-      ? props.theme.mapMarkers.hover.fill
-      : props.theme.mapMarkers.default.fill};
-  fill-opacity: ${(props) => props.theme.mapMarkers.default.fillOpacity};
-  stroke: ${(props) => props.theme.mapMarkers.default.stroke};
-  stroke-width: ${(props) => props.theme.mapMarkers.default.strokeWidth};
-  transition: ${(props) => props.theme.mapMarkers.default.transition};
+      ? props.theme.colors.highlight
+      : props.theme.colors.mapMarkers.fill};
+  fill-opacity: 0.8;
+  stroke: ${(props) => props.theme.colors.mapMarkers.stroke};
+  stroke-width: 1.5px;
+  transition: fill ${(props) => props.theme.transition.defaultTimeSettings};
 
   &:hover {
-    fill: ${(props) => props.theme.mapMarkers.hover.fill};
+    fill: ${(props) =>
+      hoverColor(
+        props.selected
+          ? props.theme.colors.highlight
+          : props.theme.colors.mapMarkers.fill
+      )};
   }
 
   &:active {
-    fill: ${(props) => props.theme.mapMarkers.pressed.fill};
+    fill: ${(props) => props.theme.colors.highlight};
   }
 `;
 

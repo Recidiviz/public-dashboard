@@ -4,7 +4,8 @@ import Measure from "react-measure";
 import styled from "styled-components";
 import BarChartTrellis from "../bar-chart-trellis";
 import { getDimensionalBreakdown } from "../utils";
-import { SENTENCE_LENGTHS, THEME } from "../constants";
+import { SENTENCE_LENGTHS } from "../constants";
+import { THEME } from "../theme";
 
 const Wrapper = styled.div`
   width: 100%;

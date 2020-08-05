@@ -3,8 +3,10 @@ import React, { useState, useCallback } from "react";
 import { FacetController, OrdinalFrame } from "semiotic";
 import styled from "styled-components";
 import ChartWrapper from "../chart-wrapper";
-import { SENTENCE_LENGTH_KEYS, SENTENCE_LENGTHS, THEME } from "../constants";
+import { SENTENCE_LENGTH_KEYS, SENTENCE_LENGTHS } from "../constants";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
+import { THEME } from "../theme";
+
 import { getDataWithPct, formatAsPct, hoverColor } from "../utils";
 
 const CHART_HEIGHT = 360;

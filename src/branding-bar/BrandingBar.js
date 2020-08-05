@@ -9,15 +9,12 @@ import MenuOpenIconSrc from "../assets/icons/menuOpen.svg";
 import ExternalLinkSrc from "../assets/icons/externalLink.svg";
 import LogoIconSrc from "../assets/icons/recidiviz_logo.svg";
 import Cobranding from "../cobranding";
-import {
-  COLLAPSIBLE_NAV_BREAKPOINT,
-  DEFAULT_TENANT,
-  THEME,
-} from "../constants";
+import { COLLAPSIBLE_NAV_BREAKPOINT, DEFAULT_TENANT } from "../constants";
 import NavBar from "../nav-bar";
 import { LinkPill } from "../pill";
 import MethodologyModal from "../methodology-modal";
 import PageWidthContainer from "../page-width-container";
+import { THEME } from "../theme";
 
 const brandingBarFlexProperties = css`
   align-items: center;

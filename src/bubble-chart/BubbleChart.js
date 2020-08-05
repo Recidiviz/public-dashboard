@@ -7,8 +7,8 @@ import React, { useState } from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import styled from "styled-components";
 import ColorLegend from "../color-legend";
-import { THEME } from "../constants";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
+import { THEME } from "../theme";
 import { formatAsPct, getDataWithPct, hoverColor } from "../utils";
 
 const margin = { top: 0, left: 0, right: 0, bottom: 40 };
