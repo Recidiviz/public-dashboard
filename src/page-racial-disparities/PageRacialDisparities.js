@@ -87,15 +87,23 @@ function getMetricsForGroup(data, category) {
     correctionsPopulationCurrent / correctionsPopulationOverallCurrent;
 
   const proportionIncarceratedCurrent =
-    selected.current_incarceration_sentence_count / totalSentencedCurrent;
+    (selected.current_incarceration_sentence_count +
+      selected.current_dual_sentence_count) /
+    totalSentencedCurrent;
 
   const proportionSupervisionCurrent =
-    selected.current_probation_sentence_count / totalSentencedCurrent;
+    (selected.current_probation_sentence_count +
+      selected.current_dual_sentence_count) /
+    totalSentencedCurrent;
 
   const proportionIncarceratedOverallCurrent =
-    totals.current_incarceration_sentence_count / totalSentencedOverallCurrent;
+    (totals.current_incarceration_sentence_count +
+      totals.current_dual_sentence_count) /
+    totalSentencedOverallCurrent;
   const proportionSupervisionOverallCurrent =
-    totals.current_probation_sentence_count / totalSentencedOverallCurrent;
+    (totals.current_probation_sentence_count +
+      totals.current_dual_sentence_count) /
+    totalSentencedOverallCurrent;
 
   const paroleRate36Mo =
     selected.parole_release_count_36_mo / totals.parole_release_count_36_mo;
@@ -335,7 +343,7 @@ export default function PageRacialDisparities() {
               {formatAsPct(metrics.proportionIncarceratedCurrent)}
             </DynamicText>{" "}
             of <DynamicText>{ethnonym}</DynamicText> under DOCR jurisdiction are
-            serving incarceration sentences, while{" "}
+            serving incarceration sentences and{" "}
             <DynamicText>
               {formatAsPct(metrics.proportionSupervisionCurrent)}
             </DynamicText>{" "}
