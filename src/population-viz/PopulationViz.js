@@ -8,8 +8,8 @@ import {
   DIMENSION_KEYS,
   DIMENSION_LABELS,
   DIMENSION_MAPPINGS,
-  THEME,
 } from "../constants";
+import { THEME } from "../theme";
 import {
   formatAsNumber,
   formatDemographicValue,

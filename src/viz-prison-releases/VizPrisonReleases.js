@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { RELEASE_TYPE_KEYS, RELEASE_TYPE_LABELS, THEME } from "../constants";
+import { RELEASE_TYPE_KEYS, RELEASE_TYPE_LABELS } from "../constants";
 import SingleDimensionViz from "../single-dimension-viz";
+import { THEME } from "../theme";
 import { getDimensionalBreakdown, transposeFieldsToRecords } from "../utils";
 
 const RELEASE_TYPE_COLORS = THEME.colors.releaseTypes;

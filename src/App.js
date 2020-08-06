@@ -2,10 +2,11 @@ import { Router, Redirect } from "@reach/router";
 import { setup as setupBreakpoints } from "@w11r/use-breakpoint";
 import React from "react";
 import { ThemeProvider } from "styled-components";
-import { CUSTOM_BREAKPOINTS, DEFAULT_TENANT, THEME } from "./constants";
+import { CUSTOM_BREAKPOINTS, DEFAULT_TENANT } from "./constants";
 import { InfoPanelProvider } from "./info-panel";
 import SiteStyles from "./site-styles";
 import SiteLayout from "./site-layout";
+import { THEME } from "./theme";
 
 // set custom breakpoints for media queries
 setupBreakpoints({

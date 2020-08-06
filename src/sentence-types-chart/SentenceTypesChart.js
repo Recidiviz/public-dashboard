@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import styled from "styled-components";
-import { THEME } from "../constants";
+import { THEME } from "../theme";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
 import { demographicsAscending, formatAsNumber } from "../utils";
 
@@ -55,42 +55,44 @@ const TargetLabel = styled.text`
   width: ${MARGIN.right - TARGET_LABEL_PADDING}px;
 `;
 
-const GRADIENTS = [
-  <linearGradient id="incarcerationGradient" key="incarcerationGradient">
-    <stop
-      offset="0"
-      stopColor={THEME.colors.sentencing.incarceration}
-      stopOpacity="1"
-    />
-    <stop
-      offset="15%"
-      stopColor={THEME.colors.sentencing.incarceration}
-      stopOpacity="0.8"
-    />
-    <stop
-      offset="90%"
-      stopColor={THEME.colors.sentencing.target}
-      stopOpacity="1"
-    />
-  </linearGradient>,
-  <linearGradient id="probationGradient" key="probationGradient">
-    <stop
-      offset="0"
-      stopColor={THEME.colors.sentencing.probation}
-      stopOpacity="1"
-    />
-    <stop
-      offset="15%"
-      stopColor={THEME.colors.sentencing.probation}
-      stopOpacity="0.8"
-    />
-    <stop
-      offset="90%"
-      stopColor={THEME.colors.sentencing.target}
-      stopOpacity="1"
-    />
-  </linearGradient>,
-];
+const GRADIENTS = (
+  <>
+    <linearGradient id="incarcerationGradient">
+      <stop
+        offset="0"
+        stopColor={THEME.colors.sentencing.incarceration}
+        stopOpacity="1"
+      />
+      <stop
+        offset="15%"
+        stopColor={THEME.colors.sentencing.incarceration}
+        stopOpacity="0.8"
+      />
+      <stop
+        offset="90%"
+        stopColor={THEME.colors.sentencing.target}
+        stopOpacity="1"
+      />
+    </linearGradient>
+    <linearGradient id="probationGradient">
+      <stop
+        offset="0"
+        stopColor={THEME.colors.sentencing.probation}
+        stopOpacity="1"
+      />
+      <stop
+        offset="15%"
+        stopColor={THEME.colors.sentencing.probation}
+        stopOpacity="0.8"
+      />
+      <stop
+        offset="90%"
+        stopColor={THEME.colors.sentencing.target}
+        stopOpacity="1"
+      />
+    </linearGradient>
+  </>
+);
 
 const linksToTooltipProps = (d) => {
   let links;
@@ -184,7 +186,7 @@ export default function SentenceTypesChart({ data, width }) {
           edges={data}
           edgeStyle={(d) => ({
             fill: shouldHighlight(d)
-              ? THEME.colors.highlight
+              ? THEME.colors.sentencing.hover
               : `url(#${d.source.id.toLowerCase()}Gradient)`,
           })}
           margin={MARGIN}
@@ -198,7 +200,7 @@ export default function SentenceTypesChart({ data, width }) {
           nodes={nodes}
           nodeLabels={renderNodeLabel}
           nodeStyle={(d) => ({
-            fill: shouldHighlight(d) ? THEME.colors.highlight : d.color,
+            fill: shouldHighlight(d) ? THEME.colors.sentencing.hover : d.color,
           })}
           size={[Math.max(width, MIN_WIDTH), 500]}
         />

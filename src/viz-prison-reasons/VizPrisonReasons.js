@@ -3,9 +3,9 @@ import React from "react";
 import {
   INCARCERATION_REASON_KEYS,
   INCARCERATION_REASON_LABELS,
-  THEME,
 } from "../constants";
 import SingleDimensionViz from "../single-dimension-viz";
+import { THEME } from "../theme";
 import { getDimensionalBreakdown, transposeFieldsToRecords } from "../utils";
 
 export default function VizPrisonReasons({

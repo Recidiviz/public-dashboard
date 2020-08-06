@@ -22,7 +22,7 @@ const ColorLegendItem = styled.div`
   }
 `;
 const ColorLegendItemLabel = styled.div``;
-const swatchSize = 6;
+const swatchSize = 8;
 const ColorLegendItemSwatch = styled.div`
   background: ${(props) => props.color};
   border-radius: ${swatchSize / 2}px;

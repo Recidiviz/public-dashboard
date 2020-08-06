@@ -2,7 +2,7 @@ import { ascending } from "d3-array";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import { THEME, TOTAL_KEY, VIOLATION_LABELS } from "../constants";
+import { TOTAL_KEY, VIOLATION_LABELS } from "../constants";
 import ProportionalBar from "../proportional-bar";
 import {
   DynamicText,
@@ -10,6 +10,7 @@ import {
   matchRace,
   useBarHeight,
 } from "./helpers";
+import { THEME } from "../theme";
 
 const Wrapper = styled.div``;
 

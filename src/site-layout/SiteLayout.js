@@ -4,7 +4,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { useMatch } from "@reach/router";
 import BrandingBar from "../branding-bar";
-import { COLLAPSIBLE_NAV_BREAKPOINT, PATHS, THEME } from "../constants";
+import { COLLAPSIBLE_NAV_BREAKPOINT, PATHS } from "../constants";
 import Footer from "../footer";
 import NavBar from "../nav-bar";
 import PageRoutes from "../page-routes";
@@ -13,6 +13,7 @@ import SecondaryNav from "../secondary-nav";
 import InfoPanel from "../info-panel";
 import Cobranding from "../cobranding";
 import PageWidthContainer from "../page-width-container";
+import { THEME } from "../theme";
 
 const NAV_WIDTH = 240;
 

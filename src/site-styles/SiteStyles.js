@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 import { createGlobalStyle } from "styled-components";
 import { normalize } from "styled-normalize";
 
-import { THEME } from "../constants";
+import { THEME } from "../theme";
 
 const GlobalStyles = createGlobalStyle`
   ${normalize}

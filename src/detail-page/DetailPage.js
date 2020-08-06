@@ -10,10 +10,10 @@ import {
   COLLAPSIBLE_NAV_BREAKPOINT,
   OTHER_LABEL,
   TOTAL_KEY,
-  THEME,
 } from "../constants";
 import { DimensionControl, MonthControl, LocationControl } from "../controls";
 import { HeadingTitle, HeadingDescription } from "../heading";
+import { THEME } from "../theme";
 
 const STICKY_CONTROLS_BREAKPOINT = "mobile-";
 
