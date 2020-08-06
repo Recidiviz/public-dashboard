@@ -18,6 +18,7 @@ import {
 import ProportionalBar from "../proportional-bar";
 
 import Statistic from "../statistic";
+import Disclaimer from "../disclaimer";
 
 const BAR_CHART_VISUALIZATION_COLORS = {
   [DIMENSION_KEYS.gender]: THEME.colors.gender,
@@ -31,6 +32,7 @@ const PopulationVizWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-bottom: 24px;
   width: 100%;
 `;
 
@@ -195,6 +197,7 @@ export default function PopulationViz({
           )}
         </DemographicsWrapper>
       </VizWrapper>
+      <Disclaimer type="small-data" />
     </PopulationVizWrapper>
   );
 }

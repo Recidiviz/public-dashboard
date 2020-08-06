@@ -2,8 +2,9 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import styled from "styled-components";
-import { THEME } from "../theme";
+import Disclaimer from "../disclaimer";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
+import { THEME } from "../theme";
 import { demographicsAscending, formatAsNumber } from "../utils";
 
 const MARGIN = { top: 10, bottom: 10, left: 140, right: 140 };
@@ -205,6 +206,7 @@ export default function SentenceTypesChart({ data, width }) {
           size={[Math.max(width, MIN_WIDTH), 500]}
         />
       </ResponsiveTooltipController>
+      <Disclaimer type="small-data" />
     </ChartWrapper>
   );
 }

@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import { DIMENSION_DATA_KEYS, RACE_LABELS, TOTAL_KEY } from "../constants";
+import Disclaimer from "../disclaimer";
 import ProportionalBar from "../proportional-bar";
 import { demographicsAscending } from "../utils";
 import { getCorrectionsPopulationCurrent, useBarHeight } from "./helpers";
@@ -71,6 +72,7 @@ export default function VizPopulationDisparity({
           showLegend
         />
       </BreakdownWrapper>
+      <Disclaimer type="small-data" />
     </Wrapper>
   );
 }

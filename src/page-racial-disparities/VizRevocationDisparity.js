@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import { TOTAL_KEY, VIOLATION_LABELS } from "../constants";
+import Disclaimer from "../disclaimer";
 import ProportionalBar from "../proportional-bar";
 import {
   DynamicText,
@@ -70,6 +71,7 @@ export default function VizRevocationDisparity({
           showLegend
         />
       </BreakdownWrapper>
+      <Disclaimer type="small-data" />
     </Wrapper>
   );
 }

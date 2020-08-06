@@ -4,6 +4,7 @@ import Measure from "react-measure";
 import styled from "styled-components";
 import BubbleChart from "../bubble-chart";
 import { DIMENSION_KEYS, TOTAL_KEY } from "../constants";
+import Disclaimer from "../disclaimer";
 import ProportionalBar from "../proportional-bar";
 import { formatDemographicValue } from "../utils";
 
@@ -57,6 +58,7 @@ export default function SingleDimensionViz({ data, dimension }) {
             ) : (
               <Breakdowns data={data} dimension={dimension} />
             )}
+            <Disclaimer type="small-data" />
           </SingleDimensionVizWrapper>
         );
       }}
