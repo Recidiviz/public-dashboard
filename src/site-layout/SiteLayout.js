@@ -1,14 +1,13 @@
 import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
 import PropTypes from "prop-types";
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { useMatch } from "@reach/router";
 import BrandingBar from "../branding-bar";
 import { COLLAPSIBLE_NAV_BREAKPOINT, PATHS } from "../constants";
 import Footer from "../footer";
 import NavBar from "../nav-bar";
 import PageRoutes from "../page-routes";
-import BackgroundImageSrc from "../assets/images/background.png";
 import SecondaryNav from "../secondary-nav";
 import InfoPanel from "../info-panel";
 import Cobranding from "../cobranding";
@@ -20,13 +19,6 @@ const NAV_WIDTH = 240;
 const BRANDING_BAR_MARGIN = 16;
 
 const SiteContainer = styled.div`
-  ${(props) =>
-    props.showBackground &&
-    css`
-      background-image: url(${BackgroundImageSrc});
-      background-size: cover;
-      background-repeat: no-repeat;
-    `}
   width: 100%;
 `;
 
@@ -85,7 +77,7 @@ function SiteLayout({ tenantId }) {
   const onOverviewPage = useMatch(`/:tenantId/${PATHS.overview}`);
 
   return (
-    <SiteContainer showBackground={onOverviewPage}>
+    <SiteContainer>
       <BodyWrapper>
         <BrandingBarWrapper>
           <BrandingBar />
