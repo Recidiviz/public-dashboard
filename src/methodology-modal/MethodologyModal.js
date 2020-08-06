@@ -85,10 +85,9 @@ const CONTENTS_BY_PAGE = {
         probation.
       </MethodologyDescription>
       <MethodologyDescription>
-        It is possible for an individual to be serving both an incarceration and
-        probation sentence simultaneously. For this reason, the sum of the
-        counts of individuals serving each type of sentence may be greater than
-        the total number of unique people currently involved with the DOCR.
+        It is possible for an individual to be serving both incarceration and
+        probation sentences simultaneously. These individuals are counted in the
+        “Both” category.
       </MethodologyDescription>
     </>
   ),
@@ -439,8 +438,8 @@ const CONTENTS_BY_PAGE = {
       <MethodologyDescription>
         It is possible for an individual to be serving both an incarceration and
         probation sentence simultaneously. For this reason, the sum of the
-        counts of individuals serving each type of sentence may be greater than
-        the total number of unique people currently involved with the DOCR.
+        percentage of individuals serving each type of sentence may be greater
+        than 100%.
       </MethodologyDescription>
       <SectionTitle>{SECTION_TITLES[PATHS.race].parole}</SectionTitle>
       <MethodologyDescription>
