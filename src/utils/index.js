@@ -8,6 +8,7 @@ export { default as formatAsPct } from "./formatAsPct";
 export { default as formatDemographicValue } from "./formatDemographicValue";
 export { default as getDataWithPct } from "./getDataWithPct";
 export { default as getDimensionalBreakdown } from "./getDimensionalBreakdown";
+export { default as getSiteTitle } from "./getSiteTitle";
 export { default as hoverColor } from "./hoverColor";
 export { default as judicialDistrictTotals } from "./judicialDistrictTotals";
 export { default as locationTotals } from "./locationTotals";

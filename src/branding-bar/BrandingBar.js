@@ -9,7 +9,11 @@ import MenuOpenIconSrc from "../assets/icons/menuOpen.svg";
 import ExternalLinkSrc from "../assets/icons/externalLink.svg";
 import LogoIconSrc from "../assets/icons/recidiviz_logo.svg";
 import Cobranding from "../cobranding";
-import { COLLAPSIBLE_NAV_BREAKPOINT, DEFAULT_TENANT } from "../constants";
+import {
+  COLLAPSIBLE_NAV_BREAKPOINT,
+  DEFAULT_TENANT,
+  SITE_TITLE,
+} from "../constants";
 import NavBar from "../nav-bar";
 import { LinkPill } from "../pill";
 import MethodologyModal from "../methodology-modal";
@@ -194,8 +198,6 @@ const CollapsibleMenuWrapper = styled.div`
 const NavBarWrapper = styled.div`
   margin-top: 32px;
 `;
-
-const SITE_TITLE = "North Dakota Corrections and Rehabilitation";
 
 export default function BrandingBar() {
   const useCollapsibleNav = useBreakpoint(false, [
