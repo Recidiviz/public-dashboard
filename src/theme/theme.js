@@ -45,7 +45,7 @@ const dataVizColorMap = new Map([
   ["gold", "#D9A95F"],
   ["red", "#BA4F4F"],
   ["blue", "#4C6290"],
-  ["paleGreen", "#90AEB5"],
+  ["paleBlue", "#90AEB5"],
   ["pink", "#CC989C"],
 ]);
 
@@ -102,7 +102,7 @@ export const defaultTheme = {
     programParticipation: black,
     race: assignDataVizColors(Array.from(RACE_LABELS.keys())),
     releaseTypes: assignDataVizColors(Array.from(RELEASE_TYPE_KEYS.keys())),
-    sentenceLengths: rgb(dataVizDefaultColor).copy({ opacity: 0.6 }).toString(),
+    sentenceLengths: dataVizColorMap.get("paleBlue"),
     sentencing: {
       // unlike other charts, this one has a monochromatic palette with opacity
       incarceration: baseSentencingColor.copy({ opacity: 0.9 }).toString(),
