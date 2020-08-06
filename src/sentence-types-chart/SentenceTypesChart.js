@@ -13,7 +13,7 @@ const NODE_WIDTH = 72;
 
 const ChartWrapper = styled.div`
   /*
-    labels have a tendency to overflow the bottom in unpredictable ways;
+    labels have a tendency to overflow the bottom of this container;
     this padding should ensure they have enough space to do so
   */
   padding-bottom: 80px;
