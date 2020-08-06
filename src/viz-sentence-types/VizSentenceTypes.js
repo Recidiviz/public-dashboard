@@ -30,6 +30,7 @@ export default function VizSentenceTypes({
           value: Number(record.incarceration_count),
         },
         { source: "Probation", target, value: Number(record.probation_count) },
+        { source: "Both", target, value: Number(record.dual_sentence_count) },
       ];
     })
     .reduce((flat, val) => flat.concat(val), []);

@@ -12,6 +12,11 @@ const MIN_WIDTH = 600;
 const NODE_WIDTH = 72;
 
 const ChartWrapper = styled.div`
+  /*
+    labels have a tendency to overflow the bottom of this container;
+    this padding should ensure they have enough space to do so
+  */
+  padding-bottom: 80px;
   overflow: ${(props) => (props.width < MIN_WIDTH ? "auto" : "visible")};
   position: relative;
   width: ${(props) => props.width}px;
@@ -80,6 +85,23 @@ const GRADIENTS = (
       <stop
         offset="15%"
         stopColor={THEME.colors.sentencing.probation}
+        stopOpacity="0.8"
+      />
+      <stop
+        offset="90%"
+        stopColor={THEME.colors.sentencing.target}
+        stopOpacity="1"
+      />
+    </linearGradient>
+    <linearGradient id="bothGradient">
+      <stop
+        offset="0"
+        stopColor={THEME.colors.sentencing.both}
+        stopOpacity="1"
+      />
+      <stop
+        offset="15%"
+        stopColor={THEME.colors.sentencing.both}
         stopOpacity="0.8"
       />
       <stop
@@ -169,41 +191,45 @@ export default function SentenceTypesChart({ data, width }) {
   };
 
   return (
-    <ChartWrapper width={width}>
-      <ResponsiveTooltipController
-        getTooltipProps={linksToTooltipProps}
-        hoverAnnotation
-        setHighlighted={setHighlighted}
-      >
-        <NetworkFrame
-          additionalDefs={GRADIENTS}
-          baseMarkProps={{
-            transitionDuration: { fill: THEME.transition.defaultDurationMs },
-          }}
-          edges={data}
-          edgeStyle={(d) => ({
-            fill: shouldHighlight(d)
-              ? THEME.colors.sentencing.hover
-              : `url(#${d.source.id.toLowerCase()}Gradient)`,
-          })}
-          margin={MARGIN}
-          networkType={{
-            nodePaddingRatio: 0.1,
-            nodeWidth: NODE_WIDTH,
-            orient: "justify",
-            projection: "horizontal",
-            type: "sankey",
-          }}
-          nodes={nodes}
-          nodeLabels={renderNodeLabel}
-          nodeStyle={(d) => ({
-            fill: shouldHighlight(d) ? THEME.colors.sentencing.hover : d.color,
-          })}
-          size={[Math.max(width, MIN_WIDTH), 500]}
-        />
-      </ResponsiveTooltipController>
+    <>
+      <ChartWrapper width={width}>
+        <ResponsiveTooltipController
+          getTooltipProps={linksToTooltipProps}
+          hoverAnnotation
+          setHighlighted={setHighlighted}
+        >
+          <NetworkFrame
+            additionalDefs={GRADIENTS}
+            baseMarkProps={{
+              transitionDuration: { fill: THEME.transition.defaultDurationMs },
+            }}
+            edges={data}
+            edgeStyle={(d) => ({
+              fill: shouldHighlight(d)
+                ? THEME.colors.sentencing.hover
+                : `url(#${d.source.id.toLowerCase()}Gradient)`,
+            })}
+            margin={MARGIN}
+            networkType={{
+              nodePaddingRatio: 0.1,
+              nodeWidth: NODE_WIDTH,
+              orient: "justify",
+              projection: "horizontal",
+              type: "sankey",
+            }}
+            nodes={nodes}
+            nodeLabels={renderNodeLabel}
+            nodeStyle={(d) => ({
+              fill: shouldHighlight(d)
+                ? THEME.colors.sentencing.hover
+                : d.color,
+            })}
+            size={[Math.max(width, MIN_WIDTH), 500]}
+          />
+        </ResponsiveTooltipController>
+      </ChartWrapper>
       <Disclaimer type="small-data" />
-    </ChartWrapper>
+    </>
   );
 }
 
