@@ -195,7 +195,7 @@ const NavBarWrapper = styled.div`
   margin-top: 32px;
 `;
 
-const SITE_TITLE = "North Dakota Corrections";
+const SITE_TITLE = "North Dakota Corrections and Rehabilitation";
 
 export default function BrandingBar() {
   const useCollapsibleNav = useBreakpoint(false, [
