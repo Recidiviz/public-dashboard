@@ -12,6 +12,7 @@ export { default as getSiteTitle } from "./getSiteTitle";
 export { default as hoverColor } from "./hoverColor";
 export { default as judicialDistrictTotals } from "./judicialDistrictTotals";
 export { default as locationTotals } from "./locationTotals";
+export { default as recordIsAllRaces } from "./recordIsAllRaces";
 export { default as recordIsMetricPeriodMonths } from "./recordIsMetricPeriodMonths";
 export { default as recordIsTotal } from "./recordIsTotal";
 export { default as recordIsTotalByDimension } from "./recordIsTotalByDimension";

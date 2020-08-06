@@ -1,6 +1,10 @@
 import React from "react";
 import DetailPage from "../detail-page";
-import { formatLocation, recordIsMetricPeriodMonths } from "../utils";
+import {
+  formatLocation,
+  recordIsMetricPeriodMonths,
+  recordIsAllRaces,
+} from "../utils";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
 import VizParolePopulation from "../viz-parole-population";
@@ -114,9 +118,9 @@ export default function PageParole() {
       ),
       VizComponent: VizSupervisionProgram,
       vizData: {
-        supervisionProgramParticipationByRegion: apiData.active_program_participation_by_region.filter(
-          recordIsParole
-        ),
+        supervisionProgramParticipationByRegion: apiData.active_program_participation_by_region
+          .filter(recordIsParole)
+          .filter(recordIsAllRaces),
       },
     },
   ];
