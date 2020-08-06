@@ -6,6 +6,7 @@ import BarChartTrellis from "../bar-chart-trellis";
 import { getDimensionalBreakdown } from "../utils";
 import { SENTENCE_LENGTHS } from "../constants";
 import { THEME } from "../theme";
+import Disclaimer from "../disclaimer";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -41,6 +42,7 @@ export default function VizSentenceLengths({
         return (
           <Wrapper ref={measureRef}>
             <BarChartTrellis data={chartData} width={width || 0} />
+            <Disclaimer type="small-data" />
           </Wrapper>
         );
       }}

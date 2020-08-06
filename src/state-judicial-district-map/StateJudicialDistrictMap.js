@@ -46,8 +46,6 @@ const OtherWrapper = styled.button`
 `;
 
 const OtherLabel = styled.div`
-  color: ${(props) => props.theme.colors.body};
-  font: ${(props) => props.theme.fonts.body};
   font-size: 12px;
 
   ${OtherWrapper}:hover & {

@@ -13,7 +13,6 @@ import Cobranding from "../cobranding";
 
 const FooterContainer = styled.footer`
   color: ${(props) => props.theme.colors.footer};
-  font: ${(props) => props.theme.fonts.body};
 `;
 
 const FooterContent = styled(PageWidthContainer)`

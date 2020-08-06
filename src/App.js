@@ -1,12 +1,14 @@
 import { Router, Redirect } from "@reach/router";
 import { setup as setupBreakpoints } from "@w11r/use-breakpoint";
 import React from "react";
+import { Helmet } from "react-helmet";
 import { ThemeProvider } from "styled-components";
 import { CUSTOM_BREAKPOINTS, DEFAULT_TENANT } from "./constants";
 import { InfoPanelProvider } from "./info-panel";
 import SiteStyles from "./site-styles";
 import SiteLayout from "./site-layout";
 import { THEME } from "./theme";
+import { getSiteTitle } from "./utils";
 
 // set custom breakpoints for media queries
 setupBreakpoints({
@@ -24,6 +26,9 @@ function App() {
     <ThemeProvider theme={THEME}>
       <InfoPanelProvider>
         <SiteStyles />
+        <Helmet>
+          <title>{getSiteTitle()}</title>
+        </Helmet>
         <Router>
           <Redirect from="/" to={`/${currentTenant}`} noThrow replace />
           <SiteLayout path=":tenantId/*" />

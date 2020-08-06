@@ -9,7 +9,11 @@ import MenuOpenIconSrc from "../assets/icons/menuOpen.svg";
 import ExternalLinkSrc from "../assets/icons/externalLink.svg";
 import LogoIconSrc from "../assets/icons/recidiviz_logo.svg";
 import Cobranding from "../cobranding";
-import { COLLAPSIBLE_NAV_BREAKPOINT, DEFAULT_TENANT } from "../constants";
+import {
+  COLLAPSIBLE_NAV_BREAKPOINT,
+  DEFAULT_TENANT,
+  SITE_TITLE,
+} from "../constants";
 import NavBar from "../nav-bar";
 import { LinkPill } from "../pill";
 import MethodologyModal from "../methodology-modal";
@@ -55,7 +59,14 @@ const BrandingBarWrapper = styled(PageWidthContainer)`
   width: 100%;
 
   .home-link {
+    color: ${(props) => props.theme.colors.body};
     text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:visited {
+      color: ${(props) => props.theme.colors.body};
+    }
   }
 
   ${mediaQuery([
@@ -130,8 +141,6 @@ const BrandingBarTitle = styled.h1`
 `;
 
 const BrandingBarSubtitle = styled.h2`
-  color: ${(props) => props.theme.colors.body};
-  font: ${(props) => props.theme.fonts.body};
   font-size: ${(props) => props.theme.fonts.brandSubtitleSize};
   margin: 0;
 
@@ -189,8 +198,6 @@ const CollapsibleMenuWrapper = styled.div`
 const NavBarWrapper = styled.div`
   margin-top: 32px;
 `;
-
-const SITE_TITLE = "North Dakota Corrections";
 
 export default function BrandingBar() {
   const useCollapsibleNav = useBreakpoint(false, [

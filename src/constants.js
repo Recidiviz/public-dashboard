@@ -15,6 +15,8 @@ export const PATHS = {
   race: "race",
 };
 
+export const SITE_TITLE = "North Dakota Corrections and Rehabilitation";
+
 export const SECTION_TITLES = {
   [PATHS.sentencing]: {
     population: "Who is being sentenced?",

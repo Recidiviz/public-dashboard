@@ -33,8 +33,6 @@ const ETHNONYMS = {
 };
 
 const BodySizeP = styled.p`
-  font: ${(props) => props.theme.fonts.body};
-
   max-width: ${(props) => props.theme.sectionTextWidth}px;
 `;
 
@@ -512,12 +510,11 @@ export default function PageRacialDisparities() {
           <ul>
             <li>
               Investing in community-based education, housing, and healthcare
-              (citation)
             </li>
-            <li>Re-evaluation of community policing practices (citation)</li>
+            <li>Re-evaluation of community policing practices</li>
             <li>
               Looking for and reducing bias in charging, and sentencing
-              practices (citation)
+              practices
             </li>
           </ul>
           <p>

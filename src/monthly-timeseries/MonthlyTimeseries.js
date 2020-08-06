@@ -4,12 +4,12 @@ import React, { useState } from "react";
 import ResponsiveOrdinalFrame from "semiotic/lib/ResponsiveOrdinalFrame";
 import styled from "styled-components";
 import ChartWrapper from "../chart-wrapper";
+import Disclaimer from "../disclaimer";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
 import { THEME } from "../theme";
 import { formatAsPct, formatAsNumber, hoverColor } from "../utils";
 
 const MonthlyTimeseriesWrapper = styled(ChartWrapper)`
-  height: 350px;
   width: 100%;
 `;
 
@@ -72,8 +72,8 @@ export default function MonthlyTimeseries({ data }) {
           rAccessor="rate"
           rExtent={[0, 1]}
           renderKey="month"
-          responsiveHeight
           responsiveWidth
+          size={[undefined, 350]}
           style={(d) => ({
             fill:
               highlighted && d.column === highlighted.column.name
@@ -83,6 +83,7 @@ export default function MonthlyTimeseries({ data }) {
           type="bar"
         />
       </ResponsiveTooltipController>
+      <Disclaimer type="small-data" />
     </MonthlyTimeseriesWrapper>
   );
 }

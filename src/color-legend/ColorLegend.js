@@ -3,10 +3,8 @@ import React from "react";
 import styled from "styled-components";
 
 const ColorLegendWrapper = styled.div`
-  color: ${(props) => props.theme.colors.body};
   display: flex;
   flex-wrap: wrap;
-  font: ${(props) => props.theme.fonts.body};
   font-size: 12px;
 `;
 

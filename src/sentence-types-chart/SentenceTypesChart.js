@@ -2,8 +2,9 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import styled from "styled-components";
-import { THEME } from "../theme";
+import Disclaimer from "../disclaimer";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
+import { THEME } from "../theme";
 import { demographicsAscending, formatAsNumber } from "../utils";
 
 const MARGIN = { top: 10, bottom: 10, left: 140, right: 140 };
@@ -34,8 +35,6 @@ const SourceValue = styled.text`
 const SOURCE_LABEL_SIZE = 16;
 
 const SourceLabel = styled.text`
-  color: ${(props) => props.theme.colors.body};
-  font: ${(props) => props.theme.fonts.body};
   font-size: ${SOURCE_LABEL_SIZE}px;
   transform: ${sourceLabelXOffsetTransform}
     translateY(
@@ -46,9 +45,7 @@ const SourceLabel = styled.text`
 
 const TARGET_LABEL_PADDING = 8;
 const TargetLabel = styled.text`
-  color: ${(props) => props.theme.colors.body};
   dominant-baseline: middle;
-  font: ${(props) => props.theme.fonts.body};
   font-size: 16px;
   text-anchor: start;
   transform: translateX(${NODE_WIDTH / 2 + TARGET_LABEL_PADDING}px);
@@ -205,6 +202,7 @@ export default function SentenceTypesChart({ data, width }) {
           size={[Math.max(width, MIN_WIDTH), 500]}
         />
       </ResponsiveTooltipController>
+      <Disclaimer type="small-data" />
     </ChartWrapper>
   );
 }

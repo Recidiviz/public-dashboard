@@ -22,6 +22,8 @@ const GlobalStyles = createGlobalStyle`
 
   body {
     background: ${THEME.colors.background};
+    color: ${(props) => props.theme.colors.body};
+    font: ${(props) => props.theme.fonts.body};
   }
 `;
 

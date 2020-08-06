@@ -1,18 +1,22 @@
 import { Router, Redirect, useLocation } from "@reach/router";
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import styled from "styled-components";
-import { PATHS } from "../constants";
+import { ALL_PAGES, PATHS } from "../constants";
+import useCurrentPage from "../hooks/useCurrentPage";
 import PageOverview from "../page-overview";
 import PageSentencing from "../page-sentencing";
 import PagePrison from "../page-prison";
 import PageProbation from "../page-probation";
 import PageParole from "../page-parole";
 import PageRacialDisparities from "../page-racial-disparities/PageRacialDisparities";
+import { getSiteTitle } from "../utils";
 
 const PagesContainer = styled.main``;
 
 export default function PageRoutes() {
   const location = useLocation();
+  const activePath = useCurrentPage();
 
   useEffect(() => {
     // hacky nonsense to make the page scroll to the top after navigation,
@@ -26,6 +30,9 @@ export default function PageRoutes() {
 
   return (
     <PagesContainer>
+      <Helmet>
+        <title>{getSiteTitle({ pageTitle: ALL_PAGES.get(activePath) })}</title>
+      </Helmet>
       <Router>
         <Redirect from="/" to={PATHS.overview} noThrow replace />
         <PageOverview path={PATHS.overview} />
