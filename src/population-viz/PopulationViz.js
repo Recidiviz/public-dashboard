@@ -59,8 +59,6 @@ const MapWrapper = styled.figure`
 `;
 
 const MapCaption = styled.figcaption`
-  color: ${(props) => props.theme.colors.body};
-  font: ${(props) => props.theme.fonts.body};
   font-size: 12px;
 `;
 

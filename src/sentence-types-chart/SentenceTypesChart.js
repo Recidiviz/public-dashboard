@@ -35,8 +35,6 @@ const SourceValue = styled.text`
 const SOURCE_LABEL_SIZE = 16;
 
 const SourceLabel = styled.text`
-  color: ${(props) => props.theme.colors.body};
-  font: ${(props) => props.theme.fonts.body};
   font-size: ${SOURCE_LABEL_SIZE}px;
   transform: ${sourceLabelXOffsetTransform}
     translateY(
@@ -47,9 +45,7 @@ const SourceLabel = styled.text`
 
 const TARGET_LABEL_PADDING = 8;
 const TargetLabel = styled.text`
-  color: ${(props) => props.theme.colors.body};
   dominant-baseline: middle;
-  font: ${(props) => props.theme.fonts.body};
   font-size: 16px;
   text-anchor: start;
   transform: translateX(${NODE_WIDTH / 2 + TARGET_LABEL_PADDING}px);

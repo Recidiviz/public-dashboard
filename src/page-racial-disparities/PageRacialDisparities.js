@@ -33,8 +33,6 @@ const ETHNONYMS = {
 };
 
 const BodySizeP = styled.p`
-  font: ${(props) => props.theme.fonts.body};
-
   max-width: ${(props) => props.theme.sectionTextWidth}px;
 `;
 

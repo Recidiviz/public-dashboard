@@ -4,7 +4,6 @@ import styled, { css } from "styled-components";
 import { PillContainer, PillValue } from "../pill";
 
 export const controlTypeProperties = css`
-  font: ${(props) => props.theme.fonts.body};
   font-size: 13px;
 `;
 

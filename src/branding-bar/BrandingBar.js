@@ -55,7 +55,14 @@ const BrandingBarWrapper = styled(PageWidthContainer)`
   width: 100%;
 
   .home-link {
+    color: ${(props) => props.theme.colors.body};
     text-decoration: none;
+
+    &:hover,
+    &:active,
+    &:visited {
+      color: ${(props) => props.theme.colors.body};
+    }
   }
 
   ${mediaQuery([
@@ -130,8 +137,6 @@ const BrandingBarTitle = styled.h1`
 `;
 
 const BrandingBarSubtitle = styled.h2`
-  color: ${(props) => props.theme.colors.body};
-  font: ${(props) => props.theme.fonts.body};
   font-size: ${(props) => props.theme.fonts.brandSubtitleSize};
   margin: 0;
 

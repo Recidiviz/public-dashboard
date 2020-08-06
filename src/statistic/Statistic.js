@@ -23,10 +23,7 @@ const ValueWrapper = styled.h1`
     props.fluidSize ? fluidFontSizeStyles(MIN_VALUE_SIZE, MAX_VALUE_SIZE) : ""}
 `;
 
-const LabelWrapper = styled.figcaption`
-  color: ${(props) => props.theme.colors.body};
-  font: ${(props) => props.theme.fonts.body};
-`;
+const LabelWrapper = styled.figcaption``;
 
 export default function Statistic({ value, label, fluidSize }) {
   return (

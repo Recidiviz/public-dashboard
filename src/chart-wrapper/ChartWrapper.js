@@ -10,7 +10,6 @@ const ChartWrapper = styled.div`
     .axis-label,
     .ordinal-labels {
       fill: ${(props) => props.theme.colors.chartAxis};
-      font: ${(props) => props.theme.fonts.body};
       font-size: 12px;
     }
 
@@ -21,7 +20,6 @@ const ChartWrapper = styled.div`
 
     .frame-title {
       fill: ${(props) => props.theme.colors.heading};
-      font: ${(props) => props.theme.fonts.body};
       font-size: 16px;
     }
   }

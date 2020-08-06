@@ -8,7 +8,6 @@ const TooltipWrapper = styled.div`
   border-radius: 4px;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
   color: ${(props) => props.theme.colors.bodyLight};
-  font: ${(props) => props.theme.fonts.body};
   font-size: 14px;
   padding: 16px;
   position: relative;
@@ -53,7 +52,6 @@ const TooltipRecord = styled.div`
 `;
 const TooltipLabel = styled.div`
   .InfoPanel & {
-    font: ${(props) => props.theme.fonts.body};
     font-size: 16px;
     opacity: 0.6;
   }
