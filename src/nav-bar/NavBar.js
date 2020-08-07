@@ -37,15 +37,26 @@ const NavList = styled.ul`
       display: inline-block;
       position: relative;
       text-decoration: none;
+      transition: color ${(props) => props.theme.transition.defaultTimeSettings};
+
+      &:hover {
+        color: ${(props) => props.theme.colors.highlight};
+      }
+
+      &::after {
+        content: "";
+        border-top: 2px solid ${(props) => props.theme.colors.highlight};
+        left: calc(100% + ${(props) => (props.large ? 16 : 8)}px);
+        position: absolute;
+        top: 50%;
+        transition: width
+          ${(props) => props.theme.transition.defaultTimeSettings};
+        width: 0;
+      }
 
       &--active {
         &::after {
-          content: "";
-          position: absolute;
-          left: calc(100% + ${(props) => (props.large ? 16 : 8)}px);
-          top: 50%;
           width: ${(props) => (props.large ? 56 : 24)}px;
-          border-top: 2px solid ${(props) => props.theme.colors.highlight};
         }
       }
     }
@@ -54,14 +65,11 @@ const NavList = styled.ul`
 
     .branding-bar {
       font-size: 24px;
+
       &--active {
         &::after {
-          content: "";
-          position: absolute;
           left: calc(100% + 16px);
-          top: 50%;
           width: 56px;
-          border-top: 2px solid ${(props) => props.theme.colors.highlight};
         }
       }
     }
