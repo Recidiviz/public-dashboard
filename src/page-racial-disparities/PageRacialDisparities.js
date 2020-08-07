@@ -22,6 +22,7 @@ import {
   getCorrectionsPopulationCurrent,
 } from "./helpers";
 import VizPopulationDisparity from "./VizPopulationDisparity";
+import VizPopulationFocus from "./VizPopulationFocus";
 import VizRevocationDisparity from "./VizRevocationDisparity";
 
 const ETHNONYMS = {
@@ -33,8 +34,9 @@ const ETHNONYMS = {
 };
 
 const BodySizeP = styled.p`
+  color: ${(props) => props.theme.fonts.heading};
   font: ${(props) => props.theme.fonts.body};
-  max-width: ${(props) => props.theme.sectionTextWidth}px;
+  opacity: 0.7;
 `;
 
 const Footnote = styled.span`
@@ -44,6 +46,10 @@ const Footnote = styled.span`
 
 const FootnoteText = styled.p`
   font-size: 0.8em;
+`;
+
+const IntroVizWrapper = styled.div`
+  margin: 48px 0;
 `;
 
 const formatDecimal = (number) => number.toFixed(1);
@@ -278,6 +284,11 @@ export default function PageRacialDisparities() {
         </DynamicText>{" "}
         times.
       </p>
+      <IntroVizWrapper>
+        <VizPopulationDisparity
+          data={{ countsByRace: racialDisparityCounts }}
+        />
+      </IntroVizWrapper>
       <BodySizeP>
         Use the dropdown control on the right to investigate how a specific race
         is affected by each part of the system. Due to a very small number of
@@ -320,7 +331,7 @@ export default function PageRacialDisparities() {
           </FootnoteText>
         </>
       ),
-      VizComponent: VizPopulationDisparity,
+      VizComponent: VizPopulationFocus,
       vizData: {
         category,
         countsByRace: racialDisparityCounts,

@@ -84,3 +84,9 @@ const BAR_HEIGHTS = { default: 150, small: 70 };
 export function useBarHeight() {
   return useBreakpoint(BAR_HEIGHTS.default, ["mobile-", BAR_HEIGHTS.small]);
 }
+
+export const BreakdownWrapper = styled.div`
+  padding-bottom: 16px;
+  position: relative;
+  z-index: ${(props) => props.theme.zIndex.base + props.stackOrder};
+`;
