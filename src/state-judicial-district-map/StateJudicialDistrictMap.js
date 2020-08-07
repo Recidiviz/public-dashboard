@@ -18,7 +18,7 @@ const ParticipantCount = styled.text`
   fill: ${(props) =>
     // eslint-disable-next-line no-nested-ternary
     props.active
-      ? props.theme.maps.default.fill
+      ? props.theme.colors.map.fill
       : props.hover
       ? props.theme.colors.highlight
       : props.theme.colors.programParticipation};

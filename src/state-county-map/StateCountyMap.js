@@ -13,7 +13,6 @@ import styled from "styled-components";
 import { mesh } from "topojson";
 import ndGeography from "../assets/maps/us_nd.json";
 import { DEFAULT_TENANT, TENANTS, TOTAL_KEY } from "../constants";
-import { THEME } from "../theme";
 import { hoverColor } from "../utils";
 
 const MAX_MARKER_RADIUS = 19;
@@ -22,6 +21,13 @@ const ASPECT_RATIO = TENANTS[DEFAULT_TENANT].aspectRatio;
 
 const StateCountyMapContainer = styled.div`
   margin-bottom: 20px;
+
+  .rsm-geography {
+    fill: ${(props) => props.theme.colors.map.fill};
+    outline: none;
+    stroke: ${(props) => props.theme.colors.map.stroke};
+    stroke-width: 1.5px;
+  }
 `;
 
 const LocationMarker = styled.circle`
@@ -109,7 +115,7 @@ export default function StateCountyMap({
                 key={geography.properties.NAME}
                 geography={geography}
                 onClick={handleCountyClick}
-                {...THEME.maps.default}
+                tabIndex={-1}
               />
             ));
           }}
@@ -118,8 +124,18 @@ export default function StateCountyMap({
           <Marker key={record.location} coordinates={[record.long, record.lat]}>
             <LocationMarker
               onClick={(e) => handleLocationClick(e, record)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  handleLocationClick(e, record);
+                }
+              }}
+              onMouseDown={(e) => {
+                // stop clicks from moving focus to this element
+                e.preventDefault();
+              }}
               r={markerRadiusScale(record.value)}
               selected={record.location === currentLocation}
+              tabIndex={0}
             />
           </Marker>
         ))}
