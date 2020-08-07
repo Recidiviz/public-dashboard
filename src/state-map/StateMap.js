@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { geoAlbers, geoCentroid } from "d3-geo";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
@@ -9,16 +10,33 @@ import {
 } from "react-simple-maps";
 import styled from "styled-components";
 import { mesh } from "topojson";
-import { THEME } from "../theme";
+import { hoverColor } from "../utils";
 
 const GeoRegion = styled(Geography)`
-  ${(props) =>
-    props.highlighted
-      ? // !important to override the inline styles from map library
-        `fill: ${props.theme.maps.pressed.fill} !important;`
-      : ""}
-  cursor: ${(props) => (props.clickable ? "pointer" : "default")};
+  fill: ${(props) => props.theme.colors.map.fill};
+  stroke: ${(props) => props.theme.colors.map.stroke};
+  stroke-width: 1.5px;
   transition: fill ${(props) => props.theme.transition.defaultTimeSettings};
+
+  &.clickable {
+    cursor: pointer;
+  }
+
+  &.hoverable {
+    &:hover,
+    &:focus {
+      fill: ${(props) => props.theme.colors.map.fillHover};
+    }
+  }
+
+  &.highlighted {
+    fill: ${(props) => props.theme.colors.map.fillActive};
+
+    &:hover,
+    &:focus {
+      fill: ${(props) => hoverColor(props.theme.colors.map.fillActive)};
+    }
+  }
 `;
 
 const RegionMarker = styled(Marker)`
@@ -48,16 +66,6 @@ export default function StateMap({
   const clickable = !!onRegionClick;
   const hoverable = clickable;
 
-  // don't change style on hover and click if there aren't actually
-  // any interactions that are possible
-  const mapStyles = {
-    default: THEME.maps.default,
-    hover: THEME.maps.default,
-    pressed: THEME.maps.default,
-  };
-  if (clickable) mapStyles.pressed = THEME.maps.pressed;
-  if (hoverable) mapStyles.hover = THEME.maps.hover;
-
   return (
     <ComposableMap
       projection={stateProjection}
@@ -77,11 +85,11 @@ export default function StateMap({
             return (
               <React.Fragment key={geography.id}>
                 <GeoRegion
-                  // this 1:0 business is a workaround because React objects to arbitrary
-                  // boolean attributes (these get passed all the way down to the DOM
-                  // by styled-components and react-simple-maps)
-                  clickable={clickable ? 1 : 0}
-                  highlighted={locationId === geography.id ? 1 : 0}
+                  className={classNames({
+                    clickable,
+                    hoverable,
+                    highlighted: locationId === geography.id,
+                  })}
                   key={`region_{geography.id}`}
                   geography={geography}
                   onBlur={() => setHoveredLocationId()}
@@ -90,9 +98,21 @@ export default function StateMap({
                     if (onRegionClick) onRegionClick(geography.id);
                   }}
                   onFocus={() => setHoveredLocationId(geography.id)}
+                  onKeyPress={(e) => {
+                    if (onRegionClick) {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        onRegionClick(geography.id);
+                      }
+                    }
+                  }}
+                  onMouseDown={(e) => {
+                    // stop clicks from moving focus to this element
+                    e.preventDefault();
+                  }}
                   onMouseOut={() => setHoveredLocationId()}
                   onMouseOver={() => setHoveredLocationId(geography.id)}
-                  style={mapStyles}
+                  tabIndex={clickable ? 0 : -1}
                 />
                 {LabelComponent && (
                   <RegionMarker

@@ -90,6 +90,12 @@ export const defaultTheme = {
     ),
     infoPanelTitle: "#F65834",
     loadingSpinner: darkerGreen,
+    map: {
+      fill: blackTint1,
+      fillHover: darkGreen4,
+      fillActive: darkGreen8,
+      stroke: white,
+    },
     mapMarkers: {
       fill: dataVizDefaultColor,
       stroke: white,
@@ -130,22 +136,6 @@ export const defaultTheme = {
   },
   headerHeightSmall: 50,
   headerHeight: 112,
-  maps: {
-    // these are style objects that we can pass directly to react-simple-maps
-    default: {
-      fill: blackTint1,
-      stroke: white,
-      strokeWidth: 1.5,
-    },
-    hover: {
-      fill: darkGreen4,
-      stroke: white,
-    },
-    pressed: {
-      fill: darkGreen8,
-      stroke: white,
-    },
-  },
   sectionTextWidth: 600,
   transition: {
     defaultDuration,
@@ -176,15 +166,11 @@ const northDakotaTheme = {
     footerBackground: ndColors.brandTealDark,
     highlight: ndColors.brandOrange,
     loadingSpinner: ndColors.brandTeal,
+    map: {
+      fillHover: ndColors.brandOrangeTint1,
+      fillActive: ndColors.brandOrange,
+    },
     sliderThumb: ndColors.brandTeal,
-  },
-  maps: {
-    hover: {
-      fill: ndColors.brandOrangeTint1,
-    },
-    pressed: {
-      fill: ndColors.brandOrange,
-    },
   },
 };
 
