@@ -9,6 +9,7 @@ import DetailPage from "../detail-page";
 import { recordIsMetricPeriodMonths, recordIsAllRaces } from "../utils";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
+import TextLink from "../text-link";
 import VizProbationPopulation from "../viz-probation-population";
 import VizSupervisionProgram from "../viz-supervision-program";
 import VizSupervisionRevocation from "../viz-supervision-revocation";
@@ -104,11 +105,13 @@ export default function PageProbation() {
       title: SECTION_TITLES[PATHS.probation].ftr,
       description: (
         <>
-          Free Through Recovery (FTR) is a community based behavioral health
-          program designed to increase recovery support services to individuals
-          involved with the criminal justice system who have behavioral health
-          concerns. The map below shows the number of people enrolled in the FTR
-          program today.
+          <TextLink href="https://www.behavioralhealth.nd.gov/addiction/FTR-old">
+            Free Through Recovery (FTR)
+          </TextLink>{" "}
+          is a community based behavioral health program designed to increase
+          recovery support services to individuals involved with the criminal
+          justice system who have behavioral health concerns. The map below
+          shows the number of people enrolled in the FTR program today.
         </>
       ),
       VizComponent: VizSupervisionProgram,

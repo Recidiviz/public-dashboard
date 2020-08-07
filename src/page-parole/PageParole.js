@@ -17,6 +17,7 @@ import {
   SECTION_TITLES,
   SUPERVISION_TYPES,
 } from "../constants";
+import TextLink from "../text-link";
 
 export default function PageParole() {
   const { apiData, isLoading } = useChartData("us_nd/parole");
@@ -109,11 +110,13 @@ export default function PageParole() {
       title: SECTION_TITLES[PATHS.parole].ftr,
       description: (
         <>
-          Free Through Recovery (FTR) is a community based behavioral health
-          program designed to increase recovery support services to individuals
-          involved with the criminal justice system who have behavioral health
-          concerns. The map below shows the number of people enrolled in the FTR
-          program today.
+          <TextLink href="https://www.behavioralhealth.nd.gov/addiction/FTR-old">
+            Free Through Recovery (FTR)
+          </TextLink>{" "}
+          is a community based behavioral health program designed to increase
+          recovery support services to individuals involved with the criminal
+          justice system who have behavioral health concerns. The map below
+          shows the number of people enrolled in the FTR program today.
         </>
       ),
       VizComponent: VizSupervisionProgram,
