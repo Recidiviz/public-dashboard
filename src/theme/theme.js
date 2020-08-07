@@ -137,7 +137,7 @@ export const defaultTheme = {
   },
   headerHeightSmall: 50,
   headerHeight: 112,
-  sectionTextWidth: 600,
+  sectionTextWidth: 768,
   transition: {
     defaultDuration,
     defaultDurationMs,
