@@ -102,7 +102,9 @@ export default function Footer() {
               &copy; {getYear(new Date())} Recidiviz. All Rights Reserved.
             </FooterLegalese>
             <FooterLegalese>
-              <PrivacyLink href="#">Privacy Policy</PrivacyLink>
+              <PrivacyLink href="https://recidiviz.org/legal/privacy-policy">
+                Privacy Policy
+              </PrivacyLink>
             </FooterLegalese>
           </FooterLegalContent>
         </FooterLegal>
