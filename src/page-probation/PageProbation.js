@@ -6,7 +6,7 @@ import {
   SUPERVISION_TYPES,
 } from "../constants";
 import DetailPage from "../detail-page";
-import { recordIsMetricPeriodMonths } from "../utils";
+import { recordIsMetricPeriodMonths, recordIsAllRaces } from "../utils";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
 import VizProbationPopulation from "../viz-probation-population";
@@ -113,9 +113,9 @@ export default function PageProbation() {
       ),
       VizComponent: VizSupervisionProgram,
       vizData: {
-        supervisionProgramParticipationByRegion: apiData.active_program_participation_by_region.filter(
-          recordIsProbation
-        ),
+        supervisionProgramParticipationByRegion: apiData.active_program_participation_by_region
+          .filter(recordIsProbation)
+          .filter(recordIsAllRaces),
       },
     },
   ];
