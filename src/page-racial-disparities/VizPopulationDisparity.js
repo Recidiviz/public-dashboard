@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import { DIMENSION_DATA_KEYS, RACE_LABELS, TOTAL_KEY } from "../constants";
-import Disclaimer from "../disclaimer";
 import ProportionalBar from "../proportional-bar";
 import { demographicsAscending } from "../utils";
 import { getCorrectionsPopulationCurrent, useBarHeight } from "./helpers";
@@ -23,18 +22,13 @@ const sortByRace = (a, b) =>
     b[DIMENSION_DATA_KEYS.race]
   );
 
-export default function VizPopulationDisparity({
-  data: { countsByRace, category },
-}) {
+export default function VizPopulationDisparity({ data: { countsByRace } }) {
   const filteredData = countsByRace.filter(notTotal).sort(sortByRace);
 
   const totalPopulationData = filteredData.map((record) => {
     const raceValue = record[DIMENSION_DATA_KEYS.race];
     return {
-      color:
-        raceValue === category
-          ? THEME.colors.highlight
-          : THEME.colors.race[raceValue],
+      color: THEME.colors.race[raceValue],
       label: RACE_LABELS.get(raceValue),
       value: record.total_state_population,
     };
@@ -43,10 +37,7 @@ export default function VizPopulationDisparity({
   const correctionsPopulationData = filteredData.map((record) => {
     const raceValue = record[DIMENSION_DATA_KEYS.race];
     return {
-      color:
-        raceValue === category
-          ? THEME.colors.highlight
-          : THEME.colors.race[raceValue],
+      color: THEME.colors.race[raceValue],
       label: RACE_LABELS.get(raceValue),
       value: getCorrectionsPopulationCurrent(record),
     };
@@ -72,14 +63,12 @@ export default function VizPopulationDisparity({
           showLegend
         />
       </BreakdownWrapper>
-      <Disclaimer type="small-data" />
     </Wrapper>
   );
 }
 
 VizPopulationDisparity.propTypes = {
   data: PropTypes.shape({
-    category: PropTypes.string.isRequired,
     countsByRace: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
 };
