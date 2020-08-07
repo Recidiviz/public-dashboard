@@ -4,16 +4,14 @@ import styled from "styled-components";
 import { DIMENSION_DATA_KEYS, RACE_LABELS, TOTAL_KEY } from "../constants";
 import ProportionalBar from "../proportional-bar";
 import { demographicsAscending } from "../utils";
-import { getCorrectionsPopulationCurrent, useBarHeight } from "./helpers";
+import {
+  BreakdownWrapper,
+  getCorrectionsPopulationCurrent,
+  useBarHeight,
+} from "./helpers";
 import { THEME } from "../theme";
 
 const Wrapper = styled.div``;
-
-const BreakdownWrapper = styled.div`
-  padding-bottom: 16px;
-  position: relative;
-  z-index: ${(props) => props.theme.zIndex.base + props.stackOrder};
-`;
 
 const notTotal = (record) => record[DIMENSION_DATA_KEYS.race] !== TOTAL_KEY;
 const sortByRace = (a, b) =>

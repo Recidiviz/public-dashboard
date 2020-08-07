@@ -107,6 +107,10 @@ export const defaultTheme = {
     noData: "#EFEDEC",
     programParticipation: black,
     race: assignDataVizColors(Array.from(RACE_LABELS.keys())),
+    racialDisparities: {
+      selected: brightGreen,
+      remainder: dataVizColorMap.get("paleBlue"),
+    },
     releaseTypes: assignDataVizColors(Array.from(RELEASE_TYPE_KEYS.keys())),
     sentenceLengths: dataVizColorMap.get("paleBlue"),
     sentencing: {
@@ -170,6 +174,9 @@ const northDakotaTheme = {
     map: {
       fillHover: ndColors.brandOrangeTint1,
       fillActive: ndColors.brandOrange,
+    },
+    racialDisparities: {
+      selected: ndColors.brandOrange,
     },
     sliderThumb: ndColors.brandTeal,
   },

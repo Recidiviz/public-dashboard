@@ -6,6 +6,7 @@ import { TOTAL_KEY, VIOLATION_LABELS } from "../constants";
 import Disclaimer from "../disclaimer";
 import ProportionalBar from "../proportional-bar";
 import {
+  BreakdownWrapper,
   DynamicText,
   getSupervisionCounts36Mo,
   matchRace,
@@ -14,12 +15,6 @@ import {
 import { THEME } from "../theme";
 
 const Wrapper = styled.div``;
-
-const BreakdownWrapper = styled.div`
-  padding-bottom: 16px;
-  position: relative;
-  z-index: ${(props) => props.theme.zIndex.base + props.stackOrder};
-`;
 
 export default function VizRevocationDisparity({
   data: { countsByRace, category, ethnonym, supervisionType },

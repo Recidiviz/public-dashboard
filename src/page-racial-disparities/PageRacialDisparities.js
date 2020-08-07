@@ -22,6 +22,7 @@ import {
   getCorrectionsPopulationCurrent,
 } from "./helpers";
 import VizPopulationDisparity from "./VizPopulationDisparity";
+import VizPopulationFocus from "./VizPopulationFocus";
 import VizRevocationDisparity from "./VizRevocationDisparity";
 
 const ETHNONYMS = {
@@ -330,8 +331,9 @@ export default function PageRacialDisparities() {
           </FootnoteText>
         </>
       ),
-      VizComponent: VizPopulationDisparity,
+      VizComponent: VizPopulationFocus,
       vizData: {
+        category,
         countsByRace: racialDisparityCounts,
       },
     },
