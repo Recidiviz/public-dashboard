@@ -242,7 +242,7 @@ const supervisionTypeText = {
 };
 
 const supervisionTypeOptions = [
-  { id: TOTAL_KEY, label: "Everyone" },
+  { id: TOTAL_KEY, label: "All" },
   { id: SUPERVISION_TYPES.probation, label: "Probation" },
   { id: SUPERVISION_TYPES.parole, label: "Parole" },
 ];

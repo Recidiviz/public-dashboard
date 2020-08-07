@@ -27,7 +27,7 @@ export default function VizPrisonPopulation(props) {
         currentLocation: locationId,
         onLocationClick,
       }}
-      mapLabel="Prison facilities in North Dakota"
+      mapLabel="Facilities housing individuals under legal and physical custody of the ND DOCR"
       locationAccessorFn={locationAccessorFn}
       populationAccessorFn={populationAccessorFn}
       totalPopulationLabel="People in prison"

@@ -23,7 +23,7 @@ export const SECTION_TITLES = {
     types: "What types of sentences do people receive?",
   },
   [PATHS.prison]: {
-    population: "Who is in prison?",
+    population: "Who is in custody?",
     reasons: "How did they get there?",
     terms: "How long are they there?",
     releases: "Where do they go from there?",

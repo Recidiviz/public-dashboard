@@ -12,9 +12,10 @@ import VizSentenceLengths from "../viz-sentence-lengths";
 const TITLE = ALL_PAGES.get(PATHS.prison);
 const DESCRIPTION = (
   <>
-    People sentenced to more than one year of incarceration will serve their
-    time in a state prison. Prisons run programming to help residents work
-    towards rehabilitation and successful reentry.
+    People sentenced for a Class A misdemeanor or greater offense may serve
+    their sentence in a DOCR prison or contract facility. Prisons run
+    programming to help residents work towards rehabilitation and successful
+    reentry.
   </>
 );
 
@@ -37,7 +38,8 @@ export default function PagePrison() {
       description: (
         <>
           The North Dakota Department of Corrections and Rehabilitation (DOCR)
-          runs a number of different facilities across the state.
+          runs a number of different facilities and contracts with facilities
+          across the state.
         </>
       ),
       showLocationControl: true,
