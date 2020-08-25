@@ -22,9 +22,7 @@ const ChartWrapper = styled.div`
   width: ${(props) => props.width}px;
 `;
 
-const sourceLabelXOffsetTransform = `translateX(-${
-  MARGIN.left + NODE_WIDTH / 2
-}px)`;
+const SOURCE_LABEL_X_OFFSET = `-${MARGIN.left + NODE_WIDTH / 2}`;
 
 const SOURCE_VALUE_SIZE = 48;
 
@@ -33,19 +31,12 @@ const SourceValue = styled.text`
   font: ${(props) => props.theme.fonts.displayMedium};
   font-size: ${SOURCE_VALUE_SIZE}px;
   letter-spacing: -0.09em;
-  transform: ${sourceLabelXOffsetTransform}
-    translateY(${(props) => -(props.yOffset - SOURCE_VALUE_SIZE)}px);
 `;
 
 const SOURCE_LABEL_SIZE = 16;
 
 const SourceLabel = styled.text`
   font-size: ${SOURCE_LABEL_SIZE}px;
-  transform: ${sourceLabelXOffsetTransform}
-    translateY(
-      ${(props) =>
-        -(props.yOffset - SOURCE_VALUE_SIZE - SOURCE_LABEL_SIZE - 8)}px
-    );
 `;
 
 const TARGET_LABEL_PADDING = 8;
@@ -53,9 +44,25 @@ const TargetLabel = styled.text`
   dominant-baseline: middle;
   font-size: 16px;
   text-anchor: start;
-  transform: translateX(${NODE_WIDTH / 2 + TARGET_LABEL_PADDING}px);
   width: ${MARGIN.right - TARGET_LABEL_PADDING}px;
 `;
+
+// because IE does not support CSS transforms on SVG elements (#182),
+// we need to render label translations as SVG attributes. These functions do that
+const getSourceValueTransform = (yOffset) => `translate(
+  ${SOURCE_LABEL_X_OFFSET},
+  ${-(yOffset - SOURCE_VALUE_SIZE)}
+)`;
+
+const getSourceLabelTransform = (
+  yOffset
+) => `translate(${SOURCE_LABEL_X_OFFSET},
+  ${-(yOffset - SOURCE_VALUE_SIZE - SOURCE_LABEL_SIZE - 8)}
+)`;
+// this one happens to not use a dynamic value at the moment but we'll leave it
+// as a function for consistency
+const getTargetLabelTransform = () =>
+  `translate(${NODE_WIDTH / 2 + TARGET_LABEL_PADDING})`;
 
 const GRADIENTS = (
   <>
@@ -169,13 +176,19 @@ export default function SentenceTypesChart({ data, width }) {
       const yOffset = d.y - d.y0;
       return (
         <>
-          <SourceValue yOffset={yOffset}>{formatAsNumber(d.value)}</SourceValue>
-          <SourceLabel yOffset={yOffset}>{d.id}</SourceLabel>
+          <SourceValue transform={getSourceValueTransform(yOffset)}>
+            {formatAsNumber(d.value)}
+          </SourceValue>
+          <SourceLabel transform={getSourceLabelTransform(yOffset)}>
+            {d.id}
+          </SourceLabel>
         </>
       );
     }
     if (targets.has(d.id)) {
-      return <TargetLabel>{d.id}</TargetLabel>;
+      return (
+        <TargetLabel transform={getTargetLabelTransform()}>{d.id}</TargetLabel>
+      );
     }
     return null;
   };
