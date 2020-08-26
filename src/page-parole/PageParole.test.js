@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "../testUtils";
 import PageParole from "./PageParole";
 
-it("renders the sections", () => {
+it.skip("renders the sections", () => {
   const { getByText } = render(<PageParole />);
   [
     "Who is on parole?",
