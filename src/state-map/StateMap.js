@@ -10,6 +10,7 @@ import {
 } from "react-simple-maps";
 import styled from "styled-components";
 import { mesh } from "topojson";
+import AspectRatioWrapper from "../aspect-ratio-wrapper";
 import { hoverColor } from "../utils";
 
 const GeoRegion = styled(Geography)`
@@ -67,71 +68,77 @@ export default function StateMap({
   const hoverable = clickable;
 
   return (
-    <ComposableMap
-      projection={stateProjection}
+    <AspectRatioWrapper
+      // this component wants ratio of height to width; we have the opposite
+      aspectRatio={1 / aspectRatio}
       width={width}
-      height={width / aspectRatio}
-      style={{
-        height: "auto",
-        overflow: "visible",
-        width: "100%",
-      }}
     >
-      <Geographies geography={stateTopology}>
-        {({ geographies }) => {
-          return geographies.map((geography) => {
-            const centroid = geoCentroid(geography);
-
-            return (
-              <React.Fragment key={geography.id}>
-                <GeoRegion
-                  className={classNames({
-                    clickable,
-                    hoverable,
-                    highlighted: locationId === geography.id,
-                  })}
-                  key={`region_{geography.id}`}
-                  geography={geography}
-                  onBlur={() => setHoveredLocationId()}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (onRegionClick) onRegionClick(geography.id);
-                  }}
-                  onFocus={() => setHoveredLocationId(geography.id)}
-                  onKeyPress={(e) => {
-                    if (onRegionClick) {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        onRegionClick(geography.id);
-                      }
-                    }
-                  }}
-                  onMouseDown={(e) => {
-                    // stop clicks from moving focus to this element
-                    e.preventDefault();
-                  }}
-                  onMouseOut={() => setHoveredLocationId()}
-                  onMouseOver={() => setHoveredLocationId(geography.id)}
-                  tabIndex={clickable ? 0 : -1}
-                />
-                {LabelComponent && (
-                  <RegionMarker
-                    key={`marker_{geography.id}`}
-                    coordinates={centroid}
-                  >
-                    <LabelComponent
-                      hover={hoveredLocationId === geography.id}
-                      locationId={locationId}
-                      topologyObjectId={geography.id}
-                    />
-                  </RegionMarker>
-                )}
-              </React.Fragment>
-            );
-          });
+      <ComposableMap
+        projection={stateProjection}
+        width={width}
+        height={width / aspectRatio}
+        style={{
+          height: "auto",
+          overflow: "visible",
+          width: "100%",
         }}
-      </Geographies>
-    </ComposableMap>
+      >
+        <Geographies geography={stateTopology}>
+          {({ geographies }) => {
+            return geographies.map((geography) => {
+              const centroid = geoCentroid(geography);
+
+              return (
+                <React.Fragment key={geography.id}>
+                  <GeoRegion
+                    className={classNames({
+                      clickable,
+                      hoverable,
+                      highlighted: locationId === geography.id,
+                    })}
+                    key={`region_{geography.id}`}
+                    geography={geography}
+                    onBlur={() => setHoveredLocationId()}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (onRegionClick) onRegionClick(geography.id);
+                    }}
+                    onFocus={() => setHoveredLocationId(geography.id)}
+                    onKeyPress={(e) => {
+                      if (onRegionClick) {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          onRegionClick(geography.id);
+                        }
+                      }
+                    }}
+                    onMouseDown={(e) => {
+                      // stop clicks from moving focus to this element
+                      e.preventDefault();
+                    }}
+                    onMouseOut={() => setHoveredLocationId()}
+                    onMouseOver={() => setHoveredLocationId(geography.id)}
+                    tabIndex={clickable ? 0 : -1}
+                  />
+                  {LabelComponent && (
+                    <RegionMarker
+                      key={`marker_{geography.id}`}
+                      coordinates={centroid}
+                    >
+                      <LabelComponent
+                        hover={hoveredLocationId === geography.id}
+                        locationId={locationId}
+                        topologyObjectId={geography.id}
+                      />
+                    </RegionMarker>
+                  )}
+                </React.Fragment>
+              );
+            });
+          }}
+        </Geographies>
+      </ComposableMap>
+    </AspectRatioWrapper>
   );
 }
 

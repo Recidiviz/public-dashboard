@@ -11,6 +11,7 @@ import {
 } from "react-simple-maps";
 import styled from "styled-components";
 import { mesh } from "topojson";
+import AspectRatioWrapper from "../aspect-ratio-wrapper";
 import ndGeography from "../assets/maps/us_nd.json";
 import { DEFAULT_TENANT, TENANTS, TOTAL_KEY } from "../constants";
 import { hoverColor } from "../utils";
@@ -98,48 +99,57 @@ export default function StateCountyMap({
 
   return (
     <StateCountyMapContainer>
-      <ComposableMap
-        projection={ND_PROJECTION}
+      <AspectRatioWrapper
+        // this component wants ratio of height to width; we have the opposite
+        aspectRatio={1 / ASPECT_RATIO}
         width={width}
-        height={width / ASPECT_RATIO}
-        style={{
-          height: "auto",
-          overflow: "visible",
-          width: "100%",
-        }}
       >
-        <Geographies geography={ndGeography}>
-          {({ geographies }) => {
-            return geographies.map((geography) => (
-              <Geography
-                key={geography.properties.NAME}
-                geography={geography}
-                onClick={handleCountyClick}
-                tabIndex={-1}
-              />
-            ));
+        <ComposableMap
+          projection={ND_PROJECTION}
+          width={width}
+          height={width / ASPECT_RATIO}
+          style={{
+            height: "auto",
+            overflow: "visible",
+            width: "100%",
           }}
-        </Geographies>
-        {sortedData.map((record) => (
-          <Marker key={record.location} coordinates={[record.long, record.lat]}>
-            <LocationMarker
-              onClick={(e) => handleLocationClick(e, record)}
-              onKeyPress={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  handleLocationClick(e, record);
-                }
-              }}
-              onMouseDown={(e) => {
-                // stop clicks from moving focus to this element
-                e.preventDefault();
-              }}
-              r={markerRadiusScale(record.value)}
-              selected={record.location === currentLocation}
-              tabIndex={0}
-            />
-          </Marker>
-        ))}
-      </ComposableMap>
+        >
+          <Geographies geography={ndGeography}>
+            {({ geographies }) => {
+              return geographies.map((geography) => (
+                <Geography
+                  key={geography.properties.NAME}
+                  geography={geography}
+                  onClick={handleCountyClick}
+                  tabIndex={-1}
+                />
+              ));
+            }}
+          </Geographies>
+          {sortedData.map((record) => (
+            <Marker
+              key={record.location}
+              coordinates={[record.long, record.lat]}
+            >
+              <LocationMarker
+                onClick={(e) => handleLocationClick(e, record)}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    handleLocationClick(e, record);
+                  }
+                }}
+                onMouseDown={(e) => {
+                  // stop clicks from moving focus to this element
+                  e.preventDefault();
+                }}
+                r={markerRadiusScale(record.value)}
+                selected={record.location === currentLocation}
+                tabIndex={0}
+              />
+            </Marker>
+          ))}
+        </ComposableMap>
+      </AspectRatioWrapper>
     </StateCountyMapContainer>
   );
 }
