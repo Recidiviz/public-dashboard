@@ -82,6 +82,8 @@ const NavList = styled.ul`
     }
 
     .secondary {
+      font: ${(props) => props.theme.fonts.display};
+
       &--active {
         border-bottom: 2px solid ${(props) => props.theme.colors.highlight};
 
