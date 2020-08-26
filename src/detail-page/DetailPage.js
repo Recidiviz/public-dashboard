@@ -60,7 +60,9 @@ const DetailSectionControls = styled.div`
 
 const DetailSectionDescription = styled.div`
   margin-bottom: 16px;
-  max-width: ${(props) => props.theme.sectionTextWidth}px;
+  max-width: ${(props) => props.theme.sectionTextWidth};
+
+  ${mediaQuery([COLLAPSIBLE_NAV_BREAKPOINT, `max-width: none;`])};
 `;
 
 const DetailSectionVizContainer = styled.div`

@@ -1,6 +1,8 @@
+import { mediaQuery } from "@w11r/use-breakpoint";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
+import { COLLAPSIBLE_NAV_BREAKPOINT } from "../constants";
 
 const SMALL_DATA = (
   <>
@@ -14,7 +16,9 @@ const SMALL_DATA = (
 const DisclaimerWrapper = styled.div`
   font-size: 13px;
   margin-top: 24px;
-  max-width: ${(props) => props.theme.sectionTextWidth}px;
+  max-width: ${(props) => props.theme.sectionTextWidth};
+
+  ${mediaQuery([COLLAPSIBLE_NAV_BREAKPOINT, `max-width: none;`])};
 `;
 
 export default function Disclaimer({ type }) {
