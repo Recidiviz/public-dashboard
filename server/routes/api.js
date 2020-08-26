@@ -20,6 +20,7 @@
  * in server.js.
  */
 
+const { csvFormat } = require("d3-dsv");
 const metricsApi = require("../core/metricsApi");
 const demoMode = require("../utils/demoMode");
 
@@ -49,8 +50,8 @@ function promisifier(resolve, reject) {
       resolve(
         Object.entries(data).map(([fileName, content]) => {
           return {
-            name: `${fileName}.json`,
-            content: JSON.stringify(content),
+            name: `${fileName}.csv`,
+            content: csvFormat(content),
           };
         })
       );
