@@ -16,7 +16,7 @@ import { THEME } from "../theme";
 
 const NAV_WIDTH = 240;
 
-const BRANDING_BAR_MARGIN = 16;
+const BRANDING_BAR_MARGIN = 64;
 
 const SiteContainer = styled.div`
   width: 100%;

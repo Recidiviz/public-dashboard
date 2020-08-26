@@ -23,6 +23,7 @@ const HeadingContainer = styled.header``;
 const SectionDivider = styled.hr`
   border: none;
   border-top: 1px solid ${(props) => props.theme.colors.divider};
+  margin-top: 88px;
 `;
 
 const DetailSectionContainer = styled.section``;
@@ -59,7 +60,9 @@ const DetailSectionControls = styled.div`
 
 const DetailSectionDescription = styled.div`
   margin-bottom: 16px;
-  max-width: ${(props) => props.theme.sectionTextWidth}px;
+  max-width: ${(props) => props.theme.sectionTextWidth};
+
+  ${mediaQuery([COLLAPSIBLE_NAV_BREAKPOINT, `max-width: none;`])};
 `;
 
 const DetailSectionVizContainer = styled.div`
