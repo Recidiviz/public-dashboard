@@ -58,7 +58,7 @@ export const DETAIL_PAGES = new Map([
   [PATHS.parole, "Parole"],
 ]);
 
-const NARRATIVE_PAGES = new Map([[PATHS.race, "Racial Disparities"]]);
+export const NARRATIVE_PAGES = new Map([[PATHS.race, "Racial Disparities"]]);
 
 export const ALL_PAGES = new Map([
   [PATHS.overview, "Introduction"],

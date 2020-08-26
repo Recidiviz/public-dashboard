@@ -1,15 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 
-import { DETAIL_PAGES } from "../constants";
+import { DETAIL_PAGES, NARRATIVE_PAGES } from "../constants";
 import { HeadingTitle, HeadingDescription } from "../heading";
 import NavBar from "../nav-bar";
 import TextLink from "../text-link";
 
-const OverviewWrapper = styled.div``;
-const HeadingWrapper = styled.header`
-  margin-bottom: 64px;
+const OverviewWrapper = styled.div`
+  margin-bottom: 200px;
 `;
+const HeadingWrapper = styled.header`
+  margin-bottom: 88px;
+`;
+
+const navPages = new Map([...DETAIL_PAGES, ...NARRATIVE_PAGES]);
 
 export default function PageOverview() {
   return (
@@ -38,7 +42,7 @@ export default function PageOverview() {
           </p>
         </HeadingDescription>
       </HeadingWrapper>
-      <NavBar pages={DETAIL_PAGES} className="overview" nested />
+      <NavBar pages={navPages} className="overview" nested />
     </OverviewWrapper>
   );
 }

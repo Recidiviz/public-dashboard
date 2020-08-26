@@ -76,9 +76,10 @@ const NavList = styled.ul`
 
     .overview {
       border-top: 1px solid ${(props) => props.theme.colors.divider};
-      font-size: 64px;
+      font: ${(props) => props.theme.fonts.displayMedium};
+      padding: 32px 0;
       width: 100%;
-      ${fluidFontSizeStyles(32, 64)}
+      ${fluidFontSizeStyles(32, 88)}
     }
 
     .secondary {
