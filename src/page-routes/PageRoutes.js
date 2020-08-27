@@ -4,12 +4,13 @@ import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import { ALL_PAGES, PATHS } from "../constants";
 import useCurrentPage from "../hooks/useCurrentPage";
+import PageNotFound from "../page-not-found";
 import PageOverview from "../page-overview";
-import PageSentencing from "../page-sentencing";
 import PagePrison from "../page-prison";
 import PageProbation from "../page-probation";
 import PageParole from "../page-parole";
-import PageRacialDisparities from "../page-racial-disparities/PageRacialDisparities";
+import PageRacialDisparities from "../page-racial-disparities";
+import PageSentencing from "../page-sentencing";
 import { getSiteTitle } from "../utils";
 
 const PagesContainer = styled.main``;
@@ -41,6 +42,7 @@ export default function PageRoutes() {
         <PageProbation path={PATHS.probation} />
         <PageParole path={PATHS.parole} />
         <PageRacialDisparities path={PATHS.race} />
+        <PageNotFound default />
       </Router>
     </PagesContainer>
   );
