@@ -1,3 +1,4 @@
+import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
@@ -33,14 +34,16 @@ const LoadingSpinnerIcon = styled(SpinnerIcon)`
 
 const LoadingSpinnerText = styled(HeadingTitle)`
   margin: 0 0 0 8px;
+
+  ${mediaQuery(["mobile-", "font-size: 20px;"])}
 `;
 
-const ICON_SIZE = 32;
-
 export default function Loading() {
+  const iconSize = useBreakpoint(32, ["mobile-", 22]);
+
   return (
     <LoadingWrapper>
-      <LoadingSpinnerIcon alt="Loading" height={ICON_SIZE} width={ICON_SIZE} />
+      <LoadingSpinnerIcon alt="Loading" height={iconSize} width={iconSize} />
       <LoadingSpinnerText>Loading data...</LoadingSpinnerText>
     </LoadingWrapper>
   );
