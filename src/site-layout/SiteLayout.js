@@ -1,3 +1,4 @@
+import { ErrorBoundary } from "@sentry/react";
 import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
 import PropTypes from "prop-types";
 import React from "react";
@@ -11,6 +12,7 @@ import PageRoutes from "../page-routes";
 import SecondaryNav from "../secondary-nav";
 import InfoPanel from "../info-panel";
 import Cobranding from "../cobranding";
+import PageError from "../page-error";
 import PageWidthContainer from "../page-width-container";
 import { THEME } from "../theme";
 
@@ -24,7 +26,7 @@ const SiteContainer = styled.div`
 
 const BodyWrapper = styled(PageWidthContainer)`
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: calc(100vh - ${(props) => props.theme.footerHeight});
   padding-top: ${(props) => props.theme.headerHeight + BRANDING_BAR_MARGIN}px;
 
   ${mediaQuery([
@@ -82,24 +84,26 @@ function SiteLayout({ tenantId }) {
         <BrandingBarWrapper>
           <BrandingBar />
         </BrandingBarWrapper>
-        {tenantId && (
-          <>
-            {showNav && (
-              <NavBarWrapper>
-                <NavBar />
-                <Cobranding />
-              </NavBarWrapper>
-            )}
-            <MainContentWrapper>
-              <PageRoutes />
-              {!onOverviewPage && (
-                <SecondaryNavWrapper>
-                  <SecondaryNav />
-                </SecondaryNavWrapper>
+        <ErrorBoundary fallback={PageError}>
+          {tenantId && (
+            <>
+              {showNav && (
+                <NavBarWrapper>
+                  <NavBar />
+                  <Cobranding />
+                </NavBarWrapper>
               )}
-            </MainContentWrapper>
-          </>
-        )}
+              <MainContentWrapper>
+                <PageRoutes />
+                {!onOverviewPage && (
+                  <SecondaryNavWrapper>
+                    <SecondaryNav />
+                  </SecondaryNavWrapper>
+                )}
+              </MainContentWrapper>
+            </>
+          )}
+        </ErrorBoundary>
       </BodyWrapper>
       <FooterWrapper>
         <Footer />

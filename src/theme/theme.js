@@ -139,6 +139,7 @@ export const defaultTheme = {
     brandSubtitleSize: "14px",
     brandSubtitleSizeSmall: "13px",
   },
+  footerHeight: "320px",
   headerHeightSmall: 50,
   headerHeight: 112,
   sectionTextWidth: "60vw",
