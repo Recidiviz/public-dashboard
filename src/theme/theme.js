@@ -76,6 +76,7 @@ export const defaultTheme = {
     body: charcoal,
     bodyLight: white,
     chartAxis: charcoal,
+    chartErrorBackground: buttonBackground,
     controlBackground: buttonBackground,
     controlLabel: charcoal,
     controlValue: black,

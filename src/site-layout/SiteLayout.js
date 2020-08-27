@@ -84,7 +84,12 @@ function SiteLayout({ tenantId }) {
         <BrandingBarWrapper>
           <BrandingBar />
         </BrandingBarWrapper>
-        <ErrorBoundary fallback={PageError}>
+        <ErrorBoundary
+          beforeCapture={(scope) => {
+            scope.setTag("boundary", "page");
+          }}
+          fallback={PageError}
+        >
           {tenantId && (
             <>
               {showNav && (
