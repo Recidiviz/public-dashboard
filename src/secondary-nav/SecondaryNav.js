@@ -1,8 +1,10 @@
+import { mediaQuery } from "@w11r/use-breakpoint";
 import React from "react";
 import styled from "styled-components";
 
 import NavBar from "../nav-bar";
 import { DETAIL_PAGES } from "../constants";
+import { THEME } from "../theme";
 
 const SecondaryNavWrapper = styled.div`
   display: flex;
@@ -18,6 +20,8 @@ const SecondaryNavHeading = styled.h1`
   font-size: 32px;
   margin-top: 0;
   margin-bottom: 32px;
+
+  ${mediaQuery(["mobile-", THEME.fonts.headingTitleStylesSmall])}
 `;
 
 export default function SecondaryNav() {

@@ -138,6 +138,11 @@ export const defaultTheme = {
     brandSizeLarge: "22px",
     brandSubtitleSize: "14px",
     brandSubtitleSizeSmall: "13px",
+    headingTitleStylesSmall: `
+      font-size: 28px;
+      letter-spacing: -0.015em;
+      line-height: 1;
+    `,
   },
   headerHeightSmall: 50,
   headerHeight: 112,

@@ -45,6 +45,14 @@ const DetailSectionTitle = styled.h1`
   margin-bottom: 16px;
   margin-right: 32px;
   max-width: 100%;
+
+  ${mediaQuery([
+    STICKY_CONTROLS_BREAKPOINT,
+    `
+      margin-right: 0;
+      width: 100%;
+    `,
+  ])}
 `;
 
 const DetailSectionControls = styled.div`
