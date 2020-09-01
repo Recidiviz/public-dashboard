@@ -1,3 +1,4 @@
+import useBreakpoint from "@w11r/use-breakpoint";
 import classNames from "classnames";
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
@@ -67,6 +68,15 @@ const DropdownMenu = styled.div`
   }
 `;
 
+const HiddenSelect = styled.select`
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+`;
+
 // if selectedId prop is provided, this behaves like a controlled component;
 // in the absence of that it will be uncontrolled and expose the ID of
 // its selected option via a listener
@@ -96,6 +106,8 @@ export default function Dropdown({
     }
   }, [selectedId]);
 
+  const renderNativeSelect = useBreakpoint(false, ["mobile-", true]);
+
   return (
     <DropdownWrapper
       className={classNames({
@@ -105,28 +117,47 @@ export default function Dropdown({
           highlighted || currentOptionId !== options[0].id,
       })}
     >
-      <Menu>
-        <ControlContainer>
-          <ControlLabel>{label}</ControlLabel>
-          <MenuButton>
+      <ControlContainer>
+        <ControlLabel>{label}</ControlLabel>
+
+        {!renderNativeSelect && (
+          <Menu>
+            <MenuButton>
+              <ControlValue>{selectedOption.label}</ControlValue>
+            </MenuButton>
+            <MenuPopover>
+              <DropdownMenu>
+                <MenuItems>
+                  {options.map((option) => (
+                    <MenuItem
+                      key={option.id}
+                      onSelect={() => setCurrentOptionId(option.id)}
+                    >
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </MenuItems>
+              </DropdownMenu>
+            </MenuPopover>
+          </Menu>
+        )}
+
+        {renderNativeSelect && (
+          <>
             <ControlValue>{selectedOption.label}</ControlValue>
-          </MenuButton>
-          <MenuPopover>
-            <DropdownMenu>
-              <MenuItems>
-                {options.map((option) => (
-                  <MenuItem
-                    key={option.id}
-                    onSelect={() => setCurrentOptionId(option.id)}
-                  >
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </MenuItems>
-            </DropdownMenu>
-          </MenuPopover>
-        </ControlContainer>
-      </Menu>
+            <HiddenSelect
+              value={currentOptionId}
+              onChange={(event) => setCurrentOptionId(event.target.value)}
+            >
+              {options.map((opt) => (
+                <option key={opt.id} value={opt.id}>
+                  {opt.label}
+                </option>
+              ))}
+            </HiddenSelect>
+          </>
+        )}
+      </ControlContainer>
     </DropdownWrapper>
   );
 }
