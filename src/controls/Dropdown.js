@@ -1,3 +1,4 @@
+import { useId } from "@reach/auto-id";
 import useBreakpoint from "@w11r/use-breakpoint";
 import classNames from "classnames";
 import React, { useState, useEffect } from "react";
@@ -107,6 +108,7 @@ export default function Dropdown({
   }, [selectedId]);
 
   const renderNativeSelect = useBreakpoint(false, ["mobile-", true]);
+  const labelId = useId();
 
   return (
     <DropdownWrapper
@@ -118,11 +120,11 @@ export default function Dropdown({
       })}
     >
       <ControlContainer>
-        <ControlLabel>{label}</ControlLabel>
+        <ControlLabel id={labelId}>{label}</ControlLabel>
 
         {!renderNativeSelect && (
           <Menu>
-            <MenuButton>
+            <MenuButton aria-labelledby={labelId}>
               <ControlValue>{selectedOption.label}</ControlValue>
             </MenuButton>
             <MenuPopover>
@@ -146,6 +148,7 @@ export default function Dropdown({
           <>
             <ControlValue>{selectedOption.label}</ControlValue>
             <HiddenSelect
+              aria-labelledby={labelId}
               value={currentOptionId}
               onChange={(event) => setCurrentOptionId(event.target.value)}
             >
