@@ -146,7 +146,7 @@ export default function Dropdown({
 
         {renderNativeSelect && (
           <>
-            <ControlValue>{selectedOption.label}</ControlValue>
+            <ControlValue aria-hidden>{selectedOption.label}</ControlValue>
             <HiddenSelect
               aria-labelledby={labelId}
               value={currentOptionId}
