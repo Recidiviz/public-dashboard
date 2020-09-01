@@ -1,3 +1,4 @@
+import { ErrorBoundary } from "@sentry/react";
 import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
 import { ascending } from "d3-array";
 import PropTypes from "prop-types";
@@ -6,6 +7,7 @@ import Measure from "react-measure";
 import { StickyContainer, Sticky } from "react-sticky";
 import { exact, tail } from "set-order";
 import styled from "styled-components";
+import ChartError from "../chart-error";
 import {
   COLLAPSIBLE_NAV_BREAKPOINT,
   OTHER_LABEL,
@@ -173,11 +175,18 @@ function DetailSection({
 
         <DetailSectionDescription>{description}</DetailSectionDescription>
         <DetailSectionVizContainer>
-          <VizComponent
-            data={vizData}
-            {...{ dimension, month, locationId, setMonthList }}
-            onLocationClick={setLocationId}
-          />
+          <ErrorBoundary
+            beforeCapture={(scope) => {
+              scope.setTag("boundary", "chart");
+            }}
+            fallback={ChartError}
+          >
+            <VizComponent
+              data={vizData}
+              {...{ dimension, month, locationId, setMonthList }}
+              onLocationClick={setLocationId}
+            />
+          </ErrorBoundary>
         </DetailSectionVizContainer>
       </DetailSectionContainer>
     </StickyContainer>

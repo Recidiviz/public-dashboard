@@ -76,6 +76,7 @@ export const defaultTheme = {
     body: charcoal,
     bodyLight: white,
     chartAxis: charcoal,
+    chartErrorBackground: buttonBackground,
     controlBackground: buttonBackground,
     controlLabel: charcoal,
     controlValue: black,
@@ -144,6 +145,7 @@ export const defaultTheme = {
       line-height: 1;
     `,
   },
+  footerHeight: "320px",
   headerHeightSmall: 50,
   headerHeight: 112,
   sectionTextWidth: "60vw",

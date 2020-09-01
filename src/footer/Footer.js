@@ -19,7 +19,7 @@ const FooterContent = styled(PageWidthContainer)`
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  height: 320px;
+  height: ${(props) => props.theme.footerHeight};
   justify-content: space-between;
   margin: 0 auto;
 `;
