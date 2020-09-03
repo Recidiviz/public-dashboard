@@ -14,7 +14,6 @@ const StateJudicialDistrictMapWrapper = styled.div`
 `;
 
 const ParticipantCount = styled.text`
-  dominant-baseline: middle;
   fill: ${(props) =>
     // eslint-disable-next-line no-nested-ternary
     props.active
@@ -28,6 +27,10 @@ const ParticipantCount = styled.text`
   pointer-events: none;
   text-anchor: middle;
 `;
+// this is a magic number based on the font size of the label;
+// it is a workaround for the lack of IE support for the dominant-baseline attribute
+// to vertically center this text relative to its origin
+const PARTICIPANT_COUNT_Y_OFFSET = 8;
 
 const OtherWrapper = styled.button`
   background: none;
@@ -68,6 +71,7 @@ export default function StateJudicialDistrictMap({
     return districtRecord ? (
       <ParticipantCount
         active={locationId === districtRecord.district}
+        dy={PARTICIPANT_COUNT_Y_OFFSET}
         hover={hover}
       >
         {formatAsNumber(districtRecord.value)}
