@@ -15,7 +15,7 @@ const MethodologyHeading = styled(HeadingTitle)``;
 
 const MethodologyDescription = styled(HeadingDescription)`
   font-size: 16px;
-  min-height: unset;
+  min-height: 0;
 `;
 
 const MethodologyBody = styled.div``;
