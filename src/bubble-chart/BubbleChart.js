@@ -25,13 +25,16 @@ const BubbleChartWrapper = styled.div`
 `;
 
 const BubbleValueLabel = styled.text`
-  dominant-baseline: central;
   fill: ${(props) => props.theme.colors.bodyLight};
   font: ${(props) => props.theme.fonts.displayMedium};
   letter-spacing: -0.09em;
   font-size: 20px;
   text-anchor: middle;
 `;
+// this is a magic number based on the font size of BubbleValueLabel;
+// it is a workaround for the lack of IE support for the dominant-baseline attribute
+// to vertically center this text relative to its origin
+const BUBBLE_VALUE_Y_OFFSET = 8;
 
 const LegendWrapper = styled.div`
   bottom: 0;
@@ -152,7 +155,9 @@ export default function BubbleChart({ data: initialData, height, width }) {
             // 1) if the value is zero there will be no bubble, so no label
             // 2) if the bubble is really small (less than ~1%) the label won't fit
             d.pct >= 0.01 && (
-              <BubbleValueLabel>{formatAsPct(d.pct)}</BubbleValueLabel>
+              <BubbleValueLabel dy={BUBBLE_VALUE_Y_OFFSET}>
+                {formatAsPct(d.pct)}
+              </BubbleValueLabel>
             )
           }
           nodeSizeAccessor={getRadius}

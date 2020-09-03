@@ -41,11 +41,14 @@ const SourceLabel = styled.text`
 
 const TARGET_LABEL_PADDING = 8;
 const TargetLabel = styled.text`
-  dominant-baseline: middle;
   font-size: 16px;
   text-anchor: start;
   width: ${MARGIN.right - TARGET_LABEL_PADDING}px;
 `;
+// this is a magic number based on the label's font size;
+// workaround for lack of dominant-baseline support in IE
+// to vertically center the text on origin
+const TARGET_LABEL_Y_OFFSET = 6;
 
 // because IE does not support CSS transforms on SVG elements (#182),
 // we need to render label translations as SVG attributes. These functions do that
@@ -62,7 +65,9 @@ const getSourceLabelTransform = (
 // this one happens to not use a dynamic value at the moment but we'll leave it
 // as a function for consistency
 const getTargetLabelTransform = () =>
-  `translate(${NODE_WIDTH / 2 + TARGET_LABEL_PADDING})`;
+  `translate(${
+    NODE_WIDTH / 2 + TARGET_LABEL_PADDING
+  }, ${TARGET_LABEL_Y_OFFSET})`;
 
 const GRADIENTS = (
   <>
