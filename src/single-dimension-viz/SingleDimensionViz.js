@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 import Measure from "react-measure";
 import styled from "styled-components";
 import BubbleChart from "../bubble-chart";
@@ -24,11 +24,14 @@ const BreakdownBarWrapper = styled.div`
 
 function Breakdowns({ data, dimension }) {
   const breakdownHeight = SECTION_HEIGHT / data.size;
+  const [highlighted, setHighlighted] = useState();
   return Array.from(data, ([key, value], i) => (
     <BreakdownBarWrapper key={key} stackOrder={data.size - i}>
       <ProportionalBar
         data={value}
         height={breakdownHeight - GUTTER}
+        highlighted={highlighted}
+        setHighlighted={setHighlighted}
         title={formatDemographicValue(key, dimension)}
         showLegend={i === data.size - 1}
       />

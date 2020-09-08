@@ -51,18 +51,29 @@ const ProportionalBarLegendWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-export default function ProportionalBar({ data, height, showLegend, title }) {
-  const [highlighted, setHighlighted] = useState();
+export default function ProportionalBar({
+  data,
+  height,
+  highlighted: externalHighlighted,
+  setHighlighted: setExternalHighlighted,
+  showLegend,
+  title,
+}) {
+  const [localHighlighted, setLocalHighlighted] = useState();
 
   const dataWithPct = getDataWithPct(data);
   const noData = data.length === 0 || sum(data.map(({ value }) => value)) === 0;
+
+  const highlighted = localHighlighted || externalHighlighted;
 
   return (
     <ProportionalBarContainer>
       <ProportionalBarChartWrapper>
         <ResponsiveTooltipController
           pieceHoverAnnotation
-          setHighlighted={setHighlighted}
+          // we don't ever want mark hover to affect other charts
+          // so it can only control the local highlight state
+          setHighlighted={setLocalHighlighted}
         >
           <ResponsiveOrdinalFrame
             baseMarkProps={{
@@ -98,7 +109,9 @@ export default function ProportionalBar({ data, height, showLegend, title }) {
             <ColorLegend
               highlighted={highlighted}
               items={data}
-              setHighlighted={setHighlighted}
+              // legend may cover multiple charts in some layouts,
+              // so it prefers the external highlight when present
+              setHighlighted={setExternalHighlighted || setLocalHighlighted}
             />
           </ProportionalBarLegendWrapper>
         )}
@@ -116,10 +129,14 @@ ProportionalBar.propTypes = {
     })
   ).isRequired,
   height: PropTypes.number.isRequired,
+  highlighted: PropTypes.shape({ label: PropTypes.string.isRequired }),
+  setHighlighted: PropTypes.func,
   showLegend: PropTypes.bool,
   title: PropTypes.node.isRequired,
 };
 
 ProportionalBar.defaultProps = {
+  highlighted: undefined,
+  setHighlighted: undefined,
   showLegend: true,
 };

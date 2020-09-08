@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { DIMENSION_DATA_KEYS, RACE_LABELS, TOTAL_KEY } from "../constants";
 import ProportionalBar from "../proportional-bar";
@@ -42,6 +42,7 @@ export default function VizPopulationDisparity({ data: { countsByRace } }) {
   });
 
   const barHeight = useBarHeight();
+  const [highlighted, setHighlighted] = useState();
 
   return (
     <Wrapper>
@@ -49,6 +50,8 @@ export default function VizPopulationDisparity({ data: { countsByRace } }) {
         <ProportionalBar
           data={totalPopulationData}
           height={barHeight}
+          highlighted={highlighted}
+          setHighlighted={setHighlighted}
           title="Proportions of races in the state"
           showLegend={false}
         />
@@ -57,6 +60,8 @@ export default function VizPopulationDisparity({ data: { countsByRace } }) {
         <ProportionalBar
           data={correctionsPopulationData}
           height={barHeight}
+          highlighted={highlighted}
+          setHighlighted={setHighlighted}
           title="Proportions of races sentenced and under DOCR control"
           showLegend
         />
