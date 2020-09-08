@@ -173,7 +173,11 @@ export default function BubbleChart({ data: initialData, height, width }) {
         />
       </ResponsiveTooltipController>
       <LegendWrapper>
-        <ColorLegend items={initialData} />
+        <ColorLegend
+          highlighted={highlighted}
+          items={initialData}
+          setHighlighted={setHighlighted}
+        />
       </LegendWrapper>
     </BubbleChartWrapper>
   );

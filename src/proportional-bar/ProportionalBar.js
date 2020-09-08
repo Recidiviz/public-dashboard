@@ -95,7 +95,11 @@ export default function ProportionalBar({ data, height, showLegend, title }) {
         </ProportionalBarTitle>
         {showLegend && (
           <ProportionalBarLegendWrapper>
-            <ColorLegend items={data} />
+            <ColorLegend
+              highlighted={highlighted}
+              items={data}
+              setHighlighted={setHighlighted}
+            />
           </ProportionalBarLegendWrapper>
         )}
       </ProportionalBarMetadata>
