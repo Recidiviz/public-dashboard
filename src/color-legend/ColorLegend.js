@@ -2,6 +2,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
+import { highlightFade } from "../utils";
 
 const ColorLegendWrapper = styled.div`
   display: flex;
@@ -49,6 +50,8 @@ const ColorLegendItemSwatch = styled.div`
   border-radius: ${swatchSize / 2}px;
   height: ${swatchSize}px;
   margin-left: ${swatchSize / 2}px;
+  transition: background-color
+    ${(props) => props.theme.transition.defaultTimeSettings};
   width: ${swatchSize}px;
 `;
 
@@ -68,7 +71,13 @@ export default function ColorLegend({ highlighted, items, setHighlighted }) {
           onMouseOver={() => setHighlighted({ label })}
         >
           <ColorLegendItemLabel>{label}</ColorLegendItemLabel>
-          <ColorLegendItemSwatch color={color} />
+          <ColorLegendItemSwatch
+            color={
+              highlighted && highlighted.label !== label
+                ? highlightFade(color)
+                : color
+            }
+          />
         </ColorLegendItem>
       ))}
     </ColorLegendWrapper>
