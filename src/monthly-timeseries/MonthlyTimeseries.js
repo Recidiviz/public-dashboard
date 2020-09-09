@@ -7,7 +7,7 @@ import ChartWrapper from "../chart-wrapper";
 import Disclaimer from "../disclaimer";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
 import { THEME } from "../theme";
-import { formatAsPct, formatAsNumber, hoverColor } from "../utils";
+import { formatAsPct, formatAsNumber, highlightFade } from "../utils";
 
 const MonthlyTimeseriesWrapper = styled(ChartWrapper)`
   width: 100%;
@@ -76,8 +76,8 @@ export default function MonthlyTimeseries({ data }) {
           size={[undefined, 350]}
           style={(d) => ({
             fill:
-              highlighted && d.column === highlighted.column.name
-                ? hoverColor(THEME.colors.monthlyTimeseriesBar)
+              highlighted && d.column !== highlighted.column.name
+                ? highlightFade(THEME.colors.monthlyTimeseriesBar)
                 : THEME.colors.monthlyTimeseriesBar,
           })}
           type="bar"

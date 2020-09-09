@@ -1,8 +1,9 @@
+import classNames from "classnames";
 import { descending } from "d3-array";
 import { geoAlbers } from "d3-geo";
 import { scaleSqrt } from "d3-scale";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -14,7 +15,7 @@ import { mesh } from "topojson";
 import AspectRatioWrapper from "../aspect-ratio-wrapper";
 import ndGeography from "../assets/maps/us_nd.json";
 import { DEFAULT_TENANT, TENANTS, TOTAL_KEY } from "../constants";
-import { hoverColor } from "../utils";
+import { highlightFade } from "../utils";
 
 const MAX_MARKER_RADIUS = 19;
 
@@ -42,9 +43,9 @@ const LocationMarker = styled.circle`
   stroke-width: 1.5px;
   transition: fill ${(props) => props.theme.transition.defaultTimeSettings};
 
-  &:hover {
+  &.fade {
     fill: ${(props) =>
-      hoverColor(
+      highlightFade(
         props.selected
           ? props.theme.colors.highlight
           : props.theme.colors.mapMarkers.fill
@@ -97,6 +98,8 @@ export default function StateCountyMap({
     mesh(ndGeography)
   );
 
+  const [hovered, setHovered] = useState();
+
   return (
     <StateCountyMapContainer>
       <AspectRatioWrapper
@@ -132,6 +135,9 @@ export default function StateCountyMap({
               coordinates={[record.long, record.lat]}
             >
               <LocationMarker
+                className={classNames({
+                  fade: hovered && hovered.location !== record.location,
+                })}
                 onClick={(e) => handleLocationClick(e, record)}
                 onKeyPress={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
@@ -142,6 +148,10 @@ export default function StateCountyMap({
                   // stop clicks from moving focus to this element
                   e.preventDefault();
                 }}
+                onBlur={() => setHovered()}
+                onFocus={() => setHovered(record)}
+                onMouseOut={() => setHovered()}
+                onMouseOver={() => setHovered(record)}
                 r={markerRadiusScale(record.value)}
                 selected={record.location === currentLocation}
                 tabIndex={0}

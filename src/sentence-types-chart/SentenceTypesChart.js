@@ -198,13 +198,15 @@ export default function SentenceTypesChart({ data, width }) {
     return null;
   };
 
-  const shouldHighlight = (d) => {
+  const shouldFade = (d) => {
     return (
       highlighted &&
-      (highlighted.id === d.id ||
-        // edges connected to this node
-        (d.source || {}).id === highlighted.id ||
-        (d.target || {}).id === highlighted.id)
+      ((d.id && highlighted.id !== d.id) ||
+        // edges not connected to this node
+        (d.source &&
+          d.source.id !== highlighted.id &&
+          d.target &&
+          d.target.id !== highlighted.id))
     );
   };
 
@@ -223,7 +225,7 @@ export default function SentenceTypesChart({ data, width }) {
             }}
             edges={data}
             edgeStyle={(d) => ({
-              fill: shouldHighlight(d)
+              fill: shouldFade(d)
                 ? THEME.colors.sentencing.hover
                 : `url(#${d.source.id.toLowerCase()}Gradient)`,
             })}
@@ -238,9 +240,7 @@ export default function SentenceTypesChart({ data, width }) {
             nodes={nodes}
             nodeLabels={renderNodeLabel}
             nodeStyle={(d) => ({
-              fill: shouldHighlight(d)
-                ? THEME.colors.sentencing.hover
-                : d.color,
+              fill: shouldFade(d) ? THEME.colors.sentencing.hover : d.color,
             })}
             size={[Math.max(width, MIN_WIDTH), 500]}
           />

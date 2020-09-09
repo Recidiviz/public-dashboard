@@ -118,9 +118,9 @@ export const defaultTheme = {
       // unlike other charts, this one has a monochromatic palette with opacity
       incarceration: baseSentencingColor.copy({ opacity: 0.9 }).toString(),
       probation: baseSentencingColor.copy({ opacity: 0.7 }).toString(),
-      both: baseSentencingColor.copy({ opacity: 0.5 }).toString(),
-      target: baseSentencingColor.copy({ opacity: 0.4 }).toString(),
-      hover: baseSentencingColor.toString(),
+      both: baseSentencingColor.copy({ opacity: 0.6 }).toString(),
+      target: baseSentencingColor.copy({ opacity: 0.5 }).toString(),
+      hover: baseSentencingColor.copy({ opacity: 0.2 }).toString(),
     },
     sliderThumb: darkGreen,
     statistic: black,
