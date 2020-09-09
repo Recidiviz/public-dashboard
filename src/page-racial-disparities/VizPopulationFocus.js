@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { RACE_LABELS } from "../constants";
 import ProportionalBar from "../proportional-bar";
@@ -54,6 +54,7 @@ export default function VizPopulationFocus({
   ];
 
   const barHeight = useBarHeight();
+  const [highlighted, setHighlighted] = useState();
 
   return (
     <Wrapper>
@@ -61,6 +62,8 @@ export default function VizPopulationFocus({
         <ProportionalBar
           data={totalPopulationData}
           height={barHeight}
+          highlighted={highlighted}
+          setHighlighted={setHighlighted}
           title="Proportions of total state population"
           showLegend={false}
         />
@@ -69,6 +72,8 @@ export default function VizPopulationFocus({
         <ProportionalBar
           data={correctionsPopulationData}
           height={barHeight}
+          highlighted={highlighted}
+          setHighlighted={setHighlighted}
           title="Proportions of people sentenced and under DOCR control"
           showLegend
         />

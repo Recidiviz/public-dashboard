@@ -1,6 +1,6 @@
 import { ascending } from "d3-array";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { TOTAL_KEY, VIOLATION_LABELS } from "../constants";
 import Disclaimer from "../disclaimer";
@@ -42,6 +42,7 @@ export default function VizRevocationDisparity({
   );
 
   const barHeight = useBarHeight();
+  const [highlighted, setHighlighted] = useState();
 
   return (
     <Wrapper>
@@ -49,6 +50,8 @@ export default function VizRevocationDisparity({
         <ProportionalBar
           data={totalData}
           height={barHeight}
+          highlighted={highlighted}
+          setHighlighted={setHighlighted}
           title="Proportions of revocation reasons overall"
           showLegend={false}
         />
@@ -57,6 +60,8 @@ export default function VizRevocationDisparity({
         <ProportionalBar
           data={categoryData}
           height={barHeight}
+          highlighted={highlighted}
+          setHighlighted={setHighlighted}
           title={
             <>
               Proportions of revocation reasons for{" "}

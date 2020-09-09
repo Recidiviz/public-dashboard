@@ -5,7 +5,7 @@ import ResponsiveOrdinalFrame from "semiotic/lib/ResponsiveOrdinalFrame";
 import styled from "styled-components";
 import ColorLegend from "../color-legend";
 import { THEME } from "../theme";
-import { getDataWithPct, hoverColor } from "../utils";
+import { getDataWithPct, highlightFade } from "../utils";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
 
 const ProportionalBarContainer = styled.figure`
@@ -51,18 +51,29 @@ const ProportionalBarLegendWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-export default function ProportionalBar({ data, height, showLegend, title }) {
-  const [highlighted, setHighlighted] = useState();
+export default function ProportionalBar({
+  data,
+  height,
+  highlighted: externalHighlighted,
+  setHighlighted: setExternalHighlighted,
+  showLegend,
+  title,
+}) {
+  const [localHighlighted, setLocalHighlighted] = useState();
 
   const dataWithPct = getDataWithPct(data);
   const noData = data.length === 0 || sum(data.map(({ value }) => value)) === 0;
+
+  const highlighted = localHighlighted || externalHighlighted;
 
   return (
     <ProportionalBarContainer>
       <ProportionalBarChartWrapper>
         <ResponsiveTooltipController
           pieceHoverAnnotation
-          setHighlighted={setHighlighted}
+          // we don't ever want mark hover to affect other charts
+          // so it can only control the local highlight state
+          setHighlighted={setLocalHighlighted}
         >
           <ResponsiveOrdinalFrame
             baseMarkProps={{
@@ -80,8 +91,8 @@ export default function ProportionalBar({ data, height, showLegend, title }) {
             size={[0, height]}
             style={(d) => ({
               fill:
-                (highlighted || {}).label === d.label
-                  ? hoverColor(d.color)
+                highlighted && highlighted.label !== d.label
+                  ? highlightFade(d.color)
                   : d.color,
             })}
             type="bar"
@@ -95,7 +106,13 @@ export default function ProportionalBar({ data, height, showLegend, title }) {
         </ProportionalBarTitle>
         {showLegend && (
           <ProportionalBarLegendWrapper>
-            <ColorLegend items={data} />
+            <ColorLegend
+              highlighted={highlighted}
+              items={data}
+              // legend may cover multiple charts in some layouts,
+              // so it prefers the external highlight when present
+              setHighlighted={setExternalHighlighted || setLocalHighlighted}
+            />
           </ProportionalBarLegendWrapper>
         )}
       </ProportionalBarMetadata>
@@ -112,10 +129,14 @@ ProportionalBar.propTypes = {
     })
   ).isRequired,
   height: PropTypes.number.isRequired,
+  highlighted: PropTypes.shape({ label: PropTypes.string.isRequired }),
+  setHighlighted: PropTypes.func,
   showLegend: PropTypes.bool,
   title: PropTypes.node.isRequired,
 };
 
 ProportionalBar.defaultProps = {
+  highlighted: undefined,
+  setHighlighted: undefined,
   showLegend: true,
 };
