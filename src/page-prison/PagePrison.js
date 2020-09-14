@@ -1,9 +1,11 @@
+import { parseISO } from "date-fns";
 import React from "react";
 import DetailPage from "../detail-page";
 import { PATHS, ALL_PAGES, SECTION_TITLES } from "../constants";
 import { formatLocation, recordIsMetricPeriodMonths } from "../utils";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
+import { vizWithDateGetter } from "../viz-population-over-time";
 import VizPrisonPopulation from "../viz-prison-population";
 import VizPrisonReleases from "../viz-prison-releases";
 import VizPrisonReasons from "../viz-prison-reasons";
@@ -18,6 +20,8 @@ const DESCRIPTION = (
     reentry.
   </>
 );
+
+const getPrisonDate = (record) => parseISO(record.date_of_stay);
 
 export default function PagePrison() {
   const { apiData, isLoading } = useChartData("us_nd/prison");
@@ -49,6 +53,28 @@ export default function PagePrison() {
         populationDemographics:
           apiData.incarceration_population_by_facility_by_demographics,
         locations: facilityLocations,
+      },
+    },
+    {
+      title: SECTION_TITLES[PATHS.prison].overTime,
+      description: (
+        <>
+          Voluptate incididunt dolor magna id exercitation incididunt nulla
+          cupidatat duis. Commodo sunt cillum non ad dolor ea irure consectetur
+          consectetur incididunt nostrud do cupidatat enim. Ipsum ullamco
+          pariatur tempor tempor mollit elit minim mollit deserunt nulla
+          aliquip. Qui do eu enim ullamco incididunt culpa enim ea amet commodo
+          dolore laborum do nulla. Nisi deserunt culpa esse eiusmod ex Lorem sit
+          deserunt velit occaecat cillum anim. Nostrud ex tempor laborum ea duis
+          irure ex magna. Mollit do anim amet laborum reprehenderit adipisicing
+          et laborum aute do irure incididunt.
+        </>
+      ),
+      showDimensionControl: true,
+      VizComponent: vizWithDateGetter(getPrisonDate),
+      vizData: {
+        populationOverTime:
+          apiData.incarceration_population_by_month_by_demographics,
       },
     },
     {

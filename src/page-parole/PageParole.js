@@ -8,6 +8,7 @@ import {
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
 import VizParolePopulation from "../viz-parole-population";
+import VizSupervisionPopulationOverTime from "../viz-supervision-population-over-time";
 import VizSupervisionProgram from "../viz-supervision-program";
 import VizSupervisionRevocation from "../viz-supervision-revocation";
 import VizSupervisionSuccess from "../viz-supervision-success";
@@ -62,6 +63,29 @@ export default function PageParole() {
           recordIsParole
         ),
         locations: officeLocations,
+      },
+    },
+    {
+      title: SECTION_TITLES[PATHS.parole].overTime,
+      description: (
+        <>
+          Voluptate incididunt dolor magna id exercitation incididunt nulla
+          cupidatat duis. Commodo sunt cillum non ad dolor ea irure consectetur
+          consectetur incididunt nostrud do cupidatat enim. Ipsum ullamco
+          pariatur tempor tempor mollit elit minim mollit deserunt nulla
+          aliquip. Qui do eu enim ullamco incididunt culpa enim ea amet commodo
+          dolore laborum do nulla. Nisi deserunt culpa esse eiusmod ex Lorem sit
+          deserunt velit occaecat cillum anim. Nostrud ex tempor laborum ea duis
+          irure ex magna. Mollit do anim amet laborum reprehenderit adipisicing
+          et laborum aute do irure incididunt.
+        </>
+      ),
+      showDimensionControl: true,
+      VizComponent: VizSupervisionPopulationOverTime,
+      vizData: {
+        populationOverTime: apiData.supervision_population_by_month_by_demographics.filter(
+          recordIsParole
+        ),
       },
     },
     {
