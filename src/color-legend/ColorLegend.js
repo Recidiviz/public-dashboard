@@ -67,8 +67,8 @@ export default function ColorLegend({ highlighted, items, setHighlighted }) {
           key={label}
           onBlur={() => setHighlighted()}
           onFocus={() => setHighlighted({ label })}
-          onMouseOut={() => setHighlighted()}
-          onMouseOver={() => setHighlighted({ label })}
+          onMouseLeave={() => setHighlighted()}
+          onMouseEnter={() => setHighlighted({ label })}
         >
           <ColorLegendItemLabel>{label}</ColorLegendItemLabel>
           <ColorLegendItemSwatch
