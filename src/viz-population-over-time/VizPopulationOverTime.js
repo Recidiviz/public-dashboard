@@ -11,6 +11,7 @@ import {
   formatAsNumber,
   recordIsTotalByDimension,
   highlightFade,
+  getDataWithPct,
 } from "../utils";
 import {
   DIMENSION_MAPPINGS,
@@ -96,12 +97,14 @@ export default function VizPopulationOverTime({
             const dateHovered = d.time;
             return {
               title: getDateLabel(dateHovered),
-              records: d.points
-                .filter((p) => isEqual(p.data.time, dateHovered))
-                .map((p) => ({
-                  label: p.parentLine.label,
-                  value: p.data.population,
-                })),
+              records: getDataWithPct(
+                d.points
+                  .filter((p) => isEqual(p.data.time, dateHovered))
+                  .map((p) => ({
+                    label: p.parentLine.label,
+                    value: p.data.population,
+                  }))
+              ),
             };
           }}
           hoverAnnotation={[
