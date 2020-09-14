@@ -20,7 +20,7 @@ import {
 } from "../constants";
 import ColorLegend from "../color-legend";
 
-const MARGIN = { bottom: 32, left: 56, right: 8, top: 8 };
+const MARGIN = { bottom: 40, left: 56, right: 8, top: 8 };
 
 const Wrapper = styled.div``;
 
@@ -45,6 +45,12 @@ const ChartWrapper = styled(BaseChartWrapper)`
 
     .xyframe-line {
       transition: fill ${(props) => props.theme.transition.defaultTimeSettings};
+    }
+
+    .axis.x {
+      text.axis-label {
+        transform: rotate(-45deg);
+      }
     }
   }
 `;
