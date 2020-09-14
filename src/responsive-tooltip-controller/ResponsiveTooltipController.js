@@ -102,7 +102,10 @@ export default function ResponsiveTooltipController({
 ResponsiveTooltipController.propTypes = {
   children: PropTypes.node,
   getTooltipProps: PropTypes.func,
-  hoverAnnotation: PropTypes.bool,
+  hoverAnnotation: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.arrayOf(PropTypes.object),
+  ]),
   pieceHoverAnnotation: PropTypes.bool,
   render: PropTypes.func,
   setHighlighted: PropTypes.func,
