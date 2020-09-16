@@ -1,5 +1,5 @@
 import { scaleTime } from "d3-scale";
-import { isEqual, format } from "date-fns";
+import { parseISO, isEqual, format } from "date-fns";
 import PropTypes from "prop-types";
 import React, { useState, useMemo } from "react";
 import ResponsiveXYFrame from "semiotic/lib/ResponsiveXYFrame";
@@ -55,13 +55,12 @@ const ChartWrapper = styled(BaseChartWrapper)`
   }
 `;
 
-const dateToLabel = (date) => format(date, "MMM d y");
+const getRecordDate = (record) => parseISO(record.population_date);
+const getDateLabel = (date) => format(date, "MMM d y");
 
 export default function VizPopulationOverTime({
   data: { populationOverTime },
   dimension,
-  getRecordDate,
-  getDateLabel,
 }) {
   const [highlighted, setHighlighted] = useState();
 
@@ -90,7 +89,7 @@ export default function VizPopulationOverTime({
           population: Number(record.population_count),
         })),
     }));
-  }, [dataForDimension, dimension, getRecordDate]);
+  }, [dataForDimension, dimension]);
 
   if (!dimension) return null;
 
@@ -170,18 +169,9 @@ VizPopulationOverTime.propTypes = {
   data: PropTypes.shape({
     populationOverTime: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  getRecordDate: PropTypes.func.isRequired,
-  getDateLabel: PropTypes.func,
   dimension: PropTypes.string,
 };
 
 VizPopulationOverTime.defaultProps = {
-  getDateLabel: dateToLabel,
   dimension: undefined,
 };
-
-export function vizWithDateGetter(dateAccessorFn) {
-  return function WrappedVizPopulationOverTime(props) {
-    return <VizPopulationOverTime getRecordDate={dateAccessorFn} {...props} />;
-  };
-}

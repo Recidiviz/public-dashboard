@@ -1,11 +1,10 @@
-import { parseISO } from "date-fns";
 import React from "react";
 import DetailPage from "../detail-page";
 import { PATHS, ALL_PAGES, SECTION_TITLES } from "../constants";
 import { formatLocation, recordIsMetricPeriodMonths } from "../utils";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
-import { vizWithDateGetter } from "../viz-population-over-time";
+import VizPopulationOverTime from "../viz-population-over-time";
 import VizPrisonPopulation from "../viz-prison-population";
 import VizPrisonReleases from "../viz-prison-releases";
 import VizPrisonReasons from "../viz-prison-reasons";
@@ -20,8 +19,6 @@ const DESCRIPTION = (
     reentry.
   </>
 );
-
-const getPrisonDate = (record) => parseISO(record.date_of_stay);
 
 export default function PagePrison() {
   const { apiData, isLoading } = useChartData("us_nd/prison");
@@ -71,7 +68,7 @@ export default function PagePrison() {
         </>
       ),
       showDimensionControl: true,
-      VizComponent: vizWithDateGetter(getPrisonDate),
+      VizComponent: VizPopulationOverTime,
       vizData: {
         populationOverTime:
           apiData.incarceration_population_by_month_by_demographics,

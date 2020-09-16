@@ -8,7 +8,7 @@ import {
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
 import VizParolePopulation from "../viz-parole-population";
-import VizSupervisionPopulationOverTime from "../viz-supervision-population-over-time";
+import VizPopulationOverTime from "../viz-population-over-time";
 import VizSupervisionProgram from "../viz-supervision-program";
 import VizSupervisionRevocation from "../viz-supervision-revocation";
 import VizSupervisionSuccess from "../viz-supervision-success";
@@ -81,7 +81,7 @@ export default function PageParole() {
         </>
       ),
       showDimensionControl: true,
-      VizComponent: VizSupervisionPopulationOverTime,
+      VizComponent: VizPopulationOverTime,
       vizData: {
         populationOverTime: apiData.supervision_population_by_month_by_demographics.filter(
           recordIsParole
