@@ -64,15 +64,10 @@ export default function PageProbation() {
       title: SECTION_TITLES[PATHS.probation].overTime,
       description: (
         <>
-          Voluptate incididunt dolor magna id exercitation incididunt nulla
-          cupidatat duis. Commodo sunt cillum non ad dolor ea irure consectetur
-          consectetur incididunt nostrud do cupidatat enim. Ipsum ullamco
-          pariatur tempor tempor mollit elit minim mollit deserunt nulla
-          aliquip. Qui do eu enim ullamco incididunt culpa enim ea amet commodo
-          dolore laborum do nulla. Nisi deserunt culpa esse eiusmod ex Lorem sit
-          deserunt velit occaecat cillum anim. Nostrud ex tempor laborum ea duis
-          irure ex magna. Mollit do anim amet laborum reprehenderit adipisicing
-          et laborum aute do irure incididunt.
+          Broadly speaking, increased activity in earlier parts of the criminal
+          justice system (such as arrests and sentencing) will result in
+          increases in the probation population. Changes in probation sentence
+          lengths, etc. may also contribute to the rise and fall of this number.
         </>
       ),
       showDimensionControl: true,
