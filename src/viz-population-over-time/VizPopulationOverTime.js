@@ -1,3 +1,4 @@
+import { ascending } from "d3-array";
 import { scaleTime } from "d3-scale";
 import { parseISO, isEqual, format } from "date-fns";
 import PropTypes from "prop-types";
@@ -9,11 +10,12 @@ import ResponsiveTooltipController from "../responsive-tooltip-controller";
 import { THEME } from "../theme";
 import {
   formatAsNumber,
-  recordIsTotalByDimension,
-  highlightFade,
   getDataWithPct,
+  highlightFade,
+  recordIsTotalByDimension,
 } from "../utils";
 import {
+  DEMOGRAPHIC_UNKNOWN,
   DIMENSION_MAPPINGS,
   DIMENSION_DATA_KEYS,
   TOTAL_KEY,
@@ -72,23 +74,30 @@ export default function VizPopulationOverTime({
   const chartData = useMemo(() => {
     if (!dimension) return null;
 
-    return Array.from(DIMENSION_MAPPINGS.get(dimension), ([value, label]) => ({
-      label,
-      color:
-        value === TOTAL_KEY
-          ? THEME.colors.populationTimeseriesTotal
-          : THEME.colors[dimension][value],
-      coordinates: dataForDimension
-        .filter((record) =>
-          value === TOTAL_KEY
-            ? true
-            : record[DIMENSION_DATA_KEYS[dimension]] === value
-        )
-        .map((record) => ({
-          time: getRecordDate(record),
-          population: Number(record.population_count),
-        })),
-    }));
+    return (
+      Array.from(DIMENSION_MAPPINGS.get(dimension))
+        // don't need to include unknown in this chart;
+        // they are minimal to nonexistent in historical data and make the legend confusing
+        .filter(([value]) => value !== DEMOGRAPHIC_UNKNOWN)
+        .map(([value, label]) => ({
+          label,
+          color:
+            value === TOTAL_KEY
+              ? THEME.colors.populationTimeseriesTotal
+              : THEME.colors[dimension][value],
+          coordinates: dataForDimension
+            .filter((record) =>
+              value === TOTAL_KEY
+                ? true
+                : record[DIMENSION_DATA_KEYS[dimension]] === value
+            )
+            .map((record) => ({
+              time: getRecordDate(record),
+              population: Number(record.population_count),
+            }))
+            .sort((a, b) => ascending(a.time, b.time)),
+        }))
+    );
   }, [dataForDimension, dimension]);
 
   if (!dimension) return null;
@@ -130,6 +139,8 @@ export default function VizPopulationOverTime({
               },
             ]}
             baseMarkProps={{
+              // this disables JS animations
+              // (we have implemented CSS transitions instead, which perform better here)
               forceUpdate: true,
             }}
             lines={chartData}
