@@ -4,6 +4,7 @@ import { PATHS, ALL_PAGES, SECTION_TITLES } from "../constants";
 import { formatLocation, recordIsMetricPeriodMonths } from "../utils";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
+import VizPopulationOverTime from "../viz-population-over-time";
 import VizPrisonPopulation from "../viz-prison-population";
 import VizPrisonReleases from "../viz-prison-releases";
 import VizPrisonReasons from "../viz-prison-reasons";
@@ -49,6 +50,24 @@ export default function PagePrison() {
         populationDemographics:
           apiData.incarceration_population_by_facility_by_demographics,
         locations: facilityLocations,
+      },
+    },
+    {
+      title: SECTION_TITLES[PATHS.prison].overTime,
+      description: (
+        <>
+          Broadly speaking, increased activity in earlier parts of the criminal
+          justice system (such as arrests and sentencing) will result in
+          increases in the prison population. Changes in sentence lengths,
+          revocations from community supervision, etc. may also contribute to
+          the rise and fall of this number.
+        </>
+      ),
+      showDimensionControl: true,
+      VizComponent: VizPopulationOverTime,
+      vizData: {
+        populationOverTime:
+          apiData.incarceration_population_by_month_by_demographics,
       },
     },
     {

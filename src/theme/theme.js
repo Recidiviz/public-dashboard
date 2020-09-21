@@ -106,6 +106,7 @@ export const defaultTheme = {
     pillValue: black,
     monthlyTimeseriesBar: dataVizDefaultColor,
     noData: "#EFEDEC",
+    populationTimeseriesTotal: dataVizDefaultColor,
     programParticipation: black,
     race: assignDataVizColors(Array.from(RACE_LABELS.keys())),
     racialDisparities: {

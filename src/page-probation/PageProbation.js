@@ -11,6 +11,7 @@ import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
 import TextLink from "../text-link";
 import VizProbationPopulation from "../viz-probation-population";
+import VizPopulationOverTime from "../viz-population-over-time";
 import VizSupervisionProgram from "../viz-supervision-program";
 import VizSupervisionRevocation from "../viz-supervision-revocation";
 import VizSupervisionSuccess from "../viz-supervision-success";
@@ -57,6 +58,24 @@ export default function PageProbation() {
           recordIsProbation
         ),
         locations: apiData.judicial_districts,
+      },
+    },
+    {
+      title: SECTION_TITLES[PATHS.probation].overTime,
+      description: (
+        <>
+          Broadly speaking, increased activity in earlier parts of the criminal
+          justice system (such as arrests and sentencing) will result in
+          increases in the probation population. Changes in probation sentence
+          lengths, etc. may also contribute to the rise and fall of this number.
+        </>
+      ),
+      showDimensionControl: true,
+      VizComponent: VizPopulationOverTime,
+      vizData: {
+        populationOverTime: apiData.supervision_population_by_month_by_demographics.filter(
+          recordIsProbation
+        ),
       },
     },
     {

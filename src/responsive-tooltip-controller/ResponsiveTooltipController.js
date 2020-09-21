@@ -1,7 +1,7 @@
 import useBreakpoint from "@w11r/use-breakpoint";
 import empty from "empty-lite";
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useInfoPanelDispatch, useInfoPanelState } from "../info-panel";
 import Tooltip from "../tooltip";
 
@@ -33,11 +33,13 @@ export default function ResponsiveTooltipController({
   const infoPanelDispatch = useInfoPanelDispatch();
   const infoPanelState = useInfoPanelState();
   const enableInfoPanel = useBreakpoint(false, ["mobile-", true]);
+  const [clickAnnotations, setClickAnnotations] = useState();
 
   useEffect(() => {
-    // when state is cleared, make sure highlight is cleared also
-    if (empty(infoPanelState) && setHighlighted) {
-      setHighlighted();
+    // when state is cleared, make sure any relevant chart props are cleared also
+    if (empty(infoPanelState)) {
+      if (setHighlighted) setHighlighted();
+      setClickAnnotations();
     }
   }, [infoPanelState, setHighlighted]);
 
@@ -60,6 +62,12 @@ export default function ResponsiveTooltipController({
     tooltipContent: enableInfoPanel ? renderNull : tooltipContent,
   };
 
+  if (clickAnnotations) {
+    // there is no such thing as a "click annotation" in Semiotic
+    // so we just pass them as regular annotations
+    childProps.annotations = clickAnnotations;
+  }
+
   // not all chart frames support this so don't include it by default
   // or Semiotic will yell at you
   if (pieceHoverAnnotation)
@@ -73,6 +81,20 @@ export default function ResponsiveTooltipController({
       });
       if (setHighlighted) {
         setHighlighted(d);
+      }
+      if (Array.isArray(hoverAnnotation)) {
+        // if there is hover behavior other than the tooltip, we want to preserve it
+        const additionalHoverAnnotations = hoverAnnotation
+          .filter(({ type }) => type !== "frame-hover")
+          .map((annotationSpec) => {
+            // hover annotation specs expect to have point data applied on the fly;
+            // here we will substitute equivalent data from the click event
+            return { ...annotationSpec, ...d.data };
+          });
+
+        if (additionalHoverAnnotations.length) {
+          setClickAnnotations(additionalHoverAnnotations);
+        }
       }
     }
   };
@@ -102,7 +124,10 @@ export default function ResponsiveTooltipController({
 ResponsiveTooltipController.propTypes = {
   children: PropTypes.node,
   getTooltipProps: PropTypes.func,
-  hoverAnnotation: PropTypes.bool,
+  hoverAnnotation: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.arrayOf(PropTypes.object),
+  ]),
   pieceHoverAnnotation: PropTypes.bool,
   render: PropTypes.func,
   setHighlighted: PropTypes.func,

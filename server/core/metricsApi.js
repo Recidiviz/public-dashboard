@@ -50,6 +50,7 @@ const FILES_BY_METRIC_TYPE = {
     "supervision_revocations_by_period_by_type_by_demographics.json",
     "supervision_success_by_month.json",
     "supervision_success_by_period_by_demographics.json",
+    "supervision_population_by_month_by_demographics.json",
   ],
   prison: [
     "incarceration_facilities.json",
@@ -57,6 +58,7 @@ const FILES_BY_METRIC_TYPE = {
     "incarceration_population_by_facility_by_demographics.json",
     "incarceration_releases_by_type_by_period.json",
     "incarceration_lengths_by_demographics.json",
+    "incarceration_population_by_month_by_demographics.json",
   ],
   probation: [
     "active_program_participation_by_region.json",
@@ -65,6 +67,7 @@ const FILES_BY_METRIC_TYPE = {
     "supervision_revocations_by_period_by_type_by_demographics.json",
     "supervision_success_by_month.json",
     "supervision_success_by_period_by_demographics.json",
+    "supervision_population_by_month_by_demographics.json",
   ],
   race: ["racial_disparities.json"],
   sentencing: [

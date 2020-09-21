@@ -24,18 +24,21 @@ export const SECTION_TITLES = {
   },
   [PATHS.prison]: {
     population: "Who is in custody?",
+    overTime: "How has the incarcerated population changed over time?",
     reasons: "How did they get there?",
     terms: "How long are they there?",
     releases: "Where do they go from there?",
   },
   [PATHS.probation]: {
     population: "Who is on probation?",
+    overTime: "How has the probation population changed over time?",
     completion: "What happens after probation?",
     revocations: "Why do revocations happen?",
     ftr: "Free Through Recovery program",
   },
   [PATHS.parole]: {
     population: "Who is on parole?",
+    overTime: "How has the parole population changed over time?",
     completion: "What happens after parole?",
     revocations: "Why do revocations happen?",
     ftr: "Free Through Recovery program",
