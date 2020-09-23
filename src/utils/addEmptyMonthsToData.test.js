@@ -98,32 +98,4 @@ describe("function", () => {
     // no extraneous items
     expect(patchedData.length).toEqual(expectedData.length);
   });
-
-  test("includes extra fields in patched records", () => {
-    const extraFields = {
-      important_extra_field: "blerg",
-      additional_important_extra_field: "also blerg",
-    };
-    const dataWithGaps = [
-      {
-        year: "2020",
-        month: "3",
-        test_metric: "8",
-        ...extraFields,
-      },
-    ];
-
-    const patchedData = addEmptyMonthsToData({
-      dataPoints: dataWithGaps,
-      monthCount: 5,
-      valueKey: "test_metric",
-      emptyValue: "0",
-      extraFields,
-    });
-
-    expect(patchedData.length).toEqual(5);
-    patchedData.forEach((record) => {
-      expect(record).toEqual(expect.objectContaining(extraFields));
-    });
-  });
 });
