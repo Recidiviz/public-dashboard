@@ -1,29 +1,16 @@
-import { ascending } from "d3-array";
 import { scaleTime } from "d3-scale";
-import { parseISO, isEqual, format } from "date-fns";
+import { isEqual, format } from "date-fns";
 import PropTypes from "prop-types";
-import React, { useState, useMemo } from "react";
-import ResponsiveXYFrame from "semiotic/lib/ResponsiveXYFrame";
+import React, { useState } from "react";
+import Measure from "react-measure";
+import XYFrame from "semiotic/lib/XYFrame";
 import styled from "styled-components";
 import BaseChartWrapper from "../chart-wrapper";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
 import { THEME } from "../theme";
-import {
-  addEmptyMonthsToData,
-  formatAsNumber,
-  getDataWithPct,
-  highlightFade,
-  recordIsTotalByDimension,
-} from "../utils";
-import {
-  DEMOGRAPHIC_UNKNOWN,
-  DIMENSION_MAPPINGS,
-  DIMENSION_DATA_KEYS,
-  TOTAL_KEY,
-} from "../constants";
+import { formatAsNumber, getDataWithPct, highlightFade } from "../utils";
 import ColorLegend from "../color-legend";
 
-const EXPECTED_MONTHS = 240; // 20 years
 const MARGIN = { bottom: 40, left: 56, right: 8, top: 8 };
 
 const Wrapper = styled.div``;
@@ -61,134 +48,92 @@ const ChartWrapper = styled(BaseChartWrapper)`
 
 const getDateLabel = (date) => format(date, "MMM d y");
 
-export default function VizPopulationOverTime({
-  data: { populationOverTime },
-  dimension,
-}) {
+export default function VizPopulationOverTime({ data }) {
   const [highlighted, setHighlighted] = useState();
 
-  const dataForDimension = useMemo(() => {
-    if (!dimension) return null;
-    return populationOverTime.filter(recordIsTotalByDimension(dimension));
-  }, [dimension, populationOverTime]);
-
-  const chartData = useMemo(() => {
-    if (!dimension) return null;
-
-    return (
-      Array.from(DIMENSION_MAPPINGS.get(dimension))
-        // don't need to include unknown in this chart;
-        // they are minimal to nonexistent in historical data and make the legend confusing
-        .filter(([value]) => value !== DEMOGRAPHIC_UNKNOWN)
-        .map(([value, label]) => ({
-          label,
-          color:
-            value === TOTAL_KEY
-              ? THEME.colors.populationTimeseriesTotal
-              : THEME.colors[dimension][value],
-          coordinates: addEmptyMonthsToData({
-            dataPoints: dataForDimension.filter((record) =>
-              value === TOTAL_KEY
-                ? true
-                : record[DIMENSION_DATA_KEYS[dimension]] === value
-            ),
-            monthCount: EXPECTED_MONTHS,
-            valueKey: "population_count",
-            emptyValue: "0",
-            dateField: "population_date",
-          })
-            .map((record) => ({
-              time: parseISO(record.population_date),
-              population: Number(record.population_count),
-            }))
-            .sort((a, b) => ascending(a.time, b.time)),
-        }))
-    );
-  }, [dataForDimension, dimension]);
-
-  if (!dimension) return null;
-
   return (
-    <Wrapper>
-      <ChartWrapper>
-        <ResponsiveTooltipController
-          getTooltipProps={(d) => {
-            const dateHovered = d.time;
-            return {
-              title: getDateLabel(dateHovered),
-              records: getDataWithPct(
-                d.points
-                  .filter((p) => isEqual(p.data.time, dateHovered))
-                  .map((p) => ({
-                    label: p.parentLine.label,
-                    value: p.data.population,
-                  }))
-              ),
-            };
-          }}
-          hoverAnnotation={[
-            { type: "x", disable: ["connector", "note"] },
-            { type: "frame-hover" },
-          ]}
-        >
-          <ResponsiveXYFrame
-            axes={[
-              {
-                orient: "left",
-                tickFormat: formatAsNumber,
-                tickLineGenerator: () => null,
-              },
-              {
-                orient: "bottom",
-                tickFormat: (time) => format(time, "y"),
-                tickLineGenerator: () => null,
-              },
-            ]}
-            baseMarkProps={{
-              // this disables JS animations
-              // (we have implemented CSS transitions instead, which perform better here)
-              forceUpdate: true,
-            }}
-            lines={chartData}
-            lineStyle={(d) => ({
-              fill:
-                highlighted && highlighted.label !== d.label
-                  ? highlightFade(d.color)
-                  : d.color,
-              stroke: THEME.colors.background,
-              strokeWidth: 1,
-            })}
-            lineType={{ type: "stackedarea", sort: null }}
-            margin={MARGIN}
-            pointStyle={{ display: "none" }}
-            responsiveWidth
-            // showLinePoints="top"
-            size={[undefined, 430]}
-            xAccessor="time"
-            xScaleType={scaleTime()}
-            yAccessor="population"
-            yExtent={[0]}
-          />
-        </ResponsiveTooltipController>
-      </ChartWrapper>
-      <LegendWrapper>
-        <ColorLegend
-          highlighted={highlighted}
-          items={chartData}
-          setHighlighted={setHighlighted}
-        />
-      </LegendWrapper>
-    </Wrapper>
+    <Measure bounds>
+      {({
+        measureRef,
+        contentRect: {
+          bounds: { width },
+        },
+      }) => (
+        <Wrapper ref={measureRef}>
+          <ChartWrapper>
+            <ResponsiveTooltipController
+              getTooltipProps={(d) => {
+                const dateHovered = d.time;
+                return {
+                  title: getDateLabel(dateHovered),
+                  records: getDataWithPct(
+                    d.points
+                      .filter((p) => isEqual(p.data.time, dateHovered))
+                      .map((p) => ({
+                        label: p.parentLine.label,
+                        value: p.data.population,
+                      }))
+                  ),
+                };
+              }}
+              hoverAnnotation={[
+                { type: "x", disable: ["connector", "note"] },
+                { type: "frame-hover" },
+              ]}
+            >
+              <XYFrame
+                axes={[
+                  {
+                    orient: "left",
+                    tickFormat: formatAsNumber,
+                    tickLineGenerator: () => null,
+                  },
+                  {
+                    orient: "bottom",
+                    tickFormat: (time) => format(time, "y"),
+                    tickLineGenerator: () => null,
+                  },
+                ]}
+                baseMarkProps={{
+                  // this disables JS animations
+                  // (we have implemented CSS transitions instead, which perform better here)
+                  forceUpdate: true,
+                }}
+                lines={data}
+                lineStyle={(d) => ({
+                  fill:
+                    highlighted && highlighted.label !== d.label
+                      ? highlightFade(d.color)
+                      : d.color,
+                  stroke: THEME.colors.background,
+                  strokeWidth: 1,
+                })}
+                lineType={{ type: "stackedarea", sort: null }}
+                margin={MARGIN}
+                pointStyle={{ display: "none" }}
+                size={[width, 430]}
+                xAccessor="time"
+                xScaleType={scaleTime()}
+                yAccessor="population"
+                yExtent={[0]}
+              />
+            </ResponsiveTooltipController>
+          </ChartWrapper>
+          <LegendWrapper>
+            <ColorLegend
+              highlighted={highlighted}
+              items={data}
+              setHighlighted={setHighlighted}
+            />
+          </LegendWrapper>
+        </Wrapper>
+      )}
+    </Measure>
   );
 }
 
 VizPopulationOverTime.propTypes = {
-  data: PropTypes.shape({
-    populationOverTime: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
-  dimension: PropTypes.string,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-VizPopulationOverTime.defaultProps = {
-  dimension: undefined,
-};
+VizPopulationOverTime.defaultProps = {};
