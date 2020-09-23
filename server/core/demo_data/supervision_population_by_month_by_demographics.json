@@ -137,8 +137,7 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "population_count": "40", "population_date": "2000-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "45", "population_date": "2000-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "37", "population_date": "2000-11-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "38", "population_date": "2000-11-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "23", "population_date": "2000-11-01", "supervision_type": "PAROLE"}
+{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "61", "population_date": "2000-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "72", "population_date": "2000-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "110", "population_date": "2000-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "175", "population_date": "2000-12-01", "supervision_type": "PAROLE"}
@@ -163,8 +162,7 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "population_count": "36", "population_date": "2001-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "42", "population_date": "2001-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "34", "population_date": "2001-01-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "35", "population_date": "2001-01-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "21", "population_date": "2001-01-01", "supervision_type": "PAROLE"}
+{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "56", "population_date": "2001-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "66", "population_date": "2001-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "102", "population_date": "2001-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "177", "population_date": "2001-02-01", "supervision_type": "PAROLE"}
@@ -176,8 +174,7 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "population_count": "38", "population_date": "2001-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "44", "population_date": "2001-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "36", "population_date": "2001-02-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "37", "population_date": "2001-02-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "22", "population_date": "2001-02-01", "supervision_type": "PAROLE"}
+{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "59", "population_date": "2001-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "70", "population_date": "2001-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "107", "population_date": "2001-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "170", "population_date": "2001-03-01", "supervision_type": "PAROLE"}
@@ -189,8 +186,7 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "population_count": "37", "population_date": "2001-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "42", "population_date": "2001-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "34", "population_date": "2001-03-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "36", "population_date": "2001-03-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "21", "population_date": "2001-03-01", "supervision_type": "PAROLE"}
+{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "57", "population_date": "2001-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "67", "population_date": "2001-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "103", "population_date": "2001-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "176", "population_date": "2001-04-01", "supervision_type": "PAROLE"}
@@ -202,8 +198,7 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "population_count": "38", "population_date": "2001-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "44", "population_date": "2001-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "36", "population_date": "2001-04-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "37", "population_date": "2001-04-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "22", "population_date": "2001-04-01", "supervision_type": "PAROLE"}
+{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "59", "population_date": "2001-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "69", "population_date": "2001-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "107", "population_date": "2001-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "183", "population_date": "2001-05-01", "supervision_type": "PAROLE"}
@@ -215,8 +210,7 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "population_count": "40", "population_date": "2001-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "45", "population_date": "2001-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "37", "population_date": "2001-05-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "38", "population_date": "2001-05-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "23", "population_date": "2001-05-01", "supervision_type": "PAROLE"}
+{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "61", "population_date": "2001-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "72", "population_date": "2001-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "111", "population_date": "2001-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "176", "population_date": "2001-06-01", "supervision_type": "PAROLE"}
@@ -228,8 +222,7 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "population_count": "38", "population_date": "2001-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "44", "population_date": "2001-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "36", "population_date": "2001-06-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "37", "population_date": "2001-06-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "22", "population_date": "2001-06-01", "supervision_type": "PAROLE"}
+{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "59", "population_date": "2001-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "69", "population_date": "2001-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "107", "population_date": "2001-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "167", "population_date": "2001-07-01", "supervision_type": "PAROLE"}
@@ -241,8 +234,7 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "population_count": "36", "population_date": "2001-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "41", "population_date": "2001-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "34", "population_date": "2001-07-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "35", "population_date": "2001-07-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "21", "population_date": "2001-07-01", "supervision_type": "PAROLE"}
+{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "56", "population_date": "2001-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "66", "population_date": "2001-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "101", "population_date": "2001-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "179", "population_date": "2001-08-01", "supervision_type": "PAROLE"}
@@ -254,8 +246,7 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "population_count": "39", "population_date": "2001-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "44", "population_date": "2001-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "36", "population_date": "2001-08-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "38", "population_date": "2001-08-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "22", "population_date": "2001-08-01", "supervision_type": "PAROLE"}
+{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "60", "population_date": "2001-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "71", "population_date": "2001-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "108", "population_date": "2001-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "178", "population_date": "2001-09-01", "supervision_type": "PAROLE"}
@@ -267,8 +258,7 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "population_count": "39", "population_date": "2001-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "44", "population_date": "2001-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "36", "population_date": "2001-09-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "37", "population_date": "2001-09-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "22", "population_date": "2001-09-01", "supervision_type": "PAROLE"}
+{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "59", "population_date": "2001-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "70", "population_date": "2001-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "108", "population_date": "2001-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "186", "population_date": "2001-10-01", "supervision_type": "PAROLE"}
@@ -281,7 +271,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "46", "population_date": "2001-10-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "38", "population_date": "2001-10-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "39", "population_date": "2001-10-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "23", "population_date": "2001-10-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "73", "population_date": "2001-10-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "113", "population_date": "2001-10-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "181", "population_date": "2001-11-01", "supervision_type": "PAROLE"}
@@ -294,7 +283,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "45", "population_date": "2001-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "37", "population_date": "2001-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "38", "population_date": "2001-11-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "22", "population_date": "2001-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "71", "population_date": "2001-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "110", "population_date": "2001-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "192", "population_date": "2001-12-01", "supervision_type": "PAROLE"}
@@ -307,7 +295,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "47", "population_date": "2001-12-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "39", "population_date": "2001-12-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "40", "population_date": "2001-12-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "24", "population_date": "2001-12-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "76", "population_date": "2001-12-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "116", "population_date": "2001-12-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "190", "population_date": "2002-01-01", "supervision_type": "PAROLE"}
@@ -320,7 +307,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "47", "population_date": "2002-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "38", "population_date": "2002-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "40", "population_date": "2002-01-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "24", "population_date": "2002-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "75", "population_date": "2002-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "115", "population_date": "2002-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "175", "population_date": "2002-02-01", "supervision_type": "PAROLE"}
@@ -333,7 +319,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "43", "population_date": "2002-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "35", "population_date": "2002-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "37", "population_date": "2002-02-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "22", "population_date": "2002-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "69", "population_date": "2002-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "106", "population_date": "2002-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "182", "population_date": "2002-03-01", "supervision_type": "PAROLE"}
@@ -346,7 +331,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "45", "population_date": "2002-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "37", "population_date": "2002-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "38", "population_date": "2002-03-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "23", "population_date": "2002-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "72", "population_date": "2002-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "110", "population_date": "2002-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "187", "population_date": "2002-04-01", "supervision_type": "PAROLE"}
@@ -359,7 +343,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "46", "population_date": "2002-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "38", "population_date": "2002-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "39", "population_date": "2002-04-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "23", "population_date": "2002-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "74", "population_date": "2002-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "113", "population_date": "2002-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "172", "population_date": "2002-05-01", "supervision_type": "PAROLE"}
@@ -372,7 +355,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "43", "population_date": "2002-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "35", "population_date": "2002-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "36", "population_date": "2002-05-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "21", "population_date": "2002-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "68", "population_date": "2002-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "104", "population_date": "2002-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "180", "population_date": "2002-06-01", "supervision_type": "PAROLE"}
@@ -385,7 +367,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "45", "population_date": "2002-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "36", "population_date": "2002-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "38", "population_date": "2002-06-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "22", "population_date": "2002-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "71", "population_date": "2002-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "109", "population_date": "2002-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "184", "population_date": "2002-07-01", "supervision_type": "PAROLE"}
@@ -398,7 +379,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "46", "population_date": "2002-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "37", "population_date": "2002-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "39", "population_date": "2002-07-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "23", "population_date": "2002-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "73", "population_date": "2002-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "111", "population_date": "2002-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "188", "population_date": "2002-08-01", "supervision_type": "PAROLE"}
@@ -411,7 +391,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "46", "population_date": "2002-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "38", "population_date": "2002-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "39", "population_date": "2002-08-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "23", "population_date": "2002-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "74", "population_date": "2002-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "114", "population_date": "2002-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "190", "population_date": "2002-09-01", "supervision_type": "PAROLE"}
@@ -424,7 +403,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "47", "population_date": "2002-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "38", "population_date": "2002-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "40", "population_date": "2002-09-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "24", "population_date": "2002-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "75", "population_date": "2002-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "115", "population_date": "2002-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "217", "population_date": "2002-10-01", "supervision_type": "PAROLE"}
@@ -437,7 +415,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "54", "population_date": "2002-10-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "44", "population_date": "2002-10-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "46", "population_date": "2002-10-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "27", "population_date": "2002-10-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "86", "population_date": "2002-10-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "131", "population_date": "2002-10-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "214", "population_date": "2002-11-01", "supervision_type": "PAROLE"}
@@ -450,7 +427,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "53", "population_date": "2002-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "43", "population_date": "2002-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "45", "population_date": "2002-11-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "26", "population_date": "2002-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "84", "population_date": "2002-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "130", "population_date": "2002-11-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "222", "population_date": "2002-12-01", "supervision_type": "PAROLE"}
@@ -463,7 +439,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "55", "population_date": "2002-12-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "45", "population_date": "2002-12-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "47", "population_date": "2002-12-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "27", "population_date": "2002-12-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "88", "population_date": "2002-12-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "134", "population_date": "2002-12-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "214", "population_date": "2003-01-01", "supervision_type": "PAROLE"}
@@ -476,7 +451,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "53", "population_date": "2003-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "43", "population_date": "2003-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "45", "population_date": "2003-01-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "26", "population_date": "2003-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "84", "population_date": "2003-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "130", "population_date": "2003-01-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "214", "population_date": "2003-02-01", "supervision_type": "PAROLE"}
@@ -489,7 +463,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "53", "population_date": "2003-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "43", "population_date": "2003-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "45", "population_date": "2003-02-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "26", "population_date": "2003-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "84", "population_date": "2003-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "130", "population_date": "2003-02-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "241", "population_date": "2003-03-01", "supervision_type": "PAROLE"}
@@ -502,7 +475,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "60", "population_date": "2003-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "49", "population_date": "2003-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "51", "population_date": "2003-03-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "30", "population_date": "2003-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "95", "population_date": "2003-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "146", "population_date": "2003-03-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "258", "population_date": "2003-04-01", "supervision_type": "PAROLE"}
@@ -515,7 +487,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "64", "population_date": "2003-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "52", "population_date": "2003-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "54", "population_date": "2003-04-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "32", "population_date": "2003-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "102", "population_date": "2003-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "156", "population_date": "2003-04-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "288", "population_date": "2003-05-01", "supervision_type": "PAROLE"}
@@ -528,7 +499,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "71", "population_date": "2003-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "58", "population_date": "2003-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "60", "population_date": "2003-05-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "36", "population_date": "2003-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "114", "population_date": "2003-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "174", "population_date": "2003-05-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "281", "population_date": "2003-06-01", "supervision_type": "PAROLE"}
@@ -541,7 +511,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "70", "population_date": "2003-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "57", "population_date": "2003-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "59", "population_date": "2003-06-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "35", "population_date": "2003-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "111", "population_date": "2003-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "170", "population_date": "2003-06-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "285", "population_date": "2003-07-01", "supervision_type": "PAROLE"}
@@ -554,7 +523,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "70", "population_date": "2003-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "58", "population_date": "2003-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "60", "population_date": "2003-07-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "35", "population_date": "2003-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "112", "population_date": "2003-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "173", "population_date": "2003-07-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "309", "population_date": "2003-08-01", "supervision_type": "PAROLE"}
@@ -567,7 +535,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "76", "population_date": "2003-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "62", "population_date": "2003-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "65", "population_date": "2003-08-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "38", "population_date": "2003-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "122", "population_date": "2003-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "187", "population_date": "2003-08-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "281", "population_date": "2003-09-01", "supervision_type": "PAROLE"}
@@ -580,7 +547,6 @@
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "BLACK", "population_count": "70", "population_date": "2003-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "HISPANIC", "population_count": "57", "population_date": "2003-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "WHITE", "population_count": "59", "population_date": "2003-09-01", "supervision_type": "PAROLE"}
-{"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "OTHER", "population_count": "35", "population_date": "2003-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "MALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "111", "population_date": "2003-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "FEMALE", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "170", "population_date": "2003-09-01", "supervision_type": "PAROLE"}
 {"state_code": "US_ND", "gender": "ALL", "age_bucket": "ALL", "race_or_ethnicity": "ALL", "population_count": "281", "population_date": "2003-10-01", "supervision_type": "PAROLE"}

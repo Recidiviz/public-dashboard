@@ -5,3 +5,5 @@
 import "@testing-library/jest-dom/extend-expect";
 // Jest may require this for e.g. regenerator runtime
 import "react-app-polyfill/stable";
+// lets us control date in test environment for date-dependent features
+import "jest-date-mock";

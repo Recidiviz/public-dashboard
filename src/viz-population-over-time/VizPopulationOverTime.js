@@ -9,6 +9,7 @@ import BaseChartWrapper from "../chart-wrapper";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
 import { THEME } from "../theme";
 import {
+  addEmptyMonthsToData,
   formatAsNumber,
   getDataWithPct,
   highlightFade,
@@ -22,6 +23,7 @@ import {
 } from "../constants";
 import ColorLegend from "../color-legend";
 
+const EXPECTED_MONTHS = 240; // 20 years
 const MARGIN = { bottom: 40, left: 56, right: 8, top: 8 };
 
 const Wrapper = styled.div``;
@@ -57,7 +59,6 @@ const ChartWrapper = styled(BaseChartWrapper)`
   }
 `;
 
-const getRecordDate = (record) => parseISO(record.population_date);
 const getDateLabel = (date) => format(date, "MMM d y");
 
 export default function VizPopulationOverTime({
@@ -85,14 +86,19 @@ export default function VizPopulationOverTime({
             value === TOTAL_KEY
               ? THEME.colors.populationTimeseriesTotal
               : THEME.colors[dimension][value],
-          coordinates: dataForDimension
-            .filter((record) =>
+          coordinates: addEmptyMonthsToData({
+            dataPoints: dataForDimension.filter((record) =>
               value === TOTAL_KEY
                 ? true
                 : record[DIMENSION_DATA_KEYS[dimension]] === value
-            )
+            ),
+            monthCount: EXPECTED_MONTHS,
+            valueKey: "population_count",
+            emptyValue: "0",
+            dateField: "population_date",
+          })
             .map((record) => ({
-              time: getRecordDate(record),
+              time: parseISO(record.population_date),
               population: Number(record.population_count),
             }))
             .sort((a, b) => ascending(a.time, b.time)),
