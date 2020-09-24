@@ -14,7 +14,7 @@ const TwoYearRangeControl = ({ onChange, value }) => {
         { id: "10", label: "10 years" },
         { id: "5", label: "5 years" },
         { id: "1", label: "1 year" },
-        { id: CUSTOM_ID, label: "Custom" },
+        { id: CUSTOM_ID, label: "Custom", hidden: true },
       ]}
       selectedId={value}
     />

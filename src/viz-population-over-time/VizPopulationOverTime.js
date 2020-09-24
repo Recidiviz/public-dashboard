@@ -179,8 +179,10 @@ export default function VizPopulationOverTime({
 
 VizPopulationOverTime.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  defaultRangeStart: PropTypes.instanceOf(Date).isRequired,
+  defaultRangeStart: PropTypes.instanceOf(Date),
   setTimeRangeId: PropTypes.func.isRequired,
 };
 
-VizPopulationOverTime.defaultProps = {};
+VizPopulationOverTime.defaultProps = {
+  defaultRangeStart: undefined,
+};
