@@ -65,8 +65,15 @@ export default function VizPopulationOverTime({
 
   useEffect(() => {
     if (defaultRangeStart) {
+      // maintain sanity here by requiring start to precede end
+      const thisMonth = startOfMonth(new Date());
+      if (defaultRangeStart > thisMonth) {
+        throw new RangeError(
+          "Start of time range must precede the current month."
+        );
+      }
       setDateRangeStart(defaultRangeStart);
-      setDateRangeEnd(startOfMonth(new Date()));
+      setDateRangeEnd(thisMonth);
     }
   }, [defaultRangeStart]);
 
