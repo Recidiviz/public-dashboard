@@ -1,3 +1,4 @@
+import useBreakpoint from "@w11r/use-breakpoint";
 import { scaleTime } from "d3-scale";
 import { isEqual, format, startOfMonth } from "date-fns";
 import PropTypes from "prop-types";
@@ -12,7 +13,7 @@ import { formatAsNumber, getDataWithPct, highlightFade } from "../utils";
 import ColorLegend from "../color-legend";
 import { CUSTOM_ID } from "../controls/TwoYearRangeControl";
 
-const MARGIN = { bottom: 40, left: 56, right: 8, top: 8 };
+const MARGIN = { bottom: 65, left: 56, right: 8, top: 8 };
 
 const Wrapper = styled.div``;
 
@@ -37,7 +38,8 @@ const ChartWrapper = styled(BaseChartWrapper)`
 
     .axis.x {
       text.axis-label {
-        transform: rotate(-45deg);
+        text-anchor: end;
+        transform: translate(6px, -14px) rotate(-45deg);
       }
     }
   }
@@ -59,6 +61,7 @@ export default function VizPopulationOverTime({
   const [highlighted, setHighlighted] = useState();
   const [dateRangeStart, setDateRangeStart] = useState();
   const [dateRangeEnd, setDateRangeEnd] = useState();
+  const { isMobile } = useBreakpoint();
 
   useEffect(() => {
     if (defaultRangeStart) {
@@ -118,8 +121,10 @@ export default function VizPopulationOverTime({
                   },
                   {
                     orient: "bottom",
-                    tickFormat: (time) => format(time, "y"),
+                    tickFormat: (time) =>
+                      time.getDate() === 1 ? format(time, "MMM y") : null,
                     tickLineGenerator: () => null,
+                    ticks: isMobile ? 5 : 10,
                   },
                 ]}
                 baseMarkProps={BASE_MARK_PROPS}
@@ -150,6 +155,7 @@ export default function VizPopulationOverTime({
                     }
                   },
                   margin: { ...MARGIN, bottom: 0 },
+                  size: [width, 80],
                   xBrushable: true,
                   xBrushExtent: [dateRangeStart, dateRangeEnd],
                   yBrushable: false,
