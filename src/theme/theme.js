@@ -125,6 +125,8 @@ export const defaultTheme = {
     },
     sliderThumb: darkGreen,
     statistic: black,
+    timeWindowFill: charcoal,
+    timeWindowStroke: brightGreen,
     tooltipBackground: black,
     violationReasons: assignDataVizColors(
       Array.from(VIOLATION_COUNT_KEYS.keys())
@@ -187,6 +189,7 @@ const northDakotaTheme = {
       selected: ndColors.brandOrange,
     },
     sliderThumb: ndColors.brandTeal,
+    timeWindowStroke: ndColors.brandOrange,
   },
 };
 

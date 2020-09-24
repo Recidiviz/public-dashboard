@@ -26,6 +26,14 @@ const ChartWrapper = styled.div`
     .xyframe-matte {
       fill: ${(props) => props.theme.colors.background};
     }
+
+    .xybrush {
+      .selection {
+        fill: ${(props) => props.theme.colors.timeWindowFill};
+        fill-opacity: 0.2;
+        stroke: ${(props) => props.theme.colors.timeWindowStroke};
+      }
+    }
   }
 `;
 
