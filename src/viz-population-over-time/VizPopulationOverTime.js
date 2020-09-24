@@ -10,6 +10,7 @@ import ResponsiveTooltipController from "../responsive-tooltip-controller";
 import { THEME } from "../theme";
 import { formatAsNumber, getDataWithPct, highlightFade } from "../utils";
 import ColorLegend from "../color-legend";
+import { CUSTOM_ID } from "../controls/TwoYearRangeControl";
 
 const MARGIN = { bottom: 40, left: 56, right: 8, top: 8 };
 
@@ -53,7 +54,7 @@ const BASE_MARK_PROPS = {
 export default function VizPopulationOverTime({
   data,
   defaultRangeStart,
-  overrideDefaultRange,
+  setTimeRangeId,
 }) {
   const [highlighted, setHighlighted] = useState();
   const [dateRangeStart, setDateRangeStart] = useState();
@@ -141,7 +142,7 @@ export default function VizPopulationOverTime({
                     const [start, end] = brushExtent || [];
                     if (start && end) {
                       if (isNewRange({ start, end })) {
-                        overrideDefaultRange();
+                        setTimeRangeId(CUSTOM_ID);
                       }
 
                       setDateRangeStart(new Date(start));
@@ -179,7 +180,7 @@ export default function VizPopulationOverTime({
 VizPopulationOverTime.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   defaultRangeStart: PropTypes.instanceOf(Date).isRequired,
-  overrideDefaultRange: PropTypes.func.isRequired,
+  setTimeRangeId: PropTypes.func.isRequired,
 };
 
 VizPopulationOverTime.defaultProps = {};

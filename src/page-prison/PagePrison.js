@@ -64,6 +64,7 @@ export default function PagePrison() {
         </>
       ),
       showDimensionControl: true,
+      showTimeRangeControl: true,
       VizComponent: VizPopulationOverTime,
       vizData: {
         populationOverTime:

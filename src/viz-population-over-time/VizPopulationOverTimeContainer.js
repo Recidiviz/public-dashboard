@@ -15,8 +15,10 @@ import VizPopulationOverTime from "./VizPopulationOverTime";
 const EXPECTED_MONTHS = 240; // 20 years
 
 export default function VizPopulationOverTimeContainer({
-  data: { populationOverTime, selectedTimeRange, ...passThruProps },
+  data: { populationOverTime },
   dimension,
+  timeRangeId,
+  ...passThruProps
 }) {
   const dataForDimension = useMemo(() => {
     if (!dimension) return null;
@@ -58,18 +60,18 @@ export default function VizPopulationOverTimeContainer({
   }, [dataForDimension, dimension]);
 
   const defaultRangeStart = useMemo(() => {
-    if (selectedTimeRange === "custom") return undefined;
+    if (!timeRangeId || timeRangeId === "custom") return undefined;
 
     const thisMonth = startOfMonth(new Date());
     const diff = {
-      years: Number(selectedTimeRange),
+      years: Number(timeRangeId),
       // make the range start-exclusive to correct for an off-by-one error
       months: -1,
     };
     return sub(thisMonth, diff);
-  }, [selectedTimeRange]);
+  }, [timeRangeId]);
 
-  if (!dimension) return null;
+  if (!dimension || !timeRangeId) return null;
 
   return (
     <VizPopulationOverTime
@@ -83,11 +85,12 @@ export default function VizPopulationOverTimeContainer({
 VizPopulationOverTimeContainer.propTypes = {
   data: PropTypes.shape({
     populationOverTime: PropTypes.arrayOf(PropTypes.object).isRequired,
-    selectedTimeRange: PropTypes.string.isRequired,
   }).isRequired,
+  timeRangeId: PropTypes.string,
   dimension: PropTypes.string,
 };
 
 VizPopulationOverTimeContainer.defaultProps = {
   dimension: undefined,
+  timeRangeId: undefined,
 };
