@@ -1,9 +1,9 @@
 import { scaleTime } from "d3-scale";
-import { isEqual, format } from "date-fns";
+import { isEqual, format, startOfMonth } from "date-fns";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Measure from "react-measure";
-import XYFrame from "semiotic/lib/XYFrame";
+import MinimapXYFrame from "semiotic/lib/MinimapXYFrame";
 import styled from "styled-components";
 import BaseChartWrapper from "../chart-wrapper";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
@@ -34,10 +34,6 @@ const ChartWrapper = styled(BaseChartWrapper)`
       shape-rendering: geometricPrecision;
     }
 
-    .xyframe-line {
-      transition: fill ${(props) => props.theme.transition.defaultTimeSettings};
-    }
-
     .axis.x {
       text.axis-label {
         transform: rotate(-45deg);
@@ -48,8 +44,39 @@ const ChartWrapper = styled(BaseChartWrapper)`
 
 const getDateLabel = (date) => format(date, "MMM d y");
 
-export default function VizPopulationOverTime({ data }) {
+const BASE_MARK_PROPS = {
+  transitionDuration: {
+    fill: THEME.transition.defaultDurationMs,
+  },
+};
+
+export default function VizPopulationOverTime({
+  data,
+  defaultRangeStart,
+  overrideDefaultRange,
+}) {
   const [highlighted, setHighlighted] = useState();
+  const [dateRangeStart, setDateRangeStart] = useState();
+  const [dateRangeEnd, setDateRangeEnd] = useState();
+
+  useEffect(() => {
+    if (defaultRangeStart) {
+      setDateRangeStart(defaultRangeStart);
+      setDateRangeEnd(startOfMonth(new Date()));
+    }
+  }, [defaultRangeStart]);
+
+  const isNewRange = useCallback(
+    ({ start, end }) => {
+      if (dateRangeStart && dateRangeEnd) {
+        return (
+          start !== dateRangeStart.valueOf() || end !== dateRangeEnd.valueOf()
+        );
+      }
+      return undefined;
+    },
+    [dateRangeEnd, dateRangeStart]
+  );
 
   return (
     <Measure bounds>
@@ -81,7 +108,7 @@ export default function VizPopulationOverTime({ data }) {
                 { type: "frame-hover" },
               ]}
             >
-              <XYFrame
+              <MinimapXYFrame
                 axes={[
                   {
                     orient: "left",
@@ -94,11 +121,7 @@ export default function VizPopulationOverTime({ data }) {
                     tickLineGenerator: () => null,
                   },
                 ]}
-                baseMarkProps={{
-                  // this disables JS animations
-                  // (we have implemented CSS transitions instead, which perform better here)
-                  forceUpdate: true,
-                }}
+                baseMarkProps={BASE_MARK_PROPS}
                 lines={data}
                 lineStyle={(d) => ({
                   fill:
@@ -110,9 +133,30 @@ export default function VizPopulationOverTime({ data }) {
                 })}
                 lineType={{ type: "stackedarea", sort: null }}
                 margin={MARGIN}
+                matte
+                minimap={{
+                  axes: [],
+                  baseMarkProps: BASE_MARK_PROPS,
+                  brushEnd: (brushExtent) => {
+                    const [start, end] = brushExtent || [];
+                    if (start && end) {
+                      if (isNewRange({ start, end })) {
+                        overrideDefaultRange();
+                      }
+
+                      setDateRangeStart(new Date(start));
+                      setDateRangeEnd(new Date(end));
+                    }
+                  },
+                  margin: { ...MARGIN, bottom: 0 },
+                  xBrushable: true,
+                  xBrushExtent: [dateRangeStart, dateRangeEnd],
+                  yBrushable: false,
+                }}
                 pointStyle={{ display: "none" }}
                 size={[width, 430]}
                 xAccessor="time"
+                xExtent={[dateRangeStart, dateRangeEnd]}
                 xScaleType={scaleTime()}
                 yAccessor="population"
                 yExtent={[0]}
@@ -134,6 +178,8 @@ export default function VizPopulationOverTime({ data }) {
 
 VizPopulationOverTime.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  defaultRangeStart: PropTypes.instanceOf(Date).isRequired,
+  overrideDefaultRange: PropTypes.func.isRequired,
 };
 
 VizPopulationOverTime.defaultProps = {};

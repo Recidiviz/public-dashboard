@@ -1,5 +1,5 @@
 import { ascending } from "d3-array";
-import { parseISO } from "date-fns";
+import { parseISO, startOfMonth, sub } from "date-fns";
 import PropTypes from "prop-types";
 import React, { useMemo } from "react";
 import { THEME } from "../theme";
@@ -15,7 +15,7 @@ import VizPopulationOverTime from "./VizPopulationOverTime";
 const EXPECTED_MONTHS = 240; // 20 years
 
 export default function VizPopulationOverTimeContainer({
-  data: { populationOverTime },
+  data: { populationOverTime, selectedTimeRange, ...passThruProps },
   dimension,
 }) {
   const dataForDimension = useMemo(() => {
@@ -57,9 +57,27 @@ export default function VizPopulationOverTimeContainer({
     );
   }, [dataForDimension, dimension]);
 
+  const defaultRangeStart = useMemo(() => {
+    if (selectedTimeRange === "custom") return undefined;
+
+    const thisMonth = startOfMonth(new Date());
+    const diff = {
+      years: Number(selectedTimeRange),
+      // make the range start-exclusive to correct for an off-by-one error
+      months: -1,
+    };
+    return sub(thisMonth, diff);
+  }, [selectedTimeRange]);
+
   if (!dimension) return null;
 
-  return <VizPopulationOverTime data={chartData} />;
+  return (
+    <VizPopulationOverTime
+      data={chartData}
+      defaultRangeStart={defaultRangeStart}
+      {...passThruProps}
+    />
+  );
 }
 
 VizPopulationOverTimeContainer.propTypes = {
