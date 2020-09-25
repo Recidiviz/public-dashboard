@@ -14,6 +14,7 @@ import {
   TOTAL_KEY,
 } from "../constants";
 import { DimensionControl, MonthControl, LocationControl } from "../controls";
+import TwoYearRangeControl from "../controls/TwoYearRangeControl";
 import { HeadingTitle, HeadingDescription } from "../heading";
 import { THEME } from "../theme";
 
@@ -107,6 +108,7 @@ function DetailSection({
   showLocationControl,
   locationControlLabel,
   showMonthControl,
+  showTimeRangeControl,
   otherControls,
   stickyOffset,
   VizComponent,
@@ -118,6 +120,8 @@ function DetailSection({
   // a viz component that wants to use months will be responsible
   // for parsing its data and updating this value
   const [monthList, setMonthList] = useState();
+
+  const [timeRangeId, setTimeRangeId] = useState();
 
   let initialLocationList;
   if (showLocationControl && vizData.locations) {
@@ -153,6 +157,12 @@ function DetailSection({
                 {showMonthControl && monthList && (
                   <MonthControl months={monthList} onChange={setMonth} />
                 )}
+                {showTimeRangeControl && (
+                  <TwoYearRangeControl
+                    onChange={setTimeRangeId}
+                    value={timeRangeId}
+                  />
+                )}
                 {
                   // we need both a flag and data to enable location control
                   showLocationControl && locationList && (
@@ -183,7 +193,14 @@ function DetailSection({
           >
             <VizComponent
               data={vizData}
-              {...{ dimension, month, locationId, setMonthList }}
+              {...{
+                dimension,
+                locationId,
+                month,
+                setMonthList,
+                setTimeRangeId,
+                timeRangeId,
+              }}
               onLocationClick={setLocationId}
             />
           </ErrorBoundary>
@@ -199,6 +216,7 @@ DetailSection.propTypes = {
   showDimensionControl: PropTypes.bool,
   showMonthControl: PropTypes.bool,
   showLocationControl: PropTypes.bool,
+  showTimeRangeControl: PropTypes.bool,
   locationControlLabel: PropTypes.string,
   otherControls: PropTypes.node,
   stickyOffset: PropTypes.number,
@@ -212,6 +230,7 @@ DetailSection.defaultProps = {
   showDimensionControl: false,
   showMonthControl: false,
   showLocationControl: false,
+  showTimeRangeControl: false,
   locationControlLabel: "Location",
   otherControls: null,
   stickyOffset: 0,

@@ -28,4 +28,5 @@ export const ControlValue = styled(PillValue)``;
 export const DropdownOptionType = PropTypes.shape({
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  hidden: PropTypes.bool,
 });

@@ -71,6 +71,7 @@ export default function PageProbation() {
         </>
       ),
       showDimensionControl: true,
+      showTimeRangeControl: true,
       VizComponent: VizPopulationOverTime,
       vizData: {
         populationOverTime: apiData.supervision_population_by_month_by_demographics.filter(

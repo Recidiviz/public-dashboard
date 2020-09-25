@@ -130,14 +130,16 @@ export default function Dropdown({
             <MenuPopover>
               <DropdownMenu>
                 <MenuItems>
-                  {options.map((option) => (
-                    <MenuItem
-                      key={option.id}
-                      onSelect={() => setCurrentOptionId(option.id)}
-                    >
-                      {option.label}
-                    </MenuItem>
-                  ))}
+                  {options
+                    .filter((option) => !option.hidden)
+                    .map((option) => (
+                      <MenuItem
+                        key={option.id}
+                        onSelect={() => setCurrentOptionId(option.id)}
+                      >
+                        {option.label}
+                      </MenuItem>
+                    ))}
                 </MenuItems>
               </DropdownMenu>
             </MenuPopover>
@@ -153,7 +155,7 @@ export default function Dropdown({
               onChange={(event) => setCurrentOptionId(event.target.value)}
             >
               {options.map((opt) => (
-                <option key={opt.id} value={opt.id}>
+                <option key={opt.id} value={opt.id} hidden={opt.hidden}>
                   {opt.label}
                 </option>
               ))}
