@@ -36,7 +36,7 @@ recidiviz-gae-api-key.json.enc
 # Directories and files that are unnecessary for deployment
 __mocks__/
 archive/
-/build/report.html
+build/report.html
 coverage/
-/yarn.lock
-/*.md
+yarn.lock
+*.md
