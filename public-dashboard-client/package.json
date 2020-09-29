@@ -7,13 +7,14 @@
   "author": "Recidiviz <team@recidiviz.org>",
   "license": "GNU General Public License v3",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
     "build-staging": "env-cmd -f .env.development react-scripts build",
+    "build": "react-scripts build",
     "dev": "react-scripts start",
-    "test": "react-scripts test",
+    "eject": "react-scripts eject",
     "lint": "eslint .",
-    "eject": "react-scripts eject"
+    "precommit": "lint-staged",
+    "start": "react-scripts start",
+    "test": "react-scripts test"
   },
   "dependencies": {
     "@accessible/slider": "^2.0.2",
@@ -53,6 +54,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
+    "lint-staged": ">=10",
     "jest-date-mock": "^1.0.8"
   },
   "browserslist": {

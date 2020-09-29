@@ -7,9 +7,11 @@
   "author": "Recidiviz <team@recidiviz.org>",
   "license": "GNU General Public License v3",
   "scripts": {
-    "start": "node index.js",
     "dev": "nodemon index.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "precommit": "lint-staged",
+    "start": "node index.js",
+    "test": "echo \"No test framework implemented.\""
   },
   "dependencies": {
     "@google-cloud/storage": "^5.1.2",
@@ -23,6 +25,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "lint-staged": ">=10",
     "nodemon": "^2.0.4"
   },
   "lint-staged": {
