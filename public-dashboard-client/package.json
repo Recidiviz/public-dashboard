@@ -54,8 +54,12 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "jest-date-mock": "^1.0.8",
     "lint-staged": ">=10",
-    "jest-date-mock": "^1.0.8"
+    "prettier": "^2.0.5"
   },
   "browserslist": {
     "production": [

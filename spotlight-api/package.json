@@ -25,8 +25,12 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "lint-staged": ">=10",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,css,scss,md}": [
