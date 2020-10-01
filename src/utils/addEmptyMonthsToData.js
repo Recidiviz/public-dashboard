@@ -1,5 +1,13 @@
 import { subMonths, eachMonthOfInterval } from "date-fns";
 
+const getMonthParts = (date) => {
+  const year = date.getFullYear();
+  // months are 1-indexed in our data source
+  const month = date.getMonth() + 1;
+
+  return { year, month };
+};
+
 /**
  * Returns a new list of data points consisting of the given data points and new
  * data points appended for any month in the last `monthCount` number of months
@@ -13,6 +21,7 @@ export default function addEmptyMonthsToData({
   valueKey,
   emptyValue,
   dateField,
+  includeCurrentMonth,
 }) {
   // dateSource must be an array of {year: number, month: number (1-indexed)}
   let dateSource = dataPoints;
@@ -34,15 +43,26 @@ export default function addEmptyMonthsToData({
     representedMonths[year][month] = true;
   });
 
+  const isMonthMissing = ({ year, month }) => {
+    return !representedMonths[year] || !representedMonths[year][month];
+  };
+
   const newDataPoints = [...dataPoints];
 
-  const end = new Date();
+  let end = new Date();
+
+  if (!includeCurrentMonth) {
+    // there may be a reporting lag for the current month; if it's missing,
+    // instead of patching it we should just shift the entire window back one month
+    if (isMonthMissing(getMonthParts(end))) {
+      end = subMonths(end, 1);
+    }
+  }
+
   const start = subMonths(end, monthCount - 1);
   eachMonthOfInterval({ start, end }).forEach((monthDate) => {
-    const year = monthDate.getFullYear();
-    // months are 1-indexed in our data source
-    const month = monthDate.getMonth() + 1;
-    if (!representedMonths[year] || !representedMonths[year][month]) {
+    const { year, month } = getMonthParts(monthDate);
+    if (isMonthMissing({ year, month })) {
       const monthData = {};
 
       // if we read from date field, write to date field
