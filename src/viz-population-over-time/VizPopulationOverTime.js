@@ -1,6 +1,6 @@
 import useBreakpoint from "@w11r/use-breakpoint";
 import { scaleTime } from "d3-scale";
-import { isEqual, format, startOfMonth } from "date-fns";
+import { isEqual, format } from "date-fns";
 import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useState } from "react";
 import Measure from "react-measure";
@@ -55,6 +55,7 @@ const BASE_MARK_PROPS = {
 
 export default function VizPopulationOverTime({
   data,
+  defaultRangeEnd,
   defaultRangeStart,
   setTimeRangeId,
 }) {
@@ -66,16 +67,15 @@ export default function VizPopulationOverTime({
   useEffect(() => {
     if (defaultRangeStart) {
       // maintain sanity here by requiring start to precede end
-      const thisMonth = startOfMonth(new Date());
-      if (defaultRangeStart > thisMonth) {
+      if (defaultRangeStart > defaultRangeEnd) {
         throw new RangeError(
           "Start of time range must precede the current month."
         );
       }
       setDateRangeStart(defaultRangeStart);
-      setDateRangeEnd(thisMonth);
+      setDateRangeEnd(defaultRangeEnd);
     }
-  }, [defaultRangeStart]);
+  }, [defaultRangeEnd, defaultRangeStart]);
 
   const isNewRange = useCallback(
     ({ start, end }) => {
@@ -192,6 +192,7 @@ export default function VizPopulationOverTime({
 
 VizPopulationOverTime.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  defaultRangeEnd: PropTypes.instanceOf(Date).isRequired,
   defaultRangeStart: PropTypes.instanceOf(Date),
   setTimeRangeId: PropTypes.func.isRequired,
 };
