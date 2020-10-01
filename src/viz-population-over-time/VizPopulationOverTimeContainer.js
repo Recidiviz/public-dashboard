@@ -25,6 +25,16 @@ export default function VizPopulationOverTimeContainer({
     return populationOverTime.filter(recordIsTotalByDimension(dimension));
   }, [dimension, populationOverTime]);
 
+  const includeCurrentMonth = useMemo(() => {
+    // if the current month is completely missing from data, we will assume it is
+    // actually missing due to reporting lag. But if any record contains it, we will
+    // assume that it should be replaced with an empty record when it is missing
+    const thisMonth = startOfMonth(new Date()).toDateString();
+    return populationOverTime.some(
+      (record) => record.population_date === thisMonth
+    );
+  }, [populationOverTime]);
+
   const chartData = useMemo(() => {
     if (!dimension) return null;
 
@@ -49,6 +59,7 @@ export default function VizPopulationOverTimeContainer({
             valueKey: "population_count",
             emptyValue: "0",
             dateField: "population_date",
+            includeCurrentMonth,
           })
             .map((record) => ({
               time: parseISO(record.population_date),
@@ -57,25 +68,33 @@ export default function VizPopulationOverTimeContainer({
             .sort((a, b) => ascending(a.time, b.time)),
         }))
     );
-  }, [dataForDimension, dimension]);
+  }, [dataForDimension, dimension, includeCurrentMonth]);
+
+  const defaultRangeEnd = useMemo(() => {
+    let endMonth = startOfMonth(new Date());
+    if (!includeCurrentMonth) {
+      endMonth = sub(endMonth, { months: 1 });
+    }
+    return endMonth;
+  }, [includeCurrentMonth]);
 
   const defaultRangeStart = useMemo(() => {
     if (!timeRangeId || timeRangeId === "custom") return undefined;
 
-    const thisMonth = startOfMonth(new Date());
     const diff = {
       years: Number(timeRangeId),
       // make the range start-exclusive to correct for an off-by-one error
       months: -1,
     };
-    return sub(thisMonth, diff);
-  }, [timeRangeId]);
+    return sub(defaultRangeEnd, diff);
+  }, [defaultRangeEnd, timeRangeId]);
 
   if (!dimension || !timeRangeId) return null;
 
   return (
     <VizPopulationOverTime
       data={chartData}
+      defaultRangeEnd={defaultRangeEnd}
       defaultRangeStart={defaultRangeStart}
       {...passThruProps}
     />
