@@ -1,10 +1,11 @@
 import useBreakpoint from "@w11r/use-breakpoint";
 import { scaleTime } from "d3-scale";
-import { isEqual, format } from "date-fns";
+import { format, isEqual } from "date-fns";
 import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useState } from "react";
 import Measure from "react-measure";
 import MinimapXYFrame from "semiotic/lib/MinimapXYFrame";
+import XYFrame from "semiotic/lib/XYFrame";
 import styled from "styled-components";
 import BaseChartWrapper from "../chart-wrapper";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
@@ -13,7 +14,10 @@ import { formatAsNumber, getDataWithPct, highlightFade } from "../utils";
 import ColorLegend from "../color-legend";
 import { CUSTOM_ID } from "../controls/TwoYearRangeControl";
 
+const CHART_HEIGHT = 430;
 const MARGIN = { bottom: 65, left: 56, right: 8, top: 8 };
+const MINIMAP_HEIGHT = 80;
+const TOOLTIP_OFFSET = 8;
 
 const Wrapper = styled.div``;
 
@@ -23,6 +27,8 @@ const LegendWrapper = styled.div`
 `;
 
 const ChartWrapper = styled(BaseChartWrapper)`
+  position: relative;
+
   .frame {
     circle.frame-hover {
       display: none;
@@ -42,7 +48,20 @@ const ChartWrapper = styled(BaseChartWrapper)`
         transform: translate(6px, -14px) rotate(-45deg);
       }
     }
+
+    .annotation-xy-label {
+      transform: translateY(
+          -${(CHART_HEIGHT - MARGIN.top - MARGIN.bottom) / 2}px
+        )
+        translateY(-50%) translateX(${TOOLTIP_OFFSET}px);
+    }
   }
+`;
+
+const ForegroundHoverFrame = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 const getDateLabel = (date) => format(date, "MMM d y");
@@ -99,83 +118,107 @@ export default function VizPopulationOverTime({
       }) => (
         <Wrapper ref={measureRef}>
           <ChartWrapper>
-            <ResponsiveTooltipController
-              getTooltipProps={(d) => {
-                const dateHovered = d.time;
-                return {
-                  title: getDateLabel(dateHovered),
-                  records: getDataWithPct(
-                    d.points
-                      .filter((p) => isEqual(p.data.time, dateHovered))
-                      .map((p) => ({
-                        label: p.parentLine.label,
-                        value: p.data.population,
-                      }))
-                  ),
-                };
-              }}
-              hoverAnnotation={[
-                { type: "x", disable: ["connector", "note"] },
-                { type: "frame-hover" },
+            <MinimapXYFrame
+              axes={[
+                {
+                  orient: "left",
+                  tickFormat: formatAsNumber,
+                  tickLineGenerator: () => null,
+                },
+                {
+                  orient: "bottom",
+                  tickFormat: (time) =>
+                    time.getDate() === 1 ? format(time, "MMM y") : null,
+                  tickLineGenerator: () => null,
+                  ticks: isMobile ? 5 : 10,
+                },
               ]}
-            >
-              <MinimapXYFrame
-                axes={[
-                  {
-                    orient: "left",
-                    tickFormat: formatAsNumber,
-                    tickLineGenerator: () => null,
-                  },
-                  {
-                    orient: "bottom",
-                    tickFormat: (time) =>
-                      time.getDate() === 1 ? format(time, "MMM y") : null,
-                    tickLineGenerator: () => null,
-                    ticks: isMobile ? 5 : 10,
-                  },
-                ]}
-                baseMarkProps={BASE_MARK_PROPS}
-                lines={data}
-                lineStyle={(d) => ({
-                  fill:
-                    highlighted && highlighted.label !== d.label
-                      ? highlightFade(d.color)
-                      : d.color,
-                  stroke: THEME.colors.background,
-                  strokeWidth: 1,
-                })}
-                lineType={{ type: "stackedarea", sort: null }}
-                margin={MARGIN}
-                matte
-                minimap={{
-                  axes: [],
-                  baseMarkProps: BASE_MARK_PROPS,
-                  brushEnd: (brushExtent) => {
-                    const [start, end] = brushExtent || [];
-                    if (start && end) {
-                      if (isNewRange({ start, end })) {
-                        setTimeRangeId(CUSTOM_ID);
-                      }
-
-                      setDateRangeStart(new Date(start));
-                      setDateRangeEnd(new Date(end));
+              baseMarkProps={BASE_MARK_PROPS}
+              lines={data}
+              lineStyle={(d) => ({
+                fill:
+                  highlighted && highlighted.label !== d.label
+                    ? highlightFade(d.color)
+                    : d.color,
+                stroke: THEME.colors.background,
+                strokeWidth: 1,
+              })}
+              lineType={{ type: "stackedarea", sort: null }}
+              margin={MARGIN}
+              matte
+              minimap={{
+                axes: [],
+                baseMarkProps: BASE_MARK_PROPS,
+                brushEnd: (brushExtent) => {
+                  const [start, end] = brushExtent || [];
+                  if (start && end) {
+                    if (isNewRange({ start, end })) {
+                      setTimeRangeId(CUSTOM_ID);
                     }
-                  },
-                  margin: { ...MARGIN, bottom: 0 },
-                  size: [width, 80],
-                  xBrushable: true,
-                  xBrushExtent: [dateRangeStart, dateRangeEnd],
-                  yBrushable: false,
+
+                    setDateRangeStart(new Date(start));
+                    setDateRangeEnd(new Date(end));
+                  }
+                },
+                margin: { ...MARGIN, bottom: 0 },
+                size: [width, MINIMAP_HEIGHT],
+                xBrushable: true,
+                xBrushExtent: [dateRangeStart, dateRangeEnd],
+                yBrushable: false,
+              }}
+              pointStyle={{ display: "none" }}
+              size={[width, CHART_HEIGHT]}
+              xAccessor="time"
+              xExtent={[dateRangeStart, dateRangeEnd]}
+              xScaleType={scaleTime()}
+              yAccessor="population"
+              yExtent={[0]}
+            />
+            {/*
+              Semiotic creates a hover target for each XY pair. We want to hover
+              an entire vertical slice of the stacked areas at once, so we need to
+              overlay an invisible frame that normalizes all the Y values to reduce
+              the number of hover targets and make them occupy the full chart height.
+            */}
+            <ForegroundHoverFrame>
+              <ResponsiveTooltipController
+                getTooltipProps={(d) => {
+                  const dateHovered = d.time;
+                  return {
+                    title: getDateLabel(dateHovered),
+                    records: getDataWithPct(
+                      d.points
+                        .filter((p) => isEqual(p.data.time, dateHovered))
+                        .map((p) => ({
+                          label: p.parentLine.label,
+                          value: p.data.population,
+                        }))
+                    ),
+                  };
                 }}
-                pointStyle={{ display: "none" }}
-                size={[width, 430]}
-                xAccessor="time"
-                xExtent={[dateRangeStart, dateRangeEnd]}
-                xScaleType={scaleTime()}
-                yAccessor="population"
-                yExtent={[0]}
-              />
-            </ResponsiveTooltipController>
+                hoverAnnotation={[
+                  { type: "x", disable: ["connector", "note"] },
+                  { type: "frame-hover" },
+                ]}
+              >
+                <XYFrame
+                  // this takes all the same data, size, and range parameters
+                  // but does not render anything visible (except on hover)
+                  customLineMark={() => null}
+                  lines={data}
+                  margin={MARGIN}
+                  size={[width, CHART_HEIGHT]}
+                  xAccessor="time"
+                  xExtent={[dateRangeStart, dateRangeEnd]}
+                  xScaleType={scaleTime()}
+                  // we want hover targets to be uniform with regards to the x axis;
+                  // by setting all the Y values equal we ensure that Semiotic creates
+                  // hover targets that are essentially "columns" centered on each data point
+                  yAccessor={() => 0}
+                  yExtent={[0]}
+                />
+              </ResponsiveTooltipController>
+            </ForegroundHoverFrame>
           </ChartWrapper>
           <LegendWrapper>
             <ColorLegend
