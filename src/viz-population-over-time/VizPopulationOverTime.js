@@ -1,6 +1,6 @@
 import useBreakpoint from "@w11r/use-breakpoint";
 import { scaleTime } from "d3-scale";
-import { format, isEqual } from "date-fns";
+import { closestIndexTo, format, isEqual } from "date-fns";
 import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useState } from "react";
 import Measure from "react-measure";
@@ -48,13 +48,6 @@ const ChartWrapper = styled(BaseChartWrapper)`
         transform: translate(6px, -14px) rotate(-45deg);
       }
     }
-
-    .annotation-xy-label {
-      transform: translateY(
-          -${(CHART_HEIGHT - MARGIN.top - MARGIN.bottom) / 2}px
-        )
-        translateY(-50%) translateX(${TOOLTIP_OFFSET}px);
-    }
   }
 `;
 
@@ -62,6 +55,18 @@ const ForegroundHoverFrame = styled.div`
   position: absolute;
   top: 0;
   left: 0;
+
+  .annotation-xy-label {
+    transform: translateY(-${(CHART_HEIGHT - MARGIN.top - MARGIN.bottom) / 2}px)
+      translateY(-50%)
+      translateX(
+        ${(props) =>
+          props.tooltipLeft
+            ? `calc(-100% - ${TOOLTIP_OFFSET}px)`
+            : `${TOOLTIP_OFFSET}px`}
+      );
+    white-space: nowrap;
+  }
 `;
 
 const getDateLabel = (date) => format(date, "MMM d y");
@@ -82,6 +87,7 @@ export default function VizPopulationOverTime({
   const [dateRangeStart, setDateRangeStart] = useState();
   const [dateRangeEnd, setDateRangeEnd] = useState();
   const { isMobile } = useBreakpoint();
+  const [tooltipLeft, setTooltipLeft] = useState();
 
   useEffect(() => {
     if (defaultRangeStart) {
@@ -180,8 +186,21 @@ export default function VizPopulationOverTime({
               overlay an invisible frame that normalizes all the Y values to reduce
               the number of hover targets and make them occupy the full chart height.
             */}
-            <ForegroundHoverFrame>
+            <ForegroundHoverFrame tooltipLeft={tooltipLeft}>
               <ResponsiveTooltipController
+                customHoverBehavior={(hoverData) => {
+                  if (!hoverData) return;
+
+                  const { x } = hoverData;
+                  // flag to control tooltip placement and try to prevent overflows
+                  if (closestIndexTo(x, [dateRangeStart, dateRangeEnd])) {
+                    // we're on the right half of the chart; tooltip goes left
+                    setTooltipLeft(true);
+                  } else {
+                    // we're on the left half of the chart; tooltip goes right
+                    setTooltipLeft(false);
+                  }
+                }}
                 getTooltipProps={(d) => {
                   const dateHovered = d.time;
                   return {
