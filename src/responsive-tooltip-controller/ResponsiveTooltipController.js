@@ -29,6 +29,7 @@ export default function ResponsiveTooltipController({
   pieceHoverAnnotation,
   render,
   setHighlighted,
+  customHoverBehavior,
 }) {
   const infoPanelDispatch = useInfoPanelDispatch();
   const infoPanelState = useInfoPanelState();
@@ -103,6 +104,7 @@ export default function ResponsiveTooltipController({
     if (setHighlighted) {
       setHighlighted(d);
     }
+    if (customHoverBehavior) customHoverBehavior(d);
   };
 
   if (render) {
@@ -131,6 +133,7 @@ ResponsiveTooltipController.propTypes = {
   pieceHoverAnnotation: PropTypes.bool,
   render: PropTypes.func,
   setHighlighted: PropTypes.func,
+  customHoverBehavior: PropTypes.func,
 };
 
 ResponsiveTooltipController.defaultProps = {
@@ -140,4 +143,5 @@ ResponsiveTooltipController.defaultProps = {
   pieceHoverAnnotation: undefined,
   render: undefined,
   setHighlighted: undefined,
+  customHoverBehavior: undefined,
 };
