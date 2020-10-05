@@ -1,5 +1,5 @@
 import { ascending } from "d3-array";
-import { parseISO, startOfMonth, sub } from "date-fns";
+import { formatISO, parseISO, startOfMonth, sub } from "date-fns";
 import PropTypes from "prop-types";
 import React, { useMemo } from "react";
 import { THEME } from "../theme";
@@ -29,7 +29,9 @@ export default function VizPopulationOverTimeContainer({
     // if the current month is completely missing from data, we will assume it is
     // actually missing due to reporting lag. But if any record contains it, we will
     // assume that it should be replaced with an empty record when it is missing
-    const thisMonth = startOfMonth(new Date()).toDateString();
+    const thisMonth = formatISO(startOfMonth(new Date()), {
+      representation: "date",
+    });
     return populationOverTime.some(
       (record) => record.population_date === thisMonth
     );
