@@ -97,7 +97,9 @@ export const Tooltip = ({ title, records }) => {
             <TooltipValue>
               {typeof value === "number" ? formatAsNumber(value) : value}
             </TooltipValue>
-            {pct !== undefined && <TooltipPct>{formatAsPct(pct)}</TooltipPct>}
+            {pct !== undefined && !Number.isNaN(pct) && (
+              <TooltipPct>{formatAsPct(pct)}</TooltipPct>
+            )}
           </TooltipRecord>
         ))}
       </TooltipRecordList>
