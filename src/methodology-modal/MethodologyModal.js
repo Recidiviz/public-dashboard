@@ -123,6 +123,14 @@ const CONTENTS_BY_PAGE = {
         jails nor individuals currently serving their prison sentence in the
         community through the Community Placement Program.
       </MethodologyDescription>
+      <SectionTitle>{SECTION_TITLES[PATHS.prison].overTime}</SectionTitle>
+      <MethodologyDescription>
+        This chart shows the number of people that were incarcerated in a ND
+        DOCR facility on the first day of each month over the last 20 years. It
+        does not include individuals incarcerated in county jails nor
+        individuals serving their prison sentence in the community through the
+        Community Placement Program.
+      </MethodologyDescription>
       <SectionTitle>{SECTION_TITLES[PATHS.prison].reasons}</SectionTitle>
       <MethodologyDescription>
         This shows the original reason for admission for all individuals
@@ -190,6 +198,11 @@ const CONTENTS_BY_PAGE = {
       <SectionTitle>{SECTION_TITLES[PATHS.parole].population}</SectionTitle>
       <MethodologyDescription>
         This visualization counts people currently on parole in North Dakota.
+      </MethodologyDescription>
+      <SectionTitle>{SECTION_TITLES[PATHS.parole].overTime}</SectionTitle>
+      <MethodologyDescription>
+        This chart shows the number of people that were on parole in North
+        Dakota on the first day of each month over the last 20 years.
       </MethodologyDescription>
       <SectionTitle>{SECTION_TITLES[PATHS.parole].completion}</SectionTitle>
       <MethodologyDescription>
@@ -301,6 +314,11 @@ const CONTENTS_BY_PAGE = {
       <SectionTitle>{SECTION_TITLES[PATHS.probation].population}</SectionTitle>
       <MethodologyDescription>
         This visualization counts people currently on probation in North Dakota.
+      </MethodologyDescription>
+      <SectionTitle>{SECTION_TITLES[PATHS.probation].overTime}</SectionTitle>
+      <MethodologyDescription>
+        This chart shows the number of people that were on probation in North
+        Dakota on the first day of each month over the last 20 years.
       </MethodologyDescription>
       <SectionTitle>{SECTION_TITLES[PATHS.probation].completion}</SectionTitle>
       <MethodologyDescription>
