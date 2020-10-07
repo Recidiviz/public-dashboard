@@ -7,9 +7,9 @@
   "author": "Recidiviz <team@recidiviz.org>",
   "license": "GNU General Public License v3",
   "scripts": {
+    "demo": "IS_DEMO=true yarn dev",
     "dev": "nodemon index.js",
     "lint": "eslint .",
-    "precommit": "lint-staged",
     "start": "node index.js"
   },
   "dependencies": {
@@ -27,16 +27,7 @@
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "lint-staged": ">=10",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5"
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,css,scss,md}": [
-      "eslint --fix"
-    ],
-    "src/**/*.json": [
-      "prettier --write"
-    ]
   }
 }

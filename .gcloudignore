@@ -16,8 +16,9 @@
 # Node.js dependencies:
 node_modules/
 
-# Client-side environment variables
-.env.frontend.example
+# Environment variables
+.env.example
+# Client-side
 .env.local
 .env.development
 .env.development.local
@@ -25,9 +26,7 @@ node_modules/
 .env.production.local
 .env.test
 .env.test.local
-
-# Local server-side environment variables
-.env.backend.example
+# Server-side
 .env
 
 # Secrets

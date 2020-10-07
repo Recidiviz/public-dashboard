@@ -12,7 +12,6 @@
     "dev": "react-scripts start",
     "eject": "react-scripts eject",
     "lint": "eslint .",
-    "precommit": "lint-staged",
     "start": "react-scripts start",
     "test": "react-scripts test"
   },
@@ -58,7 +57,6 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "jest-date-mock": "^1.0.8",
-    "lint-staged": ">=10",
     "prettier": "^2.0.5"
   },
   "browserslist": {
@@ -72,14 +70,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  },
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,css,scss,md}": [
-      "eslint --fix"
-    ],
-    "src/**/*.json": [
-      "prettier --write"
     ]
   },
   "resolutions": {
