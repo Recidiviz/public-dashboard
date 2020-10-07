@@ -56,7 +56,7 @@ In addition, there are some Yarn scripts defined in the root package as a conven
 
 Style and formatting rules for this repository are defined with [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/). The base configuration lives in the root of this repository and is extended by the individual packages as necessary. For this reason, it is important to run the individual `lint` commands for each package rather than trying to lint the entire repository at once with `eslint .` — this will exclude the nested configurations and produce inconsistent results.
 
-Linting rules (including auto-fixing) are applied to changed files in a pre-commit hook using [Husky](https://github.com/typicode/husky) and [Lint-Staged](https://github.com/okonet/lint-staged). These tools are configured in the root `package.json`.
+Linting rules (including auto-fixing) are applied to changed files in a pre-commit hook using [Husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/okonet/lint-staged). These are configured in the root `package.json`.
 
 We use [Github Actions](https://docs.github.com/en/free-pro-team@latest/actions) for continuous integration tasks, which include lint checks as well as automated JavaScript tests where applicable.
 
@@ -66,7 +66,9 @@ Packages themselves do not have any special requirements under Yarn Workspaces, 
 
 Do note that there should only be one `yarn.lock` file for the entire repository; if one is created in your new package directory, you should delete it, make sure the directory is properly listed in the `workspaces` list, and re-run `yarn install`.
 
-There are some conventions you should follow when setting up your new package, unless you have a compelling and well-documented reason not to:
+ESLint and lint-staged should be installed and applied to your new package directory automatically based on the configurations in the root directory. If you need to extend the default ESLint configuration, create a configuration file in your package directory; if you need to modify or add lint-staged rules, you can do so in the root `package.json`.
+
+In addition, there are some conventions you should follow when setting up your new package, unless you have a compelling and well-documented reason not to:
 
 - The package name should be the same as the directory name
 - `yarn dev` should execute the main entry point for development (e.g., starting a development server)
