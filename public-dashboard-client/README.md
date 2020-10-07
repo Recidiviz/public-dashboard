@@ -2,7 +2,7 @@
 
 This package is a React client application for the Spotlight public dashboard website. It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-![.github/workflows/public-dashboard-client-ci.yml](https://github.com/Recidiviz/public-dashboard/workflows/.github/workflows/public-dashboard-client-ci.yml/badge.svg)
+![CI: Public Dashboard API](https://github.com/Recidiviz/public-dashboard/workflows/CI:%20Public%20Dashboard%20API/badge.svg)
 
 ## Development
 

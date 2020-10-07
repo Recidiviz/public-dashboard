@@ -2,7 +2,7 @@
 
 This package is a Node/Express server application that provides a thin API backend for clients consuming public metrics from the Recidiviz data pipeline.
 
-![.github/workflows/spotlight-api-ci.yml](https://github.com/Recidiviz/public-dashboard/workflows/.github/workflows/spotlight-api-ci.yml/badge.svg)
+![CI: Spotlight API](https://github.com/Recidiviz/public-dashboard/workflows/CI:%20Spotlight%20API/badge.svg)
 
 ## Development
 

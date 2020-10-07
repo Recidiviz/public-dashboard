@@ -2,7 +2,7 @@
 
 This repository contains npm packages related to our Spotlight data publishing product, as well as some shared configuration and tooling that involves multiple packages.
 
-![.github/workflows/public-dashboard-client-ci.yml](https://github.com/Recidiviz/public-dashboard/workflows/.github/workflows/public-dashboard-client-ci.yml/badge.svg) ![.github/workflows/spotlight-api-ci.yml](https://github.com/Recidiviz/public-dashboard/workflows/.github/workflows/spotlight-api-ci.yml/badge.svg)
+![CI: Public Dashboard API](https://github.com/Recidiviz/public-dashboard/workflows/CI:%20Public%20Dashboard%20API/badge.svg) ![CI: Spotlight API](https://github.com/Recidiviz/public-dashboard/workflows/CI:%20Spotlight%20API/badge.svg)
 
 ## Packages in this repository
 
