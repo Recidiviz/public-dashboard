@@ -10,8 +10,7 @@
     "dev": "nodemon index.js",
     "lint": "eslint .",
     "precommit": "lint-staged",
-    "start": "node index.js",
-    "test": "echo \"No test framework implemented.\""
+    "start": "node index.js"
   },
   "dependencies": {
     "@google-cloud/storage": "^5.1.2",
