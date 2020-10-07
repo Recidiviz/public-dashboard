@@ -8,7 +8,7 @@ This package is a React client application for the Spotlight public dashboard we
 
 ### Getting set up
 
-If you have followed the setup instructions in the root directory, you should be ready to go. You should be able to test your development environment via:
+If you have followed the [setup instructions](../README.md#getting-set-up) in the root directory, you should be ready to go. You should be able to test your development environment via:
 
     `yarn test`
     `yarn lint`

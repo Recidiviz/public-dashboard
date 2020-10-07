@@ -8,7 +8,7 @@ This package is a Node/Express server application that provides a thin API backe
 
 ### Getting set up
 
-If you have followed the [setup instructions](../#getting-set-up) in the root directory, you should be ready to go. You should be able to test your development environment via:
+If you have followed the [setup instructions](../README.md#getting-set-up) in the root directory, you should be ready to go. You should be able to test your development environment via:
 
     `yarn lint`
 
@@ -36,7 +36,7 @@ Expected backend environment variables include:
 
 When running locally, you can run the app in demo mode to point the app to static data contained in `server/core/demo_data`. This is useful for debugging issues that materialize under specific data circumstances, for demonstrating the tool without exposing real data, for development when you don't have Internet access, and other use cases.
 
-You can launch in demo mode by running `yarn demo`. Be sure your client application has its API url set to `localhost:3001` to consume this demo data! (For convenience, there is also [a helper script](../#multi-package-tools) in the root package for running both client and server together with all proper settings.)
+You can launch in demo mode by running `yarn demo`. Be sure your client application has its API url set to `localhost:3001` to consume this demo data! (For convenience, there is also [a helper script](../README.md#multi-package-tools) in the root package for running both client and server together with all proper settings.)
 
 ## Deploys
 
