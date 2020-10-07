@@ -1,6 +1,6 @@
-This package is a React client application for the Spotlight public dashboard website.
+# Public Dashboard Client
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This package is a React client application for the Spotlight public dashboard website. It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ![.github/workflows/public-dashboard-client-ci.yml](https://github.com/Recidiviz/public-dashboard/workflows/.github/workflows/public-dashboard-client-ci.yml/badge.svg)
 
@@ -13,7 +13,7 @@ If you have followed the setup instructions in the root directory, you should be
     `yarn test`
     `yarn lint`
 
-We suggest installing a linting package for your preferred code editor that hooks into [eslint](#eslint). We recommend [linter-eslint](https://atom.io/packages/linter-eslint) if you're using Atom.
+We suggest installing a linting package for your preferred code editor that hooks into [eslint](#yarn-lint). We recommend [linter-eslint](https://atom.io/packages/linter-eslint) if you're using Atom.
 
 #### Environment variables
 
@@ -35,11 +35,11 @@ The development servers will remain active until you either close your terminal 
 
 ## Deploys
 
-Theisapp can be run locally, in staging, and in production. Deploying to staging and production are very similar, as described below.
+This app can be run locally, in staging, and in production. Deploying to staging and production are very similar, as described below.
 
 ### Pre-requisites
 
-This React application is deployed to Firebase. To have deploy access, you need to be an admin on the frontend Firebase/GCP account.
+This React application is deployed to Firebase. To have deploy access, you need to be an admin on the frontend Firebase account.
 
 Once you have the required permissions, you can set up your environment for deploys by following [these instructions](https://firebase.google.com/docs/cli?install-cli-mac-linux). Specifically, follow the steps entitled "Install the Firebase CLI" and "Log in and test the Firebase CLI."
 
@@ -47,13 +47,13 @@ Once you have the required permissions, you can set up your environment for depl
 
 To generate a staging build, invoke the following yarn script: `yarn build-staging`.
 
-Each time this is run, the `/build` directory will be wiped clean. A [bundle analysis](#Bundle-analysis) report, found in `build/report.html`, will also be generated on each invocation of this script. This will include the appropriate environment variables from `.env.development`.
+Each time this is run, the `/build` directory will be wiped clean. A bundle analysis report, found in `build/report.html`, will also be generated on each invocation of this script. This will include the appropriate environment variables from `.env.development`.
 
 You should then test this locally by running `firebase serve`: it will run the staging build locally, pointed to the staging API backend. When you're satisfied, deploy the frontend to staging with `firebase deploy -P staging`. Test vigorously on staging before deploying to production.
 
 ### Deploying to Production
 
-Follow the instructions described above, but with slightly different commands:
+Similar to above, but with slightly different commands:
 
 Generate a production build with `yarn build`. Test locally with `firebase serve`. Deploy the frontend with `firebase deploy -P production`.
 
@@ -67,10 +67,7 @@ Besides the scripts mentioned above for running and deploying the app, you can a
 
 Launches the test runner in the interactive watch mode.
 
-We use [`@testing-library/react`](https://testing-library.com/docs/react-testing-library/intro)
-for component tests you will want to import the testing-library functions via `src/testUtils.js`
-instead; it re-exports the full API from `@testing-library/react` with a wrapper around `render`
-that includes any globally expected React Context providers (e.g. the `ThemeProvider` for `styled-components`).
+We use [`@testing-library/react`](https://testing-library.com/docs/react-testing-library/intro), but for component tests you will want to import the testing-library functions via `src/testUtils.js` instead; it re-exports the full API from `@testing-library/react` with a wrapper around `render` that includes any globally expected React Context providers (e.g. the `ThemeProvider` for `styled-components`).
 
 See the [Create React App docs](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 

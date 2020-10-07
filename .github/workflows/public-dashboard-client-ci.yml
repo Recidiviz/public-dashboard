@@ -1,3 +1,5 @@
+name: "CI: Public Dashboard API"
+
 on: push
 
 defaults:

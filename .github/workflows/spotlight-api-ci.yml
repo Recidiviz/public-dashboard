@@ -1,3 +1,5 @@
+name: "CI: Spotlight API"
+
 on: push
 
 defaults:

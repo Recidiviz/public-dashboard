@@ -1,3 +1,5 @@
+# Spotlight API
+
 This package is a Node/Express server application that provides a thin API backend for clients consuming public metrics from the Recidiviz data pipeline.
 
 ![.github/workflows/spotlight-api-ci.yml](https://github.com/Recidiviz/public-dashboard/workflows/.github/workflows/spotlight-api-ci.yml/badge.svg)
@@ -6,11 +8,11 @@ This package is a Node/Express server application that provides a thin API backe
 
 ### Getting set up
 
-If you have followed the setup instructions in the root directory, you should be ready to go. You should be able to test your development environment via:
+If you have followed the [setup instructions](../#getting-set-up) in the root directory, you should be ready to go. You should be able to test your development environment via:
 
     `yarn lint`
 
-We suggest installing a linting package for your preferred code editor that hooks into [eslint](#eslint). We recommend [linter-eslint](https://atom.io/packages/linter-eslint) if you're using Atom.
+We suggest installing a linting package for your preferred code editor that hooks into [eslint](#yarn-lint). We recommend [linter-eslint](https://atom.io/packages/linter-eslint) if you're using Atom.
 
 #### Environment variables
 
@@ -34,7 +36,7 @@ Expected backend environment variables include:
 
 When running locally, you can run the app in demo mode to point the app to static data contained in `server/core/demo_data`. This is useful for debugging issues that materialize under specific data circumstances, for demonstrating the tool without exposing real data, for development when you don't have Internet access, and other use cases.
 
-You can launch in demo mode by running `yarn demo`. Be sure your client application has its API url set to `localhost:3001` to consume this demo data! (For convenience, there is also a helper `demo` script in the root package for running both client and server together with all proper settings.)
+You can launch in demo mode by running `yarn demo`. Be sure your client application has its API url set to `localhost:3001` to consume this demo data! (For convenience, there is also [a helper script](../#multi-package-tools) in the root package for running both client and server together with all proper settings.)
 
 ## Deploys
 
@@ -42,7 +44,7 @@ The API server app can be run locally, in staging, and in production. Deploying 
 
 ### Pre-requisites
 
-This application is deployed to Google App Engine. To have deploy access, you need to be an admin on the backend GCP account.
+This application is deployed to Google App Engine. To have deploy access, you need to be an admin on the backend Google Cloud Platform project.
 
 Once you have the required permissions, you can set up your environment for deploys by following [these instructions](https://cloud.google.com/appengine/docs/standard/nodejs/setting-up-environment).
 

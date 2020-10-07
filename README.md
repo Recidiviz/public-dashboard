@@ -1,3 +1,5 @@
+# Spotlight
+
 This repository contains npm packages related to our Spotlight data publishing product, as well as some shared configuration and tooling that involves multiple packages.
 
 ![.github/workflows/public-dashboard-client-ci.yml](https://github.com/Recidiviz/public-dashboard/workflows/.github/workflows/public-dashboard-client-ci.yml/badge.svg) ![.github/workflows/spotlight-api-ci.yml](https://github.com/Recidiviz/public-dashboard/workflows/.github/workflows/spotlight-api-ci.yml/badge.svg)
@@ -34,7 +36,7 @@ First, build the app locally.
 
    `yarn install`
 
-That's it! We suggest installing a linting package for your preferred code editor that hooks into [eslint](#eslint). We recommend [linter-eslint](https://atom.io/packages/linter-eslint) if you're using Atom. (Note that you may need to configure your linting plugin to use multiple package directories.)
+That's it! We suggest installing a linting package for your preferred code editor that hooks into eslint. (Note that you may need to configure your linting plugin to use multiple package directories.)
 
 Individual packages may require some additional configuration to work properly; refer to their respective README files for more information.
 
@@ -44,13 +46,13 @@ We use [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/) for so
 
 This means that running `yarn install` in the root or in any package directory will install the dependencies for all packages in the repository — so you only need to do it once no matter how many packages you wish to use.
 
-It also allows you to run a Yarn command sequentially in each package with `yarn workspaces <command>` or individually with `yarn workspace <workspace-name> <command>` as an alternative to setting your working directory to the package's directory before executing it. For example, if you wanted to run lint tests the entire repository, you could use `yarn workspaces run lint` to run the `lint` script in each package.
+It also allows you to run a Yarn command sequentially in each package with `yarn workspaces <command>` or individually with `yarn workspace <workspace-name> <command>` as an alternative to setting your working directory to the package's directory before executing it. For example, if you wanted to run lint tests for the entire repository, you could use `yarn workspaces run lint` to run the `lint` script in each package.
 
 In addition, there are some Yarn scripts defined in the root package as a convenience for running multiple packages in a coordinated fashion:
 
 `yarn dev:pd` — starts the development servers for the Spotlight API and the Public Dashboard Client in a single terminal window. Be sure you have configured each of those applications with the necessary environment variables, as described in their README files, or this will not work!
 
-`yarn demo:pd` — starts the development servers for the Spotlight API and the Public Dashboard client in "demo mode" by supplying the necessary environment variables in the command line.
+`yarn demo:pd` — starts the development servers for the Spotlight API and the Public Dashboard client in "demo mode" by supplying the necessary environment variables in the command line. (This will run your local site off of fake data fixtures rather than live data from a calculation pipeline; see the [Spotlight API documentation](spotlight-api/#demo-mode) for more information.)
 
 ### Other tools
 
