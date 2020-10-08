@@ -1,7 +1,4 @@
 {
-  "name": "public-dashboard",
-  "description": "A public-facing dashboard to help educate citizens and build accountability",
-  "version": "0.1.0",
   "private": true,
   "repository": "git@github.com:Recidiviz/public-dashboard.git",
   "workspaces": [
