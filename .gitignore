@@ -12,11 +12,11 @@
 
 # Production build directory
 build/
-/.firebase
+.firebase
 
 # Dependency directory
 node_modules/
-/.pnp
+.pnp
 .pnp.js
 
 # Code coverage directory
@@ -26,7 +26,6 @@ coverage/
 auth_config.json
 auth_config*.json
 gae*.yaml
-src/assets/scripts/metrics/*.json
 recidiviz-production-*.json
 recidiviz-dev-*.json
 

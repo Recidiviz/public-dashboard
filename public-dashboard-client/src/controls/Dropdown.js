@@ -49,7 +49,6 @@ const DropdownMenu = styled.div`
   white-space: nowrap;
   z-index: ${(props) => props.theme.zIndex.menu};
 
-
   [data-reach-menu-items] {
     &:focus {
       outline: none;

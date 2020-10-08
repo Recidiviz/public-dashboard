@@ -22,7 +22,7 @@ const http = require("http");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const zip = require("express-easy-zip");
-const api = require("./server/routes/api");
+const api = require("./routes/api");
 
 const app = express();
 
