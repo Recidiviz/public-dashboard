@@ -1,6 +1,6 @@
 name: "CI: Spotlight Client"
 
-on: push
+on: [push, pull_request]
 
 defaults:
   run:
@@ -28,4 +28,10 @@ jobs:
           node-version: "12.x"
       - uses: c-hive/gha-yarn-cache@v1
       - run: yarn install
-      - run: yarn test
+      - run: yarn test --coverage
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          base-path: spotlight-client
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: spotlight-client/coverage/lcov.info
