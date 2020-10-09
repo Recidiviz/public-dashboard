@@ -1,10 +1,10 @@
-name: "CI: Public Dashboard Client"
+name: "CI: Spotlight Client"
 
 on: push
 
 defaults:
   run:
-    working-directory: public-dashboard-client
+    working-directory: spotlight-client
 
 jobs:
   lint:
