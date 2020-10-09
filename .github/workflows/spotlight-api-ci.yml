@@ -1,6 +1,12 @@
 name: "CI: Spotlight API"
 
-on: push
+on:
+  push:
+    paths:
+      - "spotlight-api/**"
+  pull_request:
+    paths:
+      - "spotlight-api/**"
 
 defaults:
   run:

@@ -1,6 +1,12 @@
 name: "CI: Public Dashboard Client"
 
-on: push
+on:
+  push:
+    paths:
+      - "public-dashboard-client/**"
+  pull_request:
+    paths:
+      - "public-dashboard-client/**"
 
 defaults:
   run:

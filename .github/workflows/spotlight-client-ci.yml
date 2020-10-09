@@ -1,6 +1,12 @@
 name: "CI: Spotlight Client"
 
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - "spotlight-client/**"
+  pull_request:
+    paths:
+      - "spotlight-client/**"
 
 defaults:
   run:
