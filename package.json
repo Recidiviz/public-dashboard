@@ -2,8 +2,9 @@
   "private": true,
   "repository": "git@github.com:Recidiviz/public-dashboard.git",
   "workspaces": [
+    "public-dashboard-client",
     "spotlight-api",
-    "public-dashboard-client"
+    "spotlight-client"
   ],
   "author": "Recidiviz <team@recidiviz.org>",
   "license": "GNU General Public License v3",
