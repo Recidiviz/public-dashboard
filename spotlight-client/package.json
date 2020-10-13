@@ -10,7 +10,7 @@
     "build": "react-scripts build",
     "dev": "react-scripts start",
     "eject": "react-scripts eject",
-    "lint": "eslint '**/*.{js,ts,tsx}'",
+    "lint": "tsc && eslint '**/*.{js,ts,tsx}'",
     "start": "react-scripts start",
     "test": "react-scripts test"
   },
