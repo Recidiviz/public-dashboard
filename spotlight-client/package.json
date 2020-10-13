@@ -11,7 +11,6 @@
     "dev": "react-scripts start",
     "eject": "react-scripts eject",
     "lint": "tsc && eslint '**/*.{js,ts,tsx}'",
-    "start": "react-scripts start",
     "test": "react-scripts test"
   },
   "dependencies": {

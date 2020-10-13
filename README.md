@@ -2,19 +2,27 @@
 
 This repository contains npm packages related to our Spotlight data publishing product, as well as some shared configuration and tooling that involves multiple packages.
 
-![CI: Public Dashboard API](https://github.com/Recidiviz/public-dashboard/workflows/CI:%20Public%20Dashboard%20API/badge.svg) ![CI: Spotlight API](https://github.com/Recidiviz/public-dashboard/workflows/CI:%20Spotlight%20API/badge.svg)
-
 ## Packages in this repository
 
 More information about how to use each individual package can be found in their respective README files.
 
 ### [Public Dashboard Client](public-dashboard-client/)
 
-A React application for the Spotlight website
+A React application for the original Spotlight website (North Dakota only)
+
+![CI: Public Dashboard Client](https://github.com/Recidiviz/public-dashboard/workflows/CI:%20Public%20Dashboard%20Client/badge.svg)
 
 ### [Spotlight API](spotlight-api/)
 
 A thin Node/Express backend that serves data for the Spotlight website.
+
+![CI: Spotlight API](https://github.com/Recidiviz/public-dashboard/workflows/CI:%20Spotlight%20API/badge.svg)
+
+### [Spotlight Client](spotlight-client/)
+
+A React application for the next-generation Spotlight website (not yet launched).
+
+![CI: Spotlight Client](https://github.com/Recidiviz/public-dashboard/workflows/CI:%20Spotlight%20Client/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Recidiviz/public-dashboard/badge.svg?branch=master)](https://coveralls.io/github/Recidiviz/public-dashboard?branch=master)
 
 ## Development
 
@@ -74,5 +82,5 @@ In addition, there are some conventions you should follow when setting up your n
 
 - The package name should be the same as the directory name
 - `yarn dev` should execute the main entry point for development (e.g., starting a development server)
-- `yarn lint` should run your lint tests
+- `yarn lint` should run your static checks (linting, type-checking)
 - `yarn test` should run your JS tests, if you have any (which you should!)
