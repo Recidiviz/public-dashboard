@@ -31,7 +31,14 @@
     ],
 
     // support typescript as well as javascript file extensions
-    "react/jsx-filename-extension": ["error", { "extensions": [".tsx", ".js"] }]
+    "react/jsx-filename-extension": [
+      "error",
+      { "extensions": [".tsx", ".js"] }
+    ],
+
+    // We use TypeScript props interfaces, which is mostly redundant with prop
+    // types.
+    "react/prop-types": "off"
   },
   "settings": {
     "import/resolver": {
