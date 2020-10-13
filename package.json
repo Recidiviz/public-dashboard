@@ -30,8 +30,10 @@
     }
   },
   "lint-staged": {
+    "*.{ts,tsx}": "bash -c tsc",
     "*.{js,jsx,ts,tsx,css,scss}": "eslint --fix",
     "*.json": "prettier --write",
+    "**/*.{ts,tsx}": "bash -c tsc",
     "**/*.{js,jsx,ts,tsx,css,scss}": "eslint --fix",
     "**/*.json": "prettier --write"
   }
