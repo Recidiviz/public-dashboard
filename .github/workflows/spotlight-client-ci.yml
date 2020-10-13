@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: "12.x"
       - uses: c-hive/gha-yarn-cache@v1
-      - run: yarn install
+      - run: yarn install --frozen-lockfile
       - run: yarn lint
   test:
     name: test
@@ -35,8 +35,11 @@ jobs:
         with:
           node-version: "12.x"
       - uses: c-hive/gha-yarn-cache@v1
-      - run: yarn install
-      - run: yarn test --coverage
+      - run: yarn install --frozen-lockfile
+      # even though watching is automatically disabled in the CI environment, coverage fails
+      # unless we explicitly disable it via --watchAll; if you would like to see people argue
+      # about whether this is a bug or not, go here: https://github.com/facebook/create-react-app/issues/6888
+      - run: yarn test --coverage --watchAll=false
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
