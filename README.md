@@ -2,6 +2,8 @@
 
 This repository contains npm packages related to our Spotlight data publishing product, as well as some shared configuration and tooling that involves multiple packages.
 
+![Build Status](https://github.com/Recidiviz/public-dashboard/workflows/Build%20Status/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Recidiviz/public-dashboard/badge.svg?branch=master)](https://coveralls.io/github/Recidiviz/public-dashboard?branch=master)
+
 ## Packages in this repository
 
 More information about how to use each individual package can be found in their respective README files.
@@ -10,19 +12,13 @@ More information about how to use each individual package can be found in their 
 
 A React application for the original Spotlight website (North Dakota only)
 
-![CI: Public Dashboard Client](https://github.com/Recidiviz/public-dashboard/workflows/CI:%20Public%20Dashboard%20Client/badge.svg)
-
 ### [Spotlight API](spotlight-api/)
 
 A thin Node/Express backend that serves data for the Spotlight website.
 
-![CI: Spotlight API](https://github.com/Recidiviz/public-dashboard/workflows/CI:%20Spotlight%20API/badge.svg)
-
 ### [Spotlight Client](spotlight-client/)
 
 A React application for the next-generation Spotlight website (not yet launched).
-
-![CI: Spotlight Client](https://github.com/Recidiviz/public-dashboard/workflows/CI:%20Spotlight%20Client/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Recidiviz/public-dashboard/badge.svg?branch=master)](https://coveralls.io/github/Recidiviz/public-dashboard?branch=master)
 
 ## Development
 

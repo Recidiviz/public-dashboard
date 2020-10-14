@@ -90,6 +90,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn lint
   finish-coveralls:
+    name: Finish Coveralls
     runs-on: ubuntu-latest
     needs: [test-public-dashboard, test-spotlight-client]
     steps:
