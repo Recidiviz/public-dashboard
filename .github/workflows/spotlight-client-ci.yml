@@ -40,5 +40,7 @@ jobs:
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
+          flag-name: spotlight-client
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel: true
           path-to-lcov: spotlight-client/coverage/lcov.info
