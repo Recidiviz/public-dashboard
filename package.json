@@ -2,8 +2,9 @@
   "private": true,
   "repository": "git@github.com:Recidiviz/public-dashboard.git",
   "workspaces": [
+    "public-dashboard-client",
     "spotlight-api",
-    "public-dashboard-client"
+    "spotlight-client"
   ],
   "author": "Recidiviz <team@recidiviz.org>",
   "license": "GNU General Public License v3",
@@ -14,9 +15,11 @@
     "dev:pdclient": "yarn workspace public-dashboard-client run dev"
   },
   "devDependencies": {
+    "coveralls": "^3.1.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-simple-import-sort": "^5.0.3",
     "husky": ">=4",
     "lint-staged": ">=10",
     "npm-run-all": "^4.1.5",
@@ -28,8 +31,10 @@
     }
   },
   "lint-staged": {
+    "*.{ts,tsx}": "bash -c tsc",
     "*.{js,jsx,ts,tsx,css,scss}": "eslint --fix",
     "*.json": "prettier --write",
+    "**/*.{ts,tsx}": "bash -c tsc",
     "**/*.{js,jsx,ts,tsx,css,scss}": "eslint --fix",
     "**/*.json": "prettier --write"
   }

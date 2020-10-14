@@ -1,0 +1,53 @@
+{
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "extends": [
+    // explicitly extending the base config so we don't override its own "extends" field
+    "../.eslintrc.json",
+    // From @typescript-eslint/eslint-plugin
+    "plugin:@typescript-eslint/recommended",
+    // From eslint-config-prettier
+    "prettier/@typescript-eslint"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    // This is a living list! If an eslint rule does more harm than good, just
+    // add it below to override it. Write a comment above each rule explaining
+    // why the exception is made, so we know whether to keep it in the future.
+
+    // the bare eslint rule breaks in typescript
+    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-use-before-define.md#how-to-use
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+
+    // don't require extensions for typescript modules
+    "import/extensions": [
+      "error",
+      "always",
+      { "js": "never", "ts": "never", "tsx": "never" }
+    ],
+
+    // support typescript as well as javascript file extensions
+    "react/jsx-filename-extension": [
+      "error",
+      { "extensions": [".tsx", ".js"] }
+    ],
+
+    // We use TypeScript props interfaces, which is mostly redundant with prop
+    // types.
+    "react/prop-types": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      // use <root>/tsconfig.json
+      "typescript": {
+        // always try to resolve types under `<root>@types` directory
+        // even it doesn't contain any source code, like `@types/unist`
+        "alwaysTryTypes": true
+      }
+    }
+  }
+}
