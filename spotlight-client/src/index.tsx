@@ -20,10 +20,16 @@ import "react-app-polyfill/stable";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import AuthProvider from "./AuthProvider";
+import AuthWall from "./AuthWall";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <AuthWall>
+        <App />
+      </AuthWall>
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

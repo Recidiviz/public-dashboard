@@ -15,16 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React from "react";
-
-const App: React.FC = () => {
-  return (
-    <div>
-      <header>
-        <h1>Spotlight</h1>
-      </header>
-    </div>
-  );
-};
-
-export default App;
+export default function isAuthEnabled(): boolean {
+  return process.env.REACT_APP_AUTH_ENABLED === "true";
+}
