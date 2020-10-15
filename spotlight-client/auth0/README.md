@@ -23,15 +23,6 @@ However, it would still be wise to read these steps to understand how the system
 At present, the app uses only the _Database_ connection, which provides basic username-password
 credential authentication. Other connections may be added in the future.
 
-### Backend
-
-Connections from the frontend (React) to the backend API (Node/Express) are also authenticated via
-Auth0. You can set up the API config in Auth0 by following [this quickstart](https://auth0.com/docs/quickstart/spa/react/02-calling-an-api),
-linked to from the bottom of the previous quickstart. Give it a name of "Dashboard API".
-
-Same as above: when going through the quickstart, you do not need to perform any of the coding-related
-steps. But you should still read these steps to understand how the system works as a whole.
-
 ## Rules and Hooks
 
 Auth0 has a system of [rules](https://auth0.com/docs/rules) and [hooks](https://auth0.com/docs/hooks)

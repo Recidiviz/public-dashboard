@@ -20,24 +20,10 @@ import React from "react";
 import isAuthEnabled from "../utils/isAuthEnabled";
 
 /**
- * If auth is enabled in the current environment, wraps its children
- * in the AuthWall to require authentication. If auth is disabled,
- * renders its children unwrapped.
- */
-const AuthWallContainer: React.FC = ({ children }) => {
-  // because AuthWall relies on hooks, we don't want to render it at all
-  // if auth is not enabled in this environment
-  if (isAuthEnabled()) {
-    return <AuthWall>{children}</AuthWall>;
-  }
-  return <>{children}</>;
-};
-
-/**
  * Requires that the user is authenticated before rendering its children,
  * and redirects unauthenticated users to an Auth0 login domain.
  */
-const AuthWall: React.FC = ({ children }) => {
+const AuthChecker: React.FC = ({ children }) => {
   const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
 
   if (isLoading) {
@@ -52,4 +38,18 @@ const AuthWall: React.FC = ({ children }) => {
   return <>{children}</>;
 };
 
-export default AuthWallContainer;
+/**
+ * If auth is enabled in the current environment, wraps its children
+ * in the AuthWall to require authentication. If auth is disabled,
+ * renders its children unwrapped.
+ */
+const AuthWall: React.FC = ({ children }) => {
+  // because AuthWall relies on hooks, we don't want to render it at all
+  // if auth is not enabled in this environment
+  if (isAuthEnabled()) {
+    return <AuthChecker>{children}</AuthChecker>;
+  }
+  return <>{children}</>;
+};
+
+export default AuthWall;
