@@ -13,6 +13,19 @@ If you have followed the [setup instructions](../README.md#getting-set-up) in th
 
 We suggest installing a linting package for your preferred code editor that hooks into [eslint](#yarn-lint). We recommend [linter-eslint](https://atom.io/packages/linter-eslint) if you're using Atom.
 
+#### Environment variables
+
+Second and last, set up your environment variables. Copy the `.env.example` file and set variables accordingly per environment. The app can be deployed to both staging and production environments. Staging relies on environment variables stored in `.env.development` and production relies on variables in `.env.production`. Local relies on `.env.development.local`.
+
+Expected environment variables include:
+
+- `REACT_APP_AUTH_ENABLED` - set to `true` or `false` to toggle Auth0 protection per environment. Currently only used in staging to make the entire site private. No need to enable this locally unless you are developing or testing something auth-related.
+- `REACT_APP_AUTH_ENV` - a string indicating the "auth environment" used to point to the correct Auth0 tenant. Either "development" (which also covers staging) or "production".
+
+(Note that variables must be prefixed with `REACT_APP_` to be available inside the client application.)
+
+The build process, as described below, ensures that the proper values are compiled and included in the static bundle at build time, for the right environment.
+
 ### Running the application locally
 
 `yarn dev` will start a Webpack development server on port `3000` and open the homepage in your browser.
@@ -20,6 +33,12 @@ We suggest installing a linting package for your preferred code editor that hook
 The development servers will remain active until you either close your terminal or shut it down using `control+c`.
 
 **Note:** The frontend server does not need to be restarted when frontend source code is modified. The assets will automatically be recompiled and the browser will be refreshed.
+
+### Authentication
+
+This app may optionally be authenticated via [Auth0](https://auth0.com/). Auth0 settings can be inspected in the `AuthProvider` component, which wraps the entire application in a global React context using the [`@auth0/auth0-react`](https://www.npmjs.com/package/@auth0/auth0-react) library.
+
+There is no per-view authentication; enabling auth (via environment variable, as described above) protects the entire application. We currently only enable this on our staging environment. If you are setting this app up completely fresh, you will need to create your own Auth0 account on the staging site in order to access it.
 
 ## Deploys
 
