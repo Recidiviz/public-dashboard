@@ -15,30 +15,24 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Auth0Provider } from "@auth0/auth0-react";
-import React from "react";
-import isAuthEnabled from "../utils/isAuthEnabled";
-import getAuthSettings from "./getAuthSettings";
-
-/**
- * If auth is enabled for the current environment, wraps its children
- * in an Auth0Provider to enable the Auth0 React context.
- * If auth is disabled, renders its children unwrapped.
- */
-const AuthProvider: React.FC = ({ children }) => {
-  const authSettings = getAuthSettings();
-  if (isAuthEnabled() && authSettings) {
-    return (
-      <Auth0Provider
-        domain={authSettings.domain}
-        clientId={authSettings.clientId}
-        redirectUri={window.location.href}
-      >
-        {children}
-      </Auth0Provider>
-    );
-  }
-  return <>{children}</>;
+type Auth0Settings = {
+  domain: string;
+  clientId: string;
 };
 
-export default AuthProvider;
+let AUTH_SETTINGS: Auth0Settings | undefined;
+
+// NOTE: there is no production auth requirement!
+if (process.env.REACT_APP_AUTH_ENV === "development") {
+  AUTH_SETTINGS = {
+    domain: "recidiviz-spotlight-staging.us.auth0.com",
+    clientId: "ID9plpd8j4vaUin9rPTGxWlJoknSkDX1",
+  };
+}
+
+/**
+ * Returns the auth settings configured for the current environment, if any.
+ */
+export default function getAuthSettings(): typeof AUTH_SETTINGS {
+  return AUTH_SETTINGS;
+}

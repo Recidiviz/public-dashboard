@@ -19,8 +19,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 import isAuthEnabled from "../utils/isAuthEnabled";
 
-const SHOULD_CHECK_AUTH = isAuthEnabled();
-
 /**
  * If auth is enabled in the current environment, wraps its children
  * in the AuthWall to require authentication. If auth is disabled,
@@ -29,7 +27,7 @@ const SHOULD_CHECK_AUTH = isAuthEnabled();
 const AuthWallContainer: React.FC = ({ children }) => {
   // because AuthWall relies on hooks, we don't want to render it at all
   // if auth is not enabled in this environment
-  if (SHOULD_CHECK_AUTH) {
+  if (isAuthEnabled()) {
     return <AuthWall>{children}</AuthWall>;
   }
   return <>{children}</>;
