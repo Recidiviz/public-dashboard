@@ -17,22 +17,28 @@
 
 import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
+import Loading from "../Loading";
 import isAuthEnabled from "../utils/isAuthEnabled";
+import VerificationRequired from "../VerificationRequired";
 
 /**
  * Requires that the user is authenticated before rendering its children,
  * and redirects unauthenticated users to an Auth0 login domain.
  */
 const AuthChecker: React.FC = ({ children }) => {
-  const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
+  const { isAuthenticated, isLoading, loginWithRedirect, user } = useAuth0();
 
   if (isLoading) {
-    return <>Loading...</>;
+    return <Loading />;
   }
 
   if (!isAuthenticated) {
     loginWithRedirect();
-    return <>Loading...</>;
+    return <Loading />;
+  }
+
+  if (!user.email_verified) {
+    return <VerificationRequired />;
   }
 
   return <>{children}</>;
