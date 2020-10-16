@@ -25,7 +25,7 @@ let AUTH_SETTINGS: Auth0Settings | undefined;
 // NOTE: there is no production auth requirement!
 if (process.env.REACT_APP_AUTH_ENV === "development") {
   AUTH_SETTINGS = {
-    domain: "recidiviz-spotlight-staging.us.auth0.com",
+    domain: "spotlight-login-staging.recidiviz.org",
     clientId: "ID9plpd8j4vaUin9rPTGxWlJoknSkDX1",
   };
 }
