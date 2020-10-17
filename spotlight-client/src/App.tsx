@@ -16,20 +16,17 @@
 // =============================================================================
 
 import React from "react";
-import AuthProvider from "./AuthProvider";
 import AuthWall from "./AuthWall";
 
 const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <AuthWall>
-        <div>
-          <header>
-            <h1>Spotlight</h1>
-          </header>
-        </div>
-      </AuthWall>
-    </AuthProvider>
+    <AuthWall>
+      <div>
+        <header>
+          <h1>Spotlight</h1>
+        </header>
+      </div>
+    </AuthWall>
   );
 };
 

@@ -19,8 +19,7 @@ import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { render } from "@testing-library/react";
 import React from "react";
 import App from "./App";
-import getAuthSettings from "./AuthProvider/getAuthSettings";
-import isAuthEnabled from "./utils/isAuthEnabled";
+import { getAuthSettings, isAuthEnabled } from "./AuthWall/utils";
 
 test("does not explode", () => {
   const { getByRole } = render(<App />);
@@ -29,12 +28,14 @@ test("does not explode", () => {
   expect(websiteName).toBeInTheDocument();
 });
 
-jest.mock("./AuthProvider/getAuthSettings");
+jest.mock("./AuthWall/utils", () => ({
+  getAuthSettings: jest.fn(),
+  isAuthEnabled: jest.fn(),
+}));
 const getAuthSettingsMock = getAuthSettings as jest.MockedFunction<
   typeof getAuthSettings
 >;
 
-jest.mock("./utils/isAuthEnabled");
 const isAuthEnabledMock = isAuthEnabled as jest.MockedFunction<
   typeof isAuthEnabled
 >;

@@ -33,6 +33,10 @@ if (process.env.REACT_APP_AUTH_ENV === "development") {
 /**
  * Returns the auth settings configured for the current environment, if any.
  */
-export default function getAuthSettings(): typeof AUTH_SETTINGS {
+export function getAuthSettings(): typeof AUTH_SETTINGS {
   return AUTH_SETTINGS;
+}
+
+export function isAuthEnabled(): boolean {
+  return process.env.REACT_APP_AUTH_ENABLED === "true";
 }

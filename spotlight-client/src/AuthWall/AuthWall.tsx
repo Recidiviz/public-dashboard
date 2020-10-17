@@ -15,47 +15,81 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { useAuth0 } from "@auth0/auth0-react";
+import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 import Loading from "../Loading";
-import isAuthEnabled from "../utils/isAuthEnabled";
+import { getAuthSettings, isAuthEnabled } from "./utils";
 import VerificationRequired from "../VerificationRequired";
 
 /**
- * Requires that the user is authenticated before rendering its children,
- * and redirects unauthenticated users to an Auth0 login domain.
+ * If auth is enabled for the current environment, wraps its children
+ * in an Auth0Provider to enable the Auth0 React context.
+ * If auth is disabled, renders its children unwrapped.
  */
-const AuthChecker: React.FC = ({ children }) => {
-  const { isAuthenticated, isLoading, loginWithRedirect, user } = useAuth0();
+const AuthProvider: React.FC<{ enabled: boolean }> = ({
+  children,
+  enabled,
+}) => {
+  const authSettings = getAuthSettings();
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  return enabled && authSettings ? (
+    <Auth0Provider
+      domain={authSettings.domain}
+      clientId={authSettings.clientId}
+      redirectUri={window.location.href}
+    >
+      {children}
+    </Auth0Provider>
+  ) : (
+    <>{children}</>
+  );
+};
 
-  if (!isAuthenticated) {
-    loginWithRedirect();
-    return <Loading />;
-  }
+/**
+ * If enabled is true, requires that
+ * the user is authenticated before rendering its children,
+ * and redirects unauthenticated users to an Auth0 login domain.
+ * Otherwise, it simply renders its children without intervention.
+ */
+const AuthChecker: React.FC<{ enabled: boolean }> = ({ children, enabled }) => {
+  // providing a fallback because this hook may return undefined if auth0 is not enabled;
+  // seems to mainly happen in the test environment
+  const { isAuthenticated, isLoading, loginWithRedirect, user } =
+    useAuth0() || {};
 
-  if (!user.email_verified) {
-    return <VerificationRequired />;
+  if (enabled) {
+    if (isLoading) {
+      return <Loading />;
+    }
+
+    if (!isAuthenticated && loginWithRedirect) {
+      loginWithRedirect();
+      return <Loading />;
+    }
+
+    if (user && !user.email_verified) {
+      return <VerificationRequired />;
+    }
   }
 
   return <>{children}</>;
 };
 
 /**
- * If auth is enabled in the current environment, wraps its children
- * in the AuthWall to require authentication. If auth is disabled,
- * renders its children unwrapped.
+ * If auth is enabled in the current environment, requires that
+ * the user is authenticated before rendering its children,
+ * and redirects unauthenticated users to an Auth0 login domain.
+ * If auth is disabled, it simply renders its children without intervention.
+ * MUST be a descendent of an AuthProvider.
  */
 const AuthWall: React.FC = ({ children }) => {
-  // because AuthWall relies on hooks, we don't want to render it at all
-  // if auth is not enabled in this environment
-  if (isAuthEnabled()) {
-    return <AuthChecker>{children}</AuthChecker>;
-  }
-  return <>{children}</>;
+  const enabled = isAuthEnabled();
+
+  return (
+    <AuthProvider enabled={enabled}>
+      <AuthChecker enabled={enabled}>{children}</AuthChecker>
+    </AuthProvider>
+  );
 };
 
 export default AuthWall;
