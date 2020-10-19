@@ -44,6 +44,10 @@ const ChartWrapper = styled(ChartWrapperBase)`
   }
 `;
 
+const LegendWrapper = styled.div`
+  margin-left: ${MARGIN.left}px;
+`;
+
 const Wrapper = styled.div``;
 
 function addColorToRecord(record, i) {
@@ -114,11 +118,13 @@ export default function RecidivismRatesChart({ data }) {
               yExtent={[0, 1]}
             />
           </ChartWrapper>
-          <ColorLegend
-            highlighted={highlighted}
-            items={chartData}
-            setHighlighted={setHighlighted}
-          />
+          <LegendWrapper>
+            <ColorLegend
+              highlighted={highlighted}
+              items={chartData}
+              setHighlighted={setHighlighted}
+            />
+          </LegendWrapper>
         </Wrapper>
       )}
     </Measure>
