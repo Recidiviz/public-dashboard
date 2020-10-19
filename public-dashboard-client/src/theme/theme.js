@@ -64,6 +64,11 @@ const dataVizColorMap = new Map([
   ["blue", "#4C6290"],
   ["paleBlue", "#90AEB5"],
   ["pink", "#CC989C"],
+  ["paleGreen", "#B6CC98"],
+  ["purple", "#56256F"],
+  ["aqua", "#4FBABA"],
+  ["palePurple", "#904C84"],
+  ["skyBlue", "#5F8FD9"],
 ]);
 
 const dataVizColors = Array.from(dataVizColorMap.values());
@@ -98,6 +103,7 @@ export const defaultTheme = {
     controlBackground: buttonBackground,
     controlLabel: charcoal,
     controlValue: black,
+    dataViz: dataVizColors,
     footer: white,
     footerBackground: darkerGreen,
     divider: "#CECAC7",

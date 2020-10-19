@@ -33,19 +33,7 @@ const BASE_MARK_PROPS = {
 };
 
 const CHART_TITLE = "Cumulative Recidivism Rate";
-// TODO: real colors
-const LINE_COLORS = [
-  "#4e79a7",
-  "#f28e2c",
-  "#e15759",
-  "#76b7b2",
-  "#59a14f",
-  "#edc949",
-  "#af7aa1",
-  "#ff9da7",
-  "#9c755f",
-  "#bab0ab",
-];
+const LINE_COLORS = THEME.colors.dataViz;
 const MARGIN = { bottom: 65, left: 56, right: 16, top: 48 };
 
 const ChartWrapper = styled(ChartWrapperBase)`
