@@ -15,9 +15,19 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-// learn more: https://github.com/testing-library/jest-dom
+import React from "react";
 
-import "@testing-library/jest-dom/extend-expect";
+const VerificationRequired: React.FC = () => {
+  return (
+    <article>
+      <h1>Account Verification Required</h1>
+      <p>
+        Look for a verification email in your inbox and click the link in that
+        email. After you verify your email, refresh this page and you should be
+        able to proceed.
+      </p>
+    </article>
+  );
+};
+
+export default VerificationRequired;

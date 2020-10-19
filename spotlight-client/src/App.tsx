@@ -16,15 +16,18 @@
 // =============================================================================
 
 import React from "react";
+import AuthWall from "./AuthWall";
 
-function App(): JSX.Element {
+const App: React.FC = () => {
   return (
-    <div>
-      <header>
-        <h1>Spotlight</h1>
-      </header>
-    </div>
+    <AuthWall>
+      <div>
+        <header>
+          <h1>Spotlight</h1>
+        </header>
+      </div>
+    </AuthWall>
   );
-}
+};
 
 export default App;
