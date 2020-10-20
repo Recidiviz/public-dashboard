@@ -24,28 +24,39 @@ import ResponsiveTooltipController from "../responsive-tooltip-controller";
 
 const TOOLTIP_OFFSET = 8;
 
-const ForegroundHoverFrame = styled.div`
+const OverlayContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
 
-  .annotation-xy-label {
-    transform: translateY(
-        -${(props) => (props.height - props.margin.top - props.margin.bottom) / 2}px
-      )
-      translateY(-50%)
-      translateX(
-        ${(props) =>
-          props.tooltipLeft
-            ? `calc(-100% - ${TOOLTIP_OFFSET}px)`
-            : `${TOOLTIP_OFFSET}px`}
-      );
-    white-space: nowrap;
+  .frame {
+    .annotation-xy-label {
+      transform: translateY(
+          -${(props) => (props.height - props.margin.top - props.margin.bottom) / 2}px
+        )
+        translateY(-50%)
+        translateX(
+          ${(props) =>
+            props.tooltipLeft
+              ? `calc(-100% - ${TOOLTIP_OFFSET}px)`
+              : `${TOOLTIP_OFFSET}px`}
+        );
+      white-space: nowrap;
+    }
+
+    circle.frame-hover {
+      display: none;
+    }
+
+    path.subject {
+      stroke: ${(props) => props.theme.colors.highlight};
+    }
   }
 `;
 
 const Wrapper = styled.div`
   position: relative;
+  z-index: ${(props) => props.theme.zIndex.tooltip};
 `;
 
 /**
@@ -62,7 +73,7 @@ const Wrapper = styled.div`
  * Also includes a `ResponsiveTooltipController` that you can pass any supported props to
  * via `tooltipControllerProps`.
  */
-export default function XHoverOverlayFrame({
+export default function XHoverController({
   children,
   lines,
   margin,
@@ -83,7 +94,7 @@ export default function XHoverOverlayFrame({
       {React.Children.map(children, (child) =>
         React.cloneElement(child, { margin, size })
       )}
-      <ForegroundHoverFrame
+      <OverlayContainer
         height={size[1]}
         margin={margin}
         tooltipLeft={tooltipLeft}
@@ -119,12 +130,12 @@ export default function XHoverOverlayFrame({
             yAccessor={() => 0}
           />
         </ResponsiveTooltipController>
-      </ForegroundHoverFrame>
+      </OverlayContainer>
     </Wrapper>
   );
 }
 
-XHoverOverlayFrame.propTypes = {
+XHoverController.propTypes = {
   children: PropTypes.node.isRequired,
   lines: PropTypes.arrayOf(PropTypes.object).isRequired,
   margin: PropTypes.shape({
@@ -140,7 +151,7 @@ XHoverOverlayFrame.propTypes = {
   otherChartProps: PropTypes.objectOf(PropTypes.any),
 };
 
-XHoverOverlayFrame.defaultProps = {
+XHoverController.defaultProps = {
   otherChartProps: {},
   tooltipControllerProps: {},
 };

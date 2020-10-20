@@ -24,6 +24,7 @@ import ChartWrapperBase from "../chart-wrapper";
 import ColorLegend from "../color-legend";
 import { THEME } from "../theme";
 import { formatAsPct, highlightFade } from "../utils";
+import XHoverController from "../x-hover-controller";
 
 const BASE_MARK_PROPS = {
   transitionDuration: {
@@ -68,55 +69,76 @@ export default function RecidivismRatesChart({ data }) {
       }) => (
         <Wrapper ref={measureRef}>
           <ChartWrapper>
-            <XYFrame
-              axes={[
-                {
-                  baseline: false,
-                  orient: "left",
-                  tickFormat: formatAsPct,
-                  ticks: 10,
-                },
-                {
-                  baseline: false,
-                  label: "Years since release",
-                  orient: "bottom",
-                  tickLineGenerator: () => null,
-                  ticks: 10,
-                },
-              ]}
-              baseMarkProps={BASE_MARK_PROPS}
-              lineStyle={(d) => {
-                return {
-                  fill: "none",
-                  stroke:
-                    highlighted && highlighted.label !== d.label
-                      ? highlightFade(d.color)
-                      : d.color,
-                  strokeWidth: 2,
-                };
-              }}
+            <XHoverController
               lines={chartData}
               margin={MARGIN}
-              pointStyle={(d) => {
-                return {
-                  fill:
-                    highlighted && highlighted.label !== d.parentLine.label
-                      ? highlightFade(d.parentLine.color)
-                      : d.parentLine.color,
-                  r: 5,
-                };
-              }}
-              showLinePoints
               size={[width, 475]}
-              title={
-                <text x={width ? 0 - width / 2 + MARGIN.left : 0}>
-                  {CHART_TITLE}
-                </text>
-              }
+              tooltipControllerProps={{
+                getTooltipProps: (d) => {
+                  const currentPeriod = d.followupYears;
+                  return {
+                    title: `${currentPeriod} year${
+                      currentPeriod > 1 ? "s" : ""
+                    } since release`,
+                    records: d.points
+                      .filter((p) => p.data.followupYears === currentPeriod)
+                      .map((p) => ({
+                        label: p.parentLine.label,
+                        value: formatAsPct(p.data.recidivismRate),
+                      })),
+                  };
+                },
+              }}
               xAccessor="followupYears"
-              yAccessor="recidivismRate"
-              yExtent={[0, 1]}
-            />
+            >
+              <XYFrame
+                axes={[
+                  {
+                    baseline: false,
+                    orient: "left",
+                    tickFormat: formatAsPct,
+                    ticks: 10,
+                  },
+                  {
+                    baseline: false,
+                    label: "Years since release",
+                    orient: "bottom",
+                    tickLineGenerator: () => null,
+                    ticks: 10,
+                  },
+                ]}
+                baseMarkProps={BASE_MARK_PROPS}
+                lineStyle={(d) => {
+                  return {
+                    fill: "none",
+                    stroke:
+                      highlighted && highlighted.label !== d.label
+                        ? highlightFade(d.color)
+                        : d.color,
+                    strokeWidth: 2,
+                  };
+                }}
+                lines={chartData}
+                pointStyle={(d) => {
+                  return {
+                    fill:
+                      highlighted && highlighted.label !== d.parentLine.label
+                        ? highlightFade(d.parentLine.color)
+                        : d.parentLine.color,
+                    r: 5,
+                  };
+                }}
+                showLinePoints
+                title={
+                  <text x={width ? 0 - width / 2 + MARGIN.left : 0}>
+                    {CHART_TITLE}
+                  </text>
+                }
+                xAccessor="followupYears"
+                yAccessor="recidivismRate"
+                yExtent={[0, 1]}
+              />
+            </XHoverController>
           </ChartWrapper>
           <LegendWrapper>
             <ColorLegend

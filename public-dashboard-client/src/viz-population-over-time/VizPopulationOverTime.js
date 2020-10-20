@@ -43,14 +43,6 @@ const LegendWrapper = styled.div`
 
 const ChartWrapper = styled(BaseChartWrapper)`
   .frame {
-    circle.frame-hover {
-      display: none;
-    }
-
-    path.subject {
-      stroke: ${(props) => props.theme.colors.highlight};
-    }
-
     .visualization-layer {
       shape-rendering: geometricPrecision;
     }
