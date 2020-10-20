@@ -59,6 +59,15 @@ export default function RecidivismRatesChart({ data }) {
   const [highlighted, setHighlighted] = useState();
 
   const chartData = data.map(addColorToRecord);
+
+  const points = highlighted
+    ? chartData.find((d) => d.label === highlighted.label).coordinates
+    : [];
+
+  const pointColor = highlighted
+    ? chartData.find((d) => d.label === highlighted.label).color
+    : undefined;
+
   return (
     <Measure bounds>
       {({
@@ -120,16 +129,11 @@ export default function RecidivismRatesChart({ data }) {
                   };
                 }}
                 lines={chartData}
-                pointStyle={(d) => {
-                  return {
-                    fill:
-                      highlighted && highlighted.label !== d.parentLine.label
-                        ? highlightFade(d.parentLine.color)
-                        : d.parentLine.color,
-                    r: 5,
-                  };
+                points={points}
+                pointStyle={{
+                  fill: pointColor,
+                  r: 5,
                 }}
-                showLinePoints
                 title={
                   <text x={width ? 0 - width / 2 + MARGIN.left : 0}>
                     {CHART_TITLE}
