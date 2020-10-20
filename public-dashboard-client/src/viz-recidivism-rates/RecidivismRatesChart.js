@@ -84,7 +84,8 @@ export default function RecidivismRatesChart({ data }) {
                       .filter((p) => p.data.followupYears === currentPeriod)
                       .map((p) => ({
                         label: p.parentLine.label,
-                        value: formatAsPct(p.data.recidivismRate),
+                        pct: p.data.recidivismRate,
+                        value: `${p.data.recidivated_releases} of ${p.data.releases}`,
                       })),
                   };
                 },
