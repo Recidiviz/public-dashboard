@@ -73,6 +73,7 @@ const FILES_BY_METRIC_TYPE = {
   sentencing: [
     "judicial_districts.json",
     "sentence_type_by_district_by_demographics.json",
+    "recidivism_rates_by_cohort_by_year.json",
   ],
 };
 

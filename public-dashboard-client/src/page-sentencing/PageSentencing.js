@@ -1,7 +1,25 @@
+// Recidiviz - a data platform for criminal justice reform
+// Copyright (C) 2020 Recidiviz, Inc.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+// =============================================================================
+
 import React from "react";
 import DetailPage from "../detail-page";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
+import VizRecidivismRates from "../viz-recidivism-rates";
 import VizSentencePopulation from "../viz-sentence-population";
 import VizSentenceTypes from "../viz-sentence-types";
 import { PATHS, ALL_PAGES, SECTION_TITLES } from "../constants";
@@ -61,6 +79,22 @@ export default function PageSentencing() {
       vizData: {
         sentenceTypes: apiData.sentence_type_by_district_by_demographics,
         locations: apiData.judicial_districts,
+      },
+    },
+    {
+      title: SECTION_TITLES[PATHS.sentencing].recidivism,
+      description: (
+        <>
+          After release from prison, a significant proportion of formerly
+          incarcerated folks end up back in prison. This is typically termed
+          “recidivism.” The below graph shows recidivism as reincarceration;
+          that is, the proportion of individuals who are incarcerated again at
+          some point after their release.
+        </>
+      ),
+      VizComponent: VizRecidivismRates,
+      vizData: {
+        recidivismRates: apiData.recidivism_rates_by_cohort_by_year,
       },
     },
   ];

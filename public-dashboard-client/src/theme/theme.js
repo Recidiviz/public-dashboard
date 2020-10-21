@@ -1,3 +1,20 @@
+// Recidiviz - a data platform for criminal justice reform
+// Copyright (C) 2020 Recidiviz, Inc.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+// =============================================================================
+
 import deepMerge from "deepmerge";
 import { rgb } from "d3-color";
 import {
@@ -47,6 +64,11 @@ const dataVizColorMap = new Map([
   ["blue", "#4C6290"],
   ["paleBlue", "#90AEB5"],
   ["pink", "#CC989C"],
+  ["paleGreen", "#B6CC98"],
+  ["purple", "#56256F"],
+  ["aqua", "#4FBABA"],
+  ["palePurple", "#904C84"],
+  ["skyBlue", "#5F8FD9"],
 ]);
 
 const dataVizColors = Array.from(dataVizColorMap.values());
@@ -77,9 +99,11 @@ export const defaultTheme = {
     bodyLight: white,
     chartAxis: charcoal,
     chartErrorBackground: buttonBackground,
+    chartGridLine: "#E0DFDE",
     controlBackground: buttonBackground,
     controlLabel: charcoal,
     controlValue: black,
+    dataViz: dataVizColors,
     footer: white,
     footerBackground: darkerGreen,
     divider: "#CECAC7",
