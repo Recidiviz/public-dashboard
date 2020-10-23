@@ -25,9 +25,10 @@ import ResponsiveTooltipController from "../responsive-tooltip-controller";
 const TOOLTIP_OFFSET = 8;
 
 const OverlayContainer = styled.div`
+  left: 0;
   position: absolute;
   top: 0;
-  left: 0;
+  z-index: ${(props) => props.theme.zIndex.base};
 
   .frame {
     .annotation-xy-label {
@@ -56,7 +57,6 @@ const OverlayContainer = styled.div`
 
 const Wrapper = styled.div`
   position: relative;
-  z-index: ${(props) => props.theme.zIndex.tooltip};
 `;
 
 /**
