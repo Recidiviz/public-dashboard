@@ -16,18 +16,14 @@
 // =============================================================================
 
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Measure from "react-measure";
 import XYFrame from "semiotic/lib/XYFrame";
 import styled from "styled-components";
 import ChartWrapperBase from "../chart-wrapper";
 import ColorLegend from "../color-legend";
 import { THEME } from "../theme";
-import {
-  assignOrderedDatavizColors,
-  formatAsPct,
-  highlightFade,
-} from "../utils";
+import { formatAsPct, highlightFade } from "../utils";
 import XHoverController from "../x-hover-controller";
 
 const BASE_MARK_PROPS = {
@@ -54,17 +50,19 @@ const LegendWrapper = styled.div`
 
 const Wrapper = styled.div``;
 
-export default function RecidivismRatesChart({ data }) {
+export default function RecidivismRatesChart({ data, highlightedCohort }) {
   const [highlighted, setHighlighted] = useState();
 
-  const chartData = assignOrderedDatavizColors(data);
+  useEffect(() => {
+    setHighlighted(highlightedCohort);
+  }, [highlightedCohort]);
 
   const points = highlighted
-    ? chartData.find((d) => d.label === highlighted.label).coordinates
+    ? (data.find((d) => d.label === highlighted.label) || {}).coordinates || []
     : [];
 
   const pointColor = highlighted
-    ? chartData.find((d) => d.label === highlighted.label).color
+    ? (data.find((d) => d.label === highlighted.label) || {}).color
     : undefined;
 
   return (
@@ -78,8 +76,11 @@ export default function RecidivismRatesChart({ data }) {
         <Wrapper ref={measureRef}>
           <ChartWrapper>
             <XHoverController
-              lines={chartData}
+              lines={data}
               margin={MARGIN}
+              otherChartProps={{
+                xExtent: [1, 10],
+              }}
               size={[width, 475]}
               tooltipControllerProps={{
                 getTooltipProps: (d) => {
@@ -127,12 +128,19 @@ export default function RecidivismRatesChart({ data }) {
                     strokeWidth: 2,
                   };
                 }}
-                lines={chartData}
+                lines={data}
                 points={points}
                 pointStyle={{
                   fill: pointColor,
                   r: 5,
                 }}
+                renderKey={(d) =>
+                  d.coordinates
+                    ? // if it has coordinates, it's a line
+                      d.label
+                    : // if not, it's a point
+                      `${d.releaseCohort}-${d.followupYears}`
+                }
                 title={
                   <text x={width ? 0 - width / 2 + MARGIN.left : 0}>
                     {CHART_TITLE}
@@ -147,7 +155,7 @@ export default function RecidivismRatesChart({ data }) {
           <LegendWrapper>
             <ColorLegend
               highlighted={highlighted}
-              items={chartData}
+              items={data}
               setHighlighted={setHighlighted}
             />
           </LegendWrapper>
@@ -169,4 +177,11 @@ RecidivismRatesChart.propTypes = {
       ).isRequired,
     })
   ).isRequired,
+  highlightedCohort: PropTypes.shape({
+    label: PropTypes.string.isRequired,
+  }),
+};
+
+RecidivismRatesChart.defaultProps = {
+  highlightedCohort: undefined,
 };

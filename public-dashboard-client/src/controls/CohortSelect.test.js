@@ -15,13 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import React from "react";
-import { render, within } from "../testUtils";
+import { act, render, within } from "../testUtils";
 import CohortSelect from "./CohortSelect";
 
 const mockOnChange = jest.fn();
+const mockOnHighlight = jest.fn();
 let testOptions;
 
 beforeEach(() => {
@@ -47,17 +47,25 @@ beforeEach(() => {
  */
 function openMenu() {
   const renderResult = render(
-    <CohortSelect onChange={mockOnChange} options={testOptions} />
+    <CohortSelect
+      onChange={mockOnChange}
+      onHighlight={mockOnHighlight}
+      options={testOptions}
+    />
   );
   const menuButton = renderResult.getByRole("button", { name: /cohort/i });
-  userEvent.click(menuButton);
+  act(() => userEvent.click(menuButton));
   // give callers access to all queries etc.
   return renderResult;
 }
 
-test("does not explode", () => {
+test("triggers menu from button", () => {
   const { getByRole } = render(
-    <CohortSelect onChange={mockOnChange} options={testOptions} />
+    <CohortSelect
+      onChange={mockOnChange}
+      onHighlight={mockOnHighlight}
+      options={testOptions}
+    />
   );
   const menuButton = getByRole("button", { name: /^cohort/i });
   expect(menuButton).toBeInTheDocument();
@@ -81,28 +89,30 @@ test("selects all by default", () => {
   });
 });
 
-test("toggles selection", async () => {
+test("toggles selection", () => {
   const { getByRole } = openMenu();
   const firstOption = getByRole("option", { name: testOptions[0].label });
-  userEvent.click(firstOption);
-  await waitFor(() =>
-    expect(firstOption.getAttribute("aria-selected")).toBe("false")
-  );
+  act(() => userEvent.click(firstOption));
+  expect(firstOption.getAttribute("aria-selected")).toBe("false");
   const menuButton = getByRole("button");
   expect(menuButton).toHaveTextContent(
     `${testOptions[1].label} and ${testOptions.length - 2} others`
   );
-  userEvent.click(firstOption);
-  await waitFor(() =>
-    expect(firstOption.getAttribute("aria-selected")).toBe("true")
-  );
+  act(() => userEvent.click(firstOption));
+  expect(firstOption.getAttribute("aria-selected")).toBe("true");
   expect(menuButton).toHaveTextContent(
     `${testOptions[0].label} and ${testOptions.length - 1} others`
   );
 });
 
 test("sends initial selection to callback", () => {
-  render(<CohortSelect onChange={mockOnChange} options={testOptions} />);
+  render(
+    <CohortSelect
+      onChange={mockOnChange}
+      onHighlight={mockOnHighlight}
+      options={testOptions}
+    />
+  );
   expect(mockOnChange.mock.calls.length).toBe(1);
   // pass only the selected IDs, not the entire options object
   expect(mockOnChange.mock.calls[0][0]).toEqual(
@@ -110,14 +120,12 @@ test("sends initial selection to callback", () => {
   );
 });
 
-test("sends updated selections to callback", async () => {
+test("sends updated selections to callback", () => {
   const { getByRole } = openMenu();
   const firstOption = getByRole("option", { name: testOptions[0].label });
-  userEvent.click(firstOption);
-  await waitFor(() =>
-    expect(mockOnChange.mock.calls[1][0]).toEqual(
-      testOptions.slice(1).map((opt) => opt.id)
-    )
+  act(() => userEvent.click(firstOption));
+  expect(mockOnChange.mock.calls[1][0]).toEqual(
+    testOptions.slice(1).map((opt) => opt.id)
   );
 });
 
@@ -129,8 +137,18 @@ test("applies colors to selected items", () => {
     ).toHaveStyle(`background-color: ${opt.color}`);
   });
   const firstOption = getByRole("option", { name: testOptions[0].label });
-  userEvent.click(firstOption);
+  act(() => userEvent.click(firstOption));
   expect(firstOption).not.toHaveStyle(
     `background-color: ${testOptions[0].color}`
   );
+});
+
+test("passes highlighted option to callback", async () => {
+  const { getByRole } = openMenu();
+  testOptions.forEach((opt) => {
+    mockOnHighlight.mockClear();
+    const menuItem = getByRole("option", { name: opt.label });
+    act(() => userEvent.hover(menuItem));
+    expect(mockOnHighlight.mock.calls[0][0]).toBe(opt);
+  });
 });

@@ -221,9 +221,7 @@ DetailSection.propTypes = {
   otherControls: PropTypes.node,
   stickyOffset: PropTypes.number,
   VizComponent: PropTypes.func,
-  vizData: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.string])
-  ),
+  vizData: PropTypes.objectOf(PropTypes.any),
 };
 
 DetailSection.defaultProps = {

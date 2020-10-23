@@ -18,6 +18,7 @@
 import { group } from "d3-array";
 import PropTypes from "prop-types";
 import React from "react";
+import { assignOrderedDatavizColor } from "../utils";
 import RecidivismRatesChart from "./RecidivismRatesChart";
 
 function typeCast(recidivismRecord) {
@@ -36,22 +37,39 @@ function typeCast(recidivismRecord) {
   };
 }
 
-function prepareChartData(rawData) {
+function prepareChartData({ data, selectedCohorts }) {
   return Array.from(
-    group(rawData.map(typeCast), (d) => d.releaseCohort),
+    group(data.map(typeCast), (d) => d.releaseCohort),
     ([key, value]) => {
       return {
         label: key,
         coordinates: value,
       };
     }
-  );
+  )
+    .map(assignOrderedDatavizColor)
+    .filter((record) => {
+      if (!selectedCohorts) {
+        return true;
+      }
+      return selectedCohorts.some((cohortId) => cohortId === record.label);
+    });
 }
 
-export default function VizRecidivismRates({ data: { recidivismRates } }) {
-  const chartData = prepareChartData(recidivismRates);
+export default function VizRecidivismRates({
+  data: { recidivismRates, selectedCohorts, highlightedCohort },
+}) {
+  const chartData = prepareChartData({
+    data: recidivismRates,
+    selectedCohorts,
+  });
 
-  return <RecidivismRatesChart data={chartData} />;
+  return (
+    <RecidivismRatesChart
+      data={chartData}
+      highlightedCohort={highlightedCohort}
+    />
+  );
 }
 
 VizRecidivismRates.propTypes = {
@@ -63,5 +81,8 @@ VizRecidivismRates.propTypes = {
         release_cohort: PropTypes.string.isRequired,
       })
     ).isRequired,
+    selectedCohorts: PropTypes.arrayOf(PropTypes.string),
+    // this will be passed through to the chart, let that component validate it
+    highlightedCohort: PropTypes.any,
   }).isRequired,
 };

@@ -76,7 +76,7 @@ const MenuItemCheckMark = styled.img`
   }
 `;
 
-export default function CohortSelectMenu({ onChange, options }) {
+export default function CohortSelectMenu({ onChange, onHighlight, options }) {
   const [selected, setSelected] = useState(options);
 
   useEffect(() => {
@@ -129,6 +129,14 @@ export default function CohortSelectMenu({ onChange, options }) {
     },
   });
 
+  useEffect(() => {
+    if (highlightedIndex === -1) {
+      onHighlight(undefined);
+    } else {
+      onHighlight(options[highlightedIndex]);
+    }
+  }, [highlightedIndex, onHighlight, options]);
+
   const firstSelected = selected[0];
   const buttonContents = (
     <>
@@ -180,6 +188,7 @@ export default function CohortSelectMenu({ onChange, options }) {
 
 CohortSelectMenu.propTypes = {
   onChange: PropTypes.func.isRequired,
+  onHighlight: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     and([
       DropdownOptionType,
