@@ -26,16 +26,16 @@ let testOptions;
 
 beforeEach(() => {
   testOptions = [
-    { id: "2009", label: "2009" },
-    { id: "2010", label: "2010" },
-    { id: "2011", label: "2011" },
-    { id: "2012", label: "2012" },
-    { id: "2013", label: "2013" },
-    { id: "2014", label: "2014" },
-    { id: "2015", label: "2015" },
-    { id: "2016", label: "2016" },
-    { id: "2017", label: "2017" },
-    { id: "2018", label: "2018" },
+    { id: "2009", label: "2009", color: "#C0FFEE" },
+    { id: "2010", label: "2010", color: "#C0FFEE" },
+    { id: "2011", label: "2011", color: "#C0FFEE" },
+    { id: "2012", label: "2012", color: "#C0FFEE" },
+    { id: "2013", label: "2013", color: "#C0FFEE" },
+    { id: "2014", label: "2014", color: "#C0FFEE" },
+    { id: "2015", label: "2015", color: "#C0FFEE" },
+    { id: "2016", label: "2016", color: "#C0FFEE" },
+    { id: "2017", label: "2017", color: "#C0FFEE" },
+    { id: "2018", label: "2018", color: "#C0FFEE" },
   ];
 
   jest.resetAllMocks();
@@ -118,5 +118,19 @@ test("sends updated selections to callback", async () => {
     expect(mockOnChange.mock.calls[1][0]).toEqual(
       testOptions.slice(1).map((opt) => opt.id)
     )
+  );
+});
+
+test("applies colors to selected items", () => {
+  const { getByRole } = openMenu();
+  testOptions.forEach((opt) => {
+    expect(
+      getByRole("option", { name: opt.label, selected: true })
+    ).toHaveStyle(`background-color: ${opt.color}`);
+  });
+  const firstOption = getByRole("option", { name: testOptions[0].label });
+  userEvent.click(firstOption);
+  expect(firstOption).not.toHaveStyle(
+    `background-color: ${testOptions[0].color}`
   );
 });

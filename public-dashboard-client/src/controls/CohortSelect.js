@@ -15,33 +15,65 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { and } from "airbnb-prop-types";
 import { ascending } from "d3-array";
 import { useSelect } from "downshift";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import checkMarkPath from "../assets/icons/checkMark.svg";
 import {
-  ControlContainer,
   ControlLabel,
   ControlValue,
-  controlTypeProperties,
+  DropdownMenu as DropdownMenuBase,
+  DropdownMenuItem as DropdownMenuItemBase,
   DropdownOptionType,
+  DropdownWrapper as DropdownWrapperBase,
 } from "./shared";
 
-const DropdownMenu = styled.ul`
-  ${controlTypeProperties}
-
-  background: ${(props) => props.theme.colors.controlBackground};
-  border-radius: 15px;
-  list-style: none;
-  padding: 12px 0;
-  position: relative;
-  white-space: nowrap;
-  z-index: ${(props) => props.theme.zIndex.menu};
+const DropdownWrapper = styled(DropdownWrapperBase)`
+  ${ControlValue} {
+    border: 0;
+  }
 `;
 
-const DropdownMenuItem = styled.li`
-  ${(props) => (props.highlighted ? "outline: solid;" : "")}
+const DropdownMenu = styled(DropdownMenuBase)`
+  margin: 0;
+  position: absolute;
+  right: 0;
+  top: 100%;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+const DropdownMenuItem = styled(DropdownMenuItemBase)`
+  background-color: ${(props) => props.backgroundColor || "inherit"};
+  border-bottom: 1px solid ${(props) => props.theme.colors.controlBackground};
+
+  &[aria-selected="true"] {
+    color: ${(props) => props.theme.colors.bodyLight};
+  }
+`;
+
+const MenuItemContents = styled.div`
+  align-items: baseline;
+
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+const MenuItemCheckMark = styled.img`
+  height: 12px;
+  margin-left: 32px;
+  visibility: hidden;
+  width: auto;
+
+  [aria-selected="true"] & {
+    visibility: visible;
+  }
 `;
 
 export default function CohortSelectMenu({ onChange, options }) {
@@ -101,46 +133,57 @@ export default function CohortSelectMenu({ onChange, options }) {
   const buttonContents = (
     <>
       {!firstSelected && "Select..."}
-      {firstSelected && firstSelected.label}{" "}
-      {selected.length > 1 && <em>and {selected.length - 1} others</em>}
+      {firstSelected && firstSelected.label}
+      {selected.length > 1 && (
+        <em>
+          &nbsp;and {selected.length - 1} other{selected.length > 2 ? "s" : ""}
+        </em>
+      )}
     </>
   );
 
   return (
-    <ControlContainer>
+    <DropdownWrapper>
       <ControlLabel as="label" {...getLabelProps()}>
         Cohort
       </ControlLabel>
       <ControlValue as="button" type="button" {...getToggleButtonProps()}>
         {buttonContents}
       </ControlValue>
-      <DropdownMenu {...getMenuProps()}>
+      <DropdownMenu {...getMenuProps()} as="ul">
         {isOpen &&
           options.map((opt, index) => {
             const isSelected = selected.includes(opt);
+            const itemProps = getItemProps({ item: opt, index });
             return (
               <DropdownMenuItem
-                {...getItemProps({ item: opt, index })}
+                {...itemProps}
                 aria-selected={isSelected}
-                highlighted={highlightedIndex === index}
+                as="li"
+                backgroundColor={isSelected ? opt.color : undefined}
+                highlightedSelector={
+                  highlightedIndex === index ? `&#${itemProps.id}` : undefined
+                }
                 key={opt.id}
               >
-                {opt.label}
-                <input
-                  checked={isSelected}
-                  onChange={() => null}
-                  type="checkbox"
-                  value={opt.id}
-                />
+                <MenuItemContents>
+                  {opt.label}
+                  <MenuItemCheckMark src={checkMarkPath} />
+                </MenuItemContents>
               </DropdownMenuItem>
             );
           })}
       </DropdownMenu>
-    </ControlContainer>
+    </DropdownWrapper>
   );
 }
 
 CohortSelectMenu.propTypes = {
   onChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(DropdownOptionType).isRequired,
+  options: PropTypes.arrayOf(
+    and([
+      DropdownOptionType,
+      PropTypes.shape({ color: PropTypes.string.isRequired }),
+    ])
+  ).isRequired,
 };

@@ -23,7 +23,11 @@ import styled from "styled-components";
 import ChartWrapperBase from "../chart-wrapper";
 import ColorLegend from "../color-legend";
 import { THEME } from "../theme";
-import { formatAsPct, highlightFade } from "../utils";
+import {
+  assignOrderedDatavizColors,
+  formatAsPct,
+  highlightFade,
+} from "../utils";
 import XHoverController from "../x-hover-controller";
 
 const BASE_MARK_PROPS = {
@@ -34,7 +38,6 @@ const BASE_MARK_PROPS = {
 };
 
 const CHART_TITLE = "Cumulative Recidivism Rate";
-const LINE_COLORS = THEME.colors.dataViz;
 const MARGIN = { bottom: 65, left: 56, right: 16, top: 48 };
 
 const ChartWrapper = styled(ChartWrapperBase)`
@@ -51,14 +54,10 @@ const LegendWrapper = styled.div`
 
 const Wrapper = styled.div``;
 
-function addColorToRecord(record, i) {
-  return { ...record, color: LINE_COLORS[i % LINE_COLORS.length] };
-}
-
 export default function RecidivismRatesChart({ data }) {
   const [highlighted, setHighlighted] = useState();
 
-  const chartData = data.map(addColorToRecord);
+  const chartData = assignOrderedDatavizColors(data);
 
   const points = highlighted
     ? chartData.find((d) => d.label === highlighted.label).coordinates

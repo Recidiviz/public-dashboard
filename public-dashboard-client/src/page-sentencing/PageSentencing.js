@@ -24,13 +24,16 @@ import VizSentencePopulation from "../viz-sentence-population";
 import VizSentenceTypes from "../viz-sentence-types";
 import { PATHS, ALL_PAGES, SECTION_TITLES } from "../constants";
 import CohortSelect from "../controls/CohortSelect";
+import { assignOrderedDatavizColors } from "../utils";
 
 function getCohortOptions(data) {
   const cohortsFromData = new Set(data.map((d) => d.release_cohort));
-  return [...cohortsFromData].map((cohort) => ({
-    id: cohort,
-    label: cohort,
-  }));
+  return assignOrderedDatavizColors(
+    [...cohortsFromData].map((cohort) => ({
+      id: cohort,
+      label: cohort,
+    }))
+  );
 }
 
 export default function PageSentencing() {
