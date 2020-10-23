@@ -23,6 +23,15 @@ import VizRecidivismRates from "../viz-recidivism-rates";
 import VizSentencePopulation from "../viz-sentence-population";
 import VizSentenceTypes from "../viz-sentence-types";
 import { PATHS, ALL_PAGES, SECTION_TITLES } from "../constants";
+import CohortSelect from "../controls/CohortSelect";
+
+function getCohortOptions(data) {
+  const cohortsFromData = new Set(data.map((d) => d.release_cohort));
+  return [...cohortsFromData].map((cohort) => ({
+    id: cohort,
+    label: cohort,
+  }));
+}
 
 export default function PageSentencing() {
   const { apiData, isLoading } = useChartData("us_nd/sentencing");
@@ -91,6 +100,12 @@ export default function PageSentencing() {
           that is, the proportion of individuals who are incarcerated again at
           some point after their release.
         </>
+      ),
+      otherControls: (
+        <CohortSelect
+          options={getCohortOptions(apiData.recidivism_rates_by_cohort_by_year)}
+          onChange={() => {}}
+        />
       ),
       VizComponent: VizRecidivismRates,
       vizData: {

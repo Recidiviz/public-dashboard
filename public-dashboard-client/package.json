@@ -13,7 +13,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "start": "react-scripts start",
-    "test": "react-scripts test"
+    "test": "react-scripts test --env=jest-environment-jsdom-sixteen"
   },
   "dependencies": {
     "@accessible/slider": "^2.0.2",
@@ -32,6 +32,7 @@
     "d3-scale": "^3.2.1",
     "date-fns": "^2.14.0",
     "deepmerge": "^4.2.2",
+    "downshift": "^6.0.6",
     "empty-lite": "^1.0.3",
     "env-cmd": "^10.1.0",
     "prop-types": "^15.7.2",
@@ -51,9 +52,12 @@
     "topojson": "^3.0.2"
   },
   "devDependencies": {
+    "@testing-library/dom": "^7.26.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
-    "jest-date-mock": "^1.0.8"
+    "@testing-library/user-event": "^12.1.10",
+    "jest-date-mock": "^1.0.8",
+    "jest-environment-jsdom-sixteen": "^1.0.3"
   },
   "browserslist": {
     "production": [
