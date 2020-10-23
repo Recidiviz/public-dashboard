@@ -92,7 +92,7 @@ export default function XHoverController({
         If the child has different settings for these, they will be clobbered.
       */}
       {React.Children.map(children, (child) =>
-        React.cloneElement(child, { margin, size })
+        React.cloneElement(child, { margin, size, ...otherChartProps })
       )}
       <OverlayContainer
         height={size[1]}
