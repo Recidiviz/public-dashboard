@@ -34,6 +34,7 @@ import {
 const DropdownWrapper = styled(DropdownWrapperBase)`
   ${ControlValue} {
     border: 0;
+    cursor: pointer;
   }
 `;
 
