@@ -24,7 +24,7 @@ import { getAuthSettings, isAuthEnabled } from "./AuthWall/utils";
 test("does not explode", () => {
   const { getByRole } = render(<App />);
   // seems like a pretty safe bet this word will always be there somewhere!
-  const websiteName = getByRole("heading", /spotlight/i);
+  const websiteName = getByRole("heading", { name: /spotlight/i });
   expect(websiteName).toBeInTheDocument();
 });
 
