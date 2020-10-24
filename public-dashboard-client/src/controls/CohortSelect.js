@@ -31,6 +31,8 @@ import {
   DropdownWrapper as DropdownWrapperBase,
 } from "./shared";
 
+const SELECT_ALL_ID = "ALL";
+
 const DropdownWrapper = styled(DropdownWrapperBase)`
   ${ControlValue} {
     border: 0;
@@ -77,12 +79,21 @@ const MenuItemContents = styled.div`
   width: 100%;
 `;
 
-export default function CohortSelectMenu({ onChange, onHighlight, options }) {
-  const [selected, setSelected] = useState(options);
+export default function CohortSelectMenu({
+  onChange,
+  onHighlight,
+  options: optionsFromData,
+}) {
+  const [selected, setSelected] = useState(optionsFromData);
 
   useEffect(() => {
     onChange(selected);
   }, [onChange, selected]);
+
+  const visibleOptions = [
+    { id: SELECT_ALL_ID, label: "Select all" },
+    ...optionsFromData,
+  ];
 
   const {
     isOpen,
@@ -92,7 +103,7 @@ export default function CohortSelectMenu({ onChange, onHighlight, options }) {
     getItemProps,
     highlightedIndex,
   } = useSelect({
-    items: options,
+    items: visibleOptions,
     selectedItem: null,
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
@@ -115,28 +126,37 @@ export default function CohortSelectMenu({ onChange, onHighlight, options }) {
       if (!selectedItem) {
         return;
       }
-      const newSelection = [...selected];
+      let newSelection;
 
-      const index = selected.indexOf(selectedItem);
-
-      if (index === -1) {
-        newSelection.push(selectedItem);
+      if (selectedItem.id === SELECT_ALL_ID) {
+        newSelection = [...optionsFromData];
       } else {
-        newSelection.splice(index, 1);
+        newSelection = [...selected];
+
+        const index = selected.indexOf(selectedItem);
+
+        if (index === -1) {
+          newSelection.push(selectedItem);
+        } else {
+          newSelection.splice(index, 1);
+        }
+        // need to keep selection sorted or labels and colors will get out of sync
+        newSelection.sort((a, b) => ascending(a.label, b.label));
       }
-      // need to keep selection sorted or labels and colors will get out of sync
-      newSelection.sort((a, b) => ascending(a.label, b.label));
+
       setSelected(newSelection);
     },
   });
 
   useEffect(() => {
-    if (highlightedIndex === -1) {
+    // index 0 is select all and should be ignored here
+    if (highlightedIndex < 1) {
       onHighlight(undefined);
     } else {
-      onHighlight(options[highlightedIndex]);
+      // offset by one due to select all
+      onHighlight(optionsFromData[highlightedIndex - 1]);
     }
-  }, [highlightedIndex, onHighlight, options]);
+  }, [highlightedIndex, onHighlight, optionsFromData]);
 
   const firstSelected = selected[0];
   const buttonContents = (
@@ -161,7 +181,7 @@ export default function CohortSelectMenu({ onChange, onHighlight, options }) {
       </ControlValue>
       <DropdownMenu {...getMenuProps()} as="ul">
         {isOpen &&
-          options.map((opt, index) => {
+          visibleOptions.map((opt, index) => {
             const isSelected = selected.includes(opt);
             const itemProps = getItemProps({ item: opt, index });
             return (
@@ -191,9 +211,6 @@ CohortSelectMenu.propTypes = {
   onChange: PropTypes.func.isRequired,
   onHighlight: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
-    and([
-      DropdownOptionType,
-      PropTypes.shape({ color: PropTypes.string.isRequired }),
-    ])
+    and([DropdownOptionType, PropTypes.shape({ color: PropTypes.string })])
   ).isRequired,
 };

@@ -74,9 +74,7 @@ test("triggers menu from button", () => {
   expect(menu).toBeInTheDocument();
   const { getByRole: getByRoleWithinMenu } = within(menu);
   testOptions.forEach((opt) => {
-    expect(
-      getByRoleWithinMenu("option", { name: opt.label })
-    ).toBeInTheDocument();
+    expect(getByRoleWithinMenu("option", { name: opt.label })).toBeVisible();
   });
 });
 
@@ -85,7 +83,7 @@ test("selects all by default", () => {
   testOptions.forEach((opt) => {
     expect(
       getByRole("option", { name: opt.label, selected: true })
-    ).toBeInTheDocument();
+    ).toBeVisible();
   });
 });
 
@@ -139,12 +137,37 @@ test("applies colors to selected items", () => {
   );
 });
 
-test("passes highlighted option to callback", async () => {
+test("passes highlighted option to callback", () => {
   const { getByRole } = openMenu();
   testOptions.forEach((opt) => {
     mockOnHighlight.mockClear();
     const menuItem = getByRole("option", { name: opt.label });
     act(() => userEvent.hover(menuItem));
     expect(mockOnHighlight.mock.calls[0][0]).toBe(opt);
+  });
+});
+
+test("supports select-all", () => {
+  const { getByRole } = openMenu();
+  const selectAll = getByRole("option", { name: /select all/i });
+  act(() => userEvent.click(selectAll));
+  // should have no effect because everything is already selected; does NOT de-select all
+  testOptions.forEach((opt) => {
+    expect(
+      getByRole("option", { name: opt.label, selected: true })
+    ).toBeVisible();
+  });
+  // now de-select some manually and try again
+  testOptions.slice(2, 6).forEach((opt) => {
+    act(() =>
+      userEvent.click(getByRole("option", { name: opt.label, selected: true }))
+    );
+  });
+  act(() => userEvent.click(selectAll));
+  // everything is selected again
+  testOptions.forEach((opt) => {
+    expect(
+      getByRole("option", { name: opt.label, selected: true })
+    ).toBeVisible();
   });
 });
