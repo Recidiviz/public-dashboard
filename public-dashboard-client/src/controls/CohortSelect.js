@@ -49,12 +49,23 @@ const DropdownMenu = styled(DropdownMenuBase)`
   }
 `;
 
+const MenuItemCheckMark = styled.img`
+  height: 12px;
+  margin-left: 32px;
+  visibility: hidden;
+  width: auto;
+`;
+
 const DropdownMenuItem = styled(DropdownMenuItemBase)`
   background-color: ${(props) => props.backgroundColor || "inherit"};
   border-bottom: 1px solid ${(props) => props.theme.colors.controlBackground};
 
   &[aria-selected="true"] {
     color: ${(props) => props.theme.colors.bodyLight};
+
+    ${MenuItemCheckMark} {
+      visibility: visible;
+    }
   }
 `;
 
@@ -66,22 +77,11 @@ const MenuItemContents = styled.div`
   width: 100%;
 `;
 
-const MenuItemCheckMark = styled.img`
-  height: 12px;
-  margin-left: 32px;
-  visibility: hidden;
-  width: auto;
-
-  [aria-selected="true"] & {
-    visibility: visible;
-  }
-`;
-
 export default function CohortSelectMenu({ onChange, onHighlight, options }) {
   const [selected, setSelected] = useState(options);
 
   useEffect(() => {
-    onChange(selected.map((opt) => opt.id));
+    onChange(selected);
   }, [onChange, selected]);
 
   const {
@@ -102,7 +102,9 @@ export default function CohortSelectMenu({ onChange, onHighlight, options }) {
         case useSelect.stateChangeTypes.ItemClick:
           return {
             ...changes,
-            isOpen: true, // keep menu open after selection.
+            // keep menu open after selection (it closes by default)
+            isOpen: true,
+            // keep the clicked item highlighted (highlight is cleared by default)
             highlightedIndex: state.highlightedIndex,
           };
         default:
@@ -113,18 +115,16 @@ export default function CohortSelectMenu({ onChange, onHighlight, options }) {
       if (!selectedItem) {
         return;
       }
+      const newSelection = [...selected];
+
       const index = selected.indexOf(selectedItem);
-      let newSelection;
-      if (index > 0) {
-        newSelection = [
-          ...selected.slice(0, index),
-          ...selected.slice(index + 1),
-        ];
-      } else if (index === 0) {
-        newSelection = [...selected.slice(1)];
+
+      if (index === -1) {
+        newSelection.push(selectedItem);
       } else {
-        newSelection = [...selected, selectedItem];
+        newSelection.splice(index, 1);
       }
+      // need to keep selection sorted or labels and colors will get out of sync
       newSelection.sort((a, b) => ascending(a.label, b.label));
       setSelected(newSelection);
     },
@@ -141,7 +141,7 @@ export default function CohortSelectMenu({ onChange, onHighlight, options }) {
   const firstSelected = selected[0];
   const buttonContents = (
     <>
-      {!firstSelected && "Select..."}
+      {!firstSelected && "Select …"}
       {firstSelected && firstSelected.label}
       {selected.length > 1 && (
         <em>

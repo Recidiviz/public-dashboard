@@ -52,7 +52,7 @@ function prepareChartData({ data, selectedCohorts }) {
       if (!selectedCohorts) {
         return true;
       }
-      return selectedCohorts.some((cohortId) => cohortId === record.label);
+      return selectedCohorts.some(({ id }) => id === record.label);
     });
 }
 
@@ -81,7 +81,9 @@ VizRecidivismRates.propTypes = {
         release_cohort: PropTypes.string.isRequired,
       })
     ).isRequired,
-    selectedCohorts: PropTypes.arrayOf(PropTypes.string),
+    selectedCohorts: PropTypes.arrayOf(
+      PropTypes.shape({ label: PropTypes.string.isRequired })
+    ),
     // this will be passed through to the chart, let that component validate it
     highlightedCohort: PropTypes.any,
   }).isRequired,

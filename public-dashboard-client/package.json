@@ -48,7 +48,7 @@
     "react-sticky": "^6.0.3",
     "semiotic": "^1.20.5",
     "set-order": "^0.3.5",
-    "//": "TODO: unpin when this bug is fixed: https://github.com/styled-components/styled-components/issues/3297",
+    "//": "TODO(#236): unpin & upgrade styled-components after bugfix",
     "styled-components": "5.1.1",
     "styled-normalize": "^8.0.7",
     "topojson": "^3.0.2"

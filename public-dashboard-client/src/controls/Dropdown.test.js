@@ -34,7 +34,7 @@ beforeEach(() => {
   jest.resetAllMocks();
 });
 
-test("does not explode", () => {
+test("triggers menu from button", () => {
   const { getByRole } = render(
     <Dropdown label={testLabel} options={testOptions} onChange={mockOnChange} />
   );

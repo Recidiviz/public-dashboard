@@ -115,18 +115,14 @@ test("sends initial selection to callback", () => {
   );
   expect(mockOnChange.mock.calls.length).toBe(1);
   // pass only the selected IDs, not the entire options object
-  expect(mockOnChange.mock.calls[0][0]).toEqual(
-    testOptions.map((opt) => opt.id)
-  );
+  expect(mockOnChange.mock.calls[0][0]).toEqual(testOptions);
 });
 
 test("sends updated selections to callback", () => {
   const { getByRole } = openMenu();
   const firstOption = getByRole("option", { name: testOptions[0].label });
   act(() => userEvent.click(firstOption));
-  expect(mockOnChange.mock.calls[1][0]).toEqual(
-    testOptions.slice(1).map((opt) => opt.id)
-  );
+  expect(mockOnChange.mock.calls[1][0]).toEqual(testOptions.slice(1));
 });
 
 test("applies colors to selected items", () => {

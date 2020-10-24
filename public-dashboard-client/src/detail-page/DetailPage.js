@@ -221,6 +221,7 @@ DetailSection.propTypes = {
   otherControls: PropTypes.node,
   stickyOffset: PropTypes.number,
   VizComponent: PropTypes.func,
+  // this will be passed through to a component that can validate for itself
   vizData: PropTypes.objectOf(PropTypes.any),
 };
 

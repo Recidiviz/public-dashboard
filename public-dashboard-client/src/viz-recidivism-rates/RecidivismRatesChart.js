@@ -135,11 +135,8 @@ export default function RecidivismRatesChart({ data, highlightedCohort }) {
                   r: 5,
                 }}
                 renderKey={(d) =>
-                  d.coordinates
-                    ? // if it has coordinates, it's a line
-                      d.label
-                    : // if not, it's a point
-                      `${d.releaseCohort}-${d.followupYears}`
+                  // if it has a label, it's a line; if not, it's a point
+                  d.label || `${d.releaseCohort}-${d.followupYears}`
                 }
                 title={
                   <text x={width ? 0 - width / 2 + MARGIN.left : 0}>
