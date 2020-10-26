@@ -70,3 +70,12 @@ export const DropdownMenuItem = styled.div`
     color: ${(props) => props.theme.colors.bodyLight};
   }
 `;
+
+export const HiddenSelect = styled.select`
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+`;

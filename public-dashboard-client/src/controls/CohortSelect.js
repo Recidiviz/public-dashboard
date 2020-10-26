@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import useBreakpoint from "@w11r/use-breakpoint";
 import { and } from "airbnb-prop-types";
 import { ascending } from "d3-array";
 import { useSelect } from "downshift";
@@ -29,6 +30,7 @@ import {
   DropdownMenuItem as DropdownMenuItemBase,
   DropdownOptionType,
   DropdownWrapper as DropdownWrapperBase,
+  HiddenSelect,
 } from "./shared";
 
 const SELECT_ALL_ID = "ALL";
@@ -79,17 +81,17 @@ const MenuItemContents = styled.div`
   width: 100%;
 `;
 
-export default function CohortSelectMenu({
-  onChange,
+const OPTIONS_PROP_TYPE = PropTypes.arrayOf(
+  and([DropdownOptionType, PropTypes.shape({ color: PropTypes.string })])
+);
+
+function CustomSelect({
+  buttonContents,
   onHighlight,
   options: optionsFromData,
+  selected,
+  setSelected,
 }) {
-  const [selected, setSelected] = useState(optionsFromData);
-
-  useEffect(() => {
-    onChange(selected);
-  }, [onChange, selected]);
-
   const visibleOptions = [
     { id: SELECT_ALL_ID, label: "Select all" },
     ...optionsFromData,
@@ -158,25 +160,14 @@ export default function CohortSelectMenu({
     }
   }, [highlightedIndex, onHighlight, optionsFromData]);
 
-  const firstSelected = selected[0];
-  const buttonContents = (
-    <>
-      {!firstSelected && "Select …"}
-      {firstSelected && firstSelected.label}
-      {selected.length > 1 && (
-        <em>
-          &nbsp;and {selected.length - 1} other{selected.length > 2 ? "s" : ""}
-        </em>
-      )}
-    </>
-  );
-
+  const labelProps = getLabelProps();
+  const toggleButtonProps = getToggleButtonProps();
   return (
-    <DropdownWrapper>
-      <ControlLabel as="label" {...getLabelProps()}>
+    <>
+      <ControlLabel as="label" {...labelProps}>
         Cohort
       </ControlLabel>
-      <ControlValue as="button" type="button" {...getToggleButtonProps()}>
+      <ControlValue as="button" type="button" {...toggleButtonProps}>
         {buttonContents}
       </ControlValue>
       <DropdownMenu {...getMenuProps()} as="ul">
@@ -203,6 +194,94 @@ export default function CohortSelectMenu({
             );
           })}
       </DropdownMenu>
+    </>
+  );
+}
+
+CustomSelect.propTypes = {
+  buttonContents: PropTypes.node.isRequired,
+  onHighlight: PropTypes.func.isRequired,
+  options: OPTIONS_PROP_TYPE.isRequired,
+  selected: OPTIONS_PROP_TYPE.isRequired,
+  setSelected: PropTypes.func.isRequired,
+};
+
+function NativeSelect({ buttonContents, options, selected, setSelected }) {
+  return (
+    <>
+      <ControlLabel aria-hidden>Cohort</ControlLabel>
+      <ControlValue aria-hidden>{buttonContents}</ControlValue>
+      <HiddenSelect
+        aria-label="Cohort"
+        multiple
+        onChange={(event) => {
+          const currentlySelectedIds = [...event.target.options]
+            .filter((opt) => opt.selected)
+            .map((opt) => opt.value);
+          setSelected(
+            options.filter((opt) => currentlySelectedIds.includes(opt.id))
+          );
+          // toggleSelected(options.find((opt) => opt.id === event.target.value));
+        }}
+        value={selected.map((opt) => opt.id)}
+      >
+        {options.map((opt) => (
+          <option key={opt.id} value={opt.id}>
+            {opt.label}
+          </option>
+        ))}
+      </HiddenSelect>
+    </>
+  );
+}
+
+NativeSelect.propTypes = {
+  buttonContents: PropTypes.node.isRequired,
+  options: OPTIONS_PROP_TYPE.isRequired,
+  selected: OPTIONS_PROP_TYPE.isRequired,
+  setSelected: PropTypes.func.isRequired,
+};
+
+export default function CohortSelectMenu({ onChange, onHighlight, options }) {
+  const [selected, setSelected] = useState(options);
+
+  useEffect(() => {
+    onChange(selected);
+  }, [onChange, selected]);
+
+  const firstSelected = selected[0];
+  const buttonContents = (
+    <>
+      {!firstSelected && "Select …"}
+      {firstSelected && firstSelected.label}
+      {selected.length > 1 && (
+        <em>
+          &nbsp;and {selected.length - 1} other{selected.length > 2 ? "s" : ""}
+        </em>
+      )}
+    </>
+  );
+
+  const renderNativeSelect = useBreakpoint(false, ["mobile-", true]);
+
+  return (
+    <DropdownWrapper>
+      {renderNativeSelect ? (
+        <NativeSelect
+          buttonContents={buttonContents}
+          options={options}
+          selected={selected}
+          setSelected={setSelected}
+        />
+      ) : (
+        <CustomSelect
+          buttonContents={buttonContents}
+          onHighlight={onHighlight}
+          options={options}
+          selected={selected}
+          setSelected={setSelected}
+        />
+      )}
     </DropdownWrapper>
   );
 }

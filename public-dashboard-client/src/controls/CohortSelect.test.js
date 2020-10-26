@@ -16,9 +16,12 @@
 // =============================================================================
 
 import userEvent from "@testing-library/user-event";
+import useBreakpoint from "@w11r/use-breakpoint";
 import React from "react";
 import { act, render, within } from "../testUtils";
 import CohortSelect from "./CohortSelect";
+
+jest.mock("@w11r/use-breakpoint");
 
 const mockOnChange = jest.fn();
 const mockOnHighlight = jest.fn();
@@ -37,7 +40,11 @@ beforeEach(() => {
     { id: "2017", label: "2017", color: "#C0FFEE" },
     { id: "2018", label: "2018", color: "#C0FFEE" },
   ];
+  // mock breakpoint hook to simulate screen size (not natively supported by JSDOM)
+  useBreakpoint.mockReturnValue(false);
+});
 
+afterEach(() => {
   jest.resetAllMocks();
 });
 
@@ -68,13 +75,35 @@ test("triggers menu from button", () => {
     />
   );
   const menuButton = getByRole("button", { name: /^cohort/i });
-  expect(menuButton).toBeInTheDocument();
+  expect(menuButton).toBeVisible();
   userEvent.click(menuButton);
   const menu = getByRole("listbox", { name: /cohort/i });
-  expect(menu).toBeInTheDocument();
+  expect(menu).toBeVisible();
   const { getByRole: getByRoleWithinMenu } = within(menu);
   testOptions.forEach((opt) => {
     expect(getByRoleWithinMenu("option", { name: opt.label })).toBeVisible();
+  });
+});
+
+test("invisible menu on mobile", () => {
+  // hook returns true on mobile
+  useBreakpoint.mockReturnValue(true);
+
+  const { getByRole } = render(
+    <CohortSelect
+      onChange={mockOnChange}
+      onHighlight={mockOnHighlight}
+      options={testOptions}
+    />
+  );
+  // the listbox is always present but not visible (interacting with it will trigger native OS UI)
+  const menu = getByRole("listbox", { name: /cohort/i });
+  expect(menu).not.toBeVisible();
+  const { getByRole: getByRoleWithinMenu } = within(menu);
+  testOptions.forEach((opt) => {
+    expect(
+      getByRoleWithinMenu("option", { name: opt.label, selected: true })
+    ).toBeInTheDocument();
   });
 });
 

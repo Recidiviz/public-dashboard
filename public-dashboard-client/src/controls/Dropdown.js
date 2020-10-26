@@ -19,6 +19,7 @@ import {
   DropdownMenuItem,
   DropdownOptionType,
   DropdownWrapper as DropdownWrapperBase,
+  HiddenSelect,
 } from "./shared";
 
 const DropdownWrapper = styled(DropdownWrapperBase)`
@@ -36,15 +37,6 @@ const DropdownMenu = styled(DropdownMenuBase)`
       outline: none;
     }
   }
-`;
-
-const HiddenSelect = styled.select`
-  height: 100%;
-  left: 0;
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
 `;
 
 // if selectedId prop is provided, this behaves like a controlled component;
