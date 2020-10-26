@@ -132,6 +132,42 @@ test("toggles selection", () => {
   );
 });
 
+test("toggles selection on mobile", () => {
+  // hook returns true on mobile
+  useBreakpoint.mockReturnValue(true);
+
+  const { getByRole, getByText } = render(
+    <CohortSelect
+      onChange={mockOnChange}
+      onHighlight={mockOnHighlight}
+      options={testOptions}
+    />
+  );
+  const menu = getByRole("listbox", { name: /cohort/i });
+  const valueEl = getByText((content, element) => {
+    // this pattern is permissive about spaces between words because textContent
+    // concatenated from arbitrary children may have random line breaks, etc
+    return new RegExp(
+      String.raw`^${testOptions[0].label}\s+and\s+${
+        testOptions.length - 1
+      }\s+others$`
+    ).test(element.textContent);
+  });
+
+  act(() => {
+    userEvent.deselectOptions(menu, testOptions[0].id);
+  });
+  expect(valueEl).toHaveTextContent(
+    `${testOptions[1].label} and ${testOptions.length - 2} others`
+  );
+  act(() => {
+    userEvent.selectOptions(menu, testOptions[0].id);
+  });
+  expect(valueEl).toHaveTextContent(
+    `${testOptions[0].label} and ${testOptions.length - 1} others`
+  );
+});
+
 test("sends initial selection to callback", () => {
   render(
     <CohortSelect
