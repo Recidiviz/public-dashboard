@@ -43,6 +43,7 @@ const DropdownMenu = styled(DropdownMenuBase)`
 // in the absence of that it will be uncontrolled and expose the ID of
 // its selected option via a listener
 export default function Dropdown({
+  disabled,
   highlighted,
   label,
   onChange,
@@ -78,6 +79,7 @@ export default function Dropdown({
           // selecting something other than the default (first) option
           // causes a highlight
           highlighted || currentOptionId !== options[0].id,
+        "Dropdown--disabled": disabled,
       })}
     >
       <ControlContainer>
@@ -85,7 +87,7 @@ export default function Dropdown({
 
         {!renderNativeSelect && (
           <Menu>
-            <MenuButton aria-labelledby={labelId}>
+            <MenuButton aria-labelledby={labelId} disabled={disabled}>
               <ControlValue>{selectedOption.label}</ControlValue>
             </MenuButton>
             <MenuPopover>
@@ -131,6 +133,7 @@ export default function Dropdown({
 }
 
 Dropdown.propTypes = {
+  disabled: PropTypes.bool,
   highlighted: PropTypes.bool,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -139,6 +142,7 @@ Dropdown.propTypes = {
 };
 
 Dropdown.defaultProps = {
+  disabled: false,
   highlighted: false,
   selectedId: undefined,
 };

@@ -3,9 +3,14 @@ import PropTypes from "prop-types";
 import Dropdown from "./Dropdown";
 import { DIMENSIONS_LIST } from "../constants";
 
-export default function DimensionControl({ onChange }) {
+export default function DimensionControl({ onChange, ...passThruProps }) {
   return (
-    <Dropdown label="View" onChange={onChange} options={DIMENSIONS_LIST} />
+    <Dropdown
+      label="View"
+      onChange={onChange}
+      options={DIMENSIONS_LIST}
+      {...passThruProps}
+    />
   );
 }
 

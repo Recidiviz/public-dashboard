@@ -154,6 +154,7 @@ function DetailSection({
                     : undefined
                 }
               >
+                {otherControls}
                 {showMonthControl && monthList && (
                   <MonthControl months={monthList} onChange={setMonth} />
                 )}
@@ -177,7 +178,6 @@ function DetailSection({
                 {showDimensionControl && (
                   <DimensionControl onChange={setDimension} />
                 )}
-                {otherControls}
               </DetailSectionControls>
             )}
           </Sticky>

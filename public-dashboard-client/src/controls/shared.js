@@ -41,6 +41,11 @@ export const DropdownWrapper = styled(ControlContainer)`
       color: ${(props) => props.theme.colors.bodyLight};
     }
   }
+
+  &.Dropdown--disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 `;
 
 export const DropdownMenu = styled.div`

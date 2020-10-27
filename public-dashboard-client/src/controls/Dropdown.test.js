@@ -76,3 +76,19 @@ test("passes selections to callback", () => {
 
   expect(mockOnChange.mock.calls[1][0]).toBe(testOptions[2].id);
 });
+
+test("can be disabled", () => {
+  const { getByRole, queryByRole } = render(
+    <Dropdown
+      label={testLabel}
+      options={testOptions}
+      onChange={mockOnChange}
+      disabled
+    />
+  );
+  const menuButton = getByRole("button", { name: testLabel });
+  expect(menuButton).toBeDisabled();
+
+  userEvent.click(menuButton);
+  expect(queryByRole("menuitem")).toBeNull();
+});
