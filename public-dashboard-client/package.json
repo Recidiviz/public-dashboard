@@ -58,7 +58,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^12.1.10",
-    "jest-date-mock": "^1.0.8",
+    "jest-date-mock": "^1.0.8",
     "lint-staged": ">=10"
   },
   "browserslist": {
