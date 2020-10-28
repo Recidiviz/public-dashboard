@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import DetailPage from "../detail-page";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
