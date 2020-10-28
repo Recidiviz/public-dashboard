@@ -24,6 +24,11 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "lint-staged": ">=10",
     "nodemon": "^2.0.4"
+  },
+  "lint-staged": {
+    "**.{js}": "eslint --fix",
+    "**.json": "prettier --write"
   }
 }
