@@ -18,7 +18,16 @@
 import { group } from "d3-array";
 import PropTypes from "prop-types";
 import React from "react";
-import { assignOrderedDatavizColor } from "../utils";
+import {
+  DIMENSION_DATA_KEYS,
+  DIMENSION_KEYS,
+  DIMENSION_MAPPINGS,
+} from "../constants";
+import {
+  assignOrderedDatavizColor,
+  demographicsAscending,
+  recordIsTotalByDimension,
+} from "../utils";
 import RecidivismRatesChart from "./RecidivismRatesChart";
 
 function typeCast(recidivismRecord) {
@@ -37,30 +46,70 @@ function typeCast(recidivismRecord) {
   };
 }
 
-function prepareChartData({ data, selectedCohorts }) {
-  return Array.from(
-    group(data.map(typeCast), (d) => d.releaseCohort),
-    ([key, value]) => {
-      return {
-        label: key,
-        coordinates: value,
-      };
-    }
-  )
-    .map(assignOrderedDatavizColor)
-    .filter((record) => {
-      if (!selectedCohorts) {
-        return true;
+/**
+ * When multiple cohorts are selected, or a single cohort and the `total` dimension,
+ * will return one data series per cohort.
+ * Otherwise (i.e., a single cohort and some dimensional breakdown is selected),
+ * will return one data series per demographic subgroup.
+ */
+function prepareChartData({ data, dimension, selectedCohorts }) {
+  const showDemographics =
+    selectedCohorts &&
+    selectedCohorts.length === 1 &&
+    dimension !== DIMENSION_KEYS.total;
+
+  const preparedData = data
+    .filter(recordIsTotalByDimension(dimension))
+    .map(typeCast);
+
+  if (showDemographics) {
+    return Array.from(
+      group(
+        // filter out unselected years first so we only have to do it once
+        preparedData.filter(({ releaseCohort }) =>
+          selectedCohorts.some(({ id }) => id === releaseCohort)
+        ),
+        (d) => d[DIMENSION_DATA_KEYS[dimension]]
+      ),
+      ([key, value]) => {
+        return {
+          key,
+          label: DIMENSION_MAPPINGS.get(dimension).get(key),
+          coordinates: value,
+        };
       }
-      return selectedCohorts.some(({ id }) => id === record.label);
-    });
+    )
+      .sort((a, b) => demographicsAscending(a.key, b.key))
+      .map(assignOrderedDatavizColor);
+  }
+  return (
+    Array.from(
+      group(preparedData, (d) => d.releaseCohort),
+      ([key, value]) => {
+        return {
+          label: key,
+          coordinates: value,
+        };
+      }
+    )
+      // color assignment and filtering is done last to ensure colors remain stable
+      // as cohorts are selected and deselected
+      .map(assignOrderedDatavizColor)
+      .filter((record) => {
+        if (!selectedCohorts) {
+          return true;
+        }
+        return selectedCohorts.some(({ id }) => id === record.label);
+      })
+  );
 }
 
 export default function VizRecidivismRates({
-  data: { recidivismRates, selectedCohorts, highlightedCohort },
+  data: { dimension, recidivismRates, selectedCohorts, highlightedCohort },
 }) {
   const chartData = prepareChartData({
     data: recidivismRates,
+    dimension,
     selectedCohorts,
   });
 
@@ -74,6 +123,7 @@ export default function VizRecidivismRates({
 
 VizRecidivismRates.propTypes = {
   data: PropTypes.shape({
+    dimension: PropTypes.string.isRequired,
     recidivismRates: PropTypes.arrayOf(
       PropTypes.shape({
         followup_years: PropTypes.string.isRequired,
