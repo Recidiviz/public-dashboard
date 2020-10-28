@@ -31,7 +31,8 @@
     "@types/node": "^12.0.0",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
-    "eslint-import-resolver-typescript": "^2.3.0"
+    "eslint-import-resolver-typescript": "^2.3.0",
+    "lint-staged": ">=10"
   },
   "browserslist": {
     "production": [
@@ -46,5 +47,13 @@
       "last 1 safari version",
       "ie 11"
     ]
+  },
+  "lint-staged": {
+    "**.{ts,tsx}": [
+      "bash -c tsc",
+      "eslint --fix"
+    ],
+    "**.{js,jsx}": "eslint --fix",
+    "**.json": "prettier --write"
   }
 }
