@@ -30,15 +30,15 @@ let testOptions;
 beforeEach(() => {
   testOptions = [
     { id: "2009", label: "2009", color: "#C0FFEE" },
-    { id: "2010", label: "2010", color: "#C0FFEE" },
-    { id: "2011", label: "2011", color: "#C0FFEE" },
-    { id: "2012", label: "2012", color: "#C0FFEE" },
-    { id: "2013", label: "2013", color: "#C0FFEE" },
-    { id: "2014", label: "2014", color: "#C0FFEE" },
-    { id: "2015", label: "2015", color: "#C0FFEE" },
-    { id: "2016", label: "2016", color: "#C0FFEE" },
-    { id: "2017", label: "2017", color: "#C0FFEE" },
-    { id: "2018", label: "2018", color: "#C0FFEE" },
+    { id: "2010", label: "2010", color: "#F4E192" },
+    { id: "2011", label: "2011", color: "#AAF268" },
+    { id: "2012", label: "2012", color: "#149E2B" },
+    { id: "2013", label: "2013", color: "#7ACCD6" },
+    { id: "2014", label: "2014", color: "#B54F01" },
+    { id: "2015", label: "2015", color: "#8C0536" },
+    { id: "2016", label: "2016", color: "#DDE03E" },
+    { id: "2017", label: "2017", color: "#C5E276" },
+    { id: "2018", label: "2018", color: "#8CFFED" },
   ];
   // mock breakpoint hook to simulate screen size (not natively supported by JSDOM)
   useBreakpoint.mockReturnValue(false);
@@ -215,24 +215,41 @@ test("passes highlighted option to callback", () => {
 test("supports select-all", () => {
   const { getByRole } = openMenu();
   const selectAll = getByRole("option", { name: /select all/i });
+
   act(() => userEvent.click(selectAll));
-  // should have no effect because everything is already selected; does NOT de-select all
+
+  // de-selects all
   testOptions.forEach((opt) => {
-    expect(
-      getByRole("option", { name: opt.label, selected: true })
-    ).toBeVisible();
-  });
-  // now de-select some manually and try again
-  testOptions.slice(2, 6).forEach((opt) => {
-    act(() =>
-      userEvent.click(getByRole("option", { name: opt.label, selected: true }))
+    expect(getByRole("option", { name: opt.label })).toHaveAttribute(
+      "aria-selected",
+      "false"
     );
   });
+
+  // click again to select all
+  act(() => userEvent.click(selectAll));
+  testOptions.forEach((opt) => {
+    expect(getByRole("option", { name: opt.label })).toHaveAttribute(
+      "aria-selected",
+      "true"
+    );
+  });
+
+  // now de-select some manually and try again
+  testOptions.slice(2, 6).forEach((opt) => {
+    act(() => userEvent.click(getByRole("option", { name: opt.label })));
+    expect(getByRole("option", { name: opt.label })).toHaveAttribute(
+      "aria-selected",
+      "false"
+    );
+  });
+
   act(() => userEvent.click(selectAll));
   // everything is selected again
   testOptions.forEach((opt) => {
-    expect(
-      getByRole("option", { name: opt.label, selected: true })
-    ).toBeVisible();
+    expect(getByRole("option", { name: opt.label })).toHaveAttribute(
+      "aria-selected",
+      "true"
+    );
   });
 });
