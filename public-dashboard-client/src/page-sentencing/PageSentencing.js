@@ -52,15 +52,18 @@ export default function PageSentencing() {
   const [recidivismDimension, setRecidivismDimension] = useState(
     DIMENSION_KEYS.total
   );
-  const singleCohortSelected = selectedCohorts.length === 1;
-  useEffect(() => {
-    if (!singleCohortSelected) {
-      setRecidivismDimension(DIMENSION_KEYS.total);
-    }
-  }, [singleCohortSelected]);
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  const singleCohortSelected = selectedCohorts.length === 1;
+
+  // doing this inside the render loop rather than in an effect
+  // to prevent an intermediate state from flashing on the chart;
+  // the current value check avoids an infinite render loop
+  if (!singleCohortSelected && recidivismDimension !== DIMENSION_KEYS.total) {
+    setRecidivismDimension(DIMENSION_KEYS.total);
   }
 
   const TITLE = ALL_PAGES.get(PATHS.sentencing);

@@ -22,6 +22,7 @@ import XYFrame from "semiotic/lib/XYFrame";
 import styled from "styled-components";
 import ChartWrapperBase from "../chart-wrapper";
 import ColorLegend from "../color-legend";
+import { DIMENSION_DATA_KEYS } from "../constants";
 import { THEME } from "../theme";
 import { formatAsPct, highlightFade } from "../utils";
 import XHoverController from "../x-hover-controller";
@@ -136,7 +137,10 @@ export default function RecidivismRatesChart({ data, highlightedCohort }) {
                 }}
                 renderKey={(d) =>
                   // if it has a label, it's a line; if not, it's a point
-                  d.label || `${d.releaseCohort}-${d.followupYears}`
+                  d.label ||
+                  `${d.releaseCohort}-${d[DIMENSION_DATA_KEYS.race]}${
+                    d[DIMENSION_DATA_KEYS.age]
+                  }${d[DIMENSION_DATA_KEYS.gender]}-${d.followupYears}`
                 }
                 title={
                   <text x={width ? 0 - width / 2 + MARGIN.left : 0}>
