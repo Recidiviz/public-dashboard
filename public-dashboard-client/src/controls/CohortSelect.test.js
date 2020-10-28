@@ -215,24 +215,41 @@ test("passes highlighted option to callback", () => {
 test("supports select-all", () => {
   const { getByRole } = openMenu();
   const selectAll = getByRole("option", { name: /select all/i });
+
   act(() => userEvent.click(selectAll));
-  // should have no effect because everything is already selected; does NOT de-select all
+
+  // de-selects all
   testOptions.forEach((opt) => {
-    expect(
-      getByRole("option", { name: opt.label, selected: true })
-    ).toBeVisible();
-  });
-  // now de-select some manually and try again
-  testOptions.slice(2, 6).forEach((opt) => {
-    act(() =>
-      userEvent.click(getByRole("option", { name: opt.label, selected: true }))
+    expect(getByRole("option", { name: opt.label })).toHaveAttribute(
+      "aria-selected",
+      "false"
     );
   });
+
+  // click again to select all
+  act(() => userEvent.click(selectAll));
+  testOptions.forEach((opt) => {
+    expect(getByRole("option", { name: opt.label })).toHaveAttribute(
+      "aria-selected",
+      "true"
+    );
+  });
+
+  // now de-select some manually and try again
+  testOptions.slice(2, 6).forEach((opt) => {
+    act(() => userEvent.click(getByRole("option", { name: opt.label })));
+    expect(getByRole("option", { name: opt.label })).toHaveAttribute(
+      "aria-selected",
+      "false"
+    );
+  });
+
   act(() => userEvent.click(selectAll));
   // everything is selected again
   testOptions.forEach((opt) => {
-    expect(
-      getByRole("option", { name: opt.label, selected: true })
-    ).toBeVisible();
+    expect(getByRole("option", { name: opt.label })).toHaveAttribute(
+      "aria-selected",
+      "true"
+    );
   });
 });

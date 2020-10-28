@@ -131,7 +131,12 @@ function CustomSelect({
       let newSelection;
 
       if (selectedItem.id === SELECT_ALL_ID) {
-        newSelection = [...optionsFromData];
+        // if all are already selected, deselect all
+        if (selected.length === optionsFromData.length) {
+          newSelection = [];
+        } else {
+          newSelection = [...optionsFromData];
+        }
       } else {
         newSelection = [...selected];
 
