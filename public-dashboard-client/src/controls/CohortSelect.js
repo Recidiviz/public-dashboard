@@ -226,7 +226,6 @@ function NativeSelect({ buttonContents, options, selected, setSelected }) {
           setSelected(
             options.filter((opt) => currentlySelectedIds.includes(opt.id))
           );
-          // toggleSelected(options.find((opt) => opt.id === event.target.value));
         }}
         value={selected.map((opt) => opt.id)}
       >
