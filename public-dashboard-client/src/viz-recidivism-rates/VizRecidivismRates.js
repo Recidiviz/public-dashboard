@@ -87,6 +87,7 @@ function prepareChartData({ data, dimension, selectedCohorts }) {
       group(preparedData, (d) => d.releaseCohort),
       ([key, value]) => {
         return {
+          key,
           label: key,
           coordinates: value,
         };
