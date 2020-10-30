@@ -186,10 +186,7 @@ export default function VizPopulationOverTime({
                 }}
                 pointStyle={{ display: "none" }}
                 xAccessor="time"
-                xExtent={[dateRangeStart, dateRangeEnd]}
-                xScaleType={scaleTime()}
                 yAccessor="population"
-                yExtent={[0]}
               />
             </XHoverController>
           </ChartWrapper>

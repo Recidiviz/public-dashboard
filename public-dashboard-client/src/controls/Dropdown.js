@@ -15,21 +15,14 @@ import {
   ControlContainer,
   ControlLabel,
   ControlValue,
-  controlTypeProperties,
+  DropdownMenu as DropdownMenuBase,
+  DropdownMenuItem,
   DropdownOptionType,
+  DropdownWrapper as DropdownWrapperBase,
+  HiddenSelect,
 } from "./shared";
 
-const DropdownWrapper = styled(ControlContainer)`
-  position: relative;
-  z-index: ${(props) => props.theme.zIndex.control};
-
-  &.Dropdown--highlighted {
-    ${ControlValue} {
-      background: ${(props) => props.theme.colors.highlight};
-      color: ${(props) => props.theme.colors.bodyLight};
-    }
-  }
-
+const DropdownWrapper = styled(DropdownWrapperBase)`
   [data-reach-menu-button] {
     background: none;
     border: none;
@@ -38,43 +31,12 @@ const DropdownWrapper = styled(ControlContainer)`
   }
 `;
 
-const DropdownMenu = styled.div`
-  ${controlTypeProperties}
-
-  background: ${(props) => props.theme.colors.controlBackground};
-  border-radius: 15px;
-  list-style: none;
-  padding: 12px 0;
-  position: relative;
-  white-space: nowrap;
-  z-index: ${(props) => props.theme.zIndex.menu};
-
+const DropdownMenu = styled(DropdownMenuBase)`
   [data-reach-menu-items] {
     &:focus {
       outline: none;
     }
   }
-
-  [data-reach-menu-item] {
-    cursor: pointer;
-    padding: 6px 18px;
-    transition: all ${(props) => props.theme.transition.defaultTimeSettings};
-
-    &[data-selected],
-    &:hover {
-      background: ${(props) => props.theme.colors.highlight};
-      color: ${(props) => props.theme.colors.bodyLight};
-    }
-  }
-`;
-
-const HiddenSelect = styled.select`
-  height: 100%;
-  left: 0;
-  opacity: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
 `;
 
 // if selectedId prop is provided, this behaves like a controlled component;
@@ -136,7 +98,9 @@ export default function Dropdown({
                         key={option.id}
                         onSelect={() => setCurrentOptionId(option.id)}
                       >
-                        {option.label}
+                        <DropdownMenuItem highlightedSelector="[data-selected] &">
+                          {option.label}
+                        </DropdownMenuItem>
                       </MenuItem>
                     ))}
                 </MenuItems>

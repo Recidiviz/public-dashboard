@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React from "react";
+import React, { useMemo, useState } from "react";
 import DetailPage from "../detail-page";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
@@ -23,9 +23,31 @@ import VizRecidivismRates from "../viz-recidivism-rates";
 import VizSentencePopulation from "../viz-sentence-population";
 import VizSentenceTypes from "../viz-sentence-types";
 import { PATHS, ALL_PAGES, SECTION_TITLES } from "../constants";
+import CohortSelect from "../controls/CohortSelect";
+import { assignOrderedDatavizColor } from "../utils";
+
+function getCohortOptions(data) {
+  const cohortsFromData = new Set(data.map((d) => d.release_cohort));
+  return [...cohortsFromData]
+    .map((cohort) => ({
+      id: cohort,
+      label: cohort,
+    }))
+    .map(assignOrderedDatavizColor);
+}
 
 export default function PageSentencing() {
   const { apiData, isLoading } = useChartData("us_nd/sentencing");
+  // lifted state for the recidivism section
+  const cohortOptions = useMemo(
+    () =>
+      isLoading
+        ? []
+        : getCohortOptions(apiData.recidivism_rates_by_cohort_by_year),
+    [apiData.recidivism_rates_by_cohort_by_year, isLoading]
+  );
+  const [selectedCohorts, setSelectedCohorts] = useState();
+  const [highlightedCohort, setHighlightedCohort] = useState();
 
   if (isLoading) {
     return <Loading />;
@@ -92,9 +114,18 @@ export default function PageSentencing() {
           some point after their release.
         </>
       ),
+      otherControls: (
+        <CohortSelect
+          options={cohortOptions}
+          onChange={setSelectedCohorts}
+          onHighlight={setHighlightedCohort}
+        />
+      ),
       VizComponent: VizRecidivismRates,
       vizData: {
+        highlightedCohort,
         recidivismRates: apiData.recidivism_rates_by_cohort_by_year,
+        selectedCohorts,
       },
     },
   ];

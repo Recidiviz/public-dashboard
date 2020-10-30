@@ -1,4 +1,5 @@
 export { default as addEmptyMonthsToData } from "./addEmptyMonthsToData";
+export { default as assignOrderedDatavizColor } from "./assignOrderedDatavizColor";
 export { default as categoryIsNotUnknown } from "./categoryIsNotUnknown";
 export { default as demographicsAscending } from "./demographicsAscending";
 export { default as fluidFontSizeStyles } from "./fluidFontSizeStyles";
