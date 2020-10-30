@@ -7,7 +7,7 @@ import { SENTENCE_LENGTH_KEYS, SENTENCE_LENGTHS } from "../constants";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
 import { THEME } from "../theme";
 
-import { getDataWithPct, formatAsPct, highlightFade } from "../utils";
+import { formatAsPct, highlightFade } from "../utils";
 
 const CHART_HEIGHT = 360;
 const CHART_MIN_WIDTH = 320;
@@ -27,9 +27,13 @@ const ColumnLabel = styled.text`
   text-anchor: middle;
 `;
 
-export default function BarChartTrellis({ data, width }) {
+export default function BarChartTrellis({
+  data,
+  renderTooltip,
+  setSelectedChartTitle,
+  width,
+}) {
   const [highlightedLabel, setHighlightedLabel] = useState();
-  const [selectedChartTitle, setSelectedChartTitle] = useState();
 
   // ResponsiveTooltipController expects this to be a stable reference
   const setHighlighted = useCallback(
@@ -53,27 +57,6 @@ export default function BarChartTrellis({ data, width }) {
       tickLineGenerator: () => null,
     },
   ];
-
-  const renderTooltip = (columnData) => {
-    const {
-      summary: [d],
-    } = columnData;
-    return {
-      title: selectedChartTitle || "",
-      records: [
-        {
-          label: `${d.data.label} year${
-            d.data.label ===
-            SENTENCE_LENGTHS.get(SENTENCE_LENGTH_KEYS.lessThanOne)
-              ? ""
-              : "s"
-          }`,
-          pct: d.data.pct,
-          value: d.data.value,
-        },
-      ],
-    };
-  };
 
   return (
     <Wrapper>
@@ -123,7 +106,7 @@ export default function BarChartTrellis({ data, width }) {
                   setSelectedChartTitle(title);
                   customHoverBehavior(d);
                 }}
-                data={getDataWithPct(chartData)}
+                data={chartData}
                 // using indices actually makes a better experience here;
                 // the charts animate in and out based on how many there are
                 // and we avoid bugs that happen when values change but the
@@ -156,9 +139,12 @@ BarChartTrellis.propTypes = {
           color: PropTypes.string.isRequired,
           label: PropTypes.string.isRequired,
           value: PropTypes.number.isRequired,
+          pct: PropTypes.number.isRequired,
         })
       ).isRequired,
     })
   ).isRequired,
+  renderTooltip: PropTypes.func.isRequired,
+  setSelectedChartTitle: PropTypes.func.isRequired,
   width: PropTypes.number.isRequired,
 };

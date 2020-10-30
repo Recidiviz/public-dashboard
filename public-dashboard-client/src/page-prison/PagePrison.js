@@ -5,6 +5,7 @@ import {
   assignOrderedDatavizColor,
   formatLocation,
   recordIsMetricPeriodMonths,
+  typecastRecidivismData,
 } from "../utils";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
@@ -15,6 +16,7 @@ import VizPrisonReasons from "../viz-prison-reasons";
 import VizSentenceLengths from "../viz-sentence-lengths";
 import { CohortSelect, DimensionControl } from "../controls";
 import VizRecidivismRates from "../viz-recidivism-rates";
+import VizRecidivismSingleFollowup from "../viz-recidivism-single-followup";
 
 const TITLE = ALL_PAGES.get(PATHS.prison);
 const DESCRIPTION = (
@@ -71,6 +73,10 @@ export default function PagePrison() {
   if (!singleCohortSelected && recidivismDimension !== DIMENSION_KEYS.total) {
     setRecidivismDimension(DIMENSION_KEYS.total);
   }
+
+  const recidivismRates = apiData.recidivism_rates_by_cohort_by_year.map(
+    typecastRecidivismData
+  );
 
   const SECTIONS = [
     {
@@ -193,8 +199,27 @@ export default function PagePrison() {
       vizData: {
         dimension: recidivismDimension,
         highlightedCohort,
-        recidivismRates: apiData.recidivism_rates_by_cohort_by_year,
+        recidivismRates,
         selectedCohorts,
+      },
+    },
+    {
+      title: SECTION_TITLES[PATHS.prison].recidivismSingleFollowup,
+      description: (
+        <>
+          ::::TK final copy:::: We can also observe the recidivism rate over
+          time for a given number of years after original release. While we do
+          not yet have the 3-year recidivism rates for the most recent years,
+          the near-term (1 year) recidivism rate has definitely dropped a good
+          amount since [X year].
+        </>
+      ),
+      showDimensionControl: true,
+      VizComponent: VizRecidivismSingleFollowup,
+      vizData: {
+        // TODO: make this user-selectable
+        followupYears: 3,
+        recidivismRates,
       },
     },
   ];
