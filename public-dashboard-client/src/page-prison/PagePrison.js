@@ -165,7 +165,7 @@ export default function PagePrison() {
       },
     },
     {
-      title: SECTION_TITLES[PATHS.sentencing].recidivism,
+      title: SECTION_TITLES[PATHS.prison].recidivism,
       description: (
         <>
           After release from prison, a significant proportion of formerly

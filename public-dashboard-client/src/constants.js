@@ -38,7 +38,6 @@ export const SECTION_TITLES = {
   [PATHS.sentencing]: {
     population: "Who is being sentenced?",
     types: "What types of sentences do people receive?",
-    recidivism: "How many people end up back in prison?",
   },
   [PATHS.prison]: {
     population: "Who is in custody?",
@@ -46,6 +45,7 @@ export const SECTION_TITLES = {
     reasons: "How did they get there?",
     terms: "How long are they there?",
     releases: "Where do they go from there?",
+    recidivism: "How many people end up back in prison?",
   },
   [PATHS.probation]: {
     population: "Who is on probation?",
