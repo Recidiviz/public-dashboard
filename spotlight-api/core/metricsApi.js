@@ -59,6 +59,7 @@ const FILES_BY_METRIC_TYPE = {
     "incarceration_releases_by_type_by_period.json",
     "incarceration_lengths_by_demographics.json",
     "incarceration_population_by_month_by_demographics.json",
+    "recidivism_rates_by_cohort_by_year.json",
   ],
   probation: [
     "active_program_participation_by_region.json",
@@ -73,7 +74,6 @@ const FILES_BY_METRIC_TYPE = {
   sentencing: [
     "judicial_districts.json",
     "sentence_type_by_district_by_demographics.json",
-    "recidivism_rates_by_cohort_by_year.json",
   ],
 };
 

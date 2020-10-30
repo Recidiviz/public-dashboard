@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import DetailPage from "../detail-page";
-import { PATHS, ALL_PAGES, SECTION_TITLES } from "../constants";
-import { formatLocation, recordIsMetricPeriodMonths } from "../utils";
+import { PATHS, ALL_PAGES, SECTION_TITLES, DIMENSION_KEYS } from "../constants";
+import {
+  assignOrderedDatavizColor,
+  formatLocation,
+  recordIsMetricPeriodMonths,
+} from "../utils";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
 import VizPopulationOverTime from "../viz-population-over-time";
@@ -9,6 +13,8 @@ import VizPrisonPopulation from "../viz-prison-population";
 import VizPrisonReleases from "../viz-prison-releases";
 import VizPrisonReasons from "../viz-prison-reasons";
 import VizSentenceLengths from "../viz-sentence-lengths";
+import { CohortSelect, DimensionControl } from "../controls";
+import VizRecidivismRates from "../viz-recidivism-rates";
 
 const TITLE = ALL_PAGES.get(PATHS.prison);
 const DESCRIPTION = (
@@ -20,8 +26,32 @@ const DESCRIPTION = (
   </>
 );
 
+function getCohortOptions(data) {
+  const cohortsFromData = new Set(data.map((d) => d.release_cohort));
+  return [...cohortsFromData]
+    .map((cohort) => ({
+      id: cohort,
+      label: cohort,
+    }))
+    .map(assignOrderedDatavizColor);
+}
+
 export default function PagePrison() {
   const { apiData, isLoading } = useChartData("us_nd/prison");
+
+  // lifted state for the recidivism section
+  const cohortOptions = useMemo(
+    () =>
+      isLoading
+        ? []
+        : getCohortOptions(apiData.recidivism_rates_by_cohort_by_year),
+    [apiData.recidivism_rates_by_cohort_by_year, isLoading]
+  );
+  const [selectedCohorts, setSelectedCohorts] = useState([]);
+  const [highlightedCohort, setHighlightedCohort] = useState();
+  const [recidivismDimension, setRecidivismDimension] = useState(
+    DIMENSION_KEYS.total
+  );
 
   if (isLoading) {
     return <Loading />;
@@ -32,6 +62,15 @@ export default function PagePrison() {
     idFn: (record) => `${record.facility}`,
     labelFn: (record) => record.name,
   });
+
+  const singleCohortSelected = selectedCohorts.length === 1;
+
+  // doing this inside the render loop rather than in an effect
+  // to prevent an intermediate state from flashing on the chart;
+  // the current value check avoids an infinite render loop
+  if (!singleCohortSelected && recidivismDimension !== DIMENSION_KEYS.total) {
+    setRecidivismDimension(DIMENSION_KEYS.total);
+  }
 
   const SECTIONS = [
     {
@@ -123,6 +162,39 @@ export default function PagePrison() {
         releaseTypes: apiData.incarceration_releases_by_type_by_period.filter(
           recordIsMetricPeriodMonths(36)
         ),
+      },
+    },
+    {
+      title: SECTION_TITLES[PATHS.prison].recidivism,
+      description: (
+        <>
+          After release from prison, a significant proportion of formerly
+          incarcerated folks end up back in prison. This is typically termed
+          “recidivism.” The below graph shows recidivism as reincarceration;
+          that is, the proportion of individuals who are incarcerated again at
+          some point after their release.
+        </>
+      ),
+      otherControls: (
+        <>
+          <CohortSelect
+            options={cohortOptions}
+            onChange={setSelectedCohorts}
+            onHighlight={setHighlightedCohort}
+          />
+          <DimensionControl
+            disabled={!singleCohortSelected}
+            onChange={setRecidivismDimension}
+            selectedId={recidivismDimension}
+          />
+        </>
+      ),
+      VizComponent: VizRecidivismRates,
+      vizData: {
+        dimension: recidivismDimension,
+        highlightedCohort,
+        recidivismRates: apiData.recidivism_rates_by_cohort_by_year,
+        selectedCohorts,
       },
     },
   ];

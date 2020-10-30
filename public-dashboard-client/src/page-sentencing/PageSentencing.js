@@ -15,55 +15,20 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React, { useMemo, useState } from "react";
+import React from "react";
 import DetailPage from "../detail-page";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
-import VizRecidivismRates from "../viz-recidivism-rates";
+
 import VizSentencePopulation from "../viz-sentence-population";
 import VizSentenceTypes from "../viz-sentence-types";
-import { PATHS, ALL_PAGES, SECTION_TITLES, DIMENSION_KEYS } from "../constants";
-import { CohortSelect, DimensionControl } from "../controls";
-import { assignOrderedDatavizColor } from "../utils";
-
-function getCohortOptions(data) {
-  const cohortsFromData = new Set(data.map((d) => d.release_cohort));
-  return [...cohortsFromData]
-    .map((cohort) => ({
-      id: cohort,
-      label: cohort,
-    }))
-    .map(assignOrderedDatavizColor);
-}
+import { PATHS, ALL_PAGES, SECTION_TITLES } from "../constants";
 
 export default function PageSentencing() {
   const { apiData, isLoading } = useChartData("us_nd/sentencing");
 
-  // lifted state for the recidivism section
-  const cohortOptions = useMemo(
-    () =>
-      isLoading
-        ? []
-        : getCohortOptions(apiData.recidivism_rates_by_cohort_by_year),
-    [apiData.recidivism_rates_by_cohort_by_year, isLoading]
-  );
-  const [selectedCohorts, setSelectedCohorts] = useState([]);
-  const [highlightedCohort, setHighlightedCohort] = useState();
-  const [recidivismDimension, setRecidivismDimension] = useState(
-    DIMENSION_KEYS.total
-  );
-
   if (isLoading) {
     return <Loading />;
-  }
-
-  const singleCohortSelected = selectedCohorts.length === 1;
-
-  // doing this inside the render loop rather than in an effect
-  // to prevent an intermediate state from flashing on the chart;
-  // the current value check avoids an infinite render loop
-  if (!singleCohortSelected && recidivismDimension !== DIMENSION_KEYS.total) {
-    setRecidivismDimension(DIMENSION_KEYS.total);
   }
 
   const TITLE = ALL_PAGES.get(PATHS.sentencing);
@@ -114,39 +79,6 @@ export default function PageSentencing() {
       vizData: {
         sentenceTypes: apiData.sentence_type_by_district_by_demographics,
         locations: apiData.judicial_districts,
-      },
-    },
-    {
-      title: SECTION_TITLES[PATHS.sentencing].recidivism,
-      description: (
-        <>
-          After release from prison, a significant proportion of formerly
-          incarcerated folks end up back in prison. This is typically termed
-          “recidivism.” The below graph shows recidivism as reincarceration;
-          that is, the proportion of individuals who are incarcerated again at
-          some point after their release.
-        </>
-      ),
-      otherControls: (
-        <>
-          <CohortSelect
-            options={cohortOptions}
-            onChange={setSelectedCohorts}
-            onHighlight={setHighlightedCohort}
-          />
-          <DimensionControl
-            disabled={!singleCohortSelected}
-            onChange={setRecidivismDimension}
-            selectedId={recidivismDimension}
-          />
-        </>
-      ),
-      VizComponent: VizRecidivismRates,
-      vizData: {
-        dimension: recidivismDimension,
-        highlightedCohort,
-        recidivismRates: apiData.recidivism_rates_by_cohort_by_year,
-        selectedCohorts,
       },
     },
   ];
