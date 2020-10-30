@@ -38,16 +38,6 @@ function getCohortOptions(data) {
 
 export default function PageSentencing() {
   const { apiData, isLoading } = useChartData("us_nd/sentencing");
-  // lifted state for the recidivism section
-  const cohortOptions = useMemo(
-    () =>
-      isLoading
-        ? []
-        : getCohortOptions(apiData.recidivism_rates_by_cohort_by_year),
-    [apiData.recidivism_rates_by_cohort_by_year, isLoading]
-  );
-  const [selectedCohorts, setSelectedCohorts] = useState();
-  const [highlightedCohort, setHighlightedCohort] = useState();
 
   // lifted state for the recidivism section
   const cohortOptions = useMemo(
