@@ -1,3 +1,20 @@
+// Recidiviz - a data platform for criminal justice reform
+// Copyright (C) 2020 Recidiviz, Inc.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+// =============================================================================
+
 import { useId } from "@reach/auto-id";
 import useBreakpoint from "@w11r/use-breakpoint";
 import classNames from "classnames";
@@ -43,6 +60,7 @@ const DropdownMenu = styled(DropdownMenuBase)`
 // in the absence of that it will be uncontrolled and expose the ID of
 // its selected option via a listener
 export default function Dropdown({
+  disabled,
   highlighted,
   label,
   onChange,
@@ -78,6 +96,7 @@ export default function Dropdown({
           // selecting something other than the default (first) option
           // causes a highlight
           highlighted || currentOptionId !== options[0].id,
+        "Dropdown--disabled": disabled,
       })}
     >
       <ControlContainer>
@@ -85,7 +104,7 @@ export default function Dropdown({
 
         {!renderNativeSelect && (
           <Menu>
-            <MenuButton aria-labelledby={labelId}>
+            <MenuButton aria-labelledby={labelId} disabled={disabled}>
               <ControlValue>{selectedOption.label}</ControlValue>
             </MenuButton>
             <MenuPopover>
@@ -131,6 +150,7 @@ export default function Dropdown({
 }
 
 Dropdown.propTypes = {
+  disabled: PropTypes.bool,
   highlighted: PropTypes.bool,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -139,6 +159,7 @@ Dropdown.propTypes = {
 };
 
 Dropdown.defaultProps = {
+  disabled: false,
   highlighted: false,
   selectedId: undefined,
 };

@@ -36,6 +36,12 @@ import {
 const SELECT_ALL_ID = "ALL";
 
 const DropdownWrapper = styled(DropdownWrapperBase)`
+  /*
+    increasing the z index so that following menu buttons
+    don't cover this up when they are stacked
+  */
+  z-index: ${(props) => props.theme.zIndex.control + 1};
+
   ${ControlValue} {
     border: 0;
     cursor: pointer;
@@ -226,7 +232,6 @@ function NativeSelect({ buttonContents, options, selected, setSelected }) {
           setSelected(
             options.filter((opt) => currentlySelectedIds.includes(opt.id))
           );
-          // toggleSelected(options.find((opt) => opt.id === event.target.value));
         }}
         value={selected.map((opt) => opt.id)}
       >

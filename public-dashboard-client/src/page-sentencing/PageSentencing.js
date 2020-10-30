@@ -22,8 +22,8 @@ import Loading from "../loading";
 import VizRecidivismRates from "../viz-recidivism-rates";
 import VizSentencePopulation from "../viz-sentence-population";
 import VizSentenceTypes from "../viz-sentence-types";
-import { PATHS, ALL_PAGES, SECTION_TITLES } from "../constants";
-import CohortSelect from "../controls/CohortSelect";
+import { PATHS, ALL_PAGES, SECTION_TITLES, DIMENSION_KEYS } from "../constants";
+import { CohortSelect, DimensionControl } from "../controls";
 import { assignOrderedDatavizColor } from "../utils";
 
 function getCohortOptions(data) {
@@ -38,6 +38,7 @@ function getCohortOptions(data) {
 
 export default function PageSentencing() {
   const { apiData, isLoading } = useChartData("us_nd/sentencing");
+
   // lifted state for the recidivism section
   const cohortOptions = useMemo(
     () =>
@@ -46,11 +47,23 @@ export default function PageSentencing() {
         : getCohortOptions(apiData.recidivism_rates_by_cohort_by_year),
     [apiData.recidivism_rates_by_cohort_by_year, isLoading]
   );
-  const [selectedCohorts, setSelectedCohorts] = useState();
+  const [selectedCohorts, setSelectedCohorts] = useState([]);
   const [highlightedCohort, setHighlightedCohort] = useState();
+  const [recidivismDimension, setRecidivismDimension] = useState(
+    DIMENSION_KEYS.total
+  );
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  const singleCohortSelected = selectedCohorts.length === 1;
+
+  // doing this inside the render loop rather than in an effect
+  // to prevent an intermediate state from flashing on the chart;
+  // the current value check avoids an infinite render loop
+  if (!singleCohortSelected && recidivismDimension !== DIMENSION_KEYS.total) {
+    setRecidivismDimension(DIMENSION_KEYS.total);
   }
 
   const TITLE = ALL_PAGES.get(PATHS.sentencing);
@@ -115,14 +128,22 @@ export default function PageSentencing() {
         </>
       ),
       otherControls: (
-        <CohortSelect
-          options={cohortOptions}
-          onChange={setSelectedCohorts}
-          onHighlight={setHighlightedCohort}
-        />
+        <>
+          <CohortSelect
+            options={cohortOptions}
+            onChange={setSelectedCohorts}
+            onHighlight={setHighlightedCohort}
+          />
+          <DimensionControl
+            disabled={!singleCohortSelected}
+            onChange={setRecidivismDimension}
+            selectedId={recidivismDimension}
+          />
+        </>
       ),
       VizComponent: VizRecidivismRates,
       vizData: {
+        dimension: recidivismDimension,
         highlightedCohort,
         recidivismRates: apiData.recidivism_rates_by_cohort_by_year,
         selectedCohorts,

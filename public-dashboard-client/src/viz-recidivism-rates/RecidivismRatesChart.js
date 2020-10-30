@@ -22,9 +22,40 @@ import XYFrame from "semiotic/lib/XYFrame";
 import styled from "styled-components";
 import ChartWrapperBase from "../chart-wrapper";
 import ColorLegend from "../color-legend";
+import { DIMENSION_DATA_KEYS } from "../constants";
 import { THEME } from "../theme";
 import { formatAsPct, highlightFade } from "../utils";
 import XHoverController from "../x-hover-controller";
+
+/**
+ * Extracts point data for the highlighted series from chart data.
+ * Returns an empty array if there is no highlight or no matching series.
+ */
+function getPointData({ data, highlighted }) {
+  // we only show points as part of highlight behavior
+  if (!highlighted) return [];
+
+  const highlightedSeries = data.find((d) => d.label === highlighted.label);
+  // this can be missing if, e.g., the series has been filtered out
+  if (!highlightedSeries) return [];
+
+  return highlightedSeries.coordinates.map((point) => {
+    return {
+      ...point,
+      // this big ol' string ensures uniqueness for both cohort and demographic series
+      key: `${point.releaseCohort}-${point[DIMENSION_DATA_KEYS.race]}${
+        point[DIMENSION_DATA_KEYS.age]
+      }${point[DIMENSION_DATA_KEYS.gender]}-${point.followupYears}`,
+    };
+  });
+}
+
+function getPointColor({ data, highlighted }) {
+  // we only show points as part of highlight behavior
+  if (!highlighted) return undefined;
+  // this can be missing if, e.g., the series has been filtered out
+  return (data.find((d) => d.label === highlighted.label) || {}).color;
+}
 
 const BASE_MARK_PROPS = {
   transitionDuration: {
@@ -57,13 +88,8 @@ export default function RecidivismRatesChart({ data, highlightedCohort }) {
     setHighlighted(highlightedCohort);
   }, [highlightedCohort]);
 
-  const points = highlighted
-    ? (data.find((d) => d.label === highlighted.label) || {}).coordinates || []
-    : [];
-
-  const pointColor = highlighted
-    ? (data.find((d) => d.label === highlighted.label) || {}).color
-    : undefined;
+  const points = getPointData({ data, highlighted });
+  const pointColor = getPointColor({ data, highlighted });
 
   return (
     <Measure bounds>
@@ -134,10 +160,7 @@ export default function RecidivismRatesChart({ data, highlightedCohort }) {
                   fill: pointColor,
                   r: 5,
                 }}
-                renderKey={(d) =>
-                  // if it has a label, it's a line; if not, it's a point
-                  d.label || `${d.releaseCohort}-${d.followupYears}`
-                }
+                renderKey={(d) => d.key}
                 title={
                   <text x={width ? 0 - width / 2 + MARGIN.left : 0}>
                     {CHART_TITLE}
@@ -165,6 +188,7 @@ export default function RecidivismRatesChart({ data, highlightedCohort }) {
 RecidivismRatesChart.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
+      key: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
       coordinates: PropTypes.arrayOf(
         PropTypes.shape({
