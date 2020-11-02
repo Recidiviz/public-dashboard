@@ -234,6 +234,8 @@ export default function PagePrison() {
           label="Follow-up Period"
           onChange={setRecidivismFollowupPeriod}
           options={[
+            // these are not in ascending order because we want 3 to be default
+            // and Dropdown expects the default option to be the first one
             { id: "3", label: "3 Years" },
             { id: "5", label: "5 Years" },
             { id: "1", label: "1 Year" },
