@@ -70,12 +70,24 @@ test("renders a single chart for totals", () => {
       // eslint-disable-next-line camelcase
       gender === "ALL" && age_bucket === "ALL" && race_or_ethnicity === "ALL"
   );
-  getBarLabelData(totalRecord).forEach((expectedValue) => {
+
+  // y axis as percentages
+  expect(screen.getByLabelText("left axis from 0% to 100%")).toBeVisible();
+
+  getBarLabelData(totalRecord).forEach((expectedValue, index) => {
+    // this is the actual mark, which is very helpfully labeled
     expect(
       within(vizEl).getByRole("img", {
         name: `${expectedValue.label} bar value ${expectedValue.pct}%`,
       })
     );
+
+    let barTickLabel = expectedValue.label;
+    // the first one is a special case
+    if (index === 0) {
+      barTickLabel += " year";
+    }
+    expect(screen.getByText(barTickLabel)).toBeVisible();
   });
 });
 

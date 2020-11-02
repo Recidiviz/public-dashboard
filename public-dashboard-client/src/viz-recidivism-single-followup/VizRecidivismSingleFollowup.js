@@ -90,8 +90,8 @@ export default function VizRecidivismSingleFollowup({ data, dimension }) {
       }) => (
         <Wrapper ref={measureRef}>
           <BarChartTrellis
+            barAxisLabel="Release cohort"
             data={prepareData({ dimension, ...data })}
-            // TODO: tooltip contents
             renderTooltip={renderTooltip}
             setSelectedChartTitle={setSelectedChartTitle}
             width={width || 0}

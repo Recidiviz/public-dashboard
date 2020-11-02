@@ -12,6 +12,16 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
+/**
+ * Adds a "year" label postfix to the first bar label so it says "<1 year"
+ */
+function addInitialBarLabel(label) {
+  if (label === SENTENCE_LENGTHS.get(SENTENCE_LENGTH_KEYS.lessThanOne)) {
+    return `${label} year`;
+  }
+  return label;
+}
+
 export default function VizSentenceLengths({
   data: { sentenceLengths },
   dimension,
@@ -68,6 +78,7 @@ export default function VizSentenceLengths({
           <Wrapper ref={measureRef}>
             <BarChartTrellis
               data={chartData}
+              formatBarLabel={addInitialBarLabel}
               renderTooltip={renderTooltip}
               setSelectedChartTitle={setSelectedChartTitle}
               width={width || 0}
