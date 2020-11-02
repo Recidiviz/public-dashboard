@@ -27,7 +27,7 @@ import {
   TOTAL_KEY,
 } from "../constants";
 import { THEME } from "../theme";
-import { formatAsPct, recordIsTotalByDimension } from "../utils";
+import { recordIsTotalByDimension } from "../utils";
 
 const Wrapper = styled.div``;
 
@@ -51,9 +51,11 @@ function prepareData({ recidivismRates, followupYears, dimension }) {
         data: records.map((record) => ({
           color: THEME.colors.recidivismSingleFollowup,
           label: record.releaseCohort,
-          // TODO: show raw value
           value: record.recidivismRate,
           pct: record.recidivismRate,
+          // raw values for displaying in the tooltip; chart doesn't use them
+          recidivatedReleases: record.recidivated_releases,
+          totalReleases: record.releases,
         })),
       };
     }
@@ -74,7 +76,8 @@ export default function VizRecidivismSingleFollowup({ data, dimension }) {
       records: [
         {
           label: d.data.label,
-          value: formatAsPct(d.data.pct),
+          value: `${d.data.recidivatedReleases} of ${d.data.totalReleases}`,
+          pct: d.data.pct,
         },
       ],
     };
