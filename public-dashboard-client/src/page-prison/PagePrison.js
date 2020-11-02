@@ -225,11 +225,8 @@ export default function PagePrison() {
       title: SECTION_TITLES[PATHS.prison].recidivismSingleFollowup,
       description: (
         <>
-          ::::TK final copy:::: We can also observe the recidivism rate over
-          time for a given number of years after original release. While we do
-          not yet have the 3-year recidivism rates for the most recent years,
-          the near-term (1 year) recidivism rate has definitely dropped a good
-          amount since [X year].
+          We can also observe the recidivism rate over time for a given number
+          of years after original release.
         </>
       ),
       otherControls: (
