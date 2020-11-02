@@ -31,7 +31,7 @@ import VizPrisonPopulation from "../viz-prison-population";
 import VizPrisonReleases from "../viz-prison-releases";
 import VizPrisonReasons from "../viz-prison-reasons";
 import VizSentenceLengths from "../viz-sentence-lengths";
-import { CohortSelect, DimensionControl } from "../controls";
+import { CohortSelect, DimensionControl, Dropdown } from "../controls";
 import VizRecidivismRates from "../viz-recidivism-rates";
 import VizRecidivismSingleFollowup from "../viz-recidivism-single-followup";
 
@@ -58,7 +58,7 @@ function getCohortOptions(data) {
 export default function PagePrison() {
   const { apiData, isLoading } = useChartData("us_nd/prison");
 
-  // lifted state for the recidivism section
+  // lifted state for the recidivism sections
   const cohortOptions = useMemo(
     () =>
       isLoading
@@ -71,6 +71,7 @@ export default function PagePrison() {
   const [recidivismDimension, setRecidivismDimension] = useState(
     DIMENSION_KEYS.total
   );
+  const [recidivismFollowupPeriod, setRecidivismFollowupPeriod] = useState("3");
 
   if (isLoading) {
     return <Loading />;
@@ -231,11 +232,22 @@ export default function PagePrison() {
           amount since [X year].
         </>
       ),
+      otherControls: (
+        <Dropdown
+          label="Follow-up Period"
+          onChange={setRecidivismFollowupPeriod}
+          options={[
+            { id: "3", label: "3 Years" },
+            { id: "5", label: "5 Years" },
+            { id: "1", label: "1 Year" },
+          ]}
+          selectedId={recidivismFollowupPeriod}
+        />
+      ),
       showDimensionControl: true,
       VizComponent: VizRecidivismSingleFollowup,
       vizData: {
-        // TODO: make this user-selectable
-        followupYears: 3,
+        followupYears: parseInt(recidivismFollowupPeriod, 10),
         recidivismRates,
       },
     },

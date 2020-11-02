@@ -76,6 +76,54 @@ test("renders a single chart for totals", () => {
   });
 });
 
+test("displays alternate followup periods of 1 and 5 years", () => {
+  const totalRecords = recidivismRates.filter(
+    // eslint-disable-next-line camelcase
+    ({ gender, age_bucket, race_or_ethnicity }) =>
+      // eslint-disable-next-line camelcase
+      gender === "ALL" && age_bucket === "ALL" && race_or_ethnicity === "ALL"
+  );
+
+  const { rerender } = render(
+    <VizRecidivismSingleFollowup
+      data={{ followupYears: 5, recidivismRates }}
+      dimension="total"
+    />
+  );
+
+  // inspect the figure to determine what values the chart should reflect
+  let vizEl = screen.getByLabelText("6 bars in a bar chart");
+  getBarLabelData(
+    totalRecords.filter((record) => record.followupYears === 5)
+  ).forEach((expectedValue) => {
+    expect(
+      within(vizEl).getByRole("img", {
+        name: `${expectedValue.label} bar value ${expectedValue.pct}%`,
+      })
+    );
+  });
+
+  // repeat for the remaining followup period
+  rerender(
+    <VizRecidivismSingleFollowup
+      data={{ followupYears: 1, recidivismRates }}
+      dimension="total"
+    />
+  );
+
+  vizEl = screen.getByLabelText("10 bars in a bar chart");
+
+  getBarLabelData(
+    totalRecords.filter((record) => record.followupYears === 1)
+  ).forEach((expectedValue) => {
+    expect(
+      within(vizEl).getByRole("img", {
+        name: `${expectedValue.label} bar value ${expectedValue.pct}%`,
+      })
+    );
+  });
+});
+
 test("renders one chart per race subgroup", () => {
   render(
     <VizRecidivismSingleFollowup
