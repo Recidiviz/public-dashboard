@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { Auth0Client } from "@auth0/auth0-spa-js";
+import { ERROR_MESSAGES } from "../constants";
 import UserStore from "./UserStore";
 
 const mockGetUser = jest.fn();
@@ -58,13 +59,9 @@ test("authorization immediately pending when required", async () => {
 });
 
 test("authorize requires Auth0 client settings", async () => {
-  expect.assertions(1);
   const store = new UserStore({ isAuthRequired: true });
-  try {
-    await store.authorize();
-  } catch (e) {
-    expect(e.message).toMatch("Auth0 configuration");
-  }
+  const error = (await store.authorize()) as Error;
+  expect(error.message).toMatch(ERROR_MESSAGES.auth0Configuration);
 });
 
 test("authorized when authenticated", async () => {

@@ -16,8 +16,10 @@
 // =============================================================================
 
 import { observer } from "mobx-react-lite";
-import React, { useEffect } from "react";
-import AccessDenied from "../AccessDenied";
+import React, { useEffect, useState } from "react";
+import { withErrorBoundary } from "react-error-boundary";
+import { ERROR_MESSAGES } from "../constants";
+import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import { useRootStore } from "../StoreProvider";
 import VerificationRequired from "../VerificationRequired";
@@ -27,11 +29,21 @@ import VerificationRequired from "../VerificationRequired";
  */
 const AuthWall: React.FC = ({ children }) => {
   const { userStore } = useRootStore();
+  const [effectError, setEffectError] = useState<undefined | Error>();
+
   useEffect(() => {
     if (!userStore.isAuthorized) {
-      userStore.authorize();
+      userStore.authorize().then((result) => {
+        if (result instanceof Error) {
+          setEffectError(result);
+        }
+      });
     }
   }, [userStore]);
+
+  if (effectError) {
+    throw effectError;
+  }
 
   if (userStore.isLoading) {
     return <Loading />;
@@ -45,7 +57,12 @@ const AuthWall: React.FC = ({ children }) => {
     return <>{children}</>;
   }
 
-  return <AccessDenied />;
+  // it should not actually be possible to reach this branch
+  // with the current auth implementation, so something is
+  // probably very wrong if a user hits it
+  throw new Error(ERROR_MESSAGES.unauthorized);
 };
 
-export default observer(AuthWall);
+export default withErrorBoundary(observer(AuthWall), {
+  FallbackComponent: ErrorMessage,
+});

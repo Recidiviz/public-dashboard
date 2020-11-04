@@ -11,6 +11,15 @@
     // From eslint-config-prettier
     "prettier/@typescript-eslint"
   ],
+  "overrides": [
+    {
+      "files": ["**.ts", "**.tsx"],
+      "rules": {
+        // with static typing this rule is not so useful
+        "consistent-return": "off"
+      }
+    }
+  ],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "rules": {

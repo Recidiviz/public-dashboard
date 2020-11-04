@@ -144,3 +144,23 @@ test("renders when authenticated", async () => {
     expect(websiteName).toBeInTheDocument();
   });
 });
+
+test("handles an Auth0 configuration error", async () => {
+  // configure environment for valid authentication
+  process.env.REACT_APP_AUTH_ENABLED = "true";
+  // no config exists for this environment
+  process.env.REACT_APP_AUTH_ENV = "production";
+  mockIsAuthenticated.mockResolvedValue(false);
+
+  const App = await getApp();
+  render(<App />);
+
+  await waitFor(() => {
+    expect(
+      screen.getByRole("heading", /an error occurred/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { name: /spotlight/i })
+    ).not.toBeInTheDocument();
+  });
+});

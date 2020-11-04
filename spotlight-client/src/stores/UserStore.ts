@@ -18,6 +18,7 @@
 import { Auth0Client, Auth0ClientOptions } from "@auth0/auth0-spa-js";
 import { makeAutoObservable, runInAction } from "mobx";
 import qs from "qs";
+import { ERROR_MESSAGES } from "../constants";
 import RootStore from "./RootStore";
 
 type ConstructorProps = {
@@ -74,10 +75,12 @@ export default class UserStore {
    * If user already has a valid Auth0 credential, this method will retrieve it
    * and update class properties accordingly. If not, user will be redirected
    * to the Auth0 login domain for fresh authentication.
+   * Returns an Error if Auth0 configuration is not present.
    */
-  async authorize(): Promise<void> {
+  async authorize(): Promise<Error | void> {
     if (!this.authSettings) {
-      throw new Error("no Auth0 configuration found");
+      // returning rather than throwing for better type safety
+      return new Error(ERROR_MESSAGES.auth0Configuration);
     }
     const auth0 = new Auth0Client(this.authSettings);
 

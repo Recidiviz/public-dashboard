@@ -15,15 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React from "react";
-
-const AccessDenied: React.FC = () => {
-  return (
-    <article>
-      <h1>Access Denied</h1>
-      <p>You do not have permission to view this content.</p>
-    </article>
-  );
+// expecting more exports in this file; re-enable when no longer necessary
+// eslint-disable-next-line import/prefer-default-export
+export const ERROR_MESSAGES = {
+  auth0Configuration: "No Auth0 configuration found.",
+  unauthorized: "You do not have permission to view this content.",
 };
-
-export default AccessDenied;
