@@ -34,7 +34,7 @@ type ConstructorProps = {
  * @example
  *
  * ```js
- * const store = new UserStore();
+ * const store = new UserStore({ isAuthRequired: true, authSettings: { domain, client_id, redirect_uri } });
  * if (!store.isAuthorized) {
  *   await store.authorize();
  *   // this may trigger a redirect to the Auth0 login domain;

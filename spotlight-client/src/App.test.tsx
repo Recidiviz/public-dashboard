@@ -34,13 +34,11 @@ export {};
 
 // mocking the Auth0 library because JSDOM doesn't support all the APIs it needs
 const mockGetUser = jest.fn();
-const mockHandleRedirectCallback = jest.fn();
 const mockIsAuthenticated = jest.fn();
 const mockLoginWithRedirect = jest.fn();
 jest.mock("@auth0/auth0-spa-js", () => ({
   Auth0Client: jest.fn().mockImplementation(() => ({
     getUser: mockGetUser,
-    handleRedirectCallback: mockHandleRedirectCallback,
     isAuthenticated: mockIsAuthenticated,
     loginWithRedirect: mockLoginWithRedirect,
   })),
@@ -76,7 +74,7 @@ afterEach(() => {
   cleanup();
 });
 
-test("does not explode", async () => {
+test("no auth required", async () => {
   const App = await getApp();
   render(<App />);
   // seems like a pretty safe bet this word will always be there somewhere!
@@ -94,7 +92,7 @@ test("requires authentication", async () => {
 
   const App = await getApp();
   render(<App />);
-  screen.debug();
+
   expect(
     screen.queryByRole("heading", { name: /spotlight/i })
   ).not.toBeInTheDocument();
