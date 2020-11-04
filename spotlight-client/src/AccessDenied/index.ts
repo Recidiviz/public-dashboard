@@ -15,28 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-type Auth0Settings = {
-  domain: string;
-  clientId: string;
-};
-
-let AUTH_SETTINGS: Auth0Settings | undefined;
-
-// NOTE: there is no production auth requirement!
-if (process.env.REACT_APP_AUTH_ENV === "development") {
-  AUTH_SETTINGS = {
-    domain: "spotlight-login-staging.recidiviz.org",
-    clientId: "ID9plpd8j4vaUin9rPTGxWlJoknSkDX1",
-  };
-}
-
-/**
- * Returns the auth settings configured for the current environment, if any.
- */
-export function getAuthSettings(): typeof AUTH_SETTINGS {
-  return AUTH_SETTINGS;
-}
-
-export function isAuthEnabled(): boolean {
-  return process.env.REACT_APP_AUTH_ENABLED === "true";
-}
+export { default } from './AccessDenied';

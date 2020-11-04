@@ -15,81 +15,37 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
-import React from "react";
+import { observer } from "mobx-react-lite";
+import React, { useEffect } from "react";
+import AccessDenied from "../AccessDenied";
 import Loading from "../Loading";
-import { getAuthSettings, isAuthEnabled } from "./utils";
+import { useRootStore } from "../StoreProvider";
 import VerificationRequired from "../VerificationRequired";
 
 /**
- * If auth is enabled for the current environment, wraps its children
- * in an Auth0Provider to enable the Auth0 React context.
- * If auth is disabled, renders its children unwrapped.
- */
-const AuthProvider: React.FC<{ enabled: boolean }> = ({
-  children,
-  enabled,
-}) => {
-  const authSettings = getAuthSettings();
-
-  return enabled && authSettings ? (
-    <Auth0Provider
-      domain={authSettings.domain}
-      clientId={authSettings.clientId}
-      redirectUri={window.location.href}
-    >
-      {children}
-    </Auth0Provider>
-  ) : (
-    <>{children}</>
-  );
-};
-
-/**
- * If enabled is true, requires that
- * the user is authenticated before rendering its children,
- * and redirects unauthenticated users to an Auth0 login domain.
- * Otherwise, it simply renders its children without intervention.
- */
-const AuthChecker: React.FC<{ enabled: boolean }> = ({ children, enabled }) => {
-  // providing a fallback because this hook may return undefined if auth0 is not enabled;
-  // seems to mainly happen in the test environment
-  const { isAuthenticated, isLoading, loginWithRedirect, user } =
-    useAuth0() || {};
-
-  if (enabled) {
-    if (isLoading) {
-      return <Loading />;
-    }
-
-    if (!isAuthenticated && loginWithRedirect) {
-      loginWithRedirect();
-      return <Loading />;
-    }
-
-    if (user && !user.email_verified) {
-      return <VerificationRequired />;
-    }
-  }
-
-  return <>{children}</>;
-};
-
-/**
- * If auth is enabled in the current environment, requires that
- * the user is authenticated before rendering its children,
- * and redirects unauthenticated users to an Auth0 login domain.
- * If auth is disabled, it simply renders its children without intervention.
- * MUST be a descendent of an AuthProvider.
+ * Verifies authorization before rendering its children.
  */
 const AuthWall: React.FC = ({ children }) => {
-  const enabled = isAuthEnabled();
+  const { userStore } = useRootStore();
+  useEffect(() => {
+    if (!userStore.isAuthorized) {
+      userStore.authorize();
+    }
+  }, [userStore]);
 
-  return (
-    <AuthProvider enabled={enabled}>
-      <AuthChecker enabled={enabled}>{children}</AuthChecker>
-    </AuthProvider>
-  );
+  if (userStore.isLoading) {
+    return <Loading />;
+  }
+
+  if (userStore.awaitingVerification) {
+    return <VerificationRequired />;
+  }
+
+  if (userStore.isAuthorized) {
+    return <>{children}</>;
+  }
+
+  return <AccessDenied />;
 };
 
-export default AuthWall;
+export default observer(AuthWall);

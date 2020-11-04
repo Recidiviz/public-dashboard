@@ -16,21 +16,14 @@
 // =============================================================================
 
 import React from "react";
-import AuthWall from "./AuthWall";
-import StoreProvider from "./StoreProvider";
 
-const App: React.FC = () => {
+const AccessDenied: React.FC = () => {
   return (
-    <StoreProvider>
-      <AuthWall>
-        <div>
-          <header>
-            <h1>Spotlight</h1>
-          </header>
-        </div>
-      </AuthWall>
-    </StoreProvider>
+    <article>
+      <h1>Access Denied</h1>
+      <p>You do not have permission to view this content.</p>
+    </article>
   );
 };
 
-export default App;
+export default AccessDenied;
