@@ -65,7 +65,7 @@ beforeEach(async () => {
   render = reactTestingLibrary.render;
   screen = reactTestingLibrary.screen;
   cleanup = reactTestingLibrary.cleanup;
-  waitFor = (await import("@testing-library/dom")).waitFor;
+  waitFor = reactTestingLibrary.waitFor;
 });
 
 afterEach(() => {
