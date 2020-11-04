@@ -21,3 +21,8 @@
 // learn more: https://github.com/testing-library/jest-dom
 
 import "@testing-library/jest-dom/extend-expect";
+// this is missing from JSDOM in some environments;
+// seems to be inconsistent but happens in CI
+import { shim } from "globalthis";
+
+shim();
