@@ -30,22 +30,6 @@ import {
 } from "../utils";
 import RecidivismRatesChart from "./RecidivismRatesChart";
 
-function typeCast(recidivismRecord) {
-  const {
-    followup_years: followupYears,
-    recidivism_rate: recidivismRate,
-    release_cohort: releaseCohort,
-    ...otherProps
-  } = recidivismRecord;
-
-  return {
-    followupYears: Number(followupYears),
-    recidivismRate: Number(recidivismRate),
-    releaseCohort,
-    ...otherProps,
-  };
-}
-
 /**
  * When multiple cohorts are selected, or a single cohort and the `total` dimension,
  * will return one data series per cohort.
@@ -58,15 +42,13 @@ function prepareChartData({ data, dimension, selectedCohorts }) {
     selectedCohorts.length === 1 &&
     dimension !== DIMENSION_KEYS.total;
 
-  const preparedData = data
-    .filter(recordIsTotalByDimension(dimension))
-    .map(typeCast);
+  const filteredData = data.filter(recordIsTotalByDimension(dimension));
 
   if (showDemographics) {
     return Array.from(
       group(
         // filter out unselected years first so we only have to do it once
-        preparedData.filter(({ releaseCohort }) =>
+        filteredData.filter(({ releaseCohort }) =>
           selectedCohorts.some(({ id }) => id === releaseCohort)
         ),
         (d) => d[DIMENSION_DATA_KEYS[dimension]]
@@ -84,7 +66,7 @@ function prepareChartData({ data, dimension, selectedCohorts }) {
   }
   return (
     Array.from(
-      group(preparedData, (d) => d.releaseCohort),
+      group(filteredData, (d) => d.releaseCohort),
       ([key, value]) => {
         return {
           key,
@@ -127,9 +109,9 @@ VizRecidivismRates.propTypes = {
     dimension: PropTypes.string.isRequired,
     recidivismRates: PropTypes.arrayOf(
       PropTypes.shape({
-        followup_years: PropTypes.string.isRequired,
-        recidivism_rate: PropTypes.string.isRequired,
-        release_cohort: PropTypes.string.isRequired,
+        followupYears: PropTypes.number.isRequired,
+        recidivismRate: PropTypes.number.isRequired,
+        releaseCohort: PropTypes.string.isRequired,
       })
     ).isRequired,
     selectedCohorts: PropTypes.arrayOf(

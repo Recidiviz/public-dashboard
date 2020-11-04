@@ -18,13 +18,15 @@
 import React from "react";
 import { DIMENSION_KEYS } from "../constants";
 import { render, screen, getDataFixture } from "../testUtils";
+import { typecastRecidivismData } from "../utils";
 import VizRecidivismRates from ".";
 
 const recidivismRatesFixture = getDataFixture(
   "recidivism_rates_by_cohort_by_year.json"
-);
+).map(typecastRecidivismData);
+
 const allCohorts = new Set(
-  recidivismRatesFixture.map((record) => record.release_cohort)
+  recidivismRatesFixture.map((record) => record.releaseCohort)
 );
 const allSelectedCohorts = [...allCohorts].map((year) => ({
   id: year,

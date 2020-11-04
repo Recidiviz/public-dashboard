@@ -46,6 +46,7 @@ export const SECTION_TITLES = {
     terms: "How long are they there?",
     releases: "Where do they go from there?",
     recidivism: "How many people end up back in prison?",
+    recidivismSingleFollowup: "How has the recidivism rate changed over time?",
   },
   [PATHS.probation]: {
     population: "Who is on probation?",

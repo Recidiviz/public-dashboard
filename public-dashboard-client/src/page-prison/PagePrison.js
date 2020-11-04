@@ -1,3 +1,20 @@
+// Recidiviz - a data platform for criminal justice reform
+// Copyright (C) 2020 Recidiviz, Inc.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+// =============================================================================
+
 import React, { useMemo, useState } from "react";
 import DetailPage from "../detail-page";
 import { PATHS, ALL_PAGES, SECTION_TITLES, DIMENSION_KEYS } from "../constants";
@@ -5,6 +22,7 @@ import {
   assignOrderedDatavizColor,
   formatLocation,
   recordIsMetricPeriodMonths,
+  typecastRecidivismData,
 } from "../utils";
 import useChartData from "../hooks/useChartData";
 import Loading from "../loading";
@@ -13,8 +31,9 @@ import VizPrisonPopulation from "../viz-prison-population";
 import VizPrisonReleases from "../viz-prison-releases";
 import VizPrisonReasons from "../viz-prison-reasons";
 import VizSentenceLengths from "../viz-sentence-lengths";
-import { CohortSelect, DimensionControl } from "../controls";
+import { CohortSelect, DimensionControl, Dropdown } from "../controls";
 import VizRecidivismRates from "../viz-recidivism-rates";
+import VizRecidivismSingleFollowup from "../viz-recidivism-single-followup";
 
 const TITLE = ALL_PAGES.get(PATHS.prison);
 const DESCRIPTION = (
@@ -39,7 +58,7 @@ function getCohortOptions(data) {
 export default function PagePrison() {
   const { apiData, isLoading } = useChartData("us_nd/prison");
 
-  // lifted state for the recidivism section
+  // lifted state for the recidivism sections
   const cohortOptions = useMemo(
     () =>
       isLoading
@@ -52,6 +71,7 @@ export default function PagePrison() {
   const [recidivismDimension, setRecidivismDimension] = useState(
     DIMENSION_KEYS.total
   );
+  const [recidivismFollowupPeriod, setRecidivismFollowupPeriod] = useState("3");
 
   if (isLoading) {
     return <Loading />;
@@ -71,6 +91,10 @@ export default function PagePrison() {
   if (!singleCohortSelected && recidivismDimension !== DIMENSION_KEYS.total) {
     setRecidivismDimension(DIMENSION_KEYS.total);
   }
+
+  const recidivismRates = apiData.recidivism_rates_by_cohort_by_year.map(
+    typecastRecidivismData
+  );
 
   const SECTIONS = [
     {
@@ -193,8 +217,37 @@ export default function PagePrison() {
       vizData: {
         dimension: recidivismDimension,
         highlightedCohort,
-        recidivismRates: apiData.recidivism_rates_by_cohort_by_year,
+        recidivismRates,
         selectedCohorts,
+      },
+    },
+    {
+      title: SECTION_TITLES[PATHS.prison].recidivismSingleFollowup,
+      description: (
+        <>
+          We can also observe the recidivism rate over time for a given number
+          of years after original release.
+        </>
+      ),
+      otherControls: (
+        <Dropdown
+          label="Follow-up Period"
+          onChange={setRecidivismFollowupPeriod}
+          options={[
+            // these are not in ascending order because we want 3 to be default
+            // and Dropdown expects the default option to be the first one
+            { id: "3", label: "3 Years" },
+            { id: "5", label: "5 Years" },
+            { id: "1", label: "1 Year" },
+          ]}
+          selectedId={recidivismFollowupPeriod}
+        />
+      ),
+      showDimensionControl: true,
+      VizComponent: VizRecidivismSingleFollowup,
+      vizData: {
+        followupYears: parseInt(recidivismFollowupPeriod, 10),
+        recidivismRates,
       },
     },
   ];

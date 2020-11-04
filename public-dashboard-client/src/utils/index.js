@@ -20,3 +20,4 @@ export { default as recordIsTotal } from "./recordIsTotal";
 export { default as recordIsTotalByDimension } from "./recordIsTotalByDimension";
 export { default as sentenceCase } from "./sentenceCase";
 export { default as transposeFieldsToRecords } from "./transposeFieldsToRecords";
+export { default as typecastRecidivismData } from "./typecastRecidivismData";
