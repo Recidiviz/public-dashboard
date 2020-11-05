@@ -16,8 +16,8 @@
 // =============================================================================
 
 import { observer } from "mobx-react-lite";
-import React, { useEffect, useState } from "react";
-import { withErrorBoundary } from "react-error-boundary";
+import React, { useEffect } from "react";
+import { useErrorHandler, withErrorBoundary } from "react-error-boundary";
 import { ERROR_MESSAGES } from "../constants";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
@@ -29,21 +29,17 @@ import VerificationRequired from "../VerificationRequired";
  */
 const AuthWall: React.FC = ({ children }) => {
   const { userStore } = useRootStore();
-  const [effectError, setEffectError] = useState<undefined | Error>();
+  const handleError = useErrorHandler();
 
   useEffect(() => {
     if (!userStore.isAuthorized) {
       userStore.authorize().then((result) => {
         if (result instanceof Error) {
-          setEffectError(result);
+          handleError(result);
         }
       });
     }
-  }, [userStore]);
-
-  if (effectError) {
-    throw effectError;
-  }
+  }, [handleError, userStore]);
 
   if (userStore.isLoading) {
     return <Loading />;
