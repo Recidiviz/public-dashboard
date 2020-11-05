@@ -15,26 +15,17 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Auth0Client } from "@auth0/auth0-spa-js";
+import createAuth0Client from "@auth0/auth0-spa-js";
 import { ERROR_MESSAGES } from "../constants";
 import UserStore from "./UserStore";
 
+jest.mock("@auth0/auth0-spa-js");
+
+const mockCreateAuth0Client = createAuth0Client as jest.Mock;
 const mockGetUser = jest.fn();
 const mockHandleRedirectCallback = jest.fn();
 const mockIsAuthenticated = jest.fn();
 const mockLoginWithRedirect = jest.fn();
-
-jest.mock("@auth0/auth0-spa-js", () => ({
-  // mocking the Auth0 library because JSDOM doesn't support all the APIs it needs
-  Auth0Client: jest.fn().mockImplementation(() => ({
-    getUser: mockGetUser,
-    handleRedirectCallback: mockHandleRedirectCallback,
-    isAuthenticated: mockIsAuthenticated,
-    loginWithRedirect: mockLoginWithRedirect,
-  })),
-}));
-
-const MockAuth0Client = Auth0Client as jest.MockedClass<typeof Auth0Client>;
 
 const testAuthSettings = {
   domain: "example.com",
@@ -42,8 +33,17 @@ const testAuthSettings = {
   redirect_url: window.location.href,
 };
 
+beforeEach(() => {
+  mockCreateAuth0Client.mockResolvedValue({
+    getUser: mockGetUser,
+    handleRedirectCallback: mockHandleRedirectCallback,
+    isAuthenticated: mockIsAuthenticated,
+    loginWithRedirect: mockLoginWithRedirect,
+  });
+});
+
 afterEach(() => {
-  MockAuth0Client.mockClear();
+  jest.resetAllMocks();
 });
 
 test("immediately authorized when auth is not required", async () => {

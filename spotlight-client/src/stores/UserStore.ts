@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Auth0Client, Auth0ClientOptions } from "@auth0/auth0-spa-js";
+import createAuth0Client, { Auth0ClientOptions } from "@auth0/auth0-spa-js";
 import { makeAutoObservable, runInAction } from "mobx";
 import qs from "qs";
 import { ERROR_MESSAGES } from "../constants";
@@ -82,7 +82,7 @@ export default class UserStore {
       // returning rather than throwing for better type safety
       return new Error(ERROR_MESSAGES.auth0Configuration);
     }
-    const auth0 = new Auth0Client(this.authSettings);
+    const auth0 = await createAuth0Client(this.authSettings);
 
     const urlQuery = qs.parse(window.location.search, {
       ignoreQueryPrefix: true,

@@ -36,13 +36,13 @@ export {};
 const mockGetUser = jest.fn();
 const mockIsAuthenticated = jest.fn();
 const mockLoginWithRedirect = jest.fn();
-jest.mock("@auth0/auth0-spa-js", () => ({
-  Auth0Client: jest.fn().mockImplementation(() => ({
+jest.mock("@auth0/auth0-spa-js", () =>
+  jest.fn().mockResolvedValue({
     getUser: mockGetUser,
     isAuthenticated: mockIsAuthenticated,
     loginWithRedirect: mockLoginWithRedirect,
-  })),
-}));
+  })
+);
 
 /**
  * Convenience method for importing test module after updating environment
