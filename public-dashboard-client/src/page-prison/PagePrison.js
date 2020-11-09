@@ -16,6 +16,7 @@
 // =============================================================================
 
 import React, { useMemo, useState } from "react";
+import { ascending } from "d3-array";
 import DetailPage from "../detail-page";
 import { PATHS, ALL_PAGES, SECTION_TITLES, DIMENSION_KEYS } from "../constants";
 import {
@@ -46,7 +47,7 @@ const DESCRIPTION = (
 );
 
 function getCohortOptions(data) {
-  const cohortsFromData = new Set(data.map((d) => d.release_cohort));
+  const cohortsFromData = new Set(data.map((d) => d.releaseCohort));
   return [...cohortsFromData]
     .map((cohort) => ({
       id: cohort,
@@ -59,12 +60,24 @@ export default function PagePrison() {
   const { apiData, isLoading } = useChartData("us_nd/prison");
 
   // lifted state for the recidivism sections
-  const cohortOptions = useMemo(
+  const recidivismRates = useMemo(
     () =>
       isLoading
         ? []
-        : getCohortOptions(apiData.recidivism_rates_by_cohort_by_year),
+        : apiData.recidivism_rates_by_cohort_by_year
+            .map(typecastRecidivismData)
+            .sort((a, b) => {
+              // hierarchical sort: cohort, then followup
+              return (
+                ascending(a.releaseCohort, b.releaseCohort) ||
+                ascending(a.followupYears, b.followupYears)
+              );
+            }),
     [apiData.recidivism_rates_by_cohort_by_year, isLoading]
+  );
+  const cohortOptions = useMemo(
+    () => (isLoading ? [] : getCohortOptions(recidivismRates)),
+    [isLoading, recidivismRates]
   );
   const [selectedCohorts, setSelectedCohorts] = useState([]);
   const [highlightedCohort, setHighlightedCohort] = useState();
@@ -91,10 +104,6 @@ export default function PagePrison() {
   if (!singleCohortSelected && recidivismDimension !== DIMENSION_KEYS.total) {
     setRecidivismDimension(DIMENSION_KEYS.total);
   }
-
-  const recidivismRates = apiData.recidivism_rates_by_cohort_by_year.map(
-    typecastRecidivismData
-  );
 
   const SECTIONS = [
     {

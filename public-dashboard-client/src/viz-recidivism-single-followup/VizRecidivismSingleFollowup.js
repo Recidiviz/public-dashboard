@@ -27,7 +27,7 @@ import {
   TOTAL_KEY,
 } from "../constants";
 import { THEME } from "../theme";
-import { recordIsTotalByDimension } from "../utils";
+import { demographicsAscending, recordIsTotalByDimension } from "../utils";
 
 const Wrapper = styled.div``;
 
@@ -38,7 +38,13 @@ const Wrapper = styled.div``;
 function prepareData({ recidivismRates, followupYears, dimension }) {
   const dataForFollowupYears = recidivismRates
     .filter((record) => record.followupYears === followupYears)
-    .filter(recordIsTotalByDimension(dimension));
+    .filter(recordIsTotalByDimension(dimension))
+    .sort((a, b) =>
+      demographicsAscending(
+        a[DIMENSION_DATA_KEYS[dimension]],
+        b[DIMENSION_DATA_KEYS[dimension]]
+      )
+    );
 
   return Array.from(
     group(
