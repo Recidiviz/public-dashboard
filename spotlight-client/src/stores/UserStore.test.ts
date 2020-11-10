@@ -87,6 +87,9 @@ test("redirect to Auth0 when unauthenticated", async () => {
   });
   await store.authorize();
   expect(mockLoginWithRedirect.mock.calls.length).toBe(1);
+  expect(mockLoginWithRedirect.mock.calls[0][0]).toEqual({
+    appState: { targetUrl: window.location.href },
+  });
 });
 
 test("requires email verification", async () => {
@@ -106,6 +109,7 @@ test("requires email verification", async () => {
 });
 
 test("handles Auth0 token params", async () => {
+  mockHandleRedirectCallback.mockResolvedValue({});
   const auth0LoginParams = "code=123456&state=abcdef";
   const urlWithToken = new URL(window.location.href);
   urlWithToken.search = `?${auth0LoginParams}`;
@@ -122,4 +126,21 @@ test("handles Auth0 token params", async () => {
 
   expect(mockHandleRedirectCallback.mock.calls.length).toBe(1);
   expect(window.location.href).not.toMatch(auth0LoginParams);
+});
+
+test("redirect to targetUrl after callback", async () => {
+  const targetUrl = "http://localhost/somePage?id=1";
+  mockHandleRedirectCallback.mockResolvedValue({ appState: { targetUrl } });
+
+  const auth0LoginParams = "code=123456&state=abcdef";
+  const urlWithToken = new URL(window.location.href);
+  urlWithToken.search = `?${auth0LoginParams}`;
+  window.history.pushState({}, "Test", urlWithToken.href);
+
+  const store = new UserStore({
+    authSettings: testAuthSettings,
+    isAuthRequired: true,
+  });
+  await store.authorize();
+  expect(window.location.href).toBe(targetUrl);
 });

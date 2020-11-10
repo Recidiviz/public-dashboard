@@ -27,7 +27,7 @@ export function getAuthSettings(): Auth0ClientOptions | undefined {
     return {
       domain: "spotlight-login-staging.recidiviz.org",
       client_id: "ID9plpd8j4vaUin9rPTGxWlJoknSkDX1",
-      redirect_uri: `${window.location.protocol}//${window.location.host}`,
+      redirect_uri: `${window.location.origin}`,
     };
   }
   return undefined;

@@ -88,13 +88,16 @@ export default class UserStore {
       ignoreQueryPrefix: true,
     });
     if (urlQuery.code && urlQuery.state) {
-      await auth0.handleRedirectCallback();
-      // auth0 params are single-use, must be removed or they'll cause errors
-      const newUrl = new URL(window.location.href);
-      delete urlQuery.code;
-      delete urlQuery.state;
-      newUrl.search = qs.stringify(urlQuery, { addQueryPrefix: true });
-      window.history.replaceState({}, document.title, newUrl.href);
+      const { appState } = await auth0.handleRedirectCallback();
+      // auth0 params are single-use, must be removed from history or they can cause errors
+      let replacementUrl;
+      if (appState && appState.targetUrl) {
+        replacementUrl = appState.targetUrl;
+      } else {
+        // strip away all query params just to be safe
+        replacementUrl = `${window.location.origin}${window.location.pathname}`;
+      }
+      window.history.replaceState({}, document.title, replacementUrl);
     }
 
     if (await auth0.isAuthenticated()) {
@@ -110,7 +113,9 @@ export default class UserStore {
         }
       });
     } else {
-      auth0.loginWithRedirect();
+      auth0.loginWithRedirect({
+        appState: { targetUrl: window.location.href },
+      });
     }
   }
 }
