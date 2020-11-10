@@ -105,7 +105,7 @@ export default function RecidivismRatesChart({ data, highlightedCohort }) {
               lines={data}
               margin={MARGIN}
               otherChartProps={{
-                xExtent: [1, 10],
+                xExtent: [0, 10],
               }}
               size={[width, 475]}
               tooltipControllerProps={{
@@ -113,7 +113,7 @@ export default function RecidivismRatesChart({ data, highlightedCohort }) {
                   const currentPeriod = d.followupYears;
                   return {
                     title: `${currentPeriod} year${
-                      currentPeriod > 1 ? "s" : ""
+                      currentPeriod === 1 ? "" : "s"
                     } since release`,
                     records: d.points
                       .filter((p) => p.data.followupYears === currentPeriod)

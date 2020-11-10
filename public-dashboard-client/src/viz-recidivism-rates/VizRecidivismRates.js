@@ -32,6 +32,21 @@ import {
 import RecidivismRatesChart from "./RecidivismRatesChart";
 
 /**
+ * adds an initial record to each series for year zero with rate zero.
+ * Helps to make the initial point in the line chart more visible,
+ * especially for lines that would otherwise only have one point.
+ */
+function prependZero(records) {
+  const zeroRecord = {
+    ...records[0],
+    followupYears: 0,
+    recidivated_releases: "0",
+    recidivismRate: 0,
+  };
+  return [zeroRecord, ...records];
+}
+
+/**
  * When multiple cohorts are selected, or a single cohort and the `total` dimension,
  * will return one data series per cohort.
  * Otherwise (i.e., a single cohort and some dimensional breakdown is selected),
@@ -54,11 +69,11 @@ function prepareChartData({ data, dimension, selectedCohorts }) {
         ),
         (d) => d[DIMENSION_DATA_KEYS[dimension]]
       ),
-      ([key, value]) => {
+      ([key, records]) => {
         return {
           key,
           label: DIMENSION_MAPPINGS.get(dimension).get(key),
-          coordinates: value,
+          coordinates: prependZero(records),
         };
       }
     )
@@ -68,11 +83,11 @@ function prepareChartData({ data, dimension, selectedCohorts }) {
   return (
     Array.from(
       group(filteredData, (d) => d.releaseCohort),
-      ([key, value]) => {
+      ([key, records]) => {
         return {
           key,
           label: key,
-          coordinates: value,
+          coordinates: prependZero(records),
         };
       }
     )
