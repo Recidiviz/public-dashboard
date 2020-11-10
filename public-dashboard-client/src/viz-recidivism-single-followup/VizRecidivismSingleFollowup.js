@@ -26,6 +26,7 @@ import {
   DIMENSION_MAPPINGS,
   TOTAL_KEY,
 } from "../constants";
+import Disclaimer from "../disclaimer";
 import { THEME } from "../theme";
 import { demographicsAscending, recordIsTotalByDimension } from "../utils";
 
@@ -105,6 +106,7 @@ export default function VizRecidivismSingleFollowup({ data, dimension }) {
             setSelectedChartTitle={setSelectedChartTitle}
             width={width || 0}
           />
+          <Disclaimer type="small-data" />
         </Wrapper>
       )}
     </Measure>
