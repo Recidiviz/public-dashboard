@@ -216,6 +216,7 @@ test("supports select-all", () => {
   const { getByRole } = openMenu();
   const selectAll = getByRole("option", { name: /select all/i });
 
+  expect(selectAll).toHaveTextContent(/deselect all/i);
   act(() => userEvent.click(selectAll));
 
   // de-selects all
@@ -225,6 +226,7 @@ test("supports select-all", () => {
       "false"
     );
   });
+  expect(selectAll).toHaveTextContent(/(?<!de)select all/i);
 
   // click again to select all
   act(() => userEvent.click(selectAll));
@@ -234,6 +236,7 @@ test("supports select-all", () => {
       "true"
     );
   });
+  expect(selectAll).toHaveTextContent(/deselect all/i);
 
   // now de-select some manually and try again
   testOptions.slice(2, 6).forEach((opt) => {
@@ -244,6 +247,8 @@ test("supports select-all", () => {
     );
   });
 
+  expect(selectAll).toHaveTextContent(/(?<!de)select all/i);
+
   act(() => userEvent.click(selectAll));
   // everything is selected again
   testOptions.forEach((opt) => {
@@ -252,4 +257,5 @@ test("supports select-all", () => {
       "true"
     );
   });
+  expect(selectAll).toHaveTextContent(/deselect all/i);
 });

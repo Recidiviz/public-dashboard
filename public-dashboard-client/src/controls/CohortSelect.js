@@ -98,8 +98,10 @@ function CustomSelect({
   selected,
   setSelected,
 }) {
+  const selectAllLabel =
+    selected.length === optionsFromData.length ? "Deselect all" : "Select all";
   const visibleOptions = [
-    { id: SELECT_ALL_ID, label: "Select all" },
+    { id: SELECT_ALL_ID, label: selectAllLabel },
     ...optionsFromData,
   ];
 
