@@ -23,6 +23,7 @@ import {
   DIMENSION_KEYS,
   DIMENSION_MAPPINGS,
 } from "../constants";
+import Disclaimer from "../disclaimer";
 import {
   assignOrderedDatavizColor,
   demographicsAscending,
@@ -97,10 +98,13 @@ export default function VizRecidivismRates({
   });
 
   return (
-    <RecidivismRatesChart
-      data={chartData}
-      highlightedCohort={highlightedCohort}
-    />
+    <>
+      <RecidivismRatesChart
+        data={chartData}
+        highlightedCohort={highlightedCohort}
+      />
+      <Disclaimer type="small-data" />
+    </>
   );
 }
 
