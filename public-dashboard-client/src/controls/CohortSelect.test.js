@@ -19,7 +19,7 @@ import userEvent from "@testing-library/user-event";
 import useBreakpoint from "@w11r/use-breakpoint";
 import React from "react";
 import { act, render, within } from "../testUtils";
-import highlightFade from "../utils/highlightFade";
+import { highlightFade } from "../utils";
 import CohortSelect from "./CohortSelect";
 
 jest.mock("@w11r/use-breakpoint");

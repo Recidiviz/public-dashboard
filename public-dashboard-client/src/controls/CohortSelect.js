@@ -23,7 +23,6 @@ import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import checkMarkPath from "../assets/icons/checkMark.svg";
-import highlightFade from "../utils/highlightFade";
 import {
   ControlLabel,
   ControlValue,
@@ -33,6 +32,7 @@ import {
   DropdownWrapper as DropdownWrapperBase,
   HiddenSelect,
 } from "./shared";
+import { highlightFade } from "../utils";
 
 const SELECT_ALL_ID = "ALL";
 
@@ -225,11 +225,7 @@ function CustomSelect({
               >
                 <MenuItemContents>
                   {opt.label}
-                  <MenuItemCheckMark
-                    // alt="checked"
-                    // aria-hidden
-                    src={checkMarkPath}
-                  />
+                  <MenuItemCheckMark src={checkMarkPath} />
                 </MenuItemContents>
               </DropdownMenuItem>
             );
