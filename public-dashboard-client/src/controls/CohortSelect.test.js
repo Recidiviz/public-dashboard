@@ -19,6 +19,7 @@ import userEvent from "@testing-library/user-event";
 import useBreakpoint from "@w11r/use-breakpoint";
 import React from "react";
 import { act, render, within } from "../testUtils";
+import highlightFade from "../utils/highlightFade";
 import CohortSelect from "./CohortSelect";
 
 jest.mock("@w11r/use-breakpoint");
@@ -196,10 +197,30 @@ test("applies colors to selected items", () => {
     ).toHaveStyle(`background-color: ${opt.color}`);
   });
   const firstOption = getByRole("option", { name: testOptions[0].label });
-  act(() => userEvent.click(firstOption));
+
+  userEvent.click(firstOption);
+  // item remains highlighted while the cursor is pointed at it
+  userEvent.unhover(firstOption);
+
   expect(firstOption).not.toHaveStyle(
     `background-color: ${testOptions[0].color}`
   );
+});
+
+test("fades colors on hover", () => {
+  const { getByRole } = openMenu();
+  const firstOption = getByRole("option", { name: testOptions[0].label });
+
+  userEvent.hover(firstOption);
+
+  // highlighted item should remain the same; others should fade
+  expect(firstOption).toHaveStyle(`background-color: ${testOptions[0].color}`);
+  testOptions.slice(1).forEach((opt) => {
+    const fadedColor = highlightFade(opt.color);
+    expect(getByRole("option", { name: opt.label })).toHaveStyle(
+      `background-color: ${fadedColor}`
+    );
+  });
 });
 
 test("passes highlighted option to callback", () => {
