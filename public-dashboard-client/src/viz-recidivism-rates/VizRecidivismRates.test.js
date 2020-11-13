@@ -83,6 +83,22 @@ test("renders one line per cohort", () => {
   expect(getMainByLabelText("7 lines in a line chart")).toBeVisible();
 });
 
+test("renders the highlighted cohort even if it's not selected", () => {
+  const dimension = DIMENSION_KEYS.total;
+
+  render(
+    <VizRecidivismRates
+      data={{
+        dimension,
+        highlightedCohort: allSelectedCohorts[8],
+        recidivismRates: recidivismRatesFixture,
+        selectedCohorts: allSelectedCohorts.slice(0, 5),
+      }}
+    />
+  );
+  expect(getMainByLabelText("6 lines in a line chart")).toBeVisible();
+});
+
 test("renders one line per demographic subgroup", () => {
   const dimension = DIMENSION_KEYS.race;
   render(

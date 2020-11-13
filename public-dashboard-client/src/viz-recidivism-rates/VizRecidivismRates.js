@@ -52,7 +52,12 @@ function prependZero(records) {
  * Otherwise (i.e., a single cohort and some dimensional breakdown is selected),
  * will return one data series per demographic subgroup.
  */
-function prepareChartData({ data, dimension, selectedCohorts }) {
+function prepareChartData({
+  data,
+  dimension,
+  highlightedCohort,
+  selectedCohorts,
+}) {
   const showDemographics =
     selectedCohorts &&
     selectedCohorts.length === 1 &&
@@ -98,6 +103,10 @@ function prepareChartData({ data, dimension, selectedCohorts }) {
         if (!selectedCohorts) {
           return true;
         }
+        // highlighted cohort is included even if it's not selected
+        if (highlightedCohort && highlightedCohort.label === record.label) {
+          return true;
+        }
         return selectedCohorts.some(({ id }) => id === record.label);
       })
   );
@@ -109,6 +118,7 @@ export default function VizRecidivismRates({
   const chartData = prepareChartData({
     data: recidivismRates,
     dimension,
+    highlightedCohort,
     selectedCohorts,
   });
 
