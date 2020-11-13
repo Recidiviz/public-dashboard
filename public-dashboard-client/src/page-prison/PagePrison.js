@@ -202,10 +202,15 @@ export default function PagePrison() {
       description: (
         <>
           After release from prison, a significant proportion of formerly
-          incarcerated folks end up back in prison. This is typically termed
-          “recidivism.” The below graph shows recidivism as reincarceration;
-          that is, the proportion of individuals who are incarcerated again at
-          some point after their release.
+          incarcerated folks return to prison; this is typically termed
+          “recidivism,” and typically includes all forms of reincarceration.
+          Here, we can visualize the proportion of individuals released in a
+          given year (i.e. a “cohort”) that return to prison up to ten years
+          post-release.
+          <p>
+            <strong>Note:</strong> Race, Age, and Gender views are disabled
+            unless a single Cohort is selected.
+          </p>
         </>
       ),
       otherControls: (
@@ -234,8 +239,10 @@ export default function PagePrison() {
       title: SECTION_TITLES[PATHS.prison].recidivismSingleFollowup,
       description: (
         <>
-          We can also observe the recidivism rate over time for a given number
-          of years after original release.
+          We can also observe how the recidivism rate for a given follow-up
+          period changes over time. Typically, recidivism rates are calculated
+          using a three year follow-up period (in other words, the proportion of
+          individuals that return to prison within three years).
         </>
       ),
       otherControls: (
