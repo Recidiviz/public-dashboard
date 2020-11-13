@@ -1,3 +1,20 @@
+// Recidiviz - a data platform for criminal justice reform
+// Copyright (C) 2020 Recidiviz, Inc.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+// =============================================================================
+
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
@@ -21,6 +38,17 @@ const TooltipWrapper = styled.div`
     padding: 0 32px 32px;
     width: 100%;
   }
+`;
+
+const LabelColorSwatch = styled.div`
+  background-color: ${(props) => props.color};
+  /* border: 1px solid ${(props) => props.theme.colors.bodyLight}; */
+  border-radius: 0.5em;
+  display: inline-block;
+  height: 0.8em;
+  margin-right: 0.5em;
+  vertical-align: baseline;
+  width: 0.8em;
 `;
 
 const TooltipTitle = styled.div`
@@ -53,7 +81,10 @@ const TooltipRecord = styled.div`
 const TooltipLabel = styled.div`
   .InfoPanel & {
     font-size: 16px;
-    opacity: 0.6;
+
+    .TooltipLabel__text {
+      opacity: 0.6;
+    }
   }
 `;
 const TooltipValue = styled.div`
@@ -91,9 +122,14 @@ export const Tooltip = ({ title, records }) => {
     <TooltipWrapper>
       <TooltipTitle>{title}</TooltipTitle>
       <TooltipRecordList>
-        {records.map(({ label, value, pct }, i) => (
+        {records.map(({ color, label, value, pct }, i) => (
           <TooltipRecord key={label || i}>
-            {label && <TooltipLabel>{label}</TooltipLabel>}
+            {label && (
+              <TooltipLabel>
+                {color && <LabelColorSwatch color={color} />}
+                <span className="TooltipLabel__text">{label}</span>
+              </TooltipLabel>
+            )}
             <TooltipValue>
               {typeof value === "number" ? formatAsNumber(value) : value}
             </TooltipValue>
@@ -110,6 +146,7 @@ export const Tooltip = ({ title, records }) => {
 Tooltip.propTypes = {
   records: PropTypes.arrayOf(
     PropTypes.shape({
+      color: PropTypes.string,
       label: PropTypes.string,
       value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
         .isRequired,

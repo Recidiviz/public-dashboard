@@ -118,6 +118,7 @@ export default function RecidivismRatesChart({ data, highlightedCohort }) {
                     records: d.points
                       .filter((p) => p.data.followupYears === currentPeriod)
                       .map((p) => ({
+                        color: p.parentLine.color,
                         label: p.parentLine.label,
                         pct: p.data.recidivismRate,
                         value: `${p.data.recidivated_releases} of ${p.data.releases}`,
