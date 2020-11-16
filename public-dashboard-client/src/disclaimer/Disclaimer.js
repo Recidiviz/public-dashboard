@@ -8,8 +8,8 @@ const SMALL_DATA = (
   <>
     * Please always take note of the number of people associated with each
     proportion presented here; in cases where the counts are especially low, the
-    proportion may not be statistically significant and therefore are not
-    indicative of long-term trends.
+    proportion may not be statistically significant and therefore not indicative
+    of long-term trends.
   </>
 );
 
