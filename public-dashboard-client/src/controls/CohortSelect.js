@@ -225,7 +225,7 @@ function CustomSelect({
               >
                 <MenuItemContents>
                   {opt.label}
-                  <MenuItemCheckMark src={checkMarkPath} />
+                  <MenuItemCheckMark alt="" src={checkMarkPath} />
                 </MenuItemContents>
               </DropdownMenuItem>
             );
