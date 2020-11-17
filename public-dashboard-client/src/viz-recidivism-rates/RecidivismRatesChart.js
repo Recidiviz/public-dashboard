@@ -149,7 +149,8 @@ export default function RecidivismRatesChart({ data, highlightedCohort }) {
                     fill: "none",
                     stroke:
                       highlighted && highlighted.label !== d.label
-                        ? highlightFade(d.color)
+                        ? // transparency helps this chart because the lines can overlap
+                          highlightFade(d.color, { useOpacity: true })
                         : d.color,
                     strokeWidth: 2,
                   };
