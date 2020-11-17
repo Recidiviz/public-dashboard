@@ -101,7 +101,12 @@ export default function PagePrison() {
   // doing this inside the render loop rather than in an effect
   // to prevent an intermediate state from flashing on the chart;
   // the current value check avoids an infinite render loop
-  if (!singleCohortSelected && recidivismDimension !== DIMENSION_KEYS.total) {
+  if (
+    !singleCohortSelected &&
+    // we don't need to reset the dimension if no cohorts are selected
+    selectedCohorts.length > 1 &&
+    recidivismDimension !== DIMENSION_KEYS.total
+  ) {
     setRecidivismDimension(DIMENSION_KEYS.total);
   }
 

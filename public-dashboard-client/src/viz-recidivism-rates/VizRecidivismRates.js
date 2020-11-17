@@ -60,7 +60,7 @@ function prepareChartData({
 }) {
   const showDemographics =
     selectedCohorts &&
-    selectedCohorts.length === 1 &&
+    selectedCohorts.length <= 1 &&
     dimension !== DIMENSION_KEYS.total;
 
   const filteredData = data.filter(recordIsTotalByDimension(dimension));
