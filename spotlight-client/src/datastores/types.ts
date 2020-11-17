@@ -15,14 +15,15 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-// learn more: https://github.com/testing-library/jest-dom
+/**
+ * Abstract types
+ */
+export type NamedEntity = {
+  name: string;
+  description: string;
+};
 
-import "@testing-library/jest-dom/extend-expect";
-import fetchMock from "jest-fetch-mock";
-
-// we are globally mocking all fetch calls;
-// tests should import `fetchMock` to provide test responses
-fetchMock.enableMocks();
+/**
+ * Tenant types
+ */
+export type TenantIds = "US_ND"; // TODO: union more IDs as they are added
