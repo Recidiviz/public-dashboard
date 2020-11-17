@@ -13,7 +13,7 @@ jobs:
         working-directory: public-dashboard-client
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1.1.0
+      - uses: actions/setup-node@v1
         with:
           node-version: "12.x"
       - uses: c-hive/gha-yarn-cache@v1
@@ -27,7 +27,7 @@ jobs:
         working-directory: public-dashboard-client
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1.1.0
+      - uses: actions/setup-node@v1
         with:
           node-version: "12.x"
       - uses: c-hive/gha-yarn-cache@v1
@@ -48,7 +48,7 @@ jobs:
         working-directory: spotlight-client
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1.1.0
+      - uses: actions/setup-node@v1
         with:
           node-version: "12.x"
       - uses: c-hive/gha-yarn-cache@v1
@@ -62,7 +62,7 @@ jobs:
         working-directory: spotlight-client
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1.1.0
+      - uses: actions/setup-node@v1
         with:
           node-version: "12.x"
       - uses: c-hive/gha-yarn-cache@v1
@@ -83,7 +83,7 @@ jobs:
         working-directory: spotlight-api
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1.1.0
+      - uses: actions/setup-node@v1
         with:
           node-version: "12.x"
       - uses: c-hive/gha-yarn-cache@v1
