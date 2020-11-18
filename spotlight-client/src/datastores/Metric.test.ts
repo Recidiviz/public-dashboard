@@ -195,6 +195,8 @@ test("demographic filter", async () => {
   );
 
   const metric = createMetric({
+    // NOTE: this is a different type than in the other tests!
+    // the first metric type does not support demographic filtering
     metricType: MetricTypes.SentenceTypesCurrent,
     initOptions: metadataSource,
   });
