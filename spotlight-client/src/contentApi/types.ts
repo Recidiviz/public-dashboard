@@ -43,33 +43,41 @@ export type TenantContent = NamedEntity & {
 // ============================
 // Collection types
 
-export type CollectionTypeId = "Sentencing" | "Prison" | "Probation" | "Parole";
+export const CollectionTypeIdList = [
+  "Sentencing",
+  "Prison",
+  "Probation",
+  "Parole",
+] as const;
+export type CollectionTypeId = typeof CollectionTypeIdList[number];
 
 export type CollectionContent = NamedEntity;
 
 // ============================
 // Metric types
 
-export type MetricTypeId =
-  | "SentencePopulationCurrent"
-  | "SentenceTypesCurrent"
-  | "PrisonPopulationCurrent"
-  | "PrisonPopulationHistorical"
-  | "PrisonAdmissionReasonsCurrent"
-  | "PrisonStayLengthAggregate"
-  | "PrisonReleaseTypeAggregate"
-  | "PrisonRecidivismRateHistorical"
-  | "PrisonRecidivismRateSingleFollowupHistorical"
-  | "ProbationPopulationCurrent"
-  | "ProbationPopulationHistorical"
-  | "ProbationSuccessHistorical"
-  | "ProbationRevocationsAggregate"
-  | "ProbationProgrammingCurrent"
-  | "ParolePopulationCurrent"
-  | "ParolePopulationHistorical"
-  | "ParoleSuccessHistorical"
-  | "ParoleRevocationsAggregate"
-  | "ParoleProgrammingCurrent";
+export const MetricTypeIdList = [
+  "SentencePopulationCurrent",
+  "SentenceTypesCurrent",
+  "PrisonPopulationCurrent",
+  "PrisonPopulationHistorical",
+  "PrisonAdmissionReasonsCurrent",
+  "PrisonStayLengthAggregate",
+  "PrisonReleaseTypeAggregate",
+  "PrisonRecidivismRateHistorical",
+  "PrisonRecidivismRateSingleFollowupHistorical",
+  "ProbationPopulationCurrent",
+  "ProbationPopulationHistorical",
+  "ProbationSuccessHistorical",
+  "ProbationRevocationsAggregate",
+  "ProbationProgrammingCurrent",
+  "ParolePopulationCurrent",
+  "ParolePopulationHistorical",
+  "ParoleSuccessHistorical",
+  "ParoleRevocationsAggregate",
+  "ParoleProgrammingCurrent",
+] as const;
+export type MetricTypeId = typeof MetricTypeIdList[number];
 
 export type MetricContent = NamedEntity & { methodology: string };
 

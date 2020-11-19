@@ -15,10 +15,27 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import retrieveContent from "./retrieveContent";
-import US_ND from "./sources/us_nd";
+import { CollectionContent } from "../contentApi/types";
 
-test("returns content for the specified tenant", () => {
-  const tenantContent = retrieveContent({ tenantId: "US_ND" });
-  expect(tenantContent).toEqual(US_ND);
-});
+type InitOptions = {
+  name: string;
+  description: string;
+};
+
+export default class Collection {
+  description: string;
+
+  name: string;
+
+  constructor({ name, description }: InitOptions) {
+    this.name = name;
+    this.description = description;
+  }
+}
+
+export function createCollection({
+  name,
+  description,
+}: CollectionContent): Collection {
+  return new Collection({ name, description });
+}

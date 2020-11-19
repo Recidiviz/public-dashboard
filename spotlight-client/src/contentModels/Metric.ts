@@ -15,10 +15,24 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import retrieveContent from "./retrieveContent";
-import US_ND from "./sources/us_nd";
+import { MetricContent } from "../contentApi/types";
 
-test("returns content for the specified tenant", () => {
-  const tenantContent = retrieveContent({ tenantId: "US_ND" });
-  expect(tenantContent).toEqual(US_ND);
-});
+type InitOptions = {
+  name: string;
+  description: string;
+};
+
+export default class Metric {
+  description: string;
+
+  name: string;
+
+  constructor({ name, description }: InitOptions) {
+    this.name = name;
+    this.description = description;
+  }
+}
+
+export function createMetric({ name, description }: MetricContent): Metric {
+  return new Metric({ name, description });
+}
