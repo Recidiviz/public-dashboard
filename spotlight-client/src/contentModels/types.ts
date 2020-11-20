@@ -15,27 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { MetricContent } from "../contentApi/types";
-import { CollectionMap } from "./types";
+import { CollectionTypeId, MetricTypeId } from "../contentApi/types";
+import Collection from "./Collection";
+import Metric from "./Metric";
 
-type InitOptions = {
-  name: string;
-  description: string;
-};
-
-export default class Metric {
-  description: string;
-
-  name: string;
-
-  collections: CollectionMap = new Map();
-
-  constructor({ name, description }: InitOptions) {
-    this.name = name;
-    this.description = description;
-  }
-}
-
-export function createMetric({ name, description }: MetricContent): Metric {
-  return new Metric({ name, description });
-}
+export type CollectionMap = Map<CollectionTypeId, Collection | undefined>;
+export type MetricMap = Map<MetricTypeId, Metric | undefined>;

@@ -17,20 +17,19 @@
 
 import retrieveContent from "../contentApi/retrieveContent";
 import {
-  CollectionTypeId,
   CollectionTypeIdList,
-  MetricTypeId,
   MetricTypeIdList,
   TenantId,
 } from "../contentApi/types";
 import { createCollection } from "./Collection";
 import { createMetric } from "./Metric";
+import { CollectionMap, MetricMap } from "./types";
 
 type InitOptions = {
   name: string;
   description: string;
-  collections: Map<CollectionTypeId, ReturnType<typeof createCollection>>;
-  metrics: Map<MetricTypeId, ReturnType<typeof createMetric>>;
+  collections: CollectionMap;
+  metrics: MetricMap;
 };
 
 export default class Tenant {
@@ -64,16 +63,20 @@ function getMetricsForTenant(
   MetricTypeIdList.forEach((id) => {
     const content = allTenantContent.metrics[id];
     if (content) {
-      metricMapping.set(id, content);
+      metricMapping.set(id, createMetric(content));
     }
   });
 
   return metricMapping;
 }
 
-function getCollectionsForTenant(
-  allTenantContent: ReturnType<typeof retrieveContent>
-) {
+function getCollectionsForTenant({
+  allTenantContent,
+  metrics,
+}: {
+  allTenantContent: ReturnType<typeof retrieveContent>;
+  metrics: MetricMap;
+}) {
   const collectionMapping: InitOptions["collections"] = new Map();
 
   // not all metrics are required; content object is the source of truth
@@ -81,7 +84,10 @@ function getCollectionsForTenant(
   CollectionTypeIdList.forEach((id) => {
     const content = allTenantContent.collections[id];
     if (content) {
-      collectionMapping.set(id, content);
+      collectionMapping.set(
+        id,
+        createCollection({ ...content, typeId: id, metrics })
+      );
     }
   });
 
@@ -92,10 +98,12 @@ function getCollectionsForTenant(
 export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
   const allTenantContent = retrieveContent({ tenantId });
 
+  const metrics = getMetricsForTenant(allTenantContent);
+
   return new Tenant({
     name: allTenantContent.name,
     description: allTenantContent.description,
-    collections: getCollectionsForTenant(allTenantContent),
-    metrics: getMetricsForTenant(allTenantContent),
+    collections: getCollectionsForTenant({ allTenantContent, metrics }),
+    metrics,
   });
 }
