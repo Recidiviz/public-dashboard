@@ -85,7 +85,6 @@ type PopulationBreakdownByLocationRecord = BaseMetricFields &
     population: number;
   };
 
-// TODO: should these even be different types? why not just PopulationSnapshot?
 type PopulationSnapshot = Metric<PopulationBreakdownByLocationRecord>;
 
 type SentenceTypeByLocationRecord = BaseMetricFields &
@@ -103,11 +102,6 @@ type InitParams<RecordFormat> = {
   contentSource: MetricsContent;
   dataTransformer: DataTransformer<RecordFormat>;
   sourceFileName: string;
-  // NOTE: these fields can only be populated if the RecordFormat contains the requisite fields;
-  // however, they are not REQUIRED to be populated in those cases (e.g., population snapshots
-  // contain demographic fields but do not need to support demographic filters).
-  // I think this means it's possible to inadvertently break a filter by setting it to `undefined`
-  // without triggering a compiler error. Maybe that can be fixed but I have not done so here
   defaultLocalityId: RecordFormat extends LocalityFields ? string : undefined;
   defaultDemographicView: RecordFormat extends DemographicFields
     ? DemographicView
