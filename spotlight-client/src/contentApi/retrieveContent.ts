@@ -24,6 +24,9 @@ type RetrieveContentParams = {
   tenantId: TenantId;
 };
 
+/**
+ * Provides the entire content object for the tenant specified by `tenantId`.
+ */
 export default function retrieveContent({
   tenantId,
 }: RetrieveContentParams): TenantContent {

@@ -23,6 +23,11 @@ type InitOptions = {
   description: string;
 };
 
+/**
+ * Represents a single dataset backed by data from our metrics API.
+ * The recommended way to instantiate a `Metric` is with the `createMetric`
+ * factory exported from this module.
+ */
 export default class Metric {
   description: string;
 
@@ -36,6 +41,9 @@ export default class Metric {
   }
 }
 
+/**
+ * Factory function for creating an instance of `Metric`.
+ */
 export function createMetric({ name, description }: MetricContent): Metric {
   return new Metric({ name, description });
 }

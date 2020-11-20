@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { assertNever } from "assert-never";
-import { CollectionTypeId } from "../contentApi/types";
+import { CollectionTypeId, MetricTypeId } from "../contentApi/types";
 import { MetricMap } from "./types";
 
 type InitOptions = {
@@ -25,6 +25,12 @@ type InitOptions = {
   metrics: MetricMap;
 };
 
+/**
+ * Brings together a set of thematically related `Metric`s with collection-level
+ * metadata. The recommended way to instantiate a `Collection` is with the
+ * `createCollection` factory exported from this module; it contains all logic
+ * needed for assembling known `Collection` kinds.
+ */
 export default class Collection {
   description: string;
 
@@ -39,6 +45,24 @@ export default class Collection {
   }
 }
 
+function getMetricMapping({
+  allMetrics,
+  idsToInclude,
+}: {
+  allMetrics: MetricMap;
+  idsToInclude: MetricTypeId[];
+}): MetricMap {
+  return new Map(
+    idsToInclude
+      .map((id) => [id, allMetrics.get(id)] as const)
+      .filter(([id, metric]) => metric !== undefined)
+  );
+}
+
+/**
+ * Factory function for creating a `Collection` instance
+ * of the kind specified by the `typeId` option.
+ */
 export function createCollection({
   name,
   description,
@@ -50,24 +74,28 @@ export function createCollection({
   // that we want to associate with this Collection instance
   switch (typeId) {
     case "Sentencing":
-      collectionMetrics = new Map(
-        SentenceMetricIdList.map((id) => [id, metrics.get(id)])
-      );
+      collectionMetrics = getMetricMapping({
+        idsToInclude: SentenceMetricIdList,
+        allMetrics: metrics,
+      });
       break;
     case "Prison":
-      collectionMetrics = new Map(
-        PrisonMetricIdList.map((id) => [id, metrics.get(id)])
-      );
+      collectionMetrics = getMetricMapping({
+        idsToInclude: PrisonMetricIdList,
+        allMetrics: metrics,
+      });
       break;
     case "Probation":
-      collectionMetrics = new Map(
-        ProbationMetricIdList.map((id) => [id, metrics.get(id)])
-      );
+      collectionMetrics = getMetricMapping({
+        idsToInclude: ProbationMetricIdList,
+        allMetrics: metrics,
+      });
       break;
     case "Parole":
-      collectionMetrics = new Map(
-        ParoleMetricIdList.map((id) => [id, metrics.get(id)])
-      );
+      collectionMetrics = getMetricMapping({
+        idsToInclude: ParoleMetricIdList,
+        allMetrics: metrics,
+      });
       break;
     default:
       assertNever(typeId);
@@ -89,12 +117,12 @@ export function createCollection({
   return collection;
 }
 
-const SentenceMetricIdList = [
+const SentenceMetricIdList: MetricTypeId[] = [
   "SentencePopulationCurrent",
   "SentenceTypesCurrent",
-] as const;
+];
 
-const PrisonMetricIdList = [
+const PrisonMetricIdList: MetricTypeId[] = [
   "PrisonAdmissionReasonsCurrent",
   "PrisonPopulationCurrent",
   "PrisonPopulationHistorical",
@@ -102,20 +130,20 @@ const PrisonMetricIdList = [
   "PrisonRecidivismRateSingleFollowupHistorical",
   "PrisonReleaseTypeAggregate",
   "PrisonStayLengthAggregate",
-] as const;
+];
 
-const ProbationMetricIdList = [
+const ProbationMetricIdList: MetricTypeId[] = [
   "ProbationPopulationCurrent",
   "ProbationPopulationHistorical",
   "ProbationProgrammingCurrent",
   "ProbationRevocationsAggregate",
   "ProbationSuccessHistorical",
-] as const;
+];
 
-const ParoleMetricIdList = [
+const ParoleMetricIdList: MetricTypeId[] = [
   "ParolePopulationCurrent",
   "ParolePopulationHistorical",
   "ParoleProgrammingCurrent",
   "ParoleRevocationsAggregate",
   "ParoleSuccessHistorical",
-] as const;
+];

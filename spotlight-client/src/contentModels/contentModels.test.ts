@@ -85,42 +85,42 @@ test.each([
   tenant.collections.forEach((collection, collectionId) => {
     const metricsInCollection = (collection as Collection).metrics;
     let expectedMetricCount = 0;
-    let expectedMetricKeys: MetricTypeId[] = [];
+    const expectedMetricKeys: MetricTypeId[] = [];
     switch (collectionId) {
       case "Sentencing":
-        expectedMetricKeys = [
+        expectedMetricKeys.push(
           "SentencePopulationCurrent",
-          "SentenceTypesCurrent",
-        ];
+          "SentenceTypesCurrent"
+        );
         break;
       case "Prison":
-        expectedMetricKeys = [
+        expectedMetricKeys.push(
           "PrisonAdmissionReasonsCurrent",
           "PrisonPopulationCurrent",
           "PrisonPopulationHistorical",
           "PrisonRecidivismRateHistorical",
           "PrisonRecidivismRateSingleFollowupHistorical",
           "PrisonReleaseTypeAggregate",
-          "PrisonStayLengthAggregate",
-        ];
+          "PrisonStayLengthAggregate"
+        );
         break;
       case "Probation":
-        expectedMetricKeys = [
+        expectedMetricKeys.push(
           "ProbationPopulationCurrent",
           "ProbationPopulationHistorical",
           "ProbationProgrammingCurrent",
           "ProbationRevocationsAggregate",
-          "ProbationSuccessHistorical",
-        ];
+          "ProbationSuccessHistorical"
+        );
         break;
       case "Parole":
-        expectedMetricKeys = [
+        expectedMetricKeys.push(
           "ParolePopulationCurrent",
           "ParolePopulationHistorical",
           "ParoleProgrammingCurrent",
           "ParoleRevocationsAggregate",
-          "ParoleSuccessHistorical",
-        ];
+          "ParoleSuccessHistorical"
+        );
         break;
       default:
         // if some new collection type appears that isn't reflected here,
@@ -128,14 +128,16 @@ test.each([
         // so we don't need to do anything special as a fallback
         break;
     }
-    // the collection should contain all of the metrics enumerated above and no others
+    // the collection should contain some or all of the metrics enumerated above and no others
     expectedMetricKeys.forEach((key) => {
-      expectedMetricCount += 1;
-      expect(tenant.metrics.get(key)).toBe(metricsInCollection.get(key));
-      if (tenant.metrics.get(key)) {
-        expect(metricsInCollection.get(key) instanceof Metric).toBe(true);
-      } else {
-        expect(metricsInCollection.get(key)).toBeUndefined();
+      if (tenant.metrics.has(key)) {
+        expectedMetricCount += 1;
+        expect(tenant.metrics.get(key)).toBe(metricsInCollection.get(key));
+        if (tenant.metrics.get(key)) {
+          expect(metricsInCollection.get(key) instanceof Metric).toBe(true);
+        } else {
+          expect(metricsInCollection.get(key)).toBeUndefined();
+        }
       }
     });
 
@@ -150,16 +152,16 @@ test("collections and metrics without content are undefined", () => {
   // collection exists but one of its metrics doesn't
   const prisonCollection = tenant.collections.get("Prison");
   expect(prisonCollection instanceof Collection).toBe(true);
-  expect(tenant.metrics.get("PrisonReleaseTypeAggregate")).toBeUndefined();
+  expect(tenant.metrics.has("PrisonReleaseTypeAggregate")).toBe(false);
   expect(
-    // @ts-expect-error: prisonCollection is defined, we just tested it
-    prisonCollection.metrics.get("PrisonReleaseTypeAggregate")
-  ).toBeUndefined();
+    // @ts-expect-error: prisonCollection is not undefined, we just tested it
+    prisonCollection.metrics.has("PrisonReleaseTypeAggregate")
+  ).toBe(false);
 
   // metric exists but one of its collections doesn't
-  expect(tenant.collections.get("Sentencing")).toBeUndefined();
+  expect(tenant.collections.has("Sentencing")).toBe(false);
   const sentenceMetric = tenant.metrics.get("SentencePopulationCurrent");
   expect(sentenceMetric instanceof Metric).toBe(true);
-  // @ts-expect-error: sentenceMetric is defined, we just tested it
-  expect(sentenceMetric.collections.get("Sentencing")).toBeUndefined();
+  // @ts-expect-error: sentenceMetric is not undefined, we just tested it
+  expect(sentenceMetric.collections.has("Sentencing")).toBe(false);
 });

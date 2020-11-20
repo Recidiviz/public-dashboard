@@ -32,6 +32,13 @@ type InitOptions = {
   metrics: MetricMap;
 };
 
+/**
+ * Represents a jurisdiction or entity (e.g. a U.S. state) that owns `Metric`s.
+ * The recommended way to instantiate a `Tenant` is with the `createTenant` factory
+ * exported from this module; it contains all logic needed for retrieving the
+ * `Tenant`'s "content" object, which contains all metadata and determines which
+ * `Collection`s and `Metric`s will be instantiated for the `Tenant`.
+ */
 export default class Tenant {
   name: string;
 
@@ -94,7 +101,9 @@ function getCollectionsForTenant({
   return collectionMapping;
 }
 
-// eslint-disable-next-line import/prefer-default-export
+/**
+ * Factory function for creating an instance of the `Tenant` specified by `tenantId`.
+ */
 export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
   const allTenantContent = retrieveContent({ tenantId });
 
