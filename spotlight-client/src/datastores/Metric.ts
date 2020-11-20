@@ -31,10 +31,10 @@ type MetricFactoryOptionsBase = MetricsContent;
 type TotalIdentifier = "ALL";
 const TOTAL_KEY: TotalIdentifier = "ALL";
 
-type DemographicView = "total" | "race" | "gender" | "age";
+type DemographicView = "total" | "race" | "gender" | "age" | "nofilter";
 
 const DIMENSION_DATA_KEYS: Record<
-  Exclude<DemographicView, "total">,
+  Exclude<DemographicView, "total" | "nofilter">,
   keyof DemographicFields
 > = {
   age: "ageBucket",
@@ -108,8 +108,8 @@ type InitParams<RecordFormat> = {
   // contain demographic fields but do not need to support demographic filters).
   // I think this means it's possible to inadvertently break a filter by setting it to `undefined`
   // without triggering a compiler error. Maybe that can be fixed but I have not done so here
-  defaultLocalityId?: RecordFormat extends LocalityFields ? string : undefined;
-  defaultDemographicView?: RecordFormat extends DemographicFields
+  defaultLocalityId: RecordFormat extends LocalityFields ? string : undefined;
+  defaultDemographicView: RecordFormat extends DemographicFields
     ? DemographicView
     : undefined;
 };
@@ -203,7 +203,7 @@ export default Metric;
  * that will exclude totals and breakdowns for all other views
  */
 function recordIsTotalByDimension(
-  demographicView: DemographicView
+  demographicView: Exclude<DemographicView, "nofilter">
 ): (record: RawRecord) => boolean {
   const keysEnum = { ...DIMENSION_DATA_KEYS };
 
@@ -305,6 +305,7 @@ export function createMetric({
         contentSource: initOptions,
         dataTransformer: transformSentencePopulationCurrent,
         defaultLocalityId: "ALL",
+        defaultDemographicView: "nofilter",
         sourceFileName: "sentence_type_by_district_by_demographics",
       });
     case MetricTypes.SentenceTypesCurrent:
