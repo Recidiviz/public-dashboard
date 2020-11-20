@@ -145,7 +145,7 @@ test.each([
   });
 });
 
-test("collections and metrics without content are undefined", () => {
+test("collections and metrics without content are excluded from mapping", () => {
   retrieveContentMock.mockReturnValue(partialFixture);
   const tenant = createTenant({ tenantId: "US_ND" });
 
