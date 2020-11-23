@@ -1,0 +1,20 @@
+name: "Spotlight API"
+on:
+  push:
+    paths:
+      - "spotlight-api/**"
+defaults:
+  run:
+    working-directory: spotlight-api
+jobs:
+  lint:
+    name: Lint Spotlight API
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - uses: c-hive/gha-yarn-cache@v1
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint

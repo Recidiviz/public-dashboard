@@ -1,0 +1,34 @@
+name: "Spotlight Client"
+on:
+  push:
+    paths:
+      - "spotlight-client/**"
+defaults:
+  run:
+    working-directory: public-dashboard-client
+jobs:
+  lint-spotlight-client:
+    name: Lint Spotlight Client
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - uses: c-hive/gha-yarn-cache@v1
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+  test-spotlight-client:
+    name: Test Spotlight Client
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: spotlight-client
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - uses: c-hive/gha-yarn-cache@v1
+      - run: yarn install --frozen-lockfile
+      - run: yarn test

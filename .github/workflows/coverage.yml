@@ -1,26 +1,9 @@
-name: "Build Status"
-
+name: "Test Coverage"
 on:
-  - push
   - pull_request
-
 jobs:
-  lint-public-dashboard:
-    name: Lint Public Dashboard
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: public-dashboard-client
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
-      - uses: c-hive/gha-yarn-cache@v1
-      - run: yarn install --frozen-lockfile
-      - run: yarn lint
   test-public-dashboard:
-    name: Test Public Dashboard
+    name: Public Dashboard Test Coverage
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -40,22 +23,8 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: public-dashboard-client/coverage/lcov.info
-  lint-spotlight-client:
-    name: Lint Spotlight Client
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: spotlight-client
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
-      - uses: c-hive/gha-yarn-cache@v1
-      - run: yarn install --frozen-lockfile
-      - run: yarn lint
   test-spotlight-client:
-    name: Test Spotlight Client
+    name: Spotlight Client Test Coverage
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -75,20 +44,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: spotlight-client/coverage/lcov.info
-  lint-spotlight-api:
-    name: Lint Spotlight API
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: spotlight-api
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
-      - uses: c-hive/gha-yarn-cache@v1
-      - run: yarn install --frozen-lockfile
-      - run: yarn lint
   finish-coveralls:
     name: Finish Coveralls
     runs-on: ubuntu-latest
