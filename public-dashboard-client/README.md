@@ -2,6 +2,8 @@
 
 This package is a React client application for the original Spotlight public dashboard website (North Dakota only). It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+![Public Dashboard Client](https://github.com/Recidiviz/public-dashboard/workflows/Public%20Dashboard%20Client/badge.svg)
+
 ## Development
 
 ### Getting set up

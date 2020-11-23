@@ -2,6 +2,8 @@
 
 This package is a React client application for the next-generation Spotlight public data publishing website (not yet launched). It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and is written in [TypeScript](https://www.typescriptlang.org/docs).
 
+![Spotlight Client](https://github.com/Recidiviz/public-dashboard/workflows/Spotlight%20Client/badge.svg)
+
 ## Development
 
 ### Getting set up
