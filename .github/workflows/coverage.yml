@@ -1,6 +1,10 @@
 name: "Test Coverage"
 on:
-  - pull_request
+  pull_request:
+  # make sure we also keep master coverage up to date for comparisons
+  push:
+    branches:
+      - master
 jobs:
   test-public-dashboard:
     name: Public Dashboard Test Coverage
