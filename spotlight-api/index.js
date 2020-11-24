@@ -16,38 +16,8 @@
 // =============================================================================
 
 require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
 const http = require("http");
-const morgan = require("morgan");
-const helmet = require("helmet");
-const zip = require("express-easy-zip");
-const api = require("./routes/api");
-
-const app = express();
-
-app.use(cors());
-
-const port = process.env.PORT || 3001;
-app.set("port", port);
-
-app.use(morgan("dev"));
-app.use(helmet());
-app.use(zip());
-
-app.get("/api/:tenantId/download", api.download);
-app.get("/api/:tenantId/parole", api.parole);
-app.get("/api/:tenantId/prison", api.prison);
-app.get("/api/:tenantId/probation", api.probation);
-app.get("/api/:tenantId/race", api.race);
-app.get("/api/:tenantId/sentencing", api.sentencing);
-
-// An App Engine-specific API for handling warmup requests on new instance initialization
-app.get("/_ah/warmup", () => {
-  // The server automatically launches initialization of the metric cache, so nothing is needed here
-  // eslint-disable-next-line no-console
-  console.log("Responding to warmup request...");
-});
+const { app, port } = require("./app");
 
 const server = http.createServer(app);
 

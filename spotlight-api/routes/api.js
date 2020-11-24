@@ -129,6 +129,20 @@ function sentencing(req, res) {
   );
 }
 
+function metricsByName(req, res) {
+  const { metrics } = req.body;
+  if (!Array.isArray(metrics)) {
+    res.status(400).json({ error: "request is missing `metrics` list" });
+  } else {
+    metricsApi.fetchMetricsByName(
+      req.params.tenantId,
+      metrics,
+      isDemoMode,
+      responder(res)
+    );
+  }
+}
+
 module.exports = {
   download,
   parole,
@@ -136,4 +150,5 @@ module.exports = {
   probation,
   sentencing,
   race,
+  metricsByName,
 };

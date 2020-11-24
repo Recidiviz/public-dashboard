@@ -15,8 +15,10 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-const path = require("path");
-const ReadLines = require("n-readlines");
+const {
+  getFirstRecordFromFixture,
+  expectedMetricsByGroup,
+} = require("../testUtils");
 const {
   fetchMetricsByName,
   fetchParoleMetrics,
@@ -25,7 +27,6 @@ const {
   fetchRaceMetrics,
   fetchSentencingMetrics,
   memoryCache,
-  FILES_BY_METRIC_TYPE,
 } = require("./metricsApi");
 const objectStorage = require("./objectStorage");
 
@@ -54,27 +55,15 @@ afterEach(() => {
 });
 
 /**
- * Parses and returns the first line of the JSONLines fixture,
- * for use as a proxy for correct filesystem data fetching
- */
-function getFirstRecordFromFixture(metricName) {
-  const lineReader = new ReadLines(
-    path.resolve(__dirname, `./demo_data/${metricName}`)
-  );
-  return JSON.parse(lineReader.next().toString());
-}
-
-/**
  * Freezes metric names and returns a callback that verifies them
  * against a mock GCS client implementation.
  */
-function getGCSCallback(fileNames, done) {
-  const frozenNames = [...fileNames];
+function getGCSCallback(metricNames, done) {
+  const frozenNames = [...metricNames];
   return (err, response) => {
     try {
-      frozenNames.forEach((fileName) => {
-        const [metricName] = fileName.split(".");
-        expect(response[metricName]).toEqual([{ test: fileName }]);
+      frozenNames.forEach((metricName) => {
+        expect(response[metricName]).toEqual([{ test: `${metricName}.json` }]);
       });
       if (done) done();
     } catch (e) {
@@ -87,14 +76,13 @@ function getGCSCallback(fileNames, done) {
  * Freezes metric names and returns a callback that verifies them
  * against demo_data fixtures.
  */
-function getFsCallback(fileNames, done) {
-  const frozenNames = [...fileNames];
+function getFsCallback(metricNames, done) {
+  const frozenNames = [...metricNames];
   return (err, response) => {
     try {
-      frozenNames.forEach((fileName) => {
-        const [metricName] = fileName.split(".");
+      frozenNames.forEach((metricName) => {
         expect(response[metricName]).toContainEqual(
-          getFirstRecordFromFixture(fileName)
+          getFirstRecordFromFixture(`${metricName}.json`)
         );
       });
       if (done) done();
@@ -105,16 +93,16 @@ function getFsCallback(fileNames, done) {
 }
 
 const fileGroupMatrix = [
-  [fetchParoleMetrics, "GCS", FILES_BY_METRIC_TYPE.parole],
-  [fetchParoleMetrics, "filesystem", FILES_BY_METRIC_TYPE.parole],
-  [fetchPrisonMetrics, "GCS", FILES_BY_METRIC_TYPE.prison],
-  [fetchPrisonMetrics, "filesystem", FILES_BY_METRIC_TYPE.prison],
-  [fetchProbationMetrics, "GCS", FILES_BY_METRIC_TYPE.probation],
-  [fetchProbationMetrics, "filesystem", FILES_BY_METRIC_TYPE.probation],
-  [fetchSentencingMetrics, "GCS", FILES_BY_METRIC_TYPE.sentencing],
-  [fetchSentencingMetrics, "filesystem", FILES_BY_METRIC_TYPE.sentencing],
-  [fetchRaceMetrics, "GCS", FILES_BY_METRIC_TYPE.race],
-  [fetchRaceMetrics, "filesystem", FILES_BY_METRIC_TYPE.race],
+  [fetchParoleMetrics, "GCS", expectedMetricsByGroup.parole],
+  [fetchParoleMetrics, "filesystem", expectedMetricsByGroup.parole],
+  [fetchPrisonMetrics, "GCS", expectedMetricsByGroup.prison],
+  [fetchPrisonMetrics, "filesystem", expectedMetricsByGroup.prison],
+  [fetchProbationMetrics, "GCS", expectedMetricsByGroup.probation],
+  [fetchProbationMetrics, "filesystem", expectedMetricsByGroup.probation],
+  [fetchSentencingMetrics, "GCS", expectedMetricsByGroup.sentencing],
+  [fetchSentencingMetrics, "filesystem", expectedMetricsByGroup.sentencing],
+  [fetchRaceMetrics, "GCS", expectedMetricsByGroup.race],
+  [fetchRaceMetrics, "filesystem", expectedMetricsByGroup.race],
 ];
 
 test.each(fileGroupMatrix)(
