@@ -20,7 +20,12 @@ const ReadLines = require("n-readlines");
 const {
   fetchMetricsByName,
   fetchParoleMetrics,
+  fetchPrisonMetrics,
+  fetchProbationMetrics,
+  fetchRaceMetrics,
+  fetchSentencingMetrics,
   memoryCache,
+  FILES_BY_METRIC_TYPE,
 } = require("./metricsApi");
 const objectStorage = require("./objectStorage");
 
@@ -54,7 +59,7 @@ afterEach(() => {
  */
 function getFirstRecordFromFixture(metricName) {
   const lineReader = new ReadLines(
-    path.resolve(__dirname, `./demo_data/${metricName}.json`)
+    path.resolve(__dirname, `./demo_data/${metricName}`)
   );
   return JSON.parse(lineReader.next().toString());
 }
@@ -63,12 +68,13 @@ function getFirstRecordFromFixture(metricName) {
  * Freezes metric names and returns a callback that verifies them
  * against a mock GCS client implementation.
  */
-function getGCSCallback(metricNames, done) {
-  const frozenNames = [...metricNames];
+function getGCSCallback(fileNames, done) {
+  const frozenNames = [...fileNames];
   return (err, response) => {
     try {
-      frozenNames.forEach((metricName) => {
-        expect(response[metricName]).toEqual([{ test: `${metricName}.json` }]);
+      frozenNames.forEach((fileName) => {
+        const [metricName] = fileName.split(".");
+        expect(response[metricName]).toEqual([{ test: fileName }]);
       });
       if (done) done();
     } catch (e) {
@@ -81,13 +87,14 @@ function getGCSCallback(metricNames, done) {
  * Freezes metric names and returns a callback that verifies them
  * against demo_data fixtures.
  */
-function getFsCallback(metricNames, done) {
-  const frozenNames = [...metricNames];
+function getFsCallback(fileNames, done) {
+  const frozenNames = [...fileNames];
   return (err, response) => {
     try {
-      frozenNames.forEach((metricName) => {
+      frozenNames.forEach((fileName) => {
+        const [metricName] = fileName.split(".");
         expect(response[metricName]).toContainEqual(
-          getFirstRecordFromFixture(metricName)
+          getFirstRecordFromFixture(fileName)
         );
       });
       if (done) done();
@@ -97,17 +104,22 @@ function getFsCallback(metricNames, done) {
   };
 }
 
-const paroleMetrics = [
-  "supervision_population_by_district_by_demographics",
-  "supervision_population_by_month_by_demographics",
-  "supervision_revocations_by_period_by_type_by_demographics",
-  "supervision_success_by_month",
-  "supervision_success_by_period_by_demographics",
+const fileGroupMatrix = [
+  [fetchParoleMetrics, "GCS", FILES_BY_METRIC_TYPE.parole],
+  [fetchParoleMetrics, "filesystem", FILES_BY_METRIC_TYPE.parole],
+  [fetchPrisonMetrics, "GCS", FILES_BY_METRIC_TYPE.prison],
+  [fetchPrisonMetrics, "filesystem", FILES_BY_METRIC_TYPE.prison],
+  [fetchProbationMetrics, "GCS", FILES_BY_METRIC_TYPE.probation],
+  [fetchProbationMetrics, "filesystem", FILES_BY_METRIC_TYPE.probation],
+  [fetchSentencingMetrics, "GCS", FILES_BY_METRIC_TYPE.sentencing],
+  [fetchSentencingMetrics, "filesystem", FILES_BY_METRIC_TYPE.sentencing],
+  [fetchRaceMetrics, "GCS", FILES_BY_METRIC_TYPE.race],
+  [fetchRaceMetrics, "filesystem", FILES_BY_METRIC_TYPE.race],
 ];
 
-test.each([["GCS"], ["filesystem"]])(
-  "fetches parole files from %s",
-  (source, done) => {
+test.each(fileGroupMatrix)(
+  "%p fetches files from %s",
+  (testFn, source, metricsList, done) => {
     expect.hasAssertions();
 
     let isDemo;
@@ -115,17 +127,17 @@ test.each([["GCS"], ["filesystem"]])(
 
     if (source === "GCS") {
       isDemo = false;
-      callback = getGCSCallback(paroleMetrics, done);
+      callback = getGCSCallback(metricsList, done);
     } else if (source === "filesystem") {
       isDemo = true;
-      callback = getFsCallback(paroleMetrics, done);
+      callback = getFsCallback(metricsList, done);
     }
 
-    fetchParoleMetrics(isDemo, "test_id", callback);
+    testFn(isDemo, "test_id", callback);
   }
 );
 
-test.each([["GCS"], ["filesystem"]])(
+test.each(["GCS", "filesystem"])(
   "fetches metrics by name from %s",
   async (source) => {
     expect.hasAssertions();

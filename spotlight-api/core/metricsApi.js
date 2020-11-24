@@ -354,4 +354,5 @@ module.exports = {
   fetchSentencingMetrics,
   fetchRaceMetrics,
   memoryCache,
+  FILES_BY_METRIC_TYPE,
 };
