@@ -39,7 +39,7 @@ test.each([
   ["probation", expectedMetricsByGroup.probation],
   ["race", expectedMetricsByGroup.race],
   ["sentencing", expectedMetricsByGroup.sentencing],
-])("%s endpoint", async (endpoint, expectedMetrics) => {
+])("/%s endpoint", async (endpoint, expectedMetrics) => {
   const response = await request(app).get(`/api/test_id/${endpoint}`);
 
   expect(response.status).toBe(200);
@@ -51,7 +51,7 @@ test.each([
   });
 });
 
-test("request metrics by name", async () => {
+test("/public endpoint", async () => {
   const response = await request(app)
     .post("/api/test_id/public")
     .send({
@@ -72,16 +72,26 @@ test("cannot GET /public", async () => {
   expect(response.status).toBe(404);
 });
 
-test("/public request is well formed", async () => {
+test("/public requires request format", async () => {
   // metrics must be included in body
   const responseMissing = await request(app).post("/api/test_id/public");
   expect(responseMissing.status).toBe(400);
-  expect(responseMissing.body.error).toBeDefined();
+  expect(responseMissing.body.error).toMatch("missing metrics");
 
   // metrics must be an array
   const responseWrongFormat = await request(app)
     .post("/api/test_id/public")
     .send({ metrics: "racial_disparities" });
   expect(responseWrongFormat.status).toBe(400);
-  expect(responseWrongFormat.body.error).toBeDefined();
+  expect(responseWrongFormat.body.error).toMatch("missing metrics");
+});
+
+test("/public errors on nonexistent files", async () => {
+  const response = await request(app)
+    .post("/api/test_id/public")
+    .send({
+      metrics: ["racial_disparities", "this_file_does_not_exist"],
+    });
+  expect(response.status).toBe(500);
+  expect(response.body.error).toMatch("not registered");
 });

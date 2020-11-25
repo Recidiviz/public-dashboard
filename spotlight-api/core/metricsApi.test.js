@@ -28,13 +28,15 @@ const {
   fetchSentencingMetrics,
   memoryCache,
 } = require("./metricsApi");
-const objectStorage = require("./objectStorage");
+const objectStorageMock = require("./objectStorage");
 
 jest.mock("./objectStorage");
 
+const TENANT_ID = "test_id";
+
 beforeEach(() => {
   // this should be the only method we care about here
-  objectStorage.downloadFile.mockImplementation(
+  objectStorageMock.downloadFile.mockImplementation(
     (bucketName, tenantId, srcFilename) => {
       // this comes from an env var that we are not currently providing in the test env
       expect(bucketName).toBeUndefined();
@@ -150,7 +152,7 @@ test.each(["GCS", "filesystem"])(
       callbackGetter(singleName)
     );
 
-    // (these are not all in the same metric group as defined by other fetch functions)
+    // these are not all in the same metric group as defined by other fetch functions
     const multipleNames = [
       "incarceration_releases_by_type_by_period",
       "supervision_success_by_month",
@@ -162,19 +164,79 @@ test.each(["GCS", "filesystem"])(
       isDemo,
       callbackGetter(multipleNames)
     );
+  }
+);
+
+test.each(["GCS", "filesystem"])(
+  "handles errors when fetching metrics by name from %s",
+  async (source) => {
+    expect.hasAssertions();
+
+    let isDemo;
+
+    if (source === "GCS") {
+      isDemo = false;
+    } else if (source === "filesystem") {
+      isDemo = true;
+    }
 
     const namesWithInvalidMember = [
       "recidivism_rates_by_cohort_by_year",
       "this_file_does_not_exist",
     ];
 
-    await expect(async () => {
-      await fetchMetricsByName(
-        "test_id",
-        namesWithInvalidMember,
-        isDemo,
-        callbackGetter(namesWithInvalidMember)
-      );
-    }).rejects.toThrow("not registered");
+    await fetchMetricsByName(
+      "test_id",
+      namesWithInvalidMember,
+      isDemo,
+      (err, results) => {
+        expect(results).toBeFalsy();
+        expect(err.message).toMatch("not registered");
+      }
+    );
   }
 );
+
+test("caches metric files by name", async () => {
+  expect.hasAssertions();
+  const isDemo = false;
+
+  const metricNames = [
+    "incarceration_releases_by_type_by_period",
+    "supervision_success_by_month",
+  ];
+  await fetchMetricsByName(TENANT_ID, metricNames, isDemo, () => {});
+  expect(objectStorageMock.downloadFile.mock.calls.length).toBe(2);
+
+  objectStorageMock.downloadFile.mockClear();
+
+  // fetching the same ones again should hit the cache
+  await fetchMetricsByName(TENANT_ID, metricNames, isDemo, () => {});
+  expect(objectStorageMock.downloadFile.mock.calls.length).toBe(0);
+});
+
+test("partially cached requests only fetch missed files", async () => {
+  expect.hasAssertions();
+  const isDemo = false;
+
+  // warm the cache with these metrics before requesting others
+  const initialMetrics = [
+    "incarceration_releases_by_type_by_period",
+    "supervision_success_by_month",
+  ];
+  await fetchMetricsByName(TENANT_ID, initialMetrics, isDemo, () => {});
+
+  objectStorageMock.downloadFile.mockClear();
+
+  const overlappingMetrics = [
+    // this one should already be cached
+    "supervision_success_by_month",
+    // this one should be fetched from GCS
+    "racial_disparities",
+  ];
+  await fetchMetricsByName(TENANT_ID, overlappingMetrics, isDemo, () => {});
+  expect(objectStorageMock.downloadFile.mock.calls.length).toBe(1);
+  expect(objectStorageMock.downloadFile.mock.calls[0][2]).toBe(
+    `${overlappingMetrics[1]}.json`
+  );
+});

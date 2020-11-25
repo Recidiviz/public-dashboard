@@ -32,7 +32,7 @@ const isDemoMode = demoMode.isDemoMode();
 function responder(res) {
   return function respond(err, data) {
     if (err) {
-      res.send(err);
+      res.status(500).json({ error: err.message });
     } else {
       res.send(data);
     }
@@ -132,7 +132,9 @@ function sentencing(req, res) {
 function metricsByName(req, res) {
   const { metrics } = req.body;
   if (!Array.isArray(metrics)) {
-    res.status(400).json({ error: "request is missing `metrics` list" });
+    res
+      .status(400)
+      .json({ error: "request is missing metrics array parameter" });
   } else {
     metricsApi.fetchMetricsByName(
       req.params.tenantId,

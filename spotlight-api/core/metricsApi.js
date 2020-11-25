@@ -289,10 +289,7 @@ function fetchMetrics(tenantId, metricType, file, isDemo, callback) {
  * the keys of `results` will map to the strings in `metrics`.
  * @return {Promise<void>}
  */
-function fetchMetricsByName(tenantId, metricNames, isDemo, callback) {
-  // TODO: how best to cache this?
-  const cacheKey = JSON.stringify(metricNames);
-
+async function fetchMetricsByName(tenantId, metricNames, isDemo, callback) {
   let fetcher = null;
   let source = null;
   if (isDemo) {
@@ -303,27 +300,52 @@ function fetchMetricsByName(tenantId, metricNames, isDemo, callback) {
     fetcher = fetchFilesFromGCS;
   }
 
-  // eslint-disable-next-line no-console
-  console.log(`Fetching ${cacheKey} metrics from ${source}...`);
-  const filenames = normalizeMetricFilenames({
-    names: metricNames,
-    registeredFiles: ALL_METRIC_FILES,
-  });
-  const metricPromises = fetcher(tenantId.toUpperCase(), filenames);
+  /** @type {Record<string, DeserializedFile>} */
+  const results = {};
 
-  return Promise.all(metricPromises).then((allFileContents) => {
-    const results = {};
-    allFileContents.forEach((contents) => {
-      // eslint-disable-next-line no-console
-      console.log(`Fetched contents for fileKey ${contents.fileKey}`);
-      const deserializedFile = convertDownloadToJson(contents.contents);
-      results[contents.fileKey] = deserializedFile;
+  try {
+    /** @type {DeserializedFile[]} */
+    const deserializedFiles = await Promise.all(
+      metricNames.map(async (metricName) => {
+        // we want to cache these files individually to avoid redundancy,
+        // but unfortunately memoryCache.wrap does not handle partial cache hits well
+        // (see https://github.com/BryanDonovan/node-cache-manager/issues/130),
+        // so we are going to manage the cache manually
+        const cacheKey = `${tenantId}-${metricName}`;
+        /** @type {DeserializedFile | void} */
+        const cachedResult = await memoryCache.get(cacheKey);
+        if (cachedResult) return cachedResult;
+
+        // eslint-disable-next-line no-console
+        console.log(`Fetching ${cacheKey} metric from ${source}...`);
+
+        const [filePromise] = fetcher(
+          tenantId.toUpperCase(),
+          normalizeMetricFilenames({
+            names: [metricName],
+            registeredFiles: ALL_METRIC_FILES,
+          })
+        );
+        const fileResult = await filePromise;
+
+        // eslint-disable-next-line no-console
+        console.log(`Fetched contents for fileKey ${fileResult.fileKey}`);
+        const deserializedFile = convertDownloadToJson(fileResult.contents);
+
+        memoryCache.set(cacheKey, deserializedFile);
+
+        return deserializedFile;
+      })
+    );
+
+    // create a result mapping and pass it to the callback
+    metricNames.forEach((metricName, index) => {
+      results[metricName] = deserializedFiles[index];
     });
-
-    // eslint-disable-next-line no-console
-    console.log(`Fetched all ${cacheKey} metrics from ${source}`);
     callback(null, results);
-  });
+  } catch (e) {
+    callback(e);
+  }
 }
 
 function fetchParoleMetrics(isDemo, tenantId, callback) {
