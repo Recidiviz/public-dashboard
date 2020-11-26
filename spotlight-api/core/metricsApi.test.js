@@ -35,7 +35,6 @@ jest.mock("./objectStorage");
 const TENANT_ID = "test_id";
 
 beforeEach(() => {
-  // this should be the only method we care about here
   objectStorageMock.downloadFile.mockImplementation(
     (bucketName, tenantId, srcFilename) => {
       // this comes from an env var that we are not currently providing in the test env
@@ -148,7 +147,6 @@ test.each(["GCS", "filesystem"])(
       "test_id",
       singleName,
       isDemo,
-      // withholding "done" to avoid prematurely ending the test
       callbackGetter(singleName)
     );
 

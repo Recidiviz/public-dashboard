@@ -83,6 +83,7 @@ const ALL_METRIC_FILES = Array.from(
 
 /**
  * Converts the given contents, a Buffer of bytes, into a JS object or array.
+ * @return {DeserializedFile}
  */
 function convertDownloadToJson(contents) {
   const stringContents = contents.toString();
@@ -225,7 +226,7 @@ function fetchMetricsFromLocal(tenantId, metricType, file) {
  * expired beyond the configured TTL. If not, then fetches the metrics for that type from the
  * appropriate files and invokes the callback only once all files have been retrieved.
  *
- * If we are in demo mode, then fetches the files from a static directory, /server/core/demo_data/.
+ * If we are in demo mode, then fetches the files from a static directory, /core/demo_data/.
  * Otherwise, fetches from Google Cloud Storage.
  */
 function fetchMetrics(tenantId, metricType, file, isDemo, callback) {
@@ -275,19 +276,17 @@ function fetchMetrics(tenantId, metricType, file, isDemo, callback) {
 /**
  * Retrieves all specified metrics and passes them to the given callback.
  *
- * First checks the cache to see if the metrics with the given type are already in memory and not
- * expired beyond the configured TTL. If not, then fetches the metrics for that type from the
+ * First checks the cache to see if the requested metrics type are already in memory and not
+ * expired beyond the configured TTL. If not, then fetches the metrics from the
  * appropriate files and invokes the callback only once all files have been retrieved.
- *
- * If we are in demo mode, then fetches the files from a static directory, /server/core/demo_data/.
- * Otherwise, fetches from Google Cloud Storage.
  *
  * @param {string} tenantId - tenant to fetch from
  * @param {string[]} metrics - list of desired metrics by name
- * @param {boolean} isDemo - is Demo Mode active?
+ * @param {boolean} isDemo - in demo mode we fetch the files from a static directory, /core/demo_data/.
+ * Otherwise, fetch from Google Cloud Storage.
  * @param {(error: Error | null, results: {[key: string]: DeserializedFile} | undefined) => void} callback -
  * the keys of `results` will map to the strings in `metrics`.
- * @return {Promise<void>}
+ * @return {Promise<void>} will not resolve until `callback` is called.
  */
 async function fetchMetricsByName(tenantId, metricNames, isDemo, callback) {
   let fetcher = null;
