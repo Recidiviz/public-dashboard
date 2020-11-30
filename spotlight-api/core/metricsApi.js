@@ -284,7 +284,7 @@ function fetchMetrics(tenantId, metricType, file, isDemo, callback) {
  * @param {string[]} metrics - list of desired metrics by name
  * @param {boolean} isDemo - in demo mode we fetch the files from a static directory, /core/demo_data/.
  * Otherwise, fetch from Google Cloud Storage.
- * @param {(error: Error | null, results: {[key: string]: DeserializedFile} | undefined) => void} callback -
+ * @param {(error: Error | null, results: {[key: string]: DeserializedFile} | void) => void} callback -
  * the keys of `results` will map to the strings in `metrics`.
  * @return {Promise<void>} will not resolve until `callback` is called.
  */
@@ -341,9 +341,9 @@ async function fetchMetricsByName(tenantId, metricNames, isDemo, callback) {
     metricNames.forEach((metricName, index) => {
       results[metricName] = deserializedFiles[index];
     });
-    callback(null, results);
+    return callback(null, results);
   } catch (e) {
-    callback(e);
+    return callback(e);
   }
 }
 
