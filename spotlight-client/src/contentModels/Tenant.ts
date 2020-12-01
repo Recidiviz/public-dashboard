@@ -86,8 +86,8 @@ function getCollectionsForTenant({
 }) {
   const collectionMapping: InitOptions["collections"] = new Map();
 
-  // not all metrics are required; content object is the source of truth
-  // for which metrics to include
+  // not all collections are required; content object is the source of truth
+  // for which collections to include
   CollectionTypeIdList.forEach((id) => {
     const content = allTenantContent.collections[id];
     if (content) {
