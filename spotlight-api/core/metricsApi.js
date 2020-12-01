@@ -40,6 +40,10 @@ const memoryCache = cacheManager.caching({
   refreshThreshold: METRIC_REFRESH_SECONDS,
 });
 
+function clearCache() {
+  memoryCache.reset();
+}
+
 const asyncReadFile = util.promisify(fs.readFile);
 
 const FILES_BY_METRIC_TYPE = {
@@ -374,5 +378,5 @@ module.exports = {
   fetchProbationMetrics,
   fetchSentencingMetrics,
   fetchRaceMetrics,
-  memoryCache,
+  clearCache,
 };

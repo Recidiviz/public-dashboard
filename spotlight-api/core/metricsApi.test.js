@@ -26,7 +26,7 @@ const {
   fetchProbationMetrics,
   fetchRaceMetrics,
   fetchSentencingMetrics,
-  memoryCache,
+  clearCache,
 } = require("./metricsApi");
 const objectStorageMock = require("./objectStorage");
 
@@ -51,7 +51,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  memoryCache.reset();
+  clearCache();
   jest.resetAllMocks();
 });
 
