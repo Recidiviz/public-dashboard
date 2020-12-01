@@ -1,7 +1,7 @@
 {
   "name": "public-dashboard-client",
   "description": "A public-facing dashboard to help educate citizens and build accountability",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": true,
   "repository": "git@github.com:Recidiviz/public-dashboard.git",
   "author": "Recidiviz <team@recidiviz.org>",
