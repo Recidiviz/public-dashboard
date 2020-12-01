@@ -44,7 +44,7 @@ const content: TenantContent = {
     },
   },
   metrics: {
-    SentencePopulationCurrent: {
+    InvalidMetricKey: {
       name: "Who is being sentenced?",
       description:
         "After being convicted of a Class A misdemeanor or greater offense by a district court, a person may be sentenced to time in prison or probation, at which point they come under the jurisdiction of the Department of Corrections and Rehabilitation (DOCR). These charts show everyone currently involved with the North Dakota DOCR.",
