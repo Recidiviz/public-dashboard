@@ -10,7 +10,8 @@
     "demo": "IS_DEMO=true yarn dev",
     "dev": "nodemon index.js",
     "lint": "eslint .",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "jest"
   },
   "dependencies": {
     "@google-cloud/storage": "^5.1.2",
@@ -24,10 +25,17 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "//": "jest version needs to match react-scripts dep in other packages",
+    "jest": "24.9.0",
     "lint-staged": ">=10",
-    "nodemon": "^2.0.4"
+    "n-readlines": "^1.0.1",
+    "nodemon": "^2.0.4",
+    "supertest": "^6.0.1"
   },
   "lint-staged": {
     "**.{js}": "eslint --fix"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
