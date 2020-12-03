@@ -60,6 +60,8 @@ jobs:
     defaults:
       run:
         working-directory: spotlight-client
+    env:
+      REACT_APP_API_URL: http://localhost:3002
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -67,7 +69,7 @@ jobs:
           node-version: "12.x"
       - uses: c-hive/gha-yarn-cache@v1
       - run: yarn install --frozen-lockfile
-      - run: yarn test --coverage
+      - run: yarn test --coverage --forceExit
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
