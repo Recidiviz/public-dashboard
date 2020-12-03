@@ -11,6 +11,7 @@
     "dev": "nodemon index.js",
     "lint": "eslint .",
     "start": "node index.js",
+    "start-test-server": "PORT=3002 IS_DEMO=true yarn start",
     "test": "jest"
   },
   "dependencies": {

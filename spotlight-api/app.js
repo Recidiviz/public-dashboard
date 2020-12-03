@@ -41,6 +41,13 @@ app.get("/api/:tenantId/race", api.race);
 app.get("/api/:tenantId/sentencing", api.sentencing);
 app.post("/api/:tenantId/public", express.json(), api.metricsByName);
 
+// uptime check endpoint
+app.get("/health", (req, res) => {
+  // eslint-disable-next-line no-console
+  console.log("Responding to uptime check ...");
+  res.sendStatus(200);
+});
+
 // An App Engine-specific API for handling warmup requests on new instance initialization
 app.get("/_ah/warmup", () => {
   // The server automatically launches initialization of the metric cache, so nothing is needed here
