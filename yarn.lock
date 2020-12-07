@@ -13243,6 +13243,11 @@ wait-for-expect@^3.0.2:
   resolved "https://registry.yarnpkg.com/wait-for-expect/-/wait-for-expect-3.0.2.tgz#d2f14b2f7b778c9b82144109c8fa89ceaadaa463"
   integrity sha512-cfS1+DZxuav1aBYbaO/kE06EOS8yRw7qOFoD3XtjTkYvCvh3zUvNST8DXK/nPaeqIzIv3P3kL3lRJn8iwOiSag==
 
+wait-for-localhost@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/wait-for-localhost/-/wait-for-localhost-3.3.0.tgz#aa3df1aeb7067a29630683a42e06515d18006061"
+  integrity sha512-/9FDq1qaRXfFwVpRSDiybxHSt6TakGscBqyhO3tsPB1ToRVyjOXVSI2IvW1T04MqM2Mq3a+6J8PdzAlscrCQzg==
+
 walker@^1.0.7, walker@~1.0.5:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/walker/-/walker-1.0.7.tgz#2f7f9b8fd10d677262b18a884e28d19618e028fb"
