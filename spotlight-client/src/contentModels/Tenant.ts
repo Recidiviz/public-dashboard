@@ -57,9 +57,13 @@ type TenantFactoryOptions = {
 };
 
 function getMetricsForTenant(
-  allTenantContent: ReturnType<typeof retrieveContent>
+  allTenantContent: ReturnType<typeof retrieveContent>,
+  tenantId: TenantId
 ) {
-  return createMetricMapping(allTenantContent.metrics);
+  return createMetricMapping({
+    metadataMapping: allTenantContent.metrics,
+    tenantId,
+  });
 }
 
 function getCollectionsForTenant({
@@ -92,7 +96,7 @@ function getCollectionsForTenant({
 export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
   const allTenantContent = retrieveContent({ tenantId });
 
-  const metrics = getMetricsForTenant(allTenantContent);
+  const metrics = getMetricsForTenant(allTenantContent, tenantId);
 
   return new Tenant({
     name: allTenantContent.name,

@@ -17,7 +17,7 @@
 
 import assertNever from "assert-never";
 import type { ValuesType } from "utility-types";
-import { MetricTypeIdList, TenantContent } from "../contentApi/types";
+import { MetricTypeIdList, TenantContent, TenantId } from "../contentApi/types";
 import fetchMetrics, { RawMetricData } from "../fetchMetrics";
 import * as transforms from "../metricData/transforms";
 import {
@@ -27,6 +27,7 @@ import {
   ProgramParticipationCurrentRecord,
   RecidivismRateRecord,
   SentenceTypeByLocationRecord,
+  SupervisionSuccessRateDemographicsRecord,
   SupervisionSuccessRateMonthlyRecord,
 } from "../metricData/types";
 import { CollectionMap } from "./types";
@@ -38,7 +39,8 @@ type AnyRecord =
   | ProgramParticipationCurrentRecord
   | RecidivismRateRecord
   | SentenceTypeByLocationRecord
-  | SupervisionSuccessRateMonthlyRecord;
+  | SupervisionSuccessRateMonthlyRecord
+  | SupervisionSuccessRateDemographicsRecord;
 
 export type AnyMetric = ValuesType<MetricMapping>;
 
@@ -48,6 +50,7 @@ type InitOptions<RecordFormat> = {
   name: string;
   description: string;
   methodology: string;
+  tenantId: TenantId;
   dataTransformer: DataTransformer<RecordFormat>;
   sourceFileName: string;
 };
@@ -68,12 +71,16 @@ export default class Metric<RecordFormat extends AnyRecord> {
   // relationships
   collections: CollectionMap = new Map();
 
+  // we don't really need the entire Tenant object,
+  // only the ID for use in the API request
+  tenantId: TenantId;
+
   // data properties
   private dataTransformer: DataTransformer<RecordFormat>;
 
   private sourceFileName: string;
 
-  isLoading: boolean;
+  isLoading?: boolean;
 
   private allRecords?: RecordFormat[];
 
@@ -83,6 +90,7 @@ export default class Metric<RecordFormat extends AnyRecord> {
     name,
     description,
     methodology,
+    tenantId,
     dataTransformer,
     sourceFileName,
   }: InitOptions<RecordFormat>) {
@@ -92,18 +100,16 @@ export default class Metric<RecordFormat extends AnyRecord> {
     this.methodology = methodology;
 
     // initialize data fetching
-    // TODO: maybe this should not be true until a fetch is initiated?
-    this.isLoading = true;
+    this.tenantId = tenantId;
     this.dataTransformer = dataTransformer;
     this.sourceFileName = sourceFileName;
   }
 
   async fetch(): Promise<void> {
-    // TODO: map metric type to file name(s) in factory function?
+    this.isLoading = true;
     const apiResponse = await fetchMetrics({
       metricNames: [this.sourceFileName],
-      // TODO: how to get this value??
-      tenantId: "US_ND",
+      tenantId: this.tenantId,
     });
     if (apiResponse) {
       const metricFileData = apiResponse[this.sourceFileName];
@@ -114,9 +120,8 @@ export default class Metric<RecordFormat extends AnyRecord> {
     }
   }
 
-  get records(): RecordFormat[] {
-    // TODO: what to return before fetch is complete?
-    return this.allRecords || [];
+  get records(): RecordFormat[] | undefined {
+    return this.allRecords;
   }
 }
 
@@ -133,24 +138,31 @@ export type MetricMapping = {
   ProbationPopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
   ProbationPopulationHistorical?: Metric<HistoricalPopulationBreakdownRecord>;
   ProbationSuccessHistorical?: Metric<SupervisionSuccessRateMonthlyRecord>;
+  ProbationSuccessAggregate?: Metric<SupervisionSuccessRateDemographicsRecord>;
   ProbationRevocationsAggregate?: Metric<DemographicsByCategoryRecord>;
   ProbationProgrammingCurrent?: Metric<ProgramParticipationCurrentRecord>;
   ParolePopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
   ParolePopulationHistorical?: Metric<HistoricalPopulationBreakdownRecord>;
   ParoleSuccessHistorical?: Metric<SupervisionSuccessRateMonthlyRecord>;
+  ParoleSuccessAggregate?: Metric<SupervisionSuccessRateDemographicsRecord>;
   ParoleRevocationsAggregate?: Metric<DemographicsByCategoryRecord>;
   ParoleProgrammingCurrent?: Metric<ProgramParticipationCurrentRecord>;
 };
 
+export type MetricMappingFactoryOptions = {
+  metadataMapping: TenantContent["metrics"];
+  tenantId: TenantId;
+};
 /**
  * Factory function for converting a mapping of content objects by metric ID
  * to a mapping of Metric instances by metric ID. Creating the entire mapping at once
  * ensures that each ID maps to the proper Metric type without requiring further
  * type guarding on the part of consumers.
  */
-export function createMetricMapping(
-  metadataMapping: TenantContent["metrics"]
-): MetricMapping {
+export function createMetricMapping({
+  metadataMapping,
+  tenantId,
+}: MetricMappingFactoryOptions): MetricMapping {
   const metricMapping: MetricMapping = {};
 
   // to maintain type safety we iterate through all of the known metrics;
@@ -171,6 +183,7 @@ export function createMetricMapping(
           PopulationBreakdownByLocationRecord
         >({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.sentencePopulationCurrent,
           sourceFileName: "sentence_type_by_district_by_demographics",
         });
@@ -178,6 +191,7 @@ export function createMetricMapping(
       case "SentenceTypesCurrent":
         metricMapping[metricType] = new Metric<SentenceTypeByLocationRecord>({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.sentenceTypesCurrent,
           sourceFileName: "sentence_type_by_district_by_demographics",
         });
@@ -187,6 +201,7 @@ export function createMetricMapping(
           PopulationBreakdownByLocationRecord
         >({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.prisonPopulationCurrent,
           sourceFileName:
             "incarceration_population_by_facility_by_demographics",
@@ -197,6 +212,7 @@ export function createMetricMapping(
           PopulationBreakdownByLocationRecord
         >({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.probationPopulationCurrent,
           sourceFileName: "supervision_population_by_district_by_demographics",
         });
@@ -206,6 +222,7 @@ export function createMetricMapping(
           PopulationBreakdownByLocationRecord
         >({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.parolePopulationCurrent,
           sourceFileName: "supervision_population_by_district_by_demographics",
         });
@@ -215,6 +232,7 @@ export function createMetricMapping(
           HistoricalPopulationBreakdownRecord
         >({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.prisonPopulationHistorical,
           sourceFileName: "incarceration_population_by_month_by_demographics",
         });
@@ -224,6 +242,7 @@ export function createMetricMapping(
           HistoricalPopulationBreakdownRecord
         >({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.probationPopulationHistorical,
           sourceFileName: "supervision_population_by_month_by_demographics",
         });
@@ -233,6 +252,7 @@ export function createMetricMapping(
           HistoricalPopulationBreakdownRecord
         >({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.parolePopulationHistorical,
           sourceFileName: "supervision_population_by_month_by_demographics",
         });
@@ -242,6 +262,7 @@ export function createMetricMapping(
           ProgramParticipationCurrentRecord
         >({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.probationProgramParticipationCurrent,
           sourceFileName: "active_program_participation_by_region",
         });
@@ -251,6 +272,7 @@ export function createMetricMapping(
           ProgramParticipationCurrentRecord
         >({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.paroleProgramParticipationCurrent,
           sourceFileName: "active_program_participation_by_region",
         });
@@ -260,6 +282,7 @@ export function createMetricMapping(
           SupervisionSuccessRateMonthlyRecord
         >({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.probationSuccessRateMonthly,
           sourceFileName: "supervision_success_by_month",
         });
@@ -269,13 +292,35 @@ export function createMetricMapping(
           SupervisionSuccessRateMonthlyRecord
         >({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.paroleSuccessRateMonthly,
           sourceFileName: "supervision_success_by_month",
+        });
+        break;
+      case "ProbationSuccessAggregate":
+        metricMapping[metricType] = new Metric<
+          SupervisionSuccessRateDemographicsRecord
+        >({
+          ...metadata,
+          tenantId,
+          dataTransformer: transforms.probationSuccessRateDemographics,
+          sourceFileName: "supervision_success_by_period_by_demographics",
+        });
+        break;
+      case "ParoleSuccessAggregate":
+        metricMapping[metricType] = new Metric<
+          SupervisionSuccessRateDemographicsRecord
+        >({
+          ...metadata,
+          tenantId,
+          dataTransformer: transforms.paroleSuccessRateDemographics,
+          sourceFileName: "supervision_success_by_period_by_demographics",
         });
         break;
       case "ProbationRevocationsAggregate":
         metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.probationRevocationReasons,
           sourceFileName:
             "supervision_revocations_by_period_by_type_by_demographics",
@@ -284,6 +329,7 @@ export function createMetricMapping(
       case "ParoleRevocationsAggregate":
         metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.paroleRevocationReasons,
           sourceFileName:
             "supervision_revocations_by_period_by_type_by_demographics",
@@ -292,6 +338,7 @@ export function createMetricMapping(
       case "PrisonAdmissionReasonsCurrent":
         metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.prisonAdmissionReasons,
           sourceFileName: "incarceration_population_by_admission_reason",
         });
@@ -299,6 +346,7 @@ export function createMetricMapping(
       case "PrisonReleaseTypeAggregate":
         metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.prisonReleaseTypes,
           sourceFileName: "incarceration_releases_by_type_by_period",
         });
@@ -306,6 +354,7 @@ export function createMetricMapping(
       case "PrisonRecidivismRateHistorical":
         metricMapping[metricType] = new Metric<RecidivismRateRecord>({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.recidivismRateAllFollowup,
           sourceFileName: "recidivism_rates_by_cohort_by_year",
         });
@@ -313,6 +362,7 @@ export function createMetricMapping(
       case "PrisonRecidivismRateSingleFollowupHistorical":
         metricMapping[metricType] = new Metric<RecidivismRateRecord>({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.recidivismRateConventionalFollowup,
           sourceFileName: "recidivism_rates_by_cohort_by_year",
         });
@@ -320,6 +370,7 @@ export function createMetricMapping(
       case "PrisonStayLengthAggregate":
         metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
           ...metadata,
+          tenantId,
           dataTransformer: transforms.prisonStayLengths,
           sourceFileName: "incarceration_lengths_by_demographics",
         });

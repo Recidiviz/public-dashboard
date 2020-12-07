@@ -33,6 +33,7 @@ import type {
   RaceIdentifier,
   RecidivismRateRecord,
   SentenceTypeByLocationRecord,
+  SupervisionSuccessRateDemographicsRecord,
   SupervisionSuccessRateMonthlyRecord,
 } from "./types";
 
@@ -42,12 +43,6 @@ function recordIsParole(record: ValuesType<RawMetricData>) {
 
 function recordIsProbation(record: ValuesType<RawMetricData>) {
   return record.supervision_type === "PROBATION";
-}
-
-function extractBaseFields(record: ValuesType<RawMetricData>) {
-  return {
-    tenantId: record.state_code,
-  };
 }
 
 function extractDemographicFields(record: ValuesType<RawMetricData>) {
@@ -66,7 +61,6 @@ export function sentencePopulationCurrent(
     return {
       locality: record.district,
       population: Number(record.total_population_count),
-      ...extractBaseFields(record),
       ...extractDemographicFields(record),
     };
   });
@@ -79,7 +73,6 @@ export function prisonPopulationCurrent(
     return {
       locality: record.facility,
       population: Number(record.total_population),
-      ...extractBaseFields(record),
       ...extractDemographicFields(record),
     };
   });
@@ -89,7 +82,6 @@ function createSupervisionPopulationRecord(record: ValuesType<RawMetricData>) {
   return {
     locality: record.district,
     population: Number(record.total_supervision_count),
-    ...extractBaseFields(record),
     ...extractDemographicFields(record),
   };
 }
@@ -114,7 +106,6 @@ function createHistoricalPopulationRecord(record: ValuesType<RawMetricData>) {
   return {
     date: record.population_date,
     count: Number(record.population_count),
-    ...extractBaseFields(record),
     ...extractDemographicFields(record),
   };
 }
@@ -150,7 +141,6 @@ export function sentenceTypesCurrent(
       incarcerationCount: Number(record.incarceration_count),
       locality: record.district,
       probationCount: Number(record.probation_count),
-      ...extractBaseFields(record),
       ...extractDemographicFields(record),
     };
   });
@@ -160,7 +150,6 @@ function createProgramParticipationRecord(record: ValuesType<RawMetricData>) {
   return {
     count: Number(record.participation_count),
     locality: record.region_id,
-    ...extractBaseFields(record),
   };
 }
 
@@ -187,10 +176,9 @@ function createSupervisionSuccessRateMonthlyRecord(
     locality: record.district,
     year: Number(record.projected_year),
     month: Number(record.projected_month),
-    actualCount: Number(record.successful_termination_count),
-    projectedCount: Number(record.projected_completion_count),
-    successRate: Number(record.success_rate),
-    ...extractBaseFields(record),
+    rateNumerator: Number(record.successful_termination_count),
+    rateDenominator: Number(record.projected_completion_count),
+    rate: Number(record.success_rate),
   };
 }
 
@@ -210,6 +198,34 @@ export function paroleSuccessRateMonthly(
     .map(createSupervisionSuccessRateMonthlyRecord);
 }
 
+function createSupervisionSuccessRateDemographicRecord(
+  record: ValuesType<RawMetricData>
+) {
+  return {
+    rate: Number(record.success_rate),
+    rateDenominator: Number(record.projected_completion_count),
+    rateNumerator: Number(record.successful_termination_count),
+    locality: record.district,
+    ...extractDemographicFields(record),
+  };
+}
+
+export function probationSuccessRateDemographics(
+  rawRecords: RawMetricData
+): SupervisionSuccessRateDemographicsRecord[] {
+  return rawRecords
+    .filter(recordIsProbation)
+    .map(createSupervisionSuccessRateDemographicRecord);
+}
+
+export function paroleSuccessRateDemographics(
+  rawRecords: RawMetricData
+): SupervisionSuccessRateDemographicsRecord[] {
+  return rawRecords
+    .filter(recordIsParole)
+    .map(createSupervisionSuccessRateDemographicRecord);
+}
+
 function getCategoryTransposeFunction(
   fields: { fieldName: string; categoryLabel: string }[]
 ) {
@@ -220,7 +236,6 @@ function getCategoryTransposeFunction(
         return {
           category: categoryLabel,
           count: Number(record[fieldName]),
-          ...extractBaseFields(record),
           ...extractDemographicFields(record),
         };
       });
@@ -231,7 +246,6 @@ function getCategoryTransposeFunction(
 }
 
 const revocationReasonFields = [
-  // TODO: do we need the total field?
   { categoryLabel: "abscond", fieldName: "absconsion_count" },
   { categoryLabel: "offend", fieldName: "new_crime_count" },
   { categoryLabel: "technical", fieldName: "technical_count" },
@@ -255,7 +269,6 @@ export function paroleRevocationReasons(
 }
 
 const prisonAdmissionFields = [
-  // TODO: do we need the total field?
   { categoryLabel: "newAdmission", fieldName: "new_admission_count" },
   { categoryLabel: "paroleRevoked", fieldName: "parole_revocation_count" },
   {
@@ -272,7 +285,6 @@ export function prisonAdmissionReasons(
 }
 
 const prisonReleaseFields = [
-  // TODO: do we need the total field?
   { categoryLabel: "transfer", fieldName: "external_transfer_count" },
   { categoryLabel: "completion", fieldName: "sentence_completion_count" },
   { categoryLabel: "parole", fieldName: "parole_count" },
@@ -292,11 +304,10 @@ export function recidivismRateAllFollowup(
   return rawRecords.map((record) => {
     return {
       followupYears: Number(record.followup_years),
-      recidivatedCount: Number(record.recidivated_releases),
-      recidivismRate: Number(record.recidivism_rate),
-      releaseCount: Number(record.releases),
+      rateNumerator: Number(record.recidivated_releases),
+      rate: Number(record.recidivism_rate),
+      rateDenominator: Number(record.releases),
       releaseCohort: Number(record.release_cohort),
-      ...extractBaseFields(record),
       ...extractDemographicFields(record),
     };
   });

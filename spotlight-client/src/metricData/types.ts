@@ -35,68 +35,60 @@ export type AgeIdentifier =
   | "35-39"
   | "40<";
 
-export type BaseMetricFields = {
-  tenantId: string;
-};
-
-export type DemographicFields = {
+type DemographicFields = {
   raceOrEthnicity: RaceIdentifier;
   gender: GenderIdentifier;
   ageBucket: AgeIdentifier;
 };
 
-export type LocalityFields = {
+type LocalityFields = {
   locality: string;
 };
 
-export type PopulationBreakdownByLocationRecord = BaseMetricFields &
-  DemographicFields &
+type RateFields = {
+  rateDenominator: number;
+  rateNumerator: number;
+  rate: number;
+};
+
+export type PopulationBreakdownByLocationRecord = DemographicFields &
   LocalityFields & {
     population: number;
   };
 
-export type SentenceTypeByLocationRecord = BaseMetricFields &
-  DemographicFields &
+export type SentenceTypeByLocationRecord = DemographicFields &
   LocalityFields & {
     dualSentenceCount: number;
     incarcerationCount: number;
     probationCount: number;
   };
 
-export type HistoricalPopulationBreakdownRecord = BaseMetricFields &
-  DemographicFields & {
-    date: string;
-    count: number;
-  };
+export type HistoricalPopulationBreakdownRecord = DemographicFields & {
+  date: string;
+  count: number;
+};
 
-export type ProgramParticipationCurrentRecord = BaseMetricFields &
-  LocalityFields & {
-    count: number;
-  };
+export type ProgramParticipationCurrentRecord = LocalityFields & {
+  count: number;
+};
 
-// TODO: the racial breakdowns for this one? they are kind of a separate metric
-export type SupervisionSuccessRateMonthlyRecord = BaseMetricFields &
-  LocalityFields & {
-    // TODO: do we want month and year as separate fields? do we want them as numbers?
-    actualCount: number;
+export type SupervisionSuccessRateDemographicsRecord = DemographicFields &
+  LocalityFields &
+  RateFields;
+
+export type SupervisionSuccessRateMonthlyRecord = LocalityFields &
+  RateFields & {
     month: number;
-    projectedCount: number;
-    successRate: number;
     year: number;
   };
 
-export type DemographicsByCategoryRecord = BaseMetricFields &
-  DemographicFields & {
-    category: string;
-    count: number;
-  };
+export type DemographicsByCategoryRecord = DemographicFields & {
+  category: string;
+  count: number;
+};
 
-// TODO: should "rate" types share common fields?
-export type RecidivismRateRecord = BaseMetricFields &
-  DemographicFields & {
+export type RecidivismRateRecord = DemographicFields &
+  RateFields & {
     releaseCohort: number;
     followupYears: number;
-    releaseCount: number;
-    recidivatedCount: number;
-    recidivismRate: number;
   };

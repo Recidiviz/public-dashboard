@@ -18,6 +18,7 @@
 import fetchMock from "jest-fetch-mock";
 import { createMetricMapping } from "./Metric";
 
+const testTenantId = "US_ND";
 const testMetricId = "SentenceTypesCurrent";
 const testMetadata = {
   name: "test metric",
@@ -29,7 +30,10 @@ const testMetadataMapping = {
 };
 
 function getTestMetric() {
-  const metric = createMetricMapping(testMetadataMapping)[testMetricId];
+  const metric = createMetricMapping({
+    metadataMapping: testMetadataMapping,
+    tenantId: testTenantId,
+  })[testMetricId];
 
   if (!metric) {
     throw new Error("expected instance of Metric");
@@ -47,11 +51,7 @@ test("base metadata", () => {
 });
 
 test("fetches its data file", async () => {
-  const metric = createMetricMapping(testMetadataMapping)[testMetricId];
-
-  if (!metric) {
-    throw new Error("expected instance of Metric");
-  }
+  const metric = getTestMetric();
 
   await metric.fetch();
   // this is just a randomly chosen record from the fixture (transformed as needed)
@@ -61,7 +61,6 @@ test("fetches its data file", async () => {
         locality: "NORTH_CENTRAL",
         gender: "ALL",
         raceOrEthnicity: "BLACK",
-        tenantId: "US_ND",
         ageBucket: "ALL",
         incarcerationCount: 29,
         probationCount: 45,
@@ -74,14 +73,19 @@ test("fetches its data file", async () => {
 test("file loading state", async () => {
   const metric = getTestMetric();
 
-  // TODO: probably this should not be expected until fetch has been called
-  expect(metric.isLoading).toBe(true);
+  expect(metric.isLoading).toBeUndefined();
 
-  await metric.fetch();
+  const dataPromise = metric.fetch();
+  expect(metric.isLoading).toBe(true);
+  expect(metric.records).toBeUndefined();
+
+  await dataPromise;
   expect(metric.isLoading).toBe(false);
+  expect(metric.records).toBeDefined();
 });
 
 test("fetch error state", async () => {
+  // mocking the backend for this test so we can simulate an error response
   fetchMock.doMock();
 
   const metric = getTestMetric();
@@ -95,7 +99,6 @@ test("fetch error state", async () => {
   );
 
   fetchMock.resetMocks();
-  // resetting will activate the mocks, which are off by default.
-  // return them to their default inactive state as well.
+  // return the mock to its default inactive state
   fetchMock.dontMock();
 });
