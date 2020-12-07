@@ -21,3 +21,11 @@
 // learn more: https://github.com/testing-library/jest-dom
 
 import "@testing-library/jest-dom/extend-expect";
+
+import fetchMock from "jest-fetch-mock";
+
+// we want this mock to be available but disabled by default;
+// tests should default to doing real fetches against a /spotlight-api test server
+// but can mock it per test to simulate errors, etc
+fetchMock.enableMocks();
+fetchMock.dontMock();

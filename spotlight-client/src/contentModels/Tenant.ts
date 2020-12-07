@@ -16,20 +16,16 @@
 // =============================================================================
 
 import retrieveContent from "../contentApi/retrieveContent";
-import {
-  CollectionTypeIdList,
-  MetricTypeIdList,
-  TenantId,
-} from "../contentApi/types";
+import { CollectionTypeIdList, TenantId } from "../contentApi/types";
 import { createCollection } from "./Collection";
-import { createMetric } from "./Metric";
-import { CollectionMap, MetricMap } from "./types";
+import { createMetricMapping, MetricMapping } from "./Metric";
+import { CollectionMap } from "./types";
 
 type InitOptions = {
   name: string;
   description: string;
   collections: CollectionMap;
-  metrics: MetricMap;
+  metrics: MetricMapping;
 };
 
 /**
@@ -63,18 +59,7 @@ type TenantFactoryOptions = {
 function getMetricsForTenant(
   allTenantContent: ReturnType<typeof retrieveContent>
 ) {
-  const metricMapping: InitOptions["metrics"] = new Map();
-
-  // not all metrics are required; content object is the source of truth
-  // for which metrics to include
-  MetricTypeIdList.forEach((id) => {
-    const content = allTenantContent.metrics[id];
-    if (content) {
-      metricMapping.set(id, createMetric(content));
-    }
-  });
-
-  return metricMapping;
+  return createMetricMapping(allTenantContent.metrics);
 }
 
 function getCollectionsForTenant({
@@ -82,7 +67,7 @@ function getCollectionsForTenant({
   metrics,
 }: {
   allTenantContent: ReturnType<typeof retrieveContent>;
-  metrics: MetricMap;
+  metrics: MetricMapping;
 }) {
   const collectionMapping: InitOptions["collections"] = new Map();
 

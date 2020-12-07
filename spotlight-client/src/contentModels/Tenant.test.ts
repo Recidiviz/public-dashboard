@@ -51,9 +51,9 @@ test.each([
 
   const expectedMetrics = Object.keys(fixture.metrics) as MetricTypeId[];
   expectedMetrics.forEach((metricId) =>
-    expect(tenant.metrics.get(metricId)).toBeDefined()
+    expect(tenant.metrics[metricId]).toBeDefined()
   );
-  expect(expectedMetrics.length).toBe(tenant.metrics.size);
+  expect(expectedMetrics.length).toBe(Object.keys(tenant.metrics).length);
 });
 
 test.each([
@@ -130,18 +130,18 @@ test.each([
     }
     // the collection should contain some or all of the metrics enumerated above and no others
     expectedMetricKeys.forEach((key) => {
-      if (tenant.metrics.has(key)) {
+      if (tenant.metrics[key]) {
         expectedMetricCount += 1;
-        expect(tenant.metrics.get(key)).toBe(metricsInCollection.get(key));
-        if (tenant.metrics.get(key)) {
-          expect(metricsInCollection.get(key) instanceof Metric).toBe(true);
+        expect(tenant.metrics[key]).toBe(metricsInCollection[key]);
+        if (tenant.metrics[key]) {
+          expect(metricsInCollection[key] instanceof Metric).toBe(true);
         } else {
-          expect(metricsInCollection.get(key)).toBeUndefined();
+          expect(metricsInCollection[key]).toBeUndefined();
         }
       }
     });
 
-    expect(metricsInCollection.size).toBe(expectedMetricCount);
+    expect(Object.keys(metricsInCollection).length).toBe(expectedMetricCount);
   });
 });
 
@@ -152,16 +152,16 @@ test("collections and metrics without content are excluded from mapping", () => 
   // collection exists but one of its metrics doesn't
   const prisonCollection = tenant.collections.get("Prison");
   expect(prisonCollection instanceof Collection).toBe(true);
-  expect(tenant.metrics.has("PrisonReleaseTypeAggregate")).toBe(false);
+  expect(tenant.metrics.PrisonReleaseTypeAggregate).toBeUndefined();
   expect(
     // @ts-expect-error: prisonCollection is not undefined, we just tested it
-    prisonCollection.metrics.has("PrisonReleaseTypeAggregate")
-  ).toBe(false);
+    prisonCollection.metrics.PrisonReleaseTypeAggregate
+  ).toBeUndefined();
 
   // metric exists but one of its collections doesn't
   expect(tenant.collections.has("Sentencing")).toBe(false);
-  const sentenceMetric = tenant.metrics.get("SentencePopulationCurrent");
+  const sentenceMetric = tenant.metrics.SentencePopulationCurrent;
   expect(sentenceMetric instanceof Metric).toBe(true);
   // @ts-expect-error: sentenceMetric is not undefined, we just tested it
-  expect(sentenceMetric.collections.has("Sentencing")).toBe(false);
+  expect(sentenceMetric.collections.Sentencing).toBeUndefined();
 });

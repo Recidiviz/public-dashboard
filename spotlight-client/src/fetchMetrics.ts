@@ -21,7 +21,7 @@ import { TenantId } from "./contentApi/types";
  * All data comes back from the server as string values;
  * it will be up to us to cast those strings to other types as needed
  */
-type RawMetricData = Record<string, string>[];
+export type RawMetricData = Record<string, string>[];
 
 type MetricsApiResponse = Record<string, RawMetricData | null>;
 type ErrorAPIResponse = { error: string };

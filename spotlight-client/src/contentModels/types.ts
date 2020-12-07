@@ -17,7 +17,7 @@
 
 import { CollectionTypeId, MetricTypeId } from "../contentApi/types";
 import Collection from "./Collection";
-import Metric from "./Metric";
+import { AnyMetric } from "./Metric";
 
 export type CollectionMap = Map<CollectionTypeId, Collection | undefined>;
-export type MetricMap = Map<MetricTypeId, Metric | undefined>;
+export type MetricMap = Map<MetricTypeId, AnyMetric | undefined>;
