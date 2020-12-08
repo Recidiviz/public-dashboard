@@ -21,9 +21,9 @@
  * @module
  */
 
-import type { ValuesType } from "utility-types";
-import type { RawMetricData } from "../fetchMetrics";
-import type {
+import { ValuesType } from "utility-types";
+import { RawMetricData } from "../fetchMetrics";
+import {
   AgeIdentifier,
   DemographicsByCategoryRecord,
   GenderIdentifier,

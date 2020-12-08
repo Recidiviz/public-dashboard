@@ -18,8 +18,8 @@
 import retrieveContent from "../contentApi/retrieveContent";
 import { CollectionTypeIdList, TenantId } from "../contentApi/types";
 import { createCollection } from "./Collection";
-import { createMetricMapping, MetricMapping } from "./Metric";
-import { CollectionMap } from "./types";
+import { createMetricMapping } from "./Metric";
+import { CollectionMap, MetricMapping } from "./types";
 
 type InitOptions = {
   name: string;

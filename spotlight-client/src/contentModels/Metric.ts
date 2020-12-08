@@ -16,33 +16,22 @@
 // =============================================================================
 
 import assertNever from "assert-never";
-import type { ValuesType } from "utility-types";
 import { MetricTypeIdList, TenantContent, TenantId } from "../contentApi/types";
 import fetchMetrics, { RawMetricData } from "../fetchMetrics";
-import * as transforms from "../metricData/transforms";
+import * as transforms from "./transforms";
 import {
+  AnyRecord,
+  CollectionMap,
   DemographicsByCategoryRecord,
   HistoricalPopulationBreakdownRecord,
+  MetricMapping,
   PopulationBreakdownByLocationRecord,
   ProgramParticipationCurrentRecord,
   RecidivismRateRecord,
   SentenceTypeByLocationRecord,
   SupervisionSuccessRateDemographicsRecord,
   SupervisionSuccessRateMonthlyRecord,
-} from "../metricData/types";
-import { CollectionMap } from "./types";
-
-type AnyRecord =
-  | DemographicsByCategoryRecord
-  | HistoricalPopulationBreakdownRecord
-  | PopulationBreakdownByLocationRecord
-  | ProgramParticipationCurrentRecord
-  | RecidivismRateRecord
-  | SentenceTypeByLocationRecord
-  | SupervisionSuccessRateMonthlyRecord
-  | SupervisionSuccessRateDemographicsRecord;
-
-export type AnyMetric = ValuesType<MetricMapping>;
+} from "./types";
 
 type DataTransformer<RecordFormat> = (rawData: RawMetricData) => RecordFormat[];
 
@@ -125,31 +114,7 @@ export default class Metric<RecordFormat extends AnyRecord> {
   }
 }
 
-export type MetricMapping = {
-  SentencePopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
-  SentenceTypesCurrent?: Metric<SentenceTypeByLocationRecord>;
-  PrisonPopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
-  PrisonPopulationHistorical?: Metric<HistoricalPopulationBreakdownRecord>;
-  PrisonAdmissionReasonsCurrent?: Metric<DemographicsByCategoryRecord>;
-  PrisonStayLengthAggregate?: Metric<DemographicsByCategoryRecord>;
-  PrisonReleaseTypeAggregate?: Metric<DemographicsByCategoryRecord>;
-  PrisonRecidivismRateHistorical?: Metric<RecidivismRateRecord>;
-  PrisonRecidivismRateSingleFollowupHistorical?: Metric<RecidivismRateRecord>;
-  ProbationPopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
-  ProbationPopulationHistorical?: Metric<HistoricalPopulationBreakdownRecord>;
-  ProbationSuccessHistorical?: Metric<SupervisionSuccessRateMonthlyRecord>;
-  ProbationSuccessAggregate?: Metric<SupervisionSuccessRateDemographicsRecord>;
-  ProbationRevocationsAggregate?: Metric<DemographicsByCategoryRecord>;
-  ProbationProgrammingCurrent?: Metric<ProgramParticipationCurrentRecord>;
-  ParolePopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
-  ParolePopulationHistorical?: Metric<HistoricalPopulationBreakdownRecord>;
-  ParoleSuccessHistorical?: Metric<SupervisionSuccessRateMonthlyRecord>;
-  ParoleSuccessAggregate?: Metric<SupervisionSuccessRateDemographicsRecord>;
-  ParoleRevocationsAggregate?: Metric<DemographicsByCategoryRecord>;
-  ParoleProgrammingCurrent?: Metric<ProgramParticipationCurrentRecord>;
-};
-
-export type MetricMappingFactoryOptions = {
+type MetricMappingFactoryOptions = {
   metadataMapping: TenantContent["metrics"];
   tenantId: TenantId;
 };

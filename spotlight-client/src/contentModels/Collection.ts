@@ -21,7 +21,7 @@ import {
   MetricTypeId,
   MetricTypeIdList,
 } from "../contentApi/types";
-import type { MetricMapping } from "./Metric";
+import { MetricMapping } from "./types";
 
 type InitOptions = {
   name: string;
