@@ -17,23 +17,22 @@
 
 import fetchMock from "jest-fetch-mock";
 import { createMetricMapping } from "./Metric";
+import retrieveContent from "../contentApi/retrieveContent";
+import { MetricTypeId, MetricTypeIdList } from "../contentApi/types";
 
 const testTenantId = "US_ND";
-const testMetricId = "SentenceTypesCurrent";
-const testMetadata = {
-  name: "test metric",
-  description: "this is a test metric",
-  methodology: "test methodology description",
-};
-const testMetadataMapping = {
-  [testMetricId]: testMetadata,
-};
+const testMetadataMapping = retrieveContent({ tenantId: testTenantId }).metrics;
 
-function getTestMetric() {
-  const metric = createMetricMapping({
+const getTestMapping = () =>
+  createMetricMapping({
     metadataMapping: testMetadataMapping,
     tenantId: testTenantId,
-  })[testMetricId];
+  });
+
+let testMetricMapping: ReturnType<typeof createMetricMapping>;
+
+function getTestMetric(testMetricId: MetricTypeId) {
+  const metric = testMetricMapping[testMetricId];
 
   if (!metric) {
     throw new Error("expected instance of Metric");
@@ -42,36 +41,48 @@ function getTestMetric() {
   return metric;
 }
 
-test("base metadata", () => {
-  const metric = getTestMetric();
+describe("metadata", () => {
+  beforeAll(() => {
+    testMetricMapping = getTestMapping();
+  });
 
-  expect(metric.name).toBe(testMetadata.name);
-  expect(metric.description).toBe(testMetadata.description);
-  expect(metric.methodology).toBe(testMetadata.methodology);
+  test.each(MetricTypeIdList)("for metric %s", (metricId) => {
+    const metric = getTestMetric(metricId);
+    const testMetadata = testMetadataMapping[metricId];
+
+    if (!testMetadata) {
+      throw new Error("expected metadata for metric");
+    }
+
+    expect(metric.name).toBe(testMetadata.name);
+    expect(metric.description).toBe(testMetadata.description);
+    expect(metric.methodology).toBe(testMetadata.methodology);
+  });
 });
 
-test("fetches its data file", async () => {
-  const metric = getTestMetric();
+describe("data fetching", () => {
+  beforeAll(() => {
+    testMetricMapping = getTestMapping();
+  });
 
-  await metric.fetch();
-  // this is just a randomly chosen record from the fixture (transformed as needed)
-  expect(metric.records).toEqual(
-    expect.arrayContaining([
-      {
-        locality: "NORTH_CENTRAL",
-        gender: "ALL",
-        raceOrEthnicity: "BLACK",
-        ageBucket: "ALL",
-        incarcerationCount: 29,
-        probationCount: 45,
-        dualSentenceCount: 17,
-      },
-    ])
-  );
+  test.each(MetricTypeIdList)("for metric %s", async (metricId) => {
+    const metric = getTestMetric(metricId);
+
+    await metric.fetch();
+
+    // Be advised, these snapshots are huge! However, the only expected failure cases here are:
+    // 1. you intentionally changed the contents of the fixture in spotlight-api
+    // 2. you intentionally changed the record format for this Metric type
+    // Be especially careful inspecting snapshots for Metrics that filter their sources,
+    // e.g. Parole/Probation metrics. Verify that they use the right rows!
+    expect(metric.records).toMatchSnapshot();
+  });
 });
 
 test("file loading state", async () => {
-  const metric = getTestMetric();
+  testMetricMapping = getTestMapping();
+  // not really necessary to test this once per type; we just pick one arbitrarily
+  const metric = getTestMetric("ParoleSuccessHistorical");
 
   expect(metric.isLoading).toBeUndefined();
 
@@ -88,7 +99,10 @@ test("fetch error state", async () => {
   // mocking the backend for this test so we can simulate an error response
   fetchMock.doMock();
 
-  const metric = getTestMetric();
+  testMetricMapping = getTestMapping();
+
+  // not really necessary to test this once per type; we just pick one arbitrarily
+  const metric = getTestMetric("PrisonStayLengthAggregate");
 
   fetchMock.mockResponse(JSON.stringify({ error: "test error message" }), {
     status: 500,
