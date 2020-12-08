@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { TenantId } from "./contentApi/types";
+import { TenantId } from "../contentApi/types";
 
 /**
  * All data comes back from the server as string values;
@@ -34,7 +34,7 @@ type FetchMetricOptions = {
 /**
  * Retrieves the metric data provided for this application in the `/spotlight-api` package.
  */
-export default async function fetchMetrics({
+export async function fetchMetrics({
   metricNames,
   tenantId,
 }: FetchMetricOptions): Promise<MetricsApiResponse> {

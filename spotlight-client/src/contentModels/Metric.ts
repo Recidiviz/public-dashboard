@@ -17,21 +17,40 @@
 
 import assertNever from "assert-never";
 import { MetricTypeIdList, TenantContent, TenantId } from "../contentApi/types";
-import fetchMetrics, { RawMetricData } from "../fetchMetrics";
-import * as transforms from "./transforms";
 import {
-  AnyRecord,
-  CollectionMap,
   DemographicsByCategoryRecord,
+  fetchMetrics,
   HistoricalPopulationBreakdownRecord,
-  MetricMapping,
+  parolePopulationCurrent,
+  parolePopulationHistorical,
+  paroleProgramParticipationCurrent,
+  paroleRevocationReasons,
+  paroleSuccessRateDemographics,
+  paroleSuccessRateMonthly,
   PopulationBreakdownByLocationRecord,
+  prisonAdmissionReasons,
+  prisonPopulationCurrent,
+  prisonPopulationHistorical,
+  prisonReleaseTypes,
+  prisonStayLengths,
+  probationPopulationCurrent,
+  probationPopulationHistorical,
+  probationProgramParticipationCurrent,
+  probationRevocationReasons,
+  probationSuccessRateDemographics,
+  probationSuccessRateMonthly,
   ProgramParticipationCurrentRecord,
+  RawMetricData,
+  recidivismRateAllFollowup,
+  recidivismRateConventionalFollowup,
   RecidivismRateRecord,
+  sentencePopulationCurrent,
   SentenceTypeByLocationRecord,
+  sentenceTypesCurrent,
   SupervisionSuccessRateDemographicsRecord,
   SupervisionSuccessRateMonthlyRecord,
-} from "./types";
+} from "../metricsApi";
+import { AnyRecord, CollectionMap, MetricMapping } from "./types";
 
 type DataTransformer<RecordFormat> = (rawData: RawMetricData) => RecordFormat[];
 
@@ -149,7 +168,7 @@ export function createMetricMapping({
         >({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.sentencePopulationCurrent,
+          dataTransformer: sentencePopulationCurrent,
           sourceFileName: "sentence_type_by_district_by_demographics",
         });
         break;
@@ -157,7 +176,7 @@ export function createMetricMapping({
         metricMapping[metricType] = new Metric<SentenceTypeByLocationRecord>({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.sentenceTypesCurrent,
+          dataTransformer: sentenceTypesCurrent,
           sourceFileName: "sentence_type_by_district_by_demographics",
         });
         break;
@@ -167,7 +186,7 @@ export function createMetricMapping({
         >({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.prisonPopulationCurrent,
+          dataTransformer: prisonPopulationCurrent,
           sourceFileName:
             "incarceration_population_by_facility_by_demographics",
         });
@@ -178,7 +197,7 @@ export function createMetricMapping({
         >({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.probationPopulationCurrent,
+          dataTransformer: probationPopulationCurrent,
           sourceFileName: "supervision_population_by_district_by_demographics",
         });
         break;
@@ -188,7 +207,7 @@ export function createMetricMapping({
         >({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.parolePopulationCurrent,
+          dataTransformer: parolePopulationCurrent,
           sourceFileName: "supervision_population_by_district_by_demographics",
         });
         break;
@@ -198,7 +217,7 @@ export function createMetricMapping({
         >({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.prisonPopulationHistorical,
+          dataTransformer: prisonPopulationHistorical,
           sourceFileName: "incarceration_population_by_month_by_demographics",
         });
         break;
@@ -208,7 +227,7 @@ export function createMetricMapping({
         >({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.probationPopulationHistorical,
+          dataTransformer: probationPopulationHistorical,
           sourceFileName: "supervision_population_by_month_by_demographics",
         });
         break;
@@ -218,7 +237,7 @@ export function createMetricMapping({
         >({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.parolePopulationHistorical,
+          dataTransformer: parolePopulationHistorical,
           sourceFileName: "supervision_population_by_month_by_demographics",
         });
         break;
@@ -228,7 +247,7 @@ export function createMetricMapping({
         >({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.probationProgramParticipationCurrent,
+          dataTransformer: probationProgramParticipationCurrent,
           sourceFileName: "active_program_participation_by_region",
         });
         break;
@@ -238,7 +257,7 @@ export function createMetricMapping({
         >({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.paroleProgramParticipationCurrent,
+          dataTransformer: paroleProgramParticipationCurrent,
           sourceFileName: "active_program_participation_by_region",
         });
         break;
@@ -248,7 +267,7 @@ export function createMetricMapping({
         >({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.probationSuccessRateMonthly,
+          dataTransformer: probationSuccessRateMonthly,
           sourceFileName: "supervision_success_by_month",
         });
         break;
@@ -258,7 +277,7 @@ export function createMetricMapping({
         >({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.paroleSuccessRateMonthly,
+          dataTransformer: paroleSuccessRateMonthly,
           sourceFileName: "supervision_success_by_month",
         });
         break;
@@ -268,7 +287,7 @@ export function createMetricMapping({
         >({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.probationSuccessRateDemographics,
+          dataTransformer: probationSuccessRateDemographics,
           sourceFileName: "supervision_success_by_period_by_demographics",
         });
         break;
@@ -278,7 +297,7 @@ export function createMetricMapping({
         >({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.paroleSuccessRateDemographics,
+          dataTransformer: paroleSuccessRateDemographics,
           sourceFileName: "supervision_success_by_period_by_demographics",
         });
         break;
@@ -286,7 +305,7 @@ export function createMetricMapping({
         metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.probationRevocationReasons,
+          dataTransformer: probationRevocationReasons,
           sourceFileName:
             "supervision_revocations_by_period_by_type_by_demographics",
         });
@@ -295,7 +314,7 @@ export function createMetricMapping({
         metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.paroleRevocationReasons,
+          dataTransformer: paroleRevocationReasons,
           sourceFileName:
             "supervision_revocations_by_period_by_type_by_demographics",
         });
@@ -304,7 +323,7 @@ export function createMetricMapping({
         metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.prisonAdmissionReasons,
+          dataTransformer: prisonAdmissionReasons,
           sourceFileName: "incarceration_population_by_admission_reason",
         });
         break;
@@ -312,7 +331,7 @@ export function createMetricMapping({
         metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.prisonReleaseTypes,
+          dataTransformer: prisonReleaseTypes,
           sourceFileName: "incarceration_releases_by_type_by_period",
         });
         break;
@@ -320,7 +339,7 @@ export function createMetricMapping({
         metricMapping[metricType] = new Metric<RecidivismRateRecord>({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.recidivismRateAllFollowup,
+          dataTransformer: recidivismRateAllFollowup,
           sourceFileName: "recidivism_rates_by_cohort_by_year",
         });
         break;
@@ -328,7 +347,7 @@ export function createMetricMapping({
         metricMapping[metricType] = new Metric<RecidivismRateRecord>({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.recidivismRateConventionalFollowup,
+          dataTransformer: recidivismRateConventionalFollowup,
           sourceFileName: "recidivism_rates_by_cohort_by_year",
         });
         break;
@@ -336,7 +355,7 @@ export function createMetricMapping({
         metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
           ...metadata,
           tenantId,
-          dataTransformer: transforms.prisonStayLengths,
+          dataTransformer: prisonStayLengths,
           sourceFileName: "incarceration_lengths_by_demographics",
         });
         break;

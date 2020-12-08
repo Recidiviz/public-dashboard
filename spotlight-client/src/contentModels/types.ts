@@ -16,6 +16,16 @@
 // =============================================================================
 
 import { CollectionTypeId } from "../contentApi/types";
+import {
+  DemographicsByCategoryRecord,
+  HistoricalPopulationBreakdownRecord,
+  PopulationBreakdownByLocationRecord,
+  ProgramParticipationCurrentRecord,
+  RecidivismRateRecord,
+  SentenceTypeByLocationRecord,
+  SupervisionSuccessRateMonthlyRecord,
+  SupervisionSuccessRateDemographicsRecord,
+} from "../metricsApi";
 import type Collection from "./Collection";
 import type Metric from "./Metric";
 
@@ -28,84 +38,6 @@ export type CollectionMap = Map<CollectionTypeId, Collection | undefined>;
 // =======================================
 // Metric types
 // =======================================
-
-type TotalIdentifier = "ALL";
-
-export type RaceIdentifier =
-  | TotalIdentifier
-  | "AMERICAN_INDIAN_ALASKAN_NATIVE"
-  | "ASIAN"
-  | "BLACK"
-  | "HISPANIC"
-  | "NATIVE_HAWAIIAN_PACIFIC_ISLANDER"
-  | "WHITE"
-  | "OTHER";
-export type GenderIdentifier = TotalIdentifier | "FEMALE" | "MALE";
-export type AgeIdentifier =
-  | TotalIdentifier
-  | "<25"
-  | "25-29"
-  | "30-34"
-  | "35-39"
-  | "40<";
-
-type DemographicFields = {
-  raceOrEthnicity: RaceIdentifier;
-  gender: GenderIdentifier;
-  ageBucket: AgeIdentifier;
-};
-
-type LocalityFields = {
-  locality: string;
-};
-
-type RateFields = {
-  rateDenominator: number;
-  rateNumerator: number;
-  rate: number;
-};
-
-export type PopulationBreakdownByLocationRecord = DemographicFields &
-  LocalityFields & {
-    population: number;
-  };
-
-export type SentenceTypeByLocationRecord = DemographicFields &
-  LocalityFields & {
-    dualSentenceCount: number;
-    incarcerationCount: number;
-    probationCount: number;
-  };
-
-export type HistoricalPopulationBreakdownRecord = DemographicFields & {
-  date: string;
-  count: number;
-};
-
-export type ProgramParticipationCurrentRecord = LocalityFields & {
-  count: number;
-};
-
-export type SupervisionSuccessRateDemographicsRecord = DemographicFields &
-  LocalityFields &
-  RateFields;
-
-export type SupervisionSuccessRateMonthlyRecord = LocalityFields &
-  RateFields & {
-    month: number;
-    year: number;
-  };
-
-export type DemographicsByCategoryRecord = DemographicFields & {
-  category: string;
-  count: number;
-};
-
-export type RecidivismRateRecord = DemographicFields &
-  RateFields & {
-    releaseCohort: number;
-    followupYears: number;
-  };
 
 export type AnyRecord =
   | DemographicsByCategoryRecord

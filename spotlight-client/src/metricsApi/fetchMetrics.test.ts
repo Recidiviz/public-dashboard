@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import fetchMetrics from "./fetchMetrics";
-import { waitForTestServer } from "./testUtils";
+import { fetchMetrics } from "./fetchMetrics";
+import { waitForTestServer } from "../testUtils";
 
 test("returns fetched metrics", async () => {
   await waitForTestServer();
