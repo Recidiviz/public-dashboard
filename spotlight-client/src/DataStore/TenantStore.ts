@@ -15,12 +15,23 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { makeAutoObservable } from "mobx";
+import { TenantId } from "../contentApi/types";
+import Tenant, { createTenant } from "../contentModels/Tenant";
 import type RootStore from "./RootStore";
 
 export default class TenantStore {
+  currentTenant?: Tenant;
+
   rootStore: RootStore;
 
   constructor({ rootStore }: { rootStore: RootStore }) {
+    makeAutoObservable(this, { rootStore: false });
+
     this.rootStore = rootStore;
+  }
+
+  setCurrentTenant(opts: { tenantId: TenantId }): void {
+    this.currentTenant = createTenant(opts);
   }
 }

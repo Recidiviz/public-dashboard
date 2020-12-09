@@ -15,8 +15,32 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import DataStore from ".";
+import Tenant from "../contentModels/Tenant";
+import RootStore from "./RootStore";
+
+let DataStore: RootStore;
+
+beforeEach(() => {
+  DataStore = new RootStore();
+});
 
 test("contains a tenant store", () => {
-  expect(DataStore?.tenantStore).toBeDefined();
+  expect(DataStore.tenantStore).toBeDefined();
+});
+
+describe("tenant store", () => {
+  let tenantStore: typeof DataStore.tenantStore;
+
+  beforeEach(() => {
+    tenantStore = DataStore.tenantStore;
+  });
+
+  test("has no default tenant", () => {
+    expect(tenantStore.currentTenant).toBeUndefined();
+  });
+
+  test("can set current tenant", () => {
+    tenantStore.setCurrentTenant({ tenantId: "US_ND" });
+    expect(tenantStore.currentTenant).toBeInstanceOf(Tenant);
+  });
 });
