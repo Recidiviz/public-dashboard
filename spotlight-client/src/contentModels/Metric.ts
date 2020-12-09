@@ -16,6 +16,7 @@
 // =============================================================================
 
 import assertNever from "assert-never";
+import { makeAutoObservable, runInAction } from "mobx";
 import { MetricTypeIdList, TenantContent, TenantId } from "../contentApi/types";
 import {
   DemographicsByCategoryRecord,
@@ -70,23 +71,23 @@ type InitOptions<RecordFormat> = {
  */
 export default class Metric<RecordFormat extends AnyRecord> {
   // metadata properties
-  description: string;
+  readonly description: string;
 
-  methodology: string;
+  readonly methodology: string;
 
-  name: string;
+  readonly name: string;
 
   // relationships
   collections: CollectionMap = new Map();
 
   // we don't really need the entire Tenant object,
   // only the ID for use in the API request
-  tenantId: TenantId;
+  readonly tenantId: TenantId;
 
   // data properties
-  private dataTransformer: DataTransformer<RecordFormat>;
+  private readonly dataTransformer: DataTransformer<RecordFormat>;
 
-  private sourceFileName: string;
+  private readonly sourceFileName: string;
 
   isLoading?: boolean;
 
@@ -102,6 +103,14 @@ export default class Metric<RecordFormat extends AnyRecord> {
     dataTransformer,
     sourceFileName,
   }: InitOptions<RecordFormat>) {
+    makeAutoObservable(this, {
+      // readonly properties do not need to be observed
+      description: false,
+      methodology: false,
+      name: false,
+      tenantId: false,
+    });
+
     // initialize metadata
     this.name = name;
     this.description = description;
@@ -119,13 +128,15 @@ export default class Metric<RecordFormat extends AnyRecord> {
       metricNames: [this.sourceFileName],
       tenantId: this.tenantId,
     });
-    if (apiResponse) {
-      const metricFileData = apiResponse[this.sourceFileName];
-      if (metricFileData) {
-        this.allRecords = this.dataTransformer(metricFileData);
+    runInAction(() => {
+      if (apiResponse) {
+        const metricFileData = apiResponse[this.sourceFileName];
+        if (metricFileData) {
+          this.allRecords = this.dataTransformer(metricFileData);
+        }
+        this.isLoading = false;
       }
-      this.isLoading = false;
-    }
+    });
   }
 
   get records(): RecordFormat[] | undefined {

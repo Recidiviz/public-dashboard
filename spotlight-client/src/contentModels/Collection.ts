@@ -36,11 +36,11 @@ type InitOptions = {
  * needed for assembling known `Collection` kinds.
  */
 export default class Collection {
-  description: string;
+  readonly description: string;
 
-  name: string;
+  readonly name: string;
 
-  metrics: MetricMapping;
+  readonly metrics: MetricMapping;
 
   constructor({ name, description, metrics }: InitOptions) {
     this.name = name;
