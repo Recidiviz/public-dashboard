@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { autorun } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
 import { useErrorHandler, withErrorBoundary } from "react-error-boundary";
@@ -31,15 +32,19 @@ const AuthWall: React.FC = ({ children }) => {
   const { userStore } = useRootStore();
   const handleError = useErrorHandler();
 
-  useEffect(() => {
-    if (!userStore.isAuthorized) {
-      userStore.authorize().then((result) => {
-        if (result instanceof Error) {
-          handleError(result);
+  useEffect(
+    () =>
+      autorun(() => {
+        if (!userStore.isAuthorized) {
+          userStore.authorize().then((result) => {
+            if (result instanceof Error) {
+              handleError(result);
+            }
+          });
         }
-      });
-    }
-  }, [handleError, userStore]);
+      }),
+    [handleError, userStore]
+  );
 
   if (userStore.isLoading) {
     return <Loading />;

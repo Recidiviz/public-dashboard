@@ -45,7 +45,7 @@ type ConstructorProps = {
  * ```
  */
 export default class UserStore {
-  authSettings?: Auth0ClientOptions;
+  readonly authSettings?: Auth0ClientOptions;
 
   awaitingVerification: boolean;
 
@@ -56,7 +56,7 @@ export default class UserStore {
   rootStore?: RootStore;
 
   constructor({ authSettings, isAuthRequired, rootStore }: ConstructorProps) {
-    makeAutoObservable(this);
+    makeAutoObservable(this, { rootStore: false, authSettings: false });
 
     this.authSettings = authSettings;
     this.rootStore = rootStore;

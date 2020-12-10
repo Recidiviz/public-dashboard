@@ -16,21 +16,21 @@
 // =============================================================================
 
 import React, { useContext } from "react";
-import RootStore from "../stores/RootStore";
+import DataStore from "../DataStore";
 
-const StoreContext = React.createContext<RootStore | undefined>(undefined);
+const StoreContext = React.createContext<typeof DataStore | undefined>(
+  undefined
+);
 
 const StoreProvider: React.FC = ({ children }) => {
   return (
-    <StoreContext.Provider value={new RootStore()}>
-      {children}
-    </StoreContext.Provider>
+    <StoreContext.Provider value={DataStore}>{children}</StoreContext.Provider>
   );
 };
 
 export default StoreProvider;
 
-export function useRootStore(): RootStore {
+export function useRootStore(): typeof DataStore {
   const context = useContext(StoreContext);
   if (context === undefined) {
     throw new Error("useStore must be used within a StoreProvider");

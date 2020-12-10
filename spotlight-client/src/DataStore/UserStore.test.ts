@@ -17,6 +17,7 @@
 
 import createAuth0Client from "@auth0/auth0-spa-js";
 import { ERROR_MESSAGES } from "../constants";
+import { reactImmediately } from "../testUtils";
 import UserStore from "./UserStore";
 
 jest.mock("@auth0/auth0-spa-js");
@@ -48,14 +49,20 @@ afterEach(() => {
 
 test("immediately authorized when auth is not required", async () => {
   const store = new UserStore({ isAuthRequired: false });
-  expect(store.isAuthorized).toBe(true);
-  expect(store.isLoading).toBe(false);
+  reactImmediately(() => {
+    expect(store.isAuthorized).toBe(true);
+    expect(store.isLoading).toBe(false);
+  });
+  expect.hasAssertions();
 });
 
 test("authorization immediately pending when required", async () => {
   const store = new UserStore({ isAuthRequired: true });
-  expect(store.isAuthorized).toBe(false);
-  expect(store.isLoading).toBe(true);
+  reactImmediately(() => {
+    expect(store.isAuthorized).toBe(false);
+    expect(store.isLoading).toBe(true);
+  });
+  expect.hasAssertions();
 });
 
 test("authorize requires Auth0 client settings", async () => {
@@ -73,8 +80,11 @@ test("authorized when authenticated", async () => {
     isAuthRequired: true,
   });
   await store.authorize();
-  expect(store.isAuthorized).toBe(true);
-  expect(store.isLoading).toBe(false);
+  reactImmediately(() => {
+    expect(store.isAuthorized).toBe(true);
+    expect(store.isLoading).toBe(false);
+  });
+  expect.hasAssertions();
 });
 
 test("redirect to Auth0 when unauthenticated", async () => {
@@ -104,8 +114,11 @@ test("requires email verification", async () => {
   });
   await store.authorize();
 
-  expect(store.isAuthorized).toBe(false);
-  expect(store.awaitingVerification).toBe(true);
+  reactImmediately(() => {
+    expect(store.isAuthorized).toBe(false);
+    expect(store.awaitingVerification).toBe(true);
+  });
+  expect.hasAssertions();
 });
 
 test("handles Auth0 token params", async () => {
