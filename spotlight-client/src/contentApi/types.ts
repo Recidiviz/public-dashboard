@@ -69,11 +69,13 @@ export const MetricTypeIdList = [
   "ProbationPopulationCurrent",
   "ProbationPopulationHistorical",
   "ProbationSuccessHistorical",
+  "ProbationSuccessAggregate",
   "ProbationRevocationsAggregate",
   "ProbationProgrammingCurrent",
   "ParolePopulationCurrent",
   "ParolePopulationHistorical",
   "ParoleSuccessHistorical",
+  "ParoleSuccessAggregate",
   "ParoleRevocationsAggregate",
   "ParoleProgrammingCurrent",
 ] as const;

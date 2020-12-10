@@ -15,26 +15,30 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import "react-app-polyfill/ie11";
-import "react-app-polyfill/stable";
+import { RawMetricData } from "./fetchMetrics";
+import {
+  DemographicFields,
+  extractDemographicFields,
+  LocalityFields,
+} from "./utils";
 
-import { configure } from "mobx";
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
+export type SentenceTypeByLocationRecord = DemographicFields &
+  LocalityFields & {
+    dualSentenceCount: number;
+    incarcerationCount: number;
+    probationCount: number;
+  };
 
-configure({
-  // make proxies optional for IE 11 support
-  useProxies: "ifavailable",
-  // activate runtime linting
-  computedRequiresReaction: true,
-  reactionRequiresObservable: true,
-  observableRequiresReaction: true,
-});
-
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+export function sentenceTypesCurrent(
+  rawRecords: RawMetricData
+): SentenceTypeByLocationRecord[] {
+  return rawRecords.map((record) => {
+    return {
+      dualSentenceCount: Number(record.dual_sentence_count),
+      incarcerationCount: Number(record.incarceration_count),
+      locality: record.district,
+      probationCount: Number(record.probation_count),
+      ...extractDemographicFields(record),
+    };
+  });
+}

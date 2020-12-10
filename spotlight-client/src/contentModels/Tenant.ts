@@ -16,20 +16,16 @@
 // =============================================================================
 
 import retrieveContent from "../contentApi/retrieveContent";
-import {
-  CollectionTypeIdList,
-  MetricTypeIdList,
-  TenantId,
-} from "../contentApi/types";
+import { CollectionTypeIdList, TenantId } from "../contentApi/types";
 import { createCollection } from "./Collection";
-import { createMetric } from "./Metric";
-import { CollectionMap, MetricMap } from "./types";
+import { createMetricMapping } from "./Metric";
+import { CollectionMap, MetricMapping } from "./types";
 
 type InitOptions = {
-  name: string;
-  description: string;
-  collections: CollectionMap;
-  metrics: MetricMap;
+  readonly name: string;
+  readonly description: string;
+  readonly collections: CollectionMap;
+  readonly metrics: MetricMapping;
 };
 
 /**
@@ -61,20 +57,13 @@ type TenantFactoryOptions = {
 };
 
 function getMetricsForTenant(
-  allTenantContent: ReturnType<typeof retrieveContent>
+  allTenantContent: ReturnType<typeof retrieveContent>,
+  tenantId: TenantId
 ) {
-  const metricMapping: InitOptions["metrics"] = new Map();
-
-  // not all metrics are required; content object is the source of truth
-  // for which metrics to include
-  MetricTypeIdList.forEach((id) => {
-    const content = allTenantContent.metrics[id];
-    if (content) {
-      metricMapping.set(id, createMetric(content));
-    }
+  return createMetricMapping({
+    metadataMapping: allTenantContent.metrics,
+    tenantId,
   });
-
-  return metricMapping;
 }
 
 function getCollectionsForTenant({
@@ -82,7 +71,7 @@ function getCollectionsForTenant({
   metrics,
 }: {
   allTenantContent: ReturnType<typeof retrieveContent>;
-  metrics: MetricMap;
+  metrics: MetricMapping;
 }) {
   const collectionMapping: InitOptions["collections"] = new Map();
 
@@ -107,7 +96,7 @@ function getCollectionsForTenant({
 export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
   const allTenantContent = retrieveContent({ tenantId });
 
-  const metrics = getMetricsForTenant(allTenantContent);
+  const metrics = getMetricsForTenant(allTenantContent, tenantId);
 
   return new Tenant({
     name: allTenantContent.name,
