@@ -45,6 +45,8 @@ type ConstructorProps = {
  * ```
  */
 export default class UserStore {
+  authError?: Error;
+
   readonly authSettings?: Auth0ClientOptions;
 
   awaitingVerification: boolean;
@@ -53,7 +55,7 @@ export default class UserStore {
 
   isLoading: boolean;
 
-  rootStore?: RootStore;
+  readonly rootStore?: RootStore;
 
   constructor({ authSettings, isAuthRequired, rootStore }: ConstructorProps) {
     makeAutoObservable(this, { rootStore: false, authSettings: false });
@@ -77,11 +79,12 @@ export default class UserStore {
    * to the Auth0 login domain for fresh authentication.
    * Returns an Error if Auth0 configuration is not present.
    */
-  async authorize(): Promise<Error | void> {
+  async authorize(): Promise<void> {
     if (!this.authSettings) {
-      // returning rather than throwing for better type safety
-      return new Error(ERROR_MESSAGES.auth0Configuration);
+      this.authError = new Error(ERROR_MESSAGES.auth0Configuration);
+      return;
     }
+
     const auth0 = await createAuth0Client(this.authSettings);
 
     const urlQuery = qs.parse(window.location.search, {

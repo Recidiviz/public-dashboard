@@ -67,8 +67,12 @@ test("authorization immediately pending when required", async () => {
 
 test("authorize requires Auth0 client settings", async () => {
   const store = new UserStore({ isAuthRequired: true });
-  const error = (await store.authorize()) as Error;
-  expect(error.message).toMatch(ERROR_MESSAGES.auth0Configuration);
+  await store.authorize();
+  reactImmediately(() => {
+    const error = store.authError;
+    expect(error?.message).toMatch(ERROR_MESSAGES.auth0Configuration);
+  });
+  expect.hasAssertions();
 });
 
 test("authorized when authenticated", async () => {

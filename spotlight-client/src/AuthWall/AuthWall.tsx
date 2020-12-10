@@ -15,10 +15,10 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { autorun } from "mobx";
+import { when } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
-import { useErrorHandler, withErrorBoundary } from "react-error-boundary";
+import { withErrorBoundary } from "react-error-boundary";
 import { ERROR_MESSAGES } from "../constants";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
@@ -30,21 +30,20 @@ import VerificationRequired from "../VerificationRequired";
  */
 const AuthWall: React.FC = ({ children }) => {
   const { userStore } = useRootStore();
-  const handleError = useErrorHandler();
 
   useEffect(
     () =>
-      autorun(() => {
-        if (!userStore.isAuthorized) {
-          userStore.authorize().then((result) => {
-            if (result instanceof Error) {
-              handleError(result);
-            }
-          });
-        }
-      }),
-    [handleError, userStore]
+      // return when's disposer so it is cleaned up if it never runs
+      when(
+        () => !userStore.isAuthorized,
+        () => userStore.authorize()
+      ),
+    [userStore]
   );
+
+  if (userStore.authError) {
+    throw userStore.authError;
+  }
 
   if (userStore.isLoading) {
     return <Loading />;
