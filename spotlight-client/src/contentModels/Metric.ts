@@ -109,6 +109,10 @@ export default class Metric<RecordFormat extends AnyRecord> {
       methodology: false,
       name: false,
       tenantId: false,
+      // in practice, collections should not change once we are done
+      // boostrapping them (which is done right after instantiation);
+      // no need to make them observable
+      collections: false,
     });
 
     // initialize metadata

@@ -17,9 +17,20 @@
 
 import "react-app-polyfill/ie11";
 import "react-app-polyfill/stable";
+import { configure } from "mobx";
+
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+
+configure({
+  // make proxies optional for IE 11 support
+  useProxies: "ifavailable",
+  // activate runtime linting
+  computedRequiresReaction: true,
+  reactionRequiresObservable: true,
+  observableRequiresReaction: true,
+});
 
 ReactDOM.render(
   <React.StrictMode>

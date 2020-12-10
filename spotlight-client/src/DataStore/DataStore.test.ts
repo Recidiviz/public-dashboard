@@ -15,10 +15,20 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { autorun } from "mobx";
 import Tenant from "../contentModels/Tenant";
 import RootStore from "./RootStore";
 
 let DataStore: RootStore;
+
+/**
+ * Convenience method to run an immediate, one-time reactive effect
+ */
+function reactImmediately(effect: () => void) {
+  // this will call the effect function immediately,
+  // and then immediately call the disposer to tear down the reaction
+  autorun(effect)();
+}
 
 beforeEach(() => {
   DataStore = new RootStore();
@@ -36,11 +46,17 @@ describe("tenant store", () => {
   });
 
   test("has no default tenant", () => {
-    expect(tenantStore.currentTenant).toBeUndefined();
+    reactImmediately(() => {
+      expect(tenantStore.currentTenant).toBeUndefined();
+    });
+    expect.hasAssertions();
   });
 
   test("can set current tenant", () => {
     tenantStore.setCurrentTenant({ tenantId: "US_ND" });
-    expect(tenantStore.currentTenant).toBeInstanceOf(Tenant);
+    reactImmediately(() => {
+      expect(tenantStore.currentTenant).toBeInstanceOf(Tenant);
+    });
+    expect.hasAssertions();
   });
 });

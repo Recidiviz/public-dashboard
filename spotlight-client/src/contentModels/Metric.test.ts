@@ -16,6 +16,8 @@
 // =============================================================================
 
 import fetchMock from "jest-fetch-mock";
+import { when } from "mobx";
+import { fromPromise } from "mobx-utils";
 import { createMetricMapping } from "./Metric";
 import retrieveContent from "../contentApi/retrieveContent";
 import { MetricTypeId, MetricTypeIdList } from "../contentApi/types";
@@ -65,34 +67,63 @@ describe("data fetching", () => {
     testMetricMapping = getTestMapping();
   });
 
-  test.each(MetricTypeIdList)("for metric %s", async (metricId) => {
+  test.each(MetricTypeIdList)("for metric %s", (metricId, done) => {
+    expect.hasAssertions();
     const metric = getTestMetric(metricId);
 
-    await metric.fetch();
+    metric.fetch();
 
-    // Be advised, these snapshots are huge! However, the only expected failure cases here are:
-    // 1. you intentionally changed the contents of the fixture in spotlight-api
-    // 2. you intentionally changed the record format for this Metric type
-    // Be especially careful inspecting snapshots for Metrics that filter their sources,
-    // e.g. Parole/Probation metrics. Verify that they use the right rows!
-    expect(metric.records).toMatchSnapshot();
+    when(
+      () => metric.records !== undefined,
+      () => {
+        // Be advised, these snapshots are huge! However, the only expected failure cases here are:
+        // 1. you intentionally changed the contents of the fixture in spotlight-api
+        // 2. you intentionally changed the record format for this Metric type
+        // Be especially careful inspecting snapshots for Metrics that filter their sources,
+        // e.g. Parole/Probation metrics. Verify that they use the right rows!
+        expect(metric.records).toMatchSnapshot();
+        // @ts-expect-error typedefs for `test.each` are wrong, `done` will be a function
+        done();
+      }
+    );
   });
 });
 
-test("file loading state", async () => {
+test("file loading state", (done) => {
   testMetricMapping = getTestMapping();
   // not really necessary to test this once per type; we just pick one arbitrarily
   const metric = getTestMetric("ParoleSuccessHistorical");
 
-  expect(metric.isLoading).toBeUndefined();
+  let dataPromise: ReturnType<typeof fromPromise>;
 
-  const dataPromise = metric.fetch();
-  expect(metric.isLoading).toBe(true);
-  expect(metric.records).toBeUndefined();
+  // this should be the initial state of the metric instance
+  when(
+    () => metric.isLoading === undefined,
+    () => {
+      expect(metric.records).toBeUndefined();
+      // the fetch is initiated here; this will trigger the reactions below
+      dataPromise = fromPromise(metric.fetch());
+    }
+  );
 
-  await dataPromise;
-  expect(metric.isLoading).toBe(false);
-  expect(metric.records).toBeDefined();
+  when(
+    () => dataPromise.state === "pending",
+    () => {
+      expect(metric.isLoading).toBe(true);
+      expect(metric.records).toBeUndefined();
+    }
+  );
+
+  when(
+    () => dataPromise.state === "fulfilled",
+    () => {
+      expect(metric.isLoading).toBe(false);
+      expect(metric.records).toBeDefined();
+      done();
+    }
+  );
+
+  expect.assertions(5);
 });
 
 test("fetch error state", async () => {
