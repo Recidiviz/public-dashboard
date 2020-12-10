@@ -137,6 +137,7 @@ export const defaultTheme = {
       selected: brightGreen,
       remainder: dataVizColorMap.get("paleBlue"),
     },
+    recidivismSingleFollowup: dataVizColorMap.get("teal"),
     releaseTypes: assignDataVizColors(Array.from(RELEASE_TYPE_KEYS.keys())),
     sentenceLengths: dataVizColorMap.get("paleBlue"),
     sentencing: {

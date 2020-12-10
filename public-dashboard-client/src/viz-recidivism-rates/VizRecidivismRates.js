@@ -23,6 +23,7 @@ import {
   DIMENSION_KEYS,
   DIMENSION_MAPPINGS,
 } from "../constants";
+import Disclaimer from "../disclaimer";
 import {
   assignOrderedDatavizColor,
   demographicsAscending,
@@ -30,20 +31,19 @@ import {
 } from "../utils";
 import RecidivismRatesChart from "./RecidivismRatesChart";
 
-function typeCast(recidivismRecord) {
-  const {
-    followup_years: followupYears,
-    recidivism_rate: recidivismRate,
-    release_cohort: releaseCohort,
-    ...otherProps
-  } = recidivismRecord;
-
-  return {
-    followupYears: Number(followupYears),
-    recidivismRate: Number(recidivismRate),
-    releaseCohort,
-    ...otherProps,
+/**
+ * adds an initial record to each series for year zero with rate zero.
+ * Helps to make the initial point in the line chart more visible,
+ * especially for lines that would otherwise only have one point.
+ */
+function prependZero(records) {
+  const zeroRecord = {
+    ...records[0],
+    followupYears: 0,
+    recidivated_releases: "0",
+    recidivismRate: 0,
   };
+  return [zeroRecord, ...records];
 }
 
 /**
@@ -52,30 +52,33 @@ function typeCast(recidivismRecord) {
  * Otherwise (i.e., a single cohort and some dimensional breakdown is selected),
  * will return one data series per demographic subgroup.
  */
-function prepareChartData({ data, dimension, selectedCohorts }) {
+function prepareChartData({
+  data,
+  dimension,
+  highlightedCohort,
+  selectedCohorts,
+}) {
   const showDemographics =
     selectedCohorts &&
-    selectedCohorts.length === 1 &&
+    selectedCohorts.length <= 1 &&
     dimension !== DIMENSION_KEYS.total;
 
-  const preparedData = data
-    .filter(recordIsTotalByDimension(dimension))
-    .map(typeCast);
+  const filteredData = data.filter(recordIsTotalByDimension(dimension));
 
   if (showDemographics) {
     return Array.from(
       group(
         // filter out unselected years first so we only have to do it once
-        preparedData.filter(({ releaseCohort }) =>
+        filteredData.filter(({ releaseCohort }) =>
           selectedCohorts.some(({ id }) => id === releaseCohort)
         ),
         (d) => d[DIMENSION_DATA_KEYS[dimension]]
       ),
-      ([key, value]) => {
+      ([key, records]) => {
         return {
           key,
           label: DIMENSION_MAPPINGS.get(dimension).get(key),
-          coordinates: value,
+          coordinates: prependZero(records),
         };
       }
     )
@@ -84,12 +87,12 @@ function prepareChartData({ data, dimension, selectedCohorts }) {
   }
   return (
     Array.from(
-      group(preparedData, (d) => d.releaseCohort),
-      ([key, value]) => {
+      group(filteredData, (d) => d.releaseCohort),
+      ([key, records]) => {
         return {
           key,
           label: key,
-          coordinates: value,
+          coordinates: prependZero(records),
         };
       }
     )
@@ -98,6 +101,10 @@ function prepareChartData({ data, dimension, selectedCohorts }) {
       .map(assignOrderedDatavizColor)
       .filter((record) => {
         if (!selectedCohorts) {
+          return true;
+        }
+        // highlighted cohort is included even if it's not selected
+        if (highlightedCohort && highlightedCohort.label === record.label) {
           return true;
         }
         return selectedCohorts.some(({ id }) => id === record.label);
@@ -111,14 +118,18 @@ export default function VizRecidivismRates({
   const chartData = prepareChartData({
     data: recidivismRates,
     dimension,
+    highlightedCohort,
     selectedCohorts,
   });
 
   return (
-    <RecidivismRatesChart
-      data={chartData}
-      highlightedCohort={highlightedCohort}
-    />
+    <>
+      <RecidivismRatesChart
+        data={chartData}
+        highlightedCohort={highlightedCohort}
+      />
+      <Disclaimer type="small-data" />
+    </>
   );
 }
 
@@ -127,9 +138,9 @@ VizRecidivismRates.propTypes = {
     dimension: PropTypes.string.isRequired,
     recidivismRates: PropTypes.arrayOf(
       PropTypes.shape({
-        followup_years: PropTypes.string.isRequired,
-        recidivism_rate: PropTypes.string.isRequired,
-        release_cohort: PropTypes.string.isRequired,
+        followupYears: PropTypes.number.isRequired,
+        recidivismRate: PropTypes.number.isRequired,
+        releaseCohort: PropTypes.string.isRequired,
       })
     ).isRequired,
     selectedCohorts: PropTypes.arrayOf(

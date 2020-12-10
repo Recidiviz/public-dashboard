@@ -32,6 +32,7 @@ import {
   DropdownWrapper as DropdownWrapperBase,
   HiddenSelect,
 } from "./shared";
+import { highlightFade } from "../utils";
 
 const SELECT_ALL_ID = "ALL";
 
@@ -91,6 +92,22 @@ const OPTIONS_PROP_TYPE = PropTypes.arrayOf(
   and([DropdownOptionType, PropTypes.shape({ color: PropTypes.string })])
 );
 
+function getOptionColor({ isSelected, highlightedIndex, index, opt }) {
+  // by default there is no color
+  let color;
+  if (isSelected) {
+    // a selected option has either the dataviz color or its faded variant
+    // depending on whether a menu hover state is active
+    // zero index is ignored because it's the "select all" option
+    if (highlightedIndex > 0 && highlightedIndex !== index) {
+      color = highlightFade(opt.color);
+    } else {
+      color = opt.color;
+    }
+  }
+  return color;
+}
+
 function CustomSelect({
   buttonContents,
   onHighlight,
@@ -98,8 +115,10 @@ function CustomSelect({
   selected,
   setSelected,
 }) {
+  const selectAllLabel =
+    selected.length === optionsFromData.length ? "Deselect all" : "Select all";
   const visibleOptions = [
-    { id: SELECT_ALL_ID, label: "Select all" },
+    { id: SELECT_ALL_ID, label: selectAllLabel },
     ...optionsFromData,
   ];
 
@@ -191,7 +210,14 @@ function CustomSelect({
                 {...itemProps}
                 aria-selected={isSelected}
                 as="li"
-                backgroundColor={isSelected ? opt.color : undefined}
+                backgroundColor={getOptionColor({
+                  highlightedIndex,
+                  index,
+                  isSelected,
+                  opt,
+                })}
+                // color in this menu does not change because we just fade the others instead
+                highlightColor={opt.color}
                 highlightedSelector={
                   highlightedIndex === index ? `&#${itemProps.id}` : undefined
                 }
@@ -199,7 +225,7 @@ function CustomSelect({
               >
                 <MenuItemContents>
                   {opt.label}
-                  <MenuItemCheckMark src={checkMarkPath} />
+                  <MenuItemCheckMark alt="" src={checkMarkPath} />
                 </MenuItemContents>
               </DropdownMenuItem>
             );

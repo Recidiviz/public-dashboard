@@ -15,22 +15,35 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { color } from "d3-color";
-import { interpolateRgb } from "d3-interpolate";
-import { THEME } from "../theme";
+import { MetricContent } from "../contentApi/types";
+import { CollectionMap } from "./types";
 
-const FADE_AMOUNT = 0.45;
+type InitOptions = {
+  name: string;
+  description: string;
+};
 
-export default function highlightFade(baseColor, { useOpacity = false } = {}) {
-  if (useOpacity) {
-    // in cases where we actually want the color to be transparent,
-    // this is a relatively straightforward opacity change
-    const fadedColor = color(baseColor);
-    fadedColor.opacity = 0.45;
-    return fadedColor.toString();
+/**
+ * Represents a single dataset backed by data from our metrics API.
+ * The recommended way to instantiate a `Metric` is with the `createMetric`
+ * factory exported from this module.
+ */
+export default class Metric {
+  description: string;
+
+  name: string;
+
+  collections: CollectionMap = new Map();
+
+  constructor({ name, description }: InitOptions) {
+    this.name = name;
+    this.description = description;
   }
-  // in cases where we don't want a transparent color (which is most cases),
-  // this will create a tint ramp from background color to baseColor;
-  // the ramp goes from 0 to 1 with values analogous to opacity
-  return interpolateRgb(THEME.colors.background, baseColor)(FADE_AMOUNT);
+}
+
+/**
+ * Factory function for creating an instance of `Metric`.
+ */
+export function createMetric({ name, description }: MetricContent): Metric {
+  return new Metric({ name, description });
 }

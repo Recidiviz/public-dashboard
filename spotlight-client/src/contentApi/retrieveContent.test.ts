@@ -15,22 +15,10 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { color } from "d3-color";
-import { interpolateRgb } from "d3-interpolate";
-import { THEME } from "../theme";
+import retrieveContent from "./retrieveContent";
+import US_ND from "./sources/us_nd";
 
-const FADE_AMOUNT = 0.45;
-
-export default function highlightFade(baseColor, { useOpacity = false } = {}) {
-  if (useOpacity) {
-    // in cases where we actually want the color to be transparent,
-    // this is a relatively straightforward opacity change
-    const fadedColor = color(baseColor);
-    fadedColor.opacity = 0.45;
-    return fadedColor.toString();
-  }
-  // in cases where we don't want a transparent color (which is most cases),
-  // this will create a tint ramp from background color to baseColor;
-  // the ramp goes from 0 to 1 with values analogous to opacity
-  return interpolateRgb(THEME.colors.background, baseColor)(FADE_AMOUNT);
-}
+test("returns content for the specified tenant", () => {
+  const tenantContent = retrieveContent({ tenantId: "US_ND" });
+  expect(tenantContent).toEqual(US_ND);
+});

@@ -9,6 +9,7 @@ This package is a Node/Express server application that provides a thin API backe
 If you have followed the [setup instructions](../README.md#getting-set-up) in the root directory, you should be ready to go. You should be able to test your development environment via:
 
     `yarn lint`
+    `yarn test`
 
 We suggest installing a linting package for your preferred code editor that hooks into [eslint](#yarn-lint). We recommend [linter-eslint](https://atom.io/packages/linter-eslint) if you're using Atom.
 
@@ -69,3 +70,13 @@ Besides the scripts mentioned above for running and deploying the app, you can a
 Runs the eslint checks against the package to check for issues in code style.
 
 Eslint rules are configurable in `.eslintrc.json`, which inherits from the root `../.eslintrc.json` and extends it with settings specific to this package. Any change to this file should be accompanied with an explanation for the change and why it should be merged.
+
+### `yarn test`
+
+Launches the test runner ([Jest](https://jestjs.io/)) in interactive watch mode.
+
+### `yarn start-test-server`
+
+Starts the server with settings that are expected by other packages that wish to run integration tests against a live server (e.g. listening on a particular port, using local data fixtures rather than fetching from GCP).
+
+Packages that wish to use this test server will generally be responsible for provisioning it for themselves, so you shouldn't have to run this directly in order to run tests in other packages.

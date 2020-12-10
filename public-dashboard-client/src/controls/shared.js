@@ -88,7 +88,8 @@ export const DropdownMenuItem = styled.div`
   */
   &:hover${(props) =>
       props.highlightedSelector ? `, ${props.highlightedSelector}` : ""} {
-    background: ${(props) => props.theme.colors.highlight};
+    background: ${(props) =>
+      props.highlightColor || props.theme.colors.highlight};
     color: ${(props) => props.theme.colors.bodyLight};
   }
 `;

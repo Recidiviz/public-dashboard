@@ -163,6 +163,27 @@ const CONTENTS_BY_PAGE = {
         with an end to the period of incarceration, such as transfers between
         facilities, are not shown here.
       </MethodologyDescription>
+      <SectionTitle>{SECTION_TITLES[PATHS.prison].recidivism}</SectionTitle>
+      <MethodologyDescription>
+        This chart shows reincarceration recidivism rates, which is the
+        proportion of individuals released from a ND DOCR facility that return
+        to a ND DOCR facility at some point in the future. The releases are
+        grouped by the calendar year in which the release occurred, and the
+        rates are calculated as the percentage of the people released that have
+        returned to incarceration after each year since the release. Individuals
+        are included in the release cohort if they were released for serving
+        their sentence or were conditionally released onto supervision.
+        Admissions to incarceration for new court commitments or due to
+        revocations of supervision are counted as instances of reincarceration
+        recidivism.
+      </MethodologyDescription>
+      <SectionTitle>
+        {SECTION_TITLES[PATHS.prison].recidivismSingleFollowup}
+      </SectionTitle>
+      <MethodologyDescription>
+        This chart shows the reincarceration recidivism rate for a set number
+        years since the release, for the 10 most recent release cohorts.
+      </MethodologyDescription>
     </>
   ),
   [PATHS.parole]: (

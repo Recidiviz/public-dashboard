@@ -15,12 +15,13 @@ We suggest installing a linting package for your preferred code editor that hook
 
 #### Environment variables
 
-Second and last, set up your environment variables. Copy the `.env.example` file and set variables accordingly per environment. The app can be deployed to both staging and production environments. Staging relies on environment variables stored in `.env.development` and production relies on variables in `.env.production`. Local relies on `.env.development.local`.
+Second and last, set up your environment variables. Copy the `.env.example` file and set variables accordingly per environment. The app can be deployed to both staging and production environments. Staging relies on environment variables stored in `.env.development` and production relies on variables in `.env.production`. Local relies on `.env.development.local`. The test environment relies on `.env.test`.
 
 Expected environment variables include:
 
 - `REACT_APP_AUTH_ENABLED` - set to `true` or `false` to toggle Auth0 protection per environment. Currently only used in staging to make the entire site private. No need to enable this locally unless you are developing or testing something auth-related. If set to `true` then `REACT_APP_AUTH_ENV` **must** be set to a supported value.
 - `REACT_APP_AUTH_ENV` - a string indicating the "auth environment" used to point to the correct Auth0 tenant. `development` (which also covers staging) is the only supported value, which **must** be set if `REACT_APP_AUTH_ENABLED` is `true`.
+- `REACT_APP_API_URL` - the base URL of the backend API server. This should be set to http://localhost:3001 when running the server locally, and to http://localhost:3002 in the test environment (because some tests will make requests to this URL).
 
 (Note that variables must be prefixed with `REACT_APP_` to be available inside the client application.)
 
@@ -53,6 +54,8 @@ Besides the scripts mentioned above for running and deploying the app, you can a
 Launches the test runner in the interactive watch mode.
 
 We use [`@testing-library/react`](https://testing-library.com/docs/react-testing-library/intro) for React component tests.
+
+Also worth noting is that some integration tests execute against a real API server from `/spotlight-api`. This server process is started in `./globalTestSetup.js` and killed in `./globalTestTeardown.js`.
 
 See the [Create React App docs](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 

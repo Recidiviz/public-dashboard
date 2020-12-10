@@ -18,13 +18,15 @@
 import React from "react";
 import { DIMENSION_KEYS } from "../constants";
 import { render, screen, getDataFixture } from "../testUtils";
+import { typecastRecidivismData } from "../utils";
 import VizRecidivismRates from ".";
 
 const recidivismRatesFixture = getDataFixture(
   "recidivism_rates_by_cohort_by_year.json"
-);
+).map(typecastRecidivismData);
+
 const allCohorts = new Set(
-  recidivismRatesFixture.map((record) => record.release_cohort)
+  recidivismRatesFixture.map((record) => record.releaseCohort)
 );
 const allSelectedCohorts = [...allCohorts].map((year) => ({
   id: year,
@@ -79,6 +81,22 @@ test("renders one line per cohort", () => {
   );
 
   expect(getMainByLabelText("7 lines in a line chart")).toBeVisible();
+});
+
+test("renders the highlighted cohort even if it's not selected", () => {
+  const dimension = DIMENSION_KEYS.total;
+
+  render(
+    <VizRecidivismRates
+      data={{
+        dimension,
+        highlightedCohort: allSelectedCohorts[8],
+        recidivismRates: recidivismRatesFixture,
+        selectedCohorts: allSelectedCohorts.slice(0, 5),
+      }}
+    />
+  );
+  expect(getMainByLabelText("6 lines in a line chart")).toBeVisible();
 });
 
 test("renders one line per demographic subgroup", () => {

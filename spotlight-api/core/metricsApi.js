@@ -40,6 +40,10 @@ const memoryCache = cacheManager.caching({
   refreshThreshold: METRIC_REFRESH_SECONDS,
 });
 
+function clearCache() {
+  memoryCache.reset();
+}
+
 const asyncReadFile = util.promisify(fs.readFile);
 
 const FILES_BY_METRIC_TYPE = {
@@ -77,8 +81,13 @@ const FILES_BY_METRIC_TYPE = {
   ],
 };
 
+const ALL_METRIC_FILES = Array.from(
+  new Set([].concat(...Object.values(FILES_BY_METRIC_TYPE))).values() // using Set to de-duplicate filenames
+);
+
 /**
  * Converts the given contents, a Buffer of bytes, into a JS object or array.
+ * @return {DeserializedFile}
  */
 function convertDownloadToJson(contents) {
   const stringContents = contents.toString();
@@ -98,6 +107,24 @@ function convertDownloadToJson(contents) {
 }
 
 /**
+ * Verifies names against a list of registered files. If matched, returns
+ * normalized versions of the names. If any do not match, throws an error.
+ * @param {Object} opts - description.
+ * @param {string[]} opts.names - the names to normalize
+ * @param {string[]} opts.registeredFiles - normalized names to verify against
+ * @return {string[]} normalized file names
+ */
+function normalizeMetricFilenames({ names, registeredFiles }) {
+  return names.map((name) => {
+    const normalizedFile = `${name}.json`;
+    if (registeredFiles.indexOf(normalizedFile) > -1) {
+      return normalizedFile;
+    }
+    throw new Error(`Metric file ${normalizedFile} not registered`);
+  });
+}
+
+/**
  * Returns an array of all of the files that should be retrieved based on the
  * given metric type.
 
@@ -109,32 +136,28 @@ function filesForMetricType(metricType, file) {
   const files = FILES_BY_METRIC_TYPE[metricType];
 
   if (file) {
-    const normalizedFile = `${file}.json`;
-    if (files.indexOf(normalizedFile) > -1) {
-      return [normalizedFile];
-    }
-    throw new Error(
-      `Metric file ${normalizedFile} not registered for metric type ${metricType}`
-    );
+    return normalizeMetricFilenames({ names: [file], registeredFiles: files });
   }
 
   return files;
 }
 
 /**
- * Retrieves all metric files for the given metric type from Google Cloud Storage.
- *
- * Returns a list of Promises, one per metric file for the given type, where each Promise will
- * eventually return either an error or an object with two keys:
- *   - `fileKey`: a unique key for identifying the metric file, e.g. 'revocations_by_month'
- *   - `contents`: the contents of the file deserialized into JS objects/arrays
- *   - `file`: (optional) a specific metric file under this metric type to request. If absent,
- *             requests all files for the given metric type.
+ * @typedef {Object} FetchedFile
+ * @property {string} fileKey - a unique key for identifying the metric file,
+ * e.g. 'revocations_by_month'
+ * @property {any} contents - the contents of the file deserialized into JS objects/arrays
  */
-function fetchMetricsFromGCS(tenantId, metricType, file) {
+
+/**
+ * Retrieves the specified files from Google Cloud Storage.
+ * @param {string} tenantId - tenant to fetch from
+ * @param {string[]} files - list of filenames to fetch
+ * @return {Promise<FetchedFile>[]} one promise per file that will resolve to its deserialized contents
+ */
+function fetchFilesFromGCS(tenantId, files) {
   const promises = [];
 
-  const files = filesForMetricType(metricType, file);
   files.forEach((filename) => {
     const fileKey = filename.replace(".json", "");
     promises.push(
@@ -148,13 +171,14 @@ function fetchMetricsFromGCS(tenantId, metricType, file) {
 }
 
 /**
- * This is a parallel to fetchMetricsFromGCS, but instead fetches metric files from the local
- * file system.
+ * Retrieves the specified files from the `demo_data` directory.
+ * @param {string} tenantId - tenant to fetch from
+ * @param {string[]} files - list of filenames to fetch
+ * @return {Promise<FetchedFile>[]} one promise per file that will resolve to its deserialized contents
  */
-function fetchMetricsFromLocal(tenantId, metricType, file) {
+function fetchFilesFromLocal(tenantId, files) {
   const promises = [];
 
-  const files = filesForMetricType(metricType, file);
   files.forEach((filename) => {
     const fileKey = filename.replace(".json", "");
     const filePath = path.resolve(__dirname, `./demo_data/${filename}`);
@@ -168,6 +192,34 @@ function fetchMetricsFromLocal(tenantId, metricType, file) {
 }
 
 /**
+ * Retrieves all metric files for the given metric type from Google Cloud Storage.
+ * @param {string} tenantId - tenant to fetch from
+ * @param {string} metricType - metric grouping to get files for
+ * @param {string} [file] - if provided, only this file will be fetched instead of the entire group.
+ * Must be a member of the metricType group or an error will be thrown.
+ * @return {Promise<FetchedFile>[]} a list of Promises, one per metric file for the given type
+ * (or a single promise if `file` was provided)
+ */
+function fetchMetricsFromGCS(tenantId, metricType, file) {
+  return fetchFilesFromGCS(tenantId, filesForMetricType(metricType, file));
+}
+
+/**
+ * This is a parallel to fetchMetricsFromGCS, but instead fetches metric files from the local
+ * file system.
+ *
+ * @param {string} tenantId - tenant to fetch from
+ * @param {string} metricType - metric grouping to get files for
+ * @param {string} [file] - if provided, only this file will be fetched instead of the entire group.
+ * Must be a member of the metricType group or an error will be thrown.
+ * @return {Promise<FetchedFile>[]} a list of Promises, one per metric file for the given type
+ * (or a single promise if `file` was provided)
+ */
+function fetchMetricsFromLocal(tenantId, metricType, file) {
+  return fetchFilesFromLocal(tenantId, filesForMetricType(metricType, file));
+}
+
+/**
  * Retrieves the metrics for the given metric type and passes them into the given callback.
  *
  * The callback should be a function with a signature of `function (error, results)`. `results` is
@@ -178,7 +230,7 @@ function fetchMetricsFromLocal(tenantId, metricType, file) {
  * expired beyond the configured TTL. If not, then fetches the metrics for that type from the
  * appropriate files and invokes the callback only once all files have been retrieved.
  *
- * If we are in demo mode, then fetches the files from a static directory, /server/core/demo_data/.
+ * If we are in demo mode, then fetches the files from a static directory, /core/demo_data/.
  * Otherwise, fetches from Google Cloud Storage.
  */
 function fetchMetrics(tenantId, metricType, file, isDemo, callback) {
@@ -221,6 +273,84 @@ function fetchMetrics(tenantId, metricType, file, isDemo, callback) {
   );
 }
 
+/**
+ * @typedef {Record<string, string>[]} DeserializedFile
+ */
+
+/**
+ * Retrieves all specified metrics and passes them to the given callback.
+ *
+ * First checks the cache to see if the requested metrics type are already in memory and not
+ * expired beyond the configured TTL. If not, then fetches the metrics from the
+ * appropriate files and invokes the callback only once all files have been retrieved.
+ *
+ * @param {string} tenantId - tenant to fetch from
+ * @param {string[]} metrics - list of desired metrics by name
+ * @param {boolean} isDemo - in demo mode we fetch the files from a static directory, /core/demo_data/.
+ * Otherwise, fetch from Google Cloud Storage.
+ * @param {(error: Error | null, results: {[key: string]: DeserializedFile} | void) => void} callback -
+ * the keys of `results` will map to the strings in `metrics`.
+ * @return {Promise<void>} will not resolve until `callback` is called.
+ */
+async function fetchMetricsByName(tenantId, metricNames, isDemo, callback) {
+  let fetcher = null;
+  let source = null;
+  if (isDemo) {
+    source = "local";
+    fetcher = fetchFilesFromLocal;
+  } else {
+    source = "GCS";
+    fetcher = fetchFilesFromGCS;
+  }
+
+  /** @type {Record<string, DeserializedFile>} */
+  const results = {};
+
+  try {
+    /** @type {DeserializedFile[]} */
+    const deserializedFiles = await Promise.all(
+      metricNames.map(async (metricName) => {
+        // we want to cache these files individually to avoid redundancy,
+        // but unfortunately memoryCache.wrap does not handle partial cache hits well
+        // (see https://github.com/BryanDonovan/node-cache-manager/issues/130),
+        // so we are going to manage the cache manually
+        const cacheKey = `${tenantId}-${metricName}`;
+        /** @type {DeserializedFile | void} */
+        const cachedResult = await memoryCache.get(cacheKey);
+        if (cachedResult) return cachedResult;
+
+        // eslint-disable-next-line no-console
+        console.log(`Fetching ${cacheKey} metric from ${source}...`);
+
+        const [filePromise] = fetcher(
+          tenantId.toUpperCase(),
+          normalizeMetricFilenames({
+            names: [metricName],
+            registeredFiles: ALL_METRIC_FILES,
+          })
+        );
+        const fileResult = await filePromise;
+
+        // eslint-disable-next-line no-console
+        console.log(`Fetched contents for fileKey ${fileResult.fileKey}`);
+        const deserializedFile = convertDownloadToJson(fileResult.contents);
+
+        memoryCache.set(cacheKey, deserializedFile);
+
+        return deserializedFile;
+      })
+    );
+
+    // create a result mapping and pass it to the callback
+    metricNames.forEach((metricName, index) => {
+      results[metricName] = deserializedFiles[index];
+    });
+    return callback(null, results);
+  } catch (e) {
+    return callback(e);
+  }
+}
+
 function fetchParoleMetrics(isDemo, tenantId, callback) {
   return fetchMetrics(tenantId, "parole", null, isDemo, callback);
 }
@@ -242,9 +372,11 @@ function fetchSentencingMetrics(isDemo, tenantId, callback) {
 }
 
 module.exports = {
+  fetchMetricsByName,
   fetchParoleMetrics,
   fetchPrisonMetrics,
   fetchProbationMetrics,
   fetchSentencingMetrics,
   fetchRaceMetrics,
+  clearCache,
 };

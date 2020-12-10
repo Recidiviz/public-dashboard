@@ -16,7 +16,15 @@
       "files": ["**.ts", "**.tsx"],
       "rules": {
         // with static typing this rule is not so useful
-        "consistent-return": "off"
+        "consistent-return": "off",
+        // these bare ESLint rules are superseded by TS equivalents
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": ["error"],
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": "error",
+
+        // TypeScript is largely redundant with PropTypes
+        "react/prop-types": "off"
       }
     }
   ],
@@ -27,11 +35,6 @@
     // add it below to override it. Write a comment above each rule explaining
     // why the exception is made, so we know whether to keep it in the future.
 
-    // the bare eslint rule breaks in typescript
-    // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-use-before-define.md#how-to-use
-    "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": ["error"],
-
     // don't require extensions for typescript modules
     "import/extensions": [
       "error",
@@ -40,14 +43,7 @@
     ],
 
     // support typescript as well as javascript file extensions
-    "react/jsx-filename-extension": [
-      "error",
-      { "extensions": [".tsx", ".js"] }
-    ],
-
-    // We use TypeScript props interfaces, which is mostly redundant with prop
-    // types.
-    "react/prop-types": "off"
+    "react/jsx-filename-extension": ["error", { "extensions": [".tsx", ".js"] }]
   },
   "settings": {
     "import/resolver": {
