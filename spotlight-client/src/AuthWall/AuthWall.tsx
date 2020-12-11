@@ -22,14 +22,14 @@ import { withErrorBoundary } from "react-error-boundary";
 import { ERROR_MESSAGES } from "../constants";
 import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
-import { useRootStore } from "../StoreProvider";
+import { useDataStore } from "../StoreProvider";
 import VerificationRequired from "../VerificationRequired";
 
 /**
  * Verifies authorization before rendering its children.
  */
 const AuthWall: React.FC = ({ children }) => {
-  const { userStore } = useRootStore();
+  const { userStore } = useDataStore();
 
   useEffect(
     () =>

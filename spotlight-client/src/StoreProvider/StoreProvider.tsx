@@ -30,7 +30,7 @@ const StoreProvider: React.FC = ({ children }) => {
 
 export default StoreProvider;
 
-export function useRootStore(): typeof DataStore {
+export function useDataStore(): typeof DataStore {
   const context = useContext(StoreContext);
   if (context === undefined) {
     throw new Error("useStore must be used within a StoreProvider");
