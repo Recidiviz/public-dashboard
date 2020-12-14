@@ -15,27 +15,36 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { makeAutoObservable } from "mobx";
-import { TenantId } from "../contentApi/types";
-import Tenant, { createTenant } from "../contentModels/Tenant";
-import type RootStore from "./RootStore";
+import { Link } from "@reach/router";
+import { observer } from "mobx-react-lite";
+import React from "react";
+import { useDataStore } from "../StoreProvider";
 
-export default class TenantStore {
-  currentTenant?: Tenant;
+const SiteNavigation: React.FC = () => {
+  const tenant = useDataStore().tenantStore.currentTenant;
 
-  rootStore: RootStore;
+  return (
+    <nav>
+      <ul>
+        <li>
+          <Link to="/">home</Link>
+        </li>
+        <li>
+          <Link to="/us-nd">north dakota</Link>
+        </li>
+        {tenant && (
+          <>
+            <li>
+              <Link to="/us-nd/explore">north dakota explore</Link>
+            </li>
+            <li>
+              <Link to="/us-nd/narratives">north dakota narratives</Link>
+            </li>
+          </>
+        )}
+      </ul>
+    </nav>
+  );
+};
 
-  constructor({ rootStore }: { rootStore: RootStore }) {
-    makeAutoObservable(this, { rootStore: false });
-
-    this.rootStore = rootStore;
-  }
-
-  setCurrentTenant({ tenantId }: { tenantId: TenantId | undefined }): void {
-    if (!tenantId) {
-      this.currentTenant = undefined;
-    } else if (tenantId !== this.currentTenant?.id) {
-      this.currentTenant = createTenant({ tenantId });
-    }
-  }
-}
+export default observer(SiteNavigation);

@@ -15,27 +15,30 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { makeAutoObservable } from "mobx";
-import { TenantId } from "../contentApi/types";
-import Tenant, { createTenant } from "../contentModels/Tenant";
-import type RootStore from "./RootStore";
+import { RouteComponentProps } from "@reach/router";
+import { observer } from "mobx-react-lite";
+import React from "react";
+import { MetricTypeId } from "../contentApi/types";
+import { useDataStore } from "../StoreProvider";
+import withRouteSync from "../withRouteSync";
 
-export default class TenantStore {
-  currentTenant?: Tenant;
+type PageMetricProps = RouteComponentProps & { metricTypeId?: MetricTypeId };
 
-  rootStore: RootStore;
+const PageMetric: React.FC<PageMetricProps> = ({ metricTypeId }) => {
+  const tenant = useDataStore().tenantStore.currentTenant;
 
-  constructor({ rootStore }: { rootStore: RootStore }) {
-    makeAutoObservable(this, { rootStore: false });
-
-    this.rootStore = rootStore;
+  if (!metricTypeId) {
+    throw new Error("missing metricTypeId");
   }
 
-  setCurrentTenant({ tenantId }: { tenantId: TenantId | undefined }): void {
-    if (!tenantId) {
-      this.currentTenant = undefined;
-    } else if (tenantId !== this.currentTenant?.id) {
-      this.currentTenant = createTenant({ tenantId });
-    }
-  }
-}
+  // TODO: what if tenant or metric is undefined?
+  const metric = tenant?.metrics[metricTypeId];
+
+  return (
+    <article>
+      <h1>{metric?.name}</h1>
+    </article>
+  );
+};
+
+export default withRouteSync(observer(PageMetric));

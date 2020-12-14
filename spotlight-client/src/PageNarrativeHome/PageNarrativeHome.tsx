@@ -15,27 +15,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { makeAutoObservable } from "mobx";
-import { TenantId } from "../contentApi/types";
-import Tenant, { createTenant } from "../contentModels/Tenant";
-import type RootStore from "./RootStore";
+import { RouteComponentProps } from "@reach/router";
+import React from "react";
+import withRouteSync from "../withRouteSync";
 
-export default class TenantStore {
-  currentTenant?: Tenant;
+const PageNarrativeHome: React.FC<RouteComponentProps> = () => (
+  <article>
+    <h1>Collections</h1>
+  </article>
+);
 
-  rootStore: RootStore;
-
-  constructor({ rootStore }: { rootStore: RootStore }) {
-    makeAutoObservable(this, { rootStore: false });
-
-    this.rootStore = rootStore;
-  }
-
-  setCurrentTenant({ tenantId }: { tenantId: TenantId | undefined }): void {
-    if (!tenantId) {
-      this.currentTenant = undefined;
-    } else if (tenantId !== this.currentTenant?.id) {
-      this.currentTenant = createTenant({ tenantId });
-    }
-  }
-}
+export default withRouteSync(PageNarrativeHome);
