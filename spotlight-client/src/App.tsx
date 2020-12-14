@@ -21,7 +21,6 @@ import AuthWall from "./AuthWall";
 import PageExplore from "./PageExplore";
 import PageHome from "./PageHome";
 import PageMetric from "./PageMetric";
-import PageNarrative from "./PageNarrative";
 import PageNarrativeHome from "./PageNarrativeHome";
 import PageNotFound from "./PageNotFound";
 import PageTenant from "./PageTenant";
@@ -56,7 +55,6 @@ const App: React.FC = () => {
               </PassThroughPage>
               <PassThroughPage path="/narratives">
                 <PageNarrativeHome path="/" />
-                <PageNarrative path="/:narrativeTypeId" />
               </PassThroughPage>
               <PageNotFound default />
             </PassThroughPage>

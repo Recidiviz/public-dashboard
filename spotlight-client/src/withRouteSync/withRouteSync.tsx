@@ -30,7 +30,6 @@ type RouteParams = {
   // these should match paths as defined in App.tsx
   tenantId?: string;
   metricTypeId?: string;
-  narrativeTypeId?: string;
 };
 
 type NormalizedRouteParams = {
