@@ -76,10 +76,16 @@ export default class UserStore {
   /**
    * If user already has a valid Auth0 credential, this method will retrieve it
    * and update class properties accordingly. If not, user will be redirected
-   * to the Auth0 login domain for fresh authentication.
+   * to the Auth0 login domain for fresh authentication. After successful login,
+   * optional `handleTargetUrl` callback will be called with post-redirect target URL
+   * (useful for, e.g., client-side router that does not listen to history events).
    * Returns an Error if Auth0 configuration is not present.
    */
-  async authorize(): Promise<void> {
+  async authorize({
+    handleTargetUrl,
+  }: {
+    handleTargetUrl?: (targetUrl: string) => void;
+  } = {}): Promise<void> {
     if (!this.authSettings) {
       this.authError = new Error(ERROR_MESSAGES.auth0Configuration);
       return;
@@ -101,6 +107,7 @@ export default class UserStore {
         replacementUrl = `${window.location.origin}${window.location.pathname}`;
       }
       window.history.replaceState({}, document.title, replacementUrl);
+      if (handleTargetUrl) handleTargetUrl(replacementUrl);
     }
 
     if (await auth0.isAuthenticated()) {
