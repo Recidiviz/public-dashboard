@@ -15,7 +15,16 @@ We suggest installing a linting package for your preferred code editor that hook
 
 #### Environment variables
 
-Second and last, set up your environment variables. Copy the `.env.example` file and set variables accordingly per environment. The app can be deployed to both staging and production environments. Staging relies on environment variables stored in `.env.development` and production relies on variables in `.env.production`. Local relies on `.env.development.local`. The test environment relies on `.env.test`.
+Second and last, set up your environment variables. There are four possible environments this code may run in: local development, test, and two deployment targets (staging and production).
+
+You can copy the `.env.example` file and set variables accordingly per environment. Alternatively, baseline versions of the various files you may need can be found in the Recidiviz shared password manager, if you have access to that. Secrets and live environment configuration values should **never** be checked in here!
+
+The Create React App documentation explains all the possible [env config files](https://create-react-app.dev/docs/adding-custom-environment-variables#what-other-env-files-can-be-used) you may wish to use, and how they relate to one another. At minimum you will need the following:
+
+- `.env.development` - consumed by `yarn build-staging` to prepare a staging environment deployment
+- `.env.development.local` - consumed by `yarn dev` for local development.
+- `.env.test` - consumed by `yarn test`. For consistency this should mirror any env setup in the CI configuration (see `/.github/workflows`)
+- `.env.production` - consumed by `yarn build` to prepare a production environment deployment
 
 Expected environment variables include:
 

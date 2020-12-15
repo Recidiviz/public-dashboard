@@ -15,17 +15,30 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-// learn more: https://github.com/testing-library/jest-dom
+import { RawMetricData } from "./fetchMetrics";
+import {
+  DemographicFields,
+  extractDemographicFields,
+  LocalityFields,
+} from "./utils";
 
-import "@testing-library/jest-dom/extend-expect";
+export type SentenceTypeByLocationRecord = DemographicFields &
+  LocalityFields & {
+    dualSentenceCount: number;
+    incarcerationCount: number;
+    probationCount: number;
+  };
 
-import fetchMock from "jest-fetch-mock";
-
-// we want this mock to be available but disabled by default;
-// tests should default to doing real fetches against a /spotlight-api test server
-// but can mock it per test to simulate errors, etc
-fetchMock.enableMocks();
-fetchMock.dontMock();
+export function sentenceTypesCurrent(
+  rawRecords: RawMetricData
+): SentenceTypeByLocationRecord[] {
+  return rawRecords.map((record) => {
+    return {
+      dualSentenceCount: Number(record.dual_sentence_count),
+      incarcerationCount: Number(record.incarceration_count),
+      locality: record.district,
+      probationCount: Number(record.probation_count),
+      ...extractDemographicFields(record),
+    };
+  });
+}

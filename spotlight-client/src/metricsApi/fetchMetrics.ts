@@ -15,13 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { TenantId } from "./contentApi/types";
+import { TenantId } from "../contentApi/types";
 
 /**
  * All data comes back from the server as string values;
  * it will be up to us to cast those strings to other types as needed
  */
-type RawMetricData = Record<string, string>[];
+export type RawMetricData = Record<string, string>[];
 
 type MetricsApiResponse = Record<string, RawMetricData | null>;
 type ErrorAPIResponse = { error: string };
@@ -34,7 +34,7 @@ type FetchMetricOptions = {
 /**
  * Retrieves the metric data provided for this application in the `/spotlight-api` package.
  */
-export default async function fetchMetrics({
+export async function fetchMetrics({
   metricNames,
   tenantId,
 }: FetchMetricOptions): Promise<MetricsApiResponse> {

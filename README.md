@@ -56,7 +56,22 @@ In addition, there are some Yarn scripts defined in the root package as a conven
 
 `yarn dev:pd` — starts the development servers for the Spotlight API and the Public Dashboard Client in a single terminal window. Be sure you have configured each of those applications with the necessary environment variables, as described in their README files, or this will not work!
 
+`yarn dev:spotlight` - similar to the above, but with Spotlight Client as the frontend.
+
 `yarn demo:pd` — starts the development servers for the Spotlight API and the Public Dashboard client in "demo mode" by supplying the necessary environment variables in the command line. (This will run your local site off of fake data fixtures rather than live data from a calculation pipeline; see the [Spotlight API documentation](spotlight-api/#demo-mode) for more information.)
+
+`yarn demo:spotlight` - again, similar to the above, with with Spotlight Client as the frontend.
+
+`yarn test` - runs the tests for all packages in a single command. (The output this produces is pretty messy at the moment but it can be useful for editor integration)
+
+### Code editor integration
+
+Your code editor may need some additional configuration to properly integrate with this monorepo setup. While not exhaustive, these are some tips we have found useful for ourselves:
+
+#### Visual Studio Code
+
+- install the [ESLint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint), and in your Workspace settings, set the ESLint Working Directories to an array of all the package directories.
+- install the [Jest plugin](https://marketplace.visualstudio.com/items?itemName=Orta.vscode-jest), and in your Workspace settings, set the "path to Jest" to `yarn test --`
 
 ### Other tools
 

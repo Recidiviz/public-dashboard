@@ -15,17 +15,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-// learn more: https://github.com/testing-library/jest-dom
-
-import "@testing-library/jest-dom/extend-expect";
-
-import fetchMock from "jest-fetch-mock";
-
-// we want this mock to be available but disabled by default;
-// tests should default to doing real fetches against a /spotlight-api test server
-// but can mock it per test to simulate errors, etc
-fetchMock.enableMocks();
-fetchMock.dontMock();
+export * from "./DemographicsByCategoryRecord";
+export * from "./HistoricalPopulationBreakdownRecord";
+export * from "./PopulationBreakdownByLocationRecord";
+export * from "./ProgramParticipationCurrentRecord";
+export * from "./RecidivismRateRecord";
+export * from "./SentenceTypeByLocationRecord";
+export * from "./SupervisionSuccessRateDemographicsRecord";
+export * from "./SupervisionSuccessRateMonthlyRecord";
+export * from "./fetchMetrics";

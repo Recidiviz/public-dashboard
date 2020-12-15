@@ -16,13 +16,17 @@
 // =============================================================================
 
 import { assertNever } from "assert-never";
-import { CollectionTypeId, MetricTypeId } from "../contentApi/types";
-import { MetricMap } from "./types";
+import {
+  CollectionTypeId,
+  MetricTypeId,
+  MetricTypeIdList,
+} from "../contentApi/types";
+import { MetricMapping } from "./types";
 
 type InitOptions = {
   name: string;
   description: string;
-  metrics: MetricMap;
+  metrics: MetricMapping;
 };
 
 /**
@@ -36,7 +40,7 @@ export default class Collection {
 
   name: string;
 
-  metrics: MetricMap;
+  metrics: MetricMapping;
 
   constructor({ name, description, metrics }: InitOptions) {
     this.name = name;
@@ -45,18 +49,23 @@ export default class Collection {
   }
 }
 
-function getMetricMapping({
+function getCollectionMetricMapping({
   allMetrics,
   idsToInclude,
 }: {
-  allMetrics: MetricMap;
+  allMetrics: MetricMapping;
   idsToInclude: MetricTypeId[];
-}): MetricMap {
-  return new Map(
-    idsToInclude
-      .map((id) => [id, allMetrics.get(id)] as const)
-      .filter(([id, metric]) => metric !== undefined)
-  );
+}): MetricMapping {
+  const filteredMetricMapping = { ...allMetrics };
+
+  // filter out all but the included keys
+  MetricTypeIdList.forEach((metricId) => {
+    if (!idsToInclude.includes(metricId)) {
+      delete filteredMetricMapping[metricId];
+    }
+  });
+
+  return filteredMetricMapping;
 }
 
 /**
@@ -74,25 +83,25 @@ export function createCollection({
   // that we want to associate with this Collection instance
   switch (typeId) {
     case "Sentencing":
-      collectionMetrics = getMetricMapping({
+      collectionMetrics = getCollectionMetricMapping({
         idsToInclude: SentenceMetricIdList,
         allMetrics: metrics,
       });
       break;
     case "Prison":
-      collectionMetrics = getMetricMapping({
+      collectionMetrics = getCollectionMetricMapping({
         idsToInclude: PrisonMetricIdList,
         allMetrics: metrics,
       });
       break;
     case "Probation":
-      collectionMetrics = getMetricMapping({
+      collectionMetrics = getCollectionMetricMapping({
         idsToInclude: ProbationMetricIdList,
         allMetrics: metrics,
       });
       break;
     case "Parole":
-      collectionMetrics = getMetricMapping({
+      collectionMetrics = getCollectionMetricMapping({
         idsToInclude: ParoleMetricIdList,
         allMetrics: metrics,
       });
@@ -108,7 +117,7 @@ export function createCollection({
   });
 
   // create reciprocal relationship from metrics to collection
-  Array.from(collectionMetrics.values()).forEach((metric) => {
+  Object.values(collectionMetrics).forEach((metric) => {
     if (metric) {
       metric.collections.set(typeId, collection);
     }

@@ -15,9 +15,62 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { CollectionTypeId, MetricTypeId } from "../contentApi/types";
-import Collection from "./Collection";
-import Metric from "./Metric";
+import { CollectionTypeId } from "../contentApi/types";
+import {
+  DemographicsByCategoryRecord,
+  HistoricalPopulationBreakdownRecord,
+  PopulationBreakdownByLocationRecord,
+  ProgramParticipationCurrentRecord,
+  RecidivismRateRecord,
+  SentenceTypeByLocationRecord,
+  SupervisionSuccessRateMonthlyRecord,
+  SupervisionSuccessRateDemographicsRecord,
+} from "../metricsApi";
+import type Collection from "./Collection";
+import type Metric from "./Metric";
+
+// =======================================
+// Collection types
+// =======================================
 
 export type CollectionMap = Map<CollectionTypeId, Collection | undefined>;
-export type MetricMap = Map<MetricTypeId, Metric | undefined>;
+
+// =======================================
+// Metric types
+// =======================================
+
+export type AnyRecord =
+  | DemographicsByCategoryRecord
+  | HistoricalPopulationBreakdownRecord
+  | PopulationBreakdownByLocationRecord
+  | ProgramParticipationCurrentRecord
+  | RecidivismRateRecord
+  | SentenceTypeByLocationRecord
+  | SupervisionSuccessRateMonthlyRecord
+  | SupervisionSuccessRateDemographicsRecord;
+
+export type AnyMetric = Metric<AnyRecord>;
+
+export type MetricMapping = {
+  SentencePopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
+  SentenceTypesCurrent?: Metric<SentenceTypeByLocationRecord>;
+  PrisonPopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
+  PrisonPopulationHistorical?: Metric<HistoricalPopulationBreakdownRecord>;
+  PrisonAdmissionReasonsCurrent?: Metric<DemographicsByCategoryRecord>;
+  PrisonStayLengthAggregate?: Metric<DemographicsByCategoryRecord>;
+  PrisonReleaseTypeAggregate?: Metric<DemographicsByCategoryRecord>;
+  PrisonRecidivismRateHistorical?: Metric<RecidivismRateRecord>;
+  PrisonRecidivismRateSingleFollowupHistorical?: Metric<RecidivismRateRecord>;
+  ProbationPopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
+  ProbationPopulationHistorical?: Metric<HistoricalPopulationBreakdownRecord>;
+  ProbationSuccessHistorical?: Metric<SupervisionSuccessRateMonthlyRecord>;
+  ProbationSuccessAggregate?: Metric<SupervisionSuccessRateDemographicsRecord>;
+  ProbationRevocationsAggregate?: Metric<DemographicsByCategoryRecord>;
+  ProbationProgrammingCurrent?: Metric<ProgramParticipationCurrentRecord>;
+  ParolePopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
+  ParolePopulationHistorical?: Metric<HistoricalPopulationBreakdownRecord>;
+  ParoleSuccessHistorical?: Metric<SupervisionSuccessRateMonthlyRecord>;
+  ParoleSuccessAggregate?: Metric<SupervisionSuccessRateDemographicsRecord>;
+  ParoleRevocationsAggregate?: Metric<DemographicsByCategoryRecord>;
+  ParoleProgrammingCurrent?: Metric<ProgramParticipationCurrentRecord>;
+};
