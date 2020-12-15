@@ -15,26 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import "react-app-polyfill/ie11";
-import "react-app-polyfill/stable";
-import { configure } from "mobx";
+import RootStore from "./RootStore";
 
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-
-configure({
-  // make proxies optional for IE 11 support
-  useProxies: "ifavailable",
-  // activate runtime linting
-  computedRequiresReaction: true,
-  reactionRequiresObservable: true,
-  observableRequiresReaction: true,
-});
-
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+export default new RootStore();

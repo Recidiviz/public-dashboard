@@ -15,26 +15,23 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import "react-app-polyfill/ie11";
-import "react-app-polyfill/stable";
-import { configure } from "mobx";
+import { makeAutoObservable } from "mobx";
+import { TenantId } from "../contentApi/types";
+import Tenant, { createTenant } from "../contentModels/Tenant";
+import type RootStore from "./RootStore";
 
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
+export default class TenantStore {
+  currentTenant?: Tenant;
 
-configure({
-  // make proxies optional for IE 11 support
-  useProxies: "ifavailable",
-  // activate runtime linting
-  computedRequiresReaction: true,
-  reactionRequiresObservable: true,
-  observableRequiresReaction: true,
-});
+  rootStore: RootStore;
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+  constructor({ rootStore }: { rootStore: RootStore }) {
+    makeAutoObservable(this, { rootStore: false });
+
+    this.rootStore = rootStore;
+  }
+
+  setCurrentTenant(opts: { tenantId: TenantId }): void {
+    this.currentTenant = createTenant(opts);
+  }
+}

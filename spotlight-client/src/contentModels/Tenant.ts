@@ -22,10 +22,10 @@ import { createMetricMapping } from "./Metric";
 import { CollectionMap, MetricMapping } from "./types";
 
 type InitOptions = {
-  name: string;
-  description: string;
-  collections: CollectionMap;
-  metrics: MetricMapping;
+  readonly name: string;
+  readonly description: string;
+  readonly collections: CollectionMap;
+  readonly metrics: MetricMapping;
 };
 
 /**

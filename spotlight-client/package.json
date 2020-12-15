@@ -19,6 +19,8 @@
     "@types/react-dom": "^16.9.0",
     "assert-never": "^1.2.1",
     "jest-fetch-mock": "^3.0.3",
+    "mobx": "^6.0.4",
+    "mobx-utils": "^6.0.1",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
     "react-dom": "^16.13.1",
