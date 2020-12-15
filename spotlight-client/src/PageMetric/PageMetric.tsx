@@ -27,11 +27,14 @@ type PageMetricProps = RouteComponentProps & { metricTypeId?: MetricTypeId };
 const PageMetric: React.FC<PageMetricProps> = ({ metricTypeId }) => {
   const tenant = useDataStore().tenantStore.currentTenant;
 
+  // if this component is used properly as a route component,
+  // this should never be true;
+  // if it is, something has gone very wrong
   if (!metricTypeId) {
     throw new Error("missing metricTypeId");
   }
 
-  // TODO: what if tenant or metric is undefined?
+  // tenant may be briefly undefined on initial page load
   const metric = tenant?.metrics[metricTypeId];
 
   return (

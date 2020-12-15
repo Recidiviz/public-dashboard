@@ -26,6 +26,9 @@ import {
   screen,
   ByRoleMatcher,
   ByRoleOptions,
+  within,
+  fireEvent,
+  waitFor,
 } from "@testing-library/react";
 import React from "react";
 import App from "./App";
@@ -74,13 +77,14 @@ describe("navigation", () => {
   test("site home", () => {
     renderNavigableApp();
     // This can be replaced with something more distinctive once the page is designed and built
-    expect(screen.getByRole("heading", { name: /spotlight/i })).toBeVisible();
+    expect(
+      screen.getByRole("heading", { name: /spotlight/i, level: 1 })
+    ).toBeVisible();
   });
 
   test("tenant home", () => {
     expect.hasAssertions();
     const targetPath = "/us-nd";
-    // TODO: this is probably not distinctive enough
     const lookupArgs = ["heading", { name: /North Dakota/, level: 1 }] as const;
 
     return verifyWithNavigation({ targetPath, lookupArgs });
@@ -114,5 +118,62 @@ describe("navigation", () => {
     const lookupArgs = ["heading", { name: "Collections", level: 1 }] as const;
 
     return verifyWithNavigation({ targetPath, lookupArgs });
+  });
+
+  test("nav bar", async () => {
+    const {
+      history: { navigate },
+    } = renderNavigableApp();
+    const inNav = within(screen.getByRole("navigation"));
+
+    expect(
+      inNav.queryByRole("link", { name: "Explore Data" })
+    ).not.toBeInTheDocument();
+    expect(
+      inNav.queryByRole("link", { name: "Collections" })
+    ).not.toBeInTheDocument();
+
+    await act(() => navigate("/us-nd"));
+    const homeLink = inNav.getByRole("link", { name: "Spotlight" });
+    const tenantLink = inNav.getByRole("link", { name: "North Dakota" });
+    const portalLink = inNav.getByRole("link", { name: "Explore Data" });
+    const narrativesLink = inNav.getByRole("link", { name: "Collections" });
+
+    const verifyNavLinks = () => {
+      expect(homeLink).toBeInTheDocument();
+      expect(tenantLink).toBeInTheDocument();
+      expect(portalLink).toBeInTheDocument();
+      expect(narrativesLink).toBeInTheDocument();
+    };
+
+    fireEvent.click(portalLink);
+    await waitFor(() =>
+      expect(
+        screen.getByRole("heading", { name: "Explore Data", level: 1 })
+      ).toBeInTheDocument()
+    );
+    verifyNavLinks();
+
+    fireEvent.click(narrativesLink);
+    await waitFor(() =>
+      expect(
+        screen.getByRole("heading", { name: "Collections", level: 1 })
+      ).toBeInTheDocument()
+    );
+    verifyNavLinks();
+
+    fireEvent.click(tenantLink);
+    await waitFor(() =>
+      expect(
+        screen.getByRole("heading", { name: "North Dakota", level: 1 })
+      ).toBeInTheDocument()
+    );
+
+    fireEvent.click(homeLink);
+    await waitFor(() =>
+      expect(
+        screen.getByRole("heading", { name: "Spotlight", level: 1 })
+      ).toBeInTheDocument()
+    );
   });
 });

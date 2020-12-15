@@ -24,6 +24,7 @@ import PageMetric from "./PageMetric";
 import PageNarrativeHome from "./PageNarrativeHome";
 import PageNotFound from "./PageNotFound";
 import PageTenant from "./PageTenant";
+import { DataPortalSlug, NarrativesSlug } from "./routerUtils/types";
 import SiteNavigation from "./SiteNavigation";
 import StoreProvider from "./StoreProvider";
 
@@ -48,12 +49,12 @@ const App: React.FC = () => {
             <PageHome path="/" />
             <PassThroughPage path="/:tenantId">
               <PageTenant path="/" />
-              <PassThroughPage path="/explore">
+              <PassThroughPage path={`/${DataPortalSlug}`}>
                 <PageExplore path="/" />
                 <PageMetric path="/:metricTypeId" />
                 <PageNotFound default />
               </PassThroughPage>
-              <PassThroughPage path="/narratives">
+              <PassThroughPage path={`/${NarrativesSlug}`}>
                 <PageNarrativeHome path="/" />
               </PassThroughPage>
               <PageNotFound default />

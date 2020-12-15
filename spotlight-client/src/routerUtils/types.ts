@@ -15,24 +15,18 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { RouteComponentProps } from "@reach/router";
-import { observer } from "mobx-react-lite";
-import React from "react";
-import { TenantId } from "../contentApi/types";
-import { useDataStore } from "../StoreProvider";
-import withRouteSync from "../withRouteSync";
+import { MetricTypeId, TenantId } from "../contentApi/types";
 
-type PageTenantProps = RouteComponentProps & { tenantId?: TenantId };
-
-const PageTenant: React.FC<PageTenantProps> = () => {
-  // tenant may be briefly undefined during initial page load
-  const tenant = useDataStore().tenantStore.currentTenant;
-
-  return (
-    <article>
-      <h1>{tenant?.name}</h1>{" "}
-    </article>
-  );
+export type RouteParams = {
+  // these should match paths as defined in App.tsx
+  tenantId?: string;
+  metricTypeId?: string;
 };
 
-export default withRouteSync(observer(PageTenant));
+export type NormalizedRouteParams = {
+  tenantId?: TenantId;
+  metricTypeId?: MetricTypeId;
+};
+
+export const DataPortalSlug = "explore";
+export const NarrativesSlug = "narratives";

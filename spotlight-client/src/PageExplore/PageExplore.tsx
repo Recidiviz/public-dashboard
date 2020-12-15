@@ -18,24 +18,19 @@
 import { Link, RouteComponentProps } from "@reach/router";
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { paramCase } from "change-case";
 import { MetricTypeIdList } from "../contentApi/types";
 import { useDataStore } from "../StoreProvider";
 import withRouteSync from "../withRouteSync";
-
-// TODO: probably factor this out
-function makeRouteParam(param: string) {
-  return paramCase(param);
-}
+import getUrlForResource from "../routerUtils/getUrlForResource";
 
 const PageExplore: React.FC<RouteComponentProps> = () => {
-  // TODO: what if undefined?
   const tenant = useDataStore().tenantStore.currentTenant;
 
   return (
     <article>
       <h1>Explore Data</h1>
-      {/* FYI this list is just a helpful placeholder */}
+      {/* FYI these are just helpful placeholders */}
+      {!tenant && <div>Loading …</div>}
       {tenant && (
         <ul>
           {MetricTypeIdList.map((metricTypeId) => {
@@ -43,7 +38,14 @@ const PageExplore: React.FC<RouteComponentProps> = () => {
             return (
               metric && (
                 <li key={metricTypeId}>
-                  <Link to={makeRouteParam(metricTypeId)}>{metric.name}</Link>
+                  <Link
+                    to={getUrlForResource({
+                      page: "metric",
+                      params: { tenantId: tenant.id, metricTypeId },
+                    })}
+                  >
+                    {metric.name}
+                  </Link>
                 </li>
               )
             );

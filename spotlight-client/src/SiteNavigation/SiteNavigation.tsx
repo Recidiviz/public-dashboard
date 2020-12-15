@@ -18,6 +18,7 @@
 import { Link } from "@reach/router";
 import { observer } from "mobx-react-lite";
 import React from "react";
+import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
 
 const SiteNavigation: React.FC = () => {
@@ -27,18 +28,39 @@ const SiteNavigation: React.FC = () => {
     <nav>
       <ul>
         <li>
-          <Link to="/">home</Link>
+          <Link to={getUrlForResource({ page: "home" })}>Spotlight</Link>
         </li>
         <li>
-          <Link to="/us-nd">north dakota</Link>
+          <Link
+            to={getUrlForResource({
+              page: "tenant",
+              params: { tenantId: "US_ND" },
+            })}
+          >
+            North Dakota
+          </Link>
         </li>
         {tenant && (
           <>
             <li>
-              <Link to="/us-nd/explore">north dakota explore</Link>
+              <Link
+                to={getUrlForResource({
+                  page: "data portal",
+                  params: { tenantId: tenant.id },
+                })}
+              >
+                Explore Data
+              </Link>
             </li>
             <li>
-              <Link to="/us-nd/narratives">north dakota narratives</Link>
+              <Link
+                to={getUrlForResource({
+                  page: "narratives",
+                  params: { tenantId: tenant.id },
+                })}
+              >
+                Collections
+              </Link>
             </li>
           </>
         )}

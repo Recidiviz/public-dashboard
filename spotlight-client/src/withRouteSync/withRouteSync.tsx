@@ -16,56 +16,10 @@
 // =============================================================================
 
 import { RouteComponentProps } from "@reach/router";
-import { constantCase, pascalCase } from "change-case";
 import React, { useEffect } from "react";
-import {
-  isMetricTypeId,
-  isTenantId,
-  MetricTypeId,
-  TenantId,
-} from "../contentApi/types";
+import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
+import { RouteParams } from "../routerUtils/types";
 import { useDataStore } from "../StoreProvider";
-
-type RouteParams = {
-  // these should match paths as defined in App.tsx
-  tenantId?: string;
-  metricTypeId?: string;
-};
-
-type NormalizedRouteParams = {
-  tenantId?: TenantId;
-  metricTypeId?: MetricTypeId;
-};
-
-function normalizeRouteParams(rawParams: RouteParams): NormalizedRouteParams {
-  if (rawParams && typeof rawParams === "object") {
-    const { tenantId, metricTypeId } = rawParams as { [key: string]: unknown };
-
-    return {
-      tenantId: normalizeTenantId(tenantId),
-      metricTypeId: normalizeMetricTypeId(metricTypeId),
-    };
-  }
-  return {};
-}
-
-function normalizeTenantId(rawParam: unknown) {
-  if (typeof rawParam === "string") {
-    const normalizedString = constantCase(rawParam);
-    if (isTenantId(normalizedString)) return normalizedString;
-    throw new Error(`unknown TenantId: ${normalizedString}`);
-  }
-  return undefined;
-}
-
-function normalizeMetricTypeId(rawParam: unknown) {
-  if (typeof rawParam === "string") {
-    const normalizedString = pascalCase(rawParam);
-    if (isMetricTypeId(normalizedString)) return normalizedString;
-    throw new Error(`unknown MetricTypeId: ${normalizedString}`);
-  }
-  return undefined;
-}
 
 /**
  * A high-order component responsible for syncing relevant route parameters
