@@ -64,6 +64,15 @@ In addition, there are some Yarn scripts defined in the root package as a conven
 
 `yarn test` - runs the tests for all packages in a single command. (The output this produces is pretty messy at the moment but it can be useful for editor integration)
 
+### Code editor integration
+
+Your code editor may need some additional configuration to properly integrate with this monorepo setup. While not exhaustive, these are some tips we have found useful for ourselves:
+
+#### Visual Studio Code
+
+- install the [ESLint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint), and in your Workspace settings, set the ESLint Working Directories to an array of all the package directories.
+- install the [Jest plugin](https://marketplace.visualstudio.com/items?itemName=Orta.vscode-jest), and in your Workspace settings, set the "path to Jest" to `yarn test --`
+
 ### Other tools
 
 Style and formatting rules for this repository are defined with [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/). The base configuration lives in the root of this repository and is extended by the individual packages as necessary. For this reason, it is important to run the individual `lint` commands for each package rather than trying to lint the entire repository at once with `eslint .` — this will exclude the nested configurations and produce inconsistent results.
