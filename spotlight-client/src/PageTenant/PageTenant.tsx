@@ -15,27 +15,24 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { makeAutoObservable } from "mobx";
+import { RouteComponentProps } from "@reach/router";
+import { observer } from "mobx-react-lite";
+import React from "react";
 import { TenantId } from "../contentApi/types";
-import Tenant, { createTenant } from "../contentModels/Tenant";
-import type RootStore from "./RootStore";
+import { useDataStore } from "../StoreProvider";
+import withRouteSync from "../withRouteSync";
 
-export default class TenantStore {
-  currentTenant?: Tenant;
+type PageTenantProps = RouteComponentProps & { tenantId?: TenantId };
 
-  rootStore: RootStore;
+const PageTenant: React.FC<PageTenantProps> = () => {
+  // tenant may be briefly undefined during initial page load
+  const tenant = useDataStore().tenantStore.currentTenant;
 
-  constructor({ rootStore }: { rootStore: RootStore }) {
-    makeAutoObservable(this, { rootStore: false });
+  return (
+    <article>
+      <h1>{tenant?.name}</h1>{" "}
+    </article>
+  );
+};
 
-    this.rootStore = rootStore;
-  }
-
-  setCurrentTenant({ tenantId }: { tenantId: TenantId | undefined }): void {
-    if (!tenantId) {
-      this.currentTenant = undefined;
-    } else if (tenantId !== this.currentTenant?.id) {
-      this.currentTenant = createTenant({ tenantId });
-    }
-  }
-}
+export default withRouteSync(observer(PageTenant));

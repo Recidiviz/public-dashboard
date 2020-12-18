@@ -23,8 +23,11 @@ export type NamedEntity = {
 // ============================
 // Tenant types
 
-// union additional tenants into this when they come online
-export type TenantId = "US_ND";
+export const TenantIdList = ["US_ND"] as const;
+export type TenantId = typeof TenantIdList[number];
+export function isTenantId(x: string): x is TenantId {
+  return TenantIdList.includes(x as TenantId);
+}
 
 export type TenantContent = NamedEntity & {
   collections: {
@@ -80,6 +83,9 @@ export const MetricTypeIdList = [
   "ParoleProgrammingCurrent",
 ] as const;
 export type MetricTypeId = typeof MetricTypeIdList[number];
+export function isMetricTypeId(x: string): x is MetricTypeId {
+  return MetricTypeIdList.includes(x as MetricTypeId);
+}
 
 export type MetricContent = NamedEntity & { methodology: string };
 

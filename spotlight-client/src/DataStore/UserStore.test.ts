@@ -161,3 +161,23 @@ test("redirect to targetUrl after callback", async () => {
   await store.authorize();
   expect(window.location.href).toBe(targetUrl);
 });
+
+test("passes target URL to callback", async () => {
+  const targetUrl = "http://localhost/somePage?id=1";
+  mockHandleRedirectCallback.mockResolvedValue({ appState: { targetUrl } });
+
+  const auth0LoginParams = "code=123456&state=abcdef";
+  const urlWithToken = new URL(window.location.href);
+  urlWithToken.search = `?${auth0LoginParams}`;
+  window.history.pushState({}, "Test", urlWithToken.href);
+
+  const store = new UserStore({
+    authSettings: testAuthSettings,
+    isAuthRequired: true,
+  });
+
+  const callback = jest.fn();
+
+  await store.authorize({ handleTargetUrl: callback });
+  expect(callback.mock.calls[0][0]).toBe(targetUrl);
+});

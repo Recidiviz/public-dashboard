@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { navigate } from "@reach/router";
 import { when } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
@@ -24,6 +25,10 @@ import ErrorMessage from "../ErrorMessage";
 import Loading from "../Loading";
 import { useDataStore } from "../StoreProvider";
 import VerificationRequired from "../VerificationRequired";
+
+function replaceCurrentUrl(targetUrl: string) {
+  navigate(targetUrl, { replace: true });
+}
 
 /**
  * Verifies authorization before rendering its children.
@@ -36,7 +41,9 @@ const AuthWall: React.FC = ({ children }) => {
       // return when's disposer so it is cleaned up if it never runs
       when(
         () => !userStore.isAuthorized,
-        () => userStore.authorize()
+        // handler keeps Reach Router in sync with URL changes
+        // that may happen in `authorize` after redirect
+        () => userStore.authorize({ handleTargetUrl: replaceCurrentUrl })
       ),
     [userStore]
   );

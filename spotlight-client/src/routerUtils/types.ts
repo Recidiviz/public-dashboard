@@ -15,27 +15,18 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { makeAutoObservable } from "mobx";
-import { TenantId } from "../contentApi/types";
-import Tenant, { createTenant } from "../contentModels/Tenant";
-import type RootStore from "./RootStore";
+import { MetricTypeId, TenantId } from "../contentApi/types";
 
-export default class TenantStore {
-  currentTenant?: Tenant;
+export type RouteParams = {
+  // these should match paths as defined in App.tsx
+  tenantId?: string;
+  metricTypeId?: string;
+};
 
-  rootStore: RootStore;
+export type NormalizedRouteParams = {
+  tenantId?: TenantId;
+  metricTypeId?: MetricTypeId;
+};
 
-  constructor({ rootStore }: { rootStore: RootStore }) {
-    makeAutoObservable(this, { rootStore: false });
-
-    this.rootStore = rootStore;
-  }
-
-  setCurrentTenant({ tenantId }: { tenantId: TenantId | undefined }): void {
-    if (!tenantId) {
-      this.currentTenant = undefined;
-    } else if (tenantId !== this.currentTenant?.id) {
-      this.currentTenant = createTenant({ tenantId });
-    }
-  }
-}
+export const DataPortalSlug = "explore";
+export const NarrativesSlug = "narratives";

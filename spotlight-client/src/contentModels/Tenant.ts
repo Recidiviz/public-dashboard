@@ -22,10 +22,11 @@ import { createMetricMapping } from "./Metric";
 import { CollectionMap, MetricMapping } from "./types";
 
 type InitOptions = {
-  readonly name: string;
-  readonly description: string;
-  readonly collections: CollectionMap;
-  readonly metrics: MetricMapping;
+  id: TenantId;
+  name: string;
+  description: string;
+  collections: CollectionMap;
+  metrics: MetricMapping;
 };
 
 /**
@@ -36,15 +37,18 @@ type InitOptions = {
  * `Collection`s and `Metric`s will be instantiated for the `Tenant`.
  */
 export default class Tenant {
-  name: string;
+  readonly id: TenantId;
 
-  description: string;
+  readonly name: string;
 
-  collections: InitOptions["collections"];
+  readonly description: string;
 
-  metrics: InitOptions["metrics"];
+  readonly collections: InitOptions["collections"];
 
-  constructor({ name, description, collections, metrics }: InitOptions) {
+  readonly metrics: InitOptions["metrics"];
+
+  constructor({ id, name, description, collections, metrics }: InitOptions) {
+    this.id = id;
     this.name = name;
     this.description = description;
     this.collections = collections;
@@ -99,6 +103,7 @@ export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
   const metrics = getMetricsForTenant(allTenantContent, tenantId);
 
   return new Tenant({
+    id: tenantId,
     name: allTenantContent.name,
     description: allTenantContent.description,
     collections: getCollectionsForTenant({ allTenantContent, metrics }),

@@ -15,18 +15,52 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { RouteComponentProps, Router } from "@reach/router";
 import React from "react";
 import AuthWall from "./AuthWall";
+import PageExplore from "./PageExplore";
+import PageHome from "./PageHome";
+import PageMetric from "./PageMetric";
+import PageNarrativeHome from "./PageNarrativeHome";
+import PageNotFound from "./PageNotFound";
+import PageTenant from "./PageTenant";
+import { DataPortalSlug, NarrativesSlug } from "./routerUtils/types";
+import SiteNavigation from "./SiteNavigation";
 import StoreProvider from "./StoreProvider";
+
+/**
+ * Helps with nesting; all it does is render its children.
+ */
+const PassThroughPage: React.FC<RouteComponentProps> = ({ children }) => (
+  <>{children}</>
+);
 
 const App: React.FC = () => {
   return (
     <StoreProvider>
       <AuthWall>
-        <div>
-          <header>
-            <h1>Spotlight</h1>
-          </header>
+        <SiteNavigation />
+        <div role="main">
+          <Router>
+            {/*
+              NOTE: every leaf route component in this router should be wrapped
+              by the withRouteSync higher-order component to keep data and UI in sync!
+            */}
+            <PageHome path="/" />
+            <PassThroughPage path="/:tenantId">
+              <PageTenant path="/" />
+              <PassThroughPage path={`/${DataPortalSlug}`}>
+                <PageExplore path="/" />
+                <PageMetric path="/:metricTypeId" />
+                <PageNotFound default />
+              </PassThroughPage>
+              <PassThroughPage path={`/${NarrativesSlug}`}>
+                <PageNarrativeHome path="/" />
+              </PassThroughPage>
+              <PageNotFound default />
+            </PassThroughPage>
+            <PageNotFound default />
+          </Router>
         </div>
       </AuthWall>
     </StoreProvider>

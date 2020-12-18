@@ -15,152 +15,165 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-// we have to import everything dynamically to manipulate process.env,
-// which is weird and Typescript doesn't like it, so silence these warnings
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let waitFor: any;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let cleanup: any;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let render: any;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let screen: any;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let React: any;
+import {
+  createHistory,
+  createMemorySource,
+  LocationProvider,
+} from "@reach/router";
+import {
+  act,
+  render,
+  screen,
+  ByRoleMatcher,
+  ByRoleOptions,
+  within,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react";
+import React from "react";
+import App from "./App";
+import testContent from "./contentApi/sources/us_nd";
 
-// this doesn't do anything but convince TypeScript this file is a module,
-// since we don't have any top-level imports
-export {};
+function renderNavigableApp({ route = "/" } = {}) {
+  const history = createHistory(createMemorySource(route));
 
-// mocking the Auth0 library because JSDOM doesn't support all the APIs it needs
-const mockGetUser = jest.fn();
-const mockIsAuthenticated = jest.fn();
-const mockLoginWithRedirect = jest.fn();
-jest.mock("@auth0/auth0-spa-js", () =>
-  jest.fn().mockResolvedValue({
-    getUser: mockGetUser,
-    isAuthenticated: mockIsAuthenticated,
-    loginWithRedirect: mockLoginWithRedirect,
-  })
-);
-
-/**
- * Convenience method for importing test module after updating environment
- */
-async function getApp() {
-  return (await import("./App")).default;
+  return {
+    ...render(
+      <LocationProvider history={history}>
+        <App />
+      </LocationProvider>
+    ),
+    // tests can use history object to simulate navigation in a browser
+    history,
+  };
 }
 
-// mocking the node env is esoteric, see https://stackoverflow.com/a/48042799
-const ORIGINAL_ENV = process.env;
+describe("navigation", () => {
+  /**
+   * Convenience method that verifies page contents when loading a url directly,
+   * navigating away from it, then navigating to it
+   */
+  async function verifyWithNavigation({
+    targetPath,
+    lookupArgs,
+  }: {
+    targetPath: string;
+    // this doesn't really need to be readonly, it just makes it easier
+    // to construct the array safely using `as const`
+    lookupArgs: readonly [ByRoleMatcher, ByRoleOptions | undefined];
+  }) {
+    const {
+      history: { navigate },
+    } = renderNavigableApp({ route: targetPath });
+    expect(screen.getByRole(...lookupArgs)).toBeInTheDocument();
 
-beforeEach(async () => {
-  // make a copy that we can modify
-  process.env = { ...ORIGINAL_ENV };
+    await act(() => navigate("/"));
+    expect(screen.queryByRole(...lookupArgs)).not.toBeInTheDocument();
 
-  jest.resetModules();
-  // reimport all modules except the test module
-  React = (await import("react")).default;
-  const reactTestingLibrary = await import("@testing-library/react");
-  render = reactTestingLibrary.render;
-  screen = reactTestingLibrary.screen;
-  cleanup = reactTestingLibrary.cleanup;
-  waitFor = reactTestingLibrary.waitFor;
-});
+    await act(() => navigate(targetPath));
+    expect(screen.getByRole(...lookupArgs)).toBeInTheDocument();
+  }
 
-afterEach(() => {
-  process.env = ORIGINAL_ENV;
-  // dynamic imports break auto cleanup so we have to do it manually
-  cleanup();
-});
-
-test("no auth required", async () => {
-  const App = await getApp();
-  render(<App />);
-  // seems like a pretty safe bet this word will always be there somewhere!
-  const websiteName = screen.getByRole("heading", { name: /spotlight/i });
-  expect(websiteName).toBeInTheDocument();
-});
-
-test("requires authentication", async () => {
-  // configure environment for valid authentication
-  process.env.REACT_APP_AUTH_ENABLED = "true";
-  process.env.REACT_APP_AUTH_ENV = "development";
-
-  // user is not currently authenticated
-  mockIsAuthenticated.mockResolvedValue(false);
-
-  const App = await getApp();
-  render(<App />);
-
-  expect(
-    screen.queryByRole("heading", { name: /spotlight/i })
-  ).not.toBeInTheDocument();
-  expect(screen.getByRole("status", { name: /loading/i })).toBeInTheDocument();
-  await waitFor(() => {
-    expect(mockLoginWithRedirect.mock.calls.length).toBe(1);
-    // this should ... continue not being in the document
+  test("site home", () => {
+    renderNavigableApp();
+    // This can be replaced with something more distinctive once the page is designed and built
     expect(
-      screen.queryByRole("heading", { name: /spotlight/i })
-    ).not.toBeInTheDocument();
+      screen.getByRole("heading", { name: /spotlight/i, level: 1 })
+    ).toBeVisible();
   });
-});
 
-test("requires email verification", async () => {
-  // configure environment for valid authentication
-  process.env.REACT_APP_AUTH_ENABLED = "true";
-  process.env.REACT_APP_AUTH_ENV = "development";
+  test("tenant home", () => {
+    expect.hasAssertions();
+    const targetPath = "/us-nd";
+    const lookupArgs = ["heading", { name: /North Dakota/, level: 1 }] as const;
 
-  // user is authenticated but not verified
-  mockIsAuthenticated.mockResolvedValue(true);
-  mockGetUser.mockResolvedValue({ email_verified: false });
-
-  const App = await getApp();
-  render(<App />);
-  await waitFor(() => {
-    // application contents should not have been rendered without verification
-    expect(
-      screen.queryByRole("heading", { name: /spotlight/i })
-    ).not.toBeInTheDocument();
-    // there should be a message about the verification requirement
-    expect(
-      screen.getByRole("heading", { name: /verification/i })
-    ).toBeInTheDocument();
+    return verifyWithNavigation({ targetPath, lookupArgs });
   });
-});
 
-test("renders when authenticated", async () => {
-  // configure environment for valid authentication
-  process.env.REACT_APP_AUTH_ENABLED = "true";
-  process.env.REACT_APP_AUTH_ENV = "development";
+  test("explore page", () => {
+    expect.hasAssertions();
+    const targetPath = "/us-nd/explore";
+    const lookupArgs = ["heading", { name: "Explore Data", level: 1 }] as const;
 
-  // user is authenticated and verified
-  mockIsAuthenticated.mockResolvedValue(true);
-  mockGetUser.mockResolvedValue({ email_verified: true });
-  const App = await getApp();
-  render(<App />);
-  await waitFor(() => {
-    const websiteName = screen.getByRole("heading", { name: /spotlight/i });
-    expect(websiteName).toBeInTheDocument();
+    return verifyWithNavigation({ targetPath, lookupArgs });
   });
-});
 
-test("handles an Auth0 configuration error", async () => {
-  // configure environment for valid authentication
-  process.env.REACT_APP_AUTH_ENABLED = "true";
-  // no config exists for this environment
-  process.env.REACT_APP_AUTH_ENV = "production";
-  mockIsAuthenticated.mockResolvedValue(false);
+  test("single metric page", () => {
+    expect.hasAssertions();
+    const targetPath = "/us-nd/explore/prison-population-current";
+    const lookupArgs = [
+      "heading",
+      {
+        name: testContent.metrics.PrisonPopulationCurrent?.name,
+        level: 1,
+      },
+    ] as const;
 
-  const App = await getApp();
-  render(<App />);
+    return verifyWithNavigation({ targetPath, lookupArgs });
+  });
 
-  await waitFor(() => {
+  test("narratives page", () => {
+    expect.hasAssertions();
+    const targetPath = "/us-nd/narratives";
+    const lookupArgs = ["heading", { name: "Collections", level: 1 }] as const;
+
+    return verifyWithNavigation({ targetPath, lookupArgs });
+  });
+
+  test("nav bar", async () => {
+    const {
+      history: { navigate },
+    } = renderNavigableApp();
+    const inNav = within(screen.getByRole("navigation"));
+
     expect(
-      screen.getByRole("heading", /an error occurred/i)
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole("heading", { name: /spotlight/i })
+      inNav.queryByRole("link", { name: "Explore Data" })
     ).not.toBeInTheDocument();
+    expect(
+      inNav.queryByRole("link", { name: "Collections" })
+    ).not.toBeInTheDocument();
+
+    await act(() => navigate("/us-nd"));
+    const homeLink = inNav.getByRole("link", { name: "Spotlight" });
+    const tenantLink = inNav.getByRole("link", { name: "North Dakota" });
+    const portalLink = inNav.getByRole("link", { name: "Explore Data" });
+    const narrativesLink = inNav.getByRole("link", { name: "Collections" });
+
+    const verifyNavLinks = () => {
+      expect(homeLink).toBeInTheDocument();
+      expect(tenantLink).toBeInTheDocument();
+      expect(portalLink).toBeInTheDocument();
+      expect(narrativesLink).toBeInTheDocument();
+    };
+
+    fireEvent.click(portalLink);
+    await waitFor(() =>
+      expect(
+        screen.getByRole("heading", { name: "Explore Data", level: 1 })
+      ).toBeInTheDocument()
+    );
+    verifyNavLinks();
+
+    fireEvent.click(narrativesLink);
+    await waitFor(() =>
+      expect(
+        screen.getByRole("heading", { name: "Collections", level: 1 })
+      ).toBeInTheDocument()
+    );
+    verifyNavLinks();
+
+    fireEvent.click(tenantLink);
+    await waitFor(() =>
+      expect(
+        screen.getByRole("heading", { name: "North Dakota", level: 1 })
+      ).toBeInTheDocument()
+    );
+
+    fireEvent.click(homeLink);
+    await waitFor(() =>
+      expect(
+        screen.getByRole("heading", { name: "Spotlight", level: 1 })
+      ).toBeInTheDocument()
+    );
   });
 });
