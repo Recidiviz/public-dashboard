@@ -41,6 +41,9 @@ export type TenantContent = NamedEntity & {
     ProbationPopulationCurrent?: PopulationCurrentContent;
     ParolePopulationCurrent?: PopulationCurrentContent;
   };
+  systemNarratives: {
+    [key in SystemNarrativeTypeId]?: SystemNarrativeContent;
+  };
 };
 
 // ============================
@@ -54,7 +57,7 @@ export const CollectionTypeIdList = [
 ] as const;
 export type CollectionTypeId = typeof CollectionTypeIdList[number];
 
-export type CollectionContent = NamedEntity;
+type CollectionContent = NamedEntity;
 
 // ============================
 // Metric types
@@ -87,6 +90,31 @@ export function isMetricTypeId(x: string): x is MetricTypeId {
   return MetricTypeIdList.includes(x as MetricTypeId);
 }
 
-export type MetricContent = NamedEntity & { methodology: string };
+type MetricContent = NamedEntity & { methodology: string };
 
 type PopulationCurrentContent = MetricContent & { mapCaption: string };
+
+// ============================
+// Narrative types
+export const SystemNarrativeTypeIds = [
+  "Prison",
+  "Probation",
+  "Parole",
+  "Sentencing",
+] as const;
+export type SystemNarrativeTypeId = typeof SystemNarrativeTypeIds[number];
+export function isSystemNarrativeTypeId(x: string): x is SystemNarrativeTypeId {
+  return SystemNarrativeTypeIds.includes(x as SystemNarrativeTypeId);
+}
+
+type SystemNarrativeSection = {
+  title: string;
+  body: string;
+  metricTypeId: MetricTypeId;
+};
+
+type SystemNarrativeContent = {
+  title: string;
+  introduction: string;
+  sections: SystemNarrativeSection[];
+};
