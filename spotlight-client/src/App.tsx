@@ -44,7 +44,7 @@ const App: React.FC = () => {
         <GlobalStyles />
         <AuthWall>
           <SiteNavigation />
-          <main>
+          <div role="main">
             <Router>
               {/*
                 NOTE: every leaf route component in this router should be wrapped
@@ -65,7 +65,7 @@ const App: React.FC = () => {
               </PassThroughPage>
               <PageNotFound default />
             </Router>
-          </main>
+          </div>
         </AuthWall>
       </StoreProvider>
     </HelmetProvider>

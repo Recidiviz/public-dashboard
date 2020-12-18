@@ -37,15 +37,15 @@ type InitOptions = {
  * `Collection`s and `Metric`s will be instantiated for the `Tenant`.
  */
 export default class Tenant {
-  id: TenantId;
+  readonly id: TenantId;
 
-  name: string;
+  readonly name: string;
 
-  description: string;
+  readonly description: string;
 
-  collections: InitOptions["collections"];
+  readonly collections: InitOptions["collections"];
 
-  metrics: InitOptions["metrics"];
+  readonly metrics: InitOptions["metrics"];
 
   constructor({ id, name, description, collections, metrics }: InitOptions) {
     this.id = id;
