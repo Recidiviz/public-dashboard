@@ -61,16 +61,12 @@ const NavContainer = styled.nav`
   }
 `;
 
-const BrandNav = styled.div`
-  display: flex;
-`;
-
-const TenantNav = styled.ul`
+const NavGroup = styled.ul`
   align-items: stretch;
   display: flex;
 `;
 
-const TenantNavItem = styled.li``;
+const NavGroupItem = styled.li``;
 
 function getNavLinkProps({ matchPartial }: { matchPartial: boolean }) {
   return ({ isCurrent, isPartiallyCurrent }: LinkGetProps) => {
@@ -89,25 +85,29 @@ const SiteNavigation: React.FC = () => {
 
   return (
     <NavContainer>
-      <BrandNav>
-        <Link className="NavLink" to={getUrlForResource({ page: "home" })}>
-          <img src={logoPath} alt="Spotlight" />
-        </Link>
-        {tenant && (
-          <Link
-            getProps={getNavLinkProps({ matchPartial: false })}
-            to={getUrlForResource({
-              page: "tenant",
-              params: { tenantId: tenant.id },
-            })}
-          >
-            {tenant.name}
+      <NavGroup>
+        <NavGroupItem>
+          <Link className="NavLink" to={getUrlForResource({ page: "home" })}>
+            <img src={logoPath} alt="Spotlight" />
           </Link>
+        </NavGroupItem>
+        {tenant && (
+          <NavGroupItem>
+            <Link
+              getProps={getNavLinkProps({ matchPartial: false })}
+              to={getUrlForResource({
+                page: "tenant",
+                params: { tenantId: tenant.id },
+              })}
+            >
+              {tenant.name}
+            </Link>
+          </NavGroupItem>
         )}
-      </BrandNav>
+      </NavGroup>
       {tenant && (
-        <TenantNav>
-          <TenantNavItem>
+        <NavGroup>
+          <NavGroupItem>
             <Link
               getProps={getNavLinkProps({ matchPartial: true })}
               to={getUrlForResource({
@@ -117,8 +117,8 @@ const SiteNavigation: React.FC = () => {
             >
               Explore
             </Link>
-          </TenantNavItem>
-          <TenantNavItem>
+          </NavGroupItem>
+          <NavGroupItem>
             <Link
               getProps={getNavLinkProps({ matchPartial: true })}
               to={getUrlForResource({
@@ -128,8 +128,8 @@ const SiteNavigation: React.FC = () => {
             >
               Collections
             </Link>
-          </TenantNavItem>
-        </TenantNav>
+          </NavGroupItem>
+        </NavGroup>
       )}
     </NavContainer>
   );
