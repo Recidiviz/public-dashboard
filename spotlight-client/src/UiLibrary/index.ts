@@ -15,28 +15,5 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Link, RouteComponentProps } from "@reach/router";
-import React from "react";
-import { TenantIdList } from "../contentApi/types";
-import getUrlForResource from "../routerUtils/getUrlForResource";
-import withRouteSync from "../withRouteSync";
-
-const PageHome: React.FC<RouteComponentProps> = () => {
-  return (
-    <div>
-      <h1>Spotlight</h1>
-      <ul>
-        {TenantIdList.map((tenantId) => (
-          <li key={tenantId}>
-            <Link
-              to={getUrlForResource({ page: "tenant", params: { tenantId } })}
-            >
-              {tenantId}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-export default withRouteSync(PageHome);
+export { default as colors } from "./colors";
+export { default as typefaces } from "./typefaces";

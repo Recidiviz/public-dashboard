@@ -15,28 +15,46 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Link, RouteComponentProps } from "@reach/router";
 import React from "react";
-import { TenantIdList } from "../contentApi/types";
-import getUrlForResource from "../routerUtils/getUrlForResource";
-import withRouteSync from "../withRouteSync";
+import { Helmet } from "react-helmet-async";
+import { createGlobalStyle } from "styled-components/macro";
+import reset from "styled-reset";
+import { colors, typefaces } from "../UiLibrary";
 
-const PageHome: React.FC<RouteComponentProps> = () => {
+const BaseStyles = createGlobalStyle`
+  ${reset}
+
+  html {
+    box-sizing: border-box;
+
+    * {
+      font-family: ${typefaces.body};
+    }
+
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+  }
+
+  body {
+    background-color: ${colors.background};
+    color: ${colors.text};
+  }
+`;
+
+const GlobalStyles: React.FC = () => {
   return (
-    <div>
-      <h1>Spotlight</h1>
-      <ul>
-        {TenantIdList.map((tenantId) => (
-          <li key={tenantId}>
-            <Link
-              to={getUrlForResource({ page: "tenant", params: { tenantId } })}
-            >
-              {tenantId}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <Helmet>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Libre+Franklin&display=swap"
+          rel="stylesheet"
+        />
+      </Helmet>
+      <BaseStyles />
+    </>
   );
 };
-export default withRouteSync(PageHome);
+
+export default GlobalStyles;
