@@ -42,6 +42,20 @@
       { "js": "never", "ts": "never", "tsx": "never" }
     ],
 
+    // make sure we are using the Babel macro for styled-components
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "styled-components",
+            "message": "Please import from styled-components/macro."
+          }
+        ],
+        "patterns": ["!styled-components/macro"]
+      }
+    ],
+
     // support typescript as well as javascript file extensions
     "react/jsx-filename-extension": ["error", { "extensions": [".tsx", ".js"] }]
   },

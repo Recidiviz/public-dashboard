@@ -121,23 +121,26 @@ describe("navigation", () => {
   });
 
   test("nav bar", async () => {
+    const dataPortalLabel = "Explore";
+    const narrativesLabel = "Collections";
+
     const {
       history: { navigate },
     } = renderNavigableApp();
     const inNav = within(screen.getByRole("navigation"));
 
     expect(
-      inNav.queryByRole("link", { name: "Explore Data" })
+      inNav.queryByRole("link", { name: dataPortalLabel })
     ).not.toBeInTheDocument();
     expect(
-      inNav.queryByRole("link", { name: "Collections" })
+      inNav.queryByRole("link", { name: narrativesLabel })
     ).not.toBeInTheDocument();
 
     await act(() => navigate("/us-nd"));
     const homeLink = inNav.getByRole("link", { name: "Spotlight" });
     const tenantLink = inNav.getByRole("link", { name: "North Dakota" });
-    const portalLink = inNav.getByRole("link", { name: "Explore Data" });
-    const narrativesLink = inNav.getByRole("link", { name: "Collections" });
+    const portalLink = inNav.getByRole("link", { name: dataPortalLabel });
+    const narrativesLink = inNav.getByRole("link", { name: narrativesLabel });
 
     const verifyNavLinks = () => {
       expect(homeLink).toBeInTheDocument();

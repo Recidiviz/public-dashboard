@@ -17,7 +17,9 @@
 
 import { RouteComponentProps, Router } from "@reach/router";
 import React from "react";
+import { HelmetProvider } from "react-helmet-async";
 import AuthWall from "./AuthWall";
+import GlobalStyles from "./GlobalStyles";
 import PageExplore from "./PageExplore";
 import PageHome from "./PageHome";
 import PageMetric from "./PageMetric";
@@ -37,33 +39,36 @@ const PassThroughPage: React.FC<RouteComponentProps> = ({ children }) => (
 
 const App: React.FC = () => {
   return (
-    <StoreProvider>
-      <AuthWall>
-        <SiteNavigation />
-        <div role="main">
-          <Router>
-            {/*
-              NOTE: every leaf route component in this router should be wrapped
-              by the withRouteSync higher-order component to keep data and UI in sync!
-            */}
-            <PageHome path="/" />
-            <PassThroughPage path="/:tenantId">
-              <PageTenant path="/" />
-              <PassThroughPage path={`/${DataPortalSlug}`}>
-                <PageExplore path="/" />
-                <PageMetric path="/:metricTypeId" />
+    <HelmetProvider>
+      <StoreProvider>
+        <GlobalStyles />
+        <AuthWall>
+          <SiteNavigation />
+          <div role="main">
+            <Router>
+              {/*
+                NOTE: every leaf route component in this router should be wrapped
+                by the withRouteSync higher-order component to keep data and UI in sync!
+              */}
+              <PageHome path="/" />
+              <PassThroughPage path="/:tenantId">
+                <PageTenant path="/" />
+                <PassThroughPage path={`/${DataPortalSlug}`}>
+                  <PageExplore path="/" />
+                  <PageMetric path="/:metricTypeId" />
+                  <PageNotFound default />
+                </PassThroughPage>
+                <PassThroughPage path={`/${NarrativesSlug}`}>
+                  <PageNarrativeHome path="/" />
+                </PassThroughPage>
                 <PageNotFound default />
               </PassThroughPage>
-              <PassThroughPage path={`/${NarrativesSlug}`}>
-                <PageNarrativeHome path="/" />
-              </PassThroughPage>
               <PageNotFound default />
-            </PassThroughPage>
-            <PageNotFound default />
-          </Router>
-        </div>
-      </AuthWall>
-    </StoreProvider>
+            </Router>
+          </div>
+        </AuthWall>
+      </StoreProvider>
+    </HelmetProvider>
   );
 };
 
