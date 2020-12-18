@@ -15,9 +15,19 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { autorun } from "mobx";
 import waitForLocalhost from "wait-for-localhost";
 
 // eslint-disable-next-line import/prefer-default-export
 export function waitForTestServer(): Promise<void> {
   return waitForLocalhost({ path: "/health", port: 3002 });
+}
+
+/**
+ * Convenience method to run an immediate, one-time reactive effect
+ */
+export function reactImmediately(effect: () => void): void {
+  // this will call the effect function immediately,
+  // and then immediately call the disposer to tear down the reaction
+  autorun(effect)();
 }

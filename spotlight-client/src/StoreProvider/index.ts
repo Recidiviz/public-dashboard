@@ -15,22 +15,5 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React from "react";
-import AuthWall from "./AuthWall";
-import StoreProvider from "./StoreProvider";
-
-const App: React.FC = () => {
-  return (
-    <StoreProvider>
-      <AuthWall>
-        <div>
-          <header>
-            <h1>Spotlight</h1>
-          </header>
-        </div>
-      </AuthWall>
-    </StoreProvider>
-  );
-};
-
-export default App;
+export { default } from "./StoreProvider";
+export * from "./StoreProvider";

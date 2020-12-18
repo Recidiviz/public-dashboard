@@ -16,21 +16,15 @@
 // =============================================================================
 
 import React from "react";
-import AuthWall from "./AuthWall";
-import StoreProvider from "./StoreProvider";
+import { FallbackProps } from "react-error-boundary";
 
-const App: React.FC = () => {
+const ErrorMessage: React.FC<FallbackProps> = ({ error }) => {
   return (
-    <StoreProvider>
-      <AuthWall>
-        <div>
-          <header>
-            <h1>Spotlight</h1>
-          </header>
-        </div>
-      </AuthWall>
-    </StoreProvider>
+    <article>
+      <h1>An error has occurred.</h1>
+      <p>{error?.message}</p>
+    </article>
   );
 };
 
-export default App;
+export default ErrorMessage;

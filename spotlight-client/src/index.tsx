@@ -17,8 +17,8 @@
 
 import "react-app-polyfill/ie11";
 import "react-app-polyfill/stable";
-import { configure } from "mobx";
 
+import { configure } from "mobx";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";

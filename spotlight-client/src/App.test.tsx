@@ -15,118 +15,152 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
-import { render } from "@testing-library/react";
-import React from "react";
-import App from "./App";
-import { getAuthSettings, isAuthEnabled } from "./AuthWall/utils";
+// we have to import everything dynamically to manipulate process.env,
+// which is weird and Typescript doesn't like it, so silence these warnings
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let waitFor: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let cleanup: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let render: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let screen: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let React: any;
 
-test("does not explode", () => {
-  const { getByRole } = render(<App />);
+// this doesn't do anything but convince TypeScript this file is a module,
+// since we don't have any top-level imports
+export {};
+
+// mocking the Auth0 library because JSDOM doesn't support all the APIs it needs
+const mockGetUser = jest.fn();
+const mockIsAuthenticated = jest.fn();
+const mockLoginWithRedirect = jest.fn();
+jest.mock("@auth0/auth0-spa-js", () =>
+  jest.fn().mockResolvedValue({
+    getUser: mockGetUser,
+    isAuthenticated: mockIsAuthenticated,
+    loginWithRedirect: mockLoginWithRedirect,
+  })
+);
+
+/**
+ * Convenience method for importing test module after updating environment
+ */
+async function getApp() {
+  return (await import("./App")).default;
+}
+
+// mocking the node env is esoteric, see https://stackoverflow.com/a/48042799
+const ORIGINAL_ENV = process.env;
+
+beforeEach(async () => {
+  // make a copy that we can modify
+  process.env = { ...ORIGINAL_ENV };
+
+  jest.resetModules();
+  // reimport all modules except the test module
+  React = (await import("react")).default;
+  const reactTestingLibrary = await import("@testing-library/react");
+  render = reactTestingLibrary.render;
+  screen = reactTestingLibrary.screen;
+  cleanup = reactTestingLibrary.cleanup;
+  waitFor = reactTestingLibrary.waitFor;
+});
+
+afterEach(() => {
+  process.env = ORIGINAL_ENV;
+  // dynamic imports break auto cleanup so we have to do it manually
+  cleanup();
+});
+
+test("no auth required", async () => {
+  const App = await getApp();
+  render(<App />);
   // seems like a pretty safe bet this word will always be there somewhere!
-  const websiteName = getByRole("heading", { name: /spotlight/i });
+  const websiteName = screen.getByRole("heading", { name: /spotlight/i });
   expect(websiteName).toBeInTheDocument();
 });
 
-jest.mock("./AuthWall/utils", () => ({
-  getAuthSettings: jest.fn(),
-  isAuthEnabled: jest.fn(),
-}));
-const getAuthSettingsMock = getAuthSettings as jest.MockedFunction<
-  typeof getAuthSettings
->;
+test("requires authentication", async () => {
+  // configure environment for valid authentication
+  process.env.REACT_APP_AUTH_ENABLED = "true";
+  process.env.REACT_APP_AUTH_ENV = "development";
 
-const isAuthEnabledMock = isAuthEnabled as jest.MockedFunction<
-  typeof isAuthEnabled
->;
+  // user is not currently authenticated
+  mockIsAuthenticated.mockResolvedValue(false);
 
-// Although mocking the Auth0 library is not necessarily a great practice,
-// it has a number of side effects (e.g. issuing XHRs, navigating to new URLs)
-// that are challenging to handle or even simulate in this test environment,
-// so this seemed like the better solution here
-jest.mock("@auth0/auth0-react", () => {
-  return {
-    Auth0Provider: jest.fn(),
-    useAuth0: jest.fn(),
-  };
+  const App = await getApp();
+  render(<App />);
+
+  expect(
+    screen.queryByRole("heading", { name: /spotlight/i })
+  ).not.toBeInTheDocument();
+  expect(screen.getByRole("status", { name: /loading/i })).toBeInTheDocument();
+  await waitFor(() => {
+    expect(mockLoginWithRedirect.mock.calls.length).toBe(1);
+    // this should ... continue not being in the document
+    expect(
+      screen.queryByRole("heading", { name: /spotlight/i })
+    ).not.toBeInTheDocument();
+  });
 });
 
-describe("with auth required", () => {
-  const MOCK_DOMAIN = "test.local";
-  const MOCK_CLIENT_ID = "abcdef";
+test("requires email verification", async () => {
+  // configure environment for valid authentication
+  process.env.REACT_APP_AUTH_ENABLED = "true";
+  process.env.REACT_APP_AUTH_ENV = "development";
 
-  beforeEach(() => {
-    // mock the environment configuration to enable auth
-    getAuthSettingsMock.mockReturnValue({
-      domain: MOCK_DOMAIN,
-      clientId: MOCK_CLIENT_ID,
-    });
-    isAuthEnabledMock.mockReturnValue(true);
-  });
+  // user is authenticated but not verified
+  mockIsAuthenticated.mockResolvedValue(true);
+  mockGetUser.mockResolvedValue({ email_verified: false });
 
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
-
-  test("require auth for the entire site", async () => {
-    // mock the auth0 provider
-    const PROVIDER_TEST_ID = "Auth0Provider";
-    (Auth0Provider as jest.Mock).mockImplementation(({ children }) => {
-      // here we mock just enough to verify that the context provider is being included;
-      // we can use this as a proxy for the relationship between provider and hook.
-      return <div data-testid={PROVIDER_TEST_ID}>{children}</div>;
-    });
-
-    // mock the auth0 hook
-    const mockLoginWithRedirect = jest.fn();
-    (useAuth0 as jest.Mock).mockReturnValue({
-      isAuthenticated: false,
-      loginWithRedirect: mockLoginWithRedirect,
-    });
-
-    const { queryByRole, getByRole, getByTestId } = render(<App />);
-
-    // verify that we have included an Auth0Provider
-    expect(getByTestId(PROVIDER_TEST_ID)).toBeInTheDocument();
-
-    // verify that we supplied that provider with
-    // the settings designated by our mock environment
-    expect((Auth0Provider as jest.Mock).mock.calls[0][0]).toEqual(
-      expect.objectContaining({ domain: MOCK_DOMAIN, clientId: MOCK_CLIENT_ID })
-    );
-
-    // verify that we have initiated an Auth0 login
-    expect(mockLoginWithRedirect.mock.calls.length).toBe(1);
-
-    // application contents should not have been rendered unauthed
-    expect(queryByRole("heading", { name: /spotlight/i })).toBeNull();
-    expect(getByRole("status", { name: /loading/i })).toBeInTheDocument();
-  });
-
-  test("require email verification for authed users", () => {
-    (useAuth0 as jest.Mock).mockReturnValue({
-      isAuthenticated: true,
-      user: {
-        email_verified: false,
-      },
-    });
-
-    const { getByRole, queryByRole } = render(<App />);
+  const App = await getApp();
+  render(<App />);
+  await waitFor(() => {
     // application contents should not have been rendered without verification
-    expect(queryByRole("heading", { name: /spotlight/i })).toBeNull();
+    expect(
+      screen.queryByRole("heading", { name: /spotlight/i })
+    ).not.toBeInTheDocument();
     // there should be a message about the verification requirement
-    expect(getByRole("heading", { name: /verification/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /verification/i })
+    ).toBeInTheDocument();
   });
+});
 
-  test("loading state", () => {
-    (useAuth0 as jest.Mock).mockReturnValue({
-      isLoading: true,
-    });
+test("renders when authenticated", async () => {
+  // configure environment for valid authentication
+  process.env.REACT_APP_AUTH_ENABLED = "true";
+  process.env.REACT_APP_AUTH_ENV = "development";
 
-    const { queryByRole, getByRole } = render(<App />);
+  // user is authenticated and verified
+  mockIsAuthenticated.mockResolvedValue(true);
+  mockGetUser.mockResolvedValue({ email_verified: true });
+  const App = await getApp();
+  render(<App />);
+  await waitFor(() => {
+    const websiteName = screen.getByRole("heading", { name: /spotlight/i });
+    expect(websiteName).toBeInTheDocument();
+  });
+});
 
-    // application contents should not have been rendered while auth is pending
-    expect(queryByRole("heading", { name: /spotlight/i })).toBeNull();
-    expect(getByRole("status", { name: /loading/i })).toBeInTheDocument();
+test("handles an Auth0 configuration error", async () => {
+  // configure environment for valid authentication
+  process.env.REACT_APP_AUTH_ENABLED = "true";
+  // no config exists for this environment
+  process.env.REACT_APP_AUTH_ENV = "production";
+  mockIsAuthenticated.mockResolvedValue(false);
+
+  const App = await getApp();
+  render(<App />);
+
+  await waitFor(() => {
+    expect(
+      screen.getByRole("heading", /an error occurred/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { name: /spotlight/i })
+    ).not.toBeInTheDocument();
   });
 });

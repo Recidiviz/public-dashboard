@@ -7,12 +7,12 @@
     "module": "esnext",
     "target": "es5",
 
-    // what to typecheck
+    // what to check
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
 
-    // where to typecheck
+    // where to check
     "resolveJsonModule": true,
     "skipLibCheck": true,
 

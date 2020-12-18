@@ -11,33 +11,38 @@
     "dev": "react-scripts start",
     "eject": "react-scripts eject",
     "lint": "tsc && eslint '**/*.{js,ts,tsx}'",
-    "test": "react-scripts test"
+    "test": "react-scripts test --env=jest-environment-jsdom-sixteen"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^1.1.0",
+    "@auth0/auth0-spa-js": "^1.13.1",
+    "@types/qs": "^6.9.5",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "assert-never": "^1.2.1",
     "jest-fetch-mock": "^3.0.3",
     "mobx": "^6.0.4",
+    "mobx-react-lite": "^3.0.1",
     "mobx-utils": "^6.0.1",
+    "qs": "^6.9.4",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
     "react-dom": "^16.13.1",
+    "react-error-boundary": "^3.0.2",
     "react-scripts": "3.4.3",
     "typescript": "^4.0.0",
     "utility-types": "^3.10.0",
     "wait-for-localhost": "^3.3.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
+    "@testing-library/jest-dom": "^5.11.1",
+    "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^7.1.2",
     "@types/jest": "^24.0.0",
     "@types/node": "^12.0.0",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
     "eslint-import-resolver-typescript": "^2.3.0",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
     "lint-staged": ">=10"
   },
   "browserslist": {

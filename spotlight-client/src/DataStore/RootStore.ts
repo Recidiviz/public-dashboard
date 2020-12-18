@@ -15,12 +15,44 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { Auth0ClientOptions } from "@auth0/auth0-spa-js";
 import TenantStore from "./TenantStore";
+import UserStore from "./UserStore";
+
+/**
+ * Returns the auth settings configured for the current environment, if any.
+ */
+export function getAuthSettings(): Auth0ClientOptions | undefined {
+  // NOTE: there is no production auth requirement!
+  if (process.env.REACT_APP_AUTH_ENV === "development") {
+    return {
+      domain: "spotlight-login-staging.recidiviz.org",
+      client_id: "ID9plpd8j4vaUin9rPTGxWlJoknSkDX1",
+      redirect_uri: `${window.location.origin}`,
+    };
+  }
+  return undefined;
+}
+
+/**
+ * Returns the status of the auth requirement flag for the current environment.
+ */
+export function isAuthEnabled(): boolean {
+  return process.env.REACT_APP_AUTH_ENABLED === "true";
+}
 
 export default class RootStore {
   tenantStore: TenantStore;
 
+  userStore: UserStore;
+
   constructor() {
     this.tenantStore = new TenantStore({ rootStore: this });
+
+    this.userStore = new UserStore({
+      authSettings: getAuthSettings(),
+      isAuthRequired: isAuthEnabled(),
+      rootStore: this,
+    });
   }
 }

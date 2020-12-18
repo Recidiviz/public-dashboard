@@ -15,22 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React from "react";
-import AuthWall from "./AuthWall";
-import StoreProvider from "./StoreProvider";
-
-const App: React.FC = () => {
-  return (
-    <StoreProvider>
-      <AuthWall>
-        <div>
-          <header>
-            <h1>Spotlight</h1>
-          </header>
-        </div>
-      </AuthWall>
-    </StoreProvider>
-  );
+// expecting more exports in this file; re-enable when no longer necessary
+// eslint-disable-next-line import/prefer-default-export
+export const ERROR_MESSAGES = {
+  auth0Configuration: "No Auth0 configuration found.",
+  unauthorized: "You do not have permission to view this content.",
 };
-
-export default App;

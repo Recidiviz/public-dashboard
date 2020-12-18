@@ -15,20 +15,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { autorun } from "mobx";
+import { reactImmediately } from "../testUtils";
 import Tenant from "../contentModels/Tenant";
 import RootStore from "./RootStore";
 
 let DataStore: RootStore;
-
-/**
- * Convenience method to run an immediate, one-time reactive effect
- */
-function reactImmediately(effect: () => void) {
-  // this will call the effect function immediately,
-  // and then immediately call the disposer to tear down the reaction
-  autorun(effect)();
-}
 
 beforeEach(() => {
   DataStore = new RootStore();
