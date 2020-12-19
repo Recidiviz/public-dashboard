@@ -19,8 +19,6 @@ import { SystemNarrativeContent } from "../contentApi/types";
 import { AnyMetric, isAnyMetric, MetricMapping } from "./types";
 
 type Section = { title: string; body: string; metric: AnyMetric };
-const isSection = (section: Section | undefined): section is Section =>
-  section !== undefined;
 
 type ConstructorArgs = {
   title: string;
@@ -49,18 +47,19 @@ export function createSystemNarrative({
   content: SystemNarrativeContent;
   allMetrics: MetricMapping;
 }): SystemNarrative {
+  const sections: Section[] = [];
+  // building sections in a type-safe way: make sure the related metric
+  // actually exists or else the section is omitted
+  content.sections.forEach(({ title, body, metricTypeId }) => {
+    const metric = allMetrics[metricTypeId];
+    if (isAnyMetric(metric)) {
+      sections.push({ title, body, metric });
+    }
+  });
+
   return new SystemNarrative({
     title: content.title,
     introduction: content.introduction,
-    sections: content.sections
-      .map(({ title, body, metricTypeId }) => {
-        const metric = allMetrics[metricTypeId];
-        if (isAnyMetric(metric)) {
-          return { title, body, metric };
-        }
-        return undefined;
-      })
-      // TODO: why isn't this type guard working?
-      .filter(isSection) as Section[],
+    sections,
   });
 }
