@@ -33,7 +33,11 @@ type GetUrlOptions =
       page: "metric";
       params: Pick<RequiredParams, "tenantId" | "metricTypeId">;
     }
-  | { page: "narratives"; params: Pick<RequiredParams, "tenantId"> };
+  | { page: "narrative list"; params: Pick<RequiredParams, "tenantId"> }
+  | {
+      page: "narrative";
+      params: Pick<RequiredParams, "tenantId" | "narrativeTypeId">;
+    };
 
 /**
  * Creates a properly parameterized URL from the input options
@@ -50,9 +54,12 @@ function getUrlForResource(opts: GetUrlOptions): string {
       return `/${makeRouteParam(
         opts.params.tenantId
       )}/${DataPortalSlug}/${makeRouteParam(opts.params.metricTypeId)}`;
-    case "narratives":
+    case "narrative list":
       return `/${makeRouteParam(opts.params.tenantId)}/${NarrativesSlug}`;
-
+    case "narrative":
+      return `/${makeRouteParam(
+        opts.params.tenantId
+      )}/${NarrativesSlug}/${makeRouteParam(opts.params.narrativeTypeId)}`;
     default:
       assertNever(opts);
   }

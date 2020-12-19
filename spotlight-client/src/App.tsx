@@ -23,7 +23,8 @@ import GlobalStyles from "./GlobalStyles";
 import PageExplore from "./PageExplore";
 import PageHome from "./PageHome";
 import PageMetric from "./PageMetric";
-import PageNarrativeHome from "./PageNarrativeHome";
+import PageNarrative from "./PageNarrative";
+import PageNarrativeList from "./PageNarrativeList";
 import PageNotFound from "./PageNotFound";
 import PageTenant from "./PageTenant";
 import { DataPortalSlug, NarrativesSlug } from "./routerUtils/types";
@@ -59,7 +60,8 @@ const App: React.FC = () => {
                   <PageNotFound default />
                 </PassThroughPage>
                 <PassThroughPage path={`/${NarrativesSlug}`}>
-                  <PageNarrativeHome path="/" />
+                  <PageNarrativeList path="/" />
+                  <PageNarrative path="/:narrativeTypeId" />
                 </PassThroughPage>
                 <PageNotFound default />
               </PassThroughPage>

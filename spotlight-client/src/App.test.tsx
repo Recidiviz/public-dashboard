@@ -120,6 +120,20 @@ describe("navigation", () => {
     return verifyWithNavigation({ targetPath, lookupArgs });
   });
 
+  test("single narrative page", () => {
+    expect.hasAssertions();
+    const targetPath = "/us-nd/narratives/prison";
+    const lookupArgs = [
+      "heading",
+      {
+        name: testContent.systemNarratives.Prison?.title,
+        level: 1,
+      },
+    ] as const;
+
+    return verifyWithNavigation({ targetPath, lookupArgs });
+  });
+
   test("nav bar", async () => {
     const dataPortalLabel = "Explore";
     const narrativesLabel = "Collections";
