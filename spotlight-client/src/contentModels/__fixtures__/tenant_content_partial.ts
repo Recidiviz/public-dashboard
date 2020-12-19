@@ -63,6 +63,20 @@ const content: TenantContent = {
       methodology: "test ParoleRevocationsAggregate methodology",
     },
   },
+  // this is an intentionally non-exhaustive set of narratives
+  systemNarratives: {
+    Parole: {
+      title: "test parole narrative",
+      introduction: "test parole introduction",
+      sections: [
+        {
+          title: "test first parole section",
+          body: "test parole section copy",
+          metricTypeId: "ParolePopulationCurrent",
+        },
+      ],
+    },
+  },
 };
 
 export default content;

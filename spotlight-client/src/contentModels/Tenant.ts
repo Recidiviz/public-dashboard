@@ -16,10 +16,15 @@
 // =============================================================================
 
 import retrieveContent from "../contentApi/retrieveContent";
-import { CollectionTypeIdList, TenantId } from "../contentApi/types";
+import {
+  CollectionTypeIdList,
+  SystemNarrativeTypeIdList,
+  TenantId,
+} from "../contentApi/types";
 import { createCollection } from "./Collection";
 import { createMetricMapping } from "./Metric";
-import { CollectionMap, MetricMapping } from "./types";
+import { createSystemNarrative } from "./SystemNarrative";
+import { CollectionMap, MetricMapping, SystemNarrativeMapping } from "./types";
 
 type InitOptions = {
   id: TenantId;
@@ -27,6 +32,7 @@ type InitOptions = {
   description: string;
   collections: CollectionMap;
   metrics: MetricMapping;
+  systemNarratives: SystemNarrativeMapping;
 };
 
 /**
@@ -47,12 +53,22 @@ export default class Tenant {
 
   readonly metrics: InitOptions["metrics"];
 
-  constructor({ id, name, description, collections, metrics }: InitOptions) {
+  readonly systemNarratives: SystemNarrativeMapping;
+
+  constructor({
+    id,
+    name,
+    description,
+    collections,
+    metrics,
+    systemNarratives,
+  }: InitOptions) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.collections = collections;
     this.metrics = metrics;
+    this.systemNarratives = systemNarratives;
   }
 }
 
@@ -70,13 +86,15 @@ function getMetricsForTenant(
   });
 }
 
+type MetricRelatedModelOptions = {
+  allTenantContent: ReturnType<typeof retrieveContent>;
+  metrics: MetricMapping;
+};
+
 function getCollectionsForTenant({
   allTenantContent,
   metrics,
-}: {
-  allTenantContent: ReturnType<typeof retrieveContent>;
-  metrics: MetricMapping;
-}) {
+}: MetricRelatedModelOptions) {
   const collectionMapping: InitOptions["collections"] = new Map();
 
   // not all collections are required; content object is the source of truth
@@ -94,6 +112,21 @@ function getCollectionsForTenant({
   return collectionMapping;
 }
 
+function getSystemNarrativesForTenant({
+  allTenantContent,
+  metrics: allMetrics,
+}: MetricRelatedModelOptions) {
+  const narrativeMapping: SystemNarrativeMapping = {};
+  SystemNarrativeTypeIdList.forEach((id) => {
+    const content = allTenantContent.systemNarratives[id];
+    if (content) {
+      narrativeMapping[id] = createSystemNarrative({ content, allMetrics });
+    }
+  });
+
+  return narrativeMapping;
+}
+
 /**
  * Factory function for creating an instance of the `Tenant` specified by `tenantId`.
  */
@@ -108,5 +141,9 @@ export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
     description: allTenantContent.description,
     collections: getCollectionsForTenant({ allTenantContent, metrics }),
     metrics,
+    systemNarratives: getSystemNarrativesForTenant({
+      allTenantContent,
+      metrics,
+    }),
   });
 }

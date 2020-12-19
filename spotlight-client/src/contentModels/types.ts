@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { CollectionTypeId } from "../contentApi/types";
+import { CollectionTypeId, SystemNarrativeTypeId } from "../contentApi/types";
 import {
   DemographicsByCategoryRecord,
   HistoricalPopulationBreakdownRecord,
@@ -27,7 +27,8 @@ import {
   SupervisionSuccessRateDemographicsRecord,
 } from "../metricsApi";
 import type Collection from "./Collection";
-import type Metric from "./Metric";
+import Metric from "./Metric";
+import SystemNarrative from "./SystemNarrative";
 
 // =======================================
 // Collection types
@@ -50,6 +51,9 @@ export type AnyRecord =
   | SupervisionSuccessRateDemographicsRecord;
 
 export type AnyMetric = Metric<AnyRecord>;
+export function isAnyMetric(metric: unknown): metric is AnyMetric {
+  return metric instanceof Metric;
+}
 
 export type MetricMapping = {
   SentencePopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
@@ -73,4 +77,11 @@ export type MetricMapping = {
   ParoleSuccessAggregate?: Metric<SupervisionSuccessRateDemographicsRecord>;
   ParoleRevocationsAggregate?: Metric<DemographicsByCategoryRecord>;
   ParoleProgrammingCurrent?: Metric<ProgramParticipationCurrentRecord>;
+};
+
+// =======================================
+// Narrative types
+// =======================================
+export type SystemNarrativeMapping = {
+  [key in SystemNarrativeTypeId]?: SystemNarrative;
 };

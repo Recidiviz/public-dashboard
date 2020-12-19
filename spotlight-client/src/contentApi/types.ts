@@ -56,6 +56,9 @@ export const CollectionTypeIdList = [
   "Parole",
 ] as const;
 export type CollectionTypeId = typeof CollectionTypeIdList[number];
+export function isCollectionTypeId(x: string): x is CollectionTypeId {
+  return CollectionTypeIdList.includes(x as CollectionTypeId);
+}
 
 type CollectionContent = NamedEntity;
 
@@ -96,15 +99,15 @@ type PopulationCurrentContent = MetricContent & { mapCaption: string };
 
 // ============================
 // Narrative types
-export const SystemNarrativeTypeIds = [
+export const SystemNarrativeTypeIdList = [
   "Prison",
   "Probation",
   "Parole",
   "Sentencing",
 ] as const;
-export type SystemNarrativeTypeId = typeof SystemNarrativeTypeIds[number];
+export type SystemNarrativeTypeId = typeof SystemNarrativeTypeIdList[number];
 export function isSystemNarrativeTypeId(x: string): x is SystemNarrativeTypeId {
-  return SystemNarrativeTypeIds.includes(x as SystemNarrativeTypeId);
+  return SystemNarrativeTypeIdList.includes(x as SystemNarrativeTypeId);
 }
 
 type SystemNarrativeSection = {
@@ -113,7 +116,7 @@ type SystemNarrativeSection = {
   metricTypeId: MetricTypeId;
 };
 
-type SystemNarrativeContent = {
+export type SystemNarrativeContent = {
   title: string;
   introduction: string;
   sections: SystemNarrativeSection[];
