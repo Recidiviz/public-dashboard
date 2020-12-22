@@ -35,4 +35,4 @@ export type NormalizedRouteParams = {
 };
 
 export const DataPortalSlug = "explore";
-export const NarrativesSlug = "narratives";
+export const NarrativesSlug = "collections";
