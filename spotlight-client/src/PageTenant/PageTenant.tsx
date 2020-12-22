@@ -26,7 +26,7 @@ type PageTenantProps = RouteComponentProps & { tenantId?: TenantId };
 
 const PageTenant: React.FC<PageTenantProps> = () => {
   // tenant may be briefly undefined during initial page load
-  const tenant = useDataStore().tenantStore.currentTenant;
+  const { tenant } = useDataStore();
 
   return (
     <article>

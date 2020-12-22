@@ -24,7 +24,7 @@ import { useDataStore } from "../StoreProvider";
 import withRouteSync from "../withRouteSync";
 
 const PageNarrativeList: React.FC<RouteComponentProps> = () => {
-  const tenant = useDataStore().tenantStore.currentTenant;
+  const { tenant } = useDataStore();
 
   const systemNarratives = tenant?.systemNarratives;
 

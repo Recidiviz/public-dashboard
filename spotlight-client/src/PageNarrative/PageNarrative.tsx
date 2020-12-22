@@ -27,7 +27,7 @@ type PageNarrativeProps = RouteComponentProps & {
 };
 
 const PageNarrative: React.FC<PageNarrativeProps> = ({ narrativeTypeId }) => {
-  const tenant = useDataStore().tenantStore.currentTenant;
+  const { tenant } = useDataStore();
 
   // if this component is used properly as a route component,
   // this should never be true;

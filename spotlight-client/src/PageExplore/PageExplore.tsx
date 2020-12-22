@@ -24,7 +24,7 @@ import withRouteSync from "../withRouteSync";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 
 const PageExplore: React.FC<RouteComponentProps> = () => {
-  const tenant = useDataStore().tenantStore.currentTenant;
+  const { tenant } = useDataStore();
 
   return (
     <article>
