@@ -114,8 +114,22 @@ describe("navigation", () => {
 
   test("narratives page", () => {
     expect.hasAssertions();
-    const targetPath = "/us-nd/narratives";
+    const targetPath = "/us-nd/collections";
     const lookupArgs = ["heading", { name: "Collections", level: 1 }] as const;
+
+    return verifyWithNavigation({ targetPath, lookupArgs });
+  });
+
+  test("single narrative page", () => {
+    expect.hasAssertions();
+    const targetPath = "/us-nd/collections/prison";
+    const lookupArgs = [
+      "heading",
+      {
+        name: testContent.systemNarratives.Prison?.title,
+        level: 1,
+      },
+    ] as const;
 
     return verifyWithNavigation({ targetPath, lookupArgs });
   });

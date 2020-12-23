@@ -18,42 +18,45 @@
 import { Link, RouteComponentProps } from "@reach/router";
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { MetricTypeIdList } from "../contentApi/types";
+import { SystemNarrativeTypeIdList } from "../contentApi/types";
+import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
 import withRouteSync from "../withRouteSync";
-import getUrlForResource from "../routerUtils/getUrlForResource";
 
-const PageExplore: React.FC<RouteComponentProps> = () => {
+const PageNarrativeList: React.FC<RouteComponentProps> = () => {
   const { tenant } = useDataStore();
+
+  const systemNarratives = tenant?.systemNarratives;
 
   return (
     <article>
-      <h1>Explore Data</h1>
-      {/* FYI these are just helpful placeholders */}
-      {!tenant && <div>Loading …</div>}
-      {tenant && (
-        <ul>
-          {MetricTypeIdList.map((metricTypeId) => {
-            const metric = tenant.metrics[metricTypeId];
-            return (
-              metric && (
-                <li key={metricTypeId}>
-                  <Link
-                    to={getUrlForResource({
-                      page: "metric",
-                      params: { tenantId: tenant.id, metricTypeId },
-                    })}
-                  >
-                    {metric.name}
-                  </Link>
-                </li>
-              )
-            );
-          })}
-        </ul>
+      <h1>Collections</h1>
+      {tenant && systemNarratives && Object.keys(systemNarratives).length > 0 && (
+        <section>
+          <h2>system overview</h2>
+          <ul>
+            {SystemNarrativeTypeIdList.map((id) => {
+              const narrative = systemNarratives[id];
+              return (
+                narrative && (
+                  <li key={id}>
+                    <Link
+                      to={getUrlForResource({
+                        page: "narrative",
+                        params: { tenantId: tenant.id, narrativeTypeId: id },
+                      })}
+                    >
+                      {narrative.title}
+                    </Link>
+                  </li>
+                )
+              );
+            })}
+          </ul>
+        </section>
       )}
     </article>
   );
 };
 
-export default withRouteSync(observer(PageExplore));
+export default withRouteSync(observer(PageNarrativeList));

@@ -152,6 +152,52 @@ const content: DeepRequired<TenantContent> = {
       methodology: "test ProbationSuccessAggregate methodology",
     },
   },
+  systemNarratives: {
+    Prison: {
+      title: "test prison narrative",
+      introduction: "test prison introduction",
+      sections: [
+        {
+          title: "test first prison section",
+          body: "test prison section copy",
+          metricTypeId: "PrisonPopulationCurrent",
+        },
+      ],
+    },
+    Probation: {
+      title: "test probation narrative",
+      introduction: "test probation introduction",
+      sections: [
+        {
+          title: "test first probation section",
+          body: "test probation section copy",
+          metricTypeId: "ProbationPopulationCurrent",
+        },
+      ],
+    },
+    Parole: {
+      title: "test parole narrative",
+      introduction: "test parole introduction",
+      sections: [
+        {
+          title: "test first parole section",
+          body: "test parole section copy",
+          metricTypeId: "ParolePopulationCurrent",
+        },
+      ],
+    },
+    Sentencing: {
+      title: "test sentencing narrative",
+      introduction: "test sentencing introduction",
+      sections: [
+        {
+          title: "test first sentencing section",
+          body: "test sentencing section copy",
+          metricTypeId: "SentencePopulationCurrent",
+        },
+      ],
+    },
+  },
 };
 
 export default content;

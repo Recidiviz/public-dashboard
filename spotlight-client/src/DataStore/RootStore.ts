@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { Auth0ClientOptions } from "@auth0/auth0-spa-js";
+import { computed, makeObservable } from "mobx";
 import TenantStore from "./TenantStore";
 import UserStore from "./UserStore";
 
@@ -47,6 +48,8 @@ export default class RootStore {
   userStore: UserStore;
 
   constructor() {
+    makeObservable(this, { tenant: computed });
+
     this.tenantStore = new TenantStore({ rootStore: this });
 
     this.userStore = new UserStore({
@@ -54,5 +57,9 @@ export default class RootStore {
       isAuthRequired: isAuthEnabled(),
       rootStore: this,
     });
+  }
+
+  get tenant(): TenantStore["currentTenant"] {
+    return this.tenantStore.currentTenant;
   }
 }

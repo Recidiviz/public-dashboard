@@ -81,7 +81,7 @@ function getNavLinkProps({ matchPartial }: { matchPartial: boolean }) {
 }
 
 const SiteNavigation: React.FC = () => {
-  const tenant = useDataStore().tenantStore.currentTenant;
+  const { tenant } = useDataStore();
 
   return (
     <NavContainer>
@@ -122,7 +122,7 @@ const SiteNavigation: React.FC = () => {
             <Link
               getProps={getNavLinkProps({ matchPartial: true })}
               to={getUrlForResource({
-                page: "narratives",
+                page: "narrative list",
                 params: { tenantId: tenant.id },
               })}
             >

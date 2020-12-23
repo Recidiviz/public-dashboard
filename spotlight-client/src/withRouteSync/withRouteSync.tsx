@@ -47,6 +47,7 @@ const withRouteSync = <Props extends RouteComponentProps & RouteParams>(
         {...props}
         tenantId={normalizedProps.tenantId}
         metricTypeId={normalizedProps.metricTypeId}
+        narrativeTypeId={normalizedProps.narrativeTypeId}
       />
     );
   };

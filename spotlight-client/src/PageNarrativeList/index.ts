@@ -15,24 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import {
-  MetricTypeId,
-  SystemNarrativeTypeId,
-  TenantId,
-} from "../contentApi/types";
-
-export type RouteParams = {
-  // these should match paths as defined in App.tsx
-  tenantId?: string;
-  metricTypeId?: string;
-  narrativeTypeId?: string;
-};
-
-export type NormalizedRouteParams = {
-  tenantId?: TenantId;
-  metricTypeId?: MetricTypeId;
-  narrativeTypeId?: SystemNarrativeTypeId;
-};
-
-export const DataPortalSlug = "explore";
-export const NarrativesSlug = "collections";
+export { default } from "./PageNarrativeList";

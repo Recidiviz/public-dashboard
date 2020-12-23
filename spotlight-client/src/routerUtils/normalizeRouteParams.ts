@@ -16,7 +16,12 @@
 // =============================================================================
 
 import { constantCase, pascalCase } from "change-case";
-import { isMetricTypeId, isTenantId } from "../contentApi/types";
+import { ValuesType } from "utility-types";
+import {
+  isMetricTypeId,
+  isSystemNarrativeTypeId,
+  isTenantId,
+} from "../contentApi/types";
 import { NormalizedRouteParams, RouteParams } from "./types";
 
 /**
@@ -25,18 +30,16 @@ import { NormalizedRouteParams, RouteParams } from "./types";
 export default function normalizeRouteParams(
   rawParams: RouteParams
 ): NormalizedRouteParams {
-  if (rawParams && typeof rawParams === "object") {
-    const { tenantId, metricTypeId } = rawParams as { [key: string]: unknown };
+  const { tenantId, metricTypeId, narrativeTypeId } = rawParams;
 
-    return {
-      tenantId: normalizeTenantId(tenantId),
-      metricTypeId: normalizeMetricTypeId(metricTypeId),
-    };
-  }
-  return {};
+  return {
+    tenantId: normalizeTenantId(tenantId),
+    metricTypeId: normalizeMetricTypeId(metricTypeId),
+    narrativeTypeId: normalizeNarrativeTypeId(narrativeTypeId),
+  };
 }
 
-function normalizeTenantId(rawParam: unknown) {
+function normalizeTenantId(rawParam: ValuesType<RouteParams>) {
   if (typeof rawParam === "string") {
     const normalizedString = constantCase(rawParam);
     if (isTenantId(normalizedString)) return normalizedString;
@@ -45,11 +48,20 @@ function normalizeTenantId(rawParam: unknown) {
   return undefined;
 }
 
-function normalizeMetricTypeId(rawParam: unknown) {
+function normalizeMetricTypeId(rawParam: ValuesType<RouteParams>) {
   if (typeof rawParam === "string") {
     const normalizedString = pascalCase(rawParam);
     if (isMetricTypeId(normalizedString)) return normalizedString;
     throw new Error(`unknown MetricTypeId: ${normalizedString}`);
+  }
+  return undefined;
+}
+
+function normalizeNarrativeTypeId(rawParam: ValuesType<RouteParams>) {
+  if (typeof rawParam === "string") {
+    const normalizedString = pascalCase(rawParam);
+    if (isSystemNarrativeTypeId(normalizedString)) return normalizedString;
+    throw new Error(`unknown narrative type id: ${normalizedString}`);
   }
   return undefined;
 }

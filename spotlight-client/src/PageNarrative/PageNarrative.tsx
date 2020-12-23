@@ -16,13 +16,35 @@
 // =============================================================================
 
 import { RouteComponentProps } from "@reach/router";
+import { observer } from "mobx-react-lite";
 import React from "react";
+import { SystemNarrativeTypeId } from "../contentApi/types";
+import { useDataStore } from "../StoreProvider";
 import withRouteSync from "../withRouteSync";
 
-const PageNarrativeHome: React.FC<RouteComponentProps> = () => (
-  <article>
-    <h1>Collections</h1>
-  </article>
-);
+type PageNarrativeProps = RouteComponentProps & {
+  narrativeTypeId?: SystemNarrativeTypeId;
+};
 
-export default withRouteSync(PageNarrativeHome);
+const PageNarrative: React.FC<PageNarrativeProps> = ({ narrativeTypeId }) => {
+  const { tenant } = useDataStore();
+
+  // if this component is used properly as a route component,
+  // this should never be true;
+  // if it is, something has gone very wrong
+  if (!narrativeTypeId) {
+    throw new Error("missing narrativeTypeId");
+  }
+
+  // tenant may be briefly undefined on initial page load
+  const narrative = tenant?.systemNarratives[narrativeTypeId];
+
+  return (
+    <article>
+      <h1>{narrative?.title}</h1>
+      <p>{narrative?.introduction}</p>
+    </article>
+  );
+};
+
+export default withRouteSync(observer(PageNarrative));

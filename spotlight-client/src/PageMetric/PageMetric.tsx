@@ -25,7 +25,7 @@ import withRouteSync from "../withRouteSync";
 type PageMetricProps = RouteComponentProps & { metricTypeId?: MetricTypeId };
 
 const PageMetric: React.FC<PageMetricProps> = ({ metricTypeId }) => {
-  const tenant = useDataStore().tenantStore.currentTenant;
+  const { tenant } = useDataStore();
 
   // if this component is used properly as a route component,
   // this should never be true;

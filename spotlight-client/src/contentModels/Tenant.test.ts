@@ -16,7 +16,12 @@
 // =============================================================================
 
 import retrieveContent from "../contentApi/retrieveContent";
-import { CollectionTypeId, MetricTypeId } from "../contentApi/types";
+import {
+  isCollectionTypeId,
+  isMetricTypeId,
+  isSystemNarrativeTypeId,
+  MetricTypeId,
+} from "../contentApi/types";
 import Collection from "./Collection";
 import Metric from "./Metric";
 import { createTenant } from "./Tenant";
@@ -49,7 +54,7 @@ test.each([
 
   const tenant = createTenant({ tenantId: "US_ND" });
 
-  const expectedMetrics = Object.keys(fixture.metrics) as MetricTypeId[];
+  const expectedMetrics = Object.keys(fixture.metrics).filter(isMetricTypeId);
   expectedMetrics.forEach((metricId) =>
     expect(tenant.metrics[metricId]).toBeDefined()
   );
@@ -64,9 +69,9 @@ test.each([
 
   const tenant = createTenant({ tenantId: "US_ND" });
 
-  const expectedCollections = Object.keys(
-    fixture.collections
-  ) as CollectionTypeId[];
+  const expectedCollections = Object.keys(fixture.collections).filter(
+    isCollectionTypeId
+  );
   expectedCollections.forEach((id) => {
     const collection = tenant.collections.get(id);
     expect(collection).toBeDefined();
@@ -164,4 +169,24 @@ test("collections and metrics without content are excluded from mapping", () => 
   expect(sentenceMetric instanceof Metric).toBe(true);
   // @ts-expect-error: sentenceMetric is not undefined, we just tested it
   expect(sentenceMetric.collections.Sentencing).toBeUndefined();
+});
+
+test.each([
+  ["complete", exhaustiveFixture],
+  ["partial", partialFixture],
+])("tenant has %s system narratives", (type, fixture) => {
+  retrieveContentMock.mockReturnValue(fixture);
+
+  const tenant = createTenant({ tenantId: "US_ND" });
+
+  const expectedNarratives = Object.keys(tenant.systemNarratives).filter(
+    isSystemNarrativeTypeId
+  );
+  expectedNarratives.forEach((id) => {
+    const narrative = tenant.systemNarratives[id];
+    expect(narrative).toBeDefined();
+  });
+  expect(expectedNarratives.length).toBe(
+    Object.keys(tenant.systemNarratives).length
+  );
 });
