@@ -20,14 +20,12 @@ import React from "react";
 import { HelmetProvider } from "react-helmet-async";
 import AuthWall from "./AuthWall";
 import GlobalStyles from "./GlobalStyles";
-import PageExplore from "./PageExplore";
 import PageHome from "./PageHome";
-import PageMetric from "./PageMetric";
 import PageNarrative from "./PageNarrative";
 import PageNarrativeList from "./PageNarrativeList";
 import PageNotFound from "./PageNotFound";
 import PageTenant from "./PageTenant";
-import { DataPortalSlug, NarrativesSlug } from "./routerUtils/types";
+import { NarrativesSlug } from "./routerUtils/types";
 import SiteNavigation from "./SiteNavigation";
 import StoreProvider from "./StoreProvider";
 
@@ -54,11 +52,6 @@ const App: React.FC = () => {
               <PageHome path="/" />
               <PassThroughPage path="/:tenantId">
                 <PageTenant path="/" />
-                <PassThroughPage path={`/${DataPortalSlug}`}>
-                  <PageExplore path="/" />
-                  <PageMetric path="/:metricTypeId" />
-                  <PageNotFound default />
-                </PassThroughPage>
                 <PassThroughPage path={`/${NarrativesSlug}`}>
                   <PageNarrativeList path="/" />
                   <PageNarrative path="/:narrativeTypeId" />

@@ -111,17 +111,6 @@ const SiteNavigation: React.FC = () => {
             <Link
               getProps={getNavLinkProps({ matchPartial: true })}
               to={getUrlForResource({
-                page: "data portal",
-                params: { tenantId: tenant.id },
-              })}
-            >
-              Explore
-            </Link>
-          </NavGroupItem>
-          <NavGroupItem>
-            <Link
-              getProps={getNavLinkProps({ matchPartial: true })}
-              to={getUrlForResource({
                 page: "narrative list",
                 params: { tenantId: tenant.id },
               })}

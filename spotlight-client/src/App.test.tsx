@@ -90,28 +90,6 @@ describe("navigation", () => {
     return verifyWithNavigation({ targetPath, lookupArgs });
   });
 
-  test("explore page", () => {
-    expect.hasAssertions();
-    const targetPath = "/us-nd/explore";
-    const lookupArgs = ["heading", { name: "Explore Data", level: 1 }] as const;
-
-    return verifyWithNavigation({ targetPath, lookupArgs });
-  });
-
-  test("single metric page", () => {
-    expect.hasAssertions();
-    const targetPath = "/us-nd/explore/prison-population-current";
-    const lookupArgs = [
-      "heading",
-      {
-        name: testContent.metrics.PrisonPopulationCurrent?.name,
-        level: 1,
-      },
-    ] as const;
-
-    return verifyWithNavigation({ targetPath, lookupArgs });
-  });
-
   test("narratives page", () => {
     expect.hasAssertions();
     const targetPath = "/us-nd/collections";
@@ -153,23 +131,13 @@ describe("navigation", () => {
     await act(() => navigate("/us-nd"));
     const homeLink = inNav.getByRole("link", { name: "Spotlight" });
     const tenantLink = inNav.getByRole("link", { name: "North Dakota" });
-    const portalLink = inNav.getByRole("link", { name: dataPortalLabel });
     const narrativesLink = inNav.getByRole("link", { name: narrativesLabel });
 
     const verifyNavLinks = () => {
       expect(homeLink).toBeInTheDocument();
       expect(tenantLink).toBeInTheDocument();
-      expect(portalLink).toBeInTheDocument();
       expect(narrativesLink).toBeInTheDocument();
     };
-
-    fireEvent.click(portalLink);
-    await waitFor(() =>
-      expect(
-        screen.getByRole("heading", { name: "Explore Data", level: 1 })
-      ).toBeInTheDocument()
-    );
-    verifyNavLinks();
 
     fireEvent.click(narrativesLink);
     await waitFor(() =>

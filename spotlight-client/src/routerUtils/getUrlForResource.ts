@@ -17,7 +17,7 @@
 
 import assertNever from "assert-never";
 import { paramCase } from "change-case";
-import { DataPortalSlug, NarrativesSlug, NormalizedRouteParams } from "./types";
+import { NarrativesSlug, NormalizedRouteParams } from "./types";
 
 function makeRouteParam(param: string) {
   return paramCase(param);
@@ -28,11 +28,6 @@ type RequiredParams = Required<NormalizedRouteParams>;
 type GetUrlOptions =
   | { page: "home" }
   | { page: "tenant"; params: Pick<RequiredParams, "tenantId"> }
-  | { page: "data portal"; params: Pick<RequiredParams, "tenantId"> }
-  | {
-      page: "metric";
-      params: Pick<RequiredParams, "tenantId" | "metricTypeId">;
-    }
   | { page: "narrative list"; params: Pick<RequiredParams, "tenantId"> }
   | {
       page: "narrative";
@@ -48,12 +43,6 @@ function getUrlForResource(opts: GetUrlOptions): string {
       return "/";
     case "tenant":
       return `/${makeRouteParam(opts.params.tenantId)}`;
-    case "data portal":
-      return `/${makeRouteParam(opts.params.tenantId)}/${DataPortalSlug}`;
-    case "metric":
-      return `/${makeRouteParam(
-        opts.params.tenantId
-      )}/${DataPortalSlug}/${makeRouteParam(opts.params.metricTypeId)}`;
     case "narrative list":
       return `/${makeRouteParam(opts.params.tenantId)}/${NarrativesSlug}`;
     case "narrative":

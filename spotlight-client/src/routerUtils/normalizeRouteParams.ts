@@ -17,11 +17,7 @@
 
 import { constantCase, pascalCase } from "change-case";
 import { ValuesType } from "utility-types";
-import {
-  isMetricTypeId,
-  isSystemNarrativeTypeId,
-  isTenantId,
-} from "../contentApi/types";
+import { isSystemNarrativeTypeId, isTenantId } from "../contentApi/types";
 import { NormalizedRouteParams, RouteParams } from "./types";
 
 /**
@@ -30,11 +26,10 @@ import { NormalizedRouteParams, RouteParams } from "./types";
 export default function normalizeRouteParams(
   rawParams: RouteParams
 ): NormalizedRouteParams {
-  const { tenantId, metricTypeId, narrativeTypeId } = rawParams;
+  const { tenantId, narrativeTypeId } = rawParams;
 
   return {
     tenantId: normalizeTenantId(tenantId),
-    metricTypeId: normalizeMetricTypeId(metricTypeId),
     narrativeTypeId: normalizeNarrativeTypeId(narrativeTypeId),
   };
 }
@@ -44,15 +39,6 @@ function normalizeTenantId(rawParam: ValuesType<RouteParams>) {
     const normalizedString = constantCase(rawParam);
     if (isTenantId(normalizedString)) return normalizedString;
     throw new Error(`unknown TenantId: ${normalizedString}`);
-  }
-  return undefined;
-}
-
-function normalizeMetricTypeId(rawParam: ValuesType<RouteParams>) {
-  if (typeof rawParam === "string") {
-    const normalizedString = pascalCase(rawParam);
-    if (isMetricTypeId(normalizedString)) return normalizedString;
-    throw new Error(`unknown MetricTypeId: ${normalizedString}`);
   }
   return undefined;
 }
