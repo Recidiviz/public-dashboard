@@ -51,6 +51,10 @@ const GlobalStyles: React.FC = () => {
           href="https://fonts.googleapis.com/css2?family=Libre+Franklin&display=swap"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap"
+          rel="stylesheet"
+        />
       </Helmet>
       <BaseStyles />
     </>

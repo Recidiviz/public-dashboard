@@ -15,7 +15,15 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export default {
-  body: "'Libre Franklin', sans-serif",
-  display: "'Libre Baskerville', serif",
+import { RouteComponentProps } from "@reach/router";
+import type SystemNarrative from "../contentModels/SystemNarrative";
+
+export type SystemNarrativePageProps = {
+  narrative: SystemNarrative;
 };
+
+export type NarrativeSectionProps = { sectionNumber?: string };
+
+export type SystemNarrativeSectionProps = SystemNarrativePageProps &
+  RouteComponentProps &
+  NarrativeSectionProps;

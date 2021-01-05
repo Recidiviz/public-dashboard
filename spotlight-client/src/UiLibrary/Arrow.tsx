@@ -15,7 +15,40 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export default {
-  body: "'Libre Franklin', sans-serif",
-  display: "'Libre Baskerville', serif",
+import React from "react";
+import { colors } from ".";
+
+type ArrowProps = {
+  direction: "up" | "down";
+  disabled?: boolean;
 };
+
+const Arrow: React.FC<ArrowProps> = ({ direction, disabled }) => {
+  let transform;
+
+  if (direction === "up") {
+    transform = "rotate(180 7 3.5)";
+  }
+
+  return (
+    <svg
+      aria-hidden
+      width="14"
+      height="7"
+      viewBox="0 0 14 7"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1 0.5L7 6.5L13 0.5"
+        stroke={colors.text}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeOpacity={disabled ? 0.3 : 1}
+        transform={transform}
+      />
+    </svg>
+  );
+};
+
+export default Arrow;

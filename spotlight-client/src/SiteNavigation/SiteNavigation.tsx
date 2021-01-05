@@ -21,7 +21,7 @@ import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
 import logoPath from "../assets/spotlight-logo.svg";
-import { colors } from "../UiLibrary";
+import { colors, zIndex } from "../UiLibrary";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
 import { NAV_BAR_HEIGHT } from "../constants";
@@ -38,6 +38,7 @@ const NavContainer = styled.nav`
   position: fixed;
   width: 100%;
   top: 0;
+  z-index: ${zIndex.navBar};
 
   .NavLink {
     align-items: center;

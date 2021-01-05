@@ -15,7 +15,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export default {
-  body: "'Libre Franklin', sans-serif",
-  display: "'Libre Baskerville', serif",
-};
+export function currentSectionIndex(sectionNumber: string): number;
+export function currentSectionIndex(
+  sectionNumber: string | undefined
+): number | undefined;
+export function currentSectionIndex(
+  sectionNumber: string | undefined
+): number | undefined {
+  if (sectionNumber) {
+    // section URLs are 1-indexed
+    return Number(sectionNumber) - 1;
+  }
+  return undefined;
+}

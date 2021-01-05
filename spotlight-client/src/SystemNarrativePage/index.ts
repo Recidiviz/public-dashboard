@@ -15,7 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export default {
-  body: "'Libre Franklin', sans-serif",
-  display: "'Libre Baskerville', serif",
-};
+export { default } from "./SystemNarrativePage";

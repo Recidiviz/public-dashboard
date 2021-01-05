@@ -162,6 +162,11 @@ const content: DeepRequired<TenantContent> = {
           body: "test prison section copy",
           metricTypeId: "PrisonPopulationCurrent",
         },
+        {
+          title: "test second prison section",
+          body: "test second prison section copy",
+          metricTypeId: "PrisonPopulationHistorical",
+        },
       ],
     },
     Probation: {
@@ -172,6 +177,11 @@ const content: DeepRequired<TenantContent> = {
           title: "test first probation section",
           body: "test probation section copy",
           metricTypeId: "ProbationPopulationCurrent",
+        },
+        {
+          title: "test second probation section",
+          body: "test second probation section copy",
+          metricTypeId: "ProbationPopulationHistorical",
         },
       ],
     },
@@ -184,6 +194,11 @@ const content: DeepRequired<TenantContent> = {
           body: "test parole section copy",
           metricTypeId: "ParolePopulationCurrent",
         },
+        {
+          title: "test second parole section",
+          body: "test second parole section copy",
+          metricTypeId: "ParolePopulationHistorical",
+        },
       ],
     },
     Sentencing: {
@@ -194,6 +209,11 @@ const content: DeepRequired<TenantContent> = {
           title: "test first sentencing section",
           body: "test sentencing section copy",
           metricTypeId: "SentencePopulationCurrent",
+        },
+        {
+          title: "test second sentencing section",
+          body: "test second sentencing section copy",
+          metricTypeId: "SentenceTypesCurrent",
         },
       ],
     },

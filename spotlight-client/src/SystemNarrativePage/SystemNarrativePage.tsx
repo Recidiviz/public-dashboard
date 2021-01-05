@@ -15,7 +15,29 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export default {
-  body: "'Libre Franklin', sans-serif",
-  display: "'Libre Baskerville', serif",
+import { Router } from "@reach/router";
+import { rem } from "polished";
+import React from "react";
+import styled from "styled-components/macro";
+import SystemNarrativeIntro from "./SystemNarrativeIntro";
+import SystemNarrativeSection from "./SystemNarrativeSection";
+import { SystemNarrativePageProps } from "./types";
+
+const Container = styled.article`
+  padding: ${rem(160)} ${rem(176)};
+`;
+
+const SystemNarrativePage: React.FC<SystemNarrativePageProps> = ({
+  narrative,
+}) => {
+  return (
+    <Container>
+      <Router>
+        <SystemNarrativeIntro narrative={narrative} path="/" />
+        <SystemNarrativeSection narrative={narrative} path="/:sectionNumber" />
+      </Router>
+    </Container>
+  );
 };
+
+export default SystemNarrativePage;

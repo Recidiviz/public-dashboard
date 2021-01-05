@@ -60,7 +60,7 @@ const App: React.FC = () => {
                 <PageTenant path="/" />
                 <PassThroughPage path={`/${NarrativesSlug}`}>
                   <PageNarrativeList path="/" />
-                  <PageNarrative path="/:narrativeTypeId" />
+                  <PageNarrative path="/:narrativeTypeId/*" />
                 </PassThroughPage>
                 <PageNotFound default />
               </PassThroughPage>
