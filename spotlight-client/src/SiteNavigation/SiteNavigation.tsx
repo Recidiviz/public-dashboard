@@ -24,15 +24,20 @@ import logoPath from "../assets/spotlight-logo.svg";
 import { colors } from "../UiLibrary";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
+import { NAV_BAR_HEIGHT } from "../constants";
 
 const NavContainer = styled.nav`
   align-items: stretch;
+  background: ${colors.background};
   border-bottom: 1px solid ${colors.rule};
   display: flex;
-  height: ${rem(80)};
+  height: ${NAV_BAR_HEIGHT};
   justify-content: space-between;
+  left: 0;
   padding: 0 ${rem(8)};
+  position: fixed;
   width: 100%;
+  top: 0;
 
   .NavLink {
     align-items: center;
