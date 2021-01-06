@@ -15,20 +15,17 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { navigate, useParams } from "@reach/router";
 import HTMLReactParser from "html-react-parser";
 import { rem } from "polished";
-import React, { useEffect, useRef, useState } from "react";
-import InView from "react-intersection-observer";
+import React, { useRef } from "react";
+import { InView } from "react-intersection-observer";
 import styled from "styled-components/macro";
-import getUrlForResource from "../routerUtils/getUrlForResource";
-import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { colors, typefaces } from "../UiLibrary";
 import Arrow from "../UiLibrary/Arrow";
 import { X_PADDING } from "./constants";
 import Section from "./Section";
 import SectionNavigation from "./SectionNavigation";
-import { SystemNarrativeSectionProps } from "./types";
+import { SystemNarrativePageProps } from "./types";
 
 const Container = styled.article`
   padding: ${rem(160)} ${rem(X_PADDING)};
@@ -72,7 +69,7 @@ const ScrollIndicator = styled.div`
 
 const SectionsContainer = styled.div``;
 
-const SystemNarrativePage: React.FC<SystemNarrativeSectionProps> = ({
+const SystemNarrativePage: React.FC<SystemNarrativePageProps> = ({
   narrative,
 }) => {
   const sectionsContainerRef = useRef() as React.MutableRefObject<

@@ -15,12 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import {
-  createHistory,
-  createMemorySource,
-  LocationProvider,
-} from "@reach/router";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import React from "react";
 import contentFixture from "../contentModels/__fixtures__/tenant_content_exhaustive";
 import { createMetricMapping } from "../contentModels/Metric";
@@ -30,26 +25,6 @@ import SystemNarrative, {
 import SystemNarrativePage from ".";
 import { SystemNarrativeContent } from "../contentApi/types";
 import { MetricMapping } from "../contentModels/types";
-
-function renderPage({
-  route = "/",
-  narrative,
-}: {
-  narrative: SystemNarrative;
-  route: string;
-}) {
-  const history = createHistory(createMemorySource(route));
-
-  return {
-    ...render(
-      <LocationProvider history={history}>
-        <SystemNarrativePage narrative={narrative} />
-      </LocationProvider>
-    ),
-    // tests can use history object to simulate navigation in a browser
-    history,
-  };
-}
 
 let allMetrics: MetricMapping;
 let testNarrative: SystemNarrative;
@@ -71,72 +46,38 @@ beforeEach(() => {
   });
 });
 
-test("renders the narrative intro", () => {
-  renderPage({ narrative: testNarrative, route: "/" });
+test("renders all the sections", () => {
+  render(<SystemNarrativePage narrative={testNarrative} />);
 
   expect(
     screen.getByRole("heading", { name: narrativeContent.title, level: 1 })
   ).toBeVisible();
-  expect(screen.getByText(narrativeContent.introduction)).toBeVisible();
-});
+  expect(screen.getByText(narrativeContent.introduction)).toBeInTheDocument();
 
-test("renders the first section", () => {
-  renderPage({ narrative: testNarrative, route: "/1" });
-  expect(
-    screen.getByRole("heading", { name: narrativeContent.sections[0].title })
-  ).toBeVisible();
-  expect(screen.getByText(narrativeContent.sections[0].body)).toBeVisible();
+  narrativeContent.sections.forEach((section) => {
+    expect(
+      screen.getByRole("heading", { name: section.title })
+    ).toBeInTheDocument();
+    expect(screen.getByText(section.body)).toBeInTheDocument();
+  });
 });
 
 test("navigation", async () => {
-  const {
-    history: { navigate },
-  } = renderPage({ narrative: testNarrative, route: "/" });
+  render(<SystemNarrativePage narrative={testNarrative} />);
 
   const nextLabel = "next section";
   const prevLabel = "previous section";
 
   const nextLink = screen.getByRole("link", { name: nextLabel });
 
-  // no previous on the first page
+  // no previous on the first section
   expect(
     screen.queryByRole("link", { name: prevLabel })
   ).not.toBeInTheDocument();
   expect(nextLink).toBeInTheDocument();
 
-  fireEvent.click(nextLink);
-
-  await waitFor(() =>
-    expect(
-      screen.getByRole("heading", { name: narrativeContent.sections[0].title })
-    ).toBeVisible()
-  );
-
-  const prevLink = screen.getByRole("link", { name: prevLabel });
-
-  fireEvent.click(prevLink);
-
-  await waitFor(() =>
-    expect(
-      screen.getByRole("heading", { name: narrativeContent.title, level: 1 })
-    ).toBeVisible()
-  );
-
-  await navigate(`/${narrativeContent.sections.length}`);
-
-  await waitFor(() =>
-    expect(
-      screen.getByRole("heading", {
-        name:
-          narrativeContent.sections[narrativeContent.sections.length - 1].title,
-      })
-    ).toBeVisible()
-  );
-
-  // no next on the last page
-  expect(
-    screen.queryByRole("link", { name: nextLabel })
-  ).not.toBeInTheDocument();
+  // Jest/JSDOM don't support native browser navigation features
+  // so we can't really test anything related to URL hash changes :(
 });
 
 test("renders link tags in copy", async () => {
@@ -150,13 +91,11 @@ test("renders link tags in copy", async () => {
     allMetrics,
   });
 
-  const {
-    history: { navigate },
-  } = renderPage({ narrative: testNarrative, route: "/" });
+  render(<SystemNarrativePage narrative={testNarrative} />);
 
-  expect(screen.getByRole("link", { name: "intro link" })).toBeVisible();
+  expect(screen.getByRole("link", { name: "intro link" })).toBeInTheDocument();
 
-  await navigate("/1");
-
-  expect(screen.getByRole("link", { name: "section copy link" })).toBeVisible();
+  expect(
+    screen.getByRole("link", { name: "section copy link" })
+  ).toBeInTheDocument();
 });

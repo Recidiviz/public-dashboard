@@ -15,16 +15,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Link, useLocation } from "@reach/router";
 import { format } from "d3-format";
 import { rem } from "polished";
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import { colors } from "../UiLibrary";
 import Arrow from "../UiLibrary/Arrow";
-import { NarrativeSectionProps, SystemNarrativePageProps } from "./types";
-import { currentSectionIndex } from "./utils";
+import { SystemNarrativePageProps } from "./types";
 
 const formatPageNum = format("02");
 
@@ -52,7 +50,7 @@ const PageNumberFaded = styled(PageNumber)`
   opacity: 0.3;
 `;
 
-const PageProgressContainer = styled.div.attrs((props) => ({
+const PageProgressContainer = styled.div.attrs(() => ({
   "aria-hidden": true,
 }))`
   margin: ${rem(24)} 0;
@@ -91,12 +89,13 @@ const PageProgressBar: React.FC<{
   );
 };
 
-const SectionNavigation: React.FC<
-  SystemNarrativePageProps & NarrativeSectionProps
-> = ({ narrative }) => {
-  const { hash } = useLocation();
+const SectionNavigation: React.FC<SystemNarrativePageProps> = ({
+  narrative,
+}) => {
   // no hash is equivalent to the top of the page
-  const displayedPageNumber = Number(hash.replace("#", "") || "1");
+  const displayedPageNumber = Number(
+    (window.location.hash || "").replace("#", "") || "1"
+  );
 
   const disablePrev = displayedPageNumber === 1;
   const disableNext = displayedPageNumber > narrative.sections.length;
