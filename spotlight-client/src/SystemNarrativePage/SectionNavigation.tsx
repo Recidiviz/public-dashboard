@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,10 +15,10 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Link } from "@reach/router";
+import { Link, useLocation } from "@reach/router";
 import { format } from "d3-format";
 import { rem } from "polished";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import { colors } from "../UiLibrary";
@@ -91,36 +91,19 @@ const PageProgressBar: React.FC<{
   );
 };
 
-const SystemNarrativeNav: React.FC<
+const SectionNavigation: React.FC<
   SystemNarrativePageProps & NarrativeSectionProps
-> = ({ narrative, sectionNumber }) => {
-  const sectionIndex = currentSectionIndex(sectionNumber);
-  let disablePrev = false;
-  let disableNext = false;
-  let prevUrl = "";
-  let nextUrl = "";
-  let displayedPageNumber = 0;
-  const totalPages = narrative.sections.length + 1;
+> = ({ narrative }) => {
+  const { hash } = useLocation();
+  // no hash is equivalent to the top of the page
+  const displayedPageNumber = Number(hash.replace("#", "") || "1");
 
-  if (typeof sectionIndex === "undefined") {
-    disablePrev = true;
-    nextUrl = "1";
-    displayedPageNumber = 1;
-  } else {
-    // number from props is 1-indexed but doesn't include the intro slide,
-    // which is why we offset by 2 below
-    displayedPageNumber = sectionIndex + 2;
-    if (sectionIndex) {
-      prevUrl = `../${sectionIndex || ""}`;
-    } else {
-      prevUrl = "../";
-    }
-    if (sectionIndex < narrative.sections.length - 1) {
-      nextUrl = `../${sectionIndex + 2}`;
-    } else {
-      disableNext = true;
-    }
-  }
+  const disablePrev = displayedPageNumber === 1;
+  const disableNext = displayedPageNumber > narrative.sections.length;
+  // go to top of the page instead of #1
+  const prevUrl = `#${displayedPageNumber > 2 ? displayedPageNumber - 1 : ""}`;
+  const nextUrl = `#${displayedPageNumber + 1}`;
+  const totalPages = narrative.sections.length + 1;
 
   return (
     <SectionNav aria-label={`${narrative.title} sections`}>
@@ -132,24 +115,24 @@ const SystemNarrativeNav: React.FC<
       />
       {disablePrev ? (
         <div>
-          <Arrow direction="up" disabled />
+          <Arrow direction="up" faded />
         </div>
       ) : (
-        <Link to={prevUrl} aria-label="previous section">
+        <a href={prevUrl} aria-label="previous section">
           <Arrow direction="up" />
-        </Link>
+        </a>
       )}
       {disableNext ? (
         <div>
-          <Arrow direction="down" disabled />
+          <Arrow direction="down" faded />
         </div>
       ) : (
-        <Link to={nextUrl} aria-label="next section">
+        <a href={nextUrl} aria-label="next section">
           <Arrow direction="down" />
-        </Link>
+        </a>
       )}
     </SectionNav>
   );
 };
 
-export default SystemNarrativeNav;
+export default SectionNavigation;

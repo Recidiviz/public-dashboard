@@ -19,9 +19,11 @@ const gray = "#D6DCDC";
 const pine = "#00413E";
 const pineBright = "#25B894";
 const white = "#FAFAFA";
+const pinePale = "#7D9897";
 
 export default {
   accent: pineBright,
+  caption: pinePale,
   rule: gray,
   background: white,
   text: pine,

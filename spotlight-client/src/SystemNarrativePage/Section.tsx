@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,22 +20,27 @@ import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
+import { SystemNarrativeSection } from "../contentModels/SystemNarrative";
 import { AnyMetric } from "../contentModels/types";
-import { typefaces } from "../UiLibrary";
-import SystemNarrativeNav from "./SystemNarrativeNav";
-import { SystemNarrativeSectionProps } from "./types";
-import { currentSectionIndex } from "./utils";
+import { colors, typefaces } from "../UiLibrary";
+import { X_PADDING } from "./constants";
 
 const COPY_WIDTH = 408;
 
-const Section = styled.section``;
+const Container = styled.section`
+  border-bottom: 1px solid ${colors.rule};
+  display: flex;
+  min-height: 100vh;
+  padding-right: ${rem(X_PADDING)};
+`;
 
 const SectionCopy = styled.div`
   display: flex;
+  flex: 0 0 auto;
   flex-direction: column;
   height: calc(100vh - ${NAV_BAR_HEIGHT});
   justify-content: center;
-  position: fixed;
+  position: sticky;
   top: ${NAV_BAR_HEIGHT};
   width: ${rem(COPY_WIDTH)};
 `;
@@ -53,8 +58,10 @@ const SectionBody = styled.div`
 `;
 
 const VizContainer = styled.div`
-  margin-left: ${rem(COPY_WIDTH + 176)};
+  margin-left: ${rem(176)};
   height: 125vh;
+  flex: 1 1 auto;
+  padding: ${rem(240)} 0;
 `;
 
 const SectionViz: React.FC<{ metric: AnyMetric }> = ({ metric }) => {
@@ -65,26 +72,18 @@ const SectionViz: React.FC<{ metric: AnyMetric }> = ({ metric }) => {
   );
 };
 
-const SystemNarrativeSection: React.FC<SystemNarrativeSectionProps> = ({
-  narrative,
-  sectionNumber,
+const Section: React.FC<{ section: SystemNarrativeSection }> = ({
+  section,
 }) => {
-  if (!sectionNumber) {
-    return null;
-  }
-
-  const section = narrative.sections[currentSectionIndex(sectionNumber)];
-
   return (
-    <Section>
-      <SystemNarrativeNav narrative={narrative} sectionNumber={sectionNumber} />
+    <Container>
       <SectionCopy>
         <SectionTitle>{section.title}</SectionTitle>
         <SectionBody>{HTMLReactParser(section.body)}</SectionBody>
       </SectionCopy>
       <SectionViz metric={section.metric} />
-    </Section>
+    </Container>
   );
 };
 
-export default SystemNarrativeSection;
+export default Section;
