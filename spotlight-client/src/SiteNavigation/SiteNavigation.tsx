@@ -31,7 +31,7 @@ const NavContainer = styled.nav`
   background: ${colors.background};
   border-bottom: 1px solid ${colors.rule};
   display: flex;
-  height: ${NAV_BAR_HEIGHT};
+  height: ${rem(NAV_BAR_HEIGHT)};
   justify-content: space-between;
   left: 0;
   padding: 0 ${rem(8)};

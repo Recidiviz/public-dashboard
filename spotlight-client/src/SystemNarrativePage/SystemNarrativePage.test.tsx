@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import React from "react";
 import contentFixture from "../contentModels/__fixtures__/tenant_content_exhaustive";
 import { createMetricMapping } from "../contentModels/Metric";
@@ -68,6 +68,8 @@ test("navigation", async () => {
   const nextLabel = "next section";
   const prevLabel = "previous section";
 
+  const navRegion = screen.getByRole("navigation", { name: "page sections" });
+
   const nextLink = screen.getByRole("link", { name: nextLabel });
 
   // no previous on the first section
@@ -76,8 +78,29 @@ test("navigation", async () => {
   ).not.toBeInTheDocument();
   expect(nextLink).toBeInTheDocument();
 
-  // Jest/JSDOM don't support native browser navigation features
-  // so we can't really test anything related to URL hash changes :(
+  expect(within(navRegion).getByText("01")).toBeInTheDocument();
+
+  // advance to section 2
+  fireEvent.click(nextLink);
+  expect(within(navRegion).getByText("02")).toBeInTheDocument();
+
+  const prevLink = screen.getByRole("link", { name: prevLabel });
+  expect(prevLink).toBeInTheDocument();
+
+  // advance to the last section
+  testNarrative.sections.forEach(() => fireEvent.click(nextLink));
+
+  // both of the page numbers should be the same, e.g. 08/08
+  expect(
+    within(navRegion).getAllByText(`0${testNarrative.sections.length + 1}`)
+      .length
+  ).toBe(2);
+
+  // no next on the last section
+  expect(nextLink).not.toBeInTheDocument();
+
+  // Jest/JSDOM don't support layout features
+  // so we can't really test anything related to scroll position :(
 });
 
 test("renders link tags in copy", async () => {

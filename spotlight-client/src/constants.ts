@@ -15,11 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { rem } from "polished";
-
 export const ERROR_MESSAGES = {
   auth0Configuration: "No Auth0 configuration found.",
   unauthorized: "You do not have permission to view this content.",
 };
 
-export const NAV_BAR_HEIGHT = rem(80);
+export const NAV_BAR_HEIGHT = 80;

@@ -38,10 +38,10 @@ const SectionCopy = styled.div`
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  height: calc(100vh - ${NAV_BAR_HEIGHT});
+  height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
   justify-content: center;
   position: sticky;
-  top: ${NAV_BAR_HEIGHT};
+  top: ${rem(NAV_BAR_HEIGHT)};
   width: ${rem(COPY_WIDTH)};
 `;
 

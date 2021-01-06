@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { RouteComponentProps, Router } from "@reach/router";
+import { rem } from "polished";
 import React from "react";
 import { HelmetProvider } from "react-helmet-async";
 import styled from "styled-components/macro";
@@ -39,7 +40,7 @@ const PassThroughPage: React.FC<RouteComponentProps> = ({ children }) => (
 );
 
 const Main = styled.div.attrs((props) => ({ role: "main" }))`
-  margin-top: ${NAV_BAR_HEIGHT};
+  margin-top: ${rem(NAV_BAR_HEIGHT)};
 `;
 
 const App: React.FC = () => {

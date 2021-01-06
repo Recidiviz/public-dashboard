@@ -17,22 +17,23 @@
 
 import HTMLReactParser from "html-react-parser";
 import { rem } from "polished";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { InView } from "react-intersection-observer";
 import styled from "styled-components/macro";
+import { NAV_BAR_HEIGHT } from "../constants";
+import SystemNarrative from "../contentModels/SystemNarrative";
 import { colors, typefaces } from "../UiLibrary";
 import Arrow from "../UiLibrary/Arrow";
 import { X_PADDING } from "./constants";
 import Section from "./Section";
 import SectionNavigation from "./SectionNavigation";
-import { SystemNarrativePageProps } from "./types";
 
 const Container = styled.article`
-  padding: ${rem(160)} ${rem(X_PADDING)};
-  padding-right: 0;
+  padding-left: ${rem(X_PADDING)};
 `;
 
 const IntroContainer = styled.div`
+  padding-top: ${rem(160)};
   padding-bottom: ${rem(172)};
   padding-right: ${rem(X_PADDING)};
   border-bottom: 1px solid ${colors.rule};
@@ -69,46 +70,69 @@ const ScrollIndicator = styled.div`
 
 const SectionsContainer = styled.div``;
 
-const SystemNarrativePage: React.FC<SystemNarrativePageProps> = ({
-  narrative,
-}) => {
+const SystemNarrativePage: React.FC<{
+  narrative: SystemNarrative;
+}> = ({ narrative }) => {
+  const [activeSection, setActiveSection] = useState<number>(1);
+
   const sectionsContainerRef = useRef() as React.MutableRefObject<
     HTMLDivElement
   >;
 
+  useEffect(() => {
+    let scrollDestination;
+    // scroll to the corresponding section by calculating its offset
+    const desiredSection = sectionsContainerRef.current.querySelector(
+      `#section${activeSection}`
+    );
+    if (desiredSection) {
+      scrollDestination =
+        window.scrollY + desiredSection.getBoundingClientRect().top;
+    }
+
+    if (scrollDestination !== undefined) {
+      window.scrollTo({ top: scrollDestination - NAV_BAR_HEIGHT });
+    }
+  }, [activeSection, sectionsContainerRef]);
+
   return (
     <Container>
-      <SectionNavigation narrative={narrative} />
-      <InView
-        as="div"
-        threshold={0.3}
-        onChange={(inView) => {
-          if (inView) window.location.hash = "#";
-        }}
-      >
-        <IntroContainer>
-          <Title>{narrative.title}</Title>
-          <IntroCopy>{HTMLReactParser(narrative.introduction)}</IntroCopy>
-          <ScrollIndicator>
-            <span>SCROLL</span>
-            <Arrow direction="down" faded />
-            <Arrow direction="down" />
-          </ScrollIndicator>
-        </IntroContainer>
-      </InView>
-
+      <SectionNavigation
+        activeSection={activeSection}
+        setActiveSection={setActiveSection}
+        totalPages={narrative.sections.length + 1}
+      />
       <SectionsContainer ref={sectionsContainerRef}>
+        <InView
+          as="div"
+          id="section1"
+          threshold={0.3}
+          onChange={(inView) => {
+            if (inView) setActiveSection(1);
+          }}
+        >
+          <IntroContainer>
+            <Title>{narrative.title}</Title>
+            <IntroCopy>{HTMLReactParser(narrative.introduction)}</IntroCopy>
+            <ScrollIndicator>
+              <span>SCROLL</span>
+              <Arrow direction="down" faded />
+              <Arrow direction="down" />
+            </ScrollIndicator>
+          </IntroContainer>
+        </InView>
+
         {narrative.sections.map((section, index) => {
           // the first viz section is "page 2"
           const pageId = index + 2;
           return (
             <InView
               as="div"
-              id={`${pageId}`}
+              id={`section${pageId}`}
               key={section.title}
               threshold={0.3}
               onChange={(inView) => {
-                if (inView) window.location.hash = `#${pageId}`;
+                if (inView) setActiveSection(pageId);
               }}
             >
               <Section section={section} />

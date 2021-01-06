@@ -22,7 +22,6 @@ import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import { colors } from "../UiLibrary";
 import Arrow from "../UiLibrary/Arrow";
-import { SystemNarrativePageProps } from "./types";
 
 const formatPageNum = format("02");
 
@@ -32,11 +31,11 @@ const SectionNav = styled.nav`
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - ${NAV_BAR_HEIGHT});
+  height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
   justify-content: center;
   left: ${rem(32)};
   position: fixed;
-  top: ${NAV_BAR_HEIGHT};
+  top: ${rem(NAV_BAR_HEIGHT)};
 `;
 
 const PageNumber = styled.div`
@@ -89,35 +88,42 @@ const PageProgressBar: React.FC<{
   );
 };
 
-const SectionNavigation: React.FC<SystemNarrativePageProps> = ({
-  narrative,
-}) => {
-  // no hash is equivalent to the top of the page
-  const displayedPageNumber = Number(
-    (window.location.hash || "").replace("#", "") || "1"
-  );
+type NavigationProps = {
+  activeSection: number;
+  setActiveSection: (section: number) => void;
+  totalPages: number;
+};
 
-  const disablePrev = displayedPageNumber === 1;
-  const disableNext = displayedPageNumber > narrative.sections.length;
+const SectionNavigation: React.FC<NavigationProps> = ({
+  activeSection,
+  setActiveSection,
+  totalPages,
+}) => {
+  const disablePrev = activeSection === 1;
+  const disableNext = activeSection === totalPages;
+  // TODO: how to have these still be useful links without direct URL interaction?
   // go to top of the page instead of #1
-  const prevUrl = `#${displayedPageNumber > 2 ? displayedPageNumber - 1 : ""}`;
-  const nextUrl = `#${displayedPageNumber + 1}`;
-  const totalPages = narrative.sections.length + 1;
+  const prevUrl = `#${activeSection > 2 ? activeSection - 1 : ""}`;
+  const nextUrl = `#${activeSection + 1}`;
 
   return (
-    <SectionNav aria-label={`${narrative.title} sections`}>
-      <PageNumber>{formatPageNum(displayedPageNumber)}</PageNumber>
+    <SectionNav aria-label="page sections">
+      <PageNumber>{formatPageNum(activeSection)}</PageNumber>
       <PageNumberFaded>{formatPageNum(totalPages)}</PageNumberFaded>
-      <PageProgressBar
-        currentPage={displayedPageNumber}
-        totalPages={totalPages}
-      />
+      <PageProgressBar currentPage={activeSection} totalPages={totalPages} />
       {disablePrev ? (
         <div>
           <Arrow direction="up" faded />
         </div>
       ) : (
-        <a href={prevUrl} aria-label="previous section">
+        <a
+          href={prevUrl}
+          onClick={(e) => {
+            e.preventDefault();
+            setActiveSection(activeSection - 1);
+          }}
+          aria-label="previous section"
+        >
           <Arrow direction="up" />
         </a>
       )}
@@ -126,7 +132,14 @@ const SectionNavigation: React.FC<SystemNarrativePageProps> = ({
           <Arrow direction="down" faded />
         </div>
       ) : (
-        <a href={nextUrl} aria-label="next section">
+        <a
+          href={nextUrl}
+          onClick={(e) => {
+            e.preventDefault();
+            setActiveSection(activeSection + 1);
+          }}
+          aria-label="next section"
+        >
           <Arrow direction="down" />
         </a>
       )}
