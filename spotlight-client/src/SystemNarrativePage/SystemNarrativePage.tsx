@@ -26,8 +26,7 @@ import { NAV_BAR_HEIGHT } from "../constants";
 import SystemNarrative from "../contentModels/SystemNarrative";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
-import { colors, typefaces } from "../UiLibrary";
-import Arrow from "../UiLibrary/Arrow";
+import { colors, typefaces, Chevron } from "../UiLibrary";
 import { X_PADDING } from "./constants";
 import Section from "./Section";
 import SectionNavigation from "./SectionNavigation";
@@ -171,8 +170,8 @@ const SystemNarrativePage: React.FC<{
             <IntroCopy>{HTMLReactParser(narrative.introduction)}</IntroCopy>
             <ScrollIndicator>
               <span>SCROLL</span>
-              <Arrow direction="down" faded />
-              <Arrow direction="down" />
+              <Chevron direction="down" faded />
+              <Chevron direction="down" />
             </ScrollIndicator>
           </IntroContainer>
         </InView>

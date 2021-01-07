@@ -24,8 +24,7 @@ import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
-import { colors } from "../UiLibrary";
-import Arrow from "../UiLibrary/Arrow";
+import { colors, Chevron } from "../UiLibrary";
 
 const formatPageNum = format("02");
 
@@ -134,7 +133,7 @@ const SectionNavigation: React.FC<NavigationProps> = ({
       <PageProgressBar currentPage={activeSection} totalPages={totalPages} />
       {disablePrev ? (
         <div>
-          <Arrow direction="up" faded />
+          <Chevron direction="up" faded />
         </div>
       ) : (
         <Link
@@ -146,12 +145,12 @@ const SectionNavigation: React.FC<NavigationProps> = ({
           }}
           aria-label="previous section"
         >
-          <Arrow direction="up" />
+          <Chevron direction="up" />
         </Link>
       )}
       {disableNext ? (
         <div>
-          <Arrow direction="down" faded />
+          <Chevron direction="down" faded />
         </div>
       ) : (
         <Link
@@ -162,7 +161,7 @@ const SectionNavigation: React.FC<NavigationProps> = ({
           }}
           aria-label="next section"
         >
-          <Arrow direction="down" />
+          <Chevron direction="down" />
         </Link>
       )}
     </SectionNav>

@@ -23,7 +23,7 @@ type ArrowProps = {
   faded?: boolean;
 };
 
-const Arrow: React.FC<ArrowProps> = ({ direction, faded }) => {
+const Chevron: React.FC<ArrowProps> = ({ direction, faded }) => {
   let transform;
 
   if (direction === "up") {
@@ -51,4 +51,4 @@ const Arrow: React.FC<ArrowProps> = ({ direction, faded }) => {
   );
 };
 
-export default Arrow;
+export default Chevron;
