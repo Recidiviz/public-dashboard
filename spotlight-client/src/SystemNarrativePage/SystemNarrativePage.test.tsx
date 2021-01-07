@@ -16,50 +16,17 @@
 // =============================================================================
 
 import { fireEvent, screen, waitFor, within } from "@testing-library/react";
-import React from "react";
-import contentFixture from "../contentModels/__fixtures__/tenant_content_exhaustive";
-import { createMetricMapping } from "../contentModels/Metric";
-import SystemNarrative, {
-  createSystemNarrative,
-} from "../contentModels/SystemNarrative";
-import SystemNarrativePage from ".";
+import mockContentFixture from "./__fixtures__/contentSource";
 import { SystemNarrativeContent } from "../contentApi/types";
-import { MetricMapping } from "../contentModels/types";
-import { renderWithRouter } from "../testUtils";
+import { renderNavigableApp } from "../testUtils";
 
-let allMetrics: MetricMapping;
-let testNarrative: SystemNarrative;
-let narrativeContent: SystemNarrativeContent;
+jest.mock("../contentApi/sources/us_nd", () => mockContentFixture);
 
-jest.mock("@reach/router", () => {
-  return {
-    ...jest.requireActual("@reach/router"),
-    // simulates being at the proper page without setting up a whole router
-    useParams: jest.fn().mockImplementation(() => ({
-      tenantId: "us_nd",
-      narrativeTypeId: "parole",
-    })),
-  };
-});
-
-beforeEach(() => {
-  allMetrics = createMetricMapping({
-    tenantId: "US_ND",
-    metadataMapping: contentFixture.metrics,
-  });
-
-  narrativeContent = JSON.parse(
-    JSON.stringify(contentFixture.systemNarratives.Parole)
-  );
-
-  testNarrative = createSystemNarrative({
-    content: narrativeContent,
-    allMetrics,
-  });
-});
+const narrativeContent = mockContentFixture.systemNarratives
+  .Parole as SystemNarrativeContent;
 
 test("renders all the sections", () => {
-  renderWithRouter(<SystemNarrativePage narrative={testNarrative} />);
+  renderNavigableApp({ route: "/us_nd/collections/parole" });
 
   expect(
     screen.getByRole("heading", { name: narrativeContent.title, level: 1 })
@@ -75,7 +42,9 @@ test("renders all the sections", () => {
 });
 
 test("navigation", async () => {
-  renderWithRouter(<SystemNarrativePage narrative={testNarrative} />);
+  renderNavigableApp({
+    route: "/us_nd/collections/parole",
+  });
 
   const nextLabel = "next section";
   const prevLabel = "previous section";
@@ -94,19 +63,19 @@ test("navigation", async () => {
 
   // advance to section 2
   fireEvent.click(nextLink);
-  await waitFor(() =>
-    expect(within(navRegion).getByText("02")).toBeInTheDocument()
-  );
+  await waitFor(() => {
+    expect(within(navRegion).getByText("02")).toBeInTheDocument();
+  });
 
   const prevLink = screen.getByRole("link", { name: prevLabel });
   expect(prevLink).toBeInTheDocument();
 
   // advance to the last section
-  testNarrative.sections.forEach(() => fireEvent.click(nextLink));
+  narrativeContent.sections.forEach(() => fireEvent.click(nextLink));
 
   // both of the page numbers should be the same, e.g. 08/08
   expect(
-    within(navRegion).getAllByText(`0${testNarrative.sections.length + 1}`)
+    within(navRegion).getAllByText(`0${narrativeContent.sections.length + 1}`)
       .length
   ).toBe(2);
 
@@ -115,20 +84,12 @@ test("navigation", async () => {
 
   // Jest/JSDOM don't support layout features
   // so we can't really test anything related to scroll position :(
+  // (this also includes URL management because of how the page works)
 });
 
 test("renders link tags in copy", async () => {
-  narrativeContent.introduction +=
-    '<a href="https://example.com">intro link</a>';
-  narrativeContent.sections[0].body +=
-    '<a href="https://example.com">section copy link</a>';
-
-  testNarrative = createSystemNarrative({
-    content: narrativeContent,
-    allMetrics,
-  });
-
-  renderWithRouter(<SystemNarrativePage narrative={testNarrative} />);
+  // this fixture has links in the copy
+  renderNavigableApp({ route: "/us_nd/collections/sentencing" });
 
   expect(screen.getByRole("link", { name: "intro link" })).toBeInTheDocument();
 

@@ -16,13 +16,7 @@
 // =============================================================================
 
 import {
-  createHistory,
-  createMemorySource,
-  LocationProvider,
-} from "@reach/router";
-import {
   act,
-  render,
   screen,
   ByRoleMatcher,
   ByRoleOptions,
@@ -30,23 +24,8 @@ import {
   fireEvent,
   waitFor,
 } from "@testing-library/react";
-import React from "react";
-import App from "./App";
 import testContent from "./contentApi/sources/us_nd";
-
-function renderNavigableApp({ route = "/" } = {}) {
-  const history = createHistory(createMemorySource(route));
-
-  return {
-    ...render(
-      <LocationProvider history={history}>
-        <App />
-      </LocationProvider>
-    ),
-    // tests can use history object to simulate navigation in a browser
-    history,
-  };
-}
+import { renderNavigableApp } from "./testUtils";
 
 describe("navigation", () => {
   /**

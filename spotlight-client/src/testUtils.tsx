@@ -15,13 +15,17 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { LocationProvider } from "@reach/router";
+import {
+  createHistory,
+  createMemorySource,
+  LocationProvider,
+} from "@reach/router";
 import { render } from "@testing-library/react";
 import React from "react";
 import { autorun } from "mobx";
 import waitForLocalhost from "wait-for-localhost";
+import App from "./App";
 
-// eslint-disable-next-line import/prefer-default-export
 export function waitForTestServer(): Promise<void> {
   return waitForLocalhost({ path: "/health", port: 3002 });
 }
@@ -35,16 +39,23 @@ export function reactImmediately(effect: () => void): void {
   autorun(effect)();
 }
 
-const LocationContextWrapper: React.FC = ({ children }) => {
-  return <LocationProvider>{children}</LocationProvider>;
-};
-
 /**
- * Convenience method for rendering components that use @reach/router hooks
- * in a LocationContext to prevent rendering errors.
+ * Renders the application in a URL history context
+ * that can be manipulated and inspected for testing
  */
-export const renderWithRouter = (
-  ui: React.ReactElement
-): ReturnType<typeof render> => {
-  return render(ui, { wrapper: LocationContextWrapper });
-};
+export function renderNavigableApp({ route = "/" } = {}): {
+  history: ReturnType<typeof createHistory>;
+  rendered: ReturnType<typeof render>;
+} {
+  const history = createHistory(createMemorySource(route));
+
+  return {
+    rendered: render(
+      <LocationProvider history={history}>
+        <App />
+      </LocationProvider>
+    ),
+    // tests can use history object to simulate navigation in a browser
+    history,
+  };
+}
