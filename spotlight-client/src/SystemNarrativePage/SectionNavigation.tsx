@@ -17,7 +17,8 @@
 
 import { format } from "d3-format";
 import { rem } from "polished";
-import React from "react";
+import React, { useEffect } from "react";
+import { animated, useSpring } from "react-spring";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import { colors } from "../UiLibrary";
@@ -62,7 +63,7 @@ const PageProgressTrack = styled.div`
   width: ${rem(2)};
 `;
 
-const PageProgressThumb = styled.div`
+const PageProgressThumb = styled(animated.div)`
   background: ${colors.accent};
   left: 0;
   position: absolute;
@@ -76,14 +77,19 @@ const PageProgressBar: React.FC<{
   const thumbSize = PROGRESS_BAR_HEIGHT / totalPages;
   // pages are 1-indexed for human readability
   const currentIndex = currentPage - 1;
-  const thumbOffset = currentIndex * thumbSize;
+
+  const [thumbOffset, setThumbOffset] = useSpring(() => ({
+    top: currentIndex * thumbSize,
+  }));
+
+  useEffect(() => {
+    setThumbOffset({ top: currentIndex * thumbSize });
+  }, [currentIndex, setThumbOffset, thumbSize]);
 
   return (
     <PageProgressContainer>
       <PageProgressTrack />
-      <PageProgressThumb
-        style={{ height: rem(thumbSize), top: rem(thumbOffset) }}
-      />
+      <PageProgressThumb style={{ height: rem(thumbSize), ...thumbOffset }} />
     </PageProgressContainer>
   );
 };

@@ -19,6 +19,7 @@ import HTMLReactParser from "html-react-parser";
 import { rem } from "polished";
 import React, { useEffect, useRef, useState } from "react";
 import { InView } from "react-intersection-observer";
+import { config, useSpring } from "react-spring";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import SystemNarrative from "../contentModels/SystemNarrative";
@@ -79,6 +80,12 @@ const SystemNarrativePage: React.FC<{
     HTMLDivElement
   >;
 
+  const [, setScrollSpring] = useSpring(() => ({
+    config: config.default,
+    onFrame: (props: { top: number }) => window.scrollTo({ top: props.top }),
+    to: { top: window.scrollY },
+  }));
+
   useEffect(() => {
     let scrollDestination;
     // scroll to the corresponding section by calculating its offset
@@ -91,9 +98,13 @@ const SystemNarrativePage: React.FC<{
     }
 
     if (scrollDestination !== undefined) {
-      window.scrollTo({ top: scrollDestination - NAV_BAR_HEIGHT });
+      setScrollSpring({
+        to: { top: scrollDestination - NAV_BAR_HEIGHT },
+        from: { top: window.scrollY },
+        reset: true,
+      });
     }
-  }, [activeSection, sectionsContainerRef]);
+  }, [activeSection, sectionsContainerRef, setScrollSpring]);
 
   return (
     <Container>
