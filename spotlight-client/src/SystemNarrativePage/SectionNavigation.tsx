@@ -15,12 +15,15 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { Link, useParams } from "@reach/router";
 import { format } from "d3-format";
 import { rem } from "polished";
 import React, { useEffect } from "react";
 import { animated, useSpring } from "react-spring";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
+import getUrlForResource from "../routerUtils/getUrlForResource";
+import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { colors } from "../UiLibrary";
 import Arrow from "../UiLibrary/Arrow";
 
@@ -105,12 +108,24 @@ const SectionNavigation: React.FC<NavigationProps> = ({
   setActiveSection,
   totalPages,
 }) => {
+  const { tenantId, narrativeTypeId } = normalizeRouteParams(
+    useParams()
+    // these keys should always be present on this page
+  ) as Required<
+    Pick<
+      ReturnType<typeof normalizeRouteParams>,
+      "tenantId" | "narrativeTypeId"
+    >
+  >;
+
   const disablePrev = activeSection === 1;
   const disableNext = activeSection === totalPages;
-  // TODO: how to have these still be useful links without direct URL interaction?
-  // go to top of the page instead of #1
-  const prevUrl = `#${activeSection > 2 ? activeSection - 1 : ""}`;
-  const nextUrl = `#${activeSection + 1}`;
+
+  // base is the current page, minus the section number
+  const urlBase = getUrlForResource({
+    page: "narrative",
+    params: { tenantId, narrativeTypeId },
+  });
 
   return (
     <SectionNav aria-label="page sections">
@@ -122,24 +137,25 @@ const SectionNavigation: React.FC<NavigationProps> = ({
           <Arrow direction="up" faded />
         </div>
       ) : (
-        <a
-          href={prevUrl}
-          onClick={(e) => {
-            e.preventDefault();
+        <Link
+          // the to props on these links is mainly for accessibility purposes, so they
+          // look like normal links. calling the setter is the critical step
+          to={`${urlBase}/${activeSection - 1}`}
+          onClick={() => {
             setActiveSection(activeSection - 1);
           }}
           aria-label="previous section"
         >
           <Arrow direction="up" />
-        </a>
+        </Link>
       )}
       {disableNext ? (
         <div>
           <Arrow direction="down" faded />
         </div>
       ) : (
-        <a
-          href={nextUrl}
+        <Link
+          to={`${urlBase}/${activeSection + 1}`}
           onClick={(e) => {
             e.preventDefault();
             setActiveSection(activeSection + 1);
@@ -147,7 +163,7 @@ const SectionNavigation: React.FC<NavigationProps> = ({
           aria-label="next section"
         >
           <Arrow direction="down" />
-        </a>
+        </Link>
       )}
     </SectionNav>
   );

@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import React from "react";
 import contentFixture from "../contentModels/__fixtures__/tenant_content_exhaustive";
 import { createMetricMapping } from "../contentModels/Metric";
@@ -25,10 +25,22 @@ import SystemNarrative, {
 import SystemNarrativePage from ".";
 import { SystemNarrativeContent } from "../contentApi/types";
 import { MetricMapping } from "../contentModels/types";
+import { renderWithRouter } from "../testUtils";
 
 let allMetrics: MetricMapping;
 let testNarrative: SystemNarrative;
 let narrativeContent: SystemNarrativeContent;
+
+jest.mock("@reach/router", () => {
+  return {
+    ...jest.requireActual("@reach/router"),
+    // simulates being at the proper page without setting up a whole router
+    useParams: jest.fn().mockImplementation(() => ({
+      tenantId: "us_nd",
+      narrativeTypeId: "parole",
+    })),
+  };
+});
 
 beforeEach(() => {
   allMetrics = createMetricMapping({
@@ -47,7 +59,7 @@ beforeEach(() => {
 });
 
 test("renders all the sections", () => {
-  render(<SystemNarrativePage narrative={testNarrative} />);
+  renderWithRouter(<SystemNarrativePage narrative={testNarrative} />);
 
   expect(
     screen.getByRole("heading", { name: narrativeContent.title, level: 1 })
@@ -63,7 +75,7 @@ test("renders all the sections", () => {
 });
 
 test("navigation", async () => {
-  render(<SystemNarrativePage narrative={testNarrative} />);
+  renderWithRouter(<SystemNarrativePage narrative={testNarrative} />);
 
   const nextLabel = "next section";
   const prevLabel = "previous section";
@@ -82,7 +94,9 @@ test("navigation", async () => {
 
   // advance to section 2
   fireEvent.click(nextLink);
-  expect(within(navRegion).getByText("02")).toBeInTheDocument();
+  await waitFor(() =>
+    expect(within(navRegion).getByText("02")).toBeInTheDocument()
+  );
 
   const prevLink = screen.getByRole("link", { name: prevLabel });
   expect(prevLink).toBeInTheDocument();
@@ -114,7 +128,7 @@ test("renders link tags in copy", async () => {
     allMetrics,
   });
 
-  render(<SystemNarrativePage narrative={testNarrative} />);
+  renderWithRouter(<SystemNarrativePage narrative={testNarrative} />);
 
   expect(screen.getByRole("link", { name: "intro link" })).toBeInTheDocument();
 

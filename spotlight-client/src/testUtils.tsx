@@ -15,6 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { LocationProvider } from "@reach/router";
+import { render } from "@testing-library/react";
+import React from "react";
 import { autorun } from "mobx";
 import waitForLocalhost from "wait-for-localhost";
 
@@ -31,3 +34,17 @@ export function reactImmediately(effect: () => void): void {
   // and then immediately call the disposer to tear down the reaction
   autorun(effect)();
 }
+
+const LocationContextWrapper: React.FC = ({ children }) => {
+  return <LocationProvider>{children}</LocationProvider>;
+};
+
+/**
+ * Convenience method for rendering components that use @reach/router hooks
+ * in a LocationContext to prevent rendering errors.
+ */
+export const renderWithRouter = (
+  ui: React.ReactElement
+): ReturnType<typeof render> => {
+  return render(ui, { wrapper: LocationContextWrapper });
+};

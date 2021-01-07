@@ -15,14 +15,17 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { navigate, useParams } from "@reach/router";
 import HTMLReactParser from "html-react-parser";
 import { rem } from "polished";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { InView } from "react-intersection-observer";
-import { config, useSpring } from "react-spring";
+import { useSpring } from "react-spring";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import SystemNarrative from "../contentModels/SystemNarrative";
+import getUrlForResource from "../routerUtils/getUrlForResource";
+import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { colors, typefaces } from "../UiLibrary";
 import Arrow from "../UiLibrary/Arrow";
 import { X_PADDING } from "./constants";
@@ -74,18 +77,39 @@ const SectionsContainer = styled.div``;
 const SystemNarrativePage: React.FC<{
   narrative: SystemNarrative;
 }> = ({ narrative }) => {
-  const [activeSection, setActiveSection] = useState<number>(1);
-
+  const routeParams = useParams();
   const sectionsContainerRef = useRef() as React.MutableRefObject<
     HTMLDivElement
   >;
 
+  // automated scrolling is a special case of section visibility;
+  // this flag lets us suspend in-page navigation actions while it is in progress
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [activeSection, directlySetActiveSection] = useState(
+    // make sure we consume the section number in the URL, if any, on first mount
+    Number(routeParams.sectionNumber) || 1
+  );
+  // wrap the section state setter in a function that respects the flag
+  const setActiveSection = useCallback(
+    (sectionNumber: number) => {
+      if (!isScrolling) {
+        directlySetActiveSection(sectionNumber);
+      }
+    },
+    [isScrolling]
+  );
   const [, setScrollSpring] = useSpring(() => ({
-    config: config.default,
     onFrame: (props: { top: number }) => window.scrollTo({ top: props.top }),
+    // set the flag while animation is in progress
+    onRest: () => setIsScrolling(false),
+    onStart: () => setIsScrolling(true),
     to: { top: window.scrollY },
   }));
 
+  const { tenantId, narrativeTypeId } = normalizeRouteParams(routeParams);
+  // updating the active section has two key side effects:
+  // 1. smoothly scrolling to the active session
+  // 2. updating the page URL so the section can be linked to directly
   useEffect(() => {
     let scrollDestination;
     // scroll to the corresponding section by calculating its offset
@@ -97,20 +121,40 @@ const SystemNarrativePage: React.FC<{
         window.scrollY + desiredSection.getBoundingClientRect().top;
     }
 
+    // in practice this should always be defined, this is just type safety
     if (scrollDestination !== undefined) {
       setScrollSpring({
         to: { top: scrollDestination - NAV_BAR_HEIGHT },
         from: { top: window.scrollY },
         reset: true,
       });
+
+      // these should always be defined on this page; more type safety
+      if (tenantId && narrativeTypeId) {
+        navigate(
+          `${getUrlForResource({
+            page: "narrative",
+            params: { tenantId, narrativeTypeId },
+          })}/${activeSection}`
+        );
+      }
     }
-  }, [activeSection, sectionsContainerRef, setScrollSpring]);
+  }, [
+    activeSection,
+    narrativeTypeId,
+    sectionsContainerRef,
+    setScrollSpring,
+    tenantId,
+  ]);
 
   return (
     <Container>
       <SectionNavigation
         activeSection={activeSection}
-        setActiveSection={setActiveSection}
+        // pagination UI should not respect the scrolling flag;
+        // in fact it should override it, otherwise the buttons
+        // will stop working while the animation is in progress
+        setActiveSection={directlySetActiveSection}
         totalPages={narrative.sections.length + 1}
       />
       <SectionsContainer ref={sectionsContainerRef}>
