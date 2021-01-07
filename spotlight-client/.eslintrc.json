@@ -50,6 +50,10 @@
           {
             "name": "styled-components",
             "message": "Please import from styled-components/macro."
+          },
+          {
+            "name": "react-spring",
+            "message": "For IE 11 support, please import from react-spring/web.cjs"
           }
         ],
         "patterns": ["!styled-components/macro"]

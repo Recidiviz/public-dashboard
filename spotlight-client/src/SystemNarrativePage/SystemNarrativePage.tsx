@@ -20,7 +20,7 @@ import HTMLReactParser from "html-react-parser";
 import { rem } from "polished";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { InView } from "react-intersection-observer";
-import { useSpring } from "react-spring";
+import { useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import SystemNarrative from "../contentModels/SystemNarrative";
@@ -98,11 +98,11 @@ const SystemNarrativePage: React.FC<{
     [isScrolling]
   );
   const [, setScrollSpring] = useSpring(() => ({
-    onFrame: (props: { top: number }) => window.scrollTo({ top: props.top }),
+    onFrame: (props: { top: number }) => window.scrollTo(0, props.top),
     // set the flag while animation is in progress
     onRest: () => setIsScrolling(false),
     onStart: () => setIsScrolling(true),
-    to: { top: window.scrollY },
+    to: { top: window.pageYOffset },
   }));
 
   const { tenantId, narrativeTypeId } = normalizeRouteParams(routeParams);
@@ -117,14 +117,14 @@ const SystemNarrativePage: React.FC<{
     );
     if (desiredSection) {
       scrollDestination =
-        window.scrollY + desiredSection.getBoundingClientRect().top;
+        window.pageYOffset + desiredSection.getBoundingClientRect().top;
     }
 
     // in practice this should always be defined, this is just type safety
     if (scrollDestination !== undefined) {
       setScrollSpring({
         to: { top: scrollDestination - NAV_BAR_HEIGHT },
-        from: { top: window.scrollY },
+        from: { top: window.pageYOffset },
         reset: true,
       });
 

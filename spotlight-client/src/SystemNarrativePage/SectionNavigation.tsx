@@ -19,7 +19,7 @@ import { Link, useParams } from "@reach/router";
 import { format } from "d3-format";
 import { rem } from "polished";
 import React, { useEffect } from "react";
-import { animated, useSpring } from "react-spring";
+import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import getUrlForResource from "../routerUtils/getUrlForResource";
