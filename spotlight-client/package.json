@@ -8,6 +8,7 @@
   "license": "GNU General Public License v3",
   "scripts": {
     "build": "react-scripts build",
+    "build-staging": "env-cmd -f .env.development react-scripts build",
     "dev": "react-scripts start",
     "eject": "react-scripts eject",
     "lint": "tsc && eslint '**/*.{js,ts,tsx}'",
@@ -56,6 +57,7 @@
     "@types/node": "^12.0.0",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
+    "env-cmd": "^10.1.0",
     "eslint-import-resolver-typescript": "^2.3.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "lint-staged": ">=10"

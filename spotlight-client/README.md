@@ -52,7 +52,21 @@ There is no per-view authentication; enabling auth (via environment variable, as
 
 ## Deploys
 
-Not yet implemented! Instructions will be found here once a process is in place.
+This app can currently only be run locally or in a staging environment. Information about the production environment will be added here once it is provisioned.
+
+### Pre-requisites
+
+This React application is deployed to Firebase. To have deploy access, you need to be an admin on the Recidiviz Firebase account.
+
+Once you have the required permissions, you can set up your environment for deploys by following [these instructions](https://firebase.google.com/docs/cli?install-cli-mac-linux). Specifically, follow the steps entitled "Install the Firebase CLI" and "Log in and test the Firebase CLI."
+
+### Deploying to Staging
+
+To generate a staging build, invoke the following yarn script: `yarn build-staging`. This will include the appropriate environment variables from `.env.development`. Each time this is run, the `/build` directory will be wiped clean.
+
+You should then test this locally by running `firebase serve`: it will run the staging build locally, pointed to the staging API backend. (Note that this means you will have to deploy the backend to staging first if your build requires unreleased backend features.)
+
+When you're satisfied, deploy the frontend to staging with `firebase deploy -P staging`. Test vigorously on staging before deploying to production.
 
 ## Available Scripts
 

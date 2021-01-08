@@ -64,6 +64,12 @@ In addition, there are some Yarn scripts defined in the root package as a conven
 
 `yarn test` - runs the tests for all packages in a single command. (The output this produces is pretty messy at the moment but it can be useful for editor integration)
 
+#### Notes and quirks
+
+The monorepo tooling in this project can be a little rough at times. Any bits of secret knowledge that will help with troubleshooting and configuration should be collected here.
+
+- **Jest versions must match across projects**: We are pinned to an older version of Jest by Create React App. Packages that install Jest independently of CRA (e.g., the API server) need to match that version or tests for all packages will fail with an error about finding multiple versions of Jest. (This happens because Yarn hoists most packages to the root.)
+
 ### Code editor integration
 
 Your code editor may need some additional configuration to properly integrate with this monorepo setup. While not exhaustive, these are some tips we have found useful for ourselves:
