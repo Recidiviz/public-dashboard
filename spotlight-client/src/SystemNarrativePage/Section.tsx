@@ -18,6 +18,7 @@
 import HTMLReactParser from "html-react-parser";
 import { rem } from "polished";
 import React from "react";
+import Sticker from "react-stickyfill";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import { SystemNarrativeSection } from "../contentModels/SystemNarrative";
@@ -77,10 +78,12 @@ const Section: React.FC<{ section: SystemNarrativeSection }> = ({
 }) => {
   return (
     <Container>
-      <SectionCopy>
-        <SectionTitle>{section.title}</SectionTitle>
-        <SectionBody>{HTMLReactParser(section.body)}</SectionBody>
-      </SectionCopy>
+      <Sticker>
+        <SectionCopy>
+          <SectionTitle>{section.title}</SectionTitle>
+          <SectionBody>{HTMLReactParser(section.body)}</SectionBody>
+        </SectionCopy>
+      </Sticker>
       <SectionViz metric={section.metric} />
     </Container>
   );

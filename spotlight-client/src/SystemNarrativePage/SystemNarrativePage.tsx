@@ -21,6 +21,7 @@ import { rem } from "polished";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { InView } from "react-intersection-observer";
 import { useSpring } from "react-spring/web.cjs";
+import Sticker from "react-stickyfill";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import SystemNarrative from "../contentModels/SystemNarrative";
@@ -32,7 +33,19 @@ import Section from "./Section";
 import SectionNavigation from "./SectionNavigation";
 
 const Container = styled.article`
-  padding-left: ${rem(X_PADDING)};
+  display: flex;
+`;
+
+const NavContainer = styled.div`
+  flex: 0 0 auto;
+  width: ${rem(X_PADDING)};
+`;
+
+const NavStickyContainer = styled.div`
+  display: flex;
+  height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
+  position: sticky;
+  top: ${rem(NAV_BAR_HEIGHT)};
 `;
 
 const IntroContainer = styled.div`
@@ -71,7 +84,9 @@ const ScrollIndicator = styled.div`
   }
 `;
 
-const SectionsContainer = styled.div``;
+const SectionsContainer = styled.div`
+  flex: 1 1 auto;
+`;
 
 const SystemNarrativePage: React.FC<{
   narrative: SystemNarrative;
@@ -148,14 +163,20 @@ const SystemNarrativePage: React.FC<{
 
   return (
     <Container>
-      <SectionNavigation
-        activeSection={activeSection}
-        // pagination UI should not respect the scrolling flag;
-        // in fact it should override it, otherwise the buttons
-        // will stop working while the animation is in progress
-        setActiveSection={directlySetActiveSection}
-        totalPages={narrative.sections.length + 1}
-      />
+      <NavContainer>
+        <Sticker>
+          <NavStickyContainer>
+            <SectionNavigation
+              activeSection={activeSection}
+              // pagination UI should not respect the scrolling flag;
+              // in fact it should override it, otherwise the buttons
+              // will stop working while the animation is in progress
+              setActiveSection={directlySetActiveSection}
+              totalPages={narrative.sections.length + 1}
+            />
+          </NavStickyContainer>
+        </Sticker>
+      </NavContainer>
       <SectionsContainer ref={sectionsContainerRef}>
         <InView
           as="div"
