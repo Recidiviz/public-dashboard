@@ -62,4 +62,8 @@ export default class RootStore {
   get tenant(): TenantStore["currentTenant"] {
     return this.tenantStore.currentTenant;
   }
+
+  get narrative(): TenantStore["currentNarrative"] {
+    return this.tenantStore.currentNarrative;
+  }
 }

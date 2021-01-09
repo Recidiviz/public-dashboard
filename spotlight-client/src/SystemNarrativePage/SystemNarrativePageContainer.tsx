@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,19 +15,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { RouteComponentProps } from "@reach/router";
+import { observer } from "mobx-react-lite";
 import React from "react";
-import { SystemNarrativeTypeId } from "../contentApi/types";
 import { useDataStore } from "../StoreProvider";
-import SystemNarrativePage from "../SystemNarrativePage";
-import withRouteSync from "../withRouteSync";
+import SystemNarrativePage from "./SystemNarrativePage";
 
-type PageNarrativeProps = RouteComponentProps & {
-  narrativeTypeId?: SystemNarrativeTypeId;
+const SystemNarrativePageContainer: React.FC = () => {
+  const { narrative } = useDataStore();
+
+  if (narrative) return <SystemNarrativePage narrative={narrative} />;
+  return null;
 };
 
-const PageNarrative: React.FC<PageNarrativeProps> = () => {
-  return <SystemNarrativePage />;
-};
-
-export default withRouteSync(PageNarrative);
+export default observer(SystemNarrativePageContainer);
