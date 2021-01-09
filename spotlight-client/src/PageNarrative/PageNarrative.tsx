@@ -18,7 +18,7 @@
 import { RouteComponentProps } from "@reach/router";
 import React from "react";
 import { SystemNarrativeTypeId } from "../contentApi/types";
-import { useDataStore } from "../StoreProvider";
+import NarrativeFooter from "../NarrativeFooter";
 import SystemNarrativePage from "../SystemNarrativePage";
 import withRouteSync from "../withRouteSync";
 
@@ -27,7 +27,12 @@ type PageNarrativeProps = RouteComponentProps & {
 };
 
 const PageNarrative: React.FC<PageNarrativeProps> = () => {
-  return <SystemNarrativePage />;
+  return (
+    <>
+      <SystemNarrativePage />
+      <NarrativeFooter />
+    </>
+  );
 };
 
 export default withRouteSync(PageNarrative);

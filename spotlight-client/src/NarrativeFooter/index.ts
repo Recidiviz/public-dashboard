@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,18 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-const gray = "#D6DCDC";
-const pine = "#00413E";
-const pineBright = "#25B894";
-const white = "#FAFAFA";
-const pinePale = "#7D9897";
-const pineAccent2 = "#006C67";
-
-export default {
-  accent: pineBright,
-  link: pineAccent2,
-  caption: pinePale,
-  rule: gray,
-  background: white,
-  text: pine,
-};
+export { default } from "./NarrativeFooter";

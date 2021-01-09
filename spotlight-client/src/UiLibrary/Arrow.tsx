@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,18 +15,35 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-const gray = "#D6DCDC";
-const pine = "#00413E";
-const pineBright = "#25B894";
-const white = "#FAFAFA";
-const pinePale = "#7D9897";
-const pineAccent2 = "#006C67";
+import React from "react";
 
-export default {
-  accent: pineBright,
-  link: pineAccent2,
-  caption: pinePale,
-  rule: gray,
-  background: white,
-  text: pine,
+type ArrowProps = {
+  direction: "right" | "left";
+  color?: string;
 };
+
+const Arrow: React.FC<ArrowProps> = ({ color, direction }) => {
+  let transform;
+
+  if (direction === "left") {
+    transform = "rotate(180 8 7)";
+  }
+
+  return (
+    <svg
+      width="16"
+      height="14"
+      viewBox="0 0 16 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M9.3 13.6998L7.9 12.2998L12.2 7.9998H0V5.9998H12.2L7.9 1.6998L9.3 0.299805L16 6.9998L9.3 13.6998Z"
+        fill={color || "currentColor"}
+        transform={transform}
+      />
+    </svg>
+  );
+};
+
+export default Arrow;
