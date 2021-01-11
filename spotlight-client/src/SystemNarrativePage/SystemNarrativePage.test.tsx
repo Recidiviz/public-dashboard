@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import { fireEvent, screen, within } from "@testing-library/react";
 import mockContentFixture from "./__fixtures__/contentSource";
 import { SystemNarrativeContent } from "../contentApi/types";
 import { renderNavigableApp } from "../testUtils";
@@ -41,9 +41,9 @@ test("renders all the sections", () => {
   });
 });
 
-test("navigation", async () => {
-  renderNavigableApp({
-    route: "/us_nd/collections/parole",
+test("navigation", () => {
+  const { history } = renderNavigableApp({
+    route: "/us-nd/collections/parole",
   });
 
   const nextLabel = "next section";
@@ -63,9 +63,8 @@ test("navigation", async () => {
 
   // advance to section 2
   fireEvent.click(nextLink);
-  await waitFor(() => {
-    expect(within(navRegion).getByText("02")).toBeInTheDocument();
-  });
+  expect(within(navRegion).getByText("02")).toBeInTheDocument();
+  expect(history.location.pathname).toBe("/us-nd/collections/parole/2");
 
   const prevLink = screen.getByRole("link", { name: prevLabel });
   expect(prevLink).toBeInTheDocument();
@@ -78,13 +77,15 @@ test("navigation", async () => {
     within(navRegion).getAllByText(`0${narrativeContent.sections.length + 1}`)
       .length
   ).toBe(2);
+  expect(history.location.pathname).toBe(
+    `/us-nd/collections/parole/${narrativeContent.sections.length + 1}`
+  );
 
   // no next on the last section
   expect(nextLink).not.toBeInTheDocument();
 
-  // Jest/JSDOM don't support layout features
+  // JSDOM don't support layout features
   // so we can't really test anything related to scroll position :(
-  // (this also includes URL management because of how the page works)
 });
 
 test("renders link tags in copy", async () => {

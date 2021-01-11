@@ -155,8 +155,7 @@ const SectionNavigation: React.FC<NavigationProps> = ({
       ) : (
         <Link
           to={`${urlBase}/${activeSection + 1}`}
-          onClick={(e) => {
-            e.preventDefault();
+          onClick={() => {
             setActiveSection(activeSection + 1);
           }}
           aria-label="next section"
