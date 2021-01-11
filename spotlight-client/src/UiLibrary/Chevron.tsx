@@ -15,33 +15,40 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { RouteComponentProps } from "@reach/router";
-import { observer } from "mobx-react-lite";
 import React from "react";
-import { MetricTypeId } from "../contentApi/types";
-import { useDataStore } from "../StoreProvider";
-import withRouteSync from "../withRouteSync";
+import { colors } from ".";
 
-type PageMetricProps = RouteComponentProps & { metricTypeId?: MetricTypeId };
+type ArrowProps = {
+  direction: "up" | "down";
+  faded?: boolean;
+};
 
-const PageMetric: React.FC<PageMetricProps> = ({ metricTypeId }) => {
-  const { tenant } = useDataStore();
+const Chevron: React.FC<ArrowProps> = ({ direction, faded }) => {
+  let transform;
 
-  // if this component is used properly as a route component,
-  // this should never be true;
-  // if it is, something has gone very wrong
-  if (!metricTypeId) {
-    throw new Error("missing metricTypeId");
+  if (direction === "up") {
+    transform = "rotate(180 7 3.5)";
   }
 
-  // tenant may be briefly undefined on initial page load
-  const metric = tenant?.metrics[metricTypeId];
-
   return (
-    <article>
-      <h1>{metric?.name}</h1>
-    </article>
+    <svg
+      aria-hidden
+      width="14"
+      height="7"
+      viewBox="0 0 14 7"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1 0.5L7 6.5L13 0.5"
+        stroke={colors.text}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeOpacity={faded ? 0.3 : 1}
+        transform={transform}
+      />
+    </svg>
   );
 };
 
-export default withRouteSync(observer(PageMetric));
+export default Chevron;

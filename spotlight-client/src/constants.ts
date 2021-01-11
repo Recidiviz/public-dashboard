@@ -15,9 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-// expecting more exports in this file; re-enable when no longer necessary
-// eslint-disable-next-line import/prefer-default-export
 export const ERROR_MESSAGES = {
   auth0Configuration: "No Auth0 configuration found.",
   unauthorized: "You do not have permission to view this content.",
 };
+
+export const NAV_BAR_HEIGHT = 80;

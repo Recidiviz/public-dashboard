@@ -21,18 +21,24 @@ import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
 import logoPath from "../assets/spotlight-logo.svg";
-import { colors } from "../UiLibrary";
+import { colors, zIndex } from "../UiLibrary";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
+import { NAV_BAR_HEIGHT } from "../constants";
 
 const NavContainer = styled.nav`
   align-items: stretch;
+  background: ${colors.background};
   border-bottom: 1px solid ${colors.rule};
   display: flex;
-  height: ${rem(80)};
+  height: ${rem(NAV_BAR_HEIGHT)};
   justify-content: space-between;
+  left: 0;
   padding: 0 ${rem(8)};
+  position: fixed;
   width: 100%;
+  top: 0;
+  z-index: ${zIndex.navBar};
 
   .NavLink {
     align-items: center;
@@ -107,17 +113,6 @@ const SiteNavigation: React.FC = () => {
       </NavGroup>
       {tenant && (
         <NavGroup>
-          <NavGroupItem>
-            <Link
-              getProps={getNavLinkProps({ matchPartial: true })}
-              to={getUrlForResource({
-                page: "data portal",
-                params: { tenantId: tenant.id },
-              })}
-            >
-              Explore
-            </Link>
-          </NavGroupItem>
           <NavGroupItem>
             <Link
               getProps={getNavLinkProps({ matchPartial: true })}

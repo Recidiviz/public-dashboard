@@ -21,6 +21,7 @@
 // learn more: https://github.com/testing-library/jest-dom
 
 import "@testing-library/jest-dom/extend-expect";
+import "intersection-observer";
 import fetchMock from "jest-fetch-mock";
 import { configure } from "mobx";
 

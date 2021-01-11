@@ -16,18 +16,19 @@
 // =============================================================================
 
 import { RouteComponentProps, Router } from "@reach/router";
+import { rem } from "polished";
 import React from "react";
 import { HelmetProvider } from "react-helmet-async";
+import styled from "styled-components/macro";
 import AuthWall from "./AuthWall";
+import { NAV_BAR_HEIGHT } from "./constants";
 import GlobalStyles from "./GlobalStyles";
-import PageExplore from "./PageExplore";
 import PageHome from "./PageHome";
-import PageMetric from "./PageMetric";
 import PageNarrative from "./PageNarrative";
 import PageNarrativeList from "./PageNarrativeList";
 import PageNotFound from "./PageNotFound";
 import PageTenant from "./PageTenant";
-import { DataPortalSlug, NarrativesSlug } from "./routerUtils/types";
+import { NarrativesSlug } from "./routerUtils/types";
 import SiteNavigation from "./SiteNavigation";
 import StoreProvider from "./StoreProvider";
 
@@ -38,6 +39,10 @@ const PassThroughPage: React.FC<RouteComponentProps> = ({ children }) => (
   <>{children}</>
 );
 
+const Main = styled.div.attrs((props) => ({ role: "main" }))`
+  margin-top: ${rem(NAV_BAR_HEIGHT)};
+`;
+
 const App: React.FC = () => {
   return (
     <HelmetProvider>
@@ -45,7 +50,7 @@ const App: React.FC = () => {
         <GlobalStyles />
         <AuthWall>
           <SiteNavigation />
-          <div role="main">
+          <Main>
             <Router>
               {/*
                 NOTE: every leaf route component in this router should be wrapped
@@ -54,20 +59,15 @@ const App: React.FC = () => {
               <PageHome path="/" />
               <PassThroughPage path="/:tenantId">
                 <PageTenant path="/" />
-                <PassThroughPage path={`/${DataPortalSlug}`}>
-                  <PageExplore path="/" />
-                  <PageMetric path="/:metricTypeId" />
-                  <PageNotFound default />
-                </PassThroughPage>
                 <PassThroughPage path={`/${NarrativesSlug}`}>
                   <PageNarrativeList path="/" />
-                  <PageNarrative path="/:narrativeTypeId" />
+                  <PageNarrative path="/:narrativeTypeId/*sectionNumber" />
                 </PassThroughPage>
                 <PageNotFound default />
               </PassThroughPage>
               <PageNotFound default />
             </Router>
-          </div>
+          </Main>
         </AuthWall>
       </StoreProvider>
     </HelmetProvider>

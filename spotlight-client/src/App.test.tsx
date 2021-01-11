@@ -16,13 +16,7 @@
 // =============================================================================
 
 import {
-  createHistory,
-  createMemorySource,
-  LocationProvider,
-} from "@reach/router";
-import {
   act,
-  render,
   screen,
   ByRoleMatcher,
   ByRoleOptions,
@@ -30,23 +24,8 @@ import {
   fireEvent,
   waitFor,
 } from "@testing-library/react";
-import React from "react";
-import App from "./App";
 import testContent from "./contentApi/sources/us_nd";
-
-function renderNavigableApp({ route = "/" } = {}) {
-  const history = createHistory(createMemorySource(route));
-
-  return {
-    ...render(
-      <LocationProvider history={history}>
-        <App />
-      </LocationProvider>
-    ),
-    // tests can use history object to simulate navigation in a browser
-    history,
-  };
-}
+import { renderNavigableApp } from "./testUtils";
 
 describe("navigation", () => {
   /**
@@ -86,28 +65,6 @@ describe("navigation", () => {
     expect.hasAssertions();
     const targetPath = "/us-nd";
     const lookupArgs = ["heading", { name: /North Dakota/, level: 1 }] as const;
-
-    return verifyWithNavigation({ targetPath, lookupArgs });
-  });
-
-  test("explore page", () => {
-    expect.hasAssertions();
-    const targetPath = "/us-nd/explore";
-    const lookupArgs = ["heading", { name: "Explore Data", level: 1 }] as const;
-
-    return verifyWithNavigation({ targetPath, lookupArgs });
-  });
-
-  test("single metric page", () => {
-    expect.hasAssertions();
-    const targetPath = "/us-nd/explore/prison-population-current";
-    const lookupArgs = [
-      "heading",
-      {
-        name: testContent.metrics.PrisonPopulationCurrent?.name,
-        level: 1,
-      },
-    ] as const;
 
     return verifyWithNavigation({ targetPath, lookupArgs });
   });
@@ -153,23 +110,13 @@ describe("navigation", () => {
     await act(() => navigate("/us-nd"));
     const homeLink = inNav.getByRole("link", { name: "Spotlight" });
     const tenantLink = inNav.getByRole("link", { name: "North Dakota" });
-    const portalLink = inNav.getByRole("link", { name: dataPortalLabel });
     const narrativesLink = inNav.getByRole("link", { name: narrativesLabel });
 
     const verifyNavLinks = () => {
       expect(homeLink).toBeInTheDocument();
       expect(tenantLink).toBeInTheDocument();
-      expect(portalLink).toBeInTheDocument();
       expect(narrativesLink).toBeInTheDocument();
     };
-
-    fireEvent.click(portalLink);
-    await waitFor(() =>
-      expect(
-        screen.getByRole("heading", { name: "Explore Data", level: 1 })
-      ).toBeInTheDocument()
-    );
-    verifyNavLinks();
 
     fireEvent.click(narrativesLink);
     await waitFor(() =>

@@ -18,12 +18,16 @@
 import { SystemNarrativeContent } from "../contentApi/types";
 import { AnyMetric, isAnyMetric, MetricMapping } from "./types";
 
-type Section = { title: string; body: string; metric: AnyMetric };
+export type SystemNarrativeSection = {
+  title: string;
+  body: string;
+  metric: AnyMetric;
+};
 
 type ConstructorArgs = {
   title: string;
   introduction: string;
-  sections: Section[];
+  sections: SystemNarrativeSection[];
 };
 
 export default class SystemNarrative {
@@ -31,7 +35,7 @@ export default class SystemNarrative {
 
   readonly introduction: string;
 
-  readonly sections: Section[];
+  readonly sections: SystemNarrativeSection[];
 
   constructor({ title, introduction, sections }: ConstructorArgs) {
     this.title = title;
@@ -47,7 +51,7 @@ export function createSystemNarrative({
   content: SystemNarrativeContent;
   allMetrics: MetricMapping;
 }): SystemNarrative {
-  const sections: Section[] = [];
+  const sections: SystemNarrativeSection[] = [];
   // building sections in a type-safe way: make sure the related metric
   // actually exists or else the section is omitted
   content.sections.forEach(({ title, body, metricTypeId }) => {

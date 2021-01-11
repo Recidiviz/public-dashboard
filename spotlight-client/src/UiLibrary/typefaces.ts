@@ -17,4 +17,5 @@
 
 export default {
   body: "'Libre Franklin', sans-serif",
+  display: "'Libre Baskerville', serif",
 };

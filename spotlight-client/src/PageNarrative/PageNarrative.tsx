@@ -20,6 +20,7 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import { SystemNarrativeTypeId } from "../contentApi/types";
 import { useDataStore } from "../StoreProvider";
+import SystemNarrativePage from "../SystemNarrativePage";
 import withRouteSync from "../withRouteSync";
 
 type PageNarrativeProps = RouteComponentProps & {
@@ -39,12 +40,11 @@ const PageNarrative: React.FC<PageNarrativeProps> = ({ narrativeTypeId }) => {
   // tenant may be briefly undefined on initial page load
   const narrative = tenant?.systemNarratives[narrativeTypeId];
 
-  return (
-    <article>
-      <h1>{narrative?.title}</h1>
-      <p>{narrative?.introduction}</p>
-    </article>
-  );
+  if (narrative) {
+    return <SystemNarrativePage narrative={narrative} />;
+  }
+
+  return null;
 };
 
 export default withRouteSync(observer(PageNarrative));
