@@ -112,6 +112,11 @@ const SystemNarrativePage: React.FC<{
     },
     [isScrolling]
   );
+  // keep section state in sync with URL if it changes externally (e.g. via nav link)
+  useEffect(() => {
+    directlySetActiveSection(Number(routeParams.sectionNumber) || 1);
+  }, [routeParams.sectionNumber]);
+
   const [, setScrollSpring] = useSpring(() => ({
     onFrame: (props: { top: number }) => window.scrollTo(0, props.top),
     // set the flag while animation is in progress
