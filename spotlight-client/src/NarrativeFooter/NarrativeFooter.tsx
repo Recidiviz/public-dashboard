@@ -19,9 +19,10 @@ import { Link } from "@reach/router";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
-import { animated, useSprings } from "react-spring/web.cjs";
+import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
-import { SystemNarrativeTypeIdList } from "../contentApi/types";
+import { TenantId } from "../contentApi/types";
+import SystemNarrative from "../contentModels/SystemNarrative";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
 import { colors, typefaces } from "../UiLibrary";
@@ -69,70 +70,60 @@ const LinkListItem = styled.li`
   }
 `;
 
+const FooterLink: React.FC<{
+  narrative: SystemNarrative;
+  tenantId: TenantId;
+}> = ({ narrative, tenantId }) => {
+  const [animationStyles, setAnimationStyles] = useSpring(() => ({
+    opacity: 0,
+    from: { opacity: 0 },
+  }));
+
+  return (
+    <LinkListItem>
+      <Link
+        to={getUrlForResource({
+          page: "narrative",
+          params: { tenantId, narrativeTypeId: narrative.id },
+        })}
+        onMouseOver={() => setAnimationStyles({ opacity: 1 })}
+        onFocus={() => setAnimationStyles({ opacity: 1 })}
+        onMouseOut={() => setAnimationStyles({ opacity: 0 })}
+        onBlur={() => setAnimationStyles({ opacity: 0 })}
+      >
+        {narrative.title}{" "}
+        <animated.span style={animationStyles}>
+          <Arrow color={colors.link} direction="right" />
+        </animated.span>
+      </Link>
+    </LinkListItem>
+  );
+};
+
 const Footer: React.FC = () => {
   const {
     tenant,
     tenantStore: { currentNarrativeTypeId },
   } = useDataStore();
 
-  const narrativesToDisplay = SystemNarrativeTypeIdList.filter(
-    (id) => id !== currentNarrativeTypeId
-  );
-
-  const [arrowSprings, setArrowSprings] = useSprings(
-    narrativesToDisplay.length,
-    () => ({
-      opacity: 0,
-      from: { opacity: 0 },
-    })
-  );
-
   if (!tenant) return null;
 
-  function transitionArrow({
-    index,
-    visible,
-  }: {
-    index: number;
-    visible: boolean;
-  }) {
-    return () => {
-      // @ts-expect-error type error in current version,
-      // https://github.com/pmndrs/react-spring/issues/861
-      setArrowSprings((springIndex: number) => {
-        if (springIndex !== index) return;
-        return { opacity: visible ? 1 : 0 };
-      });
-    };
-  }
+  const narrativesToDisplay = Object.values(tenant.systemNarratives).filter(
+    (narrative) => narrative && narrative.id !== currentNarrativeTypeId
+  ) as SystemNarrative[]; // this assertion is safe because undefined items were filtered out
 
   return (
     <Container aria-label="collections">
       <Heading>Continue Reading</Heading>
       <LinkList>
-        {narrativesToDisplay.map((id, index) => {
-          const narrative = tenant.systemNarratives[id];
-          if (narrative)
-            return (
-              <LinkListItem key={id}>
-                <Link
-                  to={getUrlForResource({
-                    page: "narrative",
-                    params: { tenantId: tenant.id, narrativeTypeId: id },
-                  })}
-                  onMouseOver={transitionArrow({ index, visible: true })}
-                  onFocus={transitionArrow({ index, visible: true })}
-                  onMouseOut={transitionArrow({ index, visible: false })}
-                  onBlur={transitionArrow({ index, visible: false })}
-                >
-                  {narrative.title}{" "}
-                  <animated.span style={arrowSprings[index]}>
-                    <Arrow color={colors.link} direction="right" />
-                  </animated.span>
-                </Link>
-              </LinkListItem>
-            );
-          return null;
+        {narrativesToDisplay.map((narrative) => {
+          return (
+            <FooterLink
+              key={narrative.id}
+              tenantId={tenant.id}
+              narrative={narrative}
+            />
+          );
         })}
       </LinkList>
       <Link

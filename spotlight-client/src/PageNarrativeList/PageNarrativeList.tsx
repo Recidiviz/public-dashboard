@@ -18,7 +18,6 @@
 import { Link, RouteComponentProps } from "@reach/router";
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { SystemNarrativeTypeIdList } from "../contentApi/types";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
 import withRouteSync from "../withRouteSync";
@@ -35,15 +34,17 @@ const PageNarrativeList: React.FC<RouteComponentProps> = () => {
         <section>
           <h2>system overview</h2>
           <ul>
-            {SystemNarrativeTypeIdList.map((id) => {
-              const narrative = systemNarratives[id];
+            {Object.values(systemNarratives).map((narrative) => {
               return (
                 narrative && (
-                  <li key={id}>
+                  <li key={narrative.id}>
                     <Link
                       to={getUrlForResource({
                         page: "narrative",
-                        params: { tenantId: tenant.id, narrativeTypeId: id },
+                        params: {
+                          tenantId: tenant.id,
+                          narrativeTypeId: narrative.id,
+                        },
                       })}
                     >
                       {narrative.title}

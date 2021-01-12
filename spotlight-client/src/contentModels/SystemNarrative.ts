@@ -15,7 +15,10 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { SystemNarrativeContent } from "../contentApi/types";
+import {
+  SystemNarrativeContent,
+  SystemNarrativeTypeId,
+} from "../contentApi/types";
 import { AnyMetric, isAnyMetric, MetricMapping } from "./types";
 
 export type SystemNarrativeSection = {
@@ -25,19 +28,23 @@ export type SystemNarrativeSection = {
 };
 
 type ConstructorArgs = {
+  id: SystemNarrativeTypeId;
   title: string;
   introduction: string;
   sections: SystemNarrativeSection[];
 };
 
 export default class SystemNarrative {
+  readonly id: SystemNarrativeTypeId;
+
   readonly title: string;
 
   readonly introduction: string;
 
   readonly sections: SystemNarrativeSection[];
 
-  constructor({ title, introduction, sections }: ConstructorArgs) {
+  constructor({ id, title, introduction, sections }: ConstructorArgs) {
+    this.id = id;
     this.title = title;
     this.introduction = introduction;
     this.sections = sections;
@@ -45,9 +52,11 @@ export default class SystemNarrative {
 }
 
 export function createSystemNarrative({
+  id,
   content,
   allMetrics,
 }: {
+  id: SystemNarrativeTypeId;
   content: SystemNarrativeContent;
   allMetrics: MetricMapping;
 }): SystemNarrative {
@@ -62,6 +71,7 @@ export function createSystemNarrative({
   });
 
   return new SystemNarrative({
+    id,
     title: content.title,
     introduction: content.introduction,
     sections,
