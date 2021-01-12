@@ -21,7 +21,6 @@ import { rem } from "polished";
 import React, { useEffect } from "react";
 import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
-import { NAV_BAR_HEIGHT } from "../constants";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { colors, Chevron } from "../UiLibrary";
@@ -34,11 +33,9 @@ const SectionNav = styled.nav`
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
+  height: 100%;
   justify-content: center;
-  left: ${rem(32)};
-  position: fixed;
-  top: ${rem(NAV_BAR_HEIGHT)};
+  margin-left: ${rem(32)};
 `;
 
 const PageNumber = styled.div`

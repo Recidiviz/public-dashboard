@@ -120,7 +120,7 @@ function getSystemNarrativesForTenant({
   SystemNarrativeTypeIdList.forEach((id) => {
     const content = allTenantContent.systemNarratives[id];
     if (content) {
-      narrativeMapping[id] = createSystemNarrative({ content, allMetrics });
+      narrativeMapping[id] = createSystemNarrative({ id, content, allMetrics });
     }
   });
 

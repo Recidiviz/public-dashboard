@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,20 +15,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-const gray = "#D6DCDC";
-const pine = "#00413E";
-const pineBright = "#25B894";
-const white = "#FAFAFA";
-const pinePale = "#7D9897";
-const pineAccent2 = "#006C67";
-const pineDark = "#012322";
+import { observer } from "mobx-react-lite";
+import React from "react";
+import { useDataStore } from "../StoreProvider";
+import SystemNarrativePage from "./SystemNarrativePage";
 
-export default {
-  accent: pineBright,
-  background: white,
-  caption: pinePale,
-  footerBackground: pineDark,
-  link: pineAccent2,
-  rule: gray,
-  text: pine,
+const SystemNarrativePageContainer: React.FC = () => {
+  const { narrative } = useDataStore();
+
+  if (narrative) return <SystemNarrativePage narrative={narrative} />;
+  return null;
 };
+
+export default observer(SystemNarrativePageContainer);

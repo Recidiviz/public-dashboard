@@ -16,10 +16,9 @@
 // =============================================================================
 
 import { RouteComponentProps } from "@reach/router";
-import { observer } from "mobx-react-lite";
 import React from "react";
 import { SystemNarrativeTypeId } from "../contentApi/types";
-import { useDataStore } from "../StoreProvider";
+import NarrativeFooter from "../NarrativeFooter";
 import SystemNarrativePage from "../SystemNarrativePage";
 import withRouteSync from "../withRouteSync";
 
@@ -27,24 +26,13 @@ type PageNarrativeProps = RouteComponentProps & {
   narrativeTypeId?: SystemNarrativeTypeId;
 };
 
-const PageNarrative: React.FC<PageNarrativeProps> = ({ narrativeTypeId }) => {
-  const { tenant } = useDataStore();
-
-  // if this component is used properly as a route component,
-  // this should never be true;
-  // if it is, something has gone very wrong
-  if (!narrativeTypeId) {
-    throw new Error("missing narrativeTypeId");
-  }
-
-  // tenant may be briefly undefined on initial page load
-  const narrative = tenant?.systemNarratives[narrativeTypeId];
-
-  if (narrative) {
-    return <SystemNarrativePage narrative={narrative} />;
-  }
-
-  return null;
+const PageNarrative: React.FC<PageNarrativeProps> = () => {
+  return (
+    <>
+      <SystemNarrativePage />
+      <NarrativeFooter />
+    </>
+  );
 };
 
-export default withRouteSync(observer(PageNarrative));
+export default withRouteSync(PageNarrative);

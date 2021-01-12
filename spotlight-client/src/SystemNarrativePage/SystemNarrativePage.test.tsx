@@ -26,7 +26,7 @@ const narrativeContent = mockContentFixture.systemNarratives
   .Parole as SystemNarrativeContent;
 
 test("renders all the sections", () => {
-  renderNavigableApp({ route: "/us_nd/collections/parole" });
+  renderNavigableApp({ route: "/us-nd/collections/parole" });
 
   expect(
     screen.getByRole("heading", { name: narrativeContent.title, level: 1 })
@@ -90,11 +90,32 @@ test("navigation", () => {
 
 test("renders link tags in copy", async () => {
   // this fixture has links in the copy
-  renderNavigableApp({ route: "/us_nd/collections/sentencing" });
+  renderNavigableApp({ route: "/us-nd/collections/sentencing" });
 
   expect(screen.getByRole("link", { name: "intro link" })).toBeInTheDocument();
 
   expect(
     screen.getByRole("link", { name: "section copy link" })
+  ).toBeInTheDocument();
+});
+
+test("includes links to other narratives", () => {
+  renderNavigableApp({ route: "/us-nd/collections/parole" });
+
+  const nav = screen.getByRole("navigation", { name: "collections" });
+
+  const otherLink = within(nav).getByRole("link", {
+    name: mockContentFixture.systemNarratives.Sentencing?.title,
+  });
+
+  expect(otherLink).toBeInTheDocument();
+  expect(otherLink).toHaveAttribute("href", "/us-nd/collections/sentencing");
+
+  expect(
+    within(nav).queryByRole("link", { name: narrativeContent.title })
+  ).not.toBeInTheDocument();
+
+  expect(
+    within(nav).getByRole("link", { name: "Back to Collections" })
   ).toBeInTheDocument();
 });

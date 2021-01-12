@@ -21,7 +21,7 @@ import React from "react";
 import { HelmetProvider } from "react-helmet-async";
 import styled from "styled-components/macro";
 import AuthWall from "./AuthWall";
-import { NAV_BAR_HEIGHT } from "./constants";
+import { FOOTER_HEIGHT, NAV_BAR_HEIGHT } from "./constants";
 import GlobalStyles from "./GlobalStyles";
 import PageHome from "./PageHome";
 import PageNarrative from "./PageNarrative";
@@ -29,6 +29,7 @@ import PageNarrativeList from "./PageNarrativeList";
 import PageNotFound from "./PageNotFound";
 import PageTenant from "./PageTenant";
 import { NarrativesSlug } from "./routerUtils/types";
+import SiteFooter from "./SiteFooter";
 import SiteNavigation from "./SiteNavigation";
 import StoreProvider from "./StoreProvider";
 
@@ -41,6 +42,7 @@ const PassThroughPage: React.FC<RouteComponentProps> = ({ children }) => (
 
 const Main = styled.div.attrs((props) => ({ role: "main" }))`
   margin-top: ${rem(NAV_BAR_HEIGHT)};
+  min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT + FOOTER_HEIGHT)});
 `;
 
 const App: React.FC = () => {
@@ -68,6 +70,7 @@ const App: React.FC = () => {
               <PageNotFound default />
             </Router>
           </Main>
+          <SiteFooter />
         </AuthWall>
       </StoreProvider>
     </HelmetProvider>

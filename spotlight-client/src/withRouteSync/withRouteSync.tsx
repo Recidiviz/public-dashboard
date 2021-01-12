@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { RouteComponentProps } from "@reach/router";
+import { action } from "mobx";
 import React, { useEffect } from "react";
 import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { RouteParams } from "../routerUtils/types";
@@ -36,11 +37,12 @@ const withRouteSync = <Props extends RouteComponentProps & RouteParams>(
 
     const normalizedProps = normalizeRouteParams(props);
 
-    useEffect(() => {
-      tenantStore.setCurrentTenant({
-        tenantId: normalizedProps.tenantId,
-      });
-    });
+    useEffect(
+      action("sync route params", () => {
+        tenantStore.currentTenantId = normalizedProps.tenantId;
+        tenantStore.currentNarrativeTypeId = normalizedProps.narrativeTypeId;
+      })
+    );
 
     return (
       <RouteComponent

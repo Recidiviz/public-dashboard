@@ -15,6 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { runInAction } from "mobx";
+import SystemNarrative from "../contentModels/SystemNarrative";
 import Tenant from "../contentModels/Tenant";
 import { reactImmediately } from "../testUtils";
 import RootStore from "./RootStore";
@@ -44,10 +46,28 @@ describe("tenant store", () => {
   });
 
   test("can set current tenant", () => {
-    tenantStore.setCurrentTenant({ tenantId: "US_ND" });
+    runInAction(() => {
+      tenantStore.currentTenantId = "US_ND";
+    });
+
     reactImmediately(() => {
       expect(tenantStore.currentTenant).toBeInstanceOf(Tenant);
     });
     expect.hasAssertions();
+  });
+
+  test("can set current narrative", () => {
+    expect(tenantStore.currentTenant).toBeUndefined();
+
+    runInAction(() => {
+      tenantStore.currentTenantId = "US_ND";
+      tenantStore.currentNarrativeTypeId = "Prison";
+    });
+
+    reactImmediately(() => {
+      expect(tenantStore.currentNarrative).toBeInstanceOf(SystemNarrative);
+    });
+
+    expect.assertions(2);
   });
 });

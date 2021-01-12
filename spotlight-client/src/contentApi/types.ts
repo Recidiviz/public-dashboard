@@ -100,10 +100,10 @@ type PopulationCurrentContent = MetricContent & { mapCaption: string };
 // ============================
 // Narrative types
 export const SystemNarrativeTypeIdList = [
+  "Sentencing",
   "Prison",
   "Probation",
   "Parole",
-  "Sentencing",
 ] as const;
 export type SystemNarrativeTypeId = typeof SystemNarrativeTypeIdList[number];
 export function isSystemNarrativeTypeId(x: string): x is SystemNarrativeTypeId {

@@ -21,3 +21,5 @@ export const ERROR_MESSAGES = {
 };
 
 export const NAV_BAR_HEIGHT = 80;
+
+export const FOOTER_HEIGHT = 248;
