@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { fireEvent, screen, within } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import mockContentFixture from "./__fixtures__/contentSource";
 import { SystemNarrativeContent } from "../contentApi/types";
 import { renderNavigableApp } from "../testUtils";
@@ -41,7 +41,7 @@ test("renders all the sections", () => {
   });
 });
 
-test("navigation", () => {
+test("navigation", async () => {
   const { history } = renderNavigableApp({
     route: "/us-nd/collections/parole",
   });
@@ -63,7 +63,10 @@ test("navigation", () => {
 
   // advance to section 2
   fireEvent.click(nextLink);
-  expect(within(navRegion).getByText("02")).toBeInTheDocument();
+
+  await waitFor(() => {
+    expect(within(navRegion).getByText("02")).toBeInTheDocument();
+  });
   expect(history.location.pathname).toBe("/us-nd/collections/parole/2");
 
   const prevLink = screen.getByRole("link", { name: prevLabel });
@@ -72,17 +75,23 @@ test("navigation", () => {
   // advance to the last section
   narrativeContent.sections.forEach(() => fireEvent.click(nextLink));
 
-  // both of the page numbers should be the same, e.g. 08/08
-  expect(
-    within(navRegion).getAllByText(`0${narrativeContent.sections.length + 1}`)
-      .length
-  ).toBe(2);
+  await waitFor(() => {
+    // both of the page numbers should be the same, e.g. 08/08
+    expect(
+      within(navRegion).getAllByText(`0${narrativeContent.sections.length + 1}`)
+        .length
+    ).toBe(2);
+  });
   expect(history.location.pathname).toBe(
     `/us-nd/collections/parole/${narrativeContent.sections.length + 1}`
   );
 
   // no next on the last section
-  expect(nextLink).not.toBeInTheDocument();
+  expect(
+    // the element referenced by nextLink is still present,
+    // but it no longer has role=link
+    screen.queryByRole("link", { name: nextLabel })
+  ).not.toBeInTheDocument();
 
   // JSDOM don't support layout features
   // so we can't really test anything related to scroll position :(

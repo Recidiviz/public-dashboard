@@ -15,12 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Link, useParams } from "@reach/router";
+import { useParams } from "@reach/router";
 import { format } from "d3-format";
 import { rem } from "polished";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
+import NavigationLink from "../NavigationLink";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { colors, Chevron } from "../UiLibrary";
@@ -69,6 +70,10 @@ const PageProgressThumb = styled(animated.div)`
   width: ${rem(2)};
 `;
 
+const StyledNavLink = styled(NavigationLink)`
+  padding: ${rem(8)};
+`;
+
 const PageProgressBar: React.FC<{
   currentPage: number;
   totalPages: number;
@@ -93,6 +98,49 @@ const PageProgressBar: React.FC<{
   );
 };
 
+type AdvanceLinkProps = {
+  activeSection: number;
+  disabled: boolean;
+  type: "previous" | "next";
+  urlBase: string;
+};
+
+const AdvanceLink: React.FC<AdvanceLinkProps> = ({
+  activeSection,
+  disabled,
+  type,
+  urlBase,
+}) => {
+  let targetSection;
+  let direction: "up" | "down";
+
+  if (type === "previous") {
+    targetSection = activeSection - 1;
+    direction = "up";
+  } else {
+    targetSection = activeSection + 1;
+    direction = "down";
+  }
+
+  const [hovered, setHovered] = useState(false);
+
+  const color = hovered && !disabled ? colors.accent : undefined;
+
+  return (
+    <StyledNavLink
+      to={`${urlBase}/${targetSection}`}
+      disabled={disabled}
+      aria-label={`${type} section`}
+      onMouseOver={() => setHovered(true)}
+      onFocus={() => setHovered(true)}
+      onMouseOut={() => setHovered(false)}
+      onBlur={() => setHovered(false)}
+    >
+      <Chevron direction={direction} faded={disabled} color={color} />
+    </StyledNavLink>
+  );
+};
+
 type NavigationProps = {
   activeSection: number;
   setActiveSection: (section: number) => void;
@@ -101,7 +149,6 @@ type NavigationProps = {
 
 const SectionNavigation: React.FC<NavigationProps> = ({
   activeSection,
-  setActiveSection,
   totalPages,
 }) => {
   const { tenantId, narrativeTypeId } = normalizeRouteParams(
@@ -128,38 +175,18 @@ const SectionNavigation: React.FC<NavigationProps> = ({
       <PageNumber>{formatPageNum(activeSection)}</PageNumber>
       <PageNumberFaded>{formatPageNum(totalPages)}</PageNumberFaded>
       <PageProgressBar currentPage={activeSection} totalPages={totalPages} />
-      {disablePrev ? (
-        <div>
-          <Chevron direction="up" faded />
-        </div>
-      ) : (
-        <Link
-          // the to props on these links is mainly for accessibility purposes, so they
-          // look like normal links. calling the setter is the critical step
-          to={`${urlBase}/${activeSection - 1}`}
-          onClick={() => {
-            setActiveSection(activeSection - 1);
-          }}
-          aria-label="previous section"
-        >
-          <Chevron direction="up" />
-        </Link>
-      )}
-      {disableNext ? (
-        <div>
-          <Chevron direction="down" faded />
-        </div>
-      ) : (
-        <Link
-          to={`${urlBase}/${activeSection + 1}`}
-          onClick={() => {
-            setActiveSection(activeSection + 1);
-          }}
-          aria-label="next section"
-        >
-          <Chevron direction="down" />
-        </Link>
-      )}
+      <AdvanceLink
+        urlBase={urlBase}
+        activeSection={activeSection}
+        disabled={disablePrev}
+        type="previous"
+      />
+      <AdvanceLink
+        urlBase={urlBase}
+        activeSection={activeSection}
+        disabled={disableNext}
+        type="next"
+      />
     </SectionNav>
   );
 };
