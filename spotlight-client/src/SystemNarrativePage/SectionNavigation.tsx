@@ -15,12 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { useParams } from "@reach/router";
+import { Link, useParams } from "@reach/router";
 import { format } from "d3-format";
 import { rem } from "polished";
 import React, { useEffect, useState } from "react";
-import { animated, useSpring } from "react-spring/web.cjs";
+import { animated, useSpring, useSprings } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
+import SystemNarrative from "../contentModels/SystemNarrative";
 import NavigationLink from "../NavigationLink";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
@@ -28,7 +29,11 @@ import { colors, Chevron } from "../UiLibrary";
 
 const formatPageNum = format("02");
 
-const PROGRESS_BAR_HEIGHT = 104;
+const THUMB_SIZE = {
+  height: 22,
+  paddingBottom: 4,
+  width: 2,
+};
 
 const SectionNav = styled.nav`
   align-items: center;
@@ -50,50 +55,168 @@ const PageNumberFaded = styled(PageNumber)`
   opacity: 0.3;
 `;
 
-const PageProgressContainer = styled.div.attrs(() => ({
-  "aria-hidden": true,
-}))`
+const PageProgressContainer = styled.div`
+  display: flex;
+  justify-content: center;
   margin: ${rem(24)} 0;
   position: relative;
+  width: 100%;
 `;
 
-const PageProgressTrack = styled.div`
+const PageProgressBar = styled.div`
+  pointer-events: none;
+  position: relative;
+  width: ${rem(THUMB_SIZE.width)};
+`;
+
+const PageProgressTrack = styled(animated.div)`
   background: ${colors.rule};
-  height: ${rem(PROGRESS_BAR_HEIGHT)};
-  width: ${rem(2)};
+  left: 0;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
 `;
 
 const PageProgressThumb = styled(animated.div)`
   background: ${colors.accent};
+  height: ${rem(THUMB_SIZE.height)};
   left: 0;
   position: absolute;
-  width: ${rem(2)};
+  width: 100%;
+`;
+
+const LinkList = styled.ul`
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+`;
+
+const LinkListItem = styled.li``;
+
+const SectionLink = styled(Link)`
+  color: ${colors.text};
+  display: flex;
+  height: ${rem(THUMB_SIZE.height)};
+  justify-content: center;
+  margin-bottom: ${rem(THUMB_SIZE.paddingBottom)};
+  position: relative;
+  width: 100%;
+
+  &::before {
+    background: ${colors.rule};
+    content: "";
+    display: block;
+    flex: 0 0 auto;
+    height: 100%;
+    width: ${rem(THUMB_SIZE.width)};
+  }
+`;
+
+const SectionLinkLabel = styled(animated.div)`
+  font-size: ${rem(11)};
+  left: calc(50% + ${rem(THUMB_SIZE.width)});
+  letter-spacing: -0.01em;
+  line-height: 1.45;
+  padding-left: ${rem(16)};
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: ${rem(96)};
 `;
 
 const StyledNavLink = styled(NavigationLink)`
   padding: ${rem(8)};
 `;
 
-const PageProgressBar: React.FC<{
-  currentPage: number;
-  totalPages: number;
-}> = ({ currentPage, totalPages }) => {
-  const thumbSize = PROGRESS_BAR_HEIGHT / totalPages;
-  // pages are 1-indexed for human readability
-  const currentIndex = currentPage - 1;
+const getThumbOffset = (currentIndex: number) =>
+  currentIndex * (THUMB_SIZE.height + THUMB_SIZE.paddingBottom);
 
-  const [thumbOffset, setThumbOffset] = useSpring(() => ({
-    top: currentIndex * thumbSize,
+const PageNav: React.FC<NavigationProps & { urlBase: string }> = ({
+  activeSection,
+  narrative,
+  urlBase,
+}) => {
+  const totalPages = narrative.sections.length + 1;
+  const progressBarHeight =
+    (THUMB_SIZE.height + THUMB_SIZE.paddingBottom) * totalPages -
+    // subtract one padding unit so there isn't dangling space after the last one
+    THUMB_SIZE.paddingBottom;
+
+  // sections are 1-indexed for human readability
+  const currentIndex = activeSection - 1;
+
+  const [thumbStyles, setThumbStyles] = useSpring(() => ({
+    top: getThumbOffset(currentIndex),
   }));
 
+  const [trackStyles, setTrackStyles] = useSpring(() => ({ opacity: 1 }));
+
+  const [linkLabelHoverStyles, setLinkLabelHoverStyles] = useSprings(
+    totalPages,
+    () => ({ opacity: 0 })
+  );
+  const showLabel = (index: number) => () =>
+    // @ts-expect-error type error in current version,
+    // https://github.com/pmndrs/react-spring/issues/861
+    setLinkLabelHoverStyles((springIndex: number) =>
+      springIndex === index ? { opacity: 1 } : { opacity: 0 }
+    );
+  const hideLabel = (index: number) => () =>
+    // @ts-expect-error type error in current version,
+    // https://github.com/pmndrs/react-spring/issues/861
+    setLinkLabelHoverStyles((springIndex: number) =>
+      springIndex === index ? { opacity: 0 } : {}
+    );
+
   useEffect(() => {
-    setThumbOffset({ top: currentIndex * thumbSize });
-  }, [currentIndex, setThumbOffset, thumbSize]);
+    setThumbStyles({ top: getThumbOffset(currentIndex) });
+  }, [currentIndex, setThumbStyles]);
 
   return (
     <PageProgressContainer>
-      <PageProgressTrack />
-      <PageProgressThumb style={{ height: rem(thumbSize), ...thumbOffset }} />
+      <LinkList
+        onMouseOver={() => setTrackStyles({ opacity: 0 })}
+        onFocus={() => setTrackStyles({ opacity: 0 })}
+        onMouseOut={() => setTrackStyles({ opacity: 1 })}
+        onBlur={() => setTrackStyles({ opacity: 1 })}
+      >
+        <LinkListItem>
+          <SectionLink
+            to={`${urlBase}/1`}
+            onMouseOver={showLabel(0)}
+            onFocus={showLabel(0)}
+            onMouseOut={hideLabel(0)}
+            onBlur={hideLabel(0)}
+          >
+            <SectionLinkLabel style={linkLabelHoverStyles[0]}>
+              {narrative.title}
+            </SectionLinkLabel>
+          </SectionLink>
+        </LinkListItem>
+        {narrative.sections.map((section, index) => {
+          return (
+            <LinkListItem>
+              <SectionLink
+                to={`${urlBase}/${index + 2}`}
+                onMouseOver={showLabel(index + 1)}
+                onFocus={showLabel(index + 1)}
+                onMouseOut={hideLabel(index + 1)}
+                onBlur={hideLabel(index + 1)}
+              >
+                <SectionLinkLabel style={linkLabelHoverStyles[index + 1]}>
+                  {section.title}
+                </SectionLinkLabel>
+              </SectionLink>
+            </LinkListItem>
+          );
+        })}
+      </LinkList>
+      <PageProgressBar style={{ height: rem(progressBarHeight) }}>
+        <PageProgressTrack style={trackStyles} />
+        <PageProgressThumb style={thumbStyles} />
+      </PageProgressBar>
     </PageProgressContainer>
   );
 };
@@ -143,14 +266,14 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = ({
 
 type NavigationProps = {
   activeSection: number;
-  setActiveSection: (section: number) => void;
-  totalPages: number;
+  narrative: SystemNarrative;
 };
 
 const SectionNavigation: React.FC<NavigationProps> = ({
   activeSection,
-  totalPages,
+  narrative,
 }) => {
+  const totalPages = narrative.sections.length + 1;
   const { tenantId, narrativeTypeId } = normalizeRouteParams(
     useParams()
     // these keys should always be present on this page
@@ -174,7 +297,11 @@ const SectionNavigation: React.FC<NavigationProps> = ({
     <SectionNav aria-label="page sections">
       <PageNumber>{formatPageNum(activeSection)}</PageNumber>
       <PageNumberFaded>{formatPageNum(totalPages)}</PageNumberFaded>
-      <PageProgressBar currentPage={activeSection} totalPages={totalPages} />
+      <PageNav
+        activeSection={activeSection}
+        narrative={narrative}
+        urlBase={urlBase}
+      />
       <AdvanceLink
         urlBase={urlBase}
         activeSection={activeSection}

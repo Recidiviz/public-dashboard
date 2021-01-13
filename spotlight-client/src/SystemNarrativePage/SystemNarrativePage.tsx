@@ -173,11 +173,7 @@ const SystemNarrativePage: React.FC<{
           <NavStickyContainer>
             <SectionNavigation
               activeSection={activeSection}
-              // pagination UI should not respect the scrolling flag;
-              // in fact it should override it, otherwise the buttons
-              // will stop working while the animation is in progress
-              setActiveSection={directlySetActiveSection}
-              totalPages={narrative.sections.length + 1}
+              narrative={narrative}
             />
           </NavStickyContainer>
         </Sticker>
