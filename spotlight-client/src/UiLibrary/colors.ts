@@ -30,5 +30,6 @@ export default {
   footerBackground: pineDark,
   link: pineAccent2,
   rule: gray,
+  ruleHover: "#AFC1C3",
   text: pine,
 };

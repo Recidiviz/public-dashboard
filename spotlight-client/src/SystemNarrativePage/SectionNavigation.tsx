@@ -103,15 +103,13 @@ const SectionLink = styled(Link)`
   margin-bottom: ${rem(THUMB_SIZE.paddingBottom)};
   position: relative;
   width: 100%;
+`;
 
-  &::before {
-    background: ${colors.rule};
-    content: "";
-    display: block;
-    flex: 0 0 auto;
-    height: 100%;
-    width: ${rem(THUMB_SIZE.width)};
-  }
+const SectionLinkBarSegment = styled(animated.div)`
+  display: block;
+  flex: 0 0 auto;
+  height: 100%;
+  width: ${rem(THUMB_SIZE.width)};
 `;
 
 const SectionLinkLabel = styled(animated.div)`
@@ -224,25 +222,43 @@ const SectionNavigation: React.FC<NavigationProps> = ({
   // animating the progress bar background visibility
   const [trackStyles, setTrackStyles] = useSpring(() => ({ opacity: 1 }));
 
-  // animating the section link label visibility
+  // animating the section link hover states
   const [linkLabelHoverStyles, setLinkLabelHoverStyles] = useSprings(
     totalPages,
     () => ({ opacity: 0 })
   );
+  const [linkBarSegmentStyles, setLinkBarSegmentStyles] = useSprings(
+    totalPages,
+    () => ({ background: colors.rule })
+  );
 
-  // convenience methods for animating one label at a time
-  const showLinkLabel = (index: number) => () =>
+  // convenience methods for animating one link's hover state at a time
+  const showLinkLabel = (index: number) => () => {
     // @ts-expect-error type error in current version,
     // https://github.com/pmndrs/react-spring/issues/861
     setLinkLabelHoverStyles((springIndex: number) =>
       springIndex === index ? { opacity: 1 } : { opacity: 0 }
     );
-  const hideLinkLabel = (index: number) => () =>
+    // @ts-expect-error type error in current version,
+    // https://github.com/pmndrs/react-spring/issues/861
+    setLinkBarSegmentStyles((springIndex: number) =>
+      springIndex === index
+        ? { background: colors.ruleHover }
+        : { background: colors.rule }
+    );
+  };
+  const hideLinkLabel = (index: number) => () => {
     // @ts-expect-error type error in current version,
     // https://github.com/pmndrs/react-spring/issues/861
     setLinkLabelHoverStyles((springIndex: number) =>
       springIndex === index ? { opacity: 0 } : {}
     );
+    // @ts-expect-error type error in current version,
+    // https://github.com/pmndrs/react-spring/issues/861
+    setLinkBarSegmentStyles((springIndex: number) =>
+      springIndex === index ? { background: colors.rule } : {}
+    );
+  };
 
   return (
     <SectionNav aria-label="page sections">
@@ -263,6 +279,7 @@ const SectionNavigation: React.FC<NavigationProps> = ({
               onMouseOut={hideLinkLabel(0)}
               onBlur={hideLinkLabel(0)}
             >
+              <SectionLinkBarSegment style={linkBarSegmentStyles[0]} />
               <SectionLinkLabel style={linkLabelHoverStyles[0]}>
                 {narrative.title}
               </SectionLinkLabel>
@@ -270,7 +287,7 @@ const SectionNavigation: React.FC<NavigationProps> = ({
           </SectionListItem>
           {narrative.sections.map((section, index) => {
             return (
-              <SectionListItem>
+              <SectionListItem key={section.title}>
                 <SectionLink
                   to={`${urlBase}/${index + 2}`}
                   onMouseOver={showLinkLabel(index + 1)}
@@ -278,6 +295,9 @@ const SectionNavigation: React.FC<NavigationProps> = ({
                   onMouseOut={hideLinkLabel(index + 1)}
                   onBlur={hideLinkLabel(index + 1)}
                 >
+                  <SectionLinkBarSegment
+                    style={linkBarSegmentStyles[index + 1]}
+                  />
                   <SectionLinkLabel style={linkLabelHoverStyles[index + 1]}>
                     {section.title}
                   </SectionLinkLabel>
