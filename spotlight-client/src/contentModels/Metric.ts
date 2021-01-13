@@ -84,7 +84,7 @@ export default abstract class Metric<RecordFormat = AnyRecord> {
     dataTransformer,
   }: BaseMetricConstructorOptions<RecordFormat>) {
     makeObservable(this, {
-      allRecords: observable,
+      allRecords: observable.ref,
       error: observable,
       fetch: action,
       isLoading: observable,
@@ -131,5 +131,6 @@ export default abstract class Metric<RecordFormat = AnyRecord> {
   get records(): RecordFormat[] | undefined {
     if (this.allRecords) return this.allRecords;
     if (!this.isLoading || !this.error) this.fetch();
+    return undefined;
   }
 }
