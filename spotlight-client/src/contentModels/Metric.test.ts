@@ -18,9 +18,9 @@
 import fetchMock from "jest-fetch-mock";
 import { when } from "mobx";
 import { fromPromise } from "mobx-utils";
-import { createMetricMapping } from "./Metric";
 import retrieveContent from "../contentApi/retrieveContent";
 import { MetricTypeId, MetricTypeIdList } from "../contentApi/types";
+import createMetricMapping from "./createMetricMapping";
 
 const testTenantId = "US_ND";
 const testMetadataMapping = retrieveContent({ tenantId: testTenantId }).metrics;

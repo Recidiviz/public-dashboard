@@ -22,7 +22,7 @@ import {
   TenantId,
 } from "../contentApi/types";
 import { createCollection } from "./Collection";
-import { createMetricMapping } from "./Metric";
+import createMetricMapping from "./createMetricMapping";
 import { createSystemNarrative } from "./SystemNarrative";
 import { CollectionMap, MetricMapping, SystemNarrativeMapping } from "./types";
 

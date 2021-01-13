@@ -19,12 +19,13 @@ import {
   SystemNarrativeContent,
   SystemNarrativeTypeId,
 } from "../contentApi/types";
-import { AnyMetric, isAnyMetric, MetricMapping } from "./types";
+import Metric from "./Metric";
+import { MetricMapping } from "./types";
 
 export type SystemNarrativeSection = {
   title: string;
   body: string;
-  metric: AnyMetric;
+  metric: Metric;
 };
 
 type ConstructorArgs = {
@@ -65,7 +66,7 @@ export function createSystemNarrative({
   // actually exists or else the section is omitted
   content.sections.forEach(({ title, body, metricTypeId }) => {
     const metric = allMetrics[metricTypeId];
-    if (isAnyMetric(metric)) {
+    if (metric instanceof Metric) {
       sections.push({ title, body, metric });
     }
   });

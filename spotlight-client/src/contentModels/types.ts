@@ -27,8 +27,15 @@ import {
   SupervisionSuccessRateDemographicsRecord,
 } from "../metricsApi";
 import type Collection from "./Collection";
-import Metric from "./Metric";
 import SystemNarrative from "./SystemNarrative";
+import DemographicsByCategoryMetric from "./DemographicsByCategoryMetric";
+import HistoricalPopulationBreakdownMetric from "./HistoricalPopulationBreakdownMetric";
+import PopulationBreakdownByLocationMetric from "./PopulationBreakdownByLocationMetric";
+import ProgramParticipationCurrentMetric from "./ProgramParticipationCurrentMetric";
+import RecidivismRateMetric from "./RecidivismRateMetric";
+import SentenceTypeByLocationMetric from "./SentenceTypeByLocationMetric";
+import SupervisionSuccessRateDemographicsMetric from "./SupervisionSuccessRateDemographicsMetric";
+import SupervisionSuccessRateMonthlyMetric from "./SupervisionSuccessRateMonthlyMetric";
 
 // =======================================
 // Collection types
@@ -50,33 +57,29 @@ export type AnyRecord =
   | SupervisionSuccessRateMonthlyRecord
   | SupervisionSuccessRateDemographicsRecord;
 
-export type AnyMetric = Metric<AnyRecord>;
-export function isAnyMetric(metric: unknown): metric is AnyMetric {
-  return metric instanceof Metric;
-}
-
+// TODO: does this even serve a useful purpose anymore?
 export type MetricMapping = {
-  SentencePopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
-  SentenceTypesCurrent?: Metric<SentenceTypeByLocationRecord>;
-  PrisonPopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
-  PrisonPopulationHistorical?: Metric<HistoricalPopulationBreakdownRecord>;
-  PrisonAdmissionReasonsCurrent?: Metric<DemographicsByCategoryRecord>;
-  PrisonStayLengthAggregate?: Metric<DemographicsByCategoryRecord>;
-  PrisonReleaseTypeAggregate?: Metric<DemographicsByCategoryRecord>;
-  PrisonRecidivismRateHistorical?: Metric<RecidivismRateRecord>;
-  PrisonRecidivismRateSingleFollowupHistorical?: Metric<RecidivismRateRecord>;
-  ProbationPopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
-  ProbationPopulationHistorical?: Metric<HistoricalPopulationBreakdownRecord>;
-  ProbationSuccessHistorical?: Metric<SupervisionSuccessRateMonthlyRecord>;
-  ProbationSuccessAggregate?: Metric<SupervisionSuccessRateDemographicsRecord>;
-  ProbationRevocationsAggregate?: Metric<DemographicsByCategoryRecord>;
-  ProbationProgrammingCurrent?: Metric<ProgramParticipationCurrentRecord>;
-  ParolePopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
-  ParolePopulationHistorical?: Metric<HistoricalPopulationBreakdownRecord>;
-  ParoleSuccessHistorical?: Metric<SupervisionSuccessRateMonthlyRecord>;
-  ParoleSuccessAggregate?: Metric<SupervisionSuccessRateDemographicsRecord>;
-  ParoleRevocationsAggregate?: Metric<DemographicsByCategoryRecord>;
-  ParoleProgrammingCurrent?: Metric<ProgramParticipationCurrentRecord>;
+  SentencePopulationCurrent?: PopulationBreakdownByLocationMetric;
+  SentenceTypesCurrent?: SentenceTypeByLocationMetric;
+  PrisonPopulationCurrent?: PopulationBreakdownByLocationMetric;
+  PrisonPopulationHistorical?: HistoricalPopulationBreakdownMetric;
+  PrisonAdmissionReasonsCurrent?: DemographicsByCategoryMetric;
+  PrisonStayLengthAggregate?: DemographicsByCategoryMetric;
+  PrisonReleaseTypeAggregate?: DemographicsByCategoryMetric;
+  PrisonRecidivismRateHistorical?: RecidivismRateMetric;
+  PrisonRecidivismRateSingleFollowupHistorical?: RecidivismRateMetric;
+  ProbationPopulationCurrent?: PopulationBreakdownByLocationMetric;
+  ProbationPopulationHistorical?: HistoricalPopulationBreakdownMetric;
+  ProbationSuccessHistorical?: SupervisionSuccessRateMonthlyMetric;
+  ProbationSuccessAggregate?: SupervisionSuccessRateDemographicsMetric;
+  ProbationRevocationsAggregate?: DemographicsByCategoryMetric;
+  ProbationProgrammingCurrent?: ProgramParticipationCurrentMetric;
+  ParolePopulationCurrent?: PopulationBreakdownByLocationMetric;
+  ParolePopulationHistorical?: HistoricalPopulationBreakdownMetric;
+  ParoleSuccessHistorical?: SupervisionSuccessRateMonthlyMetric;
+  ParoleSuccessAggregate?: SupervisionSuccessRateDemographicsMetric;
+  ParoleRevocationsAggregate?: DemographicsByCategoryMetric;
+  ParoleProgrammingCurrent?: ProgramParticipationCurrentMetric;
 };
 
 // =======================================
