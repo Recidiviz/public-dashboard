@@ -44,14 +44,14 @@ const SectionNav = styled.nav`
   margin-left: ${rem(32)};
 `;
 
-const PageNumber = styled.div`
+const SectionNumber = styled.div`
   font-size: ${rem(13)};
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: ${rem(16)};
 `;
 
-const PageNumberFaded = styled(PageNumber)`
+const SectionNumberFaded = styled(SectionNumber)`
   opacity: 0.3;
 `;
 
@@ -86,14 +86,14 @@ const PageProgressThumb = styled(animated.div)`
   width: 100%;
 `;
 
-const LinkList = styled.ul`
+const SectionList = styled.ul`
   left: 0;
   position: absolute;
   top: 0;
   width: 100%;
 `;
 
-const LinkListItem = styled.li``;
+const SectionListItem = styled.li``;
 
 const SectionLink = styled(Link)`
   color: ${colors.text};
@@ -130,96 +130,9 @@ const StyledNavLink = styled(NavigationLink)`
   padding: ${rem(8)};
 `;
 
-const getThumbOffset = (currentIndex: number) =>
-  currentIndex * (THUMB_SIZE.height + THUMB_SIZE.paddingBottom);
-
-const PageNav: React.FC<NavigationProps & { urlBase: string }> = ({
-  activeSection,
-  narrative,
-  urlBase,
-}) => {
-  const totalPages = narrative.sections.length + 1;
-  const progressBarHeight =
-    (THUMB_SIZE.height + THUMB_SIZE.paddingBottom) * totalPages -
-    // subtract one padding unit so there isn't dangling space after the last one
-    THUMB_SIZE.paddingBottom;
-
-  // sections are 1-indexed for human readability
-  const currentIndex = activeSection - 1;
-
-  const [thumbStyles, setThumbStyles] = useSpring(() => ({
-    top: getThumbOffset(currentIndex),
-  }));
-
-  const [trackStyles, setTrackStyles] = useSpring(() => ({ opacity: 1 }));
-
-  const [linkLabelHoverStyles, setLinkLabelHoverStyles] = useSprings(
-    totalPages,
-    () => ({ opacity: 0 })
-  );
-  const showLabel = (index: number) => () =>
-    // @ts-expect-error type error in current version,
-    // https://github.com/pmndrs/react-spring/issues/861
-    setLinkLabelHoverStyles((springIndex: number) =>
-      springIndex === index ? { opacity: 1 } : { opacity: 0 }
-    );
-  const hideLabel = (index: number) => () =>
-    // @ts-expect-error type error in current version,
-    // https://github.com/pmndrs/react-spring/issues/861
-    setLinkLabelHoverStyles((springIndex: number) =>
-      springIndex === index ? { opacity: 0 } : {}
-    );
-
-  useEffect(() => {
-    setThumbStyles({ top: getThumbOffset(currentIndex) });
-  }, [currentIndex, setThumbStyles]);
-
-  return (
-    <PageProgressContainer>
-      <LinkList
-        onMouseOver={() => setTrackStyles({ opacity: 0 })}
-        onFocus={() => setTrackStyles({ opacity: 0 })}
-        onMouseOut={() => setTrackStyles({ opacity: 1 })}
-        onBlur={() => setTrackStyles({ opacity: 1 })}
-      >
-        <LinkListItem>
-          <SectionLink
-            to={`${urlBase}/1`}
-            onMouseOver={showLabel(0)}
-            onFocus={showLabel(0)}
-            onMouseOut={hideLabel(0)}
-            onBlur={hideLabel(0)}
-          >
-            <SectionLinkLabel style={linkLabelHoverStyles[0]}>
-              {narrative.title}
-            </SectionLinkLabel>
-          </SectionLink>
-        </LinkListItem>
-        {narrative.sections.map((section, index) => {
-          return (
-            <LinkListItem>
-              <SectionLink
-                to={`${urlBase}/${index + 2}`}
-                onMouseOver={showLabel(index + 1)}
-                onFocus={showLabel(index + 1)}
-                onMouseOut={hideLabel(index + 1)}
-                onBlur={hideLabel(index + 1)}
-              >
-                <SectionLinkLabel style={linkLabelHoverStyles[index + 1]}>
-                  {section.title}
-                </SectionLinkLabel>
-              </SectionLink>
-            </LinkListItem>
-          );
-        })}
-      </LinkList>
-      <PageProgressBar style={{ height: rem(progressBarHeight) }}>
-        <PageProgressTrack style={trackStyles} />
-        <PageProgressThumb style={thumbStyles} />
-      </PageProgressBar>
-    </PageProgressContainer>
-  );
-};
+const getThumbOffset = (activeSection: number) =>
+  // section numbers are 1-indexed for human readability
+  (activeSection - 1) * (THUMB_SIZE.height + THUMB_SIZE.paddingBottom);
 
 type AdvanceLinkProps = {
   activeSection: number;
@@ -273,7 +186,6 @@ const SectionNavigation: React.FC<NavigationProps> = ({
   activeSection,
   narrative,
 }) => {
-  const totalPages = narrative.sections.length + 1;
   const { tenantId, narrativeTypeId } = normalizeRouteParams(
     useParams()
     // these keys should always be present on this page
@@ -283,25 +195,102 @@ const SectionNavigation: React.FC<NavigationProps> = ({
       "tenantId" | "narrativeTypeId"
     >
   >;
-
-  const disablePrev = activeSection === 1;
-  const disableNext = activeSection === totalPages;
-
   // base is the current page, minus the section number
   const urlBase = getUrlForResource({
     page: "narrative",
     params: { tenantId, narrativeTypeId },
   });
 
+  // total includes the introduction
+  const totalPages = narrative.sections.length + 1;
+
+  // these will be used to toggle prev/next links
+  const disablePrev = activeSection === 1;
+  const disableNext = activeSection === totalPages;
+
+  const progressBarHeight =
+    (THUMB_SIZE.height + THUMB_SIZE.paddingBottom) * totalPages -
+    // subtract one padding unit so there isn't dangling space after the last one
+    THUMB_SIZE.paddingBottom;
+
+  // animating the progress marker to track the active section
+  const [thumbStyles, setThumbStyles] = useSpring(() => ({
+    top: getThumbOffset(activeSection),
+  }));
+  useEffect(() => {
+    setThumbStyles({ top: getThumbOffset(activeSection) });
+  }, [activeSection, setThumbStyles]);
+
+  // animating the progress bar background visibility
+  const [trackStyles, setTrackStyles] = useSpring(() => ({ opacity: 1 }));
+
+  // animating the section link label visibility
+  const [linkLabelHoverStyles, setLinkLabelHoverStyles] = useSprings(
+    totalPages,
+    () => ({ opacity: 0 })
+  );
+
+  // convenience methods for animating one label at a time
+  const showLinkLabel = (index: number) => () =>
+    // @ts-expect-error type error in current version,
+    // https://github.com/pmndrs/react-spring/issues/861
+    setLinkLabelHoverStyles((springIndex: number) =>
+      springIndex === index ? { opacity: 1 } : { opacity: 0 }
+    );
+  const hideLinkLabel = (index: number) => () =>
+    // @ts-expect-error type error in current version,
+    // https://github.com/pmndrs/react-spring/issues/861
+    setLinkLabelHoverStyles((springIndex: number) =>
+      springIndex === index ? { opacity: 0 } : {}
+    );
+
   return (
     <SectionNav aria-label="page sections">
-      <PageNumber>{formatPageNum(activeSection)}</PageNumber>
-      <PageNumberFaded>{formatPageNum(totalPages)}</PageNumberFaded>
-      <PageNav
-        activeSection={activeSection}
-        narrative={narrative}
-        urlBase={urlBase}
-      />
+      <SectionNumber>{formatPageNum(activeSection)}</SectionNumber>
+      <SectionNumberFaded>{formatPageNum(totalPages)}</SectionNumberFaded>
+      <PageProgressContainer>
+        <SectionList
+          onMouseOver={() => setTrackStyles({ opacity: 0 })}
+          onFocus={() => setTrackStyles({ opacity: 0 })}
+          onMouseOut={() => setTrackStyles({ opacity: 1 })}
+          onBlur={() => setTrackStyles({ opacity: 1 })}
+        >
+          <SectionListItem>
+            <SectionLink
+              to={`${urlBase}/1`}
+              onMouseOver={showLinkLabel(0)}
+              onFocus={showLinkLabel(0)}
+              onMouseOut={hideLinkLabel(0)}
+              onBlur={hideLinkLabel(0)}
+            >
+              <SectionLinkLabel style={linkLabelHoverStyles[0]}>
+                {narrative.title}
+              </SectionLinkLabel>
+            </SectionLink>
+          </SectionListItem>
+          {narrative.sections.map((section, index) => {
+            return (
+              <SectionListItem>
+                <SectionLink
+                  to={`${urlBase}/${index + 2}`}
+                  onMouseOver={showLinkLabel(index + 1)}
+                  onFocus={showLinkLabel(index + 1)}
+                  onMouseOut={hideLinkLabel(index + 1)}
+                  onBlur={hideLinkLabel(index + 1)}
+                >
+                  <SectionLinkLabel style={linkLabelHoverStyles[index + 1]}>
+                    {section.title}
+                  </SectionLinkLabel>
+                </SectionLink>
+              </SectionListItem>
+            );
+          })}
+        </SectionList>
+        <PageProgressBar style={{ height: rem(progressBarHeight) }}>
+          <PageProgressTrack style={trackStyles} />
+          <PageProgressThumb style={thumbStyles} />
+        </PageProgressBar>
+      </PageProgressContainer>
       <AdvanceLink
         urlBase={urlBase}
         activeSection={activeSection}
