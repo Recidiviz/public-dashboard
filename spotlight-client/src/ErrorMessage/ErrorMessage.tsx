@@ -20,10 +20,10 @@ import { FallbackProps } from "react-error-boundary";
 
 const ErrorMessage: React.FC<FallbackProps> = ({ error }) => {
   return (
-    <article>
+    <div>
       <h1>An error has occurred.</h1>
       <p>{error?.message}</p>
-    </article>
+    </div>
   );
 };
 

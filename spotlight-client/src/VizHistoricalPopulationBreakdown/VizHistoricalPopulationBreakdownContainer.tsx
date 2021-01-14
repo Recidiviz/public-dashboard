@@ -17,7 +17,9 @@
 
 import { observer } from "mobx-react-lite";
 import React from "react";
+import { withErrorBoundary } from "react-error-boundary";
 import HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
+import ErrorMessage from "../ErrorMessage";
 import VizHistoricalPopulationBreakdown from "./VizHistoricalPopulationBreakdown";
 
 type VizHistoricalPopulationBreakdownContainerProps = {
@@ -27,10 +29,15 @@ type VizHistoricalPopulationBreakdownContainerProps = {
 const VizHistoricalPopulationBreakdownContainer: React.FC<VizHistoricalPopulationBreakdownContainerProps> = ({
   metric,
 }) => {
-  if (metric.records) {
+  if (metric.records)
     return <VizHistoricalPopulationBreakdown data={metric.records} />;
-  }
+
+  if (metric.error) throw metric.error;
+
   return <div>loading...</div>;
 };
 
-export default observer(VizHistoricalPopulationBreakdownContainer);
+export default withErrorBoundary(
+  observer(VizHistoricalPopulationBreakdownContainer),
+  { FallbackComponent: ErrorMessage }
+);

@@ -139,7 +139,9 @@ test("fetch error state", async () => {
     status: 500,
   });
 
-  await expect(metric.fetch()).rejects.toThrow(
+  await metric.fetch();
+
+  expect(metric.error?.message).toBe(
     "Metrics API responded with status 500. Error message: test error message"
   );
 

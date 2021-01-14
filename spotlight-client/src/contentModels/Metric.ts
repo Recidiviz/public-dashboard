@@ -109,19 +109,21 @@ export default abstract class Metric<RecordFormat = AnyRecord> {
    */
   async fetch(): Promise<void> {
     this.isLoading = true;
-    const apiResponse = await fetchMetrics({
-      metricNames: [this.sourceFileName],
-      tenantId: this.tenantId,
-    });
-    runInAction(() => {
-      if (apiResponse) {
+    try {
+      const apiResponse = await fetchMetrics({
+        metricNames: [this.sourceFileName],
+        tenantId: this.tenantId,
+      });
+      runInAction(() => {
         const metricFileData = apiResponse[this.sourceFileName];
         if (metricFileData) {
           this.allRecords = this.dataTransformer(metricFileData);
         }
         this.isLoading = false;
-      }
-    });
+      });
+    } catch (e) {
+      this.error = e;
+    }
   }
 
   /**
