@@ -15,7 +15,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { CollectionTypeId, SystemNarrativeTypeId } from "../contentApi/types";
+import {
+  CollectionTypeId,
+  MetricTypeId,
+  SystemNarrativeTypeId,
+} from "../contentApi/types";
 import {
   DemographicsByCategoryRecord,
   HistoricalPopulationBreakdownRecord,
@@ -27,15 +31,8 @@ import {
   SupervisionSuccessRateDemographicsRecord,
 } from "../metricsApi";
 import type Collection from "./Collection";
-import SystemNarrative from "./SystemNarrative";
-import DemographicsByCategoryMetric from "./DemographicsByCategoryMetric";
-import HistoricalPopulationBreakdownMetric from "./HistoricalPopulationBreakdownMetric";
-import PopulationBreakdownByLocationMetric from "./PopulationBreakdownByLocationMetric";
-import ProgramParticipationCurrentMetric from "./ProgramParticipationCurrentMetric";
-import RecidivismRateMetric from "./RecidivismRateMetric";
-import SentenceTypeByLocationMetric from "./SentenceTypeByLocationMetric";
-import SupervisionSuccessRateDemographicsMetric from "./SupervisionSuccessRateDemographicsMetric";
-import SupervisionSuccessRateMonthlyMetric from "./SupervisionSuccessRateMonthlyMetric";
+import type SystemNarrative from "./SystemNarrative";
+import type Metric from "./Metric";
 
 // =======================================
 // Collection types
@@ -57,30 +54,7 @@ export type AnyRecord =
   | SupervisionSuccessRateMonthlyRecord
   | SupervisionSuccessRateDemographicsRecord;
 
-// TODO: does this even serve a useful purpose anymore?
-export type MetricMapping = {
-  SentencePopulationCurrent?: PopulationBreakdownByLocationMetric;
-  SentenceTypesCurrent?: SentenceTypeByLocationMetric;
-  PrisonPopulationCurrent?: PopulationBreakdownByLocationMetric;
-  PrisonPopulationHistorical?: HistoricalPopulationBreakdownMetric;
-  PrisonAdmissionReasonsCurrent?: DemographicsByCategoryMetric;
-  PrisonStayLengthAggregate?: DemographicsByCategoryMetric;
-  PrisonReleaseTypeAggregate?: DemographicsByCategoryMetric;
-  PrisonRecidivismRateHistorical?: RecidivismRateMetric;
-  PrisonRecidivismRateSingleFollowupHistorical?: RecidivismRateMetric;
-  ProbationPopulationCurrent?: PopulationBreakdownByLocationMetric;
-  ProbationPopulationHistorical?: HistoricalPopulationBreakdownMetric;
-  ProbationSuccessHistorical?: SupervisionSuccessRateMonthlyMetric;
-  ProbationSuccessAggregate?: SupervisionSuccessRateDemographicsMetric;
-  ProbationRevocationsAggregate?: DemographicsByCategoryMetric;
-  ProbationProgrammingCurrent?: ProgramParticipationCurrentMetric;
-  ParolePopulationCurrent?: PopulationBreakdownByLocationMetric;
-  ParolePopulationHistorical?: HistoricalPopulationBreakdownMetric;
-  ParoleSuccessHistorical?: SupervisionSuccessRateMonthlyMetric;
-  ParoleSuccessAggregate?: SupervisionSuccessRateDemographicsMetric;
-  ParoleRevocationsAggregate?: DemographicsByCategoryMetric;
-  ParoleProgrammingCurrent?: ProgramParticipationCurrentMetric;
-};
+export type MetricMapping = Map<MetricTypeId, Metric>;
 
 // =======================================
 // Narrative types

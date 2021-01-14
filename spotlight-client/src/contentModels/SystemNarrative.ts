@@ -65,7 +65,7 @@ export function createSystemNarrative({
   // building sections in a type-safe way: make sure the related metric
   // actually exists or else the section is omitted
   content.sections.forEach(({ title, body, metricTypeId }) => {
-    const metric = allMetrics[metricTypeId];
+    const metric = allMetrics.get(metricTypeId);
     if (metric instanceof Metric) {
       sections.push({ title, body, metric });
     }

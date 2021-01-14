@@ -16,11 +16,7 @@
 // =============================================================================
 
 import { assertNever } from "assert-never";
-import {
-  CollectionTypeId,
-  MetricTypeId,
-  MetricTypeIdList,
-} from "../contentApi/types";
+import { CollectionTypeId, MetricTypeId } from "../contentApi/types";
 import { MetricMapping } from "./types";
 
 type InitOptions = {
@@ -56,16 +52,11 @@ function getCollectionMetricMapping({
   allMetrics: MetricMapping;
   idsToInclude: MetricTypeId[];
 }): MetricMapping {
-  const filteredMetricMapping = { ...allMetrics };
-
-  // filter out all but the included keys
-  MetricTypeIdList.forEach((metricId) => {
-    if (!idsToInclude.includes(metricId)) {
-      delete filteredMetricMapping[metricId];
-    }
-  });
-
-  return filteredMetricMapping;
+  return new Map(
+    Array.from(allMetrics).filter(([metricId]) =>
+      idsToInclude.includes(metricId)
+    )
+  );
 }
 
 /**

@@ -35,7 +35,7 @@ const getTestMapping = () =>
 let testMetricMapping: ReturnType<typeof createMetricMapping>;
 
 function getTestMetric(testMetricId: MetricTypeId) {
-  const metric = testMetricMapping[testMetricId];
+  const metric = testMetricMapping.get(testMetricId);
 
   if (!metric) {
     throw new Error("expected instance of Metric");
