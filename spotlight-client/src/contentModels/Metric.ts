@@ -22,7 +22,7 @@ import {
   observable,
   runInAction,
 } from "mobx";
-import { MetricTypeId, TenantId } from "../contentApi/types";
+import { TenantId } from "../contentApi/types";
 import { fetchMetrics, RawMetricData } from "../metricsApi";
 import {
   DemographicFields,
@@ -34,7 +34,6 @@ import {
 import { AnyRecord, CollectionMap } from "./types";
 
 type BaseMetricConstructorOptions<RecordFormat = AnyRecord> = {
-  id: MetricTypeId;
   name: string;
   description: string;
   methodology: string;
@@ -58,9 +57,6 @@ type BaseMetricConstructorOptions<RecordFormat = AnyRecord> = {
  */
 export default abstract class Metric<RecordFormat = AnyRecord> {
   // metadata properties
-  // TODO: do we actually need this property?
-  readonly id: MetricTypeId;
-
   readonly description: string;
 
   readonly methodology: string;
@@ -93,7 +89,6 @@ export default abstract class Metric<RecordFormat = AnyRecord> {
     : undefined;
 
   constructor({
-    id,
     name,
     description,
     methodology,
@@ -112,7 +107,6 @@ export default abstract class Metric<RecordFormat = AnyRecord> {
     });
 
     // initialize metadata
-    this.id = id;
     this.name = name;
     this.description = description;
     this.methodology = methodology;
