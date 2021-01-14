@@ -30,7 +30,7 @@ import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { colors, typefaces, Chevron } from "../UiLibrary";
 import { X_PADDING } from "./constants";
 import Section from "./Section";
-import SectionNavigation from "./SectionNavigation";
+import NarrativeNavigation from "../NarrativeNavigation";
 
 const Container = styled.article`
   display: flex;
@@ -171,13 +171,9 @@ const SystemNarrativePage: React.FC<{
       <NavContainer>
         <Sticker>
           <NavStickyContainer>
-            <SectionNavigation
+            <NarrativeNavigation
               activeSection={activeSection}
-              // pagination UI should not respect the scrolling flag;
-              // in fact it should override it, otherwise the buttons
-              // will stop working while the animation is in progress
-              setActiveSection={directlySetActiveSection}
-              totalPages={narrative.sections.length + 1}
+              narrative={narrative}
             />
           </NavStickyContainer>
         </Sticker>

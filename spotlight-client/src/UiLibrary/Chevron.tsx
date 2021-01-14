@@ -16,19 +16,26 @@
 // =============================================================================
 
 import React from "react";
+import { animated, useSpring } from "react-spring/web.cjs";
 import { colors } from ".";
 
-type ArrowProps = {
+type ChevronProps = {
+  color?: string;
   direction: "up" | "down";
   faded?: boolean;
 };
 
-const Chevron: React.FC<ArrowProps> = ({ direction, faded }) => {
+const Chevron: React.FC<ChevronProps> = ({ color, direction, faded }) => {
   let transform;
 
   if (direction === "up") {
     transform = "rotate(180 7 3.5)";
   }
+
+  const opacityProp = useSpring({ opacity: faded ? 0.3 : 1 });
+  const colorProp = useSpring({
+    color: color || colors.text,
+  });
 
   return (
     <svg
@@ -39,12 +46,12 @@ const Chevron: React.FC<ArrowProps> = ({ direction, faded }) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path
+      <animated.path
         d="M1 0.5L7 6.5L13 0.5"
-        stroke={colors.text}
+        stroke={colorProp.color}
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeOpacity={faded ? 0.3 : 1}
+        strokeOpacity={opacityProp.opacity}
         transform={transform}
       />
     </svg>
