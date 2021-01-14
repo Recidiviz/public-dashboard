@@ -24,6 +24,13 @@ import {
 } from "mobx";
 import { MetricTypeId, TenantId } from "../contentApi/types";
 import { fetchMetrics, RawMetricData } from "../metricsApi";
+import {
+  DemographicFields,
+  DemographicView,
+  LocalityFields,
+  NOFILTER_KEY,
+  recordIsTotalByDimension,
+} from "../metricsApi/utils";
 import { AnyRecord, CollectionMap } from "./types";
 
 type BaseMetricConstructorOptions<RecordFormat = AnyRecord> = {
@@ -34,6 +41,10 @@ type BaseMetricConstructorOptions<RecordFormat = AnyRecord> = {
   tenantId: TenantId;
   sourceFileName: string;
   dataTransformer: (d: RawMetricData) => RecordFormat[];
+  defaultDemographicView: RecordFormat extends DemographicFields
+    ? DemographicView
+    : undefined;
+  defaultLocalityId: RecordFormat extends LocalityFields ? string : undefined;
 };
 
 /**
@@ -74,6 +85,13 @@ export default abstract class Metric<RecordFormat = AnyRecord> {
 
   error?: Error;
 
+  // filter properties
+  localityId: RecordFormat extends LocalityFields ? string : undefined;
+
+  demographicView: RecordFormat extends DemographicFields
+    ? DemographicView
+    : undefined;
+
   constructor({
     id,
     name,
@@ -82,6 +100,8 @@ export default abstract class Metric<RecordFormat = AnyRecord> {
     tenantId,
     sourceFileName,
     dataTransformer,
+    defaultDemographicView,
+    defaultLocalityId,
   }: BaseMetricConstructorOptions<RecordFormat>) {
     makeObservable(this, {
       allRecords: observable.ref,
@@ -101,6 +121,10 @@ export default abstract class Metric<RecordFormat = AnyRecord> {
     this.tenantId = tenantId;
     this.sourceFileName = sourceFileName;
     this.dataTransformer = dataTransformer;
+
+    // initialize filters
+    this.localityId = defaultLocalityId;
+    this.demographicView = defaultDemographicView;
   }
 
   /**
@@ -127,11 +151,30 @@ export default abstract class Metric<RecordFormat = AnyRecord> {
   }
 
   /**
-   * Returns fetched and transformed data for this metric.
+   * Returns fetched, transformed, and (optionally) filtered data for this metric.
    * Will automatically initiate a fetch if necessary.
    */
   get records(): RecordFormat[] | undefined {
-    if (this.allRecords) return this.allRecords;
+    let recordsToReturn = this.allRecords;
+    if (recordsToReturn) {
+      // TODO: TS can't figure out these subtypes and I have to manually cast them? can this be fixed?
+      if (this.localityId && this.localityId !== NOFILTER_KEY) {
+        recordsToReturn = recordsToReturn.filter(
+          (record) =>
+            ((record as unknown) as LocalityFields).locality === this.localityId
+        );
+      }
+
+      if (this.demographicView) {
+        const view = this.demographicView as DemographicView;
+        if (view !== NOFILTER_KEY) {
+          recordsToReturn = (((recordsToReturn as unknown) as DemographicFields[]).filter(
+            recordIsTotalByDimension(view)
+          ) as unknown) as RecordFormat[];
+        }
+      }
+      return recordsToReturn;
+    }
     if (!this.isLoading || !this.error) this.fetch();
     return undefined;
   }

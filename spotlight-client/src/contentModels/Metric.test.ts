@@ -16,10 +16,11 @@
 // =============================================================================
 
 import fetchMock from "jest-fetch-mock";
-import { when } from "mobx";
+import { runInAction, when } from "mobx";
 import { fromPromise } from "mobx-utils";
 import retrieveContent from "../contentApi/retrieveContent";
 import { MetricTypeId, MetricTypeIdList } from "../contentApi/types";
+import { reactImmediately } from "../testUtils";
 import createMetricMapping from "./createMetricMapping";
 
 const testTenantId = "US_ND";
@@ -141,11 +142,46 @@ test("fetch error state", async () => {
 
   await metric.fetch();
 
-  expect(metric.error?.message).toBe(
-    "Metrics API responded with status 500. Error message: test error message"
-  );
+  reactImmediately(() => {
+    expect(metric.error?.message).toBe(
+      "Metrics API responded with status 500. Error message: test error message"
+    );
+  });
+
+  expect.hasAssertions();
 
   fetchMock.resetMocks();
   // return the mock to its default inactive state
   fetchMock.dontMock();
+});
+
+test("demographic filter", async () => {
+  testMetricMapping = getTestMapping();
+  // one of several metric types that supports this type of filter
+  // (and will result in a relatively small snapshot!)
+  const metric = getTestMetric("ProbationRevocationsAggregate");
+
+  metric.fetch();
+
+  await when(() => metric.records !== undefined);
+
+  runInAction(() => {
+    metric.demographicView = "gender";
+  });
+
+  reactImmediately(() => expect(metric.records).toMatchSnapshot());
+
+  runInAction(() => {
+    metric.demographicView = "race";
+  });
+
+  reactImmediately(() => expect(metric.records).toMatchSnapshot());
+
+  runInAction(() => {
+    metric.demographicView = "age";
+  });
+
+  reactImmediately(() => expect(metric.records).toMatchSnapshot());
+
+  expect.hasAssertions();
 });

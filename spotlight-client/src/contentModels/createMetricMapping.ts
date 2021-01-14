@@ -49,6 +49,7 @@ import RecidivismRateMetric from "./RecidivismRateMetric";
 import SentenceTypeByLocationMetric from "./SentenceTypeByLocationMetric";
 import SupervisionSuccessRateDemographicsMetric from "./SupervisionSuccessRateDemographicsMetric";
 import SupervisionSuccessRateMonthlyMetric from "./SupervisionSuccessRateMonthlyMetric";
+import { NOFILTER_KEY, TOTAL_KEY } from "../metricsApi/utils";
 
 type MetricMappingFactoryOptions = {
   metadataMapping: TenantContent["metrics"];
@@ -84,6 +85,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: NOFILTER_KEY,
+          defaultLocalityId: NOFILTER_KEY,
           dataTransformer: sentencePopulationCurrent,
           sourceFileName: "sentence_type_by_district_by_demographics",
         });
@@ -93,6 +96,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: "total",
+          defaultLocalityId: TOTAL_KEY,
           dataTransformer: sentenceTypesCurrent,
           sourceFileName: "sentence_type_by_district_by_demographics",
         });
@@ -102,6 +107,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: NOFILTER_KEY,
+          defaultLocalityId: NOFILTER_KEY,
           dataTransformer: prisonPopulationCurrent,
           sourceFileName:
             "incarceration_population_by_facility_by_demographics",
@@ -112,6 +119,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: NOFILTER_KEY,
+          defaultLocalityId: NOFILTER_KEY,
           dataTransformer: probationPopulationCurrent,
           sourceFileName: "supervision_population_by_district_by_demographics",
         });
@@ -121,6 +130,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: NOFILTER_KEY,
+          defaultLocalityId: NOFILTER_KEY,
           dataTransformer: parolePopulationCurrent,
           sourceFileName: "supervision_population_by_district_by_demographics",
         });
@@ -130,6 +141,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: "total",
+          defaultLocalityId: undefined,
           dataTransformer: prisonPopulationHistorical,
           sourceFileName: "incarceration_population_by_month_by_demographics",
         });
@@ -139,6 +152,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: "total",
+          defaultLocalityId: undefined,
           dataTransformer: probationPopulationHistorical,
           sourceFileName: "supervision_population_by_month_by_demographics",
         });
@@ -148,6 +163,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: "total",
+          defaultLocalityId: undefined,
           dataTransformer: parolePopulationHistorical,
           sourceFileName: "supervision_population_by_month_by_demographics",
         });
@@ -157,6 +174,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: undefined,
+          defaultLocalityId: NOFILTER_KEY,
           dataTransformer: probationProgramParticipationCurrent,
           sourceFileName: "active_program_participation_by_region",
         });
@@ -166,6 +185,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: undefined,
+          defaultLocalityId: NOFILTER_KEY,
           dataTransformer: paroleProgramParticipationCurrent,
           sourceFileName: "active_program_participation_by_region",
         });
@@ -175,6 +196,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: undefined,
+          defaultLocalityId: TOTAL_KEY,
           dataTransformer: probationSuccessRateMonthly,
           sourceFileName: "supervision_success_by_month",
         });
@@ -184,6 +207,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: undefined,
+          defaultLocalityId: TOTAL_KEY,
           dataTransformer: paroleSuccessRateMonthly,
           sourceFileName: "supervision_success_by_month",
         });
@@ -195,6 +220,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: "total",
+          defaultLocalityId: TOTAL_KEY,
           dataTransformer: probationSuccessRateDemographics,
           sourceFileName: "supervision_success_by_period_by_demographics",
         });
@@ -206,6 +233,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: "total",
+          defaultLocalityId: TOTAL_KEY,
           dataTransformer: paroleSuccessRateDemographics,
           sourceFileName: "supervision_success_by_period_by_demographics",
         });
@@ -215,6 +244,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: "total",
+          defaultLocalityId: undefined,
           dataTransformer: probationRevocationReasons,
           sourceFileName:
             "supervision_revocations_by_period_by_type_by_demographics",
@@ -225,6 +256,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: "total",
+          defaultLocalityId: undefined,
           dataTransformer: paroleRevocationReasons,
           sourceFileName:
             "supervision_revocations_by_period_by_type_by_demographics",
@@ -235,6 +268,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: "total",
+          defaultLocalityId: undefined,
           dataTransformer: prisonAdmissionReasons,
           sourceFileName: "incarceration_population_by_admission_reason",
         });
@@ -244,6 +279,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: "total",
+          defaultLocalityId: undefined,
           dataTransformer: prisonReleaseTypes,
           sourceFileName: "incarceration_releases_by_type_by_period",
         });
@@ -253,6 +290,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: "total",
+          defaultLocalityId: undefined,
           dataTransformer: recidivismRateAllFollowup,
           sourceFileName: "recidivism_rates_by_cohort_by_year",
         });
@@ -262,6 +301,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: "total",
+          defaultLocalityId: undefined,
           dataTransformer: recidivismRateConventionalFollowup,
           sourceFileName: "recidivism_rates_by_cohort_by_year",
         });
@@ -271,6 +312,8 @@ export default function createMetricMapping({
           ...metadata,
           id: metricType,
           tenantId,
+          defaultDemographicView: "total",
+          defaultLocalityId: undefined,
           dataTransformer: prisonStayLengths,
           sourceFileName: "incarceration_lengths_by_demographics",
         });
