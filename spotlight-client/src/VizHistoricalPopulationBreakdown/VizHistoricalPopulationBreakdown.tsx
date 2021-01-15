@@ -15,7 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { startOfMonth } from "date-fns";
 import React from "react";
+import { WindowedTimeSeries } from "../charts";
 import { HistoricalPopulationBreakdownRecord } from "../metricsApi";
 
 type VizHistoricalPopulationBreakdownProps = {
@@ -25,8 +27,15 @@ type VizHistoricalPopulationBreakdownProps = {
 const VizHistoricalPopulationBreakdown: React.FC<VizHistoricalPopulationBreakdownProps> = ({
   data,
 }) => {
-  // Just a proof-of-concept on data handling for now
-  return <div>{data.length} records found</div>;
+  const defaultRangeEnd = startOfMonth(new Date());
+
+  return (
+    <WindowedTimeSeries
+      data={data}
+      setTimeRangeId={() => undefined}
+      defaultRangeEnd={defaultRangeEnd}
+    />
+  );
 };
 
 export default VizHistoricalPopulationBreakdown;

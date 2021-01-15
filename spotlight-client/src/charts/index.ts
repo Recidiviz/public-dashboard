@@ -15,23 +15,5 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { ascending } from "d3-array";
-import {
-  HistoricalPopulationBreakdownRecord,
-  recordIsTotalByDimension,
-} from "../metricsApi";
-import Metric from "./Metric";
-
-export default class HistoricalPopulationBreakdownMetric extends Metric<
-  HistoricalPopulationBreakdownRecord
-> {
-  get records(): HistoricalPopulationBreakdownRecord[] | undefined {
-    let recordsToReturn = this.getOrFetchRecords();
-    if (!recordsToReturn) return undefined;
-
-    recordsToReturn = recordsToReturn.filter(
-      recordIsTotalByDimension(this.demographicView)
-    );
-    return recordsToReturn.sort((a, b) => ascending(a.date, b.date));
-  }
-}
+// eslint-disable-next-line import/prefer-default-export
+export { default as WindowedTimeSeries } from "./WindowedTimeSeries";
