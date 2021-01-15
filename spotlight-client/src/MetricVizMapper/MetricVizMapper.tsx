@@ -19,9 +19,10 @@ import React from "react";
 import Metric from "../contentModels/Metric";
 import HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import VizHistoricalPopulationBreakdown from "../VizHistoricalPopulationBreakdown";
+import { MetricRecord } from "../contentModels/types";
 
 type MetricVizMapperProps = {
-  metric: Metric;
+  metric: Metric<MetricRecord>;
 };
 
 const MetricVizMapper: React.FC<MetricVizMapperProps> = ({ metric }) => {

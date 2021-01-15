@@ -23,6 +23,7 @@ import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import Metric from "../contentModels/Metric";
 import { SystemNarrativeSection } from "../contentModels/SystemNarrative";
+import { MetricRecord } from "../contentModels/types";
 import MetricVizMapper from "../MetricVizMapper";
 import { colors, typefaces } from "../UiLibrary";
 import { X_PADDING } from "./constants";
@@ -65,7 +66,7 @@ const VizContainer = styled.div`
   padding: ${rem(240)} 0;
 `;
 
-const SectionViz: React.FC<{ metric: Metric }> = ({ metric }) => {
+const SectionViz: React.FC<{ metric: Metric<MetricRecord> }> = ({ metric }) => {
   return (
     <VizContainer>
       <MetricVizMapper metric={metric} />

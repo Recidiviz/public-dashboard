@@ -20,12 +20,12 @@ import {
   SystemNarrativeTypeId,
 } from "../contentApi/types";
 import Metric from "./Metric";
-import { MetricMapping } from "./types";
+import { MetricMapping, MetricRecord } from "./types";
 
 export type SystemNarrativeSection = {
   title: string;
   body: string;
-  metric: Metric;
+  metric: Metric<MetricRecord>;
 };
 
 type ConstructorArgs = {

@@ -44,7 +44,7 @@ export type CollectionMap = Map<CollectionTypeId, Collection | undefined>;
 // Metric types
 // =======================================
 
-export type AnyRecord =
+export type MetricRecord =
   | DemographicsByCategoryRecord
   | HistoricalPopulationBreakdownRecord
   | PopulationBreakdownByLocationRecord
@@ -54,7 +54,7 @@ export type AnyRecord =
   | SupervisionSuccessRateMonthlyRecord
   | SupervisionSuccessRateDemographicsRecord;
 
-export type MetricMapping = Map<MetricTypeId, Metric>;
+export type MetricMapping = Map<MetricTypeId, Metric<MetricRecord>>;
 
 // =======================================
 // Narrative types

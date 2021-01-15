@@ -97,11 +97,15 @@ export const NOFILTER_KEY: NoFilterIdentifier = "nofilter";
 
 /**
  * Returns a filter predicate for the specified demographic view
- * that will exclude totals and breakdowns for all other views
+ * that will exclude totals and breakdowns for all other views.
+ * Respects a special bypass value (see `NOFILTER_KEY`)
  */
 export function recordIsTotalByDimension(
-  demographicView: Exclude<DemographicView, NoFilterIdentifier>
-): (record: DemographicFields) => boolean {
+  demographicView: DemographicView
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): (record: Record<string, any>) => boolean {
+  if (demographicView === NOFILTER_KEY) return () => true;
+
   const keysEnum = { ...DIMENSION_DATA_KEYS };
 
   if (demographicView !== "total") {
@@ -123,4 +127,16 @@ export function recordIsTotalByDimension(
 
     return match;
   };
+}
+
+/**
+ * Returns a filter predicate for the specified locality value
+ * that respects a special bypass value (see `NOFILTER_KEY`)
+ */
+export function recordMatchesLocality(
+  locality: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): (record: Record<string, any>) => boolean {
+  if (locality === NOFILTER_KEY) return () => true;
+  return (record) => record.locality === locality;
 }

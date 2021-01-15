@@ -23,17 +23,18 @@ import {
   runInAction,
 } from "mobx";
 import { TenantId } from "../contentApi/types";
-import { fetchMetrics, RawMetricData } from "../metricsApi";
 import {
+  fetchMetrics,
+  RawMetricData,
   DemographicFields,
   DemographicView,
   LocalityFields,
-  NOFILTER_KEY,
   recordIsTotalByDimension,
-} from "../metricsApi/utils";
-import { AnyRecord, CollectionMap } from "./types";
+  recordMatchesLocality,
+} from "../metricsApi";
+import { MetricRecord, CollectionMap } from "./types";
 
-type BaseMetricConstructorOptions<RecordFormat = AnyRecord> = {
+type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   name: string;
   description: string;
   methodology: string;
@@ -55,7 +56,7 @@ type BaseMetricConstructorOptions<RecordFormat = AnyRecord> = {
  * `createMetricMapping` function, which is defined in its own module to
  * prevent cyclic dependencies in their respective class declarations.
  */
-export default abstract class Metric<RecordFormat = AnyRecord> {
+export default abstract class Metric<RecordFormat extends MetricRecord> {
   // metadata properties
   readonly description: string;
 
@@ -151,21 +152,18 @@ export default abstract class Metric<RecordFormat = AnyRecord> {
   get records(): RecordFormat[] | undefined {
     let recordsToReturn = this.allRecords;
     if (recordsToReturn) {
-      // TODO: TS can't figure out these subtypes and I have to manually cast them? can this be fixed?
-      if (this.localityId && this.localityId !== NOFILTER_KEY) {
+      if (this.localityId) {
         recordsToReturn = recordsToReturn.filter(
-          (record) =>
-            ((record as unknown) as LocalityFields).locality === this.localityId
+          // TS can't seem to resolve this conditional type even after the conditional
+          recordMatchesLocality(this.localityId as string)
         );
       }
 
       if (this.demographicView) {
-        const view = this.demographicView as DemographicView;
-        if (view !== NOFILTER_KEY) {
-          recordsToReturn = (((recordsToReturn as unknown) as DemographicFields[]).filter(
-            recordIsTotalByDimension(view)
-          ) as unknown) as RecordFormat[];
-        }
+        recordsToReturn = recordsToReturn.filter(
+          // TS can't seem to resolve this conditional type even after the conditional
+          recordIsTotalByDimension(this.demographicView as DemographicView)
+        );
       }
       return recordsToReturn;
     }
