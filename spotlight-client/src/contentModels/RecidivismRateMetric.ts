@@ -15,9 +15,17 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { RecidivismRateRecord } from "../metricsApi";
+import { RecidivismRateRecord, recordIsTotalByDimension } from "../metricsApi";
 import Metric from "./Metric";
 
-export default class RecidivismRateMetric extends Metric<
-  RecidivismRateRecord
-> {}
+export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
+  get records(): RecidivismRateRecord[] | undefined {
+    let recordsToReturn = this.getOrFetchRecords();
+    if (!recordsToReturn) return undefined;
+
+    recordsToReturn = recordsToReturn.filter(
+      recordIsTotalByDimension(this.demographicView)
+    );
+    return recordsToReturn;
+  }
+}

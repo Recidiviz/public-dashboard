@@ -15,9 +15,22 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { DemographicsByCategoryRecord } from "../metricsApi";
+import {
+  DemographicsByCategoryRecord,
+  recordIsTotalByDimension,
+} from "../metricsApi";
 import Metric from "./Metric";
 
 export default class DemographicsByCategoryMetric extends Metric<
   DemographicsByCategoryRecord
-> {}
+> {
+  get records(): DemographicsByCategoryRecord[] | undefined {
+    let recordsToReturn = this.getOrFetchRecords();
+    if (!recordsToReturn) return undefined;
+
+    recordsToReturn = recordsToReturn.filter(
+      recordIsTotalByDimension(this.demographicView)
+    );
+    return recordsToReturn;
+  }
+}

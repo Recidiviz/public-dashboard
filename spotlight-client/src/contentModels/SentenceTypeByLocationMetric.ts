@@ -15,9 +15,27 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { SentenceTypeByLocationRecord } from "../metricsApi";
+import {
+  recordIsTotalByDimension,
+  recordMatchesLocality,
+  SentenceTypeByLocationRecord,
+} from "../metricsApi";
 import Metric from "./Metric";
 
 export default class SentenceTypeByLocationMetric extends Metric<
   SentenceTypeByLocationRecord
-> {}
+> {
+  get records(): SentenceTypeByLocationRecord[] | undefined {
+    let recordsToReturn = this.getOrFetchRecords();
+    if (!recordsToReturn) return undefined;
+
+    recordsToReturn = recordsToReturn.filter(
+      recordMatchesLocality(this.localityId)
+    );
+
+    recordsToReturn = recordsToReturn.filter(
+      recordIsTotalByDimension(this.demographicView)
+    );
+    return recordsToReturn;
+  }
+}

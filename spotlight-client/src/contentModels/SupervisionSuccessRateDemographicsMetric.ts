@@ -15,9 +15,27 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { SupervisionSuccessRateDemographicsRecord } from "../metricsApi";
+import {
+  recordIsTotalByDimension,
+  recordMatchesLocality,
+  SupervisionSuccessRateDemographicsRecord,
+} from "../metricsApi";
 import Metric from "./Metric";
 
 export default class SupervisionSuccessRateDemographicsMetric extends Metric<
   SupervisionSuccessRateDemographicsRecord
-> {}
+> {
+  get records(): SupervisionSuccessRateDemographicsRecord[] | undefined {
+    let recordsToReturn = this.getOrFetchRecords();
+    if (!recordsToReturn) return undefined;
+
+    recordsToReturn = recordsToReturn.filter(
+      recordMatchesLocality(this.localityId)
+    );
+
+    recordsToReturn = recordsToReturn.filter(
+      recordIsTotalByDimension(this.demographicView)
+    );
+    return recordsToReturn;
+  }
+}

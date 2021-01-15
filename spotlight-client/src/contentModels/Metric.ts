@@ -29,8 +29,6 @@ import {
   DemographicFields,
   DemographicView,
   LocalityFields,
-  recordIsTotalByDimension,
-  recordMatchesLocality,
 } from "../metricsApi";
 import { MetricRecord, CollectionMap } from "./types";
 
@@ -149,25 +147,13 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
    * Returns fetched, transformed, and (optionally) filtered data for this metric.
    * Will automatically initiate a fetch if necessary.
    */
-  get records(): RecordFormat[] | undefined {
-    let recordsToReturn = this.allRecords;
-    if (recordsToReturn) {
-      if (this.localityId) {
-        recordsToReturn = recordsToReturn.filter(
-          // TS can't seem to resolve this conditional type even after the conditional
-          recordMatchesLocality(this.localityId as string)
-        );
-      }
-
-      if (this.demographicView) {
-        recordsToReturn = recordsToReturn.filter(
-          // TS can't seem to resolve this conditional type even after the conditional
-          recordIsTotalByDimension(this.demographicView as DemographicView)
-        );
-      }
-      return recordsToReturn;
-    }
+  protected getOrFetchRecords(): RecordFormat[] | undefined {
+    if (this.allRecords) return this.allRecords;
     if (!this.isLoading || !this.error) this.fetch();
     return undefined;
+  }
+
+  get records(): RecordFormat[] | undefined {
+    return this.getOrFetchRecords();
   }
 }

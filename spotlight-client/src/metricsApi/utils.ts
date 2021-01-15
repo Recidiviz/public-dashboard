@@ -102,8 +102,7 @@ export const NOFILTER_KEY: NoFilterIdentifier = "nofilter";
  */
 export function recordIsTotalByDimension(
   demographicView: DemographicView
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): (record: Record<string, any>) => boolean {
+): (record: DemographicFields) => boolean {
   if (demographicView === NOFILTER_KEY) return () => true;
 
   const keysEnum = { ...DIMENSION_DATA_KEYS };
@@ -135,8 +134,7 @@ export function recordIsTotalByDimension(
  */
 export function recordMatchesLocality(
   locality: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): (record: Record<string, any>) => boolean {
+): (record: LocalityFields) => boolean {
   if (locality === NOFILTER_KEY) return () => true;
   return (record) => record.locality === locality;
 }
