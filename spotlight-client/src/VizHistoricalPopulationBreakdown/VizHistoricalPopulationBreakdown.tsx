@@ -25,7 +25,8 @@ type VizHistoricalPopulationBreakdownProps = {
 const VizHistoricalPopulationBreakdown: React.FC<VizHistoricalPopulationBreakdownProps> = ({
   data,
 }) => {
-  return <div>{JSON.stringify(data[0])}</div>;
+  // Just a proof-of-concept on data handling for now
+  return <div>{data.length} records found</div>;
 };
 
 export default VizHistoricalPopulationBreakdown;
