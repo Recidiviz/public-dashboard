@@ -25,15 +25,14 @@ import React, { useCallback, useEffect, useState } from "react";
 import Measure from "react-measure";
 import MinimapXYFrame from "semiotic/lib/MinimapXYFrame";
 import styled from "styled-components/macro";
-import { colors } from "../UiLibrary";
+import { animation, colors } from "../UiLibrary";
 import { formatAsNumber } from "../utils";
 import BaseChartWrapper from "./ChartWrapper";
 import { getDataWithPct, highlightFade } from "./utils";
 import ColorLegend from "./ColorLegend";
-// TODO: this magic string comes from somewhere
-// import { CUSTOM_ID } from "../controls/TwoYearRangeControl";
 import XHoverController from "./XHoverController";
 
+// TODO(#278): this should come from filters once they are implemented
 const CUSTOM_ID = "custom";
 
 const CHART_HEIGHT = 430;
@@ -66,8 +65,7 @@ const getDateLabel = (date) => format(date, "MMM d y");
 
 const BASE_MARK_PROPS = {
   transitionDuration: {
-    // TODO: animation settings?
-    fill: 500,
+    fill: animation.defaultDuration,
   },
 };
 

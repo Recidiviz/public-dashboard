@@ -38,6 +38,12 @@ beforeEach(() => {
   }
 });
 
+afterEach(() => {
+  runInAction(() => {
+    DataStore.tenantStore.currentTenantId = undefined;
+  });
+});
+
 test("loading", () => {
   render(<VizHistoricalPopulationBreakdown metric={metric} />, {
     wrapper: InfoPanelProvider,
@@ -57,11 +63,20 @@ test("renders total", async () => {
       }).length
     ).toBe(2); // there are 2 because one is the minimap
   });
+
   expect(
     screen.getByRole("img", {
-      // TODO: this text seems ... questionable?
+      // this text looks a little questionable, but that's because our test fixture
+      // is not totally realistic (the real one has near-daily updates to keep moving
+      // the 20-year window to the current month). It will include more than 240 points
+      // if they are present in the data.
       name:
         "248 point stacked area starting value 961 at Jan 2000 ending value 1,321 at Aug 2020",
     })
   ).toBeVisible();
 });
+
+// TODO(#278): There should be not less than 240 points
+test.todo("fills in missing data");
+// TODO(#278): plots filtered data once filter UI is implemented
+test.todo("plots demographic categories");

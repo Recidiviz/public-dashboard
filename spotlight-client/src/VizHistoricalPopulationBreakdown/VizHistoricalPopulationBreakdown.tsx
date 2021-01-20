@@ -29,7 +29,7 @@ const VizHistoricalPopulationBreakdown: React.FC<VizHistoricalPopulationBreakdow
   data,
   error,
 }) => {
-  // TODO: filters
+  // TODO(#278): implement filter UI to change this
   const defaultRangeEnd = startOfMonth(new Date());
 
   if (data)

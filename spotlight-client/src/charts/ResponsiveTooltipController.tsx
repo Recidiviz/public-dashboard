@@ -18,19 +18,16 @@
 import useBreakpoint from "@w11r/use-breakpoint";
 import isEmpty from "lodash.isempty";
 import React, { useEffect, useState } from "react";
-import { useInfoPanelDispatch, useInfoPanelState } from "../InfoPanel";
+import { AnnotationType } from "semiotic/lib/types/annotationTypes";
+import {
+  TooltipContentProps,
+  useInfoPanelDispatch,
+  useInfoPanelState,
+} from "../InfoPanel";
 import Tooltip, { TooltipProps } from "../Tooltip";
 import { ItemToHighlight } from "./types";
 
-// TODO: does this make sense? Can this come from semiotic?
-type SemioticDataPoint = {
-  label: string;
-  value: number;
-  pct: number;
-  [key: string]: any;
-};
-
-function chartDataToTooltipProps({ label, value, pct }: SemioticDataPoint) {
+function chartDataToTooltipProps({ label, value, pct }: TooltipContentProps) {
   return {
     title: label,
     records: [
@@ -42,14 +39,12 @@ function chartDataToTooltipProps({ label, value, pct }: SemioticDataPoint) {
   };
 }
 
-// TODO: can we import these from semiotic? can we type them more strongly?
-type SemioticChildProps = Record<string, any>;
-type AnnotationSpec = Record<string, any>;
+type SemioticChildProps = Record<string, unknown>;
 
 export type ResponsiveTooltipControllerProps = {
-  customHoverBehavior?: (record: SemioticDataPoint) => void;
-  getTooltipProps?: (record: SemioticDataPoint) => TooltipProps;
-  hoverAnnotation?: boolean | AnnotationSpec[];
+  customHoverBehavior?: (record: TooltipContentProps) => void;
+  getTooltipProps?: (record: TooltipContentProps) => TooltipProps;
+  hoverAnnotation?: boolean | AnnotationType[];
   pieceHoverAnnotation?: boolean;
   render: (props: SemioticChildProps) => React.ReactElement;
   setHighlighted?: (item?: ItemToHighlight) => void;
@@ -74,7 +69,7 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
   const infoPanelDispatch = useInfoPanelDispatch();
   const infoPanelState = useInfoPanelState();
   const enableInfoPanel = useBreakpoint(false, ["mobile-", true]);
-  const [clickAnnotations, setClickAnnotations] = useState<AnnotationSpec>();
+  const [clickAnnotations, setClickAnnotations] = useState<AnnotationType[]>();
 
   useEffect(() => {
     // when state is cleared, make sure any relevant chart props are cleared also
@@ -93,7 +88,7 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
 
   // childProps are props that Semiotic will recognize; non-Semiotic children
   // should implement the same API if they want to use this controller
-  const tooltipContent = (d: SemioticDataPoint) => (
+  const tooltipContent = (d: TooltipContentProps) => (
     <Tooltip {...getTooltipProps(d)} />
   );
   const renderNull = () => null;
@@ -116,7 +111,7 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
   if (pieceHoverAnnotation)
     childProps.pieceHoverAnnotation = pieceHoverAnnotation;
 
-  childProps.customClickBehavior = (d: SemioticDataPoint) => {
+  childProps.customClickBehavior = (d: TooltipContentProps) => {
     if (enableInfoPanel) {
       infoPanelDispatch({
         type: "update",
@@ -127,7 +122,7 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
       }
       if (Array.isArray(hoverAnnotation)) {
         // if there is hover behavior other than the tooltip, we want to preserve it
-        const additionalHoverAnnotations = hoverAnnotation
+        const additionalHoverAnnotations: AnnotationType[] = hoverAnnotation
           .filter(({ type }) => type !== "frame-hover")
           .map((annotationSpec) => {
             // hover annotation specs expect to have point data applied on the fly;
@@ -142,7 +137,7 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
     }
   };
 
-  childProps.customHoverBehavior = (d: SemioticDataPoint) => {
+  childProps.customHoverBehavior = (d: TooltipContentProps) => {
     if (setHighlighted) {
       setHighlighted(d);
     }

@@ -19,3 +19,4 @@ export { default as colors } from "./colors";
 export { default as typefaces } from "./typefaces";
 export { default as zIndex } from "./zIndex";
 export { default as Chevron } from "./Chevron";
+export { default as animation } from "./animation";

@@ -62,7 +62,10 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-// TODO: worth typing props.lines more strongly?
+/**
+ * @typedef {import("./types").DataSeries} DataSeries
+ */
+
 /**
  * Wraps around a Semiotic XYFrame and overlays a second, invisible XYFrame to provide
  * alternative hover behavior (creating uniform hover targets along the X axis
@@ -79,7 +82,7 @@ const Wrapper = styled.div`
  *
  * @param {Object} props
  * @param {React.ReactHTMLElement} props.children
- * @param {Record<string, any>[]} props.lines
+ * @param {DataSeries[]} props.lines
  * @param {{ [key in "top" | "bottom" | "left" | "right"]: number }} props.margin
  * @param {Record<string, any>} props.otherChartProps - should be supported Semiotic props
  * @param {number[]} props.size - should have two members [width, height]

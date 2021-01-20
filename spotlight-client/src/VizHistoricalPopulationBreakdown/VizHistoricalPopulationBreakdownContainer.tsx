@@ -27,14 +27,16 @@ import {
   DIMENSION_MAPPINGS,
 } from "../demographics";
 import ErrorMessage from "../ErrorMessage";
-import { TOTAL_KEY } from "../metricsApi";
+import { HistoricalPopulationBreakdownRecord } from "../metricsApi";
 import { colors } from "../UiLibrary";
 import VizHistoricalPopulationBreakdown from "./VizHistoricalPopulationBreakdown";
 
 const VizHistoricalPopulationBreakdownContainer: React.FC<{
   metric: HistoricalPopulationBreakdownMetric;
 }> = ({ metric }) => {
-  let chartData: DataSeries[] | null = null;
+  let chartData:
+    | DataSeries<HistoricalPopulationBreakdownRecord>[]
+    | null = null;
 
   const { demographicView, records } = metric;
 
@@ -49,11 +51,13 @@ const VizHistoricalPopulationBreakdownContainer: React.FC<{
           .map(([value, label], index) => ({
             label,
             color: colors.dataViz[index],
-            coordinates: records.filter((record) =>
-              value === TOTAL_KEY
-                ? true
-                : record[DIMENSION_DATA_KEYS[demographicView]] === value
-            ),
+            coordinates:
+              demographicView === "total"
+                ? records
+                : records.filter(
+                    (record) =>
+                      record[DIMENSION_DATA_KEYS[demographicView]] === value
+                  ),
           }));
       }
     }
@@ -61,15 +65,6 @@ const VizHistoricalPopulationBreakdownContainer: React.FC<{
 
   return (
     <>
-      <button
-        type="button"
-        onClick={action("change metric dimension", () => {
-          // eslint-disable-next-line no-param-reassign
-          metric.demographicView = "race";
-        })}
-      >
-        change dimension
-      </button>
       <VizHistoricalPopulationBreakdown data={chartData} error={metric.error} />
     </>
   );

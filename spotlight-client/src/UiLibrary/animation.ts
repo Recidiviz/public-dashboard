@@ -15,6 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export { default } from "./InfoPanelContainer";
-export * from "./InfoPanelContext";
-export * from "./types";
+const defaultDuration = 500;
+
+export default {
+  defaultDuration,
+};

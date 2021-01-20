@@ -44,7 +44,11 @@ export function highlightFade(
   return interpolateRgb(colors.background, baseColor)(FADE_AMOUNT);
 }
 
-// TODO: I don't think this is doing anything because there are no "value" fields
+/**
+ * Given a series of records, sums up their values and computes the value of each
+ * as a percentage of that total. Returns a copy of the records with `pct` field
+ * included as a number between 0 and 1.
+ */
 export function getDataWithPct<RecordFormat extends { value: number }>(
   data: RecordFormat[]
 ): (RecordFormat & { pct: number })[] {

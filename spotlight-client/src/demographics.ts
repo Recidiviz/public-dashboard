@@ -50,7 +50,7 @@ const RACES = {
   other: "OTHER",
 };
 
-// TODO: additional categories that weren't in ND?
+// TODO(#278): additional categories in RaceIdentifier that weren't in ND?
 const RACE_LABELS = new Map([
   [RACES.nativeAmerican, "Native American"],
   [RACES.black, "Black"],
@@ -72,12 +72,10 @@ export const DIMENSION_MAPPINGS = new Map<
 export const DIMENSION_DATA_KEYS: {
   [key in Extract<
     DemographicView,
-    "race" | "gender" | "age" | "total"
+    "race" | "gender" | "age"
   >]: DemographicFieldKey;
 } = {
   race: "raceOrEthnicity",
   gender: "gender",
   age: "ageBucket",
-  // TODO: this shouldn't ever happen but there is type weirdness
-  total: "gender",
 };

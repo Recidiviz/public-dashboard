@@ -18,6 +18,7 @@
 import classNames from "classnames";
 import React from "react";
 import styled from "styled-components/macro";
+import { animation } from "../UiLibrary";
 import { ItemToDisplay, ItemToHighlight } from "./types";
 import { highlightFade } from "./utils";
 
@@ -49,8 +50,8 @@ const ColorLegendItem = styled.div`
     height: 1px;
     left: 50%;
     position: absolute;
-    /* TODO: how to animate this */
-    transition: width 500ms, left 500ms;
+    transition: width ${animation.defaultDuration}ms,
+      left ${animation.defaultDuration}ms;
     width: 0;
   }
 
@@ -67,8 +68,7 @@ const ColorLegendItemSwatch = styled.div`
   border-radius: ${swatchSize / 2}px;
   height: ${swatchSize}px;
   margin-left: ${swatchSize / 2}px;
-  /* TODO: how to animate? */
-  transition: background-color 500ms;
+  transition: background-color ${animation.defaultDuration}ms;
   width: ${swatchSize}px;
 `;
 

@@ -15,8 +15,18 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-// TODO: can we get rid of these anys?
+/**
+ * Based on the expected format Semiotic passes to the tooltipContent prop,
+ * since Semiotic charts are the primary Tooltip users in this application.
+ */
+export type TooltipContentProps = {
+  label: string;
+  value: number;
+  pct: number;
+  data: Record<string, unknown>;
+};
+
 export type InfoPanelState = {
-  data?: any;
-  renderContents?: any;
+  data?: TooltipContentProps;
+  renderContents?: (props: TooltipContentProps) => React.ReactNode;
 };
