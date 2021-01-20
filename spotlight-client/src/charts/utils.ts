@@ -15,13 +15,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { sum } from "d3-array";
 import { color } from "d3-color";
-import { format } from "d3-format";
 import { interpolateRgb } from "d3-interpolate";
 import { colors } from "../UiLibrary";
 
 const FADE_AMOUNT = 0.45;
 
+// eslint-disable-next-line import/prefer-default-export
 export function highlightFade(
   baseColor: string,
   { useOpacity = false } = {}
@@ -43,4 +44,14 @@ export function highlightFade(
   return interpolateRgb(colors.background, baseColor)(FADE_AMOUNT);
 }
 
-export const formatAsNumber = format(",");
+// TODO: I don't think this is doing anything because there are no "value" fields
+export function getDataWithPct<RecordFormat extends { value: number }>(
+  data: RecordFormat[]
+): (RecordFormat & { pct: number })[] {
+  // calculate percentages for display
+  const totalValue = sum(data.map(({ value }) => value));
+  return data.map((record) => ({
+    ...record,
+    pct: record.value / totalValue,
+  }));
+}

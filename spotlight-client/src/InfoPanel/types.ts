@@ -15,35 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { startOfMonth } from "date-fns";
-import React from "react";
-import { WindowedTimeSeries } from "../charts";
-import { DataSeries } from "../charts/types";
-
-type VizHistoricalPopulationBreakdownProps = {
-  data: DataSeries[] | null;
-  error?: Error;
+// TODO: can we get rid of these anys?
+export type InfoPanelState = {
+  data?: any;
+  renderContents?: any;
 };
-
-const VizHistoricalPopulationBreakdown: React.FC<VizHistoricalPopulationBreakdownProps> = ({
-  data,
-  error,
-}) => {
-  // TODO: filters
-  const defaultRangeEnd = startOfMonth(new Date());
-
-  if (data)
-    return (
-      <WindowedTimeSeries
-        data={data}
-        setTimeRangeId={() => undefined}
-        defaultRangeEnd={defaultRangeEnd}
-      />
-    );
-
-  if (error) throw error;
-
-  return <div>loading...</div>;
-};
-
-export default VizHistoricalPopulationBreakdown;

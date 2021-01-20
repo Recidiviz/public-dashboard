@@ -15,21 +15,25 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+// using JSDoc/Typescript annotations instead
+/* eslint-disable react/prop-types */
+
+import useBreakpoint from "@w11r/use-breakpoint";
 import { scaleTime } from "d3-scale";
-import { format, isEqual, parseISO } from "date-fns";
+import { format, isEqual } from "date-fns";
 import React, { useCallback, useEffect, useState } from "react";
 import Measure from "react-measure";
 import MinimapXYFrame from "semiotic/lib/MinimapXYFrame";
 import styled from "styled-components/macro";
-import BaseChartWrapper from "./ChartWrapper";
-import { formatAsNumber, highlightFade } from "./utils";
-import ColorLegend from "./ColorLegend";
-import { ItemToHighlight } from "./types";
 import { colors } from "../UiLibrary";
+import { formatAsNumber } from "../utils";
+import BaseChartWrapper from "./ChartWrapper";
+import { getDataWithPct, highlightFade } from "./utils";
+import ColorLegend from "./ColorLegend";
+// TODO: this magic string comes from somewhere
 // import { CUSTOM_ID } from "../controls/TwoYearRangeControl";
-// import XHoverController from "./XHoverController";
+import XHoverController from "./XHoverController";
 
-// TODO: magic string from filter UI
 const CUSTOM_ID = "custom";
 
 const CHART_HEIGHT = 430;
@@ -58,24 +62,41 @@ const ChartWrapper = styled(BaseChartWrapper)`
   }
 `;
 
-const getDateLabel = (date: Date) => format(date, "MMM d y");
+const getDateLabel = (date) => format(date, "MMM d y");
 
 const BASE_MARK_PROPS = {
   transitionDuration: {
-    // TODO: theme?
+    // TODO: animation settings?
     fill: 500,
   },
 };
 
-const WindowedTimeSeries: React.FC<{
-  data: any[];
-  defaultRangeEnd: Date;
-  defaultRangeStart?: Date;
-  setTimeRangeId: (id: string) => void;
-}> = ({ data, defaultRangeEnd, defaultRangeStart, setTimeRangeId }) => {
-  const [highlighted, setHighlighted] = useState<ItemToHighlight>();
-  const [dateRangeStart, setDateRangeStart] = useState<Date>();
-  const [dateRangeEnd, setDateRangeEnd] = useState<Date>();
+/**
+ * @typedef {import("../metricsApi").HistoricalPopulationBreakdownRecord} HistoricalPopulationBreakdownRecord
+ * @typedef {import("./types").DataSeries} DataSeries
+ * @typedef {import("./types").ItemToHighlight} ItemToHighlight
+ */
+
+/**
+ * @param {Object} props
+ * @param {DataSeries<HistoricalPopulationBreakdownRecord>[]} props.data
+ * @param {Date} props.defaultRangeEnd
+ * @param {Date=} props.defaultRangeStart
+ * @param {(id?: string) => void} props.setTimeRangeId
+ */
+export default function WindowedTimeSeries({
+  data,
+  defaultRangeEnd,
+  defaultRangeStart,
+  setTimeRangeId,
+}) {
+  /** @type {[ItemToHighlight | undefined, (item?: ItemToHighlight) => void]} */
+  const [highlighted, setHighlighted] = useState();
+  /** @type {[Date | undefined, (item?: Date) => void]} */
+  const [dateRangeStart, setDateRangeStart] = useState();
+  /** @type {[Date | undefined, (item?: Date) => void]} */
+  const [dateRangeEnd, setDateRangeEnd] = useState();
+  const { isMobile } = useBreakpoint();
 
   useEffect(() => {
     if (defaultRangeStart) {
@@ -104,11 +125,15 @@ const WindowedTimeSeries: React.FC<{
 
   return (
     <Measure bounds>
-      {({ measureRef, contentRect: { bounds: { width } = { width: 0 } } }) => (
+      {({
+        measureRef,
+        contentRect: {
+          bounds: { width },
+        },
+      }) => (
         <Wrapper ref={measureRef}>
           <ChartWrapper>
-            {/* TODO: figure this out */}
-            {/* <XHoverController
+            <XHoverController
               lines={data}
               margin={MARGIN}
               otherChartProps={{
@@ -119,55 +144,53 @@ const WindowedTimeSeries: React.FC<{
               size={[width, CHART_HEIGHT]}
               tooltipControllerProps={{
                 getTooltipProps: (d) => {
-                  const dateHovered = d.time;
+                  const dateHovered = d.date;
                   return {
                     title: getDateLabel(dateHovered),
                     records: getDataWithPct(
                       d.points
-                        .filter((p) => isEqual(p.data.time, dateHovered))
+                        .filter((p) => isEqual(p.data.date, dateHovered))
                         .map((p) => ({
                           label: p.parentLine.label,
-                          value: p.data.population,
+                          value: p.data.count,
                         }))
                     ),
                   };
                 },
               }}
-              xAccessor="time"
-            > */}
-            <MinimapXYFrame
-              axes={[
-                {
-                  orient: "left",
-                  tickFormat: formatAsNumber,
-                  tickSize: 0,
-                },
-                {
-                  orient: "bottom",
-                  tickFormat: (time: Date) => {
-                    return time.getDate() === 1 ? format(time, "MMM y") : null;
+              xAccessor="date"
+            >
+              <MinimapXYFrame
+                axes={[
+                  {
+                    orient: "left",
+                    tickFormat: formatAsNumber,
+                    tickLineGenerator: () => null,
                   },
-                  tickSize: 0,
-                  ticks: 10,
-                },
-              ]}
-              baseMarkProps={BASE_MARK_PROPS}
-              lines={data}
-              lineStyle={(d = {}) => ({
-                fill:
-                  highlighted && highlighted.label !== d.label
-                    ? highlightFade(d.color)
-                    : d.color,
-                stroke: colors.background,
-                strokeWidth: 1,
-              })}
-              lineType={{ type: "stackedarea", sort: null } as any}
-              matte={true as any}
-              minimap={
-                {
+                  {
+                    orient: "bottom",
+                    tickFormat: (time) =>
+                      time.getDate() === 1 ? format(time, "MMM y") : null,
+                    tickLineGenerator: () => null,
+                    ticks: isMobile ? 5 : 10,
+                  },
+                ]}
+                baseMarkProps={BASE_MARK_PROPS}
+                lines={data}
+                lineStyle={(d) => ({
+                  fill:
+                    highlighted && highlighted.label !== d.label
+                      ? highlightFade(d.color)
+                      : d.color,
+                  stroke: colors.background,
+                  strokeWidth: 1,
+                })}
+                lineType={{ type: "stackedarea", sort: null }}
+                matte
+                minimap={{
                   axes: [],
                   baseMarkProps: BASE_MARK_PROPS,
-                  brushEnd: (brushExtent: any) => {
+                  brushEnd: (brushExtent) => {
                     const [start, end] = brushExtent || [];
                     if (start && end) {
                       if (isNewRange({ start, end })) {
@@ -183,20 +206,12 @@ const WindowedTimeSeries: React.FC<{
                   xBrushable: true,
                   xBrushExtent: [dateRangeStart, dateRangeEnd],
                   yBrushable: false,
-                } as any
-              }
-              pointStyle={{ display: "none" }}
-              // TODO: this was coming in as a Date object in v1?
-              xAccessor={(d: any) => parseISO(d.date) as any}
-              yAccessor="count"
-              // TODO: these were part of xhovercontroller
-              size={[width, CHART_HEIGHT]}
-              margin={MARGIN}
-              xExtent={[dateRangeStart, dateRangeEnd] as any}
-              xScaleType={scaleTime() as any}
-              yExtent={[0]}
-            />
-            {/* </XHoverController> */}
+                }}
+                pointStyle={{ display: "none" }}
+                xAccessor="date"
+                yAccessor="count"
+              />
+            </XHoverController>
           </ChartWrapper>
           <LegendWrapper>
             <ColorLegend
@@ -209,6 +224,4 @@ const WindowedTimeSeries: React.FC<{
       )}
     </Measure>
   );
-};
-
-export default WindowedTimeSeries;
+}

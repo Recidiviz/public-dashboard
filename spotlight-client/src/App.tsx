@@ -23,6 +23,7 @@ import styled from "styled-components/macro";
 import AuthWall from "./AuthWall";
 import { FOOTER_HEIGHT, NAV_BAR_HEIGHT } from "./constants";
 import GlobalStyles from "./GlobalStyles";
+import { InfoPanelProvider } from "./InfoPanel";
 import PageHome from "./PageHome";
 import PageNarrative from "./PageNarrative";
 import PageNarrativeList from "./PageNarrativeList";
@@ -51,26 +52,28 @@ const App: React.FC = () => {
       <StoreProvider>
         <GlobalStyles />
         <AuthWall>
-          <SiteNavigation />
-          <Main>
-            <Router>
-              {/*
+          <InfoPanelProvider>
+            <SiteNavigation />
+            <Main>
+              <Router>
+                {/*
                 NOTE: every leaf route component in this router should be wrapped
                 by the withRouteSync higher-order component to keep data and UI in sync!
               */}
-              <PageHome path="/" />
-              <PassThroughPage path="/:tenantId">
-                <PageTenant path="/" />
-                <PassThroughPage path={`/${NarrativesSlug}`}>
-                  <PageNarrativeList path="/" />
-                  <PageNarrative path="/:narrativeTypeId/*sectionNumber" />
+                <PageHome path="/" />
+                <PassThroughPage path="/:tenantId">
+                  <PageTenant path="/" />
+                  <PassThroughPage path={`/${NarrativesSlug}`}>
+                    <PageNarrativeList path="/" />
+                    <PageNarrative path="/:narrativeTypeId/*sectionNumber" />
+                  </PassThroughPage>
+                  <PageNotFound default />
                 </PassThroughPage>
                 <PageNotFound default />
-              </PassThroughPage>
-              <PageNotFound default />
-            </Router>
-          </Main>
-          <SiteFooter />
+              </Router>
+            </Main>
+            <SiteFooter />
+          </InfoPanelProvider>
         </AuthWall>
       </StoreProvider>
     </HelmetProvider>

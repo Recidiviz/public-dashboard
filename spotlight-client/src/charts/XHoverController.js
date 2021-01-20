@@ -14,15 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+
+// using JSDoc/Typescript annotations instead
+/* eslint-disable react/prop-types */
 
 import { bisectCenter } from "d3-array";
 import React, { useState } from "react";
 import XYFrame from "semiotic/lib/XYFrame";
 import styled from "styled-components/macro";
-import ResponsiveTooltipController from "../responsive-tooltip-controller";
-import { zIndex } from "../UiLibrary";
+import { colors, zIndex } from "../UiLibrary";
+import ResponsiveTooltipController from "./ResponsiveTooltipController";
 
 const TOOLTIP_OFFSET = 8;
 
@@ -52,7 +53,7 @@ const OverlayContainer = styled.div`
     }
 
     path.subject {
-      stroke: ${(props) => props.theme.colors.highlight};
+      stroke: ${colors.accent};
     }
   }
 `;
@@ -61,6 +62,7 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
+// TODO: worth typing props.lines more strongly?
 /**
  * Wraps around a Semiotic XYFrame and overlays a second, invisible XYFrame to provide
  * alternative hover behavior (creating uniform hover targets along the X axis
@@ -74,34 +76,31 @@ const Wrapper = styled.div`
  *
  * Also includes a `ResponsiveTooltipController` that you can pass any supported props to
  * via `tooltipControllerProps`.
+ *
+ * @param {Object} props
+ * @param {React.ReactHTMLElement} props.children
+ * @param {Record<string, any>[]} props.lines
+ * @param {{ [key in "top" | "bottom" | "left" | "right"]: number }} props.margin
+ * @param {Record<string, any>} props.otherChartProps - should be supported Semiotic props
+ * @param {number[]} props.size - should have two members [width, height]
+ * @param {string | Function } props.xAccessor
  */
-const XHoverController: React.FC<{
-  // XHoverController.propTypes = {
-  //   children: PropTypes.node.isRequired,
-  //   lines: PropTypes.arrayOf(PropTypes.object).isRequired,
-  //   margin: PropTypes.shape({
-  //     top: PropTypes.number.isRequired,
-  //     bottom: PropTypes.number.isRequired,
-  //     left: PropTypes.number.isRequired,
-  //     right: PropTypes.number.isRequired,
-  //   }).isRequired,
-  //   size: PropTypes.arrayOf(PropTypes.number).isRequired,
-  //   xAccessor: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-  //   // these are passed through if present, let the underlying components validate them
-  //   tooltipControllerProps: PropTypes.objectOf(PropTypes.any),
-  //   otherChartProps: PropTypes.objectOf(PropTypes.any),
-  // };
-  // XHoverController.defaultProps = {
-  //   otherChartProps: {},
-  //   tooltipControllerProps: {},
-  // };
-}> = ({
+// XHoverController.propTypes = {
+//   // these are passed through if present, let the underlying components validate them
+//   tooltipControllerProps: PropTypes.objectOf(PropTypes.any),
+// };
+
+// XHoverController.defaultProps = {
+//   otherChartProps: {},
+//   tooltipControllerProps: {},
+// };
+const XHoverController = ({
   children,
   lines,
   margin,
-  otherChartProps,
+  otherChartProps = {},
   size,
-  tooltipControllerProps,
+  tooltipControllerProps = {},
   xAccessor,
 }) => {
   const [tooltipLeft, setTooltipLeft] = useState();

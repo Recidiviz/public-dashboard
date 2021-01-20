@@ -16,50 +16,52 @@
 // =============================================================================
 
 import styled from "styled-components/macro";
+import { colors } from "../UiLibrary";
 
 export default styled.div`
   /* classes provided by Semiotic */
   .frame {
+    .axis-baseline {
+      stroke: ${colors.chartAxis};
+    }
+
+    .axis-label,
+    .ordinal-labels {
+      fill: ${colors.caption};
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .axis-title {
+      fill: ${colors.chartAxis};
+      font-size: 13px;
+    }
+
+    .background-graphics,
+    .visualization-layer {
+      shape-rendering: crispEdges;
+    }
+
+    .frame-title {
+      fill: ${colors.text};
+      font-size: 16px;
+    }
+
+    .tick-line {
+      stroke: ${colors.chartGridLine};
+    }
+
+    .xyframe-matte {
+      fill: ${colors.background};
+    }
+
+    .xybrush {
+      .selection {
+        fill: ${colors.timeWindowFill};
+        fill-opacity: 0.2;
+        stroke: ${colors.timeWindowStroke};
+      }
+    }
   }
 `;
-
-// .axis-baseline {
-//   stroke: ${(props) => props.theme.colors.chartAxis};
-// }
-
-// .axis-label,
-// .ordinal-labels {
-//   fill: ${(props) => props.theme.colors.chartAxis};
-//   font-size: 12px;
-// }
-
-// .axis-title {
-//   fill: ${(props) => props.theme.colors.chartAxis};
-//   font-size: 13px;
-// }
-
-// .background-graphics,
-// .visualization-layer {
-//   shape-rendering: crispEdges;
-// }
-
-// .frame-title {
-//   fill: ${(props) => props.theme.colors.heading};
-//   font-size: 16px;
-// }
-
-// .tick-line {
-//   stroke: ${(props) => props.theme.colors.chartGridLine};
-// }
-
-// .xyframe-matte {
-//   fill: ${(props) => props.theme.colors.background};
-// }
-
-// .xybrush {
-//   .selection {
-//     fill: ${(props) => props.theme.colors.timeWindowFill};
-//     fill-opacity: 0.2;
-//     stroke: ${(props) => props.theme.colors.timeWindowStroke};
-//   }
-// }

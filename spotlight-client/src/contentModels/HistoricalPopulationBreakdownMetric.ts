@@ -25,6 +25,21 @@ import Metric from "./Metric";
 export default class HistoricalPopulationBreakdownMetric extends Metric<
   HistoricalPopulationBreakdownRecord
 > {
+  async fetchAndTransform(): Promise<HistoricalPopulationBreakdownRecord[]> {
+    const transformedData = await super.fetchAndTransform();
+
+    // TODO(#278): add missing months to data
+
+    // if the current month is completely missing from data, we will assume it is
+    // actually missing due to reporting lag. But if any record contains it, we will
+    // assume that it should be replaced with an empty record when it is missing
+    // const includeCurrentMonth = dataIncludesCurrentMonth(transformedData);
+
+    transformedData.sort((a, b) => ascending(a.date, b.date));
+
+    return transformedData;
+  }
+
   get records(): HistoricalPopulationBreakdownRecord[] | undefined {
     let recordsToReturn = this.getOrFetchRecords();
     if (!recordsToReturn) return undefined;
@@ -32,6 +47,6 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<
     recordsToReturn = recordsToReturn.filter(
       recordIsTotalByDimension(this.demographicView)
     );
-    return recordsToReturn.sort((a, b) => ascending(a.date, b.date));
+    return recordsToReturn;
   }
 }

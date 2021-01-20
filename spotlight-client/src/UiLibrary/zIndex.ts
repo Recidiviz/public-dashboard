@@ -17,5 +17,10 @@
 
 export default {
   base: 1,
+  control: 50,
+  header: 750,
+  menu: 100,
+  modal: 1000,
   navBar: 10,
+  tooltip: 500,
 };

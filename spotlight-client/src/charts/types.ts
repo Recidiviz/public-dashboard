@@ -15,6 +15,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export type ItemToHighlight = { label: string };
+import { MetricRecord } from "../contentModels/types";
 
-export type ItemToDisplay = { label: string; color: string };
+export type DataSeries<RecordFormat = MetricRecord> = {
+  label: string;
+  color: string;
+  coordinates: RecordFormat[];
+};
+
+export type ItemToHighlight = Pick<DataSeries, "label">;
+
+export type ItemToDisplay = Pick<DataSeries, "label" | "color">;

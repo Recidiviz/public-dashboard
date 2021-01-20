@@ -22,6 +22,7 @@ import {
   observable,
   runInAction,
 } from "mobx";
+import { ERROR_MESSAGES } from "../constants";
 import { TenantId } from "../contentApi/types";
 import {
   fetchMetrics,
@@ -99,8 +100,9 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
   }: BaseMetricConstructorOptions<RecordFormat>) {
     makeObservable(this, {
       allRecords: observable.ref,
+      demographicView: observable,
       error: observable,
-      fetch: action,
+      populateAllRecords: action,
       isLoading: observable,
       records: computed,
     });
@@ -121,21 +123,30 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
   }
 
   /**
-   * Fetches the metric data from the server, transforms it,
-   * and stores the result on this Metric instance.
+   * Fetches the metric data from the server and transforms it.
    */
-  async fetch(): Promise<void> {
+  protected async fetchAndTransform(): Promise<RecordFormat[]> {
+    const apiResponse = await fetchMetrics({
+      metricNames: [this.sourceFileName],
+      tenantId: this.tenantId,
+    });
+
+    const rawData = apiResponse[this.sourceFileName];
+    if (rawData) {
+      return this.dataTransformer(rawData);
+    }
+    throw new Error(ERROR_MESSAGES.noMetricData);
+  }
+
+  /**
+   * Fetches metric data and stores the result reactively on this Metric instance.
+   */
+  async populateAllRecords(): Promise<void> {
     this.isLoading = true;
     try {
-      const apiResponse = await fetchMetrics({
-        metricNames: [this.sourceFileName],
-        tenantId: this.tenantId,
-      });
+      const fetchedData = await this.fetchAndTransform();
       runInAction(() => {
-        const metricFileData = apiResponse[this.sourceFileName];
-        if (metricFileData) {
-          this.allRecords = this.dataTransformer(metricFileData);
-        }
+        this.allRecords = fetchedData;
         this.isLoading = false;
       });
     } catch (e) {
@@ -149,7 +160,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
    */
   protected getOrFetchRecords(): RecordFormat[] | undefined {
     if (this.allRecords) return this.allRecords;
-    if (!this.isLoading || !this.error) this.fetch();
+    if (!this.isLoading || !this.error) this.populateAllRecords();
     return undefined;
   }
 

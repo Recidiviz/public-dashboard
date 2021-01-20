@@ -18,11 +18,11 @@
 import { ValuesType } from "utility-types";
 import { RawMetricData } from "./fetchMetrics";
 
-type TotalIdentifier = "ALL";
+export type TotalIdentifier = "ALL";
 
 type NoFilterIdentifier = "nofilter";
 
-type RaceIdentifier =
+export type RaceIdentifier =
   | TotalIdentifier
   | "AMERICAN_INDIAN_ALASKAN_NATIVE"
   | "ASIAN"
@@ -31,8 +31,8 @@ type RaceIdentifier =
   | "NATIVE_HAWAIIAN_PACIFIC_ISLANDER"
   | "WHITE"
   | "OTHER";
-type GenderIdentifier = TotalIdentifier | "FEMALE" | "MALE";
-type AgeIdentifier =
+export type GenderIdentifier = TotalIdentifier | "FEMALE" | "MALE";
+export type AgeIdentifier =
   | TotalIdentifier
   | "<25"
   | "25-29"
@@ -40,7 +40,9 @@ type AgeIdentifier =
   | "35-39"
   | "40<";
 
-export type DemographicFields = {
+export type DemographicFieldKey = "raceOrEthnicity" | "gender" | "ageBucket";
+
+export type DemographicFields = { [key in DemographicFieldKey]: unknown } & {
   raceOrEthnicity: RaceIdentifier;
   gender: GenderIdentifier;
   ageBucket: AgeIdentifier;

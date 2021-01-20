@@ -23,13 +23,35 @@ const pinePale = "#7D9897";
 const pineAccent2 = "#006C67";
 const pineDark = "#012322";
 
+const dataVizColorMap = new Map([
+  ["teal", "#25636F"],
+  ["gold", "#D9A95F"],
+  ["red", "#BA4F4F"],
+  ["blue", "#4C6290"],
+  ["paleBlue", "#90AEB5"],
+  ["pink", "#CC989C"],
+  ["paleGreen", "#B6CC98"],
+  ["purple", "#56256F"],
+  ["aqua", "#4FBABA"],
+  ["palePurple", "#904C84"],
+  ["skyBlue", "#5F8FD9"],
+]);
+
 export default {
   accent: pineBright,
   background: white,
   caption: pinePale,
+  chartAxis: pine,
+  chartGridLine: pinePale,
+  dataViz: Array.from(dataVizColorMap.values()),
+  dataVizNamed: dataVizColorMap,
   footerBackground: pineDark,
   link: pineAccent2,
   rule: gray,
   ruleHover: "#AFC1C3",
   text: pine,
+  textLight: white,
+  timeWindowFill: pine,
+  timeWindowStroke: pine,
+  tooltipBackground: pineDark,
 };

@@ -15,26 +15,64 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { withErrorBoundary } from "react-error-boundary";
+import { DataSeries } from "../charts/types";
 import HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
+import {
+  DEMOGRAPHIC_UNKNOWN,
+  DIMENSION_DATA_KEYS,
+  DIMENSION_MAPPINGS,
+} from "../demographics";
 import ErrorMessage from "../ErrorMessage";
+import { TOTAL_KEY } from "../metricsApi";
+import { colors } from "../UiLibrary";
 import VizHistoricalPopulationBreakdown from "./VizHistoricalPopulationBreakdown";
 
-type VizHistoricalPopulationBreakdownContainerProps = {
+const VizHistoricalPopulationBreakdownContainer: React.FC<{
   metric: HistoricalPopulationBreakdownMetric;
-};
+}> = ({ metric }) => {
+  let chartData: DataSeries[] | null = null;
 
-const VizHistoricalPopulationBreakdownContainer: React.FC<VizHistoricalPopulationBreakdownContainerProps> = ({
-  metric,
-}) => {
-  if (metric.records)
-    return <VizHistoricalPopulationBreakdown data={metric.records} />;
+  const { demographicView, records } = metric;
 
-  if (metric.error) throw metric.error;
+  if (records) {
+    if (demographicView !== "nofilter") {
+      const labelsForDimension = DIMENSION_MAPPINGS.get(demographicView);
+      if (labelsForDimension) {
+        chartData = Array.from(labelsForDimension)
+          // don't need to include unknown in this chart;
+          // they are minimal to nonexistent in historical data and make the legend confusing
+          .filter(([value]) => value !== DEMOGRAPHIC_UNKNOWN)
+          .map(([value, label], index) => ({
+            label,
+            color: colors.dataViz[index],
+            coordinates: records.filter((record) =>
+              value === TOTAL_KEY
+                ? true
+                : record[DIMENSION_DATA_KEYS[demographicView]] === value
+            ),
+          }));
+      }
+    }
+  }
 
-  return <div>loading...</div>;
+  return (
+    <>
+      <button
+        type="button"
+        onClick={action("change metric dimension", () => {
+          // eslint-disable-next-line no-param-reassign
+          metric.demographicView = "race";
+        })}
+      >
+        change dimension
+      </button>
+      <VizHistoricalPopulationBreakdown data={chartData} error={metric.error} />
+    </>
+  );
 };
 
 export default withErrorBoundary(
