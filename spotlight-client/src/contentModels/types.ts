@@ -15,7 +15,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { CollectionTypeId, SystemNarrativeTypeId } from "../contentApi/types";
+import {
+  CollectionTypeId,
+  MetricTypeId,
+  SystemNarrativeTypeId,
+} from "../contentApi/types";
 import {
   DemographicsByCategoryRecord,
   HistoricalPopulationBreakdownRecord,
@@ -27,8 +31,8 @@ import {
   SupervisionSuccessRateDemographicsRecord,
 } from "../metricsApi";
 import type Collection from "./Collection";
-import Metric from "./Metric";
-import SystemNarrative from "./SystemNarrative";
+import type SystemNarrative from "./SystemNarrative";
+import type Metric from "./Metric";
 
 // =======================================
 // Collection types
@@ -40,7 +44,7 @@ export type CollectionMap = Map<CollectionTypeId, Collection | undefined>;
 // Metric types
 // =======================================
 
-export type AnyRecord =
+export type MetricRecord =
   | DemographicsByCategoryRecord
   | HistoricalPopulationBreakdownRecord
   | PopulationBreakdownByLocationRecord
@@ -50,34 +54,7 @@ export type AnyRecord =
   | SupervisionSuccessRateMonthlyRecord
   | SupervisionSuccessRateDemographicsRecord;
 
-export type AnyMetric = Metric<AnyRecord>;
-export function isAnyMetric(metric: unknown): metric is AnyMetric {
-  return metric instanceof Metric;
-}
-
-export type MetricMapping = {
-  SentencePopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
-  SentenceTypesCurrent?: Metric<SentenceTypeByLocationRecord>;
-  PrisonPopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
-  PrisonPopulationHistorical?: Metric<HistoricalPopulationBreakdownRecord>;
-  PrisonAdmissionReasonsCurrent?: Metric<DemographicsByCategoryRecord>;
-  PrisonStayLengthAggregate?: Metric<DemographicsByCategoryRecord>;
-  PrisonReleaseTypeAggregate?: Metric<DemographicsByCategoryRecord>;
-  PrisonRecidivismRateHistorical?: Metric<RecidivismRateRecord>;
-  PrisonRecidivismRateSingleFollowupHistorical?: Metric<RecidivismRateRecord>;
-  ProbationPopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
-  ProbationPopulationHistorical?: Metric<HistoricalPopulationBreakdownRecord>;
-  ProbationSuccessHistorical?: Metric<SupervisionSuccessRateMonthlyRecord>;
-  ProbationSuccessAggregate?: Metric<SupervisionSuccessRateDemographicsRecord>;
-  ProbationRevocationsAggregate?: Metric<DemographicsByCategoryRecord>;
-  ProbationProgrammingCurrent?: Metric<ProgramParticipationCurrentRecord>;
-  ParolePopulationCurrent?: Metric<PopulationBreakdownByLocationRecord>;
-  ParolePopulationHistorical?: Metric<HistoricalPopulationBreakdownRecord>;
-  ParoleSuccessHistorical?: Metric<SupervisionSuccessRateMonthlyRecord>;
-  ParoleSuccessAggregate?: Metric<SupervisionSuccessRateDemographicsRecord>;
-  ParoleRevocationsAggregate?: Metric<DemographicsByCategoryRecord>;
-  ParoleProgrammingCurrent?: Metric<ProgramParticipationCurrentRecord>;
-};
+export type MetricMapping = Map<MetricTypeId, Metric<MetricRecord>>;
 
 // =======================================
 // Narrative types

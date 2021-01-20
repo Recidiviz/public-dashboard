@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,16 +15,23 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React from "react";
-import { FallbackProps } from "react-error-boundary";
+import {
+  recordMatchesLocality,
+  SupervisionSuccessRateMonthlyRecord,
+} from "../metricsApi";
+import Metric from "./Metric";
 
-const ErrorMessage: React.FC<FallbackProps> = ({ error }) => {
-  return (
-    <div>
-      <h1>An error has occurred.</h1>
-      <p>{error?.message}</p>
-    </div>
-  );
-};
+export default class SupervisionSuccessRateMonthlyMetric extends Metric<
+  SupervisionSuccessRateMonthlyRecord
+> {
+  get records(): SupervisionSuccessRateMonthlyRecord[] | undefined {
+    let recordsToReturn = this.getOrFetchRecords();
+    if (!recordsToReturn) return undefined;
 
-export default ErrorMessage;
+    recordsToReturn = recordsToReturn.filter(
+      recordMatchesLocality(this.localityId)
+    );
+
+    return recordsToReturn;
+  }
+}

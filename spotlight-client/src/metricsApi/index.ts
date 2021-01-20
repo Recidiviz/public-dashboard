@@ -24,3 +24,4 @@ export * from "./SentenceTypeByLocationRecord";
 export * from "./SupervisionSuccessRateDemographicsRecord";
 export * from "./SupervisionSuccessRateMonthlyRecord";
 export * from "./fetchMetrics";
+export * from "./utils";

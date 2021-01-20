@@ -21,8 +21,10 @@ import React from "react";
 import Sticker from "react-stickyfill";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
+import Metric from "../contentModels/Metric";
 import { SystemNarrativeSection } from "../contentModels/SystemNarrative";
-import { AnyMetric } from "../contentModels/types";
+import { MetricRecord } from "../contentModels/types";
+import MetricVizMapper from "../MetricVizMapper";
 import { colors, typefaces } from "../UiLibrary";
 import { X_PADDING } from "./constants";
 
@@ -60,15 +62,14 @@ const SectionBody = styled.div`
 
 const VizContainer = styled.div`
   margin-left: ${rem(176)};
-  height: 125vh;
   flex: 1 1 auto;
   padding: ${rem(240)} 0;
 `;
 
-const SectionViz: React.FC<{ metric: AnyMetric }> = ({ metric }) => {
+const SectionViz: React.FC<{ metric: Metric<MetricRecord> }> = ({ metric }) => {
   return (
     <VizContainer>
-      <h3>Placeholder for {metric.name}</h3>
+      <MetricVizMapper metric={metric} />
     </VizContainer>
   );
 };

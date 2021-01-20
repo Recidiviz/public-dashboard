@@ -20,6 +20,8 @@ import { RawMetricData } from "./fetchMetrics";
 
 type TotalIdentifier = "ALL";
 
+type NoFilterIdentifier = "nofilter";
+
 type RaceIdentifier =
   | TotalIdentifier
   | "AMERICAN_INDIAN_ALASKAN_NATIVE"
@@ -71,4 +73,68 @@ export function recordIsParole(record: ValuesType<RawMetricData>): boolean {
 
 export function recordIsProbation(record: ValuesType<RawMetricData>): boolean {
   return record.supervision_type === "PROBATION";
+}
+
+export type DemographicView =
+  | "total"
+  | "race"
+  | "gender"
+  | "age"
+  | NoFilterIdentifier;
+
+const DIMENSION_DATA_KEYS: Record<
+  Exclude<DemographicView, "total" | NoFilterIdentifier>,
+  keyof DemographicFields
+> = {
+  age: "ageBucket",
+  gender: "gender",
+  race: "raceOrEthnicity",
+};
+
+export const TOTAL_KEY: TotalIdentifier = "ALL";
+
+export const NOFILTER_KEY: NoFilterIdentifier = "nofilter";
+
+/**
+ * Returns a filter predicate for the specified demographic view
+ * that will exclude totals and breakdowns for all other views.
+ * Respects a special bypass value (see `NOFILTER_KEY`)
+ */
+export function recordIsTotalByDimension(
+  demographicView: DemographicView
+): (record: DemographicFields) => boolean {
+  if (demographicView === NOFILTER_KEY) return () => true;
+
+  const keysEnum = { ...DIMENSION_DATA_KEYS };
+
+  if (demographicView !== "total") {
+    delete keysEnum[demographicView];
+  }
+
+  const otherDataKeys = Object.values(keysEnum);
+
+  return (record) => {
+    let match = true;
+    if (demographicView !== "total") {
+      // filter out totals
+      match =
+        match && record[DIMENSION_DATA_KEYS[demographicView]] !== TOTAL_KEY;
+    }
+
+    // filter out subset permutations
+    match = match && otherDataKeys.every((key) => record[key] === TOTAL_KEY);
+
+    return match;
+  };
+}
+
+/**
+ * Returns a filter predicate for the specified locality value
+ * that respects a special bypass value (see `NOFILTER_KEY`)
+ */
+export function recordMatchesLocality(
+  locality: string
+): (record: LocalityFields) => boolean {
+  if (locality === NOFILTER_KEY) return () => true;
+  return (record) => record.locality === locality;
 }

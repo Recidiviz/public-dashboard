@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,61 +15,46 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import assertNever from "assert-never";
-import { makeAutoObservable, runInAction } from "mobx";
-import { MetricTypeIdList, TenantContent, TenantId } from "../contentApi/types";
 import {
-  DemographicsByCategoryRecord,
+  action,
+  computed,
+  makeObservable,
+  observable,
+  runInAction,
+} from "mobx";
+import { TenantId } from "../contentApi/types";
+import {
   fetchMetrics,
-  HistoricalPopulationBreakdownRecord,
-  parolePopulationCurrent,
-  parolePopulationHistorical,
-  paroleProgramParticipationCurrent,
-  paroleRevocationReasons,
-  paroleSuccessRateDemographics,
-  paroleSuccessRateMonthly,
-  PopulationBreakdownByLocationRecord,
-  prisonAdmissionReasons,
-  prisonPopulationCurrent,
-  prisonPopulationHistorical,
-  prisonReleaseTypes,
-  prisonStayLengths,
-  probationPopulationCurrent,
-  probationPopulationHistorical,
-  probationProgramParticipationCurrent,
-  probationRevocationReasons,
-  probationSuccessRateDemographics,
-  probationSuccessRateMonthly,
-  ProgramParticipationCurrentRecord,
   RawMetricData,
-  recidivismRateAllFollowup,
-  recidivismRateConventionalFollowup,
-  RecidivismRateRecord,
-  sentencePopulationCurrent,
-  SentenceTypeByLocationRecord,
-  sentenceTypesCurrent,
-  SupervisionSuccessRateDemographicsRecord,
-  SupervisionSuccessRateMonthlyRecord,
+  DemographicFields,
+  DemographicView,
+  LocalityFields,
 } from "../metricsApi";
-import { AnyRecord, CollectionMap, MetricMapping } from "./types";
+import { MetricRecord, CollectionMap } from "./types";
 
-type DataTransformer<RecordFormat> = (rawData: RawMetricData) => RecordFormat[];
-
-type InitOptions<RecordFormat> = {
+type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   name: string;
   description: string;
   methodology: string;
   tenantId: TenantId;
-  dataTransformer: DataTransformer<RecordFormat>;
   sourceFileName: string;
+  dataTransformer: (d: RawMetricData) => RecordFormat[];
+  defaultDemographicView: RecordFormat extends DemographicFields
+    ? DemographicView
+    : undefined;
+  defaultLocalityId: RecordFormat extends LocalityFields ? string : undefined;
 };
 
 /**
- * Represents a single dataset backed by data from our metrics API.
- * The recommended way to instantiate `Metrics` is with the `createMetricMapping`
- * factory exported from this module.
+ * Represents a single dataset backed by our metrics API,
+ * plus any applicable metadata.
+ * This is an abstract class that cannot be instantiated directly!
+ * See subclasses that narrow this base down to a specific metric format.
+ * The preferred way to instantiate `Metric` subclasses is with the
+ * `createMetricMapping` function, which is defined in its own module to
+ * prevent cyclic dependencies in their respective class declarations.
  */
-export default class Metric<RecordFormat extends AnyRecord> {
+export default abstract class Metric<RecordFormat extends MetricRecord> {
   // metadata properties
   readonly description: string;
 
@@ -85,34 +70,39 @@ export default class Metric<RecordFormat extends AnyRecord> {
   readonly tenantId: TenantId;
 
   // data properties
-  private readonly dataTransformer: DataTransformer<RecordFormat>;
+  protected dataTransformer: (d: RawMetricData) => RecordFormat[];
 
-  private readonly sourceFileName: string;
+  protected readonly sourceFileName: string;
 
   isLoading?: boolean;
 
-  private allRecords?: RecordFormat[];
+  allRecords?: RecordFormat[];
 
   error?: Error;
+
+  // filter properties
+  localityId: RecordFormat extends LocalityFields ? string : undefined;
+
+  demographicView: RecordFormat extends DemographicFields
+    ? DemographicView
+    : undefined;
 
   constructor({
     name,
     description,
     methodology,
     tenantId,
-    dataTransformer,
     sourceFileName,
-  }: InitOptions<RecordFormat>) {
-    makeAutoObservable(this, {
-      // readonly properties do not need to be observed
-      description: false,
-      methodology: false,
-      name: false,
-      tenantId: false,
-      // in practice, collections should not change once we are done
-      // bootstrapping them (which is done right after instantiation);
-      // no need to make them observable
-      collections: false,
+    dataTransformer,
+    defaultDemographicView,
+    defaultLocalityId,
+  }: BaseMetricConstructorOptions<RecordFormat>) {
+    makeObservable(this, {
+      allRecords: observable.ref,
+      error: observable,
+      fetch: action,
+      isLoading: observable,
+      records: computed,
     });
 
     // initialize metadata
@@ -122,262 +112,48 @@ export default class Metric<RecordFormat extends AnyRecord> {
 
     // initialize data fetching
     this.tenantId = tenantId;
-    this.dataTransformer = dataTransformer;
     this.sourceFileName = sourceFileName;
+    this.dataTransformer = dataTransformer;
+
+    // initialize filters
+    this.localityId = defaultLocalityId;
+    this.demographicView = defaultDemographicView;
   }
 
+  /**
+   * Fetches the metric data from the server, transforms it,
+   * and stores the result on this Metric instance.
+   */
   async fetch(): Promise<void> {
     this.isLoading = true;
-    const apiResponse = await fetchMetrics({
-      metricNames: [this.sourceFileName],
-      tenantId: this.tenantId,
-    });
-    runInAction(() => {
-      if (apiResponse) {
+    try {
+      const apiResponse = await fetchMetrics({
+        metricNames: [this.sourceFileName],
+        tenantId: this.tenantId,
+      });
+      runInAction(() => {
         const metricFileData = apiResponse[this.sourceFileName];
         if (metricFileData) {
           this.allRecords = this.dataTransformer(metricFileData);
         }
         this.isLoading = false;
-      }
-    });
+      });
+    } catch (e) {
+      this.error = e;
+    }
+  }
+
+  /**
+   * Returns fetched, transformed, and (optionally) filtered data for this metric.
+   * Will automatically initiate a fetch if necessary.
+   */
+  protected getOrFetchRecords(): RecordFormat[] | undefined {
+    if (this.allRecords) return this.allRecords;
+    if (!this.isLoading || !this.error) this.fetch();
+    return undefined;
   }
 
   get records(): RecordFormat[] | undefined {
-    return this.allRecords;
+    return this.getOrFetchRecords();
   }
-}
-
-type MetricMappingFactoryOptions = {
-  metadataMapping: TenantContent["metrics"];
-  tenantId: TenantId;
-};
-/**
- * Factory function for converting a mapping of content objects by metric ID
- * to a mapping of Metric instances by metric ID. Creating the entire mapping at once
- * ensures that each ID maps to the proper Metric type without requiring further
- * type guarding on the part of consumers.
- */
-export function createMetricMapping({
-  metadataMapping,
-  tenantId,
-}: MetricMappingFactoryOptions): MetricMapping {
-  const metricMapping: MetricMapping = {};
-
-  // to maintain type safety we iterate through all of the known metrics;
-  // iterating through the metadata object's keys widens the type to `string`,
-  // which prevents us from guaranteeing exhaustiveness at the type level
-  MetricTypeIdList.forEach((metricType) => {
-    // not all metrics are required; metadata object is the source of truth
-    // for which metrics to include
-    const metadata = metadataMapping[metricType];
-    if (!metadata) {
-      return;
-    }
-    // this big ol' switch statement ensures that the type ID string union is properly narrowed,
-    // allowing for 1:1 correspondence between the ID and the typed Metric instance.
-    switch (metricType) {
-      case "SentencePopulationCurrent":
-        metricMapping[metricType] = new Metric<
-          PopulationBreakdownByLocationRecord
-        >({
-          ...metadata,
-          tenantId,
-          dataTransformer: sentencePopulationCurrent,
-          sourceFileName: "sentence_type_by_district_by_demographics",
-        });
-        break;
-      case "SentenceTypesCurrent":
-        metricMapping[metricType] = new Metric<SentenceTypeByLocationRecord>({
-          ...metadata,
-          tenantId,
-          dataTransformer: sentenceTypesCurrent,
-          sourceFileName: "sentence_type_by_district_by_demographics",
-        });
-        break;
-      case "PrisonPopulationCurrent":
-        metricMapping[metricType] = new Metric<
-          PopulationBreakdownByLocationRecord
-        >({
-          ...metadata,
-          tenantId,
-          dataTransformer: prisonPopulationCurrent,
-          sourceFileName:
-            "incarceration_population_by_facility_by_demographics",
-        });
-        break;
-      case "ProbationPopulationCurrent":
-        metricMapping[metricType] = new Metric<
-          PopulationBreakdownByLocationRecord
-        >({
-          ...metadata,
-          tenantId,
-          dataTransformer: probationPopulationCurrent,
-          sourceFileName: "supervision_population_by_district_by_demographics",
-        });
-        break;
-      case "ParolePopulationCurrent":
-        metricMapping[metricType] = new Metric<
-          PopulationBreakdownByLocationRecord
-        >({
-          ...metadata,
-          tenantId,
-          dataTransformer: parolePopulationCurrent,
-          sourceFileName: "supervision_population_by_district_by_demographics",
-        });
-        break;
-      case "PrisonPopulationHistorical":
-        metricMapping[metricType] = new Metric<
-          HistoricalPopulationBreakdownRecord
-        >({
-          ...metadata,
-          tenantId,
-          dataTransformer: prisonPopulationHistorical,
-          sourceFileName: "incarceration_population_by_month_by_demographics",
-        });
-        break;
-      case "ProbationPopulationHistorical":
-        metricMapping[metricType] = new Metric<
-          HistoricalPopulationBreakdownRecord
-        >({
-          ...metadata,
-          tenantId,
-          dataTransformer: probationPopulationHistorical,
-          sourceFileName: "supervision_population_by_month_by_demographics",
-        });
-        break;
-      case "ParolePopulationHistorical":
-        metricMapping[metricType] = new Metric<
-          HistoricalPopulationBreakdownRecord
-        >({
-          ...metadata,
-          tenantId,
-          dataTransformer: parolePopulationHistorical,
-          sourceFileName: "supervision_population_by_month_by_demographics",
-        });
-        break;
-      case "ProbationProgrammingCurrent":
-        metricMapping[metricType] = new Metric<
-          ProgramParticipationCurrentRecord
-        >({
-          ...metadata,
-          tenantId,
-          dataTransformer: probationProgramParticipationCurrent,
-          sourceFileName: "active_program_participation_by_region",
-        });
-        break;
-      case "ParoleProgrammingCurrent":
-        metricMapping[metricType] = new Metric<
-          ProgramParticipationCurrentRecord
-        >({
-          ...metadata,
-          tenantId,
-          dataTransformer: paroleProgramParticipationCurrent,
-          sourceFileName: "active_program_participation_by_region",
-        });
-        break;
-      case "ProbationSuccessHistorical":
-        metricMapping[metricType] = new Metric<
-          SupervisionSuccessRateMonthlyRecord
-        >({
-          ...metadata,
-          tenantId,
-          dataTransformer: probationSuccessRateMonthly,
-          sourceFileName: "supervision_success_by_month",
-        });
-        break;
-      case "ParoleSuccessHistorical":
-        metricMapping[metricType] = new Metric<
-          SupervisionSuccessRateMonthlyRecord
-        >({
-          ...metadata,
-          tenantId,
-          dataTransformer: paroleSuccessRateMonthly,
-          sourceFileName: "supervision_success_by_month",
-        });
-        break;
-      case "ProbationSuccessAggregate":
-        metricMapping[metricType] = new Metric<
-          SupervisionSuccessRateDemographicsRecord
-        >({
-          ...metadata,
-          tenantId,
-          dataTransformer: probationSuccessRateDemographics,
-          sourceFileName: "supervision_success_by_period_by_demographics",
-        });
-        break;
-      case "ParoleSuccessAggregate":
-        metricMapping[metricType] = new Metric<
-          SupervisionSuccessRateDemographicsRecord
-        >({
-          ...metadata,
-          tenantId,
-          dataTransformer: paroleSuccessRateDemographics,
-          sourceFileName: "supervision_success_by_period_by_demographics",
-        });
-        break;
-      case "ProbationRevocationsAggregate":
-        metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
-          ...metadata,
-          tenantId,
-          dataTransformer: probationRevocationReasons,
-          sourceFileName:
-            "supervision_revocations_by_period_by_type_by_demographics",
-        });
-        break;
-      case "ParoleRevocationsAggregate":
-        metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
-          ...metadata,
-          tenantId,
-          dataTransformer: paroleRevocationReasons,
-          sourceFileName:
-            "supervision_revocations_by_period_by_type_by_demographics",
-        });
-        break;
-      case "PrisonAdmissionReasonsCurrent":
-        metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
-          ...metadata,
-          tenantId,
-          dataTransformer: prisonAdmissionReasons,
-          sourceFileName: "incarceration_population_by_admission_reason",
-        });
-        break;
-      case "PrisonReleaseTypeAggregate":
-        metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
-          ...metadata,
-          tenantId,
-          dataTransformer: prisonReleaseTypes,
-          sourceFileName: "incarceration_releases_by_type_by_period",
-        });
-        break;
-      case "PrisonRecidivismRateHistorical":
-        metricMapping[metricType] = new Metric<RecidivismRateRecord>({
-          ...metadata,
-          tenantId,
-          dataTransformer: recidivismRateAllFollowup,
-          sourceFileName: "recidivism_rates_by_cohort_by_year",
-        });
-        break;
-      case "PrisonRecidivismRateSingleFollowupHistorical":
-        metricMapping[metricType] = new Metric<RecidivismRateRecord>({
-          ...metadata,
-          tenantId,
-          dataTransformer: recidivismRateConventionalFollowup,
-          sourceFileName: "recidivism_rates_by_cohort_by_year",
-        });
-        break;
-      case "PrisonStayLengthAggregate":
-        metricMapping[metricType] = new Metric<DemographicsByCategoryRecord>({
-          ...metadata,
-          tenantId,
-          dataTransformer: prisonStayLengths,
-          sourceFileName: "incarceration_lengths_by_demographics",
-        });
-        break;
-      default:
-        assertNever(metricType);
-    }
-  });
-
-  return metricMapping;
 }

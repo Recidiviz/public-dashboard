@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,15 +16,20 @@
 // =============================================================================
 
 import React from "react";
-import { FallbackProps } from "react-error-boundary";
+import Metric from "../contentModels/Metric";
+import HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
+import VizHistoricalPopulationBreakdown from "../VizHistoricalPopulationBreakdown";
+import { MetricRecord } from "../contentModels/types";
 
-const ErrorMessage: React.FC<FallbackProps> = ({ error }) => {
-  return (
-    <div>
-      <h1>An error has occurred.</h1>
-      <p>{error?.message}</p>
-    </div>
-  );
+type MetricVizMapperProps = {
+  metric: Metric<MetricRecord>;
 };
 
-export default ErrorMessage;
+const MetricVizMapper: React.FC<MetricVizMapperProps> = ({ metric }) => {
+  if (metric instanceof HistoricalPopulationBreakdownMetric) {
+    return <VizHistoricalPopulationBreakdown metric={metric} />;
+  }
+  return <h3>Placeholder for {metric.name}</h3>;
+};
+
+export default MetricVizMapper;

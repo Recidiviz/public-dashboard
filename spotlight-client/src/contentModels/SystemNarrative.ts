@@ -19,12 +19,13 @@ import {
   SystemNarrativeContent,
   SystemNarrativeTypeId,
 } from "../contentApi/types";
-import { AnyMetric, isAnyMetric, MetricMapping } from "./types";
+import Metric from "./Metric";
+import { MetricMapping, MetricRecord } from "./types";
 
 export type SystemNarrativeSection = {
   title: string;
   body: string;
-  metric: AnyMetric;
+  metric: Metric<MetricRecord>;
 };
 
 type ConstructorArgs = {
@@ -64,8 +65,8 @@ export function createSystemNarrative({
   // building sections in a type-safe way: make sure the related metric
   // actually exists or else the section is omitted
   content.sections.forEach(({ title, body, metricTypeId }) => {
-    const metric = allMetrics[metricTypeId];
-    if (isAnyMetric(metric)) {
+    const metric = allMetrics.get(metricTypeId);
+    if (metric instanceof Metric) {
       sections.push({ title, body, metric });
     }
   });
