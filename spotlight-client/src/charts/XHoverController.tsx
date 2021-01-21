@@ -15,19 +15,26 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-// using JSDoc/Typescript annotations instead
-/* eslint-disable react/prop-types */
-
 import { bisectCenter } from "d3-array";
 import React, { useState } from "react";
+import { MarginType } from "semiotic/lib/types/generalTypes";
+import { XYFrameProps } from "semiotic/lib/types/xyTypes";
 import XYFrame from "semiotic/lib/XYFrame";
 import styled from "styled-components/macro";
+import { NonUndefined } from "utility-types";
 import { colors, zIndex } from "../UiLibrary";
-import ResponsiveTooltipController from "./ResponsiveTooltipController";
+import ResponsiveTooltipController, {
+  ResponsiveTooltipControllerProps,
+} from "./ResponsiveTooltipController";
+import { DataSeries } from "./types";
 
 const TOOLTIP_OFFSET = 8;
 
-const OverlayContainer = styled.div`
+const OverlayContainer = styled.div<{
+  height: number;
+  margin: MarginType;
+  tooltipLeft?: boolean;
+}>`
   left: 0;
   position: absolute;
   top: 0;
@@ -63,10 +70,6 @@ const Wrapper = styled.div`
 `;
 
 /**
- * @typedef {import("./types").DataSeries} DataSeries
- */
-
-/**
  * Wraps around a Semiotic XYFrame and overlays a second, invisible XYFrame to provide
  * alternative hover behavior (creating uniform hover targets along the X axis
  * rather than a point-by-point Voronoi arrangement) by normalizing all Y values
@@ -79,25 +82,18 @@ const Wrapper = styled.div`
  *
  * Also includes a `ResponsiveTooltipController` that you can pass any supported props to
  * via `tooltipControllerProps`.
- *
- * @param {Object} props
- * @param {React.ReactHTMLElement} props.children
- * @param {DataSeries[]} props.lines
- * @param {{ [key in "top" | "bottom" | "left" | "right"]: number }} props.margin
- * @param {Record<string, any>} props.otherChartProps - should be supported Semiotic props
- * @param {number[]} props.size - should have two members [width, height]
- * @param {string | Function } props.xAccessor
  */
-// XHoverController.propTypes = {
-//   // these are passed through if present, let the underlying components validate them
-//   tooltipControllerProps: PropTypes.objectOf(PropTypes.any),
-// };
-
-// XHoverController.defaultProps = {
-//   otherChartProps: {},
-//   tooltipControllerProps: {},
-// };
-const XHoverController = ({
+const XHoverController: React.FC<{
+  lines: DataSeries[];
+  margin: MarginType;
+  otherChartProps?: Exclude<
+    XYFrameProps,
+    "lines" | "margin" | "size" | "xAccessor"
+  >;
+  size: NonUndefined<XYFrameProps["size"]>;
+  tooltipControllerProps?: ResponsiveTooltipControllerProps;
+  xAccessor: NonUndefined<XYFrameProps["xAccessor"]>;
+}> = ({
   children,
   lines,
   margin,
@@ -106,7 +102,7 @@ const XHoverController = ({
   tooltipControllerProps = {},
   xAccessor,
 }) => {
-  const [tooltipLeft, setTooltipLeft] = useState();
+  const [tooltipLeft, setTooltipLeft] = useState<boolean>();
 
   return (
     <Wrapper>
@@ -115,8 +111,11 @@ const XHoverController = ({
         or the hover targets won't line up with their marks.
         If the child has different settings for these, they will be clobbered.
       */}
-      {React.Children.map(children, (child) =>
-        React.cloneElement(child, { margin, size, ...otherChartProps })
+      {React.Children.map(
+        children,
+        (child) =>
+          React.isValidElement(child) &&
+          React.cloneElement(child, { margin, size, ...otherChartProps })
       )}
       <OverlayContainer
         height={size[1]}
@@ -125,6 +124,7 @@ const XHoverController = ({
       >
         <ResponsiveTooltipController
           hoverAnnotation={[
+            // @ts-expect-error Semiotic typedefs are wrong, `disable` is a valid key
             { type: "x", disable: ["connector", "note"] },
             { type: "frame-hover" },
           ]}
@@ -133,6 +133,7 @@ const XHoverController = ({
           <XYFrame
             {...otherChartProps}
             customLineMark={() => null}
+            // @ts-expect-error gap in Semiotic typedefs
             htmlAnnotationRules={({ d, xScale }) => {
               if (d.type === "frame-hover") {
                 // we're not going to render anything but we will determine

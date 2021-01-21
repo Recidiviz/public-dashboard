@@ -24,5 +24,10 @@ export type DataSeries<RecordFormat = MetricRecord> = {
 };
 
 export type ItemToHighlight = Pick<DataSeries, "label">;
+export function isItemToHighlight(
+  item: Record<string, unknown>
+): item is ItemToHighlight {
+  return typeof item.label === "string";
+}
 
 export type ItemToDisplay = Pick<DataSeries, "label" | "color">;

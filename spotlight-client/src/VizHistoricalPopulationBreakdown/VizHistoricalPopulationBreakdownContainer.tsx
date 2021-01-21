@@ -15,7 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { withErrorBoundary } from "react-error-boundary";

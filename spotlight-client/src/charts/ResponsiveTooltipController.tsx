@@ -19,34 +19,36 @@ import useBreakpoint from "@w11r/use-breakpoint";
 import isEmpty from "lodash.isempty";
 import React, { useEffect, useState } from "react";
 import { AnnotationType } from "semiotic/lib/types/annotationTypes";
+import { XYFrameProps } from "semiotic/lib/types/xyTypes";
+import { OrdinalFrameProps } from "semiotic/lib/types/ordinalTypes";
 import {
   TooltipContentProps,
   useInfoPanelDispatch,
   useInfoPanelState,
 } from "../InfoPanel";
 import Tooltip, { TooltipProps } from "../Tooltip";
-import { ItemToHighlight } from "./types";
+import { isItemToHighlight, ItemToHighlight } from "./types";
 
 function chartDataToTooltipProps({ label, value, pct }: TooltipContentProps) {
   return {
-    title: label,
+    title: label as string,
     records: [
       {
-        value,
-        pct,
+        value: value as number,
+        pct: pct as number,
       },
     ],
   };
 }
 
-type SemioticChildProps = Record<string, unknown>;
+type SemioticChildProps = Partial<XYFrameProps> | Partial<OrdinalFrameProps>;
 
 export type ResponsiveTooltipControllerProps = {
   customHoverBehavior?: (record: TooltipContentProps) => void;
   getTooltipProps?: (record: TooltipContentProps) => TooltipProps;
   hoverAnnotation?: boolean | AnnotationType[];
   pieceHoverAnnotation?: boolean;
-  render: (props: SemioticChildProps) => React.ReactElement;
+  render?: (props: SemioticChildProps) => React.ReactElement;
   setHighlighted?: (item?: ItemToHighlight) => void;
 };
 
@@ -108,7 +110,7 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
 
   // not all chart frames support this so don't include it by default
   // or Semiotic will yell at you
-  if (pieceHoverAnnotation)
+  if (pieceHoverAnnotation && "pieceHoverAnnotation" in childProps)
     childProps.pieceHoverAnnotation = pieceHoverAnnotation;
 
   childProps.customClickBehavior = (d: TooltipContentProps) => {
@@ -117,7 +119,7 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
         type: "update",
         payload: { data: d, renderContents: tooltipContent },
       });
-      if (setHighlighted) {
+      if (setHighlighted && isItemToHighlight(d)) {
         setHighlighted(d);
       }
       if (Array.isArray(hoverAnnotation)) {
@@ -138,7 +140,7 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
   };
 
   childProps.customHoverBehavior = (d: TooltipContentProps) => {
-    if (setHighlighted) {
+    if (setHighlighted && isItemToHighlight(d)) {
       setHighlighted(d);
     }
     if (customHoverBehavior) customHoverBehavior(d);

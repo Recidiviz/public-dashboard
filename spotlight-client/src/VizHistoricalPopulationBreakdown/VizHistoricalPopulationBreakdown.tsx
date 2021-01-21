@@ -19,9 +19,10 @@ import { startOfMonth } from "date-fns";
 import React from "react";
 import { WindowedTimeSeries } from "../charts";
 import { DataSeries } from "../charts/types";
+import { HistoricalPopulationBreakdownRecord } from "../metricsApi";
 
 type VizHistoricalPopulationBreakdownProps = {
-  data: DataSeries[] | null;
+  data: DataSeries<HistoricalPopulationBreakdownRecord>[] | null;
   error?: Error;
 };
 

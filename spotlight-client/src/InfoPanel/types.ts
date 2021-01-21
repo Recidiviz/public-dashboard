@@ -15,16 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { ProjectedPoint } from "semiotic/lib/types/generalTypes";
+
 /**
- * Based on the expected format Semiotic passes to the tooltipContent prop,
- * since Semiotic charts are the primary Tooltip users in this application.
+ * This object is a mix of keys consistently provided by Semiotic
+ * and others that are derived from the data format that we passed to the chart
  */
-export type TooltipContentProps = {
-  label: string;
-  value: number;
-  pct: number;
-  data: Record<string, unknown>;
-};
+export type TooltipContentProps = ProjectedPoint & Record<string, unknown>;
 
 export type InfoPanelState = {
   data?: TooltipContentProps;

@@ -15,9 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-// using JSDoc/Typescript annotations instead
-/* eslint-disable react/prop-types */
-
 import useBreakpoint from "@w11r/use-breakpoint";
 import { scaleTime } from "d3-scale";
 import { format, isEqual } from "date-fns";
@@ -31,6 +28,8 @@ import BaseChartWrapper from "./ChartWrapper";
 import { getDataWithPct, highlightFade } from "./utils";
 import ColorLegend from "./ColorLegend";
 import XHoverController from "./XHoverController";
+import { HistoricalPopulationBreakdownRecord } from "../metricsApi";
+import { DataSeries, ItemToHighlight } from "./types";
 
 // TODO(#278): this should come from filters once they are implemented
 const CUSTOM_ID = "custom";
@@ -61,7 +60,7 @@ const ChartWrapper = styled(BaseChartWrapper)`
   }
 `;
 
-const getDateLabel = (date) => format(date, "MMM d y");
+const getDateLabel = (date: Date) => format(date, "MMM d y");
 
 const BASE_MARK_PROPS = {
   transitionDuration: {
@@ -69,31 +68,15 @@ const BASE_MARK_PROPS = {
   },
 };
 
-/**
- * @typedef {import("../metricsApi").HistoricalPopulationBreakdownRecord} HistoricalPopulationBreakdownRecord
- * @typedef {import("./types").DataSeries} DataSeries
- * @typedef {import("./types").ItemToHighlight} ItemToHighlight
- */
-
-/**
- * @param {Object} props
- * @param {DataSeries<HistoricalPopulationBreakdownRecord>[]} props.data
- * @param {Date} props.defaultRangeEnd
- * @param {Date=} props.defaultRangeStart
- * @param {(id?: string) => void} props.setTimeRangeId
- */
-export default function WindowedTimeSeries({
-  data,
-  defaultRangeEnd,
-  defaultRangeStart,
-  setTimeRangeId,
-}) {
-  /** @type {[ItemToHighlight | undefined, (item?: ItemToHighlight) => void]} */
-  const [highlighted, setHighlighted] = useState();
-  /** @type {[Date | undefined, (item?: Date) => void]} */
-  const [dateRangeStart, setDateRangeStart] = useState();
-  /** @type {[Date | undefined, (item?: Date) => void]} */
-  const [dateRangeEnd, setDateRangeEnd] = useState();
+const WindowedTimeSeries: React.FC<{
+  data: DataSeries<HistoricalPopulationBreakdownRecord>[];
+  defaultRangeEnd: Date;
+  defaultRangeStart?: Date;
+  setTimeRangeId: (id?: string) => void;
+}> = ({ data, defaultRangeEnd, defaultRangeStart, setTimeRangeId }) => {
+  const [highlighted, setHighlighted] = useState<ItemToHighlight | undefined>();
+  const [dateRangeStart, setDateRangeStart] = useState<Date | undefined>();
+  const [dateRangeEnd, setDateRangeEnd] = useState<Date | undefined>();
   const { isMobile } = useBreakpoint();
 
   useEffect(() => {
@@ -123,30 +106,41 @@ export default function WindowedTimeSeries({
 
   return (
     <Measure bounds>
-      {({
-        measureRef,
-        contentRect: {
-          bounds: { width },
-        },
-      }) => (
+      {({ measureRef, contentRect: { bounds: { width } = { width: 0 } } }) => (
         <Wrapper ref={measureRef}>
           <ChartWrapper>
             <XHoverController
               lines={data}
               margin={MARGIN}
               otherChartProps={{
+                // @ts-expect-error Semiotic typedefs are wrong,
+                // we can use dates as long as the scale accepts them
                 xExtent: [dateRangeStart, dateRangeEnd],
+                // @ts-expect-error Semiotic typedefs are wrong, we can
+                // use a time scale here, not just a numeric one.
+                // xExtent depends on this
                 xScaleType: scaleTime(),
                 yExtent: [0],
               }}
               size={[width, CHART_HEIGHT]}
               tooltipControllerProps={{
+                /**
+                 * This function collects a "vertical slice" of all the areas
+                 * to display all values matching the targeted date
+                 */
                 getTooltipProps: (d) => {
-                  const dateHovered = d.date;
+                  // d.date is present because it's in our record format
+                  const dateHovered = d.date as Date;
                   return {
                     title: getDateLabel(dateHovered),
                     records: getDataWithPct(
-                      d.points
+                      // d.points comes from Semiotic but it's not in their type defs
+                      (d.points as {
+                        // these values, again, come from our record format
+                        data: { date: Date; count: number };
+                        // parentLine is a Semiotic thing, label comes from our record format
+                        parentLine: { label: string };
+                      }[])
                         .filter((p) => isEqual(p.data.date, dateHovered))
                         .map((p) => ({
                           label: p.parentLine.label,
@@ -163,19 +157,19 @@ export default function WindowedTimeSeries({
                   {
                     orient: "left",
                     tickFormat: formatAsNumber,
-                    tickLineGenerator: () => null,
+                    tickSize: 0,
                   },
                   {
                     orient: "bottom",
-                    tickFormat: (time) =>
+                    tickFormat: (time: Date) =>
                       time.getDate() === 1 ? format(time, "MMM y") : null,
-                    tickLineGenerator: () => null,
                     ticks: isMobile ? 5 : 10,
+                    tickSize: 0,
                   },
                 ]}
                 baseMarkProps={BASE_MARK_PROPS}
                 lines={data}
-                lineStyle={(d) => ({
+                lineStyle={(d: DataSeries) => ({
                   fill:
                     highlighted && highlighted.label !== d.label
                       ? highlightFade(d.color)
@@ -183,12 +177,15 @@ export default function WindowedTimeSeries({
                   stroke: colors.background,
                   strokeWidth: 1,
                 })}
+                // @ts-expect-error Semiotic typedefs are incomplete, this works
                 lineType={{ type: "stackedarea", sort: null }}
+                // @ts-expect-error Semiotic typedefs are wrong, can be true for default matte
                 matte
                 minimap={{
+                  // @ts-expect-error Semiotic typedefs are incomplete
                   axes: [],
                   baseMarkProps: BASE_MARK_PROPS,
-                  brushEnd: (brushExtent) => {
+                  brushEnd: (brushExtent: Date[]) => {
                     const [start, end] = brushExtent || [];
                     if (start && end) {
                       if (isNewRange({ start, end })) {
@@ -222,4 +219,6 @@ export default function WindowedTimeSeries({
       )}
     </Measure>
   );
-}
+};
+
+export default WindowedTimeSeries;
