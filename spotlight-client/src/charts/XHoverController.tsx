@@ -88,7 +88,13 @@ const XHoverController: React.FC<{
   margin: MarginType;
   otherChartProps?: Exclude<
     XYFrameProps,
-    "lines" | "margin" | "size" | "xAccessor"
+    | "lines"
+    | "margin"
+    | "size"
+    | "xAccessor"
+    | "yAccessor"
+    | "customLineMark"
+    | "htmlAnnotationRules"
   >;
   size: NonUndefined<XYFrameProps["size"]>;
   tooltipControllerProps?: ResponsiveTooltipControllerProps;
@@ -124,8 +130,10 @@ const XHoverController: React.FC<{
       >
         <ResponsiveTooltipController
           hoverAnnotation={[
-            // @ts-expect-error Semiotic typedefs are wrong, `disable` is a valid key
-            { type: "x", disable: ["connector", "note"] },
+            {
+              type: "x",
+              disable: ["connector", "note"],
+            },
             { type: "frame-hover" },
           ]}
           {...tooltipControllerProps}

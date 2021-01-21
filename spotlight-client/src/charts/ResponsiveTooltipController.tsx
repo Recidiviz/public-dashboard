@@ -46,7 +46,9 @@ type SemioticChildProps = Partial<XYFrameProps> | Partial<OrdinalFrameProps>;
 export type ResponsiveTooltipControllerProps = {
   customHoverBehavior?: (record: TooltipContentProps) => void;
   getTooltipProps?: (record: TooltipContentProps) => TooltipProps;
-  hoverAnnotation?: boolean | AnnotationType[];
+  hoverAnnotation?:
+    | XYFrameProps["hoverAnnotation"]
+    | OrdinalFrameProps["hoverAnnotation"];
   pieceHoverAnnotation?: boolean;
   render?: (props: SemioticChildProps) => React.ReactElement;
   setHighlighted?: (item?: ItemToHighlight) => void;
@@ -125,11 +127,19 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
       if (Array.isArray(hoverAnnotation)) {
         // if there is hover behavior other than the tooltip, we want to preserve it
         const additionalHoverAnnotations: AnnotationType[] = hoverAnnotation
-          .filter(({ type }) => type !== "frame-hover")
+          .filter(
+            (annotation): annotation is AnnotationType =>
+              // technically only the left side of this && is the type guard
+              "type" in annotation && annotation.type !== "frame-hover"
+          )
           .map((annotationSpec) => {
-            // hover annotation specs expect to have point data applied on the fly;
-            // here we will substitute equivalent data from the click event
-            return { ...annotationSpec, ...d.data };
+            return {
+              // the filter step above should serve as a sufficient type guard here
+              ...annotationSpec,
+              // hover annotation specs expect to have point data applied on the fly;
+              // here we will substitute equivalent data from the click event
+              ...d.data,
+            };
           });
 
         if (additionalHoverAnnotations.length) {
