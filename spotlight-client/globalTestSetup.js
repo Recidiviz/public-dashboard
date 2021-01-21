@@ -7,4 +7,7 @@ module.exports = async () => {
   global.TEST_SERVER = spawn("yarn", ["start-test-server"], {
     cwd: resolve(__dirname, "../spotlight-api"),
   });
+
+  // set the timezone for all tests to UTC for consistency across environments
+  process.env.TZ = "UTC";
 };
