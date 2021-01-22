@@ -17,25 +17,34 @@
 
 import useBreakpoint from "@w11r/use-breakpoint";
 import isEmpty from "lodash.isempty";
+import { action, autorun } from "mobx";
 import React, { useEffect, useState } from "react";
 import { AnnotationType } from "semiotic/lib/types/annotationTypes";
-import { XYFrameProps } from "semiotic/lib/types/xyTypes";
 import { OrdinalFrameProps } from "semiotic/lib/types/ordinalTypes";
+import { XYFrameProps } from "semiotic/lib/types/xyTypes";
+import Tooltip, { TooltipContentProps } from "../Tooltip";
 import {
-  TooltipContentProps,
-  useInfoPanelDispatch,
-  useInfoPanelState,
-} from "../InfoPanel";
-import Tooltip, { TooltipProps } from "../Tooltip";
-import { isItemToHighlight, ItemToHighlight } from "./types";
+  isItemToHighlight,
+  ItemToHighlight,
+  ProjectedDataPoint,
+} from "./types";
+import { useDataStore } from "../StoreProvider";
 
-function chartDataToTooltipProps({ label, value, pct }: TooltipContentProps) {
+/**
+ * Default tooltip content generator. Provides a title and a single
+ * data point with optional percentage. Good enough for most charts.
+ */
+function chartDataToTooltipProps({
+  label,
+  value,
+  pct,
+}: ProjectedDataPoint): TooltipContentProps {
   return {
-    title: label as string,
+    title: label,
     records: [
       {
-        value: value as number,
-        pct: pct as number,
+        value,
+        pct,
       },
     ],
   };
@@ -45,7 +54,7 @@ type SemioticChildProps = Partial<XYFrameProps> | Partial<OrdinalFrameProps>;
 
 export type ResponsiveTooltipControllerProps = {
   customHoverBehavior?: (record: TooltipContentProps) => void;
-  getTooltipProps?: (record: TooltipContentProps) => TooltipProps;
+  getTooltipProps?: (point: ProjectedDataPoint) => TooltipContentProps;
   hoverAnnotation?:
     | XYFrameProps["hoverAnnotation"]
     | OrdinalFrameProps["hoverAnnotation"];
@@ -70,29 +79,32 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
   setHighlighted,
   customHoverBehavior,
 }) => {
-  const infoPanelDispatch = useInfoPanelDispatch();
-  const infoPanelState = useInfoPanelState();
+  const { uiStore } = useDataStore();
   const enableInfoPanel = useBreakpoint(false, ["mobile-", true]);
   const [clickAnnotations, setClickAnnotations] = useState<AnnotationType[]>();
 
-  useEffect(() => {
-    // when state is cleared, make sure any relevant chart props are cleared also
-    if (isEmpty(infoPanelState)) {
-      if (setHighlighted) setHighlighted();
-      setClickAnnotations(undefined);
-    }
-  }, [infoPanelState, setHighlighted]);
+  useEffect(
+    () =>
+      autorun(() => {
+        // when state is cleared, make sure any relevant chart props are cleared also
+        if (isEmpty(uiStore.infoPanelData)) {
+          if (setHighlighted) setHighlighted();
+          setClickAnnotations(undefined);
+        }
+      }),
+    [setHighlighted, uiStore]
+  );
 
   // if info panel becomes disabled we should clear its state
   useEffect(() => {
     if (!enableInfoPanel) {
-      infoPanelDispatch({ type: "clear" });
+      uiStore.clearInfoPanel();
     }
-  }, [enableInfoPanel, infoPanelDispatch]);
+  }, [enableInfoPanel, uiStore]);
 
   // childProps are props that Semiotic will recognize; non-Semiotic children
   // should implement the same API if they want to use this controller
-  const tooltipContent = (d: TooltipContentProps) => (
+  const tooltipContent = (d: ProjectedDataPoint) => (
     <Tooltip {...getTooltipProps(d)} />
   );
   const renderNull = () => null;
@@ -115,12 +127,12 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
   if (pieceHoverAnnotation && "pieceHoverAnnotation" in childProps)
     childProps.pieceHoverAnnotation = pieceHoverAnnotation;
 
-  childProps.customClickBehavior = (d: TooltipContentProps) => {
+  childProps.customClickBehavior = (d: ProjectedDataPoint) => {
     if (enableInfoPanel) {
-      infoPanelDispatch({
-        type: "update",
-        payload: { data: d, renderContents: tooltipContent },
-      });
+      action("update info panel", () => {
+        uiStore.infoPanelData = d;
+        uiStore.renderInfoPanel = tooltipContent;
+      })();
       if (setHighlighted && isItemToHighlight(d)) {
         setHighlighted(d);
       }
@@ -133,13 +145,13 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
               "type" in annotation && annotation.type !== "frame-hover"
           )
           .map((annotationSpec) => {
-            return {
-              // the filter step above should serve as a sufficient type guard here
-              ...annotationSpec,
-              // hover annotation specs expect to have point data applied on the fly;
-              // here we will substitute equivalent data from the click event
-              ...d.data,
-            };
+            const clickAnnotationSpec = { ...annotationSpec };
+
+            // hover annotation specs expect to have point data applied on the fly;
+            // here we will substitute equivalent data from the click event
+            Object.assign(clickAnnotationSpec, d.data);
+
+            return clickAnnotationSpec;
           });
 
         if (additionalHoverAnnotations.length) {

@@ -15,12 +15,27 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { ProjectedPoint } from "semiotic/lib/types/generalTypes";
 import { MetricRecord } from "../contentModels/types";
 
 export type DataSeries<RecordFormat = MetricRecord> = {
   label: string;
   color: string;
   coordinates: RecordFormat[];
+};
+
+/**
+ * A combination of properties consistently produced by Semiotic
+ * and properties derived from our DataSeries format that Semiotic
+ * attaches to the object
+ */
+export type ProjectedDataPoint = ProjectedPoint & {
+  label: DataSeries["label"];
+  color: DataSeries["color"];
+  value: number;
+  pct?: number;
+  date?: Date;
+  [key: string]: unknown;
 };
 
 export type ItemToHighlight = Pick<DataSeries, "label">;

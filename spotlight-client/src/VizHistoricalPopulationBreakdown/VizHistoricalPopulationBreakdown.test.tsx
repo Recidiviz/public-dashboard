@@ -21,7 +21,8 @@ import React from "react";
 import VizHistoricalPopulationBreakdown from ".";
 import HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import DataStore from "../DataStore";
-import { InfoPanelProvider } from "../InfoPanel";
+import StoreProvider from "../StoreProvider";
+import { reactImmediately } from "../testUtils";
 
 let metric: HistoricalPopulationBreakdownMetric;
 
@@ -29,13 +30,15 @@ beforeEach(() => {
   runInAction(() => {
     DataStore.tenantStore.currentTenantId = "US_ND";
   });
-  const metricToTest = DataStore.tenant?.metrics.get(
-    "PrisonPopulationHistorical"
-  );
-  // it will be
-  if (metricToTest instanceof HistoricalPopulationBreakdownMetric) {
-    metric = metricToTest;
-  }
+  reactImmediately(() => {
+    const metricToTest = DataStore.tenant?.metrics.get(
+      "PrisonPopulationHistorical"
+    );
+    // it will be
+    if (metricToTest instanceof HistoricalPopulationBreakdownMetric) {
+      metric = metricToTest;
+    }
+  });
 });
 
 afterEach(() => {
@@ -46,14 +49,14 @@ afterEach(() => {
 
 test("loading", () => {
   render(<VizHistoricalPopulationBreakdown metric={metric} />, {
-    wrapper: InfoPanelProvider,
+    wrapper: StoreProvider,
   });
   expect(screen.getByText(/loading/i)).toBeVisible();
 });
 
 test("renders total", async () => {
   render(<VizHistoricalPopulationBreakdown metric={metric} />, {
-    wrapper: InfoPanelProvider,
+    wrapper: StoreProvider,
   });
 
   await waitFor(() => {

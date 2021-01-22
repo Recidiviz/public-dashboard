@@ -16,12 +16,12 @@
 // =============================================================================
 
 import useBreakpoint from "@w11r/use-breakpoint";
+import { observer } from "mobx-react-lite";
 import React from "react";
 import styled from "styled-components/macro";
 import { ReactComponent as MenuOpenIcon } from "../assets/menu-open.svg";
+import { useDataStore } from "../StoreProvider";
 import { colors, zIndex } from "../UiLibrary";
-import { useInfoPanelDispatch } from "./InfoPanelContext";
-import { InfoPanelState } from "./types";
 
 const InfoPanelWrapper = styled.div`
   background: ${colors.tooltipBackground};
@@ -64,20 +64,18 @@ const CloseButton = styled.button`
 
 const ICON_SIZE = 16;
 
-export default function InfoPanel({
-  data,
-  renderContents,
-}: InfoPanelState): React.ReactElement | null {
+const InfoPanel = (): React.ReactElement | null => {
   const enabled = useBreakpoint(false, ["mobile-", true]);
-  const infoPanelDispatch = useInfoPanelDispatch();
+  const { uiStore } = useDataStore();
+  const { infoPanelData, renderInfoPanel, clearInfoPanel } = uiStore;
 
   const dismiss = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    infoPanelDispatch({ type: "clear" });
+    clearInfoPanel();
   };
 
-  if (enabled && data && renderContents) {
+  if (enabled && infoPanelData && renderInfoPanel) {
     return (
       <>
         <InfoPanelOverlay onClick={dismiss} />
@@ -87,10 +85,12 @@ export default function InfoPanel({
               <MenuOpenIcon width={ICON_SIZE} height={ICON_SIZE} />
             </CloseButton>
           </CloseButtonWrapper>
-          {renderContents(data)}
+          {renderInfoPanel(infoPanelData)}
         </InfoPanelWrapper>
       </>
     );
   }
   return null;
-}
+};
+
+export default observer(InfoPanel);

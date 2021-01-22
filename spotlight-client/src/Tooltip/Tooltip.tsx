@@ -120,7 +120,7 @@ const TooltipPct = styled.div`
   }
 `;
 
-export type TooltipProps = {
+export type TooltipContentProps = {
   title: string;
   records: {
     color?: string;
@@ -130,7 +130,7 @@ export type TooltipProps = {
   }[];
 };
 
-export const Tooltip: React.FC<TooltipProps> = ({ title, records }) => {
+export const Tooltip: React.FC<TooltipContentProps> = ({ title, records }) => {
   return (
     <TooltipWrapper>
       <TooltipTitle>{title}</TooltipTitle>

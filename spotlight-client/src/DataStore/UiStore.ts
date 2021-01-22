@@ -15,11 +15,28 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React from "react";
-import InfoPanel from "./InfoPanel";
-import { useInfoPanelState } from "./InfoPanelContext";
+import { makeAutoObservable, observable } from "mobx";
+import { ProjectedDataPoint } from "../charts/types";
+import type RootStore from "./RootStore";
 
-export default function InfoPanelContainer(): React.ReactElement {
-  const state = useInfoPanelState();
-  return <InfoPanel {...state} />;
+export default class UiStore {
+  rootStore: RootStore;
+
+  infoPanelData?: ProjectedDataPoint;
+
+  renderInfoPanel?: (props: ProjectedDataPoint) => React.ReactNode;
+
+  constructor({ rootStore }: { rootStore: RootStore }) {
+    makeAutoObservable(this, {
+      rootStore: false,
+      renderInfoPanel: observable.ref,
+    });
+
+    this.rootStore = rootStore;
+  }
+
+  clearInfoPanel(): void {
+    this.infoPanelData = undefined;
+    this.renderInfoPanel = undefined;
+  }
 }
