@@ -15,9 +15,15 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { DataSeries } from "../charts/types";
 import { ProgramParticipationCurrentRecord } from "../metricsApi";
 import Metric from "./Metric";
 
 export default class ProgramParticipationCurrentMetric extends Metric<
   ProgramParticipationCurrentRecord
-> {}
+> {
+  // eslint-disable-next-line class-methods-use-this
+  get dataSeries(): DataSeries<ProgramParticipationCurrentRecord>[] | null {
+    throw new Error("Method not implemented.");
+  }
+}

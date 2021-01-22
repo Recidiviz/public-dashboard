@@ -22,6 +22,7 @@ import {
   observable,
   runInAction,
 } from "mobx";
+import { DataSeries } from "../charts/types";
 import { ERROR_MESSAGES } from "../constants";
 import { TenantId } from "../contentApi/types";
 import {
@@ -81,6 +82,8 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
 
   error?: Error;
 
+  abstract get dataSeries(): DataSeries<RecordFormat>[] | null;
+
   // filter properties
   localityId: RecordFormat extends LocalityFields ? string : undefined;
 
@@ -105,6 +108,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
       populateAllRecords: action,
       isLoading: observable,
       records: computed,
+      dataSeries: computed,
     });
 
     // initialize metadata

@@ -16,10 +16,17 @@
 // =============================================================================
 
 import { ascending } from "d3-array";
+import { DataSeries } from "../charts/types";
+import {
+  DEMOGRAPHIC_UNKNOWN,
+  DIMENSION_DATA_KEYS,
+  DIMENSION_MAPPINGS,
+} from "../demographics";
 import {
   HistoricalPopulationBreakdownRecord,
   recordIsTotalByDimension,
 } from "../metricsApi";
+import { colors } from "../UiLibrary";
 import Metric from "./Metric";
 
 export default class HistoricalPopulationBreakdownMetric extends Metric<
@@ -48,5 +55,34 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<
       recordIsTotalByDimension(this.demographicView)
     );
     return recordsToReturn;
+  }
+
+  get dataSeries(): DataSeries<HistoricalPopulationBreakdownRecord>[] | null {
+    const { records, demographicView } = this;
+    if (!records || demographicView === "nofilter") return null;
+
+    const labelsForDimension = DIMENSION_MAPPINGS.get(demographicView);
+    // this should never happen, it's really just a type safety measure.
+    //  if it does, something has gone catastrophically wrong
+    if (!labelsForDimension)
+      throw new Error("Unsupported demographic view. Unable to provide data.");
+
+    return (
+      Array.from(labelsForDimension)
+        // don't need to include unknown in this data;
+        // they are minimal to nonexistent in historical data and make the legend confusing
+        .filter(([value]) => value !== DEMOGRAPHIC_UNKNOWN)
+        .map(([value, label], index) => ({
+          label,
+          color: colors.dataViz[index],
+          coordinates:
+            demographicView === "total"
+              ? records
+              : records.filter(
+                  (record) =>
+                    record[DIMENSION_DATA_KEYS[demographicView]] === value
+                ),
+        }))
+    );
   }
 }
