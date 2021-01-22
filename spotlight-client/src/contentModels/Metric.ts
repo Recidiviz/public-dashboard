@@ -154,7 +154,10 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
         this.isLoading = false;
       });
     } catch (e) {
-      this.error = e;
+      runInAction(() => {
+        this.isLoading = false;
+        this.error = e;
+      });
     }
   }
 

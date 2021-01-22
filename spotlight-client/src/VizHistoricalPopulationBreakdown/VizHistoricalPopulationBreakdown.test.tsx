@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { render, screen, waitFor } from "@testing-library/react";
+import { advanceTo, clear } from "jest-date-mock";
 import { runInAction } from "mobx";
 import React from "react";
 import VizHistoricalPopulationBreakdown from ".";
@@ -45,6 +46,7 @@ afterEach(() => {
   runInAction(() => {
     DataStore.tenantStore.currentTenantId = undefined;
   });
+  clear();
 });
 
 test("loading", () => {
@@ -55,6 +57,9 @@ test("loading", () => {
 });
 
 test("renders total", async () => {
+  // most recent month present in fixture
+  advanceTo(new Date(2020, 7, 15));
+
   render(<VizHistoricalPopulationBreakdown metric={metric} />, {
     wrapper: StoreProvider,
   });
@@ -79,7 +84,5 @@ test("renders total", async () => {
   ).toBeVisible();
 });
 
-// TODO(#278): There should be not less than 240 points
-test.todo("fills in missing data");
 // TODO(#278): plots filtered data once filter UI is implemented
 test.todo("plots demographic categories");

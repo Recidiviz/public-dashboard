@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { ascending } from "d3-array";
+import { eachMonthOfInterval, format, startOfMonth, subMonths } from "date-fns";
 import { DataSeries } from "../charts/types";
 import {
   DEMOGRAPHIC_UNKNOWN,
@@ -23,11 +24,75 @@ import {
   DIMENSION_MAPPINGS,
 } from "../demographics";
 import {
+  AgeIdentifier,
+  DemographicFields,
+  GenderIdentifier,
   HistoricalPopulationBreakdownRecord,
+  RaceIdentifier,
   recordIsTotalByDimension,
 } from "../metricsApi";
 import { colors } from "../UiLibrary";
 import Metric from "./Metric";
+
+const EXPECTED_MONTHS = 240; // 20 years
+
+function dataIncludesCurrentMonth(
+  records: HistoricalPopulationBreakdownRecord[]
+) {
+  const thisMonth = startOfMonth(new Date());
+  return records.some((record) => record.date === thisMonth);
+}
+
+const getMonthString = (date: Date) => format(date, "yyyy-MM");
+
+/**
+ * Returns records for any months that are expected but missing from the input data.
+ * Any missing records are assumed to have a value of zero.
+ * Operates on a single series only - meaning input data must be filtered to a single
+ * demographic category for it to work as expected. The demographicFields prop
+ * should reflect that category to ensure generated records have the correct shape.
+ */
+function getMissingMonthsForSeries({
+  demographicFields,
+  includeCurrentMonth,
+  records,
+}: {
+  demographicFields: DemographicFields;
+  includeCurrentMonth: boolean;
+  records: HistoricalPopulationBreakdownRecord[];
+}): HistoricalPopulationBreakdownRecord[] {
+  // scan the data to see what months we have
+  const representedMonths: { [key: string]: boolean } = {};
+  records.forEach(({ date }) => {
+    representedMonths[getMonthString(date)] = true;
+  });
+  const isMonthMissing = (date: Date) => {
+    return !representedMonths[getMonthString(date)];
+  };
+
+  const newDataPoints: HistoricalPopulationBreakdownRecord[] = [];
+
+  let end = new Date();
+  if (!includeCurrentMonth) {
+    // there may be a reporting lag for the current month; if it's missing,
+    // instead of patching it we should just shift the entire window back one month
+    if (isMonthMissing(end)) {
+      end = subMonths(end, 1);
+    }
+  }
+  const start = subMonths(end, EXPECTED_MONTHS - 1);
+  eachMonthOfInterval({ start, end }).forEach((monthStart) => {
+    if (isMonthMissing(monthStart)) {
+      const monthData = {
+        date: monthStart,
+        count: 0,
+        ...demographicFields,
+      };
+      newDataPoints.push(monthData);
+    }
+  });
+  return newDataPoints;
+}
 
 export default class HistoricalPopulationBreakdownMetric extends Metric<
   HistoricalPopulationBreakdownRecord
@@ -35,12 +100,56 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<
   async fetchAndTransform(): Promise<HistoricalPopulationBreakdownRecord[]> {
     const transformedData = await super.fetchAndTransform();
 
-    // TODO(#278): add missing months to data
-
     // if the current month is completely missing from data, we will assume it is
     // actually missing due to reporting lag. But if any record contains it, we will
     // assume that it should be replaced with an empty record when it is missing
-    // const includeCurrentMonth = dataIncludesCurrentMonth(transformedData);
+    const includeCurrentMonth = dataIncludesCurrentMonth(transformedData);
+
+    const missingRecords: HistoricalPopulationBreakdownRecord[] = [];
+
+    // isolate each data series and impute any missing records
+    DIMENSION_MAPPINGS.forEach((categoryLabels, demographicView) => {
+      const recordsForDemographicView = transformedData.filter(
+        recordIsTotalByDimension(demographicView)
+      );
+      Array.from(categoryLabels.keys())
+        // don't need to include unknown in this data;
+        // they are minimal to nonexistent in historical data and make the legend confusing
+        .filter((identifier) => identifier !== DEMOGRAPHIC_UNKNOWN)
+        .forEach((identifier) => {
+          let recordsForCategory;
+          if (demographicView !== "total") {
+            const categoryKey = DIMENSION_DATA_KEYS[demographicView];
+            recordsForCategory = recordsForDemographicView.filter(
+              (record) => record[categoryKey] === identifier
+            );
+          } else {
+            recordsForCategory = recordsForDemographicView;
+          }
+          missingRecords.push(
+            ...getMissingMonthsForSeries({
+              records: recordsForCategory,
+              includeCurrentMonth,
+              demographicFields: {
+                raceOrEthnicity:
+                  demographicView === "race"
+                    ? (identifier as RaceIdentifier)
+                    : "ALL",
+                gender:
+                  demographicView === "gender"
+                    ? (identifier as GenderIdentifier)
+                    : "ALL",
+                ageBucket:
+                  demographicView === "age"
+                    ? (identifier as AgeIdentifier)
+                    : "ALL",
+              },
+            })
+          );
+        });
+    });
+
+    transformedData.push(...missingRecords);
 
     transformedData.sort((a, b) => ascending(a.date, b.date));
 
@@ -71,8 +180,8 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<
       Array.from(labelsForDimension)
         // don't need to include unknown in this data;
         // they are minimal to nonexistent in historical data and make the legend confusing
-        .filter(([value]) => value !== DEMOGRAPHIC_UNKNOWN)
-        .map(([value, label], index) => ({
+        .filter(([identifier]) => identifier !== DEMOGRAPHIC_UNKNOWN)
+        .map(([identifier, label], index) => ({
           label,
           color: colors.dataViz[index],
           coordinates:
@@ -80,7 +189,7 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<
               ? records
               : records.filter(
                   (record) =>
-                    record[DIMENSION_DATA_KEYS[demographicView]] === value
+                    record[DIMENSION_DATA_KEYS[demographicView]] === identifier
                 ),
         }))
     );

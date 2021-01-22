@@ -43,7 +43,6 @@
     "date-fns": "^2.16.1",
     "html-react-parser": "^1.1.1",
     "intersection-observer": "^0.12.0",
-    "jest-fetch-mock": "^3.0.3",
     "lodash.isempty": "^4.4.0",
     "mobx": "^6.0.4",
     "mobx-react-lite": "^3.0.1",
@@ -78,7 +77,9 @@
     "@typescript-eslint/parser": "^4.4.0",
     "env-cmd": "^10.1.0",
     "eslint-import-resolver-typescript": "^2.3.0",
+    "jest-date-mock": "^1.0.8",
     "jest-environment-jsdom-sixteen": "^1.0.3",
+    "jest-fetch-mock": "^3.0.3",
     "lint-staged": ">=10"
   },
   "browserslist": {

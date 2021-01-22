@@ -23,6 +23,7 @@
 import "@testing-library/jest-dom/extend-expect";
 import "intersection-observer";
 import fetchMock from "jest-fetch-mock";
+import "jest-date-mock";
 import { configure } from "mobx";
 
 // we want this mock to be available but disabled by default;
