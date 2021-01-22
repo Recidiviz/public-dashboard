@@ -66,7 +66,7 @@ export type ResponsiveTooltipControllerProps = {
 /**
  * a wrapper around visualization components that passes props
  * as needed for native hover annotations in Semiotic but also
- * uses same configuration to power our custom InfoPanel component
+ * uses same configuration to power our custom TooltipMobile component
  * (which is for touch screens, which Semiotic does not natively support
  * for hover-equivalent interactions)
  */
@@ -80,14 +80,14 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
   customHoverBehavior,
 }) => {
   const { uiStore } = useDataStore();
-  const enableInfoPanel = useBreakpoint(false, ["mobile-", true]);
+  const enableTouchTooltip = useBreakpoint(false, ["mobile-", true]);
   const [clickAnnotations, setClickAnnotations] = useState<AnnotationType[]>();
 
   useEffect(
     () =>
       autorun(() => {
         // when state is cleared, make sure any relevant chart props are cleared also
-        if (isEmpty(uiStore.infoPanelData)) {
+        if (isEmpty(uiStore.tooltipMobileData)) {
           if (setHighlighted) setHighlighted();
           setClickAnnotations(undefined);
         }
@@ -97,10 +97,10 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
 
   // if info panel becomes disabled we should clear its state
   useEffect(() => {
-    if (!enableInfoPanel) {
-      uiStore.clearInfoPanel();
+    if (!enableTouchTooltip) {
+      uiStore.clearTooltipMobile();
     }
-  }, [enableInfoPanel, uiStore]);
+  }, [enableTouchTooltip, uiStore]);
 
   // childProps are props that Semiotic will recognize; non-Semiotic children
   // should implement the same API if they want to use this controller
@@ -113,7 +113,7 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
     hoverAnnotation,
     // some mobile browsers fire hover events on tap;
     // returning null prevents us from showing both tooltip and info panel simultaneously
-    tooltipContent: enableInfoPanel ? renderNull : tooltipContent,
+    tooltipContent: enableTouchTooltip ? renderNull : tooltipContent,
   };
 
   if (clickAnnotations) {
@@ -128,10 +128,10 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
     childProps.pieceHoverAnnotation = pieceHoverAnnotation;
 
   childProps.customClickBehavior = (d: ProjectedDataPoint) => {
-    if (enableInfoPanel) {
+    if (enableTouchTooltip) {
       action("update info panel", () => {
-        uiStore.infoPanelData = d;
-        uiStore.renderInfoPanel = tooltipContent;
+        uiStore.tooltipMobileData = d;
+        uiStore.renderTooltipMobile = tooltipContent;
       })();
       if (setHighlighted && isItemToHighlight(d)) {
         setHighlighted(d);

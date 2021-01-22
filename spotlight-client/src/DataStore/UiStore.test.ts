@@ -28,28 +28,28 @@ beforeEach(() => {
 
 test("set info panel contents", () => {
   reactImmediately(() => {
-    expect(store.infoPanelData).toBeUndefined();
-    expect(store.renderInfoPanel).toBeUndefined();
+    expect(store.tooltipMobileData).toBeUndefined();
+    expect(store.renderTooltipMobile).toBeUndefined();
   });
 
   const testData = { label: "test content", color: "black", value: 99 };
   const testRender = jest.fn();
   runInAction(() => {
-    store.infoPanelData = testData;
-    store.renderInfoPanel = testRender;
+    store.tooltipMobileData = testData;
+    store.renderTooltipMobile = testRender;
   });
 
   reactImmediately(() => {
-    if (store.renderInfoPanel && store.infoPanelData)
-      store.renderInfoPanel(store.infoPanelData);
+    if (store.renderTooltipMobile && store.tooltipMobileData)
+      store.renderTooltipMobile(store.tooltipMobileData);
   });
 
   expect(testRender).toHaveBeenCalledWith(testData);
 
-  store.clearInfoPanel();
+  store.clearTooltipMobile();
 
   reactImmediately(() => {
-    expect(store.infoPanelData).toBeUndefined();
-    expect(store.renderInfoPanel).toBeUndefined();
+    expect(store.tooltipMobileData).toBeUndefined();
+    expect(store.renderTooltipMobile).toBeUndefined();
   });
 });

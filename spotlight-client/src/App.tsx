@@ -32,6 +32,7 @@ import { NarrativesSlug } from "./routerUtils/types";
 import SiteFooter from "./SiteFooter";
 import SiteNavigation from "./SiteNavigation";
 import StoreProvider from "./StoreProvider";
+import TooltipMobile from "./TooltipMobile";
 
 /**
  * Helps with nesting; all it does is render its children.
@@ -71,6 +72,7 @@ const App: React.FC = () => {
             </Router>
           </Main>
           <SiteFooter />
+          <TooltipMobile />
         </AuthWall>
       </StoreProvider>
     </HelmetProvider>

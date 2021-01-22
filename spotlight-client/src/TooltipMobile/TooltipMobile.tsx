@@ -23,7 +23,7 @@ import { ReactComponent as MenuOpenIcon } from "../assets/menu-open.svg";
 import { useDataStore } from "../StoreProvider";
 import { colors, zIndex } from "../UiLibrary";
 
-const InfoPanelWrapper = styled.div`
+const TooltipMobileWrapper = styled.div`
   background: ${colors.tooltipBackground};
   border-radius: 0;
   bottom: 0;
@@ -34,7 +34,7 @@ const InfoPanelWrapper = styled.div`
   z-index: ${zIndex.modal};
 `;
 
-const InfoPanelOverlay = styled.div`
+const TooltipMobileOverlay = styled.div`
   background: ${colors.tooltipBackground};
   bottom: 0;
   left: 0%;
@@ -64,33 +64,33 @@ const CloseButton = styled.button`
 
 const ICON_SIZE = 16;
 
-const InfoPanel = (): React.ReactElement | null => {
+const TooltipMobile = (): React.ReactElement | null => {
   const enabled = useBreakpoint(false, ["mobile-", true]);
   const { uiStore } = useDataStore();
-  const { infoPanelData, renderInfoPanel, clearInfoPanel } = uiStore;
+  const { tooltipMobileData, renderTooltipMobile } = uiStore;
 
   const dismiss = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    clearInfoPanel();
+    uiStore.clearTooltipMobile();
   };
 
-  if (enabled && infoPanelData && renderInfoPanel) {
+  if (enabled && tooltipMobileData && renderTooltipMobile) {
     return (
       <>
-        <InfoPanelOverlay onClick={dismiss} />
-        <InfoPanelWrapper className="InfoPanel">
+        <TooltipMobileOverlay onClick={dismiss} />
+        <TooltipMobileWrapper className="TooltipMobile">
           <CloseButtonWrapper>
             <CloseButton onClick={dismiss}>
               <MenuOpenIcon width={ICON_SIZE} height={ICON_SIZE} />
             </CloseButton>
           </CloseButtonWrapper>
-          {renderInfoPanel(infoPanelData)}
-        </InfoPanelWrapper>
+          {renderTooltipMobile(tooltipMobileData)}
+        </TooltipMobileWrapper>
       </>
     );
   }
   return null;
 };
 
-export default observer(InfoPanel);
+export default observer(TooltipMobile);

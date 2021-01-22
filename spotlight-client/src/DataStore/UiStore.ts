@@ -22,21 +22,22 @@ import type RootStore from "./RootStore";
 export default class UiStore {
   rootStore: RootStore;
 
-  infoPanelData?: ProjectedDataPoint;
+  tooltipMobileData?: ProjectedDataPoint;
 
-  renderInfoPanel?: (props: ProjectedDataPoint) => React.ReactNode;
+  renderTooltipMobile?: (props: ProjectedDataPoint) => React.ReactNode;
 
   constructor({ rootStore }: { rootStore: RootStore }) {
     makeAutoObservable(this, {
       rootStore: false,
-      renderInfoPanel: observable.ref,
+      tooltipMobileData: observable.ref,
+      renderTooltipMobile: observable.ref,
     });
 
     this.rootStore = rootStore;
   }
 
-  clearInfoPanel(): void {
-    this.infoPanelData = undefined;
-    this.renderInfoPanel = undefined;
+  clearTooltipMobile(): void {
+    this.tooltipMobileData = undefined;
+    this.renderTooltipMobile = undefined;
   }
 }

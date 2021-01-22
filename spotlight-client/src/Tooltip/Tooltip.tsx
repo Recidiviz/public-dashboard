@@ -30,7 +30,7 @@ const TooltipWrapper = styled.div`
   position: relative;
   z-index: ${zIndex.tooltip};
 
-  .InfoPanel & {
+  .TooltipMobile & {
     background: transparent;
     border-radius: 0;
     box-shadow: none;
@@ -53,13 +53,13 @@ const LabelColorSwatch = styled.div`
 const TooltipTitle = styled.div`
   color: ${colors.textLight};
 
-  .InfoPanel & {
+  .TooltipMobile & {
     margin-bottom: 24px;
   }
 `;
 
 const TooltipRecordList = styled.div`
-  .InfoPanel & {
+  .TooltipMobile & {
     align-items: flex-end;
     display: flex;
   }
@@ -72,7 +72,7 @@ const TooltipRecord = styled.div`
     margin-bottom: 0;
   }
 
-  .InfoPanel & {
+  .TooltipMobile & {
     font-size: 24px;
     margin-right: 24px;
     margin-bottom: 0;
@@ -80,7 +80,7 @@ const TooltipRecord = styled.div`
 `;
 
 const TooltipLabel = styled.div`
-  .InfoPanel & {
+  .TooltipMobile & {
     font-size: 16px;
 
     .TooltipLabel__text {
@@ -92,7 +92,7 @@ const TooltipLabel = styled.div`
 const TooltipValue = styled.div`
   display: inline-block;
 
-  .InfoPanel & {
+  .TooltipMobile & {
     display: block;
   }
 `;
@@ -109,7 +109,7 @@ const TooltipPct = styled.div`
     content: ")";
   }
 
-  .InfoPanel & {
+  .TooltipMobile & {
     display: block;
     margin-left: 0;
 
