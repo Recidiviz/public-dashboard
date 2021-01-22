@@ -50,7 +50,7 @@ const RACES = {
   other: "OTHER",
 };
 
-// TODO(#278): additional categories in RaceIdentifier that weren't in ND?
+// TODO(#314): additional categories in RaceIdentifier that weren't in ND?
 const RACE_LABELS = new Map([
   [RACES.nativeAmerican, "Native American"],
   [RACES.black, "Black"],
