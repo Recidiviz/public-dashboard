@@ -77,12 +77,17 @@ export function recordIsProbation(record: ValuesType<RawMetricData>): boolean {
   return record.supervision_type === "PROBATION";
 }
 
-export type DemographicView =
-  | "total"
-  | "race"
-  | "gender"
-  | "age"
-  | NoFilterIdentifier;
+const DemographicViewList = [
+  "total",
+  "race",
+  "gender",
+  "age",
+  "nofilter",
+] as const;
+export type DemographicView = typeof DemographicViewList[number];
+export function isDemographicView(x: string): x is DemographicView {
+  return DemographicViewList.includes(x as never);
+}
 
 const DIMENSION_DATA_KEYS: Record<
   Exclude<DemographicView, "total" | NoFilterIdentifier>,

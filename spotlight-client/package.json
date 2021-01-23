@@ -41,6 +41,7 @@
     "d3-interpolate": "^2.0.1",
     "d3-scale": "^3.2.3",
     "date-fns": "^2.16.1",
+    "downshift": "^6.1.0",
     "html-react-parser": "^1.1.1",
     "intersection-observer": "^0.12.0",
     "lodash.isempty": "^4.4.0",

@@ -17,3 +17,4 @@
 
 // eslint-disable-next-line import/prefer-default-export
 export { default as WindowedTimeSeries } from "./WindowedTimeSeries";
+export * from "./WindowedTimeSeries";

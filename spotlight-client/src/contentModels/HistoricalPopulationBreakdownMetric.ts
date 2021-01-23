@@ -17,6 +17,7 @@
 
 import { ascending } from "d3-array";
 import { eachMonthOfInterval, format, startOfMonth, subMonths } from "date-fns";
+import { makeObservable, observable, runInAction } from "mobx";
 import { DataSeries } from "../charts/types";
 import {
   DEMOGRAPHIC_UNKNOWN,
@@ -32,7 +33,7 @@ import {
   recordIsTotalByDimension,
 } from "../metricsApi";
 import { colors } from "../UiLibrary";
-import Metric from "./Metric";
+import Metric, { BaseMetricConstructorOptions } from "./Metric";
 
 const EXPECTED_MONTHS = 240; // 20 years
 
@@ -97,6 +98,17 @@ function getMissingMonthsForSeries({
 export default class HistoricalPopulationBreakdownMetric extends Metric<
   HistoricalPopulationBreakdownRecord
 > {
+  // UI needs to know this in order to configure proper viewing window
+  dataIncludesCurrentMonth?: boolean;
+
+  constructor(
+    props: BaseMetricConstructorOptions<HistoricalPopulationBreakdownRecord>
+  ) {
+    super(props);
+
+    makeObservable(this, { dataIncludesCurrentMonth: observable });
+  }
+
   async fetchAndTransform(): Promise<HistoricalPopulationBreakdownRecord[]> {
     const transformedData = await super.fetchAndTransform();
 
@@ -104,6 +116,9 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<
     // actually missing due to reporting lag. But if any record contains it, we will
     // assume that it should be replaced with an empty record when it is missing
     const includeCurrentMonth = dataIncludesCurrentMonth(transformedData);
+    runInAction(() => {
+      this.dataIncludesCurrentMonth = includeCurrentMonth;
+    });
 
     const missingRecords: HistoricalPopulationBreakdownRecord[] = [];
 

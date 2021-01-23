@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,9 +15,32 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export * from "./colors";
-export { default as typefaces } from "./typefaces";
-export { default as zIndex } from "./zIndex";
-export { default as Chevron } from "./Chevron";
-export { default as animation } from "./animation";
-export { default as Dropdown } from "./Dropdown";
+import styled from "styled-components/macro";
+import animation from "../animation";
+import { colors } from "../colors";
+
+const PILL_HEIGHT = 40;
+
+export const PillContainer = styled.div`
+  align-items: center;
+  display: flex;
+  height: ${PILL_HEIGHT}px;
+`;
+
+export const PillValue = styled.span`
+  align-items: center;
+  background: ${colors.buttonBackground};
+  border-radius: ${PILL_HEIGHT / 2}px;
+  color: ${colors.text};
+  display: inline-flex;
+  font-size: 13px;
+  height: ${PILL_HEIGHT}px;
+  justify-content: center;
+  min-width: ${PILL_HEIGHT * 1.5}px;
+  padding: 8px ${PILL_HEIGHT / 2}px;
+  transition: background-color ${animation.defaultDuration};
+
+  &:hover {
+    background: ${colors.buttonBackgroundHover};
+  }
+`;

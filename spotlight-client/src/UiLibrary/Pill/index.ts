@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,9 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export * from "./colors";
-export { default as typefaces } from "./typefaces";
-export { default as zIndex } from "./zIndex";
-export { default as Chevron } from "./Chevron";
-export { default as animation } from "./animation";
-export { default as Dropdown } from "./Dropdown";
+export { default as Pill } from "./Pill";
+export { default as LinkPill } from "./LinkPill";
+export { PillContainer, PillValue } from "./shared";

@@ -15,25 +15,58 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { startOfMonth } from "date-fns";
+import { startOfMonth, sub } from "date-fns";
 import { observer } from "mobx-react-lite";
-import React from "react";
-import { WindowedTimeSeries } from "../charts";
+import React, { useState } from "react";
+import { isWindowSizeId, WindowedTimeSeries, WindowSizeId } from "../charts";
 import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
+import DemographicFilterSelect from "../DemographicFilterSelect";
+import { Dropdown } from "../UiLibrary";
 
 const VizHistoricalPopulationBreakdown: React.FC<{
   metric: HistoricalPopulationBreakdownMetric;
 }> = ({ metric }) => {
-  // TODO(#278): implement filter UI to change this
-  const defaultRangeEnd = startOfMonth(new Date());
+  const [windowSizeId, setWindowSizeId] = useState<WindowSizeId>("20");
+
+  let defaultRangeEnd = startOfMonth(new Date());
+  if (!metric.dataIncludesCurrentMonth) {
+    defaultRangeEnd = sub(defaultRangeEnd, { months: 1 });
+  }
+
+  let defaultRangeStart: Date | undefined;
+  if (windowSizeId !== "custom") {
+    defaultRangeStart = sub(defaultRangeEnd, {
+      years: Number(windowSizeId),
+      // make the range start-exclusive to correct for an off-by-one error
+      months: -1,
+    });
+  }
 
   if (metric.dataSeries)
     return (
-      <WindowedTimeSeries
-        data={metric.dataSeries}
-        setTimeRangeId={() => undefined}
-        defaultRangeEnd={defaultRangeEnd}
-      />
+      <>
+        <Dropdown
+          label="Range"
+          onChange={(id) => {
+            if (isWindowSizeId(id)) setWindowSizeId(id);
+          }}
+          options={[
+            { id: "20", label: "20 years" },
+            { id: "10", label: "10 years" },
+            { id: "5", label: "5 years" },
+            { id: "1", label: "1 year" },
+            { id: "custom", label: "Custom", hidden: true },
+          ]}
+          selectedId={windowSizeId}
+        />
+        <DemographicFilterSelect metric={metric} />
+        <WindowedTimeSeries
+          data={metric.dataSeries}
+          setTimeRangeId={setWindowSizeId}
+          defaultRangeEnd={defaultRangeEnd}
+          defaultRangeStart={defaultRangeStart}
+        />
+      </>
     );
 
   if (metric.error) throw metric.error;

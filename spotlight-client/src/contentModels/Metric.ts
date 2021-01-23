@@ -34,7 +34,7 @@ import {
 } from "../metricsApi";
 import { MetricRecord, CollectionMap } from "./types";
 
-type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
+export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   name: string;
   description: string;
   methodology: string;

@@ -18,9 +18,8 @@
 import classNames from "classnames";
 import React from "react";
 import styled from "styled-components/macro";
-import { animation } from "../UiLibrary";
+import { animation, highlightFade } from "../UiLibrary";
 import { ItemToDisplay, ItemToHighlight } from "./types";
-import { highlightFade } from "./utils";
 
 const ColorLegendWrapper = styled.div`
   display: flex;

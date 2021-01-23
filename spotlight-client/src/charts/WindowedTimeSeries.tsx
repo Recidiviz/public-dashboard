@@ -21,18 +21,15 @@ import { format, isEqual } from "date-fns";
 import React, { useCallback, useEffect, useState } from "react";
 import MinimapXYFrame from "semiotic/lib/MinimapXYFrame";
 import styled from "styled-components/macro";
-import { animation, colors } from "../UiLibrary";
+import { animation, colors, highlightFade } from "../UiLibrary";
 import { formatAsNumber } from "../utils";
 import BaseChartWrapper from "./ChartWrapper";
-import { getDataWithPct, highlightFade } from "./utils";
+import { getDataWithPct } from "./utils";
 import ColorLegend from "./ColorLegend";
 import XHoverController from "./XHoverController";
 import { HistoricalPopulationBreakdownRecord } from "../metricsApi";
 import { DataSeries, ItemToHighlight } from "./types";
 import MeasureWidth from "../MeasureWidth";
-
-// TODO(#278): this should come from filters once they are implemented
-const CUSTOM_ID = "custom";
 
 const CHART_HEIGHT = 430;
 const MARGIN = { bottom: 65, left: 56, right: 8, top: 8 };
@@ -68,11 +65,17 @@ const BASE_MARK_PROPS = {
   },
 };
 
+const WindowSizeIdList = ["20", "10", "5", "1", "custom"] as const;
+export type WindowSizeId = typeof WindowSizeIdList[number];
+export function isWindowSizeId(x: string): x is WindowSizeId {
+  return WindowSizeIdList.includes(x as never);
+}
+
 const WindowedTimeSeries: React.FC<{
   data: DataSeries<HistoricalPopulationBreakdownRecord>[];
   defaultRangeEnd: Date;
   defaultRangeStart?: Date;
-  setTimeRangeId: (id?: string) => void;
+  setTimeRangeId: (id: WindowSizeId) => void;
 }> = ({ data, defaultRangeEnd, defaultRangeStart, setTimeRangeId }) => {
   const [highlighted, setHighlighted] = useState<ItemToHighlight | undefined>();
   const [dateRangeStart, setDateRangeStart] = useState<Date | undefined>();
@@ -190,7 +193,7 @@ const WindowedTimeSeries: React.FC<{
                       const [start, end] = brushExtent || [];
                       if (start && end) {
                         if (isNewRange({ start, end })) {
-                          setTimeRangeId(CUSTOM_ID);
+                          setTimeRangeId("custom");
                         }
 
                         setDateRangeStart(new Date(start));
