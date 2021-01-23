@@ -18,6 +18,7 @@
 export const ERROR_MESSAGES = {
   auth0Configuration: "No Auth0 configuration found.",
   unauthorized: "You do not have permission to view this content.",
+  noMetricData: "Unable to retrieve valid data for this metric.",
 };
 
 export const NAV_BAR_HEIGHT = 80;

@@ -72,7 +72,7 @@ describe("data fetching", () => {
     expect.hasAssertions();
     const metric = getTestMetric(metricId);
 
-    metric.fetch();
+    metric.populateAllRecords();
 
     when(
       () => metric.records !== undefined,
@@ -103,7 +103,7 @@ test("file loading state", (done) => {
     () => {
       expect(metric.records).toBeUndefined();
       // the fetch is initiated here; this will trigger the reactions below
-      dataPromise = fromPromise(metric.fetch());
+      dataPromise = fromPromise(metric.populateAllRecords());
     }
   );
 
@@ -140,7 +140,7 @@ test("fetch error state", async () => {
     status: 500,
   });
 
-  await metric.fetch();
+  await metric.populateAllRecords();
 
   reactImmediately(() => {
     expect(metric.error?.message).toBe(
@@ -161,7 +161,7 @@ test("demographic filter", async () => {
   // (and will result in a relatively small snapshot!)
   const metric = getTestMetric("ProbationRevocationsAggregate");
 
-  metric.fetch();
+  metric.populateAllRecords();
 
   await when(() => metric.records !== undefined);
 

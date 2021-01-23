@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { DataSeries } from "../charts/types";
 import { RecidivismRateRecord, recordIsTotalByDimension } from "../metricsApi";
 import Metric from "./Metric";
 
@@ -27,5 +28,10 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
       recordIsTotalByDimension(this.demographicView)
     );
     return recordsToReturn;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  get dataSeries(): DataSeries<RecidivismRateRecord>[] | null {
+    throw new Error("Method not implemented.");
   }
 }

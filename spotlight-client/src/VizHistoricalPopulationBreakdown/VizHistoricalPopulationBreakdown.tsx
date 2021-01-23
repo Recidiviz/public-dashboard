@@ -15,18 +15,30 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { startOfMonth } from "date-fns";
+import { observer } from "mobx-react-lite";
 import React from "react";
-import { HistoricalPopulationBreakdownRecord } from "../metricsApi";
+import { WindowedTimeSeries } from "../charts";
+import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 
-type VizHistoricalPopulationBreakdownProps = {
-  data: HistoricalPopulationBreakdownRecord[];
+const VizHistoricalPopulationBreakdown: React.FC<{
+  metric: HistoricalPopulationBreakdownMetric;
+}> = ({ metric }) => {
+  // TODO(#278): implement filter UI to change this
+  const defaultRangeEnd = startOfMonth(new Date());
+
+  if (metric.dataSeries)
+    return (
+      <WindowedTimeSeries
+        data={metric.dataSeries}
+        setTimeRangeId={() => undefined}
+        defaultRangeEnd={defaultRangeEnd}
+      />
+    );
+
+  if (metric.error) throw metric.error;
+
+  return <div>loading...</div>;
 };
 
-const VizHistoricalPopulationBreakdown: React.FC<VizHistoricalPopulationBreakdownProps> = ({
-  data,
-}) => {
-  // Just a proof-of-concept on data handling for now
-  return <div>{data.length} records found</div>;
-};
-
-export default VizHistoricalPopulationBreakdown;
+export default observer(VizHistoricalPopulationBreakdown);

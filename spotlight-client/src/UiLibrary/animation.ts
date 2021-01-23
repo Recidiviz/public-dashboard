@@ -15,15 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { DataSeries } from "../charts/types";
-import { PopulationBreakdownByLocationRecord } from "../metricsApi";
-import Metric from "./Metric";
+const defaultDuration = 500;
 
-export default class PopulationBreakdownByLocationMetric extends Metric<
-  PopulationBreakdownByLocationRecord
-> {
-  // eslint-disable-next-line class-methods-use-this
-  get dataSeries(): DataSeries<PopulationBreakdownByLocationRecord>[] | null {
-    throw new Error("Method not implemented.");
-  }
-}
+export default {
+  defaultDuration,
+};

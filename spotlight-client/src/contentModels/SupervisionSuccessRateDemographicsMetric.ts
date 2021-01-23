@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { DataSeries } from "../charts/types";
 import {
   recordIsTotalByDimension,
   recordMatchesLocality,
@@ -37,5 +38,12 @@ export default class SupervisionSuccessRateDemographicsMetric extends Metric<
       recordIsTotalByDimension(this.demographicView)
     );
     return recordsToReturn;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  get dataSeries():
+    | DataSeries<SupervisionSuccessRateDemographicsRecord>[]
+    | null {
+    throw new Error("Method not implemented.");
   }
 }

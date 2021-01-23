@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { DataSeries } from "../charts/types";
 import {
   DemographicsByCategoryRecord,
   recordIsTotalByDimension,
@@ -32,5 +33,10 @@ export default class DemographicsByCategoryMetric extends Metric<
       recordIsTotalByDimension(this.demographicView)
     );
     return recordsToReturn;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  get dataSeries(): DataSeries<DemographicsByCategoryRecord>[] | null {
+    throw new Error("Method not implemented.");
   }
 }

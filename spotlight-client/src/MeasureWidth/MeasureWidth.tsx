@@ -15,29 +15,30 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { observer } from "mobx-react-lite";
 import React from "react";
-import { withErrorBoundary } from "react-error-boundary";
-import HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
-import ErrorMessage from "../ErrorMessage";
-import VizHistoricalPopulationBreakdown from "./VizHistoricalPopulationBreakdown";
+import Measure from "react-measure";
 
-type VizHistoricalPopulationBreakdownContainerProps = {
-  metric: HistoricalPopulationBreakdownMetric;
+type MeasureWidthProps = {
+  children: (props: {
+    measureRef: (ref: Element | null) => void;
+    width: number;
+  }) => React.ReactElement;
 };
 
-const VizHistoricalPopulationBreakdownContainer: React.FC<VizHistoricalPopulationBreakdownContainerProps> = ({
-  metric,
-}) => {
-  if (metric.records)
-    return <VizHistoricalPopulationBreakdown data={metric.records} />;
-
-  if (metric.error) throw metric.error;
-
-  return <div>loading...</div>;
+/**
+ * Renders a function that accepts a ref for an element to measure,
+ * and the width of that element whenever it changes.
+ * (Unlike with a bare instance of `react-measure`, width is guaranteed to be a number.
+ */
+const MeasureWidth: React.FC<MeasureWidthProps> = ({ children }) => {
+  return (
+    <Measure bounds>
+      {({ measureRef, contentRect: { bounds } }) => {
+        const width = bounds?.width || 0;
+        return children({ measureRef, width });
+      }}
+    </Measure>
+  );
 };
 
-export default withErrorBoundary(
-  observer(VizHistoricalPopulationBreakdownContainer),
-  { FallbackComponent: ErrorMessage }
-);
+export default MeasureWidth;

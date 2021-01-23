@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { parseISO } from "date-fns";
 import { ValuesType } from "utility-types";
 import { RawMetricData } from "./fetchMetrics";
 import {
@@ -25,13 +26,13 @@ import {
 } from "./utils";
 
 export type HistoricalPopulationBreakdownRecord = DemographicFields & {
-  date: string;
+  date: Date;
   count: number;
 };
 
 function createHistoricalPopulationRecord(record: ValuesType<RawMetricData>) {
   return {
-    date: record.population_date,
+    date: parseISO(record.population_date),
     count: Number(record.population_count),
     ...extractDemographicFields(record),
   };

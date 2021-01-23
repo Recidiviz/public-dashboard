@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { DataSeries } from "../charts/types";
 import {
   recordMatchesLocality,
   SupervisionSuccessRateMonthlyRecord,
@@ -33,5 +34,10 @@ export default class SupervisionSuccessRateMonthlyMetric extends Metric<
     );
 
     return recordsToReturn;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  get dataSeries(): DataSeries<SupervisionSuccessRateMonthlyRecord>[] | null {
+    throw new Error("Method not implemented.");
   }
 }

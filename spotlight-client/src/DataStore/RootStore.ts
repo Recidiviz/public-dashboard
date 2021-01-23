@@ -18,6 +18,7 @@
 import { Auth0ClientOptions } from "@auth0/auth0-spa-js";
 import { computed, makeObservable } from "mobx";
 import TenantStore from "./TenantStore";
+import UiStore from "./UiStore";
 import UserStore from "./UserStore";
 
 /**
@@ -45,12 +46,16 @@ export function isAuthEnabled(): boolean {
 export default class RootStore {
   tenantStore: TenantStore;
 
+  uiStore: UiStore;
+
   userStore: UserStore;
 
   constructor() {
     makeObservable(this, { tenant: computed });
 
     this.tenantStore = new TenantStore({ rootStore: this });
+
+    this.uiStore = new UiStore({ rootStore: this });
 
     this.userStore = new UserStore({
       authSettings: getAuthSettings(),

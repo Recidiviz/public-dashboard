@@ -5,15 +5,18 @@
   },
   "extends": [
     // explicitly extending the base config so we don't override its own "extends" field
-    "../.eslintrc.json",
-    // From @typescript-eslint/eslint-plugin
-    "plugin:@typescript-eslint/recommended",
-    // From eslint-config-prettier
-    "prettier/@typescript-eslint"
+    "../.eslintrc.json"
   ],
   "overrides": [
     {
+      "extends": [
+        // From @typescript-eslint/eslint-plugin
+        "plugin:@typescript-eslint/recommended",
+        // From eslint-config-prettier
+        "prettier/@typescript-eslint"
+      ],
       "files": ["**.ts", "**.tsx"],
+      "parser": "@typescript-eslint/parser",
       "rules": {
         // with static typing this rule is not so useful
         "consistent-return": "off",
@@ -28,7 +31,7 @@
       }
     }
   ],
-  "parser": "@typescript-eslint/parser",
+
   "plugins": ["@typescript-eslint"],
   "rules": {
     // This is a living list! If an eslint rule does more harm than good, just
@@ -55,8 +58,7 @@
             "name": "react-spring",
             "message": "For IE 11 support, please import from react-spring/web.cjs"
           }
-        ],
-        "patterns": ["!styled-components/macro"]
+        ]
       }
     ],
 
