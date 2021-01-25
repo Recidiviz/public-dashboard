@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export * from "./colors";
+export { default as colors } from "./colors";
 export { default as typefaces } from "./typefaces";
 export { default as zIndex } from "./zIndex";
 export { default as Chevron } from "./Chevron";

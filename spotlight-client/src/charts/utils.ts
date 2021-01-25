@@ -16,13 +16,15 @@
 // =============================================================================
 
 import { sum } from "d3-array";
+import { color } from "d3-color";
+import { interpolateRgb } from "d3-interpolate";
+import { colors } from "../UiLibrary";
 
 /**
  * Given a series of records, sums up their values and computes the value of each
  * as a percentage of that total. Returns a copy of the records with `pct` field
  * included as a number between 0 and 1.
  */
-// eslint-disable-next-line import/prefer-default-export
 export function getDataWithPct<RecordFormat extends { value: number }>(
   data: RecordFormat[]
 ): (RecordFormat & { pct: number })[] {
@@ -32,4 +34,27 @@ export function getDataWithPct<RecordFormat extends { value: number }>(
     ...record,
     pct: record.value / totalValue,
   }));
+}
+
+const FADE_AMOUNT = 0.45;
+
+export function highlightFade(
+  baseColor: string,
+  { useOpacity = false } = {}
+): string {
+  if (useOpacity) {
+    // in cases where we actually want the color to be transparent,
+    // this is a relatively straightforward opacity change
+    const fadedColor = color(baseColor);
+
+    // can't do anything with an invalid color
+    if (!fadedColor) return baseColor;
+
+    fadedColor.opacity = FADE_AMOUNT;
+    return fadedColor.toString();
+  }
+  // in cases where we don't want a transparent color (which is most cases),
+  // this will create a tint ramp from background color to baseColor;
+  // the ramp goes from 0 to 1 with values analogous to opacity
+  return interpolateRgb(colors.background, baseColor)(FADE_AMOUNT);
 }

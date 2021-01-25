@@ -15,9 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { color } from "d3-color";
-import { interpolateRgb } from "d3-interpolate";
-
 const gray = "#D6DCDC";
 const pine = "#00413E";
 const pineBright = "#25B894";
@@ -40,7 +37,7 @@ const dataVizColorMap = new Map([
   ["skyBlue", "#5F8FD9"],
 ]);
 
-export const colors = {
+export default {
   accent: pineBright,
   background: white,
   buttonBackground: white,
@@ -60,26 +57,3 @@ export const colors = {
   timeWindowStroke: pine,
   tooltipBackground: pineDark,
 };
-
-const FADE_AMOUNT = 0.45;
-
-export function highlightFade(
-  baseColor: string,
-  { useOpacity = false } = {}
-): string {
-  if (useOpacity) {
-    // in cases where we actually want the color to be transparent,
-    // this is a relatively straightforward opacity change
-    const fadedColor = color(baseColor);
-
-    // can't do anything with an invalid color
-    if (!fadedColor) return baseColor;
-
-    fadedColor.opacity = FADE_AMOUNT;
-    return fadedColor.toString();
-  }
-  // in cases where we don't want a transparent color (which is most cases),
-  // this will create a tint ramp from background color to baseColor;
-  // the ramp goes from 0 to 1 with values analogous to opacity
-  return interpolateRgb(colors.background, baseColor)(FADE_AMOUNT);
-}

@@ -21,7 +21,7 @@ import React, { useState } from "react";
 import Measure from "react-measure";
 import { animated, useSpring, useSprings } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
-import { colors } from "../colors";
+import { colors } from "..";
 import zIndex from "../zIndex";
 
 const BUTTON_HEIGHT = 40;
