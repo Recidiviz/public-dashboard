@@ -44,6 +44,11 @@ test("select from menu", () => {
   const menuButton = screen.getByRole("button", {
     name: `${testLabel} ${testOptions[0].label}`,
   });
+
+  screen
+    .queryAllByRole("option")
+    .forEach((option) => expect(option).not.toBeInTheDocument());
+
   fireEvent.click(menuButton);
 
   testOptions.forEach((opt) => {
@@ -98,5 +103,7 @@ test("can be disabled", () => {
   expect(menuButton).toBeDisabled();
 
   fireEvent.click(menuButton);
-  expect(screen.queryByRole("option")).not.toBeInTheDocument();
+  screen
+    .queryAllByRole("option")
+    .forEach((option) => expect(option).not.toBeInTheDocument());
 });

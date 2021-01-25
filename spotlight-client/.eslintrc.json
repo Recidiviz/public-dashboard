@@ -57,6 +57,10 @@
           {
             "name": "react-spring",
             "message": "For IE 11 support, please import from react-spring/web.cjs"
+          },
+          {
+            "name": "react-spring/renderprops",
+            "message": "For IE 11 support, please import from react-spring/renderprops.cjs"
           }
         ]
       }

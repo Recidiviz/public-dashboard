@@ -17,11 +17,33 @@
 
 import { startOfMonth, sub } from "date-fns";
 import { observer } from "mobx-react-lite";
+import { rem } from "polished";
 import React, { useState } from "react";
+import styled from "styled-components/macro";
 import { isWindowSizeId, WindowedTimeSeries, WindowSizeId } from "../charts";
 import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
-import { Dropdown } from "../UiLibrary";
+import { colors, Dropdown, zIndex } from "../UiLibrary";
+
+const FilterRow = styled.div`
+  background: ${colors.background};
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: ${rem(16)};
+  z-index: ${zIndex.control};
+`;
+
+const FilterWrapper = styled.div`
+  margin: 0 ${rem(16)};
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+`;
 
 const VizHistoricalPopulationBreakdown: React.FC<{
   metric: HistoricalPopulationBreakdownMetric;
@@ -45,21 +67,27 @@ const VizHistoricalPopulationBreakdown: React.FC<{
   if (metric.dataSeries)
     return (
       <>
-        <Dropdown
-          label="Range"
-          onChange={(id) => {
-            if (isWindowSizeId(id)) setWindowSizeId(id);
-          }}
-          options={[
-            { id: "20", label: "20 years" },
-            { id: "10", label: "10 years" },
-            { id: "5", label: "5 years" },
-            { id: "1", label: "1 year" },
-            { id: "custom", label: "Custom", hidden: true },
-          ]}
-          selectedId={windowSizeId}
-        />
-        <DemographicFilterSelect metric={metric} />
+        <FilterRow>
+          <FilterWrapper>
+            <Dropdown
+              label="Range"
+              onChange={(id) => {
+                if (isWindowSizeId(id)) setWindowSizeId(id);
+              }}
+              options={[
+                { id: "20", label: "20 years" },
+                { id: "10", label: "10 years" },
+                { id: "5", label: "5 years" },
+                { id: "1", label: "1 year" },
+                { id: "custom", label: "Custom", hidden: true },
+              ]}
+              selectedId={windowSizeId}
+            />
+          </FilterWrapper>
+          <FilterWrapper>
+            <DemographicFilterSelect metric={metric} />
+          </FilterWrapper>
+        </FilterRow>
         <WindowedTimeSeries
           data={metric.dataSeries}
           setTimeRangeId={setWindowSizeId}
