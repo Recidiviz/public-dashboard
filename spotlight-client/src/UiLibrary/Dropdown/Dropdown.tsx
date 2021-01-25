@@ -18,7 +18,8 @@
 import { useSelect } from "downshift";
 import { rem } from "polished";
 import React, { useState } from "react";
-import { Spring } from "react-spring/renderprops.cjs";
+import Measure from "react-measure";
+import { animated, useSpring, useSprings } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { colors } from "../colors";
 import zIndex from "../zIndex";
@@ -34,7 +35,7 @@ const DropdownLabel = styled.label`
   display: none;
 `;
 
-const DropdownButton = styled.button`
+const DropdownButton = styled(animated.button)`
   align-items: center;
   border: 1px solid ${colors.rule};
   border-radius: ${rem(BUTTON_HEIGHT / 2)};
@@ -61,7 +62,7 @@ const DropdownButton = styled.button`
   }
 `;
 
-const DropdownMenuWrapper = styled.div`
+const DropdownMenuWrapper = styled(animated.div)`
   overflow: hidden;
   position: absolute;
   right: 0;
@@ -91,7 +92,7 @@ const DropdownMenuItem = styled.li`
   }
 `;
 
-const DropdownMenuItemContents = styled.div`
+const DropdownMenuItemContents = styled(animated.div)`
   padding: ${rem(8)} ${rem(16)};
 `;
 
@@ -127,23 +128,51 @@ const Dropdown: React.FC<{
     onIsOpenChange: () => setWaitForCloseAnimation(true),
   });
 
+  // animate button hover state
   const [buttonHover, setButtonHover] = useState(false);
-  const [waitForCloseAnimation, setWaitForCloseAnimation] = useState(false);
+  const buttonStyles = useSpring({
+    from: { background: colors.buttonBackground },
+    background: buttonHover
+      ? colors.buttonBackgroundHover
+      : colors.buttonBackground,
+  });
 
+  // animate menu opening and closing
+  const [waitForCloseAnimation, setWaitForCloseAnimation] = useState(false);
   const showMenuItems = isOpen || waitForCloseAnimation;
+  const [menuHeight, setMenuHeight] = useState(0);
+  const menuStyles = useSpring({
+    from: { height: 0 },
+    height: isOpen ? menuHeight : 0,
+    config: { clamp: true, friction: 20, tension: 210 },
+    onRest: (props) => {
+      if (props.height === 0) setWaitForCloseAnimation(false);
+    },
+  });
+
+  // animate menu item highlight states
+  const menuItemsStyles = useSprings(
+    options.length,
+    options.map((option, index) => ({
+      background:
+        highlightedIndex === index
+          ? colors.buttonBackgroundHover
+          : colors.buttonBackground,
+    }))
+  );
 
   return (
-    <DropdownContainer>
-      <DropdownLabel {...getLabelProps()}>{label}</DropdownLabel>
-      <Spring
-        from={{ background: colors.buttonBackground }}
-        to={{
-          background: buttonHover
-            ? colors.buttonBackgroundHover
-            : colors.buttonBackground,
-        }}
-      >
-        {(buttonStyles) => (
+    <Measure
+      bounds
+      onResize={({ bounds }) => {
+        if (bounds && bounds.height !== menuHeight) {
+          setMenuHeight(bounds.height);
+        }
+      }}
+    >
+      {({ measureRef }) => (
+        <DropdownContainer>
+          <DropdownLabel {...getLabelProps()}>{label}</DropdownLabel>
           <DropdownButton
             type="button"
             {...getToggleButtonProps({ disabled })}
@@ -155,51 +184,25 @@ const Dropdown: React.FC<{
           >
             {selectedItem?.label}
           </DropdownButton>
-        )}
-      </Spring>
-      <Spring
-        from={{
-          height: 0,
-        }}
-        to={{
-          height: isOpen ? "auto" : 0,
-        }}
-        config={{ tension: 210, friction: 20, clamp: true }}
-        onRest={(props) => {
-          if (props.height === "0") setWaitForCloseAnimation(false);
-        }}
-      >
-        {(menuStyles) => (
+
           <DropdownMenuWrapper style={menuStyles}>
-            <DropdownMenu {...getMenuProps()}>
+            <DropdownMenu {...getMenuProps({ ref: measureRef })}>
               {showMenuItems &&
                 options.map((option, index) => (
-                  <Spring
+                  <DropdownMenuItem
                     key={option.id}
-                    from={{ background: colors.buttonBackground }}
-                    to={{
-                      background:
-                        highlightedIndex === index
-                          ? colors.buttonBackgroundHover
-                          : colors.buttonBackground,
-                    }}
+                    {...getItemProps({ item: option, index, disabled })}
                   >
-                    {(itemStyles) => (
-                      <DropdownMenuItem
-                        {...getItemProps({ item: option, index, disabled })}
-                      >
-                        <DropdownMenuItemContents style={itemStyles}>
-                          {option.label}
-                        </DropdownMenuItemContents>
-                      </DropdownMenuItem>
-                    )}
-                  </Spring>
+                    <DropdownMenuItemContents style={menuItemsStyles[index]}>
+                      {option.label}
+                    </DropdownMenuItemContents>
+                  </DropdownMenuItem>
                 ))}
             </DropdownMenu>
           </DropdownMenuWrapper>
-        )}
-      </Spring>
-    </DropdownContainer>
+        </DropdownContainer>
+      )}
+    </Measure>
   );
 };
 
