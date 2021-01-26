@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import Dropdown from "./Dropdown";
 
@@ -31,7 +31,7 @@ beforeEach(() => {
   jest.resetAllMocks();
 });
 
-test("select from menu", () => {
+test("select from menu", async () => {
   render(
     <Dropdown
       label={testLabel}
@@ -59,6 +59,13 @@ test("select from menu", () => {
   fireEvent.click(newOption);
 
   expect(mockOnChange.mock.calls[0][0]).toBe(testOptions[2].id);
+
+  // menu closes after selection is made; slight delay due to animation
+  await waitFor(() =>
+    screen.queryAllByRole("option").forEach((opt) => {
+      expect(opt).not.toBeInTheDocument();
+    })
+  );
 });
 
 test("selection prop updates menu", () => {
@@ -106,4 +113,39 @@ test("can be disabled", () => {
   screen
     .queryAllByRole("option")
     .forEach((option) => expect(option).not.toBeInTheDocument());
+});
+
+test("options can be hidden", () => {
+  const hiddenOption = { id: "4", label: "Hidden option", hidden: true };
+  const testOptionsHidden = [...testOptions, hiddenOption];
+  const { rerender } = render(
+    <Dropdown
+      label={testLabel}
+      options={testOptionsHidden}
+      onChange={mockOnChange}
+      selectedId="1"
+    />
+  );
+
+  const menuButton = screen.getByRole("button", {
+    name: `${testLabel} ${testOptions[0].label}`,
+  });
+
+  fireEvent.click(menuButton);
+
+  expect(
+    screen.queryByRole("option", { name: hiddenOption.label })
+  ).not.toBeInTheDocument();
+
+  // can still be set by controlling component
+  rerender(
+    <Dropdown
+      label={testLabel}
+      options={testOptionsHidden}
+      onChange={mockOnChange}
+      selectedId={hiddenOption.id}
+    />
+  );
+
+  expect(menuButton).toHaveTextContent(hiddenOption.label);
 });

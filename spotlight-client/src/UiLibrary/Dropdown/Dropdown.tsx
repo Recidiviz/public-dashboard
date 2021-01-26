@@ -108,7 +108,8 @@ const Dropdown: React.FC<{
   onChange: (id: string) => void;
   options: DropdownOption[];
   selectedId: string;
-}> = ({ disabled, selectedId, label, onChange, options }) => {
+}> = ({ disabled, selectedId, label, onChange, options: allOptions }) => {
+  const visibleOptions = allOptions.filter(({ hidden }) => !hidden);
   const {
     isOpen,
     selectedItem,
@@ -118,8 +119,8 @@ const Dropdown: React.FC<{
     highlightedIndex,
     getItemProps,
   } = useSelect({
-    selectedItem: options.find(({ id }) => id === selectedId),
-    items: options,
+    selectedItem: allOptions.find(({ id }) => id === selectedId),
+    items: visibleOptions,
     onSelectedItemChange: ({ selectedItem: newSelection }) => {
       if (newSelection) {
         onChange(newSelection.id);
@@ -152,8 +153,8 @@ const Dropdown: React.FC<{
 
   // animate menu item highlight states
   const menuItemsStyles = useSprings(
-    options.length,
-    options.map((option, index) => ({
+    visibleOptions.length,
+    visibleOptions.map((option, index) => ({
       background:
         highlightedIndex === index
           ? colors.buttonBackgroundHover
@@ -188,7 +189,7 @@ const Dropdown: React.FC<{
           <DropdownMenuWrapper style={menuStyles}>
             <DropdownMenu {...getMenuProps({ ref: measureRef })}>
               {showMenuItems &&
-                options.map((option, index) => (
+                visibleOptions.map((option, index) => (
                   <DropdownMenuItem
                     key={option.id}
                     {...getItemProps({ item: option, index, disabled })}
