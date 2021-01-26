@@ -89,6 +89,7 @@ const getMetric = async () => {
     tenantId: "US_ND",
     defaultDemographicView: "total",
     defaultLocalityId: undefined,
+    localityLabels: undefined,
     dataTransformer: mockTransformer,
     sourceFileName: mockSourceFileName,
   });

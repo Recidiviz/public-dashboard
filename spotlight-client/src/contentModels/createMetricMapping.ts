@@ -93,7 +93,7 @@ export default function createMetricMapping({
             ...metadata,
             tenantId,
             defaultDemographicView: NOFILTER_KEY,
-            defaultLocalityId: NOFILTER_KEY,
+            defaultLocalityId: TOTAL_KEY,
             localityLabels: localityLabelMapping.Sentencing,
             dataTransformer: sentencePopulationCurrent,
             sourceFileName: "sentence_type_by_district_by_demographics",
@@ -127,7 +127,7 @@ export default function createMetricMapping({
             ...metadata,
             tenantId,
             defaultDemographicView: NOFILTER_KEY,
-            defaultLocalityId: NOFILTER_KEY,
+            defaultLocalityId: TOTAL_KEY,
             localityLabels: localityLabelMapping.Prison,
             dataTransformer: prisonPopulationCurrent,
             sourceFileName:
@@ -145,7 +145,7 @@ export default function createMetricMapping({
             ...metadata,
             tenantId,
             defaultDemographicView: NOFILTER_KEY,
-            defaultLocalityId: NOFILTER_KEY,
+            defaultLocalityId: TOTAL_KEY,
             localityLabels: localityLabelMapping.Probation,
             dataTransformer: probationPopulationCurrent,
             sourceFileName:
@@ -163,7 +163,7 @@ export default function createMetricMapping({
             ...metadata,
             tenantId,
             defaultDemographicView: NOFILTER_KEY,
-            defaultLocalityId: NOFILTER_KEY,
+            defaultLocalityId: TOTAL_KEY,
             localityLabels: localityLabelMapping.Parole,
             dataTransformer: parolePopulationCurrent,
             sourceFileName:

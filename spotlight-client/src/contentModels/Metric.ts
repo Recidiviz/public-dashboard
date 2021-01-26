@@ -112,6 +112,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
     makeObservable(this, {
       allRecords: observable.ref,
       demographicView: observable,
+      localityId: observable,
       error: observable,
       populateAllRecords: action,
       isLoading: observable,
