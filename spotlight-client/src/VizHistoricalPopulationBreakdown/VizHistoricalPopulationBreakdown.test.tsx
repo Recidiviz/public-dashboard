@@ -122,7 +122,7 @@ test("plots demographic categories", async () => {
   const ageOption = screen.getByRole("option", { name: "Age" });
   fireEvent.click(ageOption);
 
-  waitFor(() => {
+  await waitFor(() => {
     expect(
       screen.getAllByRole("group", {
         name: "5 stacked areas in a stacked area chart",
