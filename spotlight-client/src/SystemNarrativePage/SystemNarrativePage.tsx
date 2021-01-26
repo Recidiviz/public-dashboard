@@ -86,6 +86,8 @@ const ScrollIndicator = styled.div`
 
 const SectionsContainer = styled.div`
   flex: 1 1 auto;
+  /* min-width cannot be auto or children will not shrink when viewport does */
+  min-width: 0;
 `;
 
 const SystemNarrativePage: React.FC<{
