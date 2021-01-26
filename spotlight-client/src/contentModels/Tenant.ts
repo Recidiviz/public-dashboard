@@ -81,6 +81,7 @@ function getMetricsForTenant(
   tenantId: TenantId
 ) {
   return createMetricMapping({
+    localityLabelMapping: allTenantContent.localities,
     metadataMapping: allTenantContent.metrics,
     tenantId,
   });

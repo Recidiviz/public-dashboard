@@ -17,6 +17,20 @@
 
 import { TenantContent } from "../types";
 
+// localities for both sentencing and probation
+const judicialDistricts = [
+  { id: "ALL", label: "All Districts" },
+  { id: "EAST_CENTRAL", label: "East Central" },
+  { id: "NORTH_CENTRAL", label: "North Central" },
+  { id: "NORTHEAST", label: "Northeast" },
+  { id: "NORTHEAST_CENTRAL", label: "Northeast Central" },
+  { id: "NORTHWEST", label: "Northwest" },
+  { id: "SOUTH_CENTRAL", label: "South Central" },
+  { id: "SOUTHEAST", label: "Southeast" },
+  { id: "SOUTHWEST", label: "Southwest" },
+  { id: "OTHER", label: "Other" },
+];
+
 const content: TenantContent = {
   name: "North Dakota",
   description:
@@ -325,6 +339,58 @@ const content: TenantContent = {
             '<a href="https://www.behavioralhealth.nd.gov/addiction/FTR-old" >Free Through Recovery (FTR)</a> is a community based behavioral health program designed to increase recovery support services to individuals involved with the criminal justice system who have behavioral health concerns. The map below shows the number of people enrolled in the FTR program today.',
           metricTypeId: "ParoleProgrammingCurrent",
         },
+      ],
+    },
+  },
+  localities: {
+    Sentencing: {
+      label: "Judicial District",
+      entries: judicialDistricts,
+    },
+    Prison: {
+      label: "Facility",
+      entries: [
+        { id: "ALL", label: "All Facilities" },
+        { id: "BTC", label: "Bismarck Transition Center" },
+        { id: "DWCRC", label: "Dakota Women's Correctional" },
+        { id: "FTPFAR", label: "Fargo-Female Transition Program" },
+        { id: "MTPFAR", label: "Fargo-Male Transition Program" },
+        { id: "GFC", label: "Grand Forks County Correctional" },
+        { id: "JRCC", label: "James River Correctional Center" },
+        { id: "LRRP", label: "Lake Region Residential Reentry Center" },
+        { id: "FTPMND", label: "Mandan-Female Transition Program" },
+        { id: "MTPMND", label: "Mandan-Male Transition Program" },
+        { id: "MRCC", label: "Missouri River Correctional" },
+        { id: "NDSP", label: "North Dakota State Penitentiary" },
+        { id: "TRC", label: "Tompkins Rehabilitation And Corrections Center" },
+      ],
+    },
+    Probation: {
+      label: "Judicial District",
+      entries: judicialDistricts,
+    },
+    Parole: {
+      label: "Office",
+      entries: [
+        { label: "All Offices", id: "ALL" },
+        { label: "Beulah", id: "16" },
+        { label: "Bismarck", id: "1" },
+        { label: "Bottineau", id: "14" },
+        { label: "Central Office", id: "17" },
+        { label: "Devils Lake", id: "6" },
+        { label: "Dickinson", id: "11" },
+        { label: "Fargo", id: "4" },
+        { label: "Grafton", id: "12" },
+        { label: "Grand Forks", id: "5" },
+        { label: "Jamestown", id: "2" },
+        { label: "Mandan", id: "13" },
+        { label: "Minot", id: "3" },
+        { label: "Oakes", id: "15" },
+        { label: "Rolla", id: "8" },
+        { label: "Wahpeton", id: "7" },
+        { label: "Washburn", id: "9" },
+        { label: "Watford City", id: "18" },
+        { label: "Williston", id: "10" },
       ],
     },
   },

@@ -24,7 +24,7 @@ import {
 } from "mobx";
 import { DataSeries } from "../charts/types";
 import { ERROR_MESSAGES } from "../constants";
-import { TenantId } from "../contentApi/types";
+import { LocalityLabels, TenantId } from "../contentApi/types";
 import {
   fetchMetrics,
   RawMetricData,
@@ -45,6 +45,9 @@ export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
     ? DemographicView
     : undefined;
   defaultLocalityId: RecordFormat extends LocalityFields ? string : undefined;
+  localityLabels: RecordFormat extends LocalityFields
+    ? LocalityLabels
+    : undefined;
 };
 
 /**
@@ -87,6 +90,10 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
   // filter properties
   localityId: RecordFormat extends LocalityFields ? string : undefined;
 
+  localityLabels: RecordFormat extends LocalityFields
+    ? LocalityLabels
+    : undefined;
+
   demographicView: RecordFormat extends DemographicFields
     ? DemographicView
     : undefined;
@@ -100,6 +107,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
     dataTransformer,
     defaultDemographicView,
     defaultLocalityId,
+    localityLabels,
   }: BaseMetricConstructorOptions<RecordFormat>) {
     makeObservable(this, {
       allRecords: observable.ref,
@@ -123,6 +131,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
 
     // initialize filters
     this.localityId = defaultLocalityId;
+    this.localityLabels = localityLabels;
     this.demographicView = defaultDemographicView;
   }
 
