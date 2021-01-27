@@ -33,19 +33,19 @@ const COPY_WIDTH = 408;
 const Container = styled.section`
   border-bottom: 1px solid ${colors.rule};
   display: flex;
-  min-height: 100vh;
+  min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
   padding-right: ${rem(X_PADDING)};
 `;
 
 const SectionCopy = styled.div`
   display: flex;
-  flex: 0 0 auto;
+  flex: 0 1 30%;
   flex-direction: column;
   height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
   justify-content: center;
+  max-width: ${rem(COPY_WIDTH)};
   position: sticky;
   top: ${rem(NAV_BAR_HEIGHT)};
-  width: ${rem(COPY_WIDTH)};
 `;
 
 const SectionTitle = styled.h2`
@@ -61,9 +61,15 @@ const SectionBody = styled.div`
 `;
 
 const VizContainer = styled.div`
-  margin-left: ${rem(176)};
+  display: flex;
   flex: 1 1 auto;
-  padding: ${rem(240)} 0;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 8%;
+  min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
+  /* min-width cannot be auto or children will not shrink when viewport does */
+  min-width: ${rem(320)};
+  padding: ${rem(32)} 0;
 `;
 
 const SectionViz: React.FC<{ metric: Metric<MetricRecord> }> = ({ metric }) => {

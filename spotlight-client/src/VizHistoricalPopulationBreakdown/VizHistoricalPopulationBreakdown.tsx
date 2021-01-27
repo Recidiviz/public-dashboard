@@ -29,6 +29,7 @@ const FilterRow = styled.div`
   background: ${colors.background};
   display: flex;
   justify-content: flex-end;
+  margin-bottom: ${rem(16)};
   padding-bottom: ${rem(16)};
   z-index: ${zIndex.control};
 `;
