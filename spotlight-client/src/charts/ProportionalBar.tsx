@@ -112,7 +112,6 @@ export default function ProportionalBar({
                 data={dataWithPct}
                 margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
                 // returning a static value here groups them all in a single column
-                // TODO: could we also accomplish this with dynamic width and get better labels?
                 oAccessor={() => title}
                 pieceClass="ProportionalBarChart__segment"
                 projection="horizontal"
@@ -125,7 +124,7 @@ export default function ProportionalBar({
                       ? highlightFade(d.color)
                       : d.color,
                 })}
-                // TODO: can we give this chart a title for better accessibility?
+                title={title}
                 type="bar"
               />
             </ResponsiveTooltipController>

@@ -38,7 +38,6 @@ test("renders data", () => {
 
   testData.forEach((record) => {
     const mark = within(viz).getByRole("img", {
-      // TODO: what would happen if we used bar width instead? (probably ... something bad)
       // this label is not amazingly informative but it's what Semiotic gives us
       name: `${title} bar value ${record.value}`,
     });
