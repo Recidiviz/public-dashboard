@@ -45,6 +45,7 @@ export default {
   caption: pinePale,
   chartAxis: pine,
   chartGridLine: pinePale,
+  chartNoData: gray,
   dataViz: Array.from(dataVizColorMap.values()),
   dataVizNamed: dataVizColorMap,
   footerBackground: pineDark,

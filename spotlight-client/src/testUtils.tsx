@@ -20,11 +20,12 @@ import {
   createMemorySource,
   LocationProvider,
 } from "@reach/router";
-import { render } from "@testing-library/react";
+import { render, RenderResult } from "@testing-library/react";
 import React from "react";
 import { autorun } from "mobx";
 import waitForLocalhost from "wait-for-localhost";
 import App from "./App";
+import StoreProvider from "./StoreProvider";
 
 export function waitForTestServer(): Promise<void> {
   return waitForLocalhost({ path: "/health", port: 3002 });
@@ -58,4 +59,14 @@ export function renderNavigableApp({ route = "/" } = {}): {
     // tests can use history object to simulate navigation in a browser
     history,
   };
+}
+
+/**
+ * Renders the provided component in a StoreProvider
+ * for components that expect to access data stores
+ */
+export function renderWithStore(ui: React.ReactElement): RenderResult {
+  return render(ui, {
+    wrapper: StoreProvider,
+  });
 }
