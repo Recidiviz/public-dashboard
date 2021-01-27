@@ -80,7 +80,6 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  // mockedFetchMetrics.mockClear();
   clear();
 });
 

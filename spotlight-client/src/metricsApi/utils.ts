@@ -86,7 +86,10 @@ const DemographicViewList = [
 ] as const;
 export type DemographicView = typeof DemographicViewList[number];
 export function isDemographicView(x: string): x is DemographicView {
-  return DemographicViewList.includes(x as never);
+  // because of how the array is typed, `includes` only accepts values
+  // it already knows are in the array, which ... kind of defeats the purpose
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return DemographicViewList.includes(x as any);
 }
 
 const DIMENSION_DATA_KEYS: Record<
