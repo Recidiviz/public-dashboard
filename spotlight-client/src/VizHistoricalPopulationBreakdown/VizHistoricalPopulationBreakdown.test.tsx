@@ -15,7 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { advanceTo, clear } from "jest-date-mock";
 import { runInAction } from "mobx";
 import React from "react";
 import VizHistoricalPopulationBreakdown from ".";
@@ -27,6 +28,9 @@ import { reactImmediately } from "../testUtils";
 let metric: HistoricalPopulationBreakdownMetric;
 
 beforeEach(() => {
+  // most recent month present in fixture
+  advanceTo(new Date(2020, 7, 15));
+
   runInAction(() => {
     DataStore.tenantStore.currentTenantId = "US_ND";
   });
@@ -45,6 +49,7 @@ afterEach(() => {
   runInAction(() => {
     DataStore.tenantStore.currentTenantId = undefined;
   });
+  clear();
 });
 
 test("loading", () => {
@@ -79,7 +84,52 @@ test("renders total", async () => {
   ).toBeVisible();
 });
 
-// TODO(#278): There should be not less than 240 points
-test.todo("fills in missing data");
-// TODO(#278): plots filtered data once filter UI is implemented
-test.todo("plots demographic categories");
+test("plots demographic categories", async () => {
+  render(<VizHistoricalPopulationBreakdown metric={metric} />, {
+    wrapper: StoreProvider,
+  });
+
+  const menuButton = screen.getByRole("button", {
+    name: "View Total",
+  });
+  fireEvent.click(menuButton);
+
+  const raceOption = screen.getByRole("option", { name: "Race" });
+  fireEvent.click(raceOption);
+
+  // awaiting the first one because data may not have loaded yet
+  await waitFor(() => {
+    expect(
+      screen.getAllByRole("group", {
+        // 5 because there are 5 expected race categories
+        name: "5 stacked areas in a stacked area chart",
+      }).length
+    ).toBe(2); // there are 2 because one is the minimap
+  });
+
+  fireEvent.click(menuButton);
+  const genderOption = screen.getByRole("option", { name: "Gender" });
+  fireEvent.click(genderOption);
+
+  expect(
+    screen.getAllByRole("group", {
+      name: "2 stacked areas in a stacked area chart",
+    }).length
+  ).toBe(2);
+
+  fireEvent.click(menuButton);
+
+  const ageOption = screen.getByRole("option", { name: "Age" });
+  fireEvent.click(ageOption);
+
+  await waitFor(() => {
+    expect(
+      screen.getAllByRole("group", {
+        name: "5 stacked areas in a stacked area chart",
+      }).length
+    ).toBe(2);
+  });
+});
+
+// Unfortunately we can't test the time windowing by inspecting the markup,
+// because it isn't reflected in any obvious way :(

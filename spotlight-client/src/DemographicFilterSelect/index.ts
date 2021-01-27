@@ -15,6 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-// eslint-disable-next-line import/prefer-default-export
-export { default as WindowedTimeSeries } from "./WindowedTimeSeries";
-export * from "./WindowedTimeSeries";
+export { default } from "./DemographicFilterSelect";

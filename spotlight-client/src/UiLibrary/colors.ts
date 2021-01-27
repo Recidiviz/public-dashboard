@@ -40,6 +40,8 @@ const dataVizColorMap = new Map([
 export default {
   accent: pineBright,
   background: white,
+  buttonBackground: white,
+  buttonBackgroundHover: gray,
   caption: pinePale,
   chartAxis: pine,
   chartGridLine: pinePale,

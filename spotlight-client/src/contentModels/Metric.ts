@@ -34,7 +34,7 @@ import {
 } from "../metricsApi";
 import { MetricRecord, CollectionMap } from "./types";
 
-type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
+export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   name: string;
   description: string;
   methodology: string;
@@ -154,7 +154,10 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
         this.isLoading = false;
       });
     } catch (e) {
-      this.error = e;
+      runInAction(() => {
+        this.isLoading = false;
+        this.error = e;
+      });
     }
   }
 

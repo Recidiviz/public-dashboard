@@ -31,9 +31,6 @@ import { HistoricalPopulationBreakdownRecord } from "../metricsApi";
 import { DataSeries, ItemToHighlight } from "./types";
 import MeasureWidth from "../MeasureWidth";
 
-// TODO(#278): this should come from filters once they are implemented
-const CUSTOM_ID = "custom";
-
 const CHART_HEIGHT = 430;
 const MARGIN = { bottom: 65, left: 56, right: 8, top: 8 };
 const MINIMAP_HEIGHT = 80;
@@ -68,11 +65,17 @@ const BASE_MARK_PROPS = {
   },
 };
 
+const WindowSizeIdList = ["20", "10", "5", "1", "custom"] as const;
+export type WindowSizeId = typeof WindowSizeIdList[number];
+export function isWindowSizeId(x: string): x is WindowSizeId {
+  return WindowSizeIdList.includes(x as never);
+}
+
 const WindowedTimeSeries: React.FC<{
   data: DataSeries<HistoricalPopulationBreakdownRecord>[];
   defaultRangeEnd: Date;
   defaultRangeStart?: Date;
-  setTimeRangeId: (id?: string) => void;
+  setTimeRangeId: (id: WindowSizeId) => void;
 }> = ({ data, defaultRangeEnd, defaultRangeStart, setTimeRangeId }) => {
   const [highlighted, setHighlighted] = useState<ItemToHighlight | undefined>();
   const [dateRangeStart, setDateRangeStart] = useState<Date | undefined>();
@@ -190,7 +193,7 @@ const WindowedTimeSeries: React.FC<{
                       const [start, end] = brushExtent || [];
                       if (start && end) {
                         if (isNewRange({ start, end })) {
-                          setTimeRangeId(CUSTOM_ID);
+                          setTimeRangeId("custom");
                         }
 
                         setDateRangeStart(new Date(start));
@@ -199,7 +202,8 @@ const WindowedTimeSeries: React.FC<{
                     },
                     margin: { ...MARGIN, bottom: 0 },
                     size: [width, MINIMAP_HEIGHT],
-                    xBrushable: true,
+                    // suppress brush area if width is 0 to prevent SVG rendering errors
+                    xBrushable: Boolean(width),
                     xBrushExtent: [dateRangeStart, dateRangeEnd],
                     yBrushable: false,
                   }}

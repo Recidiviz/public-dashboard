@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { advanceTo, clear } from "jest-date-mock";
 import fetchMock from "jest-fetch-mock";
 import { runInAction, when } from "mobx";
 import { fromPromise } from "mobx-utils";
@@ -65,7 +66,13 @@ describe("metadata", () => {
 
 describe("data fetching", () => {
   beforeAll(() => {
+    // most recent month present in fixture
+    advanceTo(new Date(2020, 7, 15));
     testMetricMapping = getTestMapping();
+  });
+
+  afterAll(() => {
+    clear();
   });
 
   test.each(MetricTypeIdList)("for metric %s", (metricId, done) => {

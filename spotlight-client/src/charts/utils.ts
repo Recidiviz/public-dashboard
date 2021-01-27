@@ -20,9 +20,24 @@ import { color } from "d3-color";
 import { interpolateRgb } from "d3-interpolate";
 import { colors } from "../UiLibrary";
 
+/**
+ * Given a series of records, sums up their values and computes the value of each
+ * as a percentage of that total. Returns a copy of the records with `pct` field
+ * included as a number between 0 and 1.
+ */
+export function getDataWithPct<RecordFormat extends { value: number }>(
+  data: RecordFormat[]
+): (RecordFormat & { pct: number })[] {
+  // calculate percentages for display
+  const totalValue = sum(data.map(({ value }) => value));
+  return data.map((record) => ({
+    ...record,
+    pct: record.value / totalValue,
+  }));
+}
+
 const FADE_AMOUNT = 0.45;
 
-// eslint-disable-next-line import/prefer-default-export
 export function highlightFade(
   baseColor: string,
   { useOpacity = false } = {}
@@ -42,20 +57,4 @@ export function highlightFade(
   // this will create a tint ramp from background color to baseColor;
   // the ramp goes from 0 to 1 with values analogous to opacity
   return interpolateRgb(colors.background, baseColor)(FADE_AMOUNT);
-}
-
-/**
- * Given a series of records, sums up their values and computes the value of each
- * as a percentage of that total. Returns a copy of the records with `pct` field
- * included as a number between 0 and 1.
- */
-export function getDataWithPct<RecordFormat extends { value: number }>(
-  data: RecordFormat[]
-): (RecordFormat & { pct: number })[] {
-  // calculate percentages for display
-  const totalValue = sum(data.map(({ value }) => value));
-  return data.map((record) => ({
-    ...record,
-    pct: record.value / totalValue,
-  }));
 }
