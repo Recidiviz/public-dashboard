@@ -31,6 +31,7 @@ const testMetadataMapping = {
 
 function getTestMetric() {
   return createMetricMapping({
+    localityLabelMapping: undefined,
     metadataMapping: testMetadataMapping,
     tenantId: testTenantId,
   }).get(testMetricId) as HistoricalPopulationBreakdownMetric;
