@@ -44,7 +44,6 @@ const content: DeepRequired<TenantContent> = {
       name: "test SentencePopulationCurrent name",
       description: "test sentence population current description",
       methodology: "test sentence population current methodology",
-      mapCaption: "test sentence population current map caption",
     },
     SentenceTypesCurrent: {
       name: "test SentenceTypesCurrent name",
@@ -55,7 +54,6 @@ const content: DeepRequired<TenantContent> = {
       name: "test PrisonPopulationCurrent name",
       description: "test PrisonPopulationCurrent description",
       methodology: "test PrisonPopulationCurrent methodology",
-      mapCaption: "test PrisonPopulationCurrent map caption",
     },
     PrisonPopulationHistorical: {
       name: "test PrisonPopulationHistorical name",
@@ -93,7 +91,6 @@ const content: DeepRequired<TenantContent> = {
       name: "test ProbationPopulationCurrent name",
       description: "test ProbationPopulationCurrent description",
       methodology: "test ProbationPopulationCurrent methodology",
-      mapCaption: "test ProbationPopulationCurrent map caption",
     },
     ProbationPopulationHistorical: {
       name: "test ProbationPopulationHistorical name",
@@ -119,7 +116,6 @@ const content: DeepRequired<TenantContent> = {
       name: "test ParolePopulationCurrent name",
       description: "test ParolePopulationCurrent description",
       methodology: "test ParolePopulationCurrent methodology",
-      mapCaption: "test ParolePopulationCurrent map caption",
     },
     ParolePopulationHistorical: {
       name: "test ParolePopulationHistorical name",

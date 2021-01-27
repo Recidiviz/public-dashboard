@@ -40,11 +40,6 @@ export type TenantContent = NamedEntity & {
   };
   metrics: {
     [key in MetricTypeId]?: MetricContent;
-  } & {
-    SentencePopulationCurrent?: PopulationCurrentContent;
-    PrisonPopulationCurrent?: PopulationCurrentContent;
-    ProbationPopulationCurrent?: PopulationCurrentContent;
-    ParolePopulationCurrent?: PopulationCurrentContent;
   };
   systemNarratives: {
     [key in SystemNarrativeTypeId]?: SystemNarrativeContent;
@@ -104,8 +99,6 @@ export function isMetricTypeId(x: string): x is MetricTypeId {
 }
 
 type MetricContent = NamedEntity & { methodology: string };
-
-type PopulationCurrentContent = MetricContent & { mapCaption: string };
 
 // ============================
 // Narrative types

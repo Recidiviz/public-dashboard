@@ -59,7 +59,6 @@ const content: TenantContent = {
       description: "description TK",
       methodology:
         "This includes all individuals that are currently incarcerated, on parole, or on probation in North Dakota.",
-      mapCaption: "Judicial districts in North Dakota",
     },
     SentenceTypesCurrent: {
       name: "Sentence Types",
@@ -72,8 +71,6 @@ const content: TenantContent = {
       description: "description TK",
       methodology:
         "This includes all individuals that are currently incarcerated in a ND DOCR facility. It does not include individuals incarcerated in county jails nor individuals currently serving their prison sentence in the community through the Community Placement Program.",
-      mapCaption:
-        "Facilities housing individuals under legal and physical custody of the ND DOCR",
     },
     PrisonPopulationHistorical: {
       name: "Historical Prison Population",
@@ -116,7 +113,6 @@ const content: TenantContent = {
       description: "description TK",
       methodology:
         "This visualization counts people currently on probation in North Dakota.",
-      mapCaption: "Judicial districts in North Dakota",
     },
     ProbationPopulationHistorical: {
       name: "Historical Probation Population",
@@ -153,7 +149,6 @@ const content: TenantContent = {
       description: "description TK",
       methodology:
         "This visualization counts people currently on parole in North Dakota.",
-      mapCaption: "Parole offices in North Dakota",
     },
     ParolePopulationHistorical: {
       name: "Historical Parole Population",
