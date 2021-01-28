@@ -51,9 +51,9 @@ test("has expected options", () => {
   expect(options.length).toBe(4);
 
   expect(options[0]).toHaveTextContent("Total");
-  expect(options[1]).toHaveTextContent("Race");
+  expect(options[1]).toHaveTextContent("Race or Ethnicity");
   expect(options[2]).toHaveTextContent("Gender");
-  expect(options[3]).toHaveTextContent("Age");
+  expect(options[3]).toHaveTextContent("Age Group");
 });
 
 test("changes demographic filter", () => {
@@ -65,7 +65,7 @@ test("changes demographic filter", () => {
   });
   fireEvent.click(menuButton);
 
-  const raceOption = screen.getByRole("option", { name: "Race" });
+  const raceOption = screen.getByRole("option", { name: "Race or Ethnicity" });
   fireEvent.click(raceOption);
 
   reactImmediately(() => {
@@ -83,7 +83,7 @@ test("changes demographic filter", () => {
 
   fireEvent.click(menuButton);
 
-  const ageOption = screen.getByRole("option", { name: "Age" });
+  const ageOption = screen.getByRole("option", { name: "Age Group" });
   fireEvent.click(ageOption);
   reactImmediately(() => {
     expect(metric.demographicView).toBe("ageBucket");

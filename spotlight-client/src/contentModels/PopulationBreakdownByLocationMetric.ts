@@ -15,15 +15,77 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { DataSeries } from "../charts/types";
-import { PopulationBreakdownByLocationRecord } from "../metricsApi";
-import Metric from "./Metric";
+import { computed, makeObservable } from "mobx";
+import {
+  DemographicView,
+  DemographicViewList,
+  getDemographicCategories,
+  getDemographicViewLabel,
+} from "../demographics";
+import {
+  PopulationBreakdownByLocationRecord,
+  recordMatchesLocality,
+} from "../metricsApi";
+import { colors } from "../UiLibrary";
+import Metric, { BaseMetricConstructorOptions } from "./Metric";
 
+type DemographicCategoryRecords = {
+  viewName: string;
+  records: {
+    label: string;
+    color: string;
+    value: number;
+  }[];
+};
 export default class PopulationBreakdownByLocationMetric extends Metric<
   PopulationBreakdownByLocationRecord
 > {
-  // eslint-disable-next-line class-methods-use-this
-  get dataSeries(): DataSeries<PopulationBreakdownByLocationRecord>[] | null {
-    throw new Error("Method not implemented.");
+  constructor(
+    props: BaseMetricConstructorOptions<PopulationBreakdownByLocationRecord>
+  ) {
+    super(props);
+
+    makeObservable(this, { dataSeries: computed });
+  }
+
+  get records(): PopulationBreakdownByLocationRecord[] | undefined {
+    let recordsToReturn = this.getOrFetchRecords();
+    if (!recordsToReturn) return undefined;
+
+    recordsToReturn = recordsToReturn.filter(
+      recordMatchesLocality(this.localityId)
+    );
+
+    return recordsToReturn;
+  }
+
+  get dataSeries(): DemographicCategoryRecords[] | null {
+    const { records } = this;
+    if (!records) return null;
+
+    return DemographicViewList.filter(
+      (view): view is Exclude<DemographicView, "total"> => view !== "total"
+    ).map((demographicView) => {
+      return {
+        viewName: getDemographicViewLabel(demographicView),
+        records: getDemographicCategories(demographicView).map(
+          ({ identifier, label }, index) => {
+            let value = 0;
+            const matchingRecord = records.find(
+              (record) => record[demographicView] === identifier
+            );
+            if (matchingRecord) {
+              value = matchingRecord.population;
+            }
+
+            return {
+              color: colors.dataViz[index],
+              label,
+              value,
+            };
+          }
+        ),
+      };
+    });
   }
 }

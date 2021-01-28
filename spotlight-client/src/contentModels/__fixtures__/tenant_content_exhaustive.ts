@@ -212,12 +212,12 @@ const content: DeepRequired<TenantContent> = {
       label: "prison locality",
       entries: [
         {
-          id: "prison a",
-          label: "prison A",
+          id: "DWCRC",
+          label: "Dakota Women's Correctional",
         },
         {
-          id: "prison b",
-          label: "prison B",
+          id: "NDSP",
+          label: "North Dakota State Penitentiary",
         },
       ],
     },

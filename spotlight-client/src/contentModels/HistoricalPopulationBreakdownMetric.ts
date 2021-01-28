@@ -17,7 +17,7 @@
 
 import { ascending } from "d3-array";
 import { eachMonthOfInterval, format, startOfMonth, subMonths } from "date-fns";
-import { makeObservable, observable, runInAction } from "mobx";
+import { computed, makeObservable, observable, runInAction } from "mobx";
 import { DataSeries } from "../charts";
 import {
   DemographicViewList,
@@ -105,7 +105,10 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<
   ) {
     super(props);
 
-    makeObservable(this, { dataIncludesCurrentMonth: observable });
+    makeObservable(this, {
+      dataIncludesCurrentMonth: observable,
+      dataSeries: computed,
+    });
   }
 
   async fetchAndTransform(): Promise<HistoricalPopulationBreakdownRecord[]> {

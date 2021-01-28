@@ -87,7 +87,7 @@ test("plots demographic categories", async () => {
   });
   fireEvent.click(menuButton);
 
-  const raceOption = screen.getByRole("option", { name: "Race" });
+  const raceOption = screen.getByRole("option", { name: "Race or Ethnicity" });
   fireEvent.click(raceOption);
 
   // awaiting the first one because data may not have loaded yet
@@ -112,7 +112,7 @@ test("plots demographic categories", async () => {
 
   fireEvent.click(menuButton);
 
-  const ageOption = screen.getByRole("option", { name: "Age" });
+  const ageOption = screen.getByRole("option", { name: "Age Group" });
   fireEvent.click(ageOption);
 
   await waitFor(() => {

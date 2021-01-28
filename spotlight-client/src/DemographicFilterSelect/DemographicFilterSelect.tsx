@@ -19,7 +19,12 @@ import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
-import { DemographicView, isDemographicView } from "../demographics";
+import {
+  DemographicView,
+  DemographicViewList,
+  getDemographicViewLabel,
+  isDemographicView,
+} from "../demographics";
 import { Dropdown } from "../UiLibrary";
 
 type DemographicFilterOption = { id: DemographicView; label: string };
@@ -31,12 +36,12 @@ type DemographicFilterSelectProps = {
 const DemographicFilterSelect: React.FC<DemographicFilterSelectProps> = ({
   metric,
 }) => {
-  const options: DemographicFilterOption[] = [
-    { id: "total", label: "Total" },
-    { id: "raceOrEthnicity", label: "Race" },
-    { id: "gender", label: "Gender" },
-    { id: "ageBucket", label: "Age" },
-  ];
+  const options: DemographicFilterOption[] = DemographicViewList.map(
+    (view) => ({
+      id: view,
+      label: getDemographicViewLabel(view),
+    })
+  );
 
   const onChange = action("change demographic filter", (newFilter: string) => {
     if (isDemographicView(newFilter)) {
