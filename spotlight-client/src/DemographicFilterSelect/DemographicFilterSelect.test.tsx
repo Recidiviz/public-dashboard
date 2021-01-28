@@ -69,7 +69,7 @@ test("changes demographic filter", () => {
   fireEvent.click(raceOption);
 
   reactImmediately(() => {
-    expect(metric.demographicView).toBe("race");
+    expect(metric.demographicView).toBe("raceOrEthnicity");
     expect(menuButton).toHaveTextContent("Race");
   });
 
@@ -86,7 +86,7 @@ test("changes demographic filter", () => {
   const ageOption = screen.getByRole("option", { name: "Age" });
   fireEvent.click(ageOption);
   reactImmediately(() => {
-    expect(metric.demographicView).toBe("age");
+    expect(metric.demographicView).toBe("ageBucket");
     expect(menuButton).toHaveTextContent("Age");
   });
 

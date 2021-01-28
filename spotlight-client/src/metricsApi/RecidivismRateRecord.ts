@@ -16,11 +16,8 @@
 // =============================================================================
 
 import { RawMetricData } from "./fetchMetrics";
-import {
-  DemographicFields,
-  extractDemographicFields,
-  RateFields,
-} from "./utils";
+import { DemographicFields, RateFields } from "./types";
+import { extractDemographicFields } from "./utils";
 
 export type RecidivismRateRecord = DemographicFields &
   RateFields & {

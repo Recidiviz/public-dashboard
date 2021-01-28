@@ -49,8 +49,8 @@ import RecidivismRateMetric from "./RecidivismRateMetric";
 import SentenceTypeByLocationMetric from "./SentenceTypeByLocationMetric";
 import SupervisionSuccessRateDemographicsMetric from "./SupervisionSuccessRateDemographicsMetric";
 import SupervisionSuccessRateMonthlyMetric from "./SupervisionSuccessRateMonthlyMetric";
-import { NOFILTER_KEY, TOTAL_KEY } from "../metricsApi/utils";
 import { ERROR_MESSAGES } from "../constants";
+import { NOFILTER_KEY, TOTAL_KEY } from "../demographics";
 
 type MetricMappingFactoryOptions = {
   localityLabelMapping: TenantContent["localities"];

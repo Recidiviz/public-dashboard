@@ -17,7 +17,8 @@
 
 import { ValuesType } from "utility-types";
 import { RawMetricData } from "./fetchMetrics";
-import { LocalityFields, recordIsParole, recordIsProbation } from "./utils";
+import { LocalityFields } from "./types";
+import { recordIsParole, recordIsProbation } from "./utils";
 
 export type ProgramParticipationCurrentRecord = LocalityFields & {
   count: number;

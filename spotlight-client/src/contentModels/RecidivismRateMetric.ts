@@ -16,7 +16,8 @@
 // =============================================================================
 
 import { DataSeries } from "../charts/types";
-import { RecidivismRateRecord, recordIsTotalByDimension } from "../metricsApi";
+import { recordIsTotalByDimension } from "../demographics";
+import { RecidivismRateRecord } from "../metricsApi";
 import Metric from "./Metric";
 
 export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {

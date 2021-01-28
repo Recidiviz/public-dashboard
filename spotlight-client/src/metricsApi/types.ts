@@ -15,7 +15,37 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-// eslint-disable-next-line import/prefer-default-export
-export { default as WindowedTimeSeries } from "./WindowedTimeSeries";
-export * from "./WindowedTimeSeries";
-export * from "./types";
+import {
+  AgeIdentifier,
+  DemographicView,
+  GenderIdentifier,
+  RaceIdentifier,
+} from "../demographics/types";
+
+type DemographicFieldKey = Extract<
+  DemographicView,
+  "raceOrEthnicity" | "gender" | "ageBucket"
+>;
+export function isDemographicFieldKey(
+  x: DemographicView
+): x is DemographicFieldKey {
+  return ["raceOrEthnicity", "gender", "ageBucket"].includes(x);
+}
+
+export type DemographicFields = {
+  [key in DemographicFieldKey]: key extends "raceOrEthnicity"
+    ? RaceIdentifier
+    : key extends "gender"
+    ? GenderIdentifier
+    : AgeIdentifier;
+};
+
+export type LocalityFields = {
+  locality: string;
+};
+
+export type RateFields = {
+  rateDenominator: number;
+  rateNumerator: number;
+  rate: number;
+};

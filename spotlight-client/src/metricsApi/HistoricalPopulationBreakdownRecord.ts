@@ -18,8 +18,8 @@
 import { parseISO } from "date-fns";
 import { ValuesType } from "utility-types";
 import { RawMetricData } from "./fetchMetrics";
+import { DemographicFields } from "./types";
 import {
-  DemographicFields,
   extractDemographicFields,
   recordIsParole,
   recordIsProbation,

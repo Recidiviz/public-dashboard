@@ -17,12 +17,8 @@
 
 import { ValuesType } from "utility-types";
 import { RawMetricData } from "./fetchMetrics";
-import {
-  LocalityFields,
-  RateFields,
-  recordIsProbation,
-  recordIsParole,
-} from "./utils";
+import { LocalityFields, RateFields } from "./types";
+import { recordIsProbation, recordIsParole } from "./utils";
 
 export type SupervisionSuccessRateMonthlyRecord = LocalityFields &
   RateFields & {

@@ -16,8 +16,8 @@
 // =============================================================================
 
 import { DataSeries } from "../charts/types";
+import { recordIsTotalByDimension } from "../demographics";
 import {
-  recordIsTotalByDimension,
   recordMatchesLocality,
   SupervisionSuccessRateDemographicsRecord,
 } from "../metricsApi";
