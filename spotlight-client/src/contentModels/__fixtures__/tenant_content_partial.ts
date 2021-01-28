@@ -77,6 +77,47 @@ const content: TenantContent = {
       ],
     },
   },
+  localities: {
+    Sentencing: {
+      label: "sentencing locality",
+      entries: [
+        {
+          id: "sentencing a",
+          label: "sentencing A",
+        },
+        {
+          id: "sentencing b",
+          label: "sentencing B",
+        },
+      ],
+    },
+    Prison: {
+      label: "prison locality",
+      entries: [
+        {
+          id: "prison a",
+          label: "prison A",
+        },
+        {
+          id: "prison b",
+          label: "prison B",
+        },
+      ],
+    },
+    Parole: {
+      label: "parole locality",
+      entries: [
+        {
+          id: "parole a",
+          label: "parole A",
+        },
+        {
+          id: "parole b",
+          label: "parole B",
+        },
+      ],
+    },
+  },
 };
 
 export default content;

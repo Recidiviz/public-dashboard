@@ -25,10 +25,12 @@ import { reactImmediately } from "../testUtils";
 import createMetricMapping from "./createMetricMapping";
 
 const testTenantId = "US_ND";
-const testMetadataMapping = retrieveContent({ tenantId: testTenantId }).metrics;
+const allTestContent = retrieveContent({ tenantId: testTenantId });
+const testMetadataMapping = allTestContent.metrics;
 
 const getTestMapping = () =>
   createMetricMapping({
+    localityLabelMapping: allTestContent.localities,
     metadataMapping: testMetadataMapping,
     tenantId: testTenantId,
   });

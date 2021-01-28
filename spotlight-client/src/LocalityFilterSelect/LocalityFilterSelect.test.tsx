@@ -18,76 +18,78 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import React from "react";
 import createMetricMapping from "../contentModels/createMetricMapping";
-import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
+import type PopulationBreakdownByLocationMetric from "../contentModels/PopulationBreakdownByLocationMetric";
 import contentFixture from "../contentModels/__fixtures__/tenant_content_exhaustive";
 import { reactImmediately } from "../testUtils";
-import DemographicFilterSelect from "./DemographicFilterSelect";
+import LocalityFilterSelect from "./LocalityFilterSelect";
 
 const testTenantId = "US_ND";
-const testMetricId = "ProbationPopulationHistorical";
+const testMetricId = "ProbationPopulationCurrent";
 const testMetadataMapping = {
   [testMetricId]: contentFixture.metrics[testMetricId],
 };
 
+// judicial districts present in backend fixture
+const expectedLocalities = [
+  { id: "ALL", label: "All Districts" },
+  { id: "EAST_CENTRAL", label: "East Central" },
+  { id: "NORTH_CENTRAL", label: "North Central" },
+  { id: "NORTHEAST", label: "Northeast" },
+  { id: "NORTHEAST_CENTRAL", label: "Northeast Central" },
+  { id: "NORTHWEST", label: "Northwest" },
+  { id: "SOUTH_CENTRAL", label: "South Central" },
+  { id: "SOUTHEAST", label: "Southeast" },
+  { id: "SOUTHWEST", label: "Southwest" },
+  { id: "OTHER", label: "Other" },
+];
+
 function getTestMetric() {
   return createMetricMapping({
-    localityLabelMapping: undefined,
+    localityLabelMapping: {
+      Probation: { label: "Judicial District", entries: expectedLocalities },
+    },
     metadataMapping: testMetadataMapping,
     tenantId: testTenantId,
-  }).get(testMetricId) as HistoricalPopulationBreakdownMetric;
+  }).get(testMetricId) as PopulationBreakdownByLocationMetric;
 }
 
 test("has expected options", () => {
   const metric = getTestMetric();
-  render(<DemographicFilterSelect metric={metric} />);
+  render(<LocalityFilterSelect metric={metric} />);
 
   const menuButton = screen.getByRole("button", {
-    name: "View Total",
+    name: "Judicial District All Districts",
   });
   fireEvent.click(menuButton);
 
   const options = screen.getAllByRole("option");
 
-  expect(options.length).toBe(4);
+  expect(options.length).toBe(expectedLocalities.length);
 
-  expect(options[0]).toHaveTextContent("Total");
-  expect(options[1]).toHaveTextContent("Race");
-  expect(options[2]).toHaveTextContent("Gender");
-  expect(options[3]).toHaveTextContent("Age");
+  options.forEach((option, index) =>
+    expect(option).toHaveTextContent(expectedLocalities[index].label)
+  );
 });
 
 test("changes demographic filter", () => {
   const metric = getTestMetric();
-  render(<DemographicFilterSelect metric={metric} />);
+  render(<LocalityFilterSelect metric={metric} />);
 
   const menuButton = screen.getByRole("button", {
-    name: "View Total",
-  });
-  fireEvent.click(menuButton);
-
-  const raceOption = screen.getByRole("option", { name: "Race" });
-  fireEvent.click(raceOption);
-
-  reactImmediately(() => {
-    expect(metric.demographicView).toBe("race");
-    expect(menuButton).toHaveTextContent("Race");
+    name: "Judicial District All Districts",
   });
 
-  fireEvent.click(menuButton);
-  const genderOption = screen.getByRole("option", { name: "Gender" });
-  fireEvent.click(genderOption);
-  reactImmediately(() => {
-    expect(metric.demographicView).toBe("gender");
-    expect(menuButton).toHaveTextContent("Gender");
-  });
+  expectedLocalities.forEach((expectedLocality) => {
+    // open the menu
+    fireEvent.click(menuButton);
 
-  fireEvent.click(menuButton);
+    const option = screen.getByRole("option", { name: expectedLocality.label });
+    fireEvent.click(option);
 
-  const ageOption = screen.getByRole("option", { name: "Age" });
-  fireEvent.click(ageOption);
-  reactImmediately(() => {
-    expect(metric.demographicView).toBe("age");
-    expect(menuButton).toHaveTextContent("Age");
+    reactImmediately(() => {
+      expect(metric.localityId).toBe(expectedLocality.id);
+      expect(menuButton).toHaveTextContent(expectedLocality.label);
+    });
   });
 
   expect.hasAssertions();

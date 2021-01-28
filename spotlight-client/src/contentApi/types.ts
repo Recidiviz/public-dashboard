@@ -20,6 +20,11 @@ export type NamedEntity = {
   description: string;
 };
 
+export type LocalityLabels = {
+  label: string;
+  entries: { id: string; label: string }[];
+};
+
 // ============================
 // Tenant types
 
@@ -43,6 +48,11 @@ export type TenantContent = NamedEntity & {
   };
   systemNarratives: {
     [key in SystemNarrativeTypeId]?: SystemNarrativeContent;
+  };
+  // this is optional because it is possible (though unlikely)
+  // to not have any metrics that actually need it
+  localities?: {
+    [key in SystemNarrativeTypeId]?: LocalityLabels;
   };
 };
 

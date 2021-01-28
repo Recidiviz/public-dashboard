@@ -198,6 +198,60 @@ const content: DeepRequired<TenantContent> = {
       ],
     },
   },
+  localities: {
+    Sentencing: {
+      label: "sentencing locality",
+      entries: [
+        {
+          id: "sentencing a",
+          label: "sentencing A",
+        },
+        {
+          id: "sentencing b",
+          label: "sentencing B",
+        },
+      ],
+    },
+    Prison: {
+      label: "prison locality",
+      entries: [
+        {
+          id: "prison a",
+          label: "prison A",
+        },
+        {
+          id: "prison b",
+          label: "prison B",
+        },
+      ],
+    },
+    Probation: {
+      label: "probation locality",
+      entries: [
+        {
+          id: "probation a",
+          label: "probation A",
+        },
+        {
+          id: "probation b",
+          label: "probation B",
+        },
+      ],
+    },
+    Parole: {
+      label: "parole locality",
+      entries: [
+        {
+          id: "parole a",
+          label: "parole A",
+        },
+        {
+          id: "parole b",
+          label: "parole B",
+        },
+      ],
+    },
+  },
 };
 
 export default content;
