@@ -123,6 +123,8 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<
 
     // isolate each data series and impute any missing records
     DemographicViewList.forEach((demographicView) => {
+      if (demographicView === "nofilter") return;
+
       const recordsForDemographicView = transformedData.filter(
         recordIsTotalByDimension(demographicView)
       );
@@ -179,7 +181,7 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<
 
   get dataSeries(): DataSeries<HistoricalPopulationBreakdownRecord>[] | null {
     const { records, demographicView } = this;
-    if (!records) return null;
+    if (!records || demographicView === "nofilter") return null;
 
     const categories = getDemographicCategories(demographicView);
 

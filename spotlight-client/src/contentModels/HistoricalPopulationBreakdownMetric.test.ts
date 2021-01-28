@@ -99,6 +99,8 @@ test("fills in missing data", async () => {
   const metric = await getMetric();
 
   DemographicViewList.forEach((demographicView) => {
+    if (demographicView === "nofilter") return;
+
     runInAction(() => {
       metric.demographicView = demographicView;
     });

@@ -49,6 +49,3 @@ export type RateFields = {
   rateNumerator: number;
   rate: number;
 };
-
-type NoFilterIdentifier = "nofilter";
-export const NOFILTER_KEY: NoFilterIdentifier = "nofilter";
