@@ -37,10 +37,6 @@ describe("recordIsTotalByDimension", () => {
     expect(testData.filter(recordIsTotalByDimension(view))).toEqual(expected);
   };
 
-  test("returns all records", () => {
-    verifyFilter("nofilter", testData);
-  });
-
   test("returns only totals", () => {
     verifyFilter("total", testData.slice(0, 1));
   });

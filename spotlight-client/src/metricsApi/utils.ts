@@ -19,11 +19,10 @@ import { ValuesType } from "utility-types";
 import {
   AgeIdentifier,
   GenderIdentifier,
-  NOFILTER_KEY,
   RaceIdentifier,
 } from "../demographics/types";
 import { RawMetricData } from "./fetchMetrics";
-import { DemographicFields, LocalityFields } from "./types";
+import { DemographicFields, LocalityFields, NOFILTER_KEY } from "./types";
 
 export function extractDemographicFields(
   record: ValuesType<RawMetricData>

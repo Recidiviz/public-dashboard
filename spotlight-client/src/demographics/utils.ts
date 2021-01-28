@@ -22,7 +22,6 @@ import {
   DemographicView,
   DemographicViewList,
   GenderIdentifier,
-  NOFILTER_KEY,
   RaceIdentifier,
   TOTAL_KEY,
 } from "./types";
@@ -30,13 +29,10 @@ import {
 /**
  * Returns a filter predicate for the specified demographic view
  * that will exclude totals and breakdowns for all other views.
- * Respects a special bypass value (see `NOFILTER_KEY`)
  */
 export function recordIsTotalByDimension(
   demographicView: DemographicView
 ): (record: DemographicFields) => boolean {
-  if (demographicView === NOFILTER_KEY) return () => true;
-
   const keysToCheck = [...DemographicViewList].filter(isDemographicFieldKey);
 
   if (demographicView !== "total") {
@@ -92,7 +88,7 @@ const ageBucketCategories: AgeCategory[] = [
 ];
 
 export function getDemographicCategories(
-  view: Exclude<DemographicView, "nofilter">
+  view: DemographicView
 ): (TotalCategory | RaceOrEthnicityCategory | GenderCategory | AgeCategory)[] {
   switch (view) {
     case "total":

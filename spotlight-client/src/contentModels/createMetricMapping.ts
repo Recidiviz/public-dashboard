@@ -18,6 +18,7 @@
 import { assertNever } from "assert-never";
 import { MetricTypeIdList, TenantContent, TenantId } from "../contentApi/types";
 import {
+  NOFILTER_KEY,
   parolePopulationCurrent,
   parolePopulationHistorical,
   paroleProgramParticipationCurrent,
@@ -50,7 +51,7 @@ import SentenceTypeByLocationMetric from "./SentenceTypeByLocationMetric";
 import SupervisionSuccessRateDemographicsMetric from "./SupervisionSuccessRateDemographicsMetric";
 import SupervisionSuccessRateMonthlyMetric from "./SupervisionSuccessRateMonthlyMetric";
 import { ERROR_MESSAGES } from "../constants";
-import { NOFILTER_KEY, TOTAL_KEY } from "../demographics";
+import { TOTAL_KEY } from "../demographics";
 
 type MetricMappingFactoryOptions = {
   localityLabelMapping: TenantContent["localities"];
@@ -92,7 +93,7 @@ export default function createMetricMapping({
           new PopulationBreakdownByLocationMetric({
             ...metadata,
             tenantId,
-            defaultDemographicView: NOFILTER_KEY,
+            defaultDemographicView: "total",
             defaultLocalityId: TOTAL_KEY,
             localityLabels: localityLabelMapping.Sentencing,
             dataTransformer: sentencePopulationCurrent,
@@ -126,7 +127,7 @@ export default function createMetricMapping({
           new PopulationBreakdownByLocationMetric({
             ...metadata,
             tenantId,
-            defaultDemographicView: NOFILTER_KEY,
+            defaultDemographicView: "total",
             defaultLocalityId: TOTAL_KEY,
             localityLabels: localityLabelMapping.Prison,
             dataTransformer: prisonPopulationCurrent,
@@ -144,7 +145,7 @@ export default function createMetricMapping({
           new PopulationBreakdownByLocationMetric({
             ...metadata,
             tenantId,
-            defaultDemographicView: NOFILTER_KEY,
+            defaultDemographicView: "total",
             defaultLocalityId: TOTAL_KEY,
             localityLabels: localityLabelMapping.Probation,
             dataTransformer: probationPopulationCurrent,
@@ -162,7 +163,7 @@ export default function createMetricMapping({
           new PopulationBreakdownByLocationMetric({
             ...metadata,
             tenantId,
-            defaultDemographicView: NOFILTER_KEY,
+            defaultDemographicView: "total",
             defaultLocalityId: TOTAL_KEY,
             localityLabels: localityLabelMapping.Parole,
             dataTransformer: parolePopulationCurrent,

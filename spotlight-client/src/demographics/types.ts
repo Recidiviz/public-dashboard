@@ -18,9 +18,6 @@
 export type TotalIdentifier = "ALL";
 export const TOTAL_KEY: TotalIdentifier = "ALL";
 
-type NoFilterIdentifier = "nofilter";
-export const NOFILTER_KEY: NoFilterIdentifier = "nofilter";
-
 export type RaceIdentifier =
   | TotalIdentifier
   | "AMERICAN_INDIAN_ALASKAN_NATIVE"
@@ -44,7 +41,6 @@ export const DemographicViewList = [
   "raceOrEthnicity",
   "gender",
   "ageBucket",
-  "nofilter",
 ] as const;
 export type DemographicView = typeof DemographicViewList[number];
 export function isDemographicView(x: string): x is DemographicView {
