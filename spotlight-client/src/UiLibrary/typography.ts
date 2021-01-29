@@ -15,7 +15,38 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export default {
+import { rem } from "polished";
+import { breakpoints } from ".";
+
+export const typefaces = {
   body: "'Libre Franklin', sans-serif",
   display: "'Libre Baskerville', serif",
 };
+
+const [mobileMin] = breakpoints.mobile;
+const [desktopMin] = breakpoints.desktop;
+
+/**
+ * Implements fluid typography technique to scale text size
+ * by viewport from min to max
+ * @see <https://css-tricks.com/simplified-fluid-typography/>
+ */
+export function fluidFontSizeStyles(
+  minFontSize: number,
+  maxFontSize: number
+): string {
+  return `
+    font-size: ${rem(minFontSize)};
+
+    @media screen and (min-width: ${mobileMin}px) {
+      font-size: calc(
+        ${rem(minFontSize)} + ${rem(maxFontSize - minFontSize)} *
+          ((100vw - ${rem(mobileMin)}) / ${desktopMin - mobileMin})
+      );
+    }
+
+    @media screen and (min-width: ${desktopMin}px) {
+      font-size: ${rem(maxFontSize)};
+    }
+  `;
+}

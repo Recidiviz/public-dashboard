@@ -15,6 +15,24 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export { default as ProportionalBar } from "./ProportionalBar";
-export { default as WindowedTimeSeries } from "./WindowedTimeSeries";
-export * from "./WindowedTimeSeries";
+import { render, screen } from "@testing-library/react";
+import React from "react";
+import Statistic from "./Statistic";
+
+const maxSize = 96;
+const minSize = 32;
+
+test("has value and label", () => {
+  render(<Statistic value={10} label="things" {...{ maxSize, minSize }} />);
+  expect(screen.getByRole("figure")).toHaveTextContent("10things");
+});
+
+test("has no label", () => {
+  render(<Statistic value="99%" {...{ maxSize, minSize }} />);
+  expect(screen.getByRole("figure")).toHaveTextContent("99%");
+});
+
+test("no data", () => {
+  render(<Statistic {...{ maxSize, minSize }} />);
+  expect(screen.getByRole("figure")).toHaveTextContent("No data");
+});

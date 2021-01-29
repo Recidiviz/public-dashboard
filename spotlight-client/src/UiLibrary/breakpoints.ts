@@ -15,6 +15,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export { default as ProportionalBar } from "./ProportionalBar";
-export { default as WindowedTimeSeries } from "./WindowedTimeSeries";
-export * from "./WindowedTimeSeries";
+/**
+ * these are overrides to defaults in @w11r/use-breakpoint
+ */
+export default {
+  mobile: [320, 767],
+  tablet: [768, 1023],
+  desktop: [1024, 1279],
+  xl: [1280, 10000],
+};

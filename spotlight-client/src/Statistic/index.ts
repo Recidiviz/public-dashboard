@@ -15,6 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export { default as ProportionalBar } from "./ProportionalBar";
-export { default as WindowedTimeSeries } from "./WindowedTimeSeries";
-export * from "./WindowedTimeSeries";
+export { default } from "./Statistic";

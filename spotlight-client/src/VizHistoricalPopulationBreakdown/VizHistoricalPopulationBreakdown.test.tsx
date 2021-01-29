@@ -15,15 +15,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { advanceTo, clear } from "jest-date-mock";
 import { runInAction } from "mobx";
 import React from "react";
 import VizHistoricalPopulationBreakdown from ".";
 import HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import DataStore from "../DataStore";
-import StoreProvider from "../StoreProvider";
-import { reactImmediately } from "../testUtils";
+import { reactImmediately, renderWithStore } from "../testUtils";
 
 let metric: HistoricalPopulationBreakdownMetric;
 
@@ -53,16 +52,12 @@ afterEach(() => {
 });
 
 test("loading", () => {
-  render(<VizHistoricalPopulationBreakdown metric={metric} />, {
-    wrapper: StoreProvider,
-  });
+  renderWithStore(<VizHistoricalPopulationBreakdown metric={metric} />);
   expect(screen.getByText(/loading/i)).toBeVisible();
 });
 
 test("renders total", async () => {
-  render(<VizHistoricalPopulationBreakdown metric={metric} />, {
-    wrapper: StoreProvider,
-  });
+  renderWithStore(<VizHistoricalPopulationBreakdown metric={metric} />);
 
   await waitFor(() => {
     expect(
@@ -85,9 +80,7 @@ test("renders total", async () => {
 });
 
 test("plots demographic categories", async () => {
-  render(<VizHistoricalPopulationBreakdown metric={metric} />, {
-    wrapper: StoreProvider,
-  });
+  renderWithStore(<VizHistoricalPopulationBreakdown metric={metric} />);
 
   const menuButton = screen.getByRole("button", {
     name: "View Total",
