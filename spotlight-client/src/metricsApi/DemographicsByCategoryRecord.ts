@@ -48,10 +48,10 @@ function getCategoryTransposeFunction(
 }
 
 const revocationReasonFields = [
-  { categoryLabel: "abscond", fieldName: "absconsion_count" },
-  { categoryLabel: "offend", fieldName: "new_crime_count" },
-  { categoryLabel: "technical", fieldName: "technical_count" },
-  { categoryLabel: "unknown", fieldName: "unknown_count" },
+  { categoryLabel: "Absconsion", fieldName: "absconsion_count" },
+  { categoryLabel: "New offense", fieldName: "new_crime_count" },
+  { categoryLabel: "Technical violation", fieldName: "technical_count" },
+  { categoryLabel: "Unknown type", fieldName: "unknown_count" },
 ];
 
 export function probationRevocationReasons(
@@ -71,13 +71,13 @@ export function paroleRevocationReasons(
 }
 
 const prisonAdmissionFields = [
-  { categoryLabel: "newAdmission", fieldName: "new_admission_count" },
-  { categoryLabel: "paroleRevoked", fieldName: "parole_revocation_count" },
+  { categoryLabel: "New admissions", fieldName: "new_admission_count" },
+  { categoryLabel: "Parole revocations", fieldName: "parole_revocation_count" },
   {
-    categoryLabel: "probationRevoked",
+    categoryLabel: "Probation revocations",
     fieldName: "probation_revocation_count",
   },
-  { categoryLabel: "other", fieldName: "other_count" },
+  { categoryLabel: "Other", fieldName: "other_count" },
 ];
 
 export function prisonAdmissionReasons(
@@ -87,11 +87,17 @@ export function prisonAdmissionReasons(
 }
 
 const prisonReleaseFields = [
-  { categoryLabel: "transfer", fieldName: "external_transfer_count" },
-  { categoryLabel: "completion", fieldName: "sentence_completion_count" },
-  { categoryLabel: "parole", fieldName: "parole_count" },
-  { categoryLabel: "probation", fieldName: "probation_count" },
-  { categoryLabel: "death", fieldName: "death_count" },
+  {
+    categoryLabel: "Transfer out of system",
+    fieldName: "external_transfer_count",
+  },
+  {
+    categoryLabel: "Sentence completion",
+    fieldName: "sentence_completion_count",
+  },
+  { categoryLabel: "Parole", fieldName: "parole_count" },
+  { categoryLabel: "Probation", fieldName: "probation_count" },
+  { categoryLabel: "Death", fieldName: "death_count" },
 ];
 
 export function prisonReleaseTypes(

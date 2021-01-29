@@ -3,6 +3,7 @@
 exports[`demographic data series 1`] = `
 Array [
   Object {
+    "label": "Race or Ethnicity",
     "records": Array [
       Object {
         "color": "#25636F",
@@ -30,9 +31,9 @@ Array [
         "value": 12,
       },
     ],
-    "viewName": "Race or Ethnicity",
   },
   Object {
+    "label": "Gender",
     "records": Array [
       Object {
         "color": "#25636F",
@@ -45,9 +46,9 @@ Array [
         "value": 67,
       },
     ],
-    "viewName": "Gender",
   },
   Object {
+    "label": "Age Group",
     "records": Array [
       Object {
         "color": "#25636F",
@@ -75,7 +76,6 @@ Array [
         "value": 266,
       },
     ],
-    "viewName": "Age Group",
   },
 ]
 `;
