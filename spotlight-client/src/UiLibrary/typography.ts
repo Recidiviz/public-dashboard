@@ -40,8 +40,8 @@ export function fluidFontSizeStyles(
 
     @media screen and (min-width: ${mobileMin}px) {
       font-size: calc(
-        ${rem(minFontSize)} + ${rem(maxFontSize - minFontSize)} *
-          ((100vw - ${rem(mobileMin)}) / ${desktopMin - mobileMin})
+        ${minFontSize}px + ${maxFontSize - minFontSize} *
+          ((100vw - ${mobileMin}px) / ${desktopMin - mobileMin})
       );
     }
 

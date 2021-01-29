@@ -33,10 +33,11 @@ const ValueWrapper = styled.div<{ minSize: number; maxSize: number }>`
 
 const LabelWrapper = styled.figcaption`
   color: ${colors.caption};
-  font-size: ${rem(16)};
+  font-size: ${rem(13)};
   font-weight: 500;
   letter-spacing: -0.01;
   line-height: 1.5;
+  margin-top: ${rem(8)};
 `;
 
 type StatisticProps = {

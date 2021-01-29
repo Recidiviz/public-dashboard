@@ -16,6 +16,7 @@
 // =============================================================================
 
 import classNames from "classnames";
+import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
 import { animation, colors } from "../UiLibrary";
@@ -25,7 +26,7 @@ import { highlightFade } from "./utils";
 const ColorLegendWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  font-size: 12px;
+  font-size: ${rem(12)};
 `;
 
 const ColorLegendItem = styled.div`
