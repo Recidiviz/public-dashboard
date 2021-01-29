@@ -38,11 +38,13 @@ const content: TenantContent = {
       name: "test SentencePopulationCurrent name",
       description: "test sentence population current description",
       methodology: "test sentence population current methodology",
+      totalLabel: "test sentence population label",
     },
     PrisonPopulationCurrent: {
       name: "test PrisonPopulationCurrent name",
       description: "test PrisonPopulationCurrent description",
       methodology: "test PrisonPopulationCurrent methodology",
+      totalLabel: "test prison population label",
     },
     PrisonPopulationHistorical: {
       name: "test PrisonPopulationHistorical name",
@@ -53,6 +55,7 @@ const content: TenantContent = {
       name: "test ParolePopulationCurrent name",
       description: "test ParolePopulationCurrent description",
       methodology: "test ParolePopulationCurrent methodology",
+      totalLabel: "test parole population label",
     },
     ParoleRevocationsAggregate: {
       name: "test ParoleRevocationsAggregate name",

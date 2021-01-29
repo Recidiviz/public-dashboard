@@ -15,27 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { render, screen, within } from "@testing-library/react";
-import React from "react";
-import Statistic from "./Statistic";
-
-const maxSize = 96;
-const minSize = 32;
-
-test("has value and label", () => {
-  render(<Statistic value={10} label="things" {...{ maxSize, minSize }} />);
-  const stat = screen.getByRole("figure", { name: "things" });
-  expect(stat).toBeVisible();
-  expect(within(stat).getByText("10")).toBeVisible();
-  expect(within(stat).getByText("things")).toBeVisible();
-});
-
-test("has no label", () => {
-  render(<Statistic value="99%" {...{ maxSize, minSize }} />);
-  expect(screen.getByRole("figure")).toHaveTextContent("99%");
-});
-
-test("no data", () => {
-  render(<Statistic {...{ maxSize, minSize }} />);
-  expect(screen.getByRole("figure")).toHaveTextContent("No data");
-});
+export { default } from "./FiltersWrapper";

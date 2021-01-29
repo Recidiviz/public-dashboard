@@ -28,13 +28,11 @@ import { ItemToHighlight } from "./types";
 import { getDataWithPct, highlightFade } from "./utils";
 
 const ProportionalBarContainer = styled.figure`
-  height: 100%;
   width: 100%;
 `;
 
 const ProportionalBarChartWrapper = styled.div`
   background: ${colors.chartNoData};
-  height: 100%;
   position: relative;
   z-index: ${zIndex.base + 1};
 
@@ -97,7 +95,11 @@ export default function ProportionalBar({
   return (
     <MeasureWidth>
       {({ measureRef, width }) => (
-        <ProportionalBarContainer ref={measureRef}>
+        <ProportionalBarContainer
+          ref={measureRef}
+          // figure caption does not seem to get consistently picked up as accessible name
+          aria-label={title}
+        >
           <ProportionalBarChartWrapper>
             <ResponsiveTooltipController
               pieceHoverAnnotation
@@ -124,7 +126,6 @@ export default function ProportionalBar({
                       ? highlightFade(d.color)
                       : d.color,
                 })}
-                title={title}
                 type="bar"
               />
             </ResponsiveTooltipController>

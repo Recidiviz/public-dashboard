@@ -77,3 +77,23 @@ test("demographic data series", async () => {
 
   expect.hasAssertions();
 });
+
+test("total population", async () => {
+  const metric = getTestMetric();
+
+  metric.populateAllRecords();
+
+  await when(() => Boolean(metric.records));
+
+  reactImmediately(() => expect(metric.totalPopulation).toBe(2041));
+
+  const facilityId = contentFixture.localities.Prison.entries[1].id;
+
+  runInAction(() => {
+    metric.localityId = facilityId;
+  });
+
+  reactImmediately(() => expect(metric.totalPopulation).toBe(413));
+
+  expect.hasAssertions();
+});

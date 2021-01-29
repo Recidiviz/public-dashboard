@@ -39,8 +39,15 @@ export type TenantContent = NamedEntity & {
     [key in CollectionTypeId]?: CollectionContent;
   };
   metrics: {
-    [key in MetricTypeId]?: MetricContent;
-  };
+    [key in Extract<
+      MetricTypeId,
+      | "SentencePopulationCurrent"
+      | "PrisonPopulationCurrent"
+      | "ProbationPopulationCurrent"
+      | "ParolePopulationCurrent"
+    >]?: MetricContent & { totalLabel: string };
+  } &
+    { [key in MetricTypeId]?: MetricContent };
   systemNarratives: {
     [key in SystemNarrativeTypeId]?: SystemNarrativeContent;
   };

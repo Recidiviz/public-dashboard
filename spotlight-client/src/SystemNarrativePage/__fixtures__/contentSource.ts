@@ -26,6 +26,7 @@ const content: TenantContent = {
       name: "test SentencePopulationCurrent name",
       description: "test sentence population current description",
       methodology: "test sentence population current methodology",
+      totalLabel: "test sentence population label",
     },
     SentenceTypesCurrent: {
       name: "test SentenceTypesCurrent name",
@@ -36,6 +37,7 @@ const content: TenantContent = {
       name: "test ParolePopulationCurrent name",
       description: "test ParolePopulationCurrent description",
       methodology: "test ParolePopulationCurrent methodology",
+      totalLabel: "test parole population label",
     },
     ParolePopulationHistorical: {
       name: "test ParolePopulationHistorical name",

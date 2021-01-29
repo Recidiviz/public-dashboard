@@ -24,7 +24,7 @@ const StatisticsWrapper = styled.figure``;
 
 const ValueWrapper = styled.div<{ minSize: number; maxSize: number }>`
   color: ${colors.text};
-  font: ${typefaces.display};
+  font-family: ${typefaces.display};
   line-height: 100%;
   letter-spacing: -0.07em;
 
@@ -53,7 +53,9 @@ const Statistic: React.FC<StatisticProps> = ({
   value = "No data",
 }) => {
   return (
-    <StatisticsWrapper>
+    // figcaption does not seem to get consistently picked up as the accessible name,
+    // so including it as a label here too for insurance
+    <StatisticsWrapper aria-label={label}>
       <ValueWrapper {...{ maxSize, minSize }}>{value}</ValueWrapper>
       {label && <LabelWrapper>{label}</LabelWrapper>}
     </StatisticsWrapper>

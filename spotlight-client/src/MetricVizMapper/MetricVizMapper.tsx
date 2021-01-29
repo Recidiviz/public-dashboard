@@ -20,6 +20,8 @@ import Metric from "../contentModels/Metric";
 import HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import VizHistoricalPopulationBreakdown from "../VizHistoricalPopulationBreakdown";
 import { MetricRecord } from "../contentModels/types";
+import PopulationBreakdownByLocationMetric from "../contentModels/PopulationBreakdownByLocationMetric";
+import VizPopulationBreakdownByLocation from "../VizPopulationBreakdownByLocation";
 
 type MetricVizMapperProps = {
   metric: Metric<MetricRecord>;
@@ -28,6 +30,9 @@ type MetricVizMapperProps = {
 const MetricVizMapper: React.FC<MetricVizMapperProps> = ({ metric }) => {
   if (metric instanceof HistoricalPopulationBreakdownMetric) {
     return <VizHistoricalPopulationBreakdown metric={metric} />;
+  }
+  if (metric instanceof PopulationBreakdownByLocationMetric) {
+    return <VizPopulationBreakdownByLocation metric={metric} />;
   }
   return <h3>Placeholder for {metric.name}</h3>;
 };

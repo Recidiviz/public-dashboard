@@ -21,6 +21,7 @@ import {
   DemographicViewList,
   getDemographicCategories,
   getDemographicViewLabel,
+  recordIsTotalByDimension,
 } from "../demographics";
 import {
   PopulationBreakdownByLocationRecord,
@@ -40,12 +41,18 @@ type DemographicCategoryRecords = {
 export default class PopulationBreakdownByLocationMetric extends Metric<
   PopulationBreakdownByLocationRecord
 > {
+  readonly totalLabel: string;
+
   constructor(
-    props: BaseMetricConstructorOptions<PopulationBreakdownByLocationRecord>
+    props: BaseMetricConstructorOptions<PopulationBreakdownByLocationRecord> & {
+      totalLabel: string;
+    }
   ) {
     super(props);
 
-    makeObservable(this, { dataSeries: computed });
+    this.totalLabel = props.totalLabel;
+
+    makeObservable(this, { dataSeries: computed, totalPopulation: computed });
   }
 
   get records(): PopulationBreakdownByLocationRecord[] | undefined {
@@ -64,7 +71,8 @@ export default class PopulationBreakdownByLocationMetric extends Metric<
     if (!records) return null;
 
     return DemographicViewList.filter(
-      (view): view is Exclude<DemographicView, "total"> => view !== "total"
+      (view): view is Exclude<DemographicView, "total" | "nofilter"> =>
+        view !== "total" && view !== "nofilter"
     ).map((demographicView) => {
       return {
         viewName: getDemographicViewLabel(demographicView),
@@ -87,5 +95,15 @@ export default class PopulationBreakdownByLocationMetric extends Metric<
         ),
       };
     });
+  }
+
+  get totalPopulation(): number | undefined {
+    const { records } = this;
+    if (!records) return undefined;
+
+    const totalRecord = records.find(recordIsTotalByDimension("total"));
+    if (!totalRecord) return undefined;
+
+    return totalRecord.population;
   }
 }

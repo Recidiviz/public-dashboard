@@ -36,12 +36,12 @@ type DemographicFilterSelectProps = {
 const DemographicFilterSelect: React.FC<DemographicFilterSelectProps> = ({
   metric,
 }) => {
-  const options: DemographicFilterOption[] = DemographicViewList.map(
-    (view) => ({
-      id: view,
-      label: getDemographicViewLabel(view),
-    })
-  );
+  const options: DemographicFilterOption[] = DemographicViewList.filter(
+    (view): view is Exclude<DemographicView, "nofilter"> => view !== "nofilter"
+  ).map((view) => ({
+    id: view,
+    label: getDemographicViewLabel(view),
+  }));
 
   const onChange = action("change demographic filter", (newFilter: string) => {
     if (isDemographicView(newFilter)) {
