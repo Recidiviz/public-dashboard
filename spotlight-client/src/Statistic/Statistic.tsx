@@ -17,12 +17,13 @@
 
 import { rem } from "polished";
 import React from "react";
+import { animated, useTransition } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { colors, fluidFontSizeStyles, typefaces } from "../UiLibrary";
 
 const StatisticsWrapper = styled.figure``;
 
-const ValueWrapper = styled.div<{ minSize: number; maxSize: number }>`
+const Value = styled.div<{ minSize: number; maxSize: number }>`
   color: ${colors.text};
   font-family: ${typefaces.display};
   line-height: 100%;
@@ -53,11 +54,21 @@ const Statistic: React.FC<StatisticProps> = ({
   minSize,
   value = "No data",
 }) => {
+  const transitions = useTransition(value, null, {
+    initial: { opacity: 1 },
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0, position: "absolute" },
+  });
   return (
     // figcaption does not seem to get consistently picked up as the accessible name,
     // so including it as a label here too for insurance
     <StatisticsWrapper aria-label={label}>
-      <ValueWrapper {...{ maxSize, minSize }}>{value}</ValueWrapper>
+      {transitions.map(({ item, key, props }) => (
+        <animated.div key={key} style={props}>
+          <Value {...{ maxSize, minSize }}>{item}</Value>
+        </animated.div>
+      ))}
       {label && <LabelWrapper>{label}</LabelWrapper>}
     </StatisticsWrapper>
   );
