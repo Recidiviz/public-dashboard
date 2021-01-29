@@ -21,6 +21,5 @@ export default {
   header: 750,
   menu: 100,
   modal: 1000,
-  navBar: 10,
   tooltip: 500,
 };
