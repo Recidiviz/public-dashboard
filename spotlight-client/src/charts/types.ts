@@ -40,9 +40,9 @@ export type ProjectedDataPoint = ProjectedPoint & {
 
 export type ItemToHighlight = Pick<DataSeries, "label">;
 export function isItemToHighlight(
-  item: Record<string, unknown>
+  item?: Record<string, unknown>
 ): item is ItemToHighlight {
-  return typeof item.label === "string";
+  return Boolean(item && typeof item.label === "string");
 }
 
 export type ItemToDisplay = Pick<DataSeries, "label" | "color">;

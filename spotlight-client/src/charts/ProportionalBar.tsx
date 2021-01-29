@@ -53,6 +53,7 @@ const ProportionalBarMetadata = styled.figcaption`
 `;
 
 const ProportionalBarTitle = styled.div`
+  color: ${colors.caption};
   flex: 0 1 auto;
   font-size: 12px;
   margin-right: 15px;

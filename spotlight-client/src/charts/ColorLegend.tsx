@@ -18,7 +18,7 @@
 import classNames from "classnames";
 import React from "react";
 import styled from "styled-components/macro";
-import { animation } from "../UiLibrary";
+import { animation, colors } from "../UiLibrary";
 import { ItemToDisplay, ItemToHighlight } from "./types";
 import { highlightFade } from "./utils";
 
@@ -30,6 +30,7 @@ const ColorLegendWrapper = styled.div`
 
 const ColorLegendItem = styled.div`
   align-items: center;
+  color: ${colors.caption};
   cursor: pointer;
   display: flex;
   flex: 0 0 auto;
