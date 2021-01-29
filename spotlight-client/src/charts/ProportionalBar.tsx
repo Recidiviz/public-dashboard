@@ -24,7 +24,7 @@ import MeasureWidth from "../MeasureWidth";
 import { animation, colors, zIndex } from "../UiLibrary";
 import ColorLegend from "./ColorLegend";
 import ResponsiveTooltipController from "./ResponsiveTooltipController";
-import { ItemToHighlight } from "./types";
+import { CategoricalChartRecord, ItemToHighlight } from "./types";
 import { getDataWithPct, highlightFade } from "./utils";
 
 const ProportionalBarContainer = styled.figure`
@@ -70,7 +70,7 @@ const ProportionalBarLegendWrapper = styled.div`
 `;
 
 type ProportionalBarProps = {
-  data: { label: string; color: string; value: number }[];
+  data: CategoricalChartRecord[];
   height: number;
   highlighted?: ItemToHighlight;
   setHighlighted?: (item?: ItemToHighlight) => void;
