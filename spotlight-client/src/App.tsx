@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { RouteComponentProps, Router } from "@reach/router";
+import { setup as setupBreakpoints } from "@w11r/use-breakpoint";
 import { rem } from "polished";
 import React from "react";
 import { HelmetProvider } from "react-helmet-async";
@@ -33,6 +34,12 @@ import SiteFooter from "./SiteFooter";
 import SiteNavigation from "./SiteNavigation";
 import StoreProvider from "./StoreProvider";
 import TooltipMobile from "./TooltipMobile";
+import { breakpoints } from "./UiLibrary";
+
+// set custom breakpoints for media queries
+setupBreakpoints({
+  breakpoints,
+});
 
 /**
  * Helps with nesting; all it does is render its children.

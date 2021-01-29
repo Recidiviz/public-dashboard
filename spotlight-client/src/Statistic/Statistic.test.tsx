@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,10 +15,24 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export { default as animation } from "./animation";
-export { default as breakpoints } from "./breakpoints";
-export { default as Chevron } from "./Chevron";
-export { default as colors } from "./colors";
-export { default as Dropdown } from "./Dropdown";
-export * from "./typography";
-export { default as zIndex } from "./zIndex";
+import { render, screen } from "@testing-library/react";
+import React from "react";
+import Statistic from "./Statistic";
+
+const maxSize = 96;
+const minSize = 32;
+
+test("has value and label", () => {
+  render(<Statistic value={10} label="things" {...{ maxSize, minSize }} />);
+  expect(screen.getByRole("figure")).toHaveTextContent("10things");
+});
+
+test("has no label", () => {
+  render(<Statistic value="99%" {...{ maxSize, minSize }} />);
+  expect(screen.getByRole("figure")).toHaveTextContent("99%");
+});
+
+test("no data", () => {
+  render(<Statistic {...{ maxSize, minSize }} />);
+  expect(screen.getByRole("figure")).toHaveTextContent("No data");
+});
