@@ -23,7 +23,7 @@ import {
   runInAction,
 } from "mobx";
 import { ERROR_MESSAGES } from "../constants";
-import { LocalityLabels, TenantId } from "../contentApi/types";
+import { LocalityLabels, MetricTypeId, TenantId } from "../contentApi/types";
 import { DemographicView } from "../demographics";
 import {
   fetchMetrics,
@@ -34,6 +34,7 @@ import {
 import { MetricRecord, CollectionMap } from "./types";
 
 export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
+  id: MetricTypeId;
   name: string;
   description: string;
   methodology: string;
@@ -60,6 +61,8 @@ export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
  */
 export default abstract class Metric<RecordFormat extends MetricRecord> {
   // metadata properties
+  readonly id: MetricTypeId;
+
   readonly description: string;
 
   readonly methodology: string;
@@ -99,6 +102,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
     name,
     description,
     methodology,
+    id,
     tenantId,
     sourceFileName,
     dataTransformer,
@@ -120,6 +124,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
     this.name = name;
     this.description = description;
     this.methodology = methodology;
+    this.id = id;
 
     // initialize data fetching
     this.tenantId = tenantId;

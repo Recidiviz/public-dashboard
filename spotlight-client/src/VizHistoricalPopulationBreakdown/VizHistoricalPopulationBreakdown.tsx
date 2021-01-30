@@ -22,7 +22,7 @@ import { isWindowSizeId, WindowedTimeSeries, WindowSizeId } from "../charts";
 import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import FiltersWrapper from "../FiltersWrapper";
-import Loading from "../Loading";
+import NoMetricData from "../NoMetricData";
 import { Dropdown } from "../UiLibrary";
 
 const VizHistoricalPopulationBreakdown: React.FC<{
@@ -75,9 +75,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
       </>
     );
 
-  if (metric.error) throw metric.error;
-
-  return <Loading />;
+  return <NoMetricData metric={metric} />;
 };
 
 export default observer(VizHistoricalPopulationBreakdown);

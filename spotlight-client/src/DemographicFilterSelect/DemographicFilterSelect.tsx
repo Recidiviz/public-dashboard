@@ -18,7 +18,8 @@
 import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import React from "react";
-import HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
+import type DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
+import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import {
   DemographicView,
   DemographicViewList,
@@ -30,7 +31,7 @@ import { Dropdown } from "../UiLibrary";
 type DemographicFilterOption = { id: DemographicView; label: string };
 
 type DemographicFilterSelectProps = {
-  metric: HistoricalPopulationBreakdownMetric;
+  metric: HistoricalPopulationBreakdownMetric | DemographicsByCategoryMetric;
 };
 
 const DemographicFilterSelect: React.FC<DemographicFilterSelectProps> = ({

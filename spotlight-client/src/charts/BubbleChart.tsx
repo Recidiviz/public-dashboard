@@ -93,52 +93,56 @@ export default function BubbleChart({
 
         return (
           <BubbleChartWrapper ref={measureRef}>
-            <ResponsiveTooltipController
-              hoverAnnotation
-              setHighlighted={setHighlighted}
-            >
-              <NetworkFrame
-                baseMarkProps={{
-                  transitionDuration: { fill: animation.defaultDuration },
-                }}
-                margin={margin}
-                networkType={{
-                  type: "force",
-                  // this number is based on trial and error, no special knowledge
-                  iterations: 300,
-                  simulation,
-                  zoom: false,
-                }}
-                nodeIDAccessor="label"
-                nodeLabels={(d) =>
-                  // slightly hacky solution here to a couple of issues:
-                  // 1) if the value is zero there will be no bubble, so no label
-                  // 2) if the bubble is really small (less than ~1%) the label won't fit
-                  d.pct <= 0.01 ? null : (
-                    <BubbleValueLabel dy={BUBBLE_VALUE_Y_OFFSET}>
-                      {formatAsPct(d.pct)}
-                    </BubbleValueLabel>
-                  )
-                }
-                nodeSizeAccessor={getRadius}
-                nodeStyle={(d) => ({
-                  fill:
-                    highlighted && highlighted.label !== d.label
-                      ? highlightFade(d.color)
-                      : d.color,
-                })}
-                nodes={data}
-                renderKey="label"
-                size={[width, height]}
-              />
-            </ResponsiveTooltipController>
-            <LegendWrapper>
-              <ColorLegend
-                highlighted={highlighted}
-                items={initialData}
-                setHighlighted={setHighlighted}
-              />
-            </LegendWrapper>
+            {width > 0 && (
+              <>
+                <ResponsiveTooltipController
+                  hoverAnnotation
+                  setHighlighted={setHighlighted}
+                >
+                  <NetworkFrame
+                    baseMarkProps={{
+                      transitionDuration: { fill: animation.defaultDuration },
+                    }}
+                    margin={margin}
+                    networkType={{
+                      type: "force",
+                      // this number is based on trial and error, no special knowledge
+                      iterations: 300,
+                      simulation,
+                      zoom: false,
+                    }}
+                    nodeIDAccessor="label"
+                    nodeLabels={(d) =>
+                      // slightly hacky solution here to a couple of issues:
+                      // 1) if the value is zero there will be no bubble, so no label
+                      // 2) if the bubble is really small (less than ~1%) the label won't fit
+                      d.pct <= 0.01 ? null : (
+                        <BubbleValueLabel dy={BUBBLE_VALUE_Y_OFFSET}>
+                          {formatAsPct(d.pct)}
+                        </BubbleValueLabel>
+                      )
+                    }
+                    nodeSizeAccessor={getRadius}
+                    nodeStyle={(d) => ({
+                      fill:
+                        highlighted && highlighted.label !== d.label
+                          ? highlightFade(d.color)
+                          : d.color,
+                    })}
+                    nodes={data}
+                    renderKey="label"
+                    size={[width, height]}
+                  />
+                </ResponsiveTooltipController>
+                <LegendWrapper>
+                  <ColorLegend
+                    highlighted={highlighted}
+                    items={initialData}
+                    setHighlighted={setHighlighted}
+                  />
+                </LegendWrapper>
+              </>
+            )}
           </BubbleChartWrapper>
         );
       }}

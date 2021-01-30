@@ -20,6 +20,8 @@ import React from "react";
 import { renderWithStore } from "../testUtils";
 import BubbleChart from "./BubbleChart";
 
+jest.mock("../MeasureWidth/MeasureWidth");
+
 const testData = [
   { label: "thing 1", color: "red", value: 10 },
   { label: "thing 2", color: "blue", value: 50 },
