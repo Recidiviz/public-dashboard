@@ -58,7 +58,7 @@ export default class DemographicsByCategoryMetric extends Metric<
         records: records
           .filter((record) =>
             demographicView === "total"
-              ? recordIsTotalByDimension(demographicView)
+              ? true
               : record[demographicView] === identifier
           )
           .map((record, index) => {

@@ -29,8 +29,10 @@ import FiltersWrapper from "../FiltersWrapper";
 import NoMetricData from "../NoMetricData";
 import { zIndex } from "../UiLibrary";
 
-const SECTION_HEIGHT = 450;
-const GUTTER = 42;
+const bubbleChartHeight = 325;
+
+const barChartsHeight = 460;
+const barChartsGutter = 42;
 
 const ChartWrapper = styled.div`
   position: relative;
@@ -54,8 +56,8 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
   const { demographicView, dataSeries } = metric;
 
   const [chartContainerStyles, setChartContainerStyles] = useSpring(() => ({
-    from: { height: SECTION_HEIGHT },
-    height: SECTION_HEIGHT,
+    from: { height: bubbleChartHeight },
+    height: bubbleChartHeight,
     config: { friction: 40, tension: 280, clamp: true },
   }));
 
@@ -99,7 +101,7 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
                       item.dataSeries &&
                         (item.demographicView === "total" ? (
                           <BubbleChart
-                            height={SECTION_HEIGHT}
+                            height={bubbleChartHeight}
                             data={item.dataSeries[0].records}
                           />
                         ) : (
@@ -116,7 +118,8 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
                                 <ProportionalBar
                                   data={records}
                                   height={
-                                    SECTION_HEIGHT / categories.length - GUTTER
+                                    barChartsHeight / categories.length -
+                                    barChartsGutter
                                   }
                                   title={label}
                                   showLegend={index === categories.length - 1}
