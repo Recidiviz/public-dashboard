@@ -18,3 +18,4 @@
 export { default as ProportionalBar } from "./ProportionalBar";
 export { default as WindowedTimeSeries } from "./WindowedTimeSeries";
 export * from "./WindowedTimeSeries";
+export * from "./types";

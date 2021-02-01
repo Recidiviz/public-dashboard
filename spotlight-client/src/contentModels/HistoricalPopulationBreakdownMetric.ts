@@ -18,19 +18,18 @@
 import { ascending } from "d3-array";
 import { eachMonthOfInterval, format, startOfMonth, subMonths } from "date-fns";
 import { makeObservable, observable, runInAction } from "mobx";
-import { DataSeries } from "../charts/types";
+import { DataSeries } from "../charts";
 import {
-  DEMOGRAPHIC_UNKNOWN,
-  DIMENSION_DATA_KEYS,
-  DIMENSION_MAPPINGS,
+  DemographicViewList,
+  recordIsTotalByDimension,
+  getDemographicCategories,
+  RaceIdentifier,
+  GenderIdentifier,
+  AgeIdentifier,
 } from "../demographics";
 import {
-  AgeIdentifier,
   DemographicFields,
-  GenderIdentifier,
   HistoricalPopulationBreakdownRecord,
-  RaceIdentifier,
-  recordIsTotalByDimension,
 } from "../metricsApi";
 import { colors } from "../UiLibrary";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
@@ -123,45 +122,44 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<
     const missingRecords: HistoricalPopulationBreakdownRecord[] = [];
 
     // isolate each data series and impute any missing records
-    DIMENSION_MAPPINGS.forEach((categoryLabels, demographicView) => {
+    DemographicViewList.forEach((demographicView) => {
+      if (demographicView === "nofilter") return;
+
       const recordsForDemographicView = transformedData.filter(
         recordIsTotalByDimension(demographicView)
       );
-      Array.from(categoryLabels.keys())
-        // don't need to include unknown in this data;
-        // they are minimal to nonexistent in historical data and make the legend confusing
-        .filter((identifier) => identifier !== DEMOGRAPHIC_UNKNOWN)
-        .forEach((identifier) => {
-          let recordsForCategory;
-          if (demographicView !== "total") {
-            const categoryKey = DIMENSION_DATA_KEYS[demographicView];
-            recordsForCategory = recordsForDemographicView.filter(
-              (record) => record[categoryKey] === identifier
-            );
-          } else {
-            recordsForCategory = recordsForDemographicView;
-          }
-          missingRecords.push(
-            ...getMissingMonthsForSeries({
-              records: recordsForCategory,
-              includeCurrentMonth,
-              demographicFields: {
-                raceOrEthnicity:
-                  demographicView === "race"
-                    ? (identifier as RaceIdentifier)
-                    : "ALL",
-                gender:
-                  demographicView === "gender"
-                    ? (identifier as GenderIdentifier)
-                    : "ALL",
-                ageBucket:
-                  demographicView === "age"
-                    ? (identifier as AgeIdentifier)
-                    : "ALL",
-              },
-            })
+
+      const categories = getDemographicCategories(demographicView);
+      categories.forEach(({ identifier }) => {
+        let recordsForCategory;
+        if (demographicView !== "total") {
+          recordsForCategory = recordsForDemographicView.filter(
+            (record) => record[demographicView] === identifier
           );
-        });
+        } else {
+          recordsForCategory = recordsForDemographicView;
+        }
+        missingRecords.push(
+          ...getMissingMonthsForSeries({
+            records: recordsForCategory,
+            includeCurrentMonth,
+            demographicFields: {
+              raceOrEthnicity:
+                demographicView === "raceOrEthnicity"
+                  ? (identifier as RaceIdentifier)
+                  : "ALL",
+              gender:
+                demographicView === "gender"
+                  ? (identifier as GenderIdentifier)
+                  : "ALL",
+              ageBucket:
+                demographicView === "ageBucket"
+                  ? (identifier as AgeIdentifier)
+                  : "ALL",
+            },
+          })
+        );
+      });
     });
 
     transformedData.push(...missingRecords);
@@ -185,28 +183,15 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<
     const { records, demographicView } = this;
     if (!records || demographicView === "nofilter") return null;
 
-    const labelsForDimension = DIMENSION_MAPPINGS.get(demographicView);
-    // this should never happen, it's really just a type safety measure.
-    //  if it does, something has gone catastrophically wrong
-    if (!labelsForDimension)
-      throw new Error("Unsupported demographic view. Unable to provide data.");
+    const categories = getDemographicCategories(demographicView);
 
-    return (
-      Array.from(labelsForDimension)
-        // don't need to include unknown in this data;
-        // they are minimal to nonexistent in historical data and make the legend confusing
-        .filter(([identifier]) => identifier !== DEMOGRAPHIC_UNKNOWN)
-        .map(([identifier, label], index) => ({
-          label,
-          color: colors.dataViz[index],
-          coordinates:
-            demographicView === "total"
-              ? records
-              : records.filter(
-                  (record) =>
-                    record[DIMENSION_DATA_KEYS[demographicView]] === identifier
-                ),
-        }))
-    );
+    return categories.map(({ identifier, label }, index) => ({
+      label,
+      color: colors.dataViz[index],
+      coordinates:
+        demographicView === "total"
+          ? records
+          : records.filter((record) => record[demographicView] === identifier),
+    }));
   }
 }

@@ -16,10 +16,8 @@
 // =============================================================================
 
 import { DataSeries } from "../charts/types";
-import {
-  DemographicsByCategoryRecord,
-  recordIsTotalByDimension,
-} from "../metricsApi";
+import { recordIsTotalByDimension } from "../demographics";
+import { DemographicsByCategoryRecord } from "../metricsApi";
 import Metric from "./Metric";
 
 export default class DemographicsByCategoryMetric extends Metric<

@@ -17,11 +17,9 @@
 
 import { ValuesType } from "utility-types";
 import { RawMetricData } from "./fetchMetrics";
+import { DemographicFields, LocalityFields, RateFields } from "./types";
 import {
-  DemographicFields,
   extractDemographicFields,
-  LocalityFields,
-  RateFields,
   recordIsParole,
   recordIsProbation,
 } from "./utils";

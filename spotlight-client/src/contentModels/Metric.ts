@@ -25,11 +25,11 @@ import {
 import { DataSeries } from "../charts/types";
 import { ERROR_MESSAGES } from "../constants";
 import { LocalityLabels, TenantId } from "../contentApi/types";
+import { DemographicView } from "../demographics";
 import {
   fetchMetrics,
   RawMetricData,
   DemographicFields,
-  DemographicView,
   LocalityFields,
 } from "../metricsApi";
 import { MetricRecord, CollectionMap } from "./types";

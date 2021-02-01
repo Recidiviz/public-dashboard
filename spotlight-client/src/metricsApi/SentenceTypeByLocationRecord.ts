@@ -15,12 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { DemographicFields, LocalityFields } from ".";
 import { RawMetricData } from "./fetchMetrics";
-import {
-  DemographicFields,
-  extractDemographicFields,
-  LocalityFields,
-} from "./utils";
+import { extractDemographicFields } from "./utils";
 
 export type SentenceTypeByLocationRecord = DemographicFields &
   LocalityFields & {

@@ -16,8 +16,8 @@
 // =============================================================================
 
 import { RawMetricData } from "./fetchMetrics";
+import { DemographicFields } from "./types";
 import {
-  DemographicFields,
   extractDemographicFields,
   recordIsProbation,
   recordIsParole,

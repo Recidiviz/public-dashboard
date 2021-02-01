@@ -15,52 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import {
-  DemographicFields,
-  DemographicView,
-  LocalityFields,
-  recordIsTotalByDimension,
-  recordMatchesLocality,
-} from "./utils";
-
-describe("recordIsTotalByDimension", () => {
-  const testData: Array<DemographicFields & { count: number }> = [
-    { raceOrEthnicity: "ALL", gender: "ALL", ageBucket: "ALL", count: 1 },
-    { raceOrEthnicity: "BLACK", gender: "ALL", ageBucket: "ALL", count: 2 },
-    { raceOrEthnicity: "WHITE", gender: "ALL", ageBucket: "ALL", count: 3 },
-    { raceOrEthnicity: "ALL", gender: "MALE", ageBucket: "ALL", count: 4 },
-    { raceOrEthnicity: "ALL", gender: "FEMALE", ageBucket: "ALL", count: 5 },
-    { raceOrEthnicity: "ALL", gender: "ALL", ageBucket: "<25", count: 6 },
-    { raceOrEthnicity: "ALL", gender: "ALL", ageBucket: "25-29", count: 7 },
-  ];
-
-  const verifyFilter = (
-    view: DemographicView,
-    expected: DemographicFields[]
-  ) => {
-    expect(testData.filter(recordIsTotalByDimension(view))).toEqual(expected);
-  };
-
-  test("returns all records", () => {
-    verifyFilter("nofilter", testData);
-  });
-
-  test("returns only totals", () => {
-    verifyFilter("total", testData.slice(0, 1));
-  });
-
-  test("returns race/ethnicity categories", () => {
-    verifyFilter("race", testData.slice(1, 3));
-  });
-
-  test("returns gender categories", () => {
-    verifyFilter("gender", testData.slice(3, 5));
-  });
-
-  test("returns age categories", () => {
-    verifyFilter("age", testData.slice(5, 7));
-  });
-});
+import { LocalityFields } from "./types";
+import { recordMatchesLocality } from "./utils";
 
 describe("recordMatchesLocality", () => {
   const testData = [

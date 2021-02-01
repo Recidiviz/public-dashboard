@@ -18,11 +18,7 @@
 import { isEqual } from "date-fns";
 import { advanceTo, clear } from "jest-date-mock";
 import { runInAction } from "mobx";
-import {
-  DEMOGRAPHIC_UNKNOWN,
-  DIMENSION_DATA_KEYS,
-  DIMENSION_MAPPINGS,
-} from "../demographics";
+import { DemographicViewList, getDemographicCategories } from "../demographics";
 import {
   fetchMetrics,
   HistoricalPopulationBreakdownRecord,
@@ -102,7 +98,9 @@ const getMetric = async () => {
 test("fills in missing data", async () => {
   const metric = await getMetric();
 
-  DIMENSION_MAPPINGS.forEach((categoryLabels, demographicView) => {
+  DemographicViewList.forEach((demographicView) => {
+    if (demographicView === "nofilter") return;
+
     runInAction(() => {
       metric.demographicView = demographicView;
     });
@@ -110,15 +108,14 @@ test("fills in missing data", async () => {
     reactImmediately(() => {
       const data = metric.dataSeries;
       if (data) {
-        Array.from(categoryLabels.keys()).forEach((identifier, index) => {
-          if (identifier === DEMOGRAPHIC_UNKNOWN) return;
+        const categories = getDemographicCategories(demographicView);
+        categories.forEach(({ identifier }, index) => {
           const series = data[index].coordinates;
           expect(series.length).toBe(240);
 
           const expectedRecordShape = { ...imputedRecordBase };
           if (demographicView !== "total") {
-            const categoryKey = DIMENSION_DATA_KEYS[demographicView];
-            expectedRecordShape[categoryKey] = identifier;
+            expectedRecordShape[demographicView] = identifier;
           }
           series.forEach((record) => {
             // separate imputed records from existing records

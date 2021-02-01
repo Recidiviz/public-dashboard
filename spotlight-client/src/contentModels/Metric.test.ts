@@ -181,13 +181,13 @@ test("demographic filter", async () => {
   reactImmediately(() => expect(metric.records).toMatchSnapshot());
 
   runInAction(() => {
-    metric.demographicView = "race";
+    metric.demographicView = "raceOrEthnicity";
   });
 
   reactImmediately(() => expect(metric.records).toMatchSnapshot());
 
   runInAction(() => {
-    metric.demographicView = "age";
+    metric.demographicView = "ageBucket";
   });
 
   reactImmediately(() => expect(metric.records).toMatchSnapshot());
