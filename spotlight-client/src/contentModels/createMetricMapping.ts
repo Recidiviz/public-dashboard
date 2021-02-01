@@ -80,29 +80,37 @@ export default function createMetricMapping({
     if (!metadata) {
       return;
     }
+
+    // messages for errors we may hit at various points below
+    const localityContentError = `${ERROR_MESSAGES.missingRequiredContent} (locality labels)`;
+    const totalLabelError = `${ERROR_MESSAGES.missingRequiredContent} (total population label)`;
+
     // this big ol' switch statement ensures that the type ID string union is properly narrowed,
     // allowing for 1:1 correspondence between the ID and the typed Metric instance.
     switch (metricType) {
       case "SentencePopulationCurrent":
         if (!localityLabelMapping?.Sentencing)
-          throw new Error(ERROR_MESSAGES.noLocalityLabels);
+          throw new Error(localityContentError);
 
-        metricMapping.set(
-          metricType,
-          new PopulationBreakdownByLocationMetric({
-            ...metadata,
-            tenantId,
-            defaultDemographicView: NOFILTER_KEY,
-            defaultLocalityId: TOTAL_KEY,
-            localityLabels: localityLabelMapping.Sentencing,
-            dataTransformer: sentencePopulationCurrent,
-            sourceFileName: "sentence_type_by_district_by_demographics",
-          })
-        );
+        if ("totalLabel" in metadata)
+          metricMapping.set(
+            metricType,
+            new PopulationBreakdownByLocationMetric({
+              ...metadata,
+              tenantId,
+              defaultDemographicView: NOFILTER_KEY,
+              defaultLocalityId: TOTAL_KEY,
+              localityLabels: localityLabelMapping.Sentencing,
+              dataTransformer: sentencePopulationCurrent,
+              sourceFileName: "sentence_type_by_district_by_demographics",
+            })
+          );
+        else throw new Error(totalLabelError);
+
         break;
       case "SentenceTypesCurrent":
         if (!localityLabelMapping?.Sentencing)
-          throw new Error(ERROR_MESSAGES.noLocalityLabels);
+          throw new Error(localityContentError);
 
         metricMapping.set(
           metricType,
@@ -119,57 +127,61 @@ export default function createMetricMapping({
         break;
       case "PrisonPopulationCurrent":
         if (!localityLabelMapping?.Prison)
-          throw new Error(ERROR_MESSAGES.noLocalityLabels);
+          throw new Error(localityContentError);
 
-        metricMapping.set(
-          metricType,
-          new PopulationBreakdownByLocationMetric({
-            ...metadata,
-            tenantId,
-            defaultDemographicView: NOFILTER_KEY,
-            defaultLocalityId: TOTAL_KEY,
-            localityLabels: localityLabelMapping.Prison,
-            dataTransformer: prisonPopulationCurrent,
-            sourceFileName:
-              "incarceration_population_by_facility_by_demographics",
-          })
-        );
+        if ("totalLabel" in metadata)
+          metricMapping.set(
+            metricType,
+            new PopulationBreakdownByLocationMetric({
+              ...metadata,
+              tenantId,
+              defaultDemographicView: NOFILTER_KEY,
+              defaultLocalityId: TOTAL_KEY,
+              localityLabels: localityLabelMapping.Prison,
+              dataTransformer: prisonPopulationCurrent,
+              sourceFileName:
+                "incarceration_population_by_facility_by_demographics",
+            })
+          );
+        else throw new Error(totalLabelError);
         break;
       case "ProbationPopulationCurrent":
         if (!localityLabelMapping?.Probation)
-          throw new Error(ERROR_MESSAGES.noLocalityLabels);
-
-        metricMapping.set(
-          metricType,
-          new PopulationBreakdownByLocationMetric({
-            ...metadata,
-            tenantId,
-            defaultDemographicView: NOFILTER_KEY,
-            defaultLocalityId: TOTAL_KEY,
-            localityLabels: localityLabelMapping.Probation,
-            dataTransformer: probationPopulationCurrent,
-            sourceFileName:
-              "supervision_population_by_district_by_demographics",
-          })
-        );
+          throw new Error(localityContentError);
+        if ("totalLabel" in metadata)
+          metricMapping.set(
+            metricType,
+            new PopulationBreakdownByLocationMetric({
+              ...metadata,
+              tenantId,
+              defaultDemographicView: NOFILTER_KEY,
+              defaultLocalityId: TOTAL_KEY,
+              localityLabels: localityLabelMapping.Probation,
+              dataTransformer: probationPopulationCurrent,
+              sourceFileName:
+                "supervision_population_by_district_by_demographics",
+            })
+          );
+        else throw new Error(totalLabelError);
         break;
       case "ParolePopulationCurrent":
         if (!localityLabelMapping?.Parole)
-          throw new Error(ERROR_MESSAGES.noLocalityLabels);
-
-        metricMapping.set(
-          metricType,
-          new PopulationBreakdownByLocationMetric({
-            ...metadata,
-            tenantId,
-            defaultDemographicView: NOFILTER_KEY,
-            defaultLocalityId: TOTAL_KEY,
-            localityLabels: localityLabelMapping.Parole,
-            dataTransformer: parolePopulationCurrent,
-            sourceFileName:
-              "supervision_population_by_district_by_demographics",
-          })
-        );
+          throw new Error(localityContentError);
+        if ("totalLabel" in metadata)
+          metricMapping.set(
+            metricType,
+            new PopulationBreakdownByLocationMetric({
+              ...metadata,
+              tenantId,
+              defaultDemographicView: NOFILTER_KEY,
+              defaultLocalityId: TOTAL_KEY,
+              localityLabels: localityLabelMapping.Parole,
+              dataTransformer: parolePopulationCurrent,
+              sourceFileName:
+                "supervision_population_by_district_by_demographics",
+            })
+          );
+        else throw new Error(totalLabelError);
         break;
       case "PrisonPopulationHistorical":
         metricMapping.set(
@@ -215,7 +227,7 @@ export default function createMetricMapping({
         break;
       case "ProbationProgrammingCurrent":
         if (!localityLabelMapping?.Probation)
-          throw new Error(ERROR_MESSAGES.noLocalityLabels);
+          throw new Error(localityContentError);
 
         metricMapping.set(
           metricType,
@@ -232,7 +244,7 @@ export default function createMetricMapping({
         break;
       case "ParoleProgrammingCurrent":
         if (!localityLabelMapping?.Parole)
-          throw new Error(ERROR_MESSAGES.noLocalityLabels);
+          throw new Error(localityContentError);
 
         metricMapping.set(
           metricType,
@@ -249,7 +261,7 @@ export default function createMetricMapping({
         break;
       case "ProbationSuccessHistorical":
         if (!localityLabelMapping?.Probation)
-          throw new Error(ERROR_MESSAGES.noLocalityLabels);
+          throw new Error(localityContentError);
 
         metricMapping.set(
           metricType,
@@ -266,7 +278,7 @@ export default function createMetricMapping({
         break;
       case "ParoleSuccessHistorical":
         if (!localityLabelMapping?.Parole)
-          throw new Error(ERROR_MESSAGES.noLocalityLabels);
+          throw new Error(localityContentError);
 
         metricMapping.set(
           metricType,
@@ -283,7 +295,7 @@ export default function createMetricMapping({
         break;
       case "ProbationSuccessAggregate":
         if (!localityLabelMapping?.Probation)
-          throw new Error(ERROR_MESSAGES.noLocalityLabels);
+          throw new Error(localityContentError);
 
         metricMapping.set(
           metricType,
@@ -300,7 +312,7 @@ export default function createMetricMapping({
         break;
       case "ParoleSuccessAggregate":
         if (!localityLabelMapping?.Parole)
-          throw new Error(ERROR_MESSAGES.noLocalityLabels);
+          throw new Error(localityContentError);
 
         metricMapping.set(
           metricType,

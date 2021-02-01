@@ -15,15 +15,95 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { DataSeries } from "../charts/types";
-import { PopulationBreakdownByLocationRecord } from "../metricsApi";
-import Metric from "./Metric";
+import { computed, makeObservable } from "mobx";
+import {
+  DemographicView,
+  DemographicViewList,
+  getDemographicCategories,
+  getDemographicViewLabel,
+  recordIsTotalByDimension,
+} from "../demographics";
+import {
+  PopulationBreakdownByLocationRecord,
+  recordMatchesLocality,
+} from "../metricsApi";
+import { colors } from "../UiLibrary";
+import Metric, { BaseMetricConstructorOptions } from "./Metric";
 
+type DemographicCategoryRecords = {
+  viewName: string;
+  records: {
+    label: string;
+    color: string;
+    value: number;
+  }[];
+};
 export default class PopulationBreakdownByLocationMetric extends Metric<
   PopulationBreakdownByLocationRecord
 > {
-  // eslint-disable-next-line class-methods-use-this
-  get dataSeries(): DataSeries<PopulationBreakdownByLocationRecord>[] | null {
-    throw new Error("Method not implemented.");
+  readonly totalLabel: string;
+
+  constructor(
+    props: BaseMetricConstructorOptions<PopulationBreakdownByLocationRecord> & {
+      totalLabel: string;
+    }
+  ) {
+    super(props);
+
+    this.totalLabel = props.totalLabel;
+
+    makeObservable(this, { dataSeries: computed, totalPopulation: computed });
+  }
+
+  get records(): PopulationBreakdownByLocationRecord[] | undefined {
+    let recordsToReturn = this.getOrFetchRecords();
+    if (!recordsToReturn) return undefined;
+
+    recordsToReturn = recordsToReturn.filter(
+      recordMatchesLocality(this.localityId)
+    );
+
+    return recordsToReturn;
+  }
+
+  get dataSeries(): DemographicCategoryRecords[] | null {
+    const { records } = this;
+    if (!records) return null;
+
+    return DemographicViewList.filter(
+      (view): view is Exclude<DemographicView, "total" | "nofilter"> =>
+        view !== "total" && view !== "nofilter"
+    ).map((demographicView) => {
+      return {
+        viewName: getDemographicViewLabel(demographicView),
+        records: getDemographicCategories(demographicView).map(
+          ({ identifier, label }, index) => {
+            let value = 0;
+            const matchingRecord = records.find(
+              (record) => record[demographicView] === identifier
+            );
+            if (matchingRecord) {
+              value = matchingRecord.population;
+            }
+
+            return {
+              color: colors.dataViz[index],
+              label,
+              value,
+            };
+          }
+        ),
+      };
+    });
+  }
+
+  get totalPopulation(): number | undefined {
+    const { records } = this;
+    if (!records) return undefined;
+
+    const totalRecord = records.find(recordIsTotalByDimension("total"));
+    if (!totalRecord) return undefined;
+
+    return totalRecord.population;
   }
 }

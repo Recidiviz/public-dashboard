@@ -38,7 +38,7 @@ const NavContainer = styled.nav`
   position: fixed;
   width: 100%;
   top: 0;
-  z-index: ${zIndex.navBar};
+  z-index: ${zIndex.header};
 
   .NavLink {
     align-items: center;

@@ -39,13 +39,15 @@ export type TenantContent = NamedEntity & {
     [key in CollectionTypeId]?: CollectionContent;
   };
   metrics: {
-    [key in MetricTypeId]?: MetricContent;
-  } & {
-    SentencePopulationCurrent?: PopulationCurrentContent;
-    PrisonPopulationCurrent?: PopulationCurrentContent;
-    ProbationPopulationCurrent?: PopulationCurrentContent;
-    ParolePopulationCurrent?: PopulationCurrentContent;
-  };
+    [key in Extract<
+      MetricTypeId,
+      | "SentencePopulationCurrent"
+      | "PrisonPopulationCurrent"
+      | "ProbationPopulationCurrent"
+      | "ParolePopulationCurrent"
+    >]?: MetricContent & { totalLabel: string };
+  } &
+    { [key in MetricTypeId]?: MetricContent };
   systemNarratives: {
     [key in SystemNarrativeTypeId]?: SystemNarrativeContent;
   };
@@ -104,8 +106,6 @@ export function isMetricTypeId(x: string): x is MetricTypeId {
 }
 
 type MetricContent = NamedEntity & { methodology: string };
-
-type PopulationCurrentContent = MetricContent & { mapCaption: string };
 
 // ============================
 // Narrative types

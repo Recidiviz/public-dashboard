@@ -74,6 +74,7 @@ const DropdownMenu = styled.ul`
   border: 1px solid ${colors.rule};
   border-radius: ${rem(BUTTON_HEIGHT / 4)};
   font-size: ${rem(13)};
+  white-space: nowrap;
 
   &:focus {
     outline: none;

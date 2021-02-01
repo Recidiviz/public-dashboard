@@ -17,34 +17,13 @@
 
 import { startOfMonth, sub } from "date-fns";
 import { observer } from "mobx-react-lite";
-import { rem } from "polished";
 import React, { useState } from "react";
-import styled from "styled-components/macro";
 import { isWindowSizeId, WindowedTimeSeries, WindowSizeId } from "../charts";
 import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
-import { colors, Dropdown, zIndex } from "../UiLibrary";
-
-const FilterRow = styled.div`
-  background: ${colors.background};
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: ${rem(16)};
-  padding-bottom: ${rem(16)};
-  z-index: ${zIndex.control};
-`;
-
-const FilterWrapper = styled.div`
-  margin: 0 ${rem(16)};
-
-  &:first-child {
-    margin-left: 0;
-  }
-
-  &:last-child {
-    margin-right: 0;
-  }
-`;
+import FiltersWrapper from "../FiltersWrapper";
+import Loading from "../Loading";
+import { Dropdown } from "../UiLibrary";
 
 const VizHistoricalPopulationBreakdown: React.FC<{
   metric: HistoricalPopulationBreakdownMetric;
@@ -68,8 +47,8 @@ const VizHistoricalPopulationBreakdown: React.FC<{
   if (metric.dataSeries)
     return (
       <>
-        <FilterRow>
-          <FilterWrapper>
+        <FiltersWrapper
+          filters={[
             <Dropdown
               label="Range"
               onChange={(id) => {
@@ -83,12 +62,10 @@ const VizHistoricalPopulationBreakdown: React.FC<{
                 { id: "custom", label: "Custom", hidden: true },
               ]}
               selectedId={windowSizeId}
-            />
-          </FilterWrapper>
-          <FilterWrapper>
-            <DemographicFilterSelect metric={metric} />
-          </FilterWrapper>
-        </FilterRow>
+            />,
+            <DemographicFilterSelect metric={metric} />,
+          ]}
+        />
         <WindowedTimeSeries
           data={metric.dataSeries}
           setTimeRangeId={setWindowSizeId}
@@ -100,7 +77,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
 
   if (metric.error) throw metric.error;
 
-  return <div>loading...</div>;
+  return <Loading />;
 };
 
 export default observer(VizHistoricalPopulationBreakdown);

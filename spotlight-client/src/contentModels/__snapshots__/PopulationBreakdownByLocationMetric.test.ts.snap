@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`demographic data series 1`] = `
+Array [
+  Object {
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Native American",
+        "value": 244,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Black",
+        "value": 96,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Hispanic",
+        "value": 123,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "White",
+        "value": 671,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Other",
+        "value": 12,
+      },
+    ],
+    "viewName": "Race or Ethnicity",
+  },
+  Object {
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Male",
+        "value": 661,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Female",
+        "value": 67,
+      },
+    ],
+    "viewName": "Gender",
+  },
+  Object {
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "<25",
+        "value": 146,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "25-29",
+        "value": 284,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "30-34",
+        "value": 134,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "35-39",
+        "value": 242,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "40<",
+        "value": 266,
+      },
+    ],
+    "viewName": "Age Group",
+  },
+]
+`;

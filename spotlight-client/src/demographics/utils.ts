@@ -107,3 +107,18 @@ export function getDemographicCategories(
       assertNever(view);
   }
 }
+
+const demographicViewLabels: {
+  [key in Exclude<DemographicView, "nofilter">]: string;
+} = {
+  gender: "Gender",
+  ageBucket: "Age Group",
+  raceOrEthnicity: "Race or Ethnicity",
+  total: "Total",
+};
+
+export function getDemographicViewLabel(
+  view: Exclude<DemographicView, "nofilter">
+): string {
+  return demographicViewLabels[view];
+}

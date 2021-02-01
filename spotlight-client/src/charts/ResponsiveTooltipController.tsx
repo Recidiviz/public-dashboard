@@ -23,11 +23,7 @@ import { AnnotationType } from "semiotic/lib/types/annotationTypes";
 import { OrdinalFrameProps } from "semiotic/lib/types/ordinalTypes";
 import { XYFrameProps } from "semiotic/lib/types/xyTypes";
 import Tooltip, { TooltipContentProps } from "../Tooltip";
-import {
-  isItemToHighlight,
-  ItemToHighlight,
-  ProjectedDataPoint,
-} from "./types";
+import { ItemToHighlight, ProjectedDataPoint } from "./types";
 import { useDataStore } from "../StoreProvider";
 
 /**
@@ -50,10 +46,12 @@ function chartDataToTooltipProps({
   };
 }
 
-type SemioticChildProps = Partial<XYFrameProps> | Partial<OrdinalFrameProps>;
+// in practice it should be one or the other but it's not straightforward
+// to discriminate them at compile time
+type SemioticChildProps = Partial<XYFrameProps> & Partial<OrdinalFrameProps>;
 
 export type ResponsiveTooltipControllerProps = {
-  customHoverBehavior?: (record: TooltipContentProps) => void;
+  customHoverBehavior?: (record?: ProjectedDataPoint) => void;
   getTooltipProps?: (point: ProjectedDataPoint) => TooltipContentProps;
   hoverAnnotation?:
     | XYFrameProps["hoverAnnotation"]
@@ -124,16 +122,16 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
 
   // not all chart frames support this so don't include it by default
   // or Semiotic will yell at you
-  if (pieceHoverAnnotation && "pieceHoverAnnotation" in childProps)
+  if (pieceHoverAnnotation)
     childProps.pieceHoverAnnotation = pieceHoverAnnotation;
 
-  childProps.customClickBehavior = (d: ProjectedDataPoint) => {
+  childProps.customClickBehavior = (d?: ProjectedDataPoint) => {
     if (enableTouchTooltip) {
       action("update info panel", () => {
         uiStore.tooltipMobileData = d;
         uiStore.renderTooltipMobile = tooltipContent;
       })();
-      if (setHighlighted && isItemToHighlight(d)) {
+      if (setHighlighted) {
         setHighlighted(d);
       }
       if (Array.isArray(hoverAnnotation)) {
@@ -149,7 +147,7 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
 
             // hover annotation specs expect to have point data applied on the fly;
             // here we will substitute equivalent data from the click event
-            Object.assign(clickAnnotationSpec, d.data);
+            Object.assign(clickAnnotationSpec, d && d.data);
 
             return clickAnnotationSpec;
           });
@@ -161,8 +159,8 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
     }
   };
 
-  childProps.customHoverBehavior = (d: TooltipContentProps) => {
-    if (setHighlighted && isItemToHighlight(d)) {
+  childProps.customHoverBehavior = (d?: ProjectedDataPoint) => {
+    if (setHighlighted) {
       setHighlighted(d);
     }
     if (customHoverBehavior) customHoverBehavior(d);

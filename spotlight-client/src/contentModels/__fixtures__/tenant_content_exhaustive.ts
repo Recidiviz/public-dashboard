@@ -44,7 +44,7 @@ const content: DeepRequired<TenantContent> = {
       name: "test SentencePopulationCurrent name",
       description: "test sentence population current description",
       methodology: "test sentence population current methodology",
-      mapCaption: "test sentence population current map caption",
+      totalLabel: "test sentence population label",
     },
     SentenceTypesCurrent: {
       name: "test SentenceTypesCurrent name",
@@ -55,7 +55,7 @@ const content: DeepRequired<TenantContent> = {
       name: "test PrisonPopulationCurrent name",
       description: "test PrisonPopulationCurrent description",
       methodology: "test PrisonPopulationCurrent methodology",
-      mapCaption: "test PrisonPopulationCurrent map caption",
+      totalLabel: "test prison population label",
     },
     PrisonPopulationHistorical: {
       name: "test PrisonPopulationHistorical name",
@@ -93,7 +93,7 @@ const content: DeepRequired<TenantContent> = {
       name: "test ProbationPopulationCurrent name",
       description: "test ProbationPopulationCurrent description",
       methodology: "test ProbationPopulationCurrent methodology",
-      mapCaption: "test ProbationPopulationCurrent map caption",
+      totalLabel: "test probation population label",
     },
     ProbationPopulationHistorical: {
       name: "test ProbationPopulationHistorical name",
@@ -119,7 +119,7 @@ const content: DeepRequired<TenantContent> = {
       name: "test ParolePopulationCurrent name",
       description: "test ParolePopulationCurrent description",
       methodology: "test ParolePopulationCurrent methodology",
-      mapCaption: "test ParolePopulationCurrent map caption",
+      totalLabel: "test parole population label",
     },
     ParolePopulationHistorical: {
       name: "test ParolePopulationHistorical name",
@@ -216,12 +216,12 @@ const content: DeepRequired<TenantContent> = {
       label: "prison locality",
       entries: [
         {
-          id: "prison a",
-          label: "prison A",
+          id: "DWCRC",
+          label: "Dakota Women's Correctional",
         },
         {
-          id: "prison b",
-          label: "prison B",
+          id: "NDSP",
+          label: "North Dakota State Penitentiary",
         },
       ],
     },
