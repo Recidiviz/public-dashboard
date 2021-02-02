@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { makeAutoObservable, observable } from "mobx";
-import { ProjectedDataPoint } from "../charts/types";
+import { ProjectedDataPoint } from "../charts";
 import type RootStore from "./RootStore";
 
 export default class UiStore {

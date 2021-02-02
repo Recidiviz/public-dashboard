@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { DataSeries } from "../charts/types";
+import { DataSeries } from "../charts";
 import { ProgramParticipationCurrentRecord } from "../metricsApi";
 import Metric from "./Metric";
 

@@ -16,6 +16,7 @@
 // =============================================================================
 
 export * from "./BarChartTrellis";
+export { default as BubbleChart } from "./BubbleChart";
 export { default as ProportionalBar } from "./ProportionalBar";
 export { default as WindowedTimeSeries } from "./WindowedTimeSeries";
 export * from "./WindowedTimeSeries";
