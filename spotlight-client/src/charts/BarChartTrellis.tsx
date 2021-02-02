@@ -28,11 +28,13 @@ import { animation } from "../UiLibrary";
 import { CategoricalChartRecord, ProjectedDataPoint } from "./types";
 import MeasureWidth from "../MeasureWidth";
 
-export const singleChartHeight = 270;
+export const singleChartHeight = 300;
 
-const MARGIN = { top: 40, bottom: 56, left: 48, right: 0 };
+const MARGIN = { top: 56, bottom: 64, left: 48, right: 0 };
 
 const ChartTitle = styled.text`
+  font-weight: 500;
+  letter-spacing: -0.01em;
   text-anchor: start;
 `;
 
@@ -121,7 +123,7 @@ export function BarChartTrellis({
                   oLabel={(label: string) => (
                     <ColumnLabel>{formatBarLabel(label)}</ColumnLabel>
                   )}
-                  oPadding={8}
+                  oPadding={2}
                   rAccessor="pct"
                   rExtent={[0, 1]}
                   size={[width, singleChartHeight]}
@@ -153,11 +155,8 @@ export function BarChartTrellis({
                       // identifiers (i.e. titles) stay the same
                       // eslint-disable-next-line react/no-array-index-key
                       key={index}
-                      title={
-                        <ChartTitle x={0 - width / 2 + MARGIN.left}>
-                          {label}
-                        </ChartTitle>
-                      }
+                      // Semiotic centers titles by default; this x offset will align left
+                      title={<ChartTitle x={0 - width / 2}>{label}</ChartTitle>}
                       {...responsiveTooltipProps}
                     />
                   ))}
