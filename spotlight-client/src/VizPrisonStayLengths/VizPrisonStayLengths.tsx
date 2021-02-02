@@ -20,7 +20,12 @@ import React from "react";
 import Measure from "react-measure";
 import { animated, useSpring, useTransition } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
-import { CommonDataPoint, BarChartTrellis, singleChartHeight } from "../charts";
+import {
+  CommonDataPoint,
+  BarChartTrellis,
+  singleChartHeight,
+  TooltipContentFunction,
+} from "../charts";
 import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import FiltersWrapper from "../FiltersWrapper";
@@ -31,7 +36,7 @@ const ChartsWrapper = styled.div`
   position: relative;
 `;
 
-const getTooltipProps = (columnData: Record<string, unknown>) => {
+const getTooltipProps: TooltipContentFunction = (columnData) => {
   const {
     summary: [
       {
