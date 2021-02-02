@@ -28,10 +28,17 @@ import { DemographicCategoryRecords } from "./types";
 export default class DemographicsByCategoryMetric extends Metric<
   DemographicsByCategoryRecord
 > {
+  // consumers can override to make all records the same color
+  private readonly color?: string;
+
   constructor(
-    props: BaseMetricConstructorOptions<DemographicsByCategoryRecord>
+    props: BaseMetricConstructorOptions<DemographicsByCategoryRecord> & {
+      color?: string;
+    }
   ) {
     super(props);
+
+    this.color = props.color;
 
     makeObservable(this, { dataSeries: computed });
   }
@@ -47,7 +54,7 @@ export default class DemographicsByCategoryMetric extends Metric<
   }
 
   get dataSeries(): DemographicCategoryRecords[] | null {
-    const { demographicView, records } = this;
+    const { color, demographicView, records } = this;
     if (!records || demographicView === "nofilter") return null;
 
     const categories = getDemographicCategories(demographicView);
@@ -64,7 +71,7 @@ export default class DemographicsByCategoryMetric extends Metric<
           .map((record, index) => {
             return {
               label: record.category,
-              color: colors.dataViz[index],
+              color: color || colors.dataViz[index],
               value: record.count,
             };
           }),

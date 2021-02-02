@@ -51,6 +51,7 @@ import SupervisionSuccessRateDemographicsMetric from "./SupervisionSuccessRateDe
 import SupervisionSuccessRateMonthlyMetric from "./SupervisionSuccessRateMonthlyMetric";
 import { ERROR_MESSAGES } from "../constants";
 import { NOFILTER_KEY, TOTAL_KEY } from "../demographics";
+import { colors } from "../UiLibrary";
 
 type MetricMappingFactoryOptions = {
   localityLabelMapping: TenantContent["localities"];
@@ -445,6 +446,7 @@ export default function createMetricMapping({
             localityLabels: undefined,
             dataTransformer: prisonStayLengths,
             sourceFileName: "incarceration_lengths_by_demographics",
+            color: colors.dataVizNamed.get("teal"),
           })
         );
         break;

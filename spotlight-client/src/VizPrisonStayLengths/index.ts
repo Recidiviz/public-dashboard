@@ -15,20 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { observer } from "mobx-react-lite";
-import React from "react";
-import Metric from "../contentModels/Metric";
-import { MetricRecord } from "../contentModels/types";
-import Loading from "../Loading";
-
-type NoMetricDataProps = {
-  metric: Metric<MetricRecord>;
-};
-
-const NoMetricData: React.FC<NoMetricDataProps> = ({ metric }) => {
-  if (metric.error) throw metric.error;
-
-  return <Loading />;
-};
-
-export default observer(NoMetricData);
+export { default } from "./VizPrisonStayLengths";

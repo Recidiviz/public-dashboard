@@ -20,19 +20,21 @@ import React from "react";
 import { renderWithStore } from "../testUtils";
 import BarChartTrellis from "./BarChartTrellis";
 
+jest.mock("../MeasureWidth/MeasureWidth");
+
 const mockGetTooltipProps = jest.fn();
 const mockSetTitle = jest.fn();
 const testData = [
   {
-    title: "Group 1",
-    data: [
+    label: "Group 1",
+    records: [
       { label: "Category A", color: "red", value: 30, pct: 0.3 },
       { label: "Category B", color: "blue", value: 70, pct: 0.7 },
     ],
   },
   {
-    title: "Group 2",
-    data: [
+    label: "Group 2",
+    records: [
       { label: "Category A", color: "red", value: 80, pct: 0.4 },
       { label: "Category B", color: "blue", value: 120, pct: 0.6 },
     ],
@@ -45,7 +47,6 @@ test("renders charts", () => {
       data={testData}
       getTooltipProps={mockGetTooltipProps}
       setSelectedChartTitle={mockSetTitle}
-      width={500}
     />
   );
 
@@ -73,7 +74,6 @@ test("all charts have same Y axis range", () => {
       data={testData}
       getTooltipProps={mockGetTooltipProps}
       setSelectedChartTitle={mockSetTitle}
-      width={500}
     />
   );
 

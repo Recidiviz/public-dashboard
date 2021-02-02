@@ -57,7 +57,7 @@ export type ResponsiveTooltipControllerProps = {
     | XYFrameProps["hoverAnnotation"]
     | OrdinalFrameProps["hoverAnnotation"];
   pieceHoverAnnotation?: boolean;
-  render?: (props: SemioticChildProps) => React.ReactElement;
+  render?: (props: SemioticChildProps) => React.ReactElement | null;
   setHighlighted?: (item?: ItemToHighlight) => void;
 };
 
