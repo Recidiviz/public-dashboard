@@ -23,7 +23,6 @@ import { BarChartTrellis } from "./BarChartTrellis";
 jest.mock("../MeasureWidth/MeasureWidth");
 
 const mockGetTooltipProps = jest.fn();
-const mockSetTitle = jest.fn();
 const testData = [
   {
     label: "Group 1",
@@ -43,11 +42,7 @@ const testData = [
 
 test("renders charts", () => {
   renderWithStore(
-    <BarChartTrellis
-      data={testData}
-      getTooltipProps={mockGetTooltipProps}
-      setSelectedChartTitle={mockSetTitle}
-    />
+    <BarChartTrellis data={testData} getTooltipProps={mockGetTooltipProps} />
   );
 
   expect(
@@ -70,11 +65,7 @@ test("renders charts", () => {
 
 test("all charts have same Y axis range", () => {
   renderWithStore(
-    <BarChartTrellis
-      data={testData}
-      getTooltipProps={mockGetTooltipProps}
-      setSelectedChartTitle={mockSetTitle}
-    />
+    <BarChartTrellis data={testData} getTooltipProps={mockGetTooltipProps} />
   );
 
   expect(screen.getAllByLabelText("left axis from 0% to 100%").length).toBe(2);

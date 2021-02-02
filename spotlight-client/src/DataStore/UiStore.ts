@@ -16,15 +16,14 @@
 // =============================================================================
 
 import { makeAutoObservable, observable } from "mobx";
-import { ProjectedDataPoint } from "../charts";
 import type RootStore from "./RootStore";
 
 export default class UiStore {
   rootStore: RootStore;
 
-  tooltipMobileData?: ProjectedDataPoint;
+  tooltipMobileData?: Record<string, unknown>;
 
-  renderTooltipMobile?: (props: ProjectedDataPoint) => React.ReactNode;
+  renderTooltipMobile?: (props: Record<string, unknown>) => React.ReactNode;
 
   constructor({ rootStore }: { rootStore: RootStore }) {
     makeAutoObservable(this, {

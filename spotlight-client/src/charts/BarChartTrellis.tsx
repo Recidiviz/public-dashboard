@@ -16,7 +16,7 @@
 // =============================================================================
 
 import React, { useState, useCallback } from "react";
-import { FacetController, OrdinalFrame } from "semiotic";
+import { OrdinalFrame } from "semiotic";
 import styled from "styled-components/macro";
 import ChartWrapper from "./ChartWrapper";
 import ResponsiveTooltipController, {
@@ -25,7 +25,7 @@ import ResponsiveTooltipController, {
 import { formatAsPct } from "../utils";
 import { getDataWithPct, highlightFade } from "./utils";
 import { animation } from "../UiLibrary";
-import { CategoricalChartRecord, ProjectedDataPoint } from "./types";
+import { CategoricalChartRecord, CommonDataPoint } from "./types";
 import MeasureWidth from "../MeasureWidth";
 
 export const singleChartHeight = 300;
@@ -56,15 +56,17 @@ type BarChartTrellisProps = {
   data: BarChartData[];
   formatBarLabel?: (label: string) => string;
   getTooltipProps: ResponsiveTooltipControllerProps["getTooltipProps"];
-  setSelectedChartTitle: (title: string) => void;
 };
 
+/**
+ * Renders multiple bar charts (one per series in data)
+ * with identical Y axis ranges and cross-highlighting.
+ */
 export function BarChartTrellis({
   barAxisLabel,
   data,
   formatBarLabel = (label) => label,
   getTooltipProps,
-  setSelectedChartTitle,
 }: BarChartTrellisProps): React.ReactElement {
   const [highlightedLabel, setHighlightedLabel] = useState();
 
@@ -78,93 +80,69 @@ export function BarChartTrellis({
     <MeasureWidth>
       {({ measureRef, width }) => (
         <ChartWrapper ref={measureRef}>
-          <ResponsiveTooltipController
-            getTooltipProps={getTooltipProps}
-            hoverAnnotation
-            render={({
-              customClickBehavior,
-              customHoverBehavior,
-              ...responsiveTooltipProps
-            }) =>
-              width === 0 ? null : (
-                // @ts-expect-error array of rendered components works but the type defs don't like it
-                <FacetController
-                  // it's important to provide this to all facets even if we hide the axis,
-                  // because it determines how values are formatted in ARIA labels
-                  axes={[
-                    {
-                      baseline: false,
-                      orient: "left",
-                      tickFormat: formatAsPct,
-                      tickSize: 0,
-                    },
-                  ]}
-                  backgroundGraphics={
-                    barAxisLabel ? (
-                      // this functions as an axis label, but there is no Semiotic API for this;
-                      // it's hidden from screen readers either way, so not a real a11y concern
-                      <BarAxisLabel
-                        // Semiotic axis labels use this class, we want to pick up those styles here
-                        className="axis-title"
-                        x={
-                          MARGIN.left + (width - MARGIN.left - MARGIN.right) / 2
-                        }
-                        y={singleChartHeight - MARGIN.bottom / 3}
-                      >
-                        {barAxisLabel}
-                      </BarAxisLabel>
-                    ) : undefined
-                  }
-                  baseMarkProps={{
-                    transitionDuration: { fill: animation.defaultDuration },
-                  }}
-                  margin={MARGIN}
-                  oAccessor="label"
-                  oLabel={(label: string) => (
-                    <ColumnLabel>{formatBarLabel(label)}</ColumnLabel>
-                  )}
-                  oPadding={2}
-                  rAccessor="pct"
-                  rExtent={[0, 1]}
-                  size={[width, singleChartHeight]}
-                  style={(d: ProjectedDataPoint) => ({
-                    fill:
-                      highlightedLabel && highlightedLabel !== d.label
-                        ? highlightFade(d.color)
-                        : d.color,
-                  })}
-                  type="bar"
+          {width === 0
+            ? null
+            : data.map(({ label, records: chartData }, index) => (
+                <ResponsiveTooltipController
+                  key={label}
+                  getTooltipProps={getTooltipProps}
+                  hoverAnnotation
+                  setHighlighted={setHighlighted}
                 >
-                  {data.map(({ label, records: chartData }, index) => (
-                    <OrdinalFrame
-                      // we have to extend these custom behavior functions
-                      // to get the chart title into state for the tooltip;
-                      // they are guaranteed to be provided by ResponsiveTooltipController
-                      customClickBehavior={(d: ProjectedDataPoint) => {
-                        setSelectedChartTitle(label);
-                        if (customClickBehavior) customClickBehavior(d);
-                      }}
-                      customHoverBehavior={(d: ProjectedDataPoint) => {
-                        setSelectedChartTitle(label);
-                        if (customHoverBehavior) customHoverBehavior(d);
-                      }}
-                      data={getDataWithPct(chartData)}
-                      // using indices actually makes a better experience here;
-                      // the charts animate in and out based on how many there are
-                      // and we avoid bugs that happen when values change but the
-                      // identifiers (i.e. titles) stay the same
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={index}
-                      // Semiotic centers titles by default; this x offset will align left
-                      title={<ChartTitle x={0 - width / 2}>{label}</ChartTitle>}
-                      {...responsiveTooltipProps}
-                    />
-                  ))}
-                </FacetController>
-              )
-            }
-            setHighlighted={setHighlighted}
-          />
+                  <OrdinalFrame
+                    axes={[
+                      {
+                        baseline: false,
+                        orient: "left",
+                        tickFormat: formatAsPct,
+                        tickSize: 0,
+                      },
+                    ]}
+                    backgroundGraphics={
+                      barAxisLabel ? (
+                        // this functions as an axis label, but there is no Semiotic API for this;
+                        // it's hidden from screen readers either way, so not a real a11y concern
+                        <BarAxisLabel
+                          // Semiotic axis labels use this class, we want to pick up those styles here
+                          className="axis-title"
+                          x={
+                            MARGIN.left +
+                            (width - MARGIN.left - MARGIN.right) / 2
+                          }
+                          y={singleChartHeight - MARGIN.bottom / 3}
+                        >
+                          {barAxisLabel}
+                        </BarAxisLabel>
+                      ) : undefined
+                    }
+                    baseMarkProps={{
+                      transitionDuration: { fill: animation.defaultDuration },
+                    }}
+                    data={getDataWithPct(chartData)}
+                    margin={MARGIN}
+                    oAccessor="label"
+                    // @ts-expect-error Semiotic types can't handle a styled component here but it's fine
+                    oLabel={(barLabel) => (
+                      <ColumnLabel>
+                        {formatBarLabel(barLabel as string)}
+                      </ColumnLabel>
+                    )}
+                    oPadding={2}
+                    rAccessor="pct"
+                    rExtent={[0, 1]}
+                    size={[width, singleChartHeight]}
+                    style={(d: CommonDataPoint) => ({
+                      fill:
+                        highlightedLabel && highlightedLabel !== d.label
+                          ? highlightFade(d.color)
+                          : d.color,
+                    })}
+                    // Semiotic centers titles by default; this x offset will align left
+                    title={<ChartTitle x={0 - width / 2}>{label}</ChartTitle>}
+                    type="bar"
+                  />
+                </ResponsiveTooltipController>
+              ))}
         </ChartWrapper>
       )}
     </MeasureWidth>

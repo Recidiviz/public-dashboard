@@ -22,19 +22,23 @@ import React, { useEffect, useState } from "react";
 import { AnnotationType } from "semiotic/lib/types/annotationTypes";
 import { OrdinalFrameProps } from "semiotic/lib/types/ordinalTypes";
 import { XYFrameProps } from "semiotic/lib/types/xyTypes";
-import Tooltip, { TooltipContentProps } from "../Tooltip";
-import { ItemToHighlight, ProjectedDataPoint } from "./types";
+import Tooltip from "../Tooltip";
+import {
+  ItemToHighlight,
+  CommonDataPoint,
+  TooltipContentFunction,
+  isItemToHighlight,
+} from "./types";
 import { useDataStore } from "../StoreProvider";
 
 /**
  * Default tooltip content generator. Provides a title and a single
  * data point with optional percentage. Good enough for most charts.
+ * Expects `point` to resemble `ProjectedDataPoint`, but for consistency
+ * with the Semiotic interface it does not actually enforce the argument type.
  */
-function chartDataToTooltipProps({
-  label,
-  value,
-  pct,
-}: ProjectedDataPoint): TooltipContentProps {
+const chartDataToTooltipProps: TooltipContentFunction = (point) => {
+  const { label, value, pct } = point as CommonDataPoint;
   return {
     title: label,
     records: [
@@ -44,20 +48,19 @@ function chartDataToTooltipProps({
       },
     ],
   };
-}
+};
 
 // in practice it should be one or the other but it's not straightforward
 // to discriminate them at compile time
 type SemioticChildProps = Partial<XYFrameProps> & Partial<OrdinalFrameProps>;
 
 export type ResponsiveTooltipControllerProps = {
-  customHoverBehavior?: (record?: ProjectedDataPoint) => void;
-  getTooltipProps?: (point: ProjectedDataPoint) => TooltipContentProps;
+  customHoverBehavior?: (record?: Record<string, unknown>) => void;
+  getTooltipProps?: TooltipContentFunction;
   hoverAnnotation?:
     | XYFrameProps["hoverAnnotation"]
     | OrdinalFrameProps["hoverAnnotation"];
   pieceHoverAnnotation?: boolean;
-  render?: (props: SemioticChildProps) => React.ReactElement | null;
   setHighlighted?: (item?: ItemToHighlight) => void;
 };
 
@@ -73,7 +76,6 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
   getTooltipProps = chartDataToTooltipProps,
   hoverAnnotation,
   pieceHoverAnnotation,
-  render,
   setHighlighted,
   customHoverBehavior,
 }) => {
@@ -102,7 +104,7 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
 
   // childProps are props that Semiotic will recognize; non-Semiotic children
   // should implement the same API if they want to use this controller
-  const tooltipContent = (d: ProjectedDataPoint) => (
+  const tooltipContent = (d: Record<string, unknown>) => (
     <Tooltip {...getTooltipProps(d)} />
   );
   const renderNull = () => null;
@@ -125,13 +127,13 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
   if (pieceHoverAnnotation)
     childProps.pieceHoverAnnotation = pieceHoverAnnotation;
 
-  childProps.customClickBehavior = (d?: ProjectedDataPoint) => {
+  childProps.customClickBehavior = (d?: Record<string, unknown>) => {
     if (enableTouchTooltip) {
       action("update info panel", () => {
         uiStore.tooltipMobileData = d;
         uiStore.renderTooltipMobile = tooltipContent;
       })();
-      if (setHighlighted) {
+      if (setHighlighted && isItemToHighlight(d)) {
         setHighlighted(d);
       }
       if (Array.isArray(hoverAnnotation)) {
@@ -159,16 +161,13 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
     }
   };
 
-  childProps.customHoverBehavior = (d?: ProjectedDataPoint) => {
-    if (setHighlighted) {
+  childProps.customHoverBehavior = (d?: Record<string, unknown>) => {
+    if (setHighlighted && isItemToHighlight(d)) {
       setHighlighted(d);
     }
     if (customHoverBehavior) customHoverBehavior(d);
   };
 
-  if (render) {
-    return render(childProps);
-  }
   if (children) {
     return (
       <>

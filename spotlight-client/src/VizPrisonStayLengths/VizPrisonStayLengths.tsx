@@ -16,15 +16,11 @@
 // =============================================================================
 
 import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
+import React from "react";
 import Measure from "react-measure";
 import { animated, useSpring, useTransition } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
-import {
-  ProjectedDataPoint,
-  BarChartTrellis,
-  singleChartHeight,
-} from "../charts";
+import { CommonDataPoint, BarChartTrellis, singleChartHeight } from "../charts";
 import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import FiltersWrapper from "../FiltersWrapper";
@@ -35,6 +31,33 @@ const ChartsWrapper = styled.div`
   position: relative;
 `;
 
+const getTooltipProps = (columnData: Record<string, unknown>) => {
+  const {
+    summary: [
+      {
+        data: { label, pct, value },
+      },
+    ],
+  } = columnData as {
+    // can't find any Semiotic type definition that describes what is actually
+    // passed to this function, but the part we care about looks like this
+    summary: { data: CommonDataPoint }[];
+  };
+
+  return {
+    title: `${label}${
+      // special case: the first category already has "year" in it
+      label !== prisonStayLengthFields[0].categoryLabel ? " years" : ""
+    }`,
+    records: [
+      {
+        pct,
+        value,
+      },
+    ],
+  };
+};
+
 type VizPrisonStayLengthsProps = {
   metric: DemographicsByCategoryMetric;
 };
@@ -42,30 +65,6 @@ type VizPrisonStayLengthsProps = {
 const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
   metric,
 }) => {
-  const [selectedChartTitle, setSelectedChartTitle] = useState<string>();
-
-  const getTooltipProps = (columnData: ProjectedDataPoint) => {
-    // this isn't in the Semiotic type defs but it does exist;
-    // this type gets picked up from the input data format
-    const summary = columnData.summary as { data: ProjectedDataPoint }[];
-    const {
-      data: { label, pct, value },
-    } = summary[0];
-    return {
-      title: selectedChartTitle || "",
-      records: [
-        {
-          label: `${label}${
-            // special case: the first category already has "year" in it
-            label !== prisonStayLengthFields[0].categoryLabel ? " years" : ""
-          }`,
-          pct,
-          value,
-        },
-      ],
-    };
-  };
-
   const { dataSeries, demographicView } = metric;
 
   const [chartContainerStyles, setChartContainerStyles] = useSpring(() => ({
@@ -115,7 +114,6 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
                         <BarChartTrellis
                           data={item.dataSeries}
                           getTooltipProps={getTooltipProps}
-                          setSelectedChartTitle={setSelectedChartTitle}
                         />
                       )
                     }
