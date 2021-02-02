@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+export * from "./BarChartTrellis";
 export { default as ProportionalBar } from "./ProportionalBar";
 export { default as WindowedTimeSeries } from "./WindowedTimeSeries";
 export * from "./WindowedTimeSeries";

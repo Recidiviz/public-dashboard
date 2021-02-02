@@ -18,7 +18,7 @@
 import { screen } from "@testing-library/react";
 import React from "react";
 import { renderWithStore } from "../testUtils";
-import BarChartTrellis from "./BarChartTrellis";
+import { BarChartTrellis } from "./BarChartTrellis";
 
 jest.mock("../MeasureWidth/MeasureWidth");
 

@@ -15,7 +15,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import {
+  fireEvent,
+  screen,
+  waitForElementToBeRemoved,
+  within,
+} from "@testing-library/react";
 import { runInAction, when } from "mobx";
 import React from "react";
 import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
@@ -91,6 +96,10 @@ test("demographic charts", async () => {
 
   await when(() => !metric.isLoading);
 
+  const totalChart = screen.getByRole("group", {
+    name: "7 bars in a bar chart",
+  });
+
   const menuButton = screen.getByRole("button", {
     name: "View Total",
   });
@@ -98,31 +107,33 @@ test("demographic charts", async () => {
   fireEvent.click(screen.getByRole("option", { name: "Race or Ethnicity" }));
 
   // pause for animated transition
-  await waitFor(() => {
-    expect(
-      screen.getAllByRole("group", { name: "7 bars in a bar chart" }).length
-    ).toBe(5);
+  await waitForElementToBeRemoved(totalChart);
+
+  const raceCharts = screen.getAllByRole("group", {
+    name: "7 bars in a bar chart",
   });
+  expect(raceCharts.length).toBe(5);
 
   fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: "Gender" }));
 
   // pause for animated transition
-  await waitFor(() => {
-    expect(
-      screen.getAllByRole("group", { name: "7 bars in a bar chart" }).length
-    ).toBe(2);
+  await waitForElementToBeRemoved(raceCharts[0]);
+
+  const genderCharts = screen.getAllByRole("group", {
+    name: "7 bars in a bar chart",
   });
+  expect(genderCharts.length).toBe(2);
 
   fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: "Age Group" }));
 
   // pause for animated transition
-  await waitFor(() => {
-    expect(
-      screen.getAllByRole("group", { name: "7 bars in a bar chart" }).length
-    ).toBe(5);
-  });
+  await waitForElementToBeRemoved(genderCharts[0]);
+
+  expect(
+    screen.getAllByRole("group", { name: "7 bars in a bar chart" }).length
+  ).toBe(5);
 });
 
 test("all bars are the same color", async () => {

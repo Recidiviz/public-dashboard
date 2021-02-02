@@ -28,7 +28,7 @@ import { animation } from "../UiLibrary";
 import { CategoricalChartRecord, ProjectedDataPoint } from "./types";
 import MeasureWidth from "../MeasureWidth";
 
-const CHART_HEIGHT = 360;
+export const singleChartHeight = 270;
 
 const MARGIN = { top: 40, bottom: 56, left: 48, right: 0 };
 
@@ -57,7 +57,7 @@ type BarChartTrellisProps = {
   setSelectedChartTitle: (title: string) => void;
 };
 
-export default function BarChartTrellis({
+export function BarChartTrellis({
   barAxisLabel,
   data,
   formatBarLabel = (label) => label,
@@ -107,7 +107,7 @@ export default function BarChartTrellis({
                         x={
                           MARGIN.left + (width - MARGIN.left - MARGIN.right) / 2
                         }
-                        y={CHART_HEIGHT - MARGIN.bottom / 3}
+                        y={singleChartHeight - MARGIN.bottom / 3}
                       >
                         {barAxisLabel}
                       </BarAxisLabel>
@@ -124,7 +124,7 @@ export default function BarChartTrellis({
                   oPadding={8}
                   rAccessor="pct"
                   rExtent={[0, 1]}
-                  size={[width, CHART_HEIGHT]}
+                  size={[width, singleChartHeight]}
                   style={(d: ProjectedDataPoint) => ({
                     fill:
                       highlightedLabel && highlightedLabel !== d.label
