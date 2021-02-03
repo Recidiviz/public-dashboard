@@ -15,30 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React from "react";
-import Measure from "react-measure";
-
-export type MeasureWidthProps = {
-  children: (props: {
-    measureRef: (ref: Element | null) => void;
-    width: number;
-  }) => React.ReactElement;
-};
-
-/**
- * Renders a function that accepts a ref for an element to measure,
- * and the width of that element whenever it changes.
- * (Unlike with a bare instance of `react-measure`, width is guaranteed to be a number.
- */
-const MeasureWidth: React.FC<MeasureWidthProps> = ({ children }) => {
-  return (
-    <Measure bounds>
-      {({ measureRef, contentRect: { bounds } }) => {
-        const width = bounds?.width || 0;
-        return children({ measureRef, width });
-      }}
-    </Measure>
-  );
-};
-
-export default MeasureWidth;
+export { default } from "./VizDemographicsByCategory";

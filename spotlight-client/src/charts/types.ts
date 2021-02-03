@@ -46,3 +46,9 @@ export function isItemToHighlight(
 }
 
 export type ItemToDisplay = Pick<DataSeries, "label" | "color">;
+
+export type CategoricalChartRecord = {
+  label: string;
+  color: string;
+  value: number;
+};

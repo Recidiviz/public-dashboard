@@ -15,14 +15,27 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { DataSeries } from "../charts/types";
-import { recordIsTotalByDimension } from "../demographics";
+import { computed, makeObservable } from "mobx";
+import {
+  getDemographicCategories,
+  recordIsTotalByDimension,
+} from "../demographics";
 import { DemographicsByCategoryRecord } from "../metricsApi";
-import Metric from "./Metric";
+import { colors } from "../UiLibrary";
+import Metric, { BaseMetricConstructorOptions } from "./Metric";
+import { DemographicCategoryRecords } from "./types";
 
 export default class DemographicsByCategoryMetric extends Metric<
   DemographicsByCategoryRecord
 > {
+  constructor(
+    props: BaseMetricConstructorOptions<DemographicsByCategoryRecord>
+  ) {
+    super(props);
+
+    makeObservable(this, { dataSeries: computed });
+  }
+
   get records(): DemographicsByCategoryRecord[] | undefined {
     let recordsToReturn = this.getOrFetchRecords();
     if (!recordsToReturn) return undefined;
@@ -33,8 +46,29 @@ export default class DemographicsByCategoryMetric extends Metric<
     return recordsToReturn;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  get dataSeries(): DataSeries<DemographicsByCategoryRecord>[] | null {
-    throw new Error("Method not implemented.");
+  get dataSeries(): DemographicCategoryRecords[] | null {
+    const { demographicView, records } = this;
+    if (!records || demographicView === "nofilter") return null;
+
+    const categories = getDemographicCategories(demographicView);
+
+    return categories.map(({ identifier, label }) => {
+      return {
+        label,
+        records: records
+          .filter((record) =>
+            demographicView === "total"
+              ? true
+              : record[demographicView] === identifier
+          )
+          .map((record, index) => {
+            return {
+              label: record.category,
+              color: colors.dataViz[index],
+              value: record.count,
+            };
+          }),
+      };
+    });
   }
 }

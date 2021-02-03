@@ -22,6 +22,8 @@ import VizHistoricalPopulationBreakdown from "../VizHistoricalPopulationBreakdow
 import { MetricRecord } from "../contentModels/types";
 import PopulationBreakdownByLocationMetric from "../contentModels/PopulationBreakdownByLocationMetric";
 import VizPopulationBreakdownByLocation from "../VizPopulationBreakdownByLocation";
+import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
+import VizDemographicsByCategory from "../VizDemographicsByCategory";
 
 type MetricVizMapperProps = {
   metric: Metric<MetricRecord>;
@@ -33,6 +35,12 @@ const MetricVizMapper: React.FC<MetricVizMapperProps> = ({ metric }) => {
   }
   if (metric instanceof PopulationBreakdownByLocationMetric) {
     return <VizPopulationBreakdownByLocation metric={metric} />;
+  }
+  if (
+    metric instanceof DemographicsByCategoryMetric &&
+    metric.id !== "PrisonStayLengthAggregate"
+  ) {
+    return <VizDemographicsByCategory metric={metric} />;
   }
   return <h3>Placeholder for {metric.name}</h3>;
 };

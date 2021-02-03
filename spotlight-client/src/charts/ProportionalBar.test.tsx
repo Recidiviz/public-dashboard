@@ -20,6 +20,8 @@ import React from "react";
 import { renderWithStore } from "../testUtils";
 import ProportionalBar from "./ProportionalBar";
 
+jest.mock("../MeasureWidth/MeasureWidth");
+
 test("renders data", () => {
   const testData = [
     { label: "thing 1", color: "red", value: 10 },

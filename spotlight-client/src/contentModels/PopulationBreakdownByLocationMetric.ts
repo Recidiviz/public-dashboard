@@ -29,15 +29,8 @@ import {
 } from "../metricsApi";
 import { colors } from "../UiLibrary";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
+import { DemographicCategoryRecords } from "./types";
 
-type DemographicCategoryRecords = {
-  viewName: string;
-  records: {
-    label: string;
-    color: string;
-    value: number;
-  }[];
-};
 export default class PopulationBreakdownByLocationMetric extends Metric<
   PopulationBreakdownByLocationRecord
 > {
@@ -75,7 +68,7 @@ export default class PopulationBreakdownByLocationMetric extends Metric<
         view !== "total" && view !== "nofilter"
     ).map((demographicView) => {
       return {
-        viewName: getDemographicViewLabel(demographicView),
+        label: getDemographicViewLabel(demographicView),
         records: getDemographicCategories(demographicView).map(
           ({ identifier, label }, index) => {
             let value = 0;

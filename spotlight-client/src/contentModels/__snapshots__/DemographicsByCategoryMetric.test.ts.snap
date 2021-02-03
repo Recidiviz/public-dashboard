@@ -1,0 +1,411 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ageBucket data 1`] = `
+Array [
+  Object {
+    "label": "<25",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Transfer out of system",
+        "value": 170,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Sentence completion",
+        "value": 50,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Parole",
+        "value": 98,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Probation",
+        "value": 29,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Death",
+        "value": 157,
+      },
+    ],
+  },
+  Object {
+    "label": "25-29",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Transfer out of system",
+        "value": 160,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Sentence completion",
+        "value": 93,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Parole",
+        "value": 47,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Probation",
+        "value": 28,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Death",
+        "value": 149,
+      },
+    ],
+  },
+  Object {
+    "label": "30-34",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Transfer out of system",
+        "value": 49,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Sentence completion",
+        "value": 163,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Parole",
+        "value": 260,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Probation",
+        "value": 83,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Death",
+        "value": 281,
+      },
+    ],
+  },
+  Object {
+    "label": "35-39",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Transfer out of system",
+        "value": 104,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Sentence completion",
+        "value": 326,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Parole",
+        "value": 352,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Probation",
+        "value": 204,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Death",
+        "value": 61,
+      },
+    ],
+  },
+  Object {
+    "label": "40<",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Transfer out of system",
+        "value": 123,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Sentence completion",
+        "value": 62,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Parole",
+        "value": 212,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Probation",
+        "value": 196,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Death",
+        "value": 37,
+      },
+    ],
+  },
+]
+`;
+
+exports[`gender data 1`] = `
+Array [
+  Object {
+    "label": "Male",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Transfer out of system",
+        "value": 594,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Sentence completion",
+        "value": 189,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Parole",
+        "value": 641,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Probation",
+        "value": 371,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Death",
+        "value": 111,
+      },
+    ],
+  },
+  Object {
+    "label": "Female",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Transfer out of system",
+        "value": 92,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Sentence completion",
+        "value": 494,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Parole",
+        "value": 533,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Probation",
+        "value": 309,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Death",
+        "value": 157,
+      },
+    ],
+  },
+]
+`;
+
+exports[`raceOrEthnicity data 1`] = `
+Array [
+  Object {
+    "label": "Native American",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Transfer out of system",
+        "value": 104,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Sentence completion",
+        "value": 352,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Parole",
+        "value": 326,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Probation",
+        "value": 61,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Death",
+        "value": 204,
+      },
+    ],
+  },
+  Object {
+    "label": "Black",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Transfer out of system",
+        "value": 344,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Sentence completion",
+        "value": 200,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Parole",
+        "value": 319,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Probation",
+        "value": 60,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Death",
+        "value": 102,
+      },
+    ],
+  },
+  Object {
+    "label": "Hispanic",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Transfer out of system",
+        "value": 22,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Sentence completion",
+        "value": 37,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Parole",
+        "value": 125,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Probation",
+        "value": 116,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Death",
+        "value": 72,
+      },
+    ],
+  },
+  Object {
+    "label": "White",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Transfer out of system",
+        "value": 203,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Sentence completion",
+        "value": 188,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Parole",
+        "value": 35,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Probation",
+        "value": 118,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Death",
+        "value": 60,
+      },
+    ],
+  },
+  Object {
+    "label": "Other",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Transfer out of system",
+        "value": 44,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Sentence completion",
+        "value": 139,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Parole",
+        "value": 87,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Probation",
+        "value": 150,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Death",
+        "value": 26,
+      },
+    ],
+  },
+]
+`;
+
+exports[`total data 1`] = `
+Array [
+  Object {
+    "label": "Total",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Transfer out of system",
+        "value": 346,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Sentence completion",
+        "value": 203,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Parole",
+        "value": 680,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Probation",
+        "value": 1088,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Death",
+        "value": 1174,
+      },
+    ],
+  },
+]
+`;

@@ -56,6 +56,15 @@ export type MetricRecord =
 
 export type MetricMapping = Map<MetricTypeId, Metric<MetricRecord>>;
 
+export type DemographicCategoryRecords = {
+  label: string;
+  records: {
+    label: string;
+    color: string;
+    value: number;
+  }[];
+};
+
 // =======================================
 // Narrative types
 // =======================================

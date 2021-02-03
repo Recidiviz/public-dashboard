@@ -24,7 +24,7 @@ import MeasureWidth from "../MeasureWidth";
 import { animation, colors, zIndex } from "../UiLibrary";
 import ColorLegend from "./ColorLegend";
 import ResponsiveTooltipController from "./ResponsiveTooltipController";
-import { ItemToHighlight } from "./types";
+import { CategoricalChartRecord, ItemToHighlight } from "./types";
 import { getDataWithPct, highlightFade } from "./utils";
 
 const ProportionalBarContainer = styled.figure`
@@ -70,7 +70,7 @@ const ProportionalBarLegendWrapper = styled.div`
 `;
 
 type ProportionalBarProps = {
-  data: { label: string; color: string; value: number }[];
+  data: CategoricalChartRecord[];
   height: number;
   highlighted?: ItemToHighlight;
   setHighlighted?: (item?: ItemToHighlight) => void;
@@ -101,53 +101,59 @@ export default function ProportionalBar({
           // figure caption does not seem to get consistently picked up as accessible name
           aria-label={title}
         >
-          <ProportionalBarChartWrapper>
-            <ResponsiveTooltipController
-              pieceHoverAnnotation
-              // we don't ever want mark hover to affect other charts
-              // so it can only control the local highlight state
-              setHighlighted={setLocalHighlighted}
-            >
-              <OrdinalFrame
-                baseMarkProps={{
-                  transitionDuration: { fill: animation.defaultDuration },
-                }}
-                data={dataWithPct}
-                margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
-                // returning a static value here groups them all in a single column
-                oAccessor={() => title}
-                pieceClass="ProportionalBarChart__segment"
-                projection="horizontal"
-                rAccessor="value"
-                renderKey="label"
-                size={[width, height]}
-                style={(d: ValuesType<ProportionalBarProps["data"]>) => ({
-                  fill:
-                    highlighted && highlighted.label !== d.label
-                      ? highlightFade(d.color)
-                      : d.color,
-                })}
-                type="bar"
-              />
-            </ResponsiveTooltipController>
-          </ProportionalBarChartWrapper>
-          <ProportionalBarMetadata>
-            <ProportionalBarTitle>
-              {title}
-              {noData && ", No Data"}
-            </ProportionalBarTitle>
-            {showLegend && (
-              <ProportionalBarLegendWrapper>
-                <ColorLegend
-                  highlighted={highlighted}
-                  items={data}
-                  // legend may cover multiple charts in some layouts,
-                  // so it prefers the external highlight when present
-                  setHighlighted={setExternalHighlighted || setLocalHighlighted}
-                />
-              </ProportionalBarLegendWrapper>
-            )}
-          </ProportionalBarMetadata>
+          {width > 0 && (
+            <>
+              <ProportionalBarChartWrapper>
+                <ResponsiveTooltipController
+                  pieceHoverAnnotation
+                  // we don't ever want mark hover to affect other charts
+                  // so it can only control the local highlight state
+                  setHighlighted={setLocalHighlighted}
+                >
+                  <OrdinalFrame
+                    baseMarkProps={{
+                      transitionDuration: { fill: animation.defaultDuration },
+                    }}
+                    data={dataWithPct}
+                    margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
+                    // returning a static value here groups them all in a single column
+                    oAccessor={() => title}
+                    pieceClass="ProportionalBarChart__segment"
+                    projection="horizontal"
+                    rAccessor="value"
+                    renderKey="label"
+                    size={[width, height]}
+                    style={(d: ValuesType<ProportionalBarProps["data"]>) => ({
+                      fill:
+                        highlighted && highlighted.label !== d.label
+                          ? highlightFade(d.color)
+                          : d.color,
+                    })}
+                    type="bar"
+                  />
+                </ResponsiveTooltipController>
+              </ProportionalBarChartWrapper>
+              <ProportionalBarMetadata>
+                <ProportionalBarTitle>
+                  {title}
+                  {noData && ", No Data"}
+                </ProportionalBarTitle>
+                {showLegend && (
+                  <ProportionalBarLegendWrapper>
+                    <ColorLegend
+                      highlighted={highlighted}
+                      items={data}
+                      // legend may cover multiple charts in some layouts,
+                      // so it prefers the external highlight when present
+                      setHighlighted={
+                        setExternalHighlighted || setLocalHighlighted
+                      }
+                    />
+                  </ProportionalBarLegendWrapper>
+                )}
+              </ProportionalBarMetadata>
+            </>
+          )}
         </ProportionalBarContainer>
       )}
     </MeasureWidth>

@@ -82,6 +82,7 @@ afterEach(() => {
 const getMetric = async () => {
   const metric = new HistoricalPopulationBreakdownMetric({
     ...contentFixture.metrics.PrisonPopulationHistorical,
+    id: "PrisonPopulationHistorical",
     tenantId: "US_ND",
     defaultDemographicView: "total",
     defaultLocalityId: undefined,

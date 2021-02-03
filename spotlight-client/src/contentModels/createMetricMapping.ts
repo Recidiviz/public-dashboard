@@ -97,6 +97,7 @@ export default function createMetricMapping({
             metricType,
             new PopulationBreakdownByLocationMetric({
               ...metadata,
+              id: metricType,
               tenantId,
               defaultDemographicView: NOFILTER_KEY,
               defaultLocalityId: TOTAL_KEY,
@@ -116,6 +117,7 @@ export default function createMetricMapping({
           metricType,
           new SentenceTypeByLocationMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: "total",
             defaultLocalityId: TOTAL_KEY,
@@ -134,6 +136,7 @@ export default function createMetricMapping({
             metricType,
             new PopulationBreakdownByLocationMetric({
               ...metadata,
+              id: metricType,
               tenantId,
               defaultDemographicView: NOFILTER_KEY,
               defaultLocalityId: TOTAL_KEY,
@@ -153,6 +156,7 @@ export default function createMetricMapping({
             metricType,
             new PopulationBreakdownByLocationMetric({
               ...metadata,
+              id: metricType,
               tenantId,
               defaultDemographicView: NOFILTER_KEY,
               defaultLocalityId: TOTAL_KEY,
@@ -172,6 +176,7 @@ export default function createMetricMapping({
             metricType,
             new PopulationBreakdownByLocationMetric({
               ...metadata,
+              id: metricType,
               tenantId,
               defaultDemographicView: NOFILTER_KEY,
               defaultLocalityId: TOTAL_KEY,
@@ -188,6 +193,7 @@ export default function createMetricMapping({
           metricType,
           new HistoricalPopulationBreakdownMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: "total",
             defaultLocalityId: undefined,
@@ -202,6 +208,7 @@ export default function createMetricMapping({
           metricType,
           new HistoricalPopulationBreakdownMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: "total",
             defaultLocalityId: undefined,
@@ -216,6 +223,7 @@ export default function createMetricMapping({
           metricType,
           new HistoricalPopulationBreakdownMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: "total",
             defaultLocalityId: undefined,
@@ -233,6 +241,7 @@ export default function createMetricMapping({
           metricType,
           new ProgramParticipationCurrentMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: undefined,
             defaultLocalityId: NOFILTER_KEY,
@@ -250,6 +259,7 @@ export default function createMetricMapping({
           metricType,
           new ProgramParticipationCurrentMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: undefined,
             defaultLocalityId: NOFILTER_KEY,
@@ -267,6 +277,7 @@ export default function createMetricMapping({
           metricType,
           new SupervisionSuccessRateMonthlyMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: undefined,
             defaultLocalityId: TOTAL_KEY,
@@ -284,6 +295,7 @@ export default function createMetricMapping({
           metricType,
           new SupervisionSuccessRateMonthlyMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: undefined,
             defaultLocalityId: TOTAL_KEY,
@@ -301,6 +313,7 @@ export default function createMetricMapping({
           metricType,
           new SupervisionSuccessRateDemographicsMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: "total",
             defaultLocalityId: TOTAL_KEY,
@@ -318,6 +331,7 @@ export default function createMetricMapping({
           metricType,
           new SupervisionSuccessRateDemographicsMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: "total",
             defaultLocalityId: TOTAL_KEY,
@@ -332,6 +346,7 @@ export default function createMetricMapping({
           metricType,
           new DemographicsByCategoryMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: "total",
             defaultLocalityId: undefined,
@@ -347,6 +362,7 @@ export default function createMetricMapping({
           metricType,
           new DemographicsByCategoryMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: "total",
             defaultLocalityId: undefined,
@@ -362,6 +378,7 @@ export default function createMetricMapping({
           metricType,
           new DemographicsByCategoryMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: "total",
             defaultLocalityId: undefined,
@@ -376,6 +393,7 @@ export default function createMetricMapping({
           metricType,
           new DemographicsByCategoryMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: "total",
             defaultLocalityId: undefined,
@@ -390,6 +408,7 @@ export default function createMetricMapping({
           metricType,
           new RecidivismRateMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: "total",
             defaultLocalityId: undefined,
@@ -404,6 +423,7 @@ export default function createMetricMapping({
           metricType,
           new RecidivismRateMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: "total",
             defaultLocalityId: undefined,
@@ -418,6 +438,7 @@ export default function createMetricMapping({
           metricType,
           new DemographicsByCategoryMetric({
             ...metadata,
+            id: metricType,
             tenantId,
             defaultDemographicView: "total",
             defaultLocalityId: undefined,

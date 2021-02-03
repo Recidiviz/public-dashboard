@@ -24,6 +24,8 @@ import DataStore from "../DataStore";
 import { reactImmediately, renderWithStore } from "../testUtils";
 import { colors } from "../UiLibrary";
 
+jest.mock("../MeasureWidth/MeasureWidth");
+
 let metric: PopulationBreakdownByLocationMetric;
 
 beforeEach(() => {
