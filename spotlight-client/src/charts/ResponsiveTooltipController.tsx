@@ -23,12 +23,7 @@ import { AnnotationType } from "semiotic/lib/types/annotationTypes";
 import { OrdinalFrameProps } from "semiotic/lib/types/ordinalTypes";
 import { XYFrameProps } from "semiotic/lib/types/xyTypes";
 import Tooltip from "../Tooltip";
-import {
-  ItemToHighlight,
-  CommonDataPoint,
-  TooltipContentFunction,
-  isItemToHighlight,
-} from "./types";
+import { CommonDataPoint, TooltipContentFunction } from "./types";
 import { useDataStore } from "../StoreProvider";
 
 /**
@@ -61,7 +56,7 @@ export type ResponsiveTooltipControllerProps = {
     | XYFrameProps["hoverAnnotation"]
     | OrdinalFrameProps["hoverAnnotation"];
   pieceHoverAnnotation?: boolean;
-  setHighlighted?: (item?: ItemToHighlight) => void;
+  setHighlighted?: (item?: Record<string, unknown>) => void;
 };
 
 /**
@@ -133,9 +128,9 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
         uiStore.tooltipMobileData = d;
         uiStore.renderTooltipMobile = tooltipContent;
       })();
-      if (setHighlighted && isItemToHighlight(d)) {
-        setHighlighted(d);
-      }
+
+      if (setHighlighted) setHighlighted(d);
+
       if (Array.isArray(hoverAnnotation)) {
         // if there is hover behavior other than the tooltip, we want to preserve it
         const additionalHoverAnnotations: AnnotationType[] = hoverAnnotation
@@ -162,9 +157,8 @@ const ResponsiveTooltipController: React.FC<ResponsiveTooltipControllerProps> = 
   };
 
   childProps.customHoverBehavior = (d?: Record<string, unknown>) => {
-    if (setHighlighted && isItemToHighlight(d)) {
-      setHighlighted(d);
-    }
+    if (setHighlighted) setHighlighted(d);
+
     if (customHoverBehavior) customHoverBehavior(d);
   };
 

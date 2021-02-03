@@ -17,11 +17,12 @@
 
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
-import React, { useState } from "react";
+import React from "react";
 import Measure from "react-measure";
 import { animated, useSpring, useTransition } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
-import { BubbleChart, ItemToHighlight, ProportionalBar } from "../charts";
+import { BubbleChart, ProportionalBar } from "../charts";
+import { useHighlightedItem } from "../charts/utils";
 import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import FiltersWrapper from "../FiltersWrapper";
@@ -50,7 +51,7 @@ type VizDemographicsByCategoryProps = {
 const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
   metric,
 }) => {
-  const [highlighted, setHighlighted] = useState<ItemToHighlight>();
+  const { highlighted, setHighlighted } = useHighlightedItem();
 
   const { demographicView, dataSeries } = metric;
 

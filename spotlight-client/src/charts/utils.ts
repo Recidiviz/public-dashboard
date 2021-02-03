@@ -18,7 +18,9 @@
 import { sum } from "d3-array";
 import { color } from "d3-color";
 import { interpolateRgb } from "d3-interpolate";
+import { useCallback, useState } from "react";
 import { colors } from "../UiLibrary";
+import { isItemToHighlight, ItemToHighlight } from "./types";
 
 /**
  * Given a series of records, sums up their values and computes the value of each
@@ -57,4 +59,30 @@ export function highlightFade(
   // this will create a tint ramp from background color to baseColor;
   // the ramp goes from 0 to 1 with values analogous to opacity
   return interpolateRgb(colors.background, baseColor)(FADE_AMOUNT);
+}
+
+export function useHighlightedItem(
+  initialValue?: ItemToHighlight
+): {
+  // object instead of tuple because the TS tuple syntax is unsupported
+  // in our version of react-scripts
+  // https://github.com/facebook/create-react-app/issues/9515
+  highlighted: ItemToHighlight | undefined;
+  setHighlighted: (arg?: Record<string, unknown>) => void;
+} {
+  const [highlighted, setHighlighted] = useState<ItemToHighlight | undefined>(
+    initialValue
+  );
+  const setHighlightedWithTypeCheck = useCallback(
+    (arg) => {
+      if (isItemToHighlight(arg) || typeof arg === "undefined") {
+        setHighlighted(arg);
+      } else {
+        throw new Error("unexpected data type; cannot highlight");
+      }
+    },
+    [setHighlighted]
+  );
+
+  return { highlighted, setHighlighted: setHighlightedWithTypeCheck };
 }
