@@ -427,6 +427,7 @@ export default function createMetricMapping({
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
+            followUpYears: 3,
             defaultLocalityId: undefined,
             localityLabels: undefined,
             dataTransformer: recidivismRateConventionalFollowup,

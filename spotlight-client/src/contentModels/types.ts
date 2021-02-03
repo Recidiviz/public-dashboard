@@ -65,6 +65,10 @@ export type DemographicCategoryRecords = {
   }[];
 };
 
+export type DemographicCategoryRateRecords = DemographicCategoryRecords & {
+  records: { numerator: number; denominator: number }[];
+};
+
 // =======================================
 // Narrative types
 // =======================================
