@@ -34,8 +34,10 @@ export default styled.div`
     }
 
     .axis-title {
-      fill: ${colors.chartAxis};
+      fill: ${colors.caption};
       font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
     }
 
     .background-graphics,
