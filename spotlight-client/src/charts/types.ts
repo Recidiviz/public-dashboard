@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { ProjectedPoint } from "semiotic/lib/types/generalTypes";
 import { MetricRecord } from "../contentModels/types";
+import { TooltipContentProps } from "../Tooltip";
 
 export type DataSeries<RecordFormat = MetricRecord> = {
   label: string;
@@ -29,13 +29,11 @@ export type DataSeries<RecordFormat = MetricRecord> = {
  * and properties derived from our DataSeries format that Semiotic
  * attaches to the object
  */
-export type ProjectedDataPoint = ProjectedPoint & {
+export type CommonDataPoint = {
   label: DataSeries["label"];
   color: DataSeries["color"];
   value: number;
   pct?: number;
-  date?: Date;
-  [key: string]: unknown;
 };
 
 export type ItemToHighlight = Pick<DataSeries, "label">;
@@ -52,3 +50,10 @@ export type CategoricalChartRecord = {
   color: string;
   value: number;
 };
+
+export type TooltipContentFunction = (
+  // this point comes from Semiotic and is not strongly typed.
+  // There is really no consistent shape to it, it depends on
+  // the chart type and what the original data looked like
+  point: Record<string, unknown>
+) => TooltipContentProps;

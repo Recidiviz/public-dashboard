@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { observer } from "mobx-react-lite";
 import React from "react";
 import Metric from "../contentModels/Metric";
 import { MetricRecord } from "../contentModels/types";
@@ -30,4 +31,4 @@ const NoMetricData: React.FC<NoMetricDataProps> = ({ metric }) => {
   return <Loading />;
 };
 
-export default NoMetricData;
+export default observer(NoMetricData);

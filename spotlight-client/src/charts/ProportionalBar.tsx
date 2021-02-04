@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { sum } from "d3-array";
-import React, { useState } from "react";
+import React from "react";
 import OrdinalFrame from "semiotic/lib/OrdinalFrame";
 import styled from "styled-components/macro";
 import { ValuesType } from "utility-types";
@@ -25,7 +25,7 @@ import { animation, colors, zIndex } from "../UiLibrary";
 import ColorLegend from "./ColorLegend";
 import ResponsiveTooltipController from "./ResponsiveTooltipController";
 import { CategoricalChartRecord, ItemToHighlight } from "./types";
-import { getDataWithPct, highlightFade } from "./utils";
+import { useHighlightedItem, getDataWithPct, highlightFade } from "./utils";
 
 const ProportionalBarContainer = styled.figure`
   width: 100%;
@@ -86,7 +86,10 @@ export default function ProportionalBar({
   showLegend = true,
   title,
 }: ProportionalBarProps): React.ReactElement {
-  const [localHighlighted, setLocalHighlighted] = useState<ItemToHighlight>();
+  const {
+    highlighted: localHighlighted,
+    setHighlighted: setLocalHighlighted,
+  } = useHighlightedItem();
 
   const dataWithPct = getDataWithPct(data);
   const noData = data.length === 0 || sum(data.map(({ value }) => value)) === 0;

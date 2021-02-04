@@ -15,24 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { DataSeries } from "../charts";
-import { recordIsTotalByDimension } from "../demographics";
-import { RecidivismRateRecord } from "../metricsApi";
-import Metric from "./Metric";
-
-export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
-  get records(): RecidivismRateRecord[] | undefined {
-    let recordsToReturn = this.getOrFetchRecords();
-    if (!recordsToReturn) return undefined;
-
-    recordsToReturn = recordsToReturn.filter(
-      recordIsTotalByDimension(this.demographicView)
-    );
-    return recordsToReturn;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  get dataSeries(): DataSeries<RecidivismRateRecord>[] | null {
-    throw new Error("Method not implemented.");
-  }
-}
+export { default } from "./VizPrisonStayLengths";

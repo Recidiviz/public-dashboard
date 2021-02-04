@@ -24,11 +24,11 @@ import styled from "styled-components/macro";
 import { animation, colors } from "../UiLibrary";
 import { formatAsNumber } from "../utils";
 import BaseChartWrapper from "./ChartWrapper";
-import { getDataWithPct, highlightFade } from "./utils";
+import { getDataWithPct, highlightFade, useHighlightedItem } from "./utils";
 import ColorLegend from "./ColorLegend";
 import XHoverController from "./XHoverController";
 import { HistoricalPopulationBreakdownRecord } from "../metricsApi";
-import { DataSeries, ItemToHighlight } from "./types";
+import { DataSeries } from "./types";
 import MeasureWidth from "../MeasureWidth";
 
 const CHART_HEIGHT = 430;
@@ -77,7 +77,7 @@ const WindowedTimeSeries: React.FC<{
   defaultRangeStart?: Date;
   setTimeRangeId: (id: WindowSizeId) => void;
 }> = ({ data, defaultRangeEnd, defaultRangeStart, setTimeRangeId }) => {
-  const [highlighted, setHighlighted] = useState<ItemToHighlight | undefined>();
+  const { highlighted, setHighlighted } = useHighlightedItem();
   const [dateRangeStart, setDateRangeStart] = useState<Date | undefined>();
   const [dateRangeEnd, setDateRangeEnd] = useState<Date | undefined>();
   const { isMobile } = useBreakpoint();

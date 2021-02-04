@@ -26,14 +26,14 @@ import {
 import forceLimit from "d3-force-limit";
 import { scaleSqrt } from "d3-scale";
 import { rem } from "polished";
-import React, { useState } from "react";
+import React from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import styled from "styled-components/macro";
 import ColorLegend from "./ColorLegend";
 import ResponsiveTooltipController from "./ResponsiveTooltipController";
 import { formatAsPct } from "../utils";
-import { getDataWithPct, highlightFade } from "./utils";
-import { CategoricalChartRecord, ItemToHighlight } from "./types";
+import { useHighlightedItem, getDataWithPct, highlightFade } from "./utils";
+import { CategoricalChartRecord } from "./types";
 import { animation, colors, typefaces } from "../UiLibrary";
 import MeasureWidth from "../MeasureWidth";
 
@@ -80,7 +80,7 @@ export default function BubbleChart({
 }: BubbleChartProps): React.ReactElement {
   const data = getDataWithPct(initialData);
 
-  const [highlighted, setHighlighted] = useState<ItemToHighlight>();
+  const { highlighted, setHighlighted } = useHighlightedItem();
 
   return (
     <MeasureWidth>

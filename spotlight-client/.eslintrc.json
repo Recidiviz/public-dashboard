@@ -67,7 +67,13 @@
     ],
 
     // support typescript as well as javascript file extensions
-    "react/jsx-filename-extension": ["error", { "extensions": [".tsx", ".js"] }]
+    "react/jsx-filename-extension": [
+      "error",
+      { "extensions": [".tsx", ".js"] }
+    ],
+
+    // this can conflict with Prettier
+    "react/jsx-indent": "off"
   },
   "settings": {
     "import/resolver": {

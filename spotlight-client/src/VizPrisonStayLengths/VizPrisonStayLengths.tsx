@@ -16,49 +16,66 @@
 // =============================================================================
 
 import { observer } from "mobx-react-lite";
-import { rem } from "polished";
 import React from "react";
 import Measure from "react-measure";
 import { animated, useSpring, useTransition } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
-import { BubbleChart, ProportionalBar } from "../charts";
-import { useHighlightedItem } from "../charts/utils";
+import {
+  CommonDataPoint,
+  BarChartTrellis,
+  singleChartHeight,
+  TooltipContentFunction,
+} from "../charts";
 import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import FiltersWrapper from "../FiltersWrapper";
+import { prisonStayLengthFields } from "../metricsApi";
 import NoMetricData from "../NoMetricData";
-import { zIndex } from "../UiLibrary";
 
-const bubbleChartHeight = 325;
-
-const barChartsHeight = 460;
-const barChartsGutter = 42;
-
-const ChartWrapper = styled.div`
+const ChartsWrapper = styled.div`
   position: relative;
 `;
 
-const CategoryBarWrapper = styled.div`
-  padding-bottom: ${rem(16)};
-  position: relative;
-  width: 100%;
-`;
+const getTooltipProps: TooltipContentFunction = (columnData) => {
+  const {
+    summary: [
+      {
+        data: { label, pct, value },
+      },
+    ],
+  } = columnData as {
+    // can't find any Semiotic type definition that describes what is actually
+    // passed to this function, but the part we care about looks like this
+    summary: { data: CommonDataPoint }[];
+  };
 
-type VizDemographicsByCategoryProps = {
+  return {
+    title: `${label}${
+      // special case: the first category already has "year" in it
+      label !== prisonStayLengthFields[0].categoryLabel ? " years" : ""
+    }`,
+    records: [
+      {
+        pct,
+        value,
+      },
+    ],
+  };
+};
+
+type VizPrisonStayLengthsProps = {
   metric: DemographicsByCategoryMetric;
 };
 
-const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
+const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
   metric,
 }) => {
-  const { highlighted, setHighlighted } = useHighlightedItem();
-
-  const { demographicView, dataSeries } = metric;
+  const { dataSeries, demographicView } = metric;
 
   const [chartContainerStyles, setChartContainerStyles] = useSpring(() => ({
-    from: { height: bubbleChartHeight },
-    height: bubbleChartHeight,
-    config: { friction: 40, tension: 280, clamp: true },
+    from: { height: singleChartHeight },
+    height: singleChartHeight,
+    config: { friction: 40, tension: 220, clamp: true },
   }));
 
   const chartTransitions = useTransition(
@@ -93,45 +110,20 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
             />
             <animated.div style={chartContainerStyles}>
               {chartTransitions.map(({ item, key, props }) => (
-                <ChartWrapper key={key} ref={measureRef}>
+                <ChartsWrapper key={key} ref={measureRef}>
                   <animated.div style={{ ...props, top: 0 }}>
                     {
                       // for type safety we have to check this again
                       // but it should always be defined if we've gotten this far
-                      item.dataSeries &&
-                        (item.demographicView === "total" ? (
-                          <BubbleChart
-                            height={bubbleChartHeight}
-                            data={item.dataSeries[0].records}
-                          />
-                        ) : (
-                          item.dataSeries.map(
-                            ({ label, records }, index, categories) => (
-                              <CategoryBarWrapper
-                                key={label}
-                                style={{
-                                  // prevents subsequent charts from covering up the tooltip for this one
-                                  zIndex:
-                                    zIndex.base + categories.length - index,
-                                }}
-                              >
-                                <ProportionalBar
-                                  data={records}
-                                  height={
-                                    barChartsHeight / categories.length -
-                                    barChartsGutter
-                                  }
-                                  title={label}
-                                  showLegend={index === categories.length - 1}
-                                  {...{ highlighted, setHighlighted }}
-                                />
-                              </CategoryBarWrapper>
-                            )
-                          )
-                        ))
+                      item.dataSeries && (
+                        <BarChartTrellis
+                          data={item.dataSeries}
+                          getTooltipProps={getTooltipProps}
+                        />
+                      )
                     }
                   </animated.div>
-                </ChartWrapper>
+                </ChartsWrapper>
               ))}
             </animated.div>
           </>
@@ -143,4 +135,4 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
   return <NoMetricData metric={metric} />;
 };
 
-export default observer(VizDemographicsByCategory);
+export default observer(VizPrisonStayLengths);

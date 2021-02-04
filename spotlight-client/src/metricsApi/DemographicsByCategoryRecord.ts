@@ -106,14 +106,14 @@ export function prisonReleaseTypes(
   return getCategoryTransposeFunction(prisonReleaseFields)(rawRecords);
 }
 
-const prisonStayLengthFields = [
-  { categoryLabel: "lessThanOne", fieldName: "years_0_1" },
-  { categoryLabel: "oneTwo", fieldName: "years_1_2" },
-  { categoryLabel: "twoThree", fieldName: "years_2_3" },
-  { categoryLabel: "threeFive", fieldName: "years_3_5" },
-  { categoryLabel: "fiveTen", fieldName: "years_5_10" },
-  { categoryLabel: "tenTwenty", fieldName: "years_10_20" },
-  { categoryLabel: "moreThanTwenty", fieldName: "years_20_plus" },
+export const prisonStayLengthFields = [
+  { categoryLabel: "<1 year", fieldName: "years_0_1" },
+  { categoryLabel: "1–2", fieldName: "years_1_2" },
+  { categoryLabel: "2–3", fieldName: "years_2_3" },
+  { categoryLabel: "3–5", fieldName: "years_3_5" },
+  { categoryLabel: "5–10", fieldName: "years_5_10" },
+  { categoryLabel: "10–20", fieldName: "years_10_20" },
+  { categoryLabel: "20+", fieldName: "years_20_plus" },
 ];
 
 export function prisonStayLengths(
