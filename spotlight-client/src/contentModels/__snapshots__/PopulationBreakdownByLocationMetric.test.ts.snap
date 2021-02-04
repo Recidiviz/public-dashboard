@@ -8,26 +8,31 @@ Array [
       Object {
         "color": "#25636F",
         "label": "Native American",
+        "pct": 0.21291448516579406,
         "value": 244,
       },
       Object {
         "color": "#D9A95F",
         "label": "Black",
+        "pct": 0.08376963350785341,
         "value": 96,
       },
       Object {
         "color": "#BA4F4F",
         "label": "Hispanic",
+        "pct": 0.10732984293193717,
         "value": 123,
       },
       Object {
         "color": "#4C6290",
         "label": "White",
+        "pct": 0.5855148342059336,
         "value": 671,
       },
       Object {
         "color": "#90AEB5",
         "label": "Other",
+        "pct": 0.010471204188481676,
         "value": 12,
       },
     ],
@@ -38,11 +43,13 @@ Array [
       Object {
         "color": "#25636F",
         "label": "Male",
+        "pct": 0.907967032967033,
         "value": 661,
       },
       Object {
         "color": "#D9A95F",
         "label": "Female",
+        "pct": 0.09203296703296704,
         "value": 67,
       },
     ],
@@ -53,26 +60,31 @@ Array [
       Object {
         "color": "#25636F",
         "label": "<25",
+        "pct": 0.13619402985074627,
         "value": 146,
       },
       Object {
         "color": "#D9A95F",
         "label": "25-29",
+        "pct": 0.26492537313432835,
         "value": 284,
       },
       Object {
         "color": "#BA4F4F",
         "label": "30-34",
+        "pct": 0.125,
         "value": 134,
       },
       Object {
         "color": "#4C6290",
         "label": "35-39",
+        "pct": 0.22574626865671643,
         "value": 242,
       },
       Object {
         "color": "#90AEB5",
         "label": "40<",
+        "pct": 0.24813432835820895,
         "value": 266,
       },
     ],

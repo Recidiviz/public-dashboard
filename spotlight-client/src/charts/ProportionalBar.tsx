@@ -25,7 +25,7 @@ import { animation, colors, zIndex } from "../UiLibrary";
 import ColorLegend from "./ColorLegend";
 import ResponsiveTooltipController from "./ResponsiveTooltipController";
 import { CategoricalChartRecord, ItemToHighlight } from "./types";
-import { useHighlightedItem, getDataWithPct, highlightFade } from "./utils";
+import { useHighlightedItem, highlightFade } from "./utils";
 
 const ProportionalBarContainer = styled.figure`
   width: 100%;
@@ -91,7 +91,6 @@ export default function ProportionalBar({
     setHighlighted: setLocalHighlighted,
   } = useHighlightedItem();
 
-  const dataWithPct = getDataWithPct(data);
   const noData = data.length === 0 || sum(data.map(({ value }) => value)) === 0;
 
   const highlighted = localHighlighted || externalHighlighted;
@@ -117,7 +116,7 @@ export default function ProportionalBar({
                     baseMarkProps={{
                       transitionDuration: { fill: animation.defaultDuration },
                     }}
-                    data={dataWithPct}
+                    data={data}
                     margin={{ top: 0, left: 0, right: 0, bottom: 0 }}
                     // returning a static value here groups them all in a single column
                     oAccessor={() => title}

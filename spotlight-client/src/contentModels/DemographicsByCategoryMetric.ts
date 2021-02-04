@@ -22,6 +22,7 @@ import {
 } from "../demographics";
 import { DemographicsByCategoryRecord } from "../metricsApi";
 import { colors } from "../UiLibrary";
+import calculatePct from "./calculatePct";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 import { DemographicCategoryRecords } from "./types";
 
@@ -62,19 +63,21 @@ export default class DemographicsByCategoryMetric extends Metric<
     return categories.map(({ identifier, label }) => {
       return {
         label,
-        records: records
-          .filter((record) =>
-            demographicView === "total"
-              ? true
-              : record[demographicView] === identifier
-          )
-          .map((record, index) => {
-            return {
-              label: record.category,
-              color: color || colors.dataViz[index],
-              value: record.count,
-            };
-          }),
+        records: calculatePct(
+          records
+            .filter((record) =>
+              demographicView === "total"
+                ? true
+                : record[demographicView] === identifier
+            )
+            .map((record, index) => {
+              return {
+                label: record.category,
+                color: color || colors.dataViz[index],
+                value: record.count,
+              };
+            })
+        ),
       };
     });
   }

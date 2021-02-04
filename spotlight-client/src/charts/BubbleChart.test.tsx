@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import React from "react";
 import { renderWithStore } from "../testUtils";
 import BubbleChart from "./BubbleChart";
@@ -23,9 +23,9 @@ import BubbleChart from "./BubbleChart";
 jest.mock("../MeasureWidth/MeasureWidth");
 
 const testData = [
-  { label: "thing 1", color: "red", value: 10 },
-  { label: "thing 2", color: "blue", value: 50 },
-  { label: "thing 3", color: "green", value: 32 },
+  { label: "thing 1", color: "red", value: 10, pct: 0.1086956522 },
+  { label: "thing 2", color: "blue", value: 50, pct: 0.5434782609 },
+  { label: "thing 3", color: "green", value: 32, pct: 0.347826087 },
 ];
 
 test("renders bubbles for data", () => {
@@ -46,20 +46,4 @@ test("renders bubbles for data", () => {
   expect(within(chart).getByText("11%")).toBeVisible();
   expect(within(chart).getByText("54%")).toBeVisible();
   expect(within(chart).getByText("35%")).toBeVisible();
-});
-
-test("highlight when hovering on legend", async () => {
-  renderWithStore(<BubbleChart height={400} data={testData} />);
-  const firstLegendItem = screen.getByText(testData[0].label);
-  fireEvent.mouseOver(firstLegendItem);
-
-  // wait for highlight animation
-  await waitFor(() => {
-    expect(
-      screen.getByRole("img", { name: `Node ${testData[1].label}` })
-    ).not.toHaveStyle(`fill: ${testData[1].color}`);
-    expect(
-      screen.getByRole("img", { name: `Node ${testData[2].label}` })
-    ).not.toHaveStyle(`fill: ${testData[2].color}`);
-  });
 });

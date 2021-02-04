@@ -32,7 +32,7 @@ import styled from "styled-components/macro";
 import ColorLegend from "./ColorLegend";
 import ResponsiveTooltipController from "./ResponsiveTooltipController";
 import { formatAsPct } from "../utils";
-import { useHighlightedItem, getDataWithPct, highlightFade } from "./utils";
+import { useHighlightedItem, highlightFade } from "./utils";
 import { CategoricalChartRecord } from "./types";
 import { animation, colors, typefaces } from "../UiLibrary";
 import MeasureWidth from "../MeasureWidth";
@@ -75,11 +75,9 @@ type BubbleChartProps = {
 };
 
 export default function BubbleChart({
-  data: initialData,
+  data,
   height,
 }: BubbleChartProps): React.ReactElement {
-  const data = getDataWithPct(initialData);
-
   const { highlighted, setHighlighted } = useHighlightedItem();
 
   return (
@@ -137,7 +135,7 @@ export default function BubbleChart({
                 <LegendWrapper>
                   <ColorLegend
                     highlighted={highlighted}
-                    items={initialData}
+                    items={data}
                     setHighlighted={setHighlighted}
                   />
                 </LegendWrapper>
@@ -155,7 +153,7 @@ function getSimulationConfig({
   height,
   width,
 }: {
-  data: (CategoricalChartRecord & { pct: number })[];
+  data: CategoricalChartRecord[];
   height: number;
   width: number;
 }) {

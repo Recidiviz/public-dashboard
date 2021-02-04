@@ -81,8 +81,8 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
             return {
               label: `${record.releaseCohort}`,
               color: colors.dataViz[0],
-              value: record.rate,
-              numerator: record.rateNumerator,
+              value: record.rateNumerator,
+              pct: record.rate,
               denominator: record.rateDenominator,
             };
           }),
