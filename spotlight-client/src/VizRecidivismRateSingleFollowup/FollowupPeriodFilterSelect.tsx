@@ -21,36 +21,41 @@ import React from "react";
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import { Dropdown } from "../UiLibrary";
 
-type LocalityFilterSelectProps = {
+const options = [
+  {
+    id: "1",
+    label: "1 Year",
+  },
+  {
+    id: "3",
+    label: "3 Years",
+  },
+  {
+    id: "5",
+    label: "5 Years",
+  },
+];
+
+type FollowupPeriodFilterSelectProps = {
   metric: RecidivismRateMetric;
 };
 
-const FollowupPeriodFilterSelect: React.FC<LocalityFilterSelectProps> = ({
+const FollowupPeriodFilterSelect: React.FC<FollowupPeriodFilterSelectProps> = ({
   metric,
 }) => {
-  const onChange = action("change locality filter", (newFilter: string) => {
-    // eslint-disable-next-line no-param-reassign
-    metric.followUpYears = Number(newFilter);
-  });
+  const onChange = action(
+    "change followup period filter",
+    (newFilter: string) => {
+      // eslint-disable-next-line no-param-reassign
+      metric.followUpYears = Number(newFilter);
+    }
+  );
 
   return (
     <Dropdown
       label="Follow-up Period"
       onChange={onChange}
-      options={[
-        {
-          id: "1",
-          label: "1 Year",
-        },
-        {
-          id: "3",
-          label: "3 Years",
-        },
-        {
-          id: "5",
-          label: "5 Years",
-        },
-      ]}
+      options={options}
       selectedId={`${metric.followUpYears}`}
     />
   );
