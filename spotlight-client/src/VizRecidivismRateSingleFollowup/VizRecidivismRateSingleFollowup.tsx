@@ -24,7 +24,10 @@ import {
   TooltipContentFunction,
 } from "../charts";
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
+import DemographicFilterSelect from "../DemographicFilterSelect";
+import FiltersWrapper from "../FiltersWrapper";
 import NoMetricData from "../NoMetricData";
+import FollowupPeriodFilterSelect from "./FollowupPeriodFilterSelect";
 
 const getTooltipProps: TooltipContentFunction = (columnData) => {
   const {
@@ -63,7 +66,14 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
   if (singleFollowupDemographics) {
     return (
       <>
+        <FiltersWrapper
+          filters={[
+            <FollowupPeriodFilterSelect metric={metric} />,
+            <DemographicFilterSelect metric={metric} />,
+          ]}
+        />
         <BarChartTrellis
+          barAxisLabel="Release Cohort"
           data={singleFollowupDemographics}
           getTooltipProps={getTooltipProps}
         />

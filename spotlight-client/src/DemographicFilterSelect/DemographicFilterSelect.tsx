@@ -20,6 +20,7 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import type DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
 import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
+import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import {
   DemographicView,
   DemographicViewList,
@@ -31,7 +32,10 @@ import { Dropdown } from "../UiLibrary";
 type DemographicFilterOption = { id: DemographicView; label: string };
 
 type DemographicFilterSelectProps = {
-  metric: HistoricalPopulationBreakdownMetric | DemographicsByCategoryMetric;
+  metric:
+    | HistoricalPopulationBreakdownMetric
+    | DemographicsByCategoryMetric
+    | RecidivismRateMetric;
 };
 
 const DemographicFilterSelect: React.FC<DemographicFilterSelectProps> = ({

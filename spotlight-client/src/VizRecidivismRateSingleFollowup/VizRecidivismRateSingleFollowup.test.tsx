@@ -32,6 +32,11 @@ jest.mock("../MeasureWidth/MeasureWidth");
 
 let metric: RecidivismRateMetric;
 
+let originalFilters: {
+  demographicView: RecidivismRateMetric["demographicView"];
+  followupYears: RecidivismRateMetric["followUpYears"];
+};
+
 beforeEach(() => {
   runInAction(() => {
     DataStore.tenantStore.currentTenantId = "US_ND";
@@ -43,6 +48,10 @@ beforeEach(() => {
     // it will be
     if (metricToTest instanceof RecidivismRateMetric) {
       metric = metricToTest;
+      originalFilters = {
+        demographicView: metric.demographicView,
+        followupYears: metric.followUpYears,
+      };
     }
   });
 });
@@ -50,6 +59,8 @@ beforeEach(() => {
 afterEach(() => {
   runInAction(() => {
     DataStore.tenantStore.currentTenantId = undefined;
+    metric.demographicView = originalFilters.demographicView;
+    metric.followUpYears = originalFilters.followupYears;
   });
 });
 
@@ -107,7 +118,7 @@ test("demographic charts", async () => {
   fireEvent.click(screen.getByRole("option", { name: "Race or Ethnicity" }));
 
   // pause for animated transition
-  await waitForElementToBeRemoved(totalChart);
+  // await waitForElementToBeRemoved(totalChart);
 
   const raceCharts = screen.getAllByRole("group", {
     name: "8 bars in a bar chart",
@@ -118,7 +129,7 @@ test("demographic charts", async () => {
   fireEvent.click(screen.getByRole("option", { name: "Gender" }));
 
   // pause for animated transition
-  await waitForElementToBeRemoved(raceCharts[0]);
+  // await waitForElementToBeRemoved(raceCharts[0]);
 
   const genderCharts = screen.getAllByRole("group", {
     name: "8 bars in a bar chart",
@@ -129,7 +140,7 @@ test("demographic charts", async () => {
   fireEvent.click(screen.getByRole("option", { name: "Age Group" }));
 
   // pause for animated transition
-  await waitForElementToBeRemoved(genderCharts[0]);
+  // await waitForElementToBeRemoved(genderCharts[0]);
 
   expect(
     screen.getAllByRole("group", { name: "8 bars in a bar chart" }).length
@@ -137,32 +148,27 @@ test("demographic charts", async () => {
 });
 
 test("followup period filter", async () => {
+  renderWithStore(<VizRecidivismRateSingleFollowup metric={metric} />);
+
+  await when(() => !metric.isLoading);
+
   const menuButton = screen.getByRole("button", {
     name: "Follow-up Period 3 Years",
   });
   fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: "1 Year" }));
 
-  const threeYearChart = screen.getByRole("group", {
-    name: "8 bars in a bar chart",
-  });
-
-  // pause for animated transition
-  await waitForElementToBeRemoved(threeYearChart);
-
   const oneYearChart = screen.getByRole("group", {
     name: "10 bars in a bar chart",
   });
   expect(oneYearChart).toBeVisible();
 
-  expect(menuButton).toHaveTextContent("Follow-up Period 1 Year");
+  expect(menuButton).toHaveTextContent("1 Year");
   fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: "5 Years" }));
-
-  // pause for animated transition
-  await waitForElementToBeRemoved(oneYearChart);
 
   expect(
     screen.getByRole("group", { name: "6 bars in a bar chart" })
   ).toBeVisible();
+  expect(menuButton).toHaveTextContent("5 Years");
 });
