@@ -154,7 +154,6 @@ const WindowedTimeSeries: React.FC<{
                   getTooltipProps: (d) => {
                     // d.date is present because it's in our record format
                     const dateHovered = d.date as Date;
-                    // TODO: calc % on the fly or in model?
                     return {
                       title: getDateLabel(dateHovered),
                       records: getDataForDate({

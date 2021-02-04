@@ -17,10 +17,13 @@
 
 import { observer } from "mobx-react-lite";
 import React from "react";
+import Measure from "react-measure";
+import { animated, useSpring, useTransition } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import {
   BarChartTrellis,
   CommonDataPoint,
+  singleChartHeight,
   TooltipContentFunction,
 } from "../charts";
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
@@ -28,6 +31,10 @@ import DemographicFilterSelect from "../DemographicFilterSelect";
 import FiltersWrapper from "../FiltersWrapper";
 import NoMetricData from "../NoMetricData";
 import FollowupPeriodFilterSelect from "./FollowupPeriodFilterSelect";
+
+const ChartsWrapper = styled.div`
+  position: relative;
+`;
 
 const getTooltipProps: TooltipContentFunction = (columnData) => {
   const {
@@ -61,23 +68,69 @@ type VizRecidivismRateSingleFollowupProps = {
 const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupProps> = ({
   metric,
 }) => {
-  const { singleFollowupDemographics } = metric;
+  const { singleFollowupDemographics, demographicView } = metric;
+
+  const [chartContainerStyles, setChartContainerStyles] = useSpring(() => ({
+    from: { height: singleChartHeight },
+    height: singleChartHeight,
+    config: { friction: 40, tension: 220, clamp: true },
+  }));
+
+  const chartTransitions = useTransition(
+    { demographicView, singleFollowupDemographics },
+    (item) => item.demographicView,
+    {
+      initial: { opacity: 1 },
+      from: { opacity: 0 },
+      enter: { opacity: 1 },
+      leave: { opacity: 0, position: "absolute" },
+      config: { friction: 40, tension: 280 },
+    }
+  );
+
+  if (demographicView === "nofilter")
+    throw new Error(
+      "Unable to display this metric without demographic filter."
+    );
 
   if (singleFollowupDemographics) {
     return (
-      <>
-        <FiltersWrapper
-          filters={[
-            <FollowupPeriodFilterSelect metric={metric} />,
-            <DemographicFilterSelect metric={metric} />,
-          ]}
-        />
-        <BarChartTrellis
-          barAxisLabel="Release Cohort"
-          data={singleFollowupDemographics}
-          getTooltipProps={getTooltipProps}
-        />
-      </>
+      <Measure
+        bounds
+        onResize={({ bounds }) => {
+          if (bounds) setChartContainerStyles({ height: bounds.height });
+        }}
+      >
+        {({ measureRef }) => (
+          <>
+            <FiltersWrapper
+              filters={[
+                <FollowupPeriodFilterSelect metric={metric} />,
+                <DemographicFilterSelect metric={metric} />,
+              ]}
+            />
+            <animated.div style={chartContainerStyles}>
+              {chartTransitions.map(({ item, key, props }) => (
+                <ChartsWrapper key={key} ref={measureRef}>
+                  <animated.div style={{ ...props, top: 0 }}>
+                    {
+                      // for type safety we have to check this again
+                      // but it should always be defined if we've gotten this far
+                      item.singleFollowupDemographics && (
+                        <BarChartTrellis
+                          barAxisLabel="Release Cohort"
+                          data={item.singleFollowupDemographics}
+                          getTooltipProps={getTooltipProps}
+                        />
+                      )
+                    }
+                  </animated.div>
+                </ChartsWrapper>
+              ))}
+            </animated.div>
+          </>
+        )}
+      </Measure>
     );
   }
 

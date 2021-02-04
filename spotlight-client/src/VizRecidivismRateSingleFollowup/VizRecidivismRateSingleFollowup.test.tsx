@@ -118,7 +118,7 @@ test("demographic charts", async () => {
   fireEvent.click(screen.getByRole("option", { name: "Race or Ethnicity" }));
 
   // pause for animated transition
-  // await waitForElementToBeRemoved(totalChart);
+  await waitForElementToBeRemoved(totalChart);
 
   const raceCharts = screen.getAllByRole("group", {
     name: "8 bars in a bar chart",
@@ -129,7 +129,7 @@ test("demographic charts", async () => {
   fireEvent.click(screen.getByRole("option", { name: "Gender" }));
 
   // pause for animated transition
-  // await waitForElementToBeRemoved(raceCharts[0]);
+  await waitForElementToBeRemoved(raceCharts[0]);
 
   const genderCharts = screen.getAllByRole("group", {
     name: "8 bars in a bar chart",
@@ -140,7 +140,7 @@ test("demographic charts", async () => {
   fireEvent.click(screen.getByRole("option", { name: "Age Group" }));
 
   // pause for animated transition
-  // await waitForElementToBeRemoved(genderCharts[0]);
+  await waitForElementToBeRemoved(genderCharts[0]);
 
   expect(
     screen.getAllByRole("group", { name: "8 bars in a bar chart" }).length
