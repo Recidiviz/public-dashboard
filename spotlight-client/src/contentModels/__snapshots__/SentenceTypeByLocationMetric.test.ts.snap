@@ -1,0 +1,315 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ageBucket data 1`] = `
+Object {
+  "edges": Array [
+    Object {
+      "source": "Incarceration",
+      "target": "<25",
+      "value": 1147,
+    },
+    Object {
+      "source": "Probation",
+      "target": "<25",
+      "value": 96,
+    },
+    Object {
+      "source": "Both",
+      "target": "<25",
+      "value": 267,
+    },
+    Object {
+      "source": "Incarceration",
+      "target": "25-29",
+      "value": 1262,
+    },
+    Object {
+      "source": "Probation",
+      "target": "25-29",
+      "value": 1248,
+    },
+    Object {
+      "source": "Both",
+      "target": "25-29",
+      "value": 538,
+    },
+    Object {
+      "source": "Incarceration",
+      "target": "30-34",
+      "value": 1420,
+    },
+    Object {
+      "source": "Probation",
+      "target": "30-34",
+      "value": 604,
+    },
+    Object {
+      "source": "Both",
+      "target": "30-34",
+      "value": 434,
+    },
+    Object {
+      "source": "Incarceration",
+      "target": "35-39",
+      "value": 1875,
+    },
+    Object {
+      "source": "Probation",
+      "target": "35-39",
+      "value": 0,
+    },
+    Object {
+      "source": "Both",
+      "target": "35-39",
+      "value": 402,
+    },
+    Object {
+      "source": "Incarceration",
+      "target": "40<",
+      "value": 337,
+    },
+    Object {
+      "source": "Probation",
+      "target": "40<",
+      "value": 1601,
+    },
+    Object {
+      "source": "Both",
+      "target": "40<",
+      "value": 416,
+    },
+  ],
+  "sources": Array [
+    Object {
+      "id": "Incarceration",
+    },
+    Object {
+      "id": "Probation",
+    },
+    Object {
+      "id": "Both",
+    },
+  ],
+  "targets": Array [
+    Object {
+      "id": "<25",
+    },
+    Object {
+      "id": "25-29",
+    },
+    Object {
+      "id": "30-34",
+    },
+    Object {
+      "id": "35-39",
+    },
+    Object {
+      "id": "40<",
+    },
+  ],
+}
+`;
+
+exports[`gender data 1`] = `
+Object {
+  "edges": Array [
+    Object {
+      "source": "Incarceration",
+      "target": "Male",
+      "value": 6034,
+    },
+    Object {
+      "source": "Probation",
+      "target": "Male",
+      "value": 3112,
+    },
+    Object {
+      "source": "Both",
+      "target": "Male",
+      "value": 1961,
+    },
+    Object {
+      "source": "Incarceration",
+      "target": "Female",
+      "value": 159,
+    },
+    Object {
+      "source": "Probation",
+      "target": "Female",
+      "value": 285,
+    },
+    Object {
+      "source": "Both",
+      "target": "Female",
+      "value": 96,
+    },
+  ],
+  "sources": Array [
+    Object {
+      "id": "Incarceration",
+    },
+    Object {
+      "id": "Probation",
+    },
+    Object {
+      "id": "Both",
+    },
+  ],
+  "targets": Array [
+    Object {
+      "id": "Male",
+    },
+    Object {
+      "id": "Female",
+    },
+  ],
+}
+`;
+
+exports[`raceOrEthnicity data 1`] = `
+Object {
+  "edges": Array [
+    Object {
+      "source": "Incarceration",
+      "target": "Native American",
+      "value": 1050,
+    },
+    Object {
+      "source": "Probation",
+      "target": "Native American",
+      "value": 0,
+    },
+    Object {
+      "source": "Both",
+      "target": "Native American",
+      "value": 225,
+    },
+    Object {
+      "source": "Incarceration",
+      "target": "Black",
+      "value": 1613,
+    },
+    Object {
+      "source": "Probation",
+      "target": "Black",
+      "value": 115,
+    },
+    Object {
+      "source": "Both",
+      "target": "Black",
+      "value": 371,
+    },
+    Object {
+      "source": "Incarceration",
+      "target": "Hispanic",
+      "value": 422,
+    },
+    Object {
+      "source": "Probation",
+      "target": "Hispanic",
+      "value": 1581,
+    },
+    Object {
+      "source": "Both",
+      "target": "Hispanic",
+      "value": 430,
+    },
+    Object {
+      "source": "Incarceration",
+      "target": "White",
+      "value": 1946,
+    },
+    Object {
+      "source": "Probation",
+      "target": "White",
+      "value": 377,
+    },
+    Object {
+      "source": "Both",
+      "target": "White",
+      "value": 498,
+    },
+    Object {
+      "source": "Incarceration",
+      "target": "Other",
+      "value": 1061,
+    },
+    Object {
+      "source": "Probation",
+      "target": "Other",
+      "value": 1425,
+    },
+    Object {
+      "source": "Both",
+      "target": "Other",
+      "value": 533,
+    },
+  ],
+  "sources": Array [
+    Object {
+      "id": "Incarceration",
+    },
+    Object {
+      "id": "Probation",
+    },
+    Object {
+      "id": "Both",
+    },
+  ],
+  "targets": Array [
+    Object {
+      "id": "Native American",
+    },
+    Object {
+      "id": "Black",
+    },
+    Object {
+      "id": "Hispanic",
+    },
+    Object {
+      "id": "White",
+    },
+    Object {
+      "id": "Other",
+    },
+  ],
+}
+`;
+
+exports[`total data 1`] = `
+Object {
+  "edges": Array [
+    Object {
+      "source": "Incarceration",
+      "target": "Total",
+      "value": 6193,
+    },
+    Object {
+      "source": "Probation",
+      "target": "Total",
+      "value": 3399,
+    },
+    Object {
+      "source": "Both",
+      "target": "Total",
+      "value": 2056,
+    },
+  ],
+  "sources": Array [
+    Object {
+      "id": "Incarceration",
+    },
+    Object {
+      "id": "Probation",
+    },
+    Object {
+      "id": "Both",
+    },
+  ],
+  "targets": Array [
+    Object {
+      "id": "Total",
+    },
+  ],
+}
+`;

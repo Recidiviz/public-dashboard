@@ -15,17 +15,38 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { DataSeries } from "../charts";
-import { recordIsTotalByDimension } from "../demographics";
+import { computed, makeObservable } from "mobx";
+import {
+  getDemographicCategories,
+  recordIsTotalByDimension,
+} from "../demographics";
 import {
   recordMatchesLocality,
   SentenceTypeByLocationRecord,
 } from "../metricsApi";
-import Metric from "./Metric";
+import Metric, { BaseMetricConstructorOptions } from "./Metric";
+
+type GraphNode = {
+  id: string;
+};
+
+type GraphEdge = {
+  source: string;
+  target: string;
+  value: number;
+};
 
 export default class SentenceTypeByLocationMetric extends Metric<
   SentenceTypeByLocationRecord
 > {
+  constructor(
+    props: BaseMetricConstructorOptions<SentenceTypeByLocationRecord>
+  ) {
+    super(props);
+
+    makeObservable(this, { dataGraph: computed });
+  }
+
   get records(): SentenceTypeByLocationRecord[] | undefined {
     let recordsToReturn = this.getOrFetchRecords();
     if (!recordsToReturn) return undefined;
@@ -37,11 +58,58 @@ export default class SentenceTypeByLocationMetric extends Metric<
     recordsToReturn = recordsToReturn.filter(
       recordIsTotalByDimension(this.demographicView)
     );
+
+    // TODO: sort?
     return recordsToReturn;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  get dataSeries(): DataSeries<SentenceTypeByLocationRecord>[] | null {
-    throw new Error("Method not implemented.");
+  get dataGraph():
+    | { sources: GraphNode[]; targets: GraphNode[]; edges: GraphEdge[] }
+    | undefined {
+    const { demographicView, records } = this;
+    if (!records || demographicView === "nofilter") return;
+
+    const sources = ["Incarceration", "Probation", "Both"];
+
+    const categories = getDemographicCategories(demographicView);
+
+    const edges = categories
+      .map(({ identifier, label }) => {
+        let record: SentenceTypeByLocationRecord | undefined;
+        if (demographicView === "total") {
+          // there's only one!
+          [record] = records;
+        } else {
+          record = records.find((r) => r[demographicView] === identifier);
+        }
+        return [
+          {
+            source: sources[0],
+            target: label,
+            value: Number(record?.incarcerationCount) || 0,
+          },
+          {
+            source: sources[1],
+            target: label,
+            value: Number(record?.probationCount) || 0,
+          },
+          {
+            source: sources[2],
+            target: label,
+            value: Number(record?.dualSentenceCount) || 0,
+          },
+        ];
+      })
+      .reduce((flat, val) => flat.concat(val));
+
+    return {
+      sources: sources.map((name) => ({
+        id: name,
+      })),
+      targets: categories.map(({ label }) => ({
+        id: label,
+      })),
+      edges,
+    };
   }
 }
