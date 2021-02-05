@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { scaleLinear } from "d3-scale";
 import { rem, rgba } from "polished";
 import React, { useState } from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
@@ -27,7 +28,11 @@ import { formatAsNumber } from "../utils";
 import MeasureWidth from "../MeasureWidth";
 import { animation, colors, typefaces } from "../UiLibrary";
 
-const MARGIN = { top: 10, bottom: 10, left: 140, right: 140 };
+const MARGIN = { top: 10, bottom: 10, left: 140 };
+/**
+ * Adjust right margin based on label length
+ */
+const getRightMargin = scaleLinear().domain([5, 15]).range([60, 140]);
 const MIN_WIDTH = 600;
 const NODE_WIDTH = 72;
 
@@ -64,8 +69,8 @@ const TargetLabel = styled.text`
   fill: ${colors.text};
   font-size: ${rem(16)};
   text-anchor: start;
-  width: ${rem(MARGIN.right - TARGET_LABEL_PADDING)};
 `;
+
 /**
  * This is a magic number based on the label's font size;
  * workaround for lack of dominant-baseline support in IE
@@ -167,6 +172,10 @@ export default function SingleStepSankey({
 }): React.ReactElement {
   const [highlighted, setHighlighted] = useState<Record<string, unknown>>();
 
+  const rightMargin = getRightMargin(
+    Math.max(...targets.map(({ id }) => id.length))
+  );
+
   const renderNodeLabel = (d: GenericObject) => {
     if (sources.find((source) => source.id === d.id)) {
       const yOffset = d.y - d.y0;
@@ -204,53 +213,50 @@ export default function SingleStepSankey({
   return (
     <MeasureWidth>
       {({ measureRef, width }) => (
-        <ChartWrapper
-          ref={measureRef}
-          style={{
-            overflow: width < MIN_WIDTH ? "auto" : "visible",
-          }}
-        >
-          <ResponsiveTooltipController
-            getTooltipProps={linksToTooltipProps}
-            hoverAnnotation
-            setHighlighted={setHighlighted}
-          >
-            <NetworkFrame
-              additionalDefs={Gradients}
-              baseMarkProps={{
-                transitionDuration: {
-                  fill: animation.defaultDuration,
-                },
-              }}
-              edges={edges}
-              edgeStyle={(d) => {
-                return {
+        <ChartWrapper ref={measureRef}>
+          {width > 0 && (
+            <ResponsiveTooltipController
+              getTooltipProps={linksToTooltipProps}
+              hoverAnnotation
+              setHighlighted={setHighlighted}
+            >
+              <NetworkFrame
+                additionalDefs={Gradients}
+                baseMarkProps={{
+                  transitionDuration: {
+                    fill: animation.defaultDuration,
+                  },
+                }}
+                edges={edges}
+                edgeStyle={(d) => {
+                  return {
+                    fill: shouldFade(d)
+                      ? hoverColor
+                      : `url(#${d.source.id.toLowerCase()}Gradient)`,
+                  };
+                }}
+                margin={{ ...MARGIN, right: rightMargin }}
+                networkType={{
+                  nodePaddingRatio: 0.1,
+                  nodeWidth: NODE_WIDTH,
+                  orient: "justify",
+                  projection: "horizontal",
+                  type: "sankey",
+                }}
+                nodes={[...sources, ...targets]}
+                nodeLabels={renderNodeLabel}
+                nodeStyle={(d) => ({
                   fill: shouldFade(d)
                     ? hoverColor
-                    : `url(#${d.source.id.toLowerCase()}Gradient)`,
-                };
-              }}
-              margin={MARGIN}
-              networkType={{
-                nodePaddingRatio: 0.1,
-                nodeWidth: NODE_WIDTH,
-                orient: "justify",
-                projection: "horizontal",
-                type: "sankey",
-              }}
-              nodes={[...sources, ...targets]}
-              nodeLabels={renderNodeLabel}
-              nodeStyle={(d) => ({
-                fill: shouldFade(d)
-                  ? hoverColor
-                  : // these ids should be the same because they come from our input,
-                    // and if not there is a fallback value
-                    sourceColors[d.id as $Keys<typeof sourceColors>] ||
-                    targetColor,
-              })}
-              size={[Math.max(width, MIN_WIDTH), 500]}
-            />
-          </ResponsiveTooltipController>
+                    : // these ids should be the same because they come from our input,
+                      // and if not there is a fallback value
+                      sourceColors[d.id as $Keys<typeof sourceColors>] ||
+                      targetColor,
+                })}
+                size={[Math.max(width, MIN_WIDTH), 500]}
+              />
+            </ResponsiveTooltipController>
+          )}
         </ChartWrapper>
       )}
     </MeasureWidth>
