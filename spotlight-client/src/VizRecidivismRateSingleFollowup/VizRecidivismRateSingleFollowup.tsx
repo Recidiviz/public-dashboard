@@ -30,6 +30,7 @@ import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import FiltersWrapper from "../FiltersWrapper";
 import NoMetricData from "../NoMetricData";
+import { animation } from "../UiLibrary";
 import FollowupPeriodFilterSelect from "./FollowupPeriodFilterSelect";
 
 const ChartsWrapper = styled.div`
@@ -79,13 +80,7 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
   const chartTransitions = useTransition(
     { demographicView, singleFollowupDemographics },
     (item) => item.demographicView,
-    {
-      initial: { opacity: 1 },
-      from: { opacity: 0 },
-      enter: { opacity: 1 },
-      leave: { opacity: 0, position: "absolute" },
-      config: { friction: 40, tension: 280 },
-    }
+    animation.crossFade
   );
 
   if (demographicView === "nofilter")
@@ -110,9 +105,9 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
               ]}
             />
             <animated.div style={chartContainerStyles}>
-              {chartTransitions.map(({ item, key, props }) => (
-                <ChartsWrapper key={key} ref={measureRef}>
-                  <animated.div style={{ ...props, top: 0 }}>
+              <ChartsWrapper ref={measureRef}>
+                {chartTransitions.map(({ item, key, props }) => (
+                  <animated.div key={key} style={props}>
                     {
                       // for type safety we have to check this again
                       // but it should always be defined if we've gotten this far
@@ -125,8 +120,8 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
                       )
                     }
                   </animated.div>
-                </ChartsWrapper>
-              ))}
+                ))}
+              </ChartsWrapper>
             </animated.div>
           </>
         )}

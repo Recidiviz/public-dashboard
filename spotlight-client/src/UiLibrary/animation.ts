@@ -16,7 +16,15 @@
 // =============================================================================
 
 const defaultDuration = 500;
+const crossFade = {
+  initial: { opacity: 1, top: 0 },
+  from: { opacity: 0 },
+  enter: { opacity: 1 },
+  leave: { opacity: 0, position: "absolute" },
+  config: { friction: 40, tension: 280 },
+} as const;
 
 export default {
   defaultDuration,
+  crossFade,
 };

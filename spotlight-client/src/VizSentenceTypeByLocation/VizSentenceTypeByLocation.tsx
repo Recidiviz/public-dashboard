@@ -24,6 +24,7 @@ import DemographicFilterSelect from "../DemographicFilterSelect";
 import FiltersWrapper from "../FiltersWrapper";
 import LocalityFilterSelect from "../LocalityFilterSelect";
 import NoMetricData from "../NoMetricData";
+import { animation } from "../UiLibrary";
 import SentenceTypeChart, {
   CHART_BOTTOM_PADDING,
   CHART_HEIGHT,
@@ -52,13 +53,7 @@ const VizSentenceTypeByLocation: React.FC<VizSentenceTypeByLocationProps> = ({
   const chartTransitions = useTransition(
     { demographicView, dataGraph, localityId },
     (item) => `${item.demographicView} ${item.localityId}`,
-    {
-      initial: { opacity: 1 },
-      from: { opacity: 0 },
-      enter: { opacity: 1 },
-      leave: { opacity: 0, position: "absolute" },
-      config: { friction: 40, tension: 280 },
-    }
+    animation.crossFade
   );
 
   if (metric.dataGraph) {
@@ -74,7 +69,7 @@ const VizSentenceTypeByLocation: React.FC<VizSentenceTypeByLocationProps> = ({
           {chartTransitions.map(
             ({ item, key, props }) =>
               item.dataGraph && (
-                <animated.div key={key} style={{ ...props, top: 0 }}>
+                <animated.div key={key} style={props}>
                   <SentenceTypeChart {...item.dataGraph} />
                 </animated.div>
               )
