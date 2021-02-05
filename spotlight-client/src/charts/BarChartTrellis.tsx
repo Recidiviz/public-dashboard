@@ -23,7 +23,7 @@ import ResponsiveTooltipController, {
   ResponsiveTooltipControllerProps,
 } from "./ResponsiveTooltipController";
 import { formatAsPct } from "../utils";
-import { getDataWithPct, highlightFade } from "./utils";
+import { highlightFade } from "./utils";
 import { animation } from "../UiLibrary";
 import { CategoricalChartRecord, CommonDataPoint } from "./types";
 import MeasureWidth from "../MeasureWidth";
@@ -48,7 +48,7 @@ const BarAxisLabel = styled.text`
 
 type BarChartData = {
   label: string;
-  records: CategoricalChartRecord[];
+  records: (CategoricalChartRecord & { pct: number })[];
 };
 
 type BarChartTrellisProps = {
@@ -118,7 +118,7 @@ export function BarChartTrellis({
                     baseMarkProps={{
                       transitionDuration: { fill: animation.defaultDuration },
                     }}
-                    data={getDataWithPct(chartData)}
+                    data={chartData}
                     margin={MARGIN}
                     oAccessor="label"
                     // @ts-expect-error Semiotic types can't handle a styled component here but it's fine

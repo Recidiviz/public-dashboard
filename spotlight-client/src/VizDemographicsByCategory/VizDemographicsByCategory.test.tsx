@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import { runInAction, when } from "mobx";
 import React from "react";
 import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
@@ -63,60 +63,6 @@ test("total chart", async () => {
   expect(within(bubbles).getAllByRole("img", { name: /Node/ }).length).toBe(4);
 });
 
-test("demographic charts", async () => {
-  renderWithStore(<VizDemographicsByCategory metric={metric} />);
-
-  await when(() => !metric.isLoading);
-
-  const menuButton = screen.getByRole("button", {
-    name: "View Total",
-  });
-  fireEvent.click(menuButton);
-  fireEvent.click(screen.getByRole("option", { name: "Race or Ethnicity" }));
-
-  // pause for animated transition
-  await waitFor(() => {
-    expect(
-      screen.getByRole("figure", { name: "Native American" })
-    ).toBeInTheDocument();
-    expect(screen.getByRole("figure", { name: "Black" })).toBeInTheDocument();
-    expect(
-      screen.getByRole("figure", { name: "Hispanic" })
-    ).toBeInTheDocument();
-    expect(screen.getByRole("figure", { name: "White" })).toBeInTheDocument();
-    expect(screen.getByRole("figure", { name: "Other" })).toBeInTheDocument();
-
-    expect(
-      screen.getAllByRole("group", { name: "4 bars in a bar chart" }).length
-    ).toBe(5);
-  });
-
-  fireEvent.click(menuButton);
-  fireEvent.click(screen.getByRole("option", { name: "Gender" }));
-
-  // pause for animated transition
-  await waitFor(() => {
-    expect(screen.getByRole("figure", { name: "Male" })).toBeInTheDocument();
-    expect(screen.getByRole("figure", { name: "Female" })).toBeInTheDocument();
-
-    expect(
-      screen.getAllByRole("group", { name: "4 bars in a bar chart" }).length
-    ).toBe(2);
-  });
-
-  fireEvent.click(menuButton);
-  fireEvent.click(screen.getByRole("option", { name: "Age Group" }));
-
-  // pause for animated transition
-  await waitFor(() => {
-    expect(screen.getByRole("figure", { name: "<25" })).toBeInTheDocument();
-    expect(screen.getByRole("figure", { name: "25-29" })).toBeInTheDocument();
-    expect(screen.getByRole("figure", { name: "30-34" })).toBeInTheDocument();
-    expect(screen.getByRole("figure", { name: "35-39" })).toBeInTheDocument();
-    expect(screen.getByRole("figure", { name: "40<" })).toBeInTheDocument();
-
-    expect(
-      screen.getAllByRole("group", { name: "4 bars in a bar chart" }).length
-    ).toBe(5);
-  });
-});
+// tests for demographic charts don't work because of inconsistent SVG support in JSDOM;
+// see https://github.com/jsdom/jsdom/issues/2531 for a (not super helpful) explanation
+// of the error that occurs

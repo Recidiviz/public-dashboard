@@ -24,12 +24,13 @@ import styled from "styled-components/macro";
 import { animation, colors } from "../UiLibrary";
 import { formatAsNumber } from "../utils";
 import BaseChartWrapper from "./ChartWrapper";
-import { getDataWithPct, highlightFade, useHighlightedItem } from "./utils";
+import { highlightFade, useHighlightedItem } from "./utils";
 import ColorLegend from "./ColorLegend";
 import XHoverController from "./XHoverController";
 import { HistoricalPopulationBreakdownRecord } from "../metricsApi";
 import { DataSeries } from "./types";
 import MeasureWidth from "../MeasureWidth";
+import calculatePct from "../contentModels/calculatePct";
 
 const CHART_HEIGHT = 430;
 const MARGIN = { bottom: 65, left: 56, right: 8, top: 8 };
@@ -58,6 +59,24 @@ const ChartWrapper = styled(BaseChartWrapper)`
 `;
 
 const getDateLabel = (date: Date) => format(date, "MMM d y");
+
+function getDataForDate({
+  date,
+  dataSeries,
+}: {
+  date: Date;
+  dataSeries: DataSeries<HistoricalPopulationBreakdownRecord>[];
+}) {
+  return calculatePct(
+    dataSeries.map(({ label, coordinates }) => {
+      const point = coordinates.find((record) => isEqual(record.date, date));
+      // if missing data was properly imputed this should never happen
+      if (point === undefined)
+        throw new Error(`unable to find ${label} data for ${date}`);
+      return { label, value: point.count };
+    })
+  );
+}
 
 const BASE_MARK_PROPS = {
   transitionDuration: {
@@ -137,20 +156,10 @@ const WindowedTimeSeries: React.FC<{
                     const dateHovered = d.date as Date;
                     return {
                       title: getDateLabel(dateHovered),
-                      records: getDataWithPct(
-                        // d.points comes from Semiotic but it's not in their type defs
-                        (d.points as {
-                          // these values, again, come from our record format
-                          data: { date: Date; count: number };
-                          // parentLine is a Semiotic thing, label comes from our record format
-                          parentLine: { label: string };
-                        }[])
-                          .filter((p) => isEqual(p.data.date, dateHovered))
-                          .map((p) => ({
-                            label: p.parentLine.label,
-                            value: p.data.count,
-                          }))
-                      ),
+                      records: getDataForDate({
+                        date: dateHovered,
+                        dataSeries: data,
+                      }),
                     };
                   },
                 }}

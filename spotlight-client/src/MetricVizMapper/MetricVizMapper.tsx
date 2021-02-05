@@ -25,6 +25,8 @@ import VizPopulationBreakdownByLocation from "../VizPopulationBreakdownByLocatio
 import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
 import VizDemographicsByCategory from "../VizDemographicsByCategory";
 import VizPrisonStayLengths from "../VizPrisonStayLengths";
+import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
+import VizRecidivismRateSingleFollowup from "../VizRecidivismRateSingleFollowup";
 
 type MetricVizMapperProps = {
   metric: Metric<MetricRecord>;
@@ -42,6 +44,11 @@ const MetricVizMapper: React.FC<MetricVizMapperProps> = ({ metric }) => {
       return <VizPrisonStayLengths metric={metric} />;
     }
     return <VizDemographicsByCategory metric={metric} />;
+  }
+  if (metric instanceof RecidivismRateMetric) {
+    if (metric.id === "PrisonRecidivismRateSingleFollowupHistorical") {
+      return <VizRecidivismRateSingleFollowup metric={metric} />;
+    }
   }
   return <h3>Placeholder for {metric.name}</h3>;
 };

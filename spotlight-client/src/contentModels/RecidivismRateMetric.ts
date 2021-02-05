@@ -15,12 +15,35 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { DataSeries } from "../charts";
-import { recordIsTotalByDimension } from "../demographics";
+import { ascending } from "d3-array";
+import { computed, makeObservable, observable } from "mobx";
+import {
+  getDemographicCategories,
+  recordIsTotalByDimension,
+} from "../demographics";
 import { RecidivismRateRecord } from "../metricsApi";
-import Metric from "./Metric";
+import { colors } from "../UiLibrary";
+import Metric, { BaseMetricConstructorOptions } from "./Metric";
+import { DemographicCategoryRateRecords } from "./types";
 
 export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
+  followUpYears?: number;
+
+  constructor(
+    props: BaseMetricConstructorOptions<RecidivismRateRecord> & {
+      followUpYears?: number;
+    }
+  ) {
+    super(props);
+
+    this.followUpYears = props.followUpYears;
+
+    makeObservable(this, {
+      followUpYears: observable,
+      singleFollowupDemographics: computed,
+    });
+  }
+
   get records(): RecidivismRateRecord[] | undefined {
     let recordsToReturn = this.getOrFetchRecords();
     if (!recordsToReturn) return undefined;
@@ -28,11 +51,42 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
     recordsToReturn = recordsToReturn.filter(
       recordIsTotalByDimension(this.demographicView)
     );
+
+    if (this.followUpYears !== undefined) {
+      recordsToReturn = recordsToReturn.filter(
+        (record) => record.followupYears === this.followUpYears
+      );
+    }
+
     return recordsToReturn;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  get dataSeries(): DataSeries<RecidivismRateRecord>[] | null {
-    throw new Error("Method not implemented.");
+  get singleFollowupDemographics(): DemographicCategoryRateRecords[] | null {
+    const { demographicView, records } = this;
+    if (!records || demographicView === "nofilter") return null;
+
+    const categories = getDemographicCategories(demographicView);
+
+    return categories.map(({ identifier, label }) => {
+      return {
+        label,
+        records: records
+          .filter((record) =>
+            demographicView === "total"
+              ? true
+              : record[demographicView] === identifier
+          )
+          .sort((a, b) => ascending(a.releaseCohort, b.releaseCohort))
+          .map((record, index) => {
+            return {
+              label: `${record.releaseCohort}`,
+              color: colors.dataViz[0],
+              value: record.rateNumerator,
+              pct: record.rate,
+              denominator: record.rateDenominator,
+            };
+          }),
+      };
+    });
   }
 }

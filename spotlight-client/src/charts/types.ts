@@ -49,6 +49,7 @@ export type CategoricalChartRecord = {
   label: string;
   color: string;
   value: number;
+  pct: number;
 };
 
 export type TooltipContentFunction = (

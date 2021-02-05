@@ -22,11 +22,12 @@ import ProportionalBar from "./ProportionalBar";
 
 jest.mock("../MeasureWidth/MeasureWidth");
 
+const testData = [
+  { label: "thing 1", color: "red", value: 10, pct: 0.1639344262 },
+  { label: "thing 2", color: "blue", value: 51, pct: 0.8360655738 },
+];
+
 test("renders data", () => {
-  const testData = [
-    { label: "thing 1", color: "red", value: 10 },
-    { label: "thing 2", color: "blue", value: 51 },
-  ];
   const title = "Testing";
 
   renderWithStore(
@@ -49,23 +50,15 @@ test("renders data", () => {
 });
 
 test("chart with no data", () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const testData: any[] = [];
   const title = "Testing";
 
-  renderWithStore(
-    <ProportionalBar data={testData} height={100} title={title} />
-  );
+  renderWithStore(<ProportionalBar data={[]} height={100} title={title} />);
 
   expect(screen.getByText(`${title}, No Data`)).toBeVisible();
   expect(screen.queryByRole("group")).not.toBeInTheDocument();
 });
 
 test("highlighting", async () => {
-  const testData = [
-    { label: "thing 1", color: "red", value: 10 },
-    { label: "thing 2", color: "blue", value: 51 },
-  ];
   const title = "Testing";
   const mockHighlight = jest.fn();
 

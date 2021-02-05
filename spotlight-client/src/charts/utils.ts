@@ -15,28 +15,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { sum } from "d3-array";
 import { color } from "d3-color";
 import { interpolateRgb } from "d3-interpolate";
 import { useCallback, useState } from "react";
 import { colors } from "../UiLibrary";
 import { isItemToHighlight, ItemToHighlight } from "./types";
-
-/**
- * Given a series of records, sums up their values and computes the value of each
- * as a percentage of that total. Returns a copy of the records with `pct` field
- * included as a number between 0 and 1.
- */
-export function getDataWithPct<RecordFormat extends { value: number }>(
-  data: RecordFormat[]
-): (RecordFormat & { pct: number })[] {
-  // calculate percentages for display
-  const totalValue = sum(data.map(({ value }) => value));
-  return data.map((record) => ({
-    ...record,
-    pct: record.value / totalValue,
-  }));
-}
 
 const FADE_AMOUNT = 0.45;
 

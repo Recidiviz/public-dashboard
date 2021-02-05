@@ -18,51 +18,47 @@
 import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import React from "react";
-import type DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
-import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
-import {
-  DemographicView,
-  DemographicViewList,
-  getDemographicViewLabel,
-  isDemographicView,
-} from "../demographics";
 import { Dropdown } from "../UiLibrary";
 
-type DemographicFilterOption = { id: DemographicView; label: string };
+const options = [
+  {
+    id: "1",
+    label: "1 Year",
+  },
+  {
+    id: "3",
+    label: "3 Years",
+  },
+  {
+    id: "5",
+    label: "5 Years",
+  },
+];
 
-type DemographicFilterSelectProps = {
-  metric:
-    | HistoricalPopulationBreakdownMetric
-    | DemographicsByCategoryMetric
-    | RecidivismRateMetric;
+type FollowupPeriodFilterSelectProps = {
+  metric: RecidivismRateMetric;
 };
 
-const DemographicFilterSelect: React.FC<DemographicFilterSelectProps> = ({
+const FollowupPeriodFilterSelect: React.FC<FollowupPeriodFilterSelectProps> = ({
   metric,
 }) => {
-  const options: DemographicFilterOption[] = DemographicViewList.filter(
-    (view): view is Exclude<DemographicView, "nofilter"> => view !== "nofilter"
-  ).map((view) => ({
-    id: view,
-    label: getDemographicViewLabel(view),
-  }));
-
-  const onChange = action("change demographic filter", (newFilter: string) => {
-    if (isDemographicView(newFilter)) {
+  const onChange = action(
+    "change followup period filter",
+    (newFilter: string) => {
       // eslint-disable-next-line no-param-reassign
-      metric.demographicView = newFilter;
+      metric.followUpYears = Number(newFilter);
     }
-  });
+  );
 
   return (
     <Dropdown
-      label="View"
+      label="Follow-up Period"
       onChange={onChange}
       options={options}
-      selectedId={metric.demographicView}
+      selectedId={`${metric.followUpYears}`}
     />
   );
 };
 
-export default observer(DemographicFilterSelect);
+export default observer(FollowupPeriodFilterSelect);

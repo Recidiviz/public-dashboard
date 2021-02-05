@@ -62,7 +62,12 @@ export type DemographicCategoryRecords = {
     label: string;
     color: string;
     value: number;
+    pct: number;
   }[];
+};
+
+export type DemographicCategoryRateRecords = DemographicCategoryRecords & {
+  records: { denominator: number }[];
 };
 
 // =======================================

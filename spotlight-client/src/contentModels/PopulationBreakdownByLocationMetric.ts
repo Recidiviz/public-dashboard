@@ -28,6 +28,7 @@ import {
   recordMatchesLocality,
 } from "../metricsApi";
 import { colors } from "../UiLibrary";
+import calculatePct from "./calculatePct";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 import { DemographicCategoryRecords } from "./types";
 
@@ -69,22 +70,24 @@ export default class PopulationBreakdownByLocationMetric extends Metric<
     ).map((demographicView) => {
       return {
         label: getDemographicViewLabel(demographicView),
-        records: getDemographicCategories(demographicView).map(
-          ({ identifier, label }, index) => {
-            let value = 0;
-            const matchingRecord = records.find(
-              (record) => record[demographicView] === identifier
-            );
-            if (matchingRecord) {
-              value = matchingRecord.population;
-            }
+        records: calculatePct(
+          getDemographicCategories(demographicView).map(
+            ({ identifier, label }, index) => {
+              let value = 0;
+              const matchingRecord = records.find(
+                (record) => record[demographicView] === identifier
+              );
+              if (matchingRecord) {
+                value = matchingRecord.population;
+              }
 
-            return {
-              color: colors.dataViz[index],
-              label,
-              value,
-            };
-          }
+              return {
+                color: colors.dataViz[index],
+                label,
+                value,
+              };
+            }
+          )
         ),
       };
     });
