@@ -27,6 +27,8 @@ import VizDemographicsByCategory from "../VizDemographicsByCategory";
 import VizPrisonStayLengths from "../VizPrisonStayLengths";
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import VizRecidivismRateSingleFollowup from "../VizRecidivismRateSingleFollowup";
+import SentenceTypeByLocationMetric from "../contentModels/SentenceTypeByLocationMetric";
+import VizSentenceTypeByLocation from "../VizSentenceTypeByLocation";
 
 type MetricVizMapperProps = {
   metric: Metric<MetricRecord>;
@@ -49,6 +51,9 @@ const MetricVizMapper: React.FC<MetricVizMapperProps> = ({ metric }) => {
     if (metric.id === "PrisonRecidivismRateSingleFollowupHistorical") {
       return <VizRecidivismRateSingleFollowup metric={metric} />;
     }
+  }
+  if (metric instanceof SentenceTypeByLocationMetric) {
+    return <VizSentenceTypeByLocation metric={metric} />;
   }
   return <h3>Placeholder for {metric.name}</h3>;
 };

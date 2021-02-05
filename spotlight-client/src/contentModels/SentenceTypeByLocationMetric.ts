@@ -59,7 +59,6 @@ export default class SentenceTypeByLocationMetric extends Metric<
       recordIsTotalByDimension(this.demographicView)
     );
 
-    // TODO: sort?
     return recordsToReturn;
   }
 
@@ -67,7 +66,7 @@ export default class SentenceTypeByLocationMetric extends Metric<
     | { sources: GraphNode[]; targets: GraphNode[]; edges: GraphEdge[] }
     | undefined {
     const { demographicView, records } = this;
-    if (!records || demographicView === "nofilter") return;
+    if (!records || demographicView === "nofilter") return undefined;
 
     const sources = ["Incarceration", "Probation", "Both"];
 
