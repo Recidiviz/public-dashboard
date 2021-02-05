@@ -28,20 +28,22 @@ import { formatAsNumber } from "../utils";
 import MeasureWidth from "../MeasureWidth";
 import { animation, colors, typefaces } from "../UiLibrary";
 
+export const CHART_HEIGHT = 500;
+export const CHART_BOTTOM_PADDING = 80;
 const MARGIN = { top: 10, bottom: 10, left: 140 };
 /**
  * Adjust right margin based on label length
  */
 const getRightMargin = scaleLinear().domain([5, 15]).range([60, 140]);
-const MIN_WIDTH = 600;
 const NODE_WIDTH = 72;
 
 const ChartWrapper = styled.figure`
   /*
     labels have a tendency to overflow the bottom of this container;
-    this padding should ensure they have enough space to do so
+    this padding should ensure they have enough space to do so.
+    (px rather than rem for consistency with Semiotic)
   */
-  padding-bottom: ${rem(80)};
+  padding-bottom: ${CHART_BOTTOM_PADDING}px;
   position: relative;
   width: 100%;
 `;
@@ -253,7 +255,7 @@ export default function SingleStepSankey({
                       sourceColors[d.id as $Keys<typeof sourceColors>] ||
                       targetColor,
                 })}
-                size={[Math.max(width, MIN_WIDTH), 500]}
+                size={[width, CHART_HEIGHT]}
               />
             </ResponsiveTooltipController>
           )}

@@ -17,12 +17,23 @@
 
 import { observer } from "mobx-react-lite";
 import React from "react";
+import { animated, useTransition } from "react-spring/web.cjs";
+import styled from "styled-components/macro";
 import SentenceTypeByLocationMetric from "../contentModels/SentenceTypeByLocationMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import FiltersWrapper from "../FiltersWrapper";
 import LocalityFilterSelect from "../LocalityFilterSelect";
 import NoMetricData from "../NoMetricData";
-import SentenceTypeChart from "./SentenceTypeChart";
+import SentenceTypeChart, {
+  CHART_BOTTOM_PADDING,
+  CHART_HEIGHT,
+} from "./SentenceTypeChart";
+
+const ChartWrapper = styled.div`
+  /* px rather than rem for consistency with Semiotic */
+  height: ${CHART_HEIGHT + CHART_BOTTOM_PADDING}px;
+  position: relative;
+`;
 
 type VizSentenceTypeByLocationProps = {
   metric: SentenceTypeByLocationMetric;
@@ -31,6 +42,25 @@ type VizSentenceTypeByLocationProps = {
 const VizSentenceTypeByLocation: React.FC<VizSentenceTypeByLocationProps> = ({
   metric,
 }) => {
+  const { demographicView, dataGraph, localityId } = metric;
+
+  if (demographicView === "nofilter")
+    throw new Error(
+      "Unable to display this metric without demographic filter."
+    );
+
+  const chartTransitions = useTransition(
+    { demographicView, dataGraph, localityId },
+    (item) => `${item.demographicView} ${item.localityId}`,
+    {
+      initial: { opacity: 1 },
+      from: { opacity: 0 },
+      enter: { opacity: 1 },
+      leave: { opacity: 0, position: "absolute" },
+      config: { friction: 40, tension: 280 },
+    }
+  );
+
   if (metric.dataGraph) {
     return (
       <>
@@ -40,7 +70,16 @@ const VizSentenceTypeByLocation: React.FC<VizSentenceTypeByLocationProps> = ({
             <DemographicFilterSelect metric={metric} />,
           ]}
         />
-        <SentenceTypeChart {...metric.dataGraph} />
+        <ChartWrapper>
+          {chartTransitions.map(
+            ({ item, key, props }) =>
+              item.dataGraph && (
+                <animated.div key={key} style={{ ...props, top: 0 }}>
+                  <SentenceTypeChart {...item.dataGraph} />
+                </animated.div>
+              )
+          )}
+        </ChartWrapper>
       </>
     );
   }
