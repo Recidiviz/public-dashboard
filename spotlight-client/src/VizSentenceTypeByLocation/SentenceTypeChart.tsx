@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { scaleLinear } from "d3-scale";
-import { rem, rgba } from "polished";
+import { rgba } from "polished";
 import React, { useState } from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import { GenericObject } from "semiotic/lib/types/generalTypes";
@@ -37,11 +37,14 @@ const MARGIN = { top: 10, bottom: 10, left: 140 };
 const getRightMargin = scaleLinear().domain([5, 15]).range([60, 140]);
 const NODE_WIDTH = 72;
 
+// NB: sizes in here are generally in px rather than rem,
+// for conformity with Semiotic and SVG, since we are going pretty deep
+// into the guts of this chart to tweak the layout
+
 const ChartWrapper = styled.figure`
   /*
     labels have a tendency to overflow the bottom of this container;
     this padding should ensure they have enough space to do so.
-    (px rather than rem for consistency with Semiotic)
   */
   padding-bottom: ${CHART_BOTTOM_PADDING}px;
   position: relative;
@@ -55,21 +58,21 @@ const SOURCE_VALUE_SIZE = 48;
 const SourceValue = styled.text`
   fill: ${colors.text};
   font-family: ${typefaces.display};
-  font-size: ${rem(SOURCE_VALUE_SIZE)};
-  letter-spacing: -0.09em;
+  font-size: ${SOURCE_VALUE_SIZE}px;
+  letter-spacing: -0.07em;
 `;
 
 const SOURCE_LABEL_SIZE = 16;
 
 const SourceLabel = styled.text`
   fill: ${colors.text};
-  font-size: ${rem(SOURCE_LABEL_SIZE)};
+  font-size: ${SOURCE_LABEL_SIZE}px;
 `;
 
 const TARGET_LABEL_PADDING = 8;
 const TargetLabel = styled.text`
   fill: ${colors.text};
-  font-size: ${rem(16)};
+  font-size: 16px;
   text-anchor: start;
 `;
 
