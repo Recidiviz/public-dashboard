@@ -25,7 +25,6 @@ const PageHome: React.FC<RouteComponentProps> = () => {
   return (
     <div>
       <h1>Spotlight</h1>
-      <h2>home</h2>
       <ul>
         {TenantIdList.map((tenantId) => (
           <li key={tenantId}>
