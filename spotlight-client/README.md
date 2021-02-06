@@ -36,6 +36,8 @@ Expected environment variables include:
 
 The build process, as described below, ensures that the proper values are compiled and included in the static bundle at build time, for the right environment.
 
+The necessary environment variables **must** also be added to the `spotlight-staging` Github CI workflow in `/.github/workflows`; this workflow carries out automated staging deployments. It does not have access to the `.env` files used by your local environment. (Adding or updating secrets requires admin privileges on this repository; if you don't have those, reach out to a Recidiviz staff member for help.)
+
 ### Running the application locally
 
 `yarn dev` will start a Webpack development server on port `3000` and open the homepage in your browser.
@@ -62,7 +64,9 @@ Once you have the required permissions, you can set up your environment for depl
 
 ### Deploying to Staging
 
-To generate a staging build, invoke the following yarn script: `yarn build-staging`. This will include the appropriate environment variables from `.env.development`. Each time this is run, the `/build` directory will be wiped clean.
+All commits to `master` are automatically deployed to the staging environment by the `spotlight-staging` Github CI workflow, keeping staging up to date as pull requests are merged. (It thus bears mentioning that you should not merge anything to `master` that isn't immediately deployable!)
+
+You can also generate and deploy staging builds locally as needed. To generate a staging build, invoke the following yarn script: `yarn build-staging`. This will include the appropriate environment variables from `.env.development`. Each time this is run, the `/build` directory will be wiped clean.
 
 You should then test this locally by running `firebase serve`: it will run the staging build locally, pointed to the staging API backend. (Note that this means you will have to deploy the backend to staging first if your build requires unreleased backend features.)
 
