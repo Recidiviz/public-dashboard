@@ -54,5 +54,6 @@ jobs:
         uses: w9jds/firebase-action@master
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCT_KEY }}
+          PROJECT_PATH: ./spotlight-client
         with:
           args: deploy -P staging
