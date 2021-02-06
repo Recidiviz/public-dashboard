@@ -50,6 +50,20 @@ jobs:
         with:
           name: build
           path: spotlight-client/build
+      - name: Wait on lint
+        uses: lewagon/wait-on-check-action@v0.2
+        with:
+          ref: ${{ github.sha }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          check-name: Lint Spotlight Client
+          wait-interval: 10 # seconds
+      - name: Wait on tests
+        uses: lewagon/wait-on-check-action@v0.2
+        with:
+          ref: ${{ github.sha }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          check-name: Test Spotlight Client
+          wait-interval: 10 # seconds
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         env:
