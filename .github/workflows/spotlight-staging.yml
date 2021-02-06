@@ -64,7 +64,7 @@ jobs:
           check-name: Test Spotlight Client
           wait-interval: 10 # seconds
       - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
+        uses: w9jds/firebase-action@v2
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCT_KEY }}
           PROJECT_PATH: ./spotlight-client
