@@ -2,8 +2,7 @@ name: Spotlight Staging Deploy
 on:
   push:
     branches:
-      # TODO: change this back to master after testing
-      - ian/336-deploy-broken
+      - master
     paths:
       - "spotlight-client/**"
 defaults:
