@@ -1,0 +1,72 @@
+name: Spotlight Staging Deploy
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "spotlight-client/**"
+defaults:
+  run:
+    working-directory: spotlight-client
+
+jobs:
+  build:
+    name: Build frontend
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - uses: c-hive/gha-yarn-cache@v1
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build
+        # in lieu of build-staging, which consumes a .env that is not available in CI,
+        # we configure the build for staging here
+        env:
+          REACT_APP_AUTH_ENABLED: true
+          REACT_APP_AUTH_ENV: development
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+        run: yarn build
+      - name: Store build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: spotlight-client/build
+          if-no-files-found: error
+  deploy:
+    name: Deploy frontend
+    needs: build
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: spotlight-client/build
+      - name: Wait on lint
+        uses: lewagon/wait-on-check-action@v0.2
+        with:
+          ref: ${{ github.sha }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          check-name: Lint Spotlight Client
+          wait-interval: 10 # seconds
+      - name: Wait on tests
+        uses: lewagon/wait-on-check-action@v0.2
+        with:
+          ref: ${{ github.sha }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          check-name: Test Spotlight Client
+          wait-interval: 10 # seconds
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@v2
+        env:
+          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCT_KEY }}
+          PROJECT_PATH: ./spotlight-client
+        with:
+          args: deploy -P staging
