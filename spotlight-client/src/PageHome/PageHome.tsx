@@ -24,7 +24,7 @@ import withRouteSync from "../withRouteSync";
 const PageHome: React.FC<RouteComponentProps> = () => {
   return (
     <div>
-      <h1>Spotlight Home</h1>
+      <h1>Spotlight</h1>
       <ul>
         {TenantIdList.map((tenantId) => (
           <li key={tenantId}>
