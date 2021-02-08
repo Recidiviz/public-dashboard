@@ -2,7 +2,8 @@ name: Spotlight Staging Deploy
 on:
   push:
     branches:
-      - master
+      # TODO: change this back to master after testing
+      - ian/336-deploy-broken
     paths:
       - "spotlight-client/**"
 defaults:
@@ -64,7 +65,7 @@ jobs:
           check-name: Test Spotlight Client
           wait-interval: 10 # seconds
       - name: Deploy to Firebase
-        uses: w9jds/firebase-action@v2
+        uses: w9jds/firebase-action@v2.0.0
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCT_KEY }}
           PROJECT_PATH: ./spotlight-client
