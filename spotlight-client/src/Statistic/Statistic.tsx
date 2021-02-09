@@ -19,9 +19,16 @@ import { rem } from "polished";
 import React from "react";
 import { animated, useTransition } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
-import { colors, fluidFontSizeStyles, typefaces } from "../UiLibrary";
+import {
+  animation,
+  colors,
+  fluidFontSizeStyles,
+  typefaces,
+} from "../UiLibrary";
 
-const StatisticsWrapper = styled.figure``;
+const StatisticsWrapper = styled.figure`
+  position: relative;
+`;
 
 const Value = styled.div<{ minSize: number; maxSize: number }>`
   color: ${colors.text};
@@ -54,12 +61,7 @@ const Statistic: React.FC<StatisticProps> = ({
   minSize,
   value = "No data",
 }) => {
-  const transitions = useTransition(value, null, {
-    initial: { opacity: 1 },
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0, position: "absolute" },
-  });
+  const transitions = useTransition(value, null, animation.crossFade);
   return (
     // figcaption does not seem to get consistently picked up as the accessible name,
     // so including it as a label here too for insurance

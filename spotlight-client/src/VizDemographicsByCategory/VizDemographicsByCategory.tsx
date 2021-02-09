@@ -27,7 +27,7 @@ import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategor
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import FiltersWrapper from "../FiltersWrapper";
 import NoMetricData from "../NoMetricData";
-import { zIndex } from "../UiLibrary";
+import { animation, zIndex } from "../UiLibrary";
 
 const bubbleChartHeight = 325;
 
@@ -64,13 +64,7 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
   const chartTransitions = useTransition(
     { demographicView, dataSeries },
     (item) => item.demographicView,
-    {
-      initial: { opacity: 1 },
-      from: { opacity: 0 },
-      enter: { opacity: 1 },
-      leave: { opacity: 0, position: "absolute" },
-      config: { friction: 40, tension: 280 },
-    }
+    animation.crossFade
   );
 
   if (demographicView === "nofilter")
@@ -94,7 +88,7 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
             <animated.div style={chartContainerStyles}>
               {chartTransitions.map(({ item, key, props }) => (
                 <ChartWrapper key={key} ref={measureRef}>
-                  <animated.div style={{ ...props, top: 0 }}>
+                  <animated.div style={props}>
                     {
                       // for type safety we have to check this again
                       // but it should always be defined if we've gotten this far

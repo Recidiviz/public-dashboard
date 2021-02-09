@@ -31,6 +31,7 @@ import DemographicFilterSelect from "../DemographicFilterSelect";
 import FiltersWrapper from "../FiltersWrapper";
 import { prisonStayLengthFields } from "../metricsApi";
 import NoMetricData from "../NoMetricData";
+import { animation } from "../UiLibrary";
 
 const ChartsWrapper = styled.div`
   position: relative;
@@ -81,13 +82,7 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
   const chartTransitions = useTransition(
     { demographicView, dataSeries },
     (item) => item.demographicView,
-    {
-      initial: { opacity: 1 },
-      from: { opacity: 0 },
-      enter: { opacity: 1 },
-      leave: { opacity: 0, position: "absolute" },
-      config: { friction: 40, tension: 280 },
-    }
+    animation.crossFade
   );
 
   if (demographicView === "nofilter")
@@ -109,9 +104,9 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
               filters={[<DemographicFilterSelect metric={metric} />]}
             />
             <animated.div style={chartContainerStyles}>
-              {chartTransitions.map(({ item, key, props }) => (
-                <ChartsWrapper key={key} ref={measureRef}>
-                  <animated.div style={{ ...props, top: 0 }}>
+              <ChartsWrapper ref={measureRef}>
+                {chartTransitions.map(({ item, key, props }) => (
+                  <animated.div key={key} style={props}>
                     {
                       // for type safety we have to check this again
                       // but it should always be defined if we've gotten this far
@@ -123,8 +118,8 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
                       )
                     }
                   </animated.div>
-                </ChartsWrapper>
-              ))}
+                ))}
+              </ChartsWrapper>
             </animated.div>
           </>
         )}
