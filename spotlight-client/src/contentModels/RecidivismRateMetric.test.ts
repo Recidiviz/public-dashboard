@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { runInAction, when } from "mobx";
+import { MetricTypeId } from "../contentApi/types";
 import { DemographicView } from "../demographics";
 import { reactImmediately } from "../testUtils";
 import createMetricMapping from "./createMetricMapping";
@@ -23,21 +24,18 @@ import RecidivismRateMetric from "./RecidivismRateMetric";
 import contentFixture from "./__fixtures__/tenant_content_exhaustive";
 
 const testTenantId = "US_ND";
-const testMetricId = "PrisonRecidivismRateSingleFollowupHistorical";
-const testMetadataMapping = {
-  [testMetricId]: contentFixture.metrics[testMetricId],
-};
+const testMetadataMapping = contentFixture.metrics;
 
-function getTestMetric() {
+function getTestMetric(id: MetricTypeId) {
   return createMetricMapping({
     localityLabelMapping: contentFixture.localities,
     metadataMapping: testMetadataMapping,
     tenantId: testTenantId,
-  }).get(testMetricId) as RecidivismRateMetric;
+  }).get(id) as RecidivismRateMetric;
 }
 
-async function getPopulatedMetric() {
-  const metric = getTestMetric();
+async function getPopulatedMetric(id: MetricTypeId) {
+  const metric = getTestMetric(id);
 
   metric.populateAllRecords();
 
@@ -47,8 +45,10 @@ async function getPopulatedMetric() {
 }
 
 describe("single followup period", () => {
+  const testMetricId = "PrisonRecidivismRateSingleFollowupHistorical";
+
   test("total data", async () => {
-    const metric = await getPopulatedMetric();
+    const metric = await getPopulatedMetric(testMetricId);
 
     reactImmediately(() => {
       expect(metric.singleFollowupDemographics).toMatchSnapshot();
@@ -60,7 +60,7 @@ describe("single followup period", () => {
   test.each([["raceOrEthnicity"], ["gender"], ["ageBucket"]] as [
     Exclude<DemographicView, "nofilter">
   ][])("%s data", async (demographicView) => {
-    const metric = await getPopulatedMetric();
+    const metric = await getPopulatedMetric(testMetricId);
 
     runInAction(() => {
       metric.demographicView = demographicView;
@@ -68,6 +68,82 @@ describe("single followup period", () => {
 
     reactImmediately(() => {
       expect(metric.singleFollowupDemographics).toMatchSnapshot();
+    });
+
+    expect.hasAssertions();
+  });
+});
+
+describe("cohorts data series", () => {
+  let metric: RecidivismRateMetric;
+
+  const testMetricId = "PrisonRecidivismRateHistorical";
+
+  afterEach(() => {
+    metric.setSelectedCohorts(undefined);
+  });
+
+  test("all cohorts", async () => {
+    metric = await getPopulatedMetric(testMetricId);
+
+    reactImmediately(() => {
+      expect(metric.cohortDataSeries).toMatchSnapshot();
+    });
+
+    expect.hasAssertions();
+  });
+
+  test("selected cohorts", async () => {
+    metric = await getPopulatedMetric(testMetricId);
+
+    metric.setSelectedCohorts([2017, 2018]);
+
+    reactImmediately(() => {
+      // this should be a subset of the all cohorts snapshot;
+      // not only the records but also the series colors should be identical
+      expect(metric.cohortDataSeries).toMatchSnapshot();
+    });
+
+    expect.hasAssertions();
+  });
+
+  test.each(["raceOrEthnicity", "gender", "ageBucket"] as const)(
+    "single cohort with %s views",
+    async (demographicView) => {
+      metric = await getPopulatedMetric(testMetricId);
+
+      metric.setSelectedCohorts([2017]);
+
+      runInAction(() => {
+        metric.demographicView = demographicView;
+      });
+
+      reactImmediately(() => {
+        expect(metric.cohortDataSeries).toMatchSnapshot();
+      });
+
+      // reset demographics
+      runInAction(() => {
+        metric.demographicView = "total";
+      });
+
+      expect.hasAssertions();
+    }
+  );
+
+  test("demographic view resets to total when multiple cohorts are selected", async () => {
+    metric = await getPopulatedMetric(testMetricId);
+
+    metric.setSelectedCohorts([2017]);
+
+    runInAction(() => {
+      metric.demographicView = "gender";
+    });
+
+    metric.setSelectedCohorts([2017, 2018]);
+
+    reactImmediately(() => {
+      expect(metric.demographicView).toBe("total");
     });
 
     expect.hasAssertions();
