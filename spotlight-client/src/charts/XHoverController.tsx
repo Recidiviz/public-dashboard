@@ -26,7 +26,6 @@ import { colors, zIndex } from "../UiLibrary";
 import ResponsiveTooltipController, {
   ResponsiveTooltipControllerProps,
 } from "./ResponsiveTooltipController";
-import { DataSeries } from "./types";
 
 const TOOLTIP_OFFSET = 8;
 
@@ -84,7 +83,7 @@ const Wrapper = styled.div`
  * via `tooltipControllerProps`.
  */
 const XHoverController: React.FC<{
-  lines: DataSeries[];
+  lines: XYFrameProps["lines"];
   margin: MarginType;
   otherChartProps?: Exclude<
     XYFrameProps,

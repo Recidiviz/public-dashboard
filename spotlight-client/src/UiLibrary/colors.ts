@@ -44,7 +44,7 @@ export default {
   buttonBackgroundHover: gray,
   caption: pinePale,
   chartAxis: pine,
-  chartGridLine: pinePale,
+  chartGridLine: gray,
   chartNoData: gray,
   dataViz: Array.from(dataVizColorMap.values()),
   dataVizNamed: dataVizColorMap,
