@@ -29,6 +29,18 @@ import { DemographicCategoryRateRecords } from "./types";
 
 type CohortDataSeries = DataSeries<RateFields & { followupYears: number }>;
 
+/**
+ * Adds a zero record for followup period zero to an array of records.
+ * These are not in the raw data but the UI needs them.
+ */
+function prependZeroRecord(records: RecidivismRateRecord[]) {
+  const zero = { ...records[0] };
+  zero.rate = 0;
+  zero.rateNumerator = 0;
+  zero.followupYears = 0;
+  records.unshift(zero);
+}
+
 export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
   followUpYears?: number;
 
@@ -139,12 +151,16 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
     if (allCohorts === undefined || records === undefined) return undefined;
 
     return allCohorts.map((cohort, index) => {
+      const coordinates = records
+        .filter((record) => record.releaseCohort === cohort)
+        .sort((a, b) => ascending(a.followupYears, b.followupYears));
+
+      prependZeroRecord(coordinates);
+
       return {
         label: `${cohort}`,
         color: colors.dataViz[index],
-        coordinates: records
-          .filter((record) => record.releaseCohort === cohort)
-          .sort((a, b) => ascending(a.followupYears, b.followupYears)),
+        coordinates,
       };
     });
   }
