@@ -148,4 +148,18 @@ describe("cohorts data series", () => {
 
     expect.hasAssertions();
   });
+
+  test("selection includes highlighted cohort", async () => {
+    metric = await getPopulatedMetric(testMetricId);
+
+    metric.setSelectedCohorts([2017]);
+
+    metric.setHighlightedCohort({ label: "2018" });
+
+    reactImmediately(() => {
+      expect(metric.cohortDataSeries?.length).toBe(2);
+    });
+
+    expect.hasAssertions();
+  });
 });

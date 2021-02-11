@@ -33,6 +33,7 @@ import { Dropdown } from "../UiLibrary";
 type DemographicFilterOption = { id: DemographicView; label: string };
 
 type DemographicFilterSelectProps = {
+  disabled?: boolean;
   metric:
     | HistoricalPopulationBreakdownMetric
     | DemographicsByCategoryMetric
@@ -41,6 +42,7 @@ type DemographicFilterSelectProps = {
 };
 
 const DemographicFilterSelect: React.FC<DemographicFilterSelectProps> = ({
+  disabled,
   metric,
 }) => {
   const options: DemographicFilterOption[] = DemographicViewList.filter(
@@ -59,6 +61,7 @@ const DemographicFilterSelect: React.FC<DemographicFilterSelectProps> = ({
 
   return (
     <Dropdown
+      disabled={disabled}
       label="View"
       onChange={onChange}
       options={options}

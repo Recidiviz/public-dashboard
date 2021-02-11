@@ -17,10 +17,12 @@
 
 import { observer } from "mobx-react-lite";
 import React from "react";
-import styled from "styled-components/macro";
 import RateTrend from "../charts/RateTrend";
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
+import DemographicFilterSelect from "../DemographicFilterSelect";
+import FiltersWrapper from "../FiltersWrapper";
 import NoMetricData from "../NoMetricData";
+import CohortFilterSelect from "./CohortFilterSelect";
 
 type VizRecidivismRateCumulativeProps = {
   metric: RecidivismRateMetric;
@@ -29,11 +31,20 @@ type VizRecidivismRateCumulativeProps = {
 const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = ({
   metric,
 }) => {
-  const { cohortDataSeries } = metric;
+  const { cohortDataSeries, selectedCohorts, highlightedCohort } = metric;
 
-  if (cohortDataSeries) {
+  if (cohortDataSeries && selectedCohorts) {
     return (
       <>
+        <FiltersWrapper
+          filters={[
+            <CohortFilterSelect metric={metric} />,
+            <DemographicFilterSelect
+              disabled={selectedCohorts.length !== 1}
+              metric={metric}
+            />,
+          ]}
+        />
         <RateTrend
           data={cohortDataSeries}
           title="Cumulative Recidivism Rate"
@@ -41,6 +52,9 @@ const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = 
           // we don't want the X axis to get shorter when cohorts are filtered
           xExtent={[0, 10]}
           xLabel="Years since release"
+          highlighted={
+            highlightedCohort ? { label: `${highlightedCohort}` } : undefined
+          }
         />
       </>
     );

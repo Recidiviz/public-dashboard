@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { rem } from "polished";
 import React, { useEffect, useState } from "react";
 import { XYFrameProps } from "semiotic/lib/types/xyTypes";
 import XYFrame from "semiotic/lib/XYFrame";
@@ -93,6 +94,7 @@ const ChartWrapper = styled(ChartWrapperBase)`
 
 const LegendWrapper = styled.div`
   margin-left: ${MARGIN.left}px;
+  min-height: ${rem(16)};
 `;
 
 const Wrapper = styled.div``;

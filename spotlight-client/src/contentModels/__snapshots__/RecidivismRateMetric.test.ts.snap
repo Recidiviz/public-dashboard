@@ -789,6 +789,16 @@ Array [
     "coordinates": Array [
       Object {
         "ageBucket": "<25",
+        "followupYears": 0,
+        "gender": "ALL",
+        "raceOrEthnicity": "ALL",
+        "rate": 0,
+        "rateDenominator": 110,
+        "rateNumerator": 0,
+        "releaseCohort": 2017,
+      },
+      Object {
+        "ageBucket": "<25",
         "followupYears": 1,
         "gender": "ALL",
         "raceOrEthnicity": "ALL",
@@ -813,6 +823,16 @@ Array [
   Object {
     "color": "#D9A95F",
     "coordinates": Array [
+      Object {
+        "ageBucket": "25-29",
+        "followupYears": 0,
+        "gender": "ALL",
+        "raceOrEthnicity": "ALL",
+        "rate": 0,
+        "rateDenominator": 91,
+        "rateNumerator": 0,
+        "releaseCohort": 2017,
+      },
       Object {
         "ageBucket": "25-29",
         "followupYears": 1,
@@ -841,6 +861,16 @@ Array [
     "coordinates": Array [
       Object {
         "ageBucket": "30-34",
+        "followupYears": 0,
+        "gender": "ALL",
+        "raceOrEthnicity": "ALL",
+        "rate": 0,
+        "rateDenominator": 111,
+        "rateNumerator": 0,
+        "releaseCohort": 2017,
+      },
+      Object {
+        "ageBucket": "30-34",
         "followupYears": 1,
         "gender": "ALL",
         "raceOrEthnicity": "ALL",
@@ -867,6 +897,16 @@ Array [
     "coordinates": Array [
       Object {
         "ageBucket": "35-39",
+        "followupYears": 0,
+        "gender": "ALL",
+        "raceOrEthnicity": "ALL",
+        "rate": 0,
+        "rateDenominator": 82,
+        "rateNumerator": 0,
+        "releaseCohort": 2017,
+      },
+      Object {
+        "ageBucket": "35-39",
         "followupYears": 1,
         "gender": "ALL",
         "raceOrEthnicity": "ALL",
@@ -891,6 +931,16 @@ Array [
   Object {
     "color": "#90AEB5",
     "coordinates": Array [
+      Object {
+        "ageBucket": "40<",
+        "followupYears": 0,
+        "gender": "ALL",
+        "raceOrEthnicity": "ALL",
+        "rate": 0,
+        "rateDenominator": 25,
+        "rateNumerator": 0,
+        "releaseCohort": 2017,
+      },
       Object {
         "ageBucket": "40<",
         "followupYears": 1,
@@ -924,6 +974,16 @@ Array [
     "coordinates": Array [
       Object {
         "ageBucket": "ALL",
+        "followupYears": 0,
+        "gender": "MALE",
+        "raceOrEthnicity": "ALL",
+        "rate": 0,
+        "rateDenominator": 267,
+        "rateNumerator": 0,
+        "releaseCohort": 2017,
+      },
+      Object {
+        "ageBucket": "ALL",
         "followupYears": 1,
         "gender": "MALE",
         "raceOrEthnicity": "ALL",
@@ -948,6 +1008,16 @@ Array [
   Object {
     "color": "#D9A95F",
     "coordinates": Array [
+      Object {
+        "ageBucket": "ALL",
+        "followupYears": 0,
+        "gender": "FEMALE",
+        "raceOrEthnicity": "ALL",
+        "rate": 0,
+        "rateDenominator": 153,
+        "rateNumerator": 0,
+        "releaseCohort": 2017,
+      },
       Object {
         "ageBucket": "ALL",
         "followupYears": 1,
@@ -981,6 +1051,16 @@ Array [
     "coordinates": Array [
       Object {
         "ageBucket": "ALL",
+        "followupYears": 0,
+        "gender": "ALL",
+        "raceOrEthnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+        "rate": 0,
+        "rateDenominator": 140,
+        "rateNumerator": 0,
+        "releaseCohort": 2017,
+      },
+      Object {
+        "ageBucket": "ALL",
         "followupYears": 1,
         "gender": "ALL",
         "raceOrEthnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
@@ -1005,6 +1085,16 @@ Array [
   Object {
     "color": "#D9A95F",
     "coordinates": Array [
+      Object {
+        "ageBucket": "ALL",
+        "followupYears": 0,
+        "gender": "ALL",
+        "raceOrEthnicity": "BLACK",
+        "rate": 0,
+        "rateDenominator": 36,
+        "rateNumerator": 0,
+        "releaseCohort": 2017,
+      },
       Object {
         "ageBucket": "ALL",
         "followupYears": 1,
@@ -1033,6 +1123,16 @@ Array [
     "coordinates": Array [
       Object {
         "ageBucket": "ALL",
+        "followupYears": 0,
+        "gender": "ALL",
+        "raceOrEthnicity": "HISPANIC",
+        "rate": 0,
+        "rateDenominator": 95,
+        "rateNumerator": 0,
+        "releaseCohort": 2017,
+      },
+      Object {
+        "ageBucket": "ALL",
         "followupYears": 1,
         "gender": "ALL",
         "raceOrEthnicity": "HISPANIC",
@@ -1059,6 +1159,16 @@ Array [
     "coordinates": Array [
       Object {
         "ageBucket": "ALL",
+        "followupYears": 0,
+        "gender": "ALL",
+        "raceOrEthnicity": "WHITE",
+        "rate": 0,
+        "rateDenominator": 34,
+        "rateNumerator": 0,
+        "releaseCohort": 2017,
+      },
+      Object {
+        "ageBucket": "ALL",
         "followupYears": 1,
         "gender": "ALL",
         "raceOrEthnicity": "WHITE",
@@ -1083,6 +1193,16 @@ Array [
   Object {
     "color": "#90AEB5",
     "coordinates": Array [
+      Object {
+        "ageBucket": "ALL",
+        "followupYears": 0,
+        "gender": "ALL",
+        "raceOrEthnicity": "OTHER",
+        "rate": 0,
+        "rateDenominator": 115,
+        "rateNumerator": 0,
+        "releaseCohort": 2017,
+      },
       Object {
         "ageBucket": "ALL",
         "followupYears": 1,

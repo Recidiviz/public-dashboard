@@ -16,15 +16,20 @@
 // =============================================================================
 
 import { useSelect } from "downshift";
+import xor from "lodash.xor";
 import { rem } from "polished";
 import React, { useState } from "react";
 import Measure from "react-measure";
 import { animated, useSpring, useSprings } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
+import { Assign } from "utility-types";
 import { colors } from "..";
+import { highlightFade } from "../../charts/utils";
+import Check from "../Check";
 import zIndex from "../zIndex";
 
 const BUTTON_HEIGHT = 40;
+const SELECT_ALL_ID = "__ALL__";
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -39,7 +44,6 @@ const DropdownButton = styled(animated.button)`
   align-items: center;
   border: 1px solid ${colors.rule};
   border-radius: ${rem(BUTTON_HEIGHT / 2)};
-  color: ${colors.text};
   cursor: pointer;
   display: flex;
   height: ${rem(BUTTON_HEIGHT)};
@@ -54,7 +58,7 @@ const DropdownButton = styled(animated.button)`
   &::after {
     border-left: ${rem(4)} solid transparent;
     border-right: ${rem(4)} solid transparent;
-    border-top: ${rem(4)} solid ${colors.text};
+    border-top: ${rem(4)} solid currentColor;
     content: "";
     height: 0;
     margin-left: ${rem(16)};
@@ -94,23 +98,74 @@ const DropdownMenuItem = styled.li`
 `;
 
 const DropdownMenuItemContents = styled(animated.div)`
+  display: flex;
+  justify-content: space-between;
   padding: ${rem(8)} ${rem(16)};
+`;
+
+const CheckMarkWrapper = styled.span`
+  display: inline-block;
+  margin-left: ${rem(32)};
 `;
 
 type DropdownOption = {
   id: string;
   label: string;
   hidden?: boolean;
+  color?: string;
 };
 
-const Dropdown: React.FC<{
+type SingleSelectProps = {
   disabled?: boolean;
   label: string;
   onChange: (id: string) => void;
+  onChangeMultiple?: never;
+  onHighlight?: (id?: string) => void;
   options: DropdownOption[];
   selectedId: string;
-}> = ({ disabled, selectedId, label, onChange, options: allOptions }) => {
-  const visibleOptions = allOptions.filter(({ hidden }) => !hidden);
+  multiple?: never;
+};
+
+type MultipleSelectProps = Assign<
+  SingleSelectProps,
+  {
+    multiple: true;
+    onChange?: never;
+    onChangeMultiple: (ids: string[]) => void;
+    selectedId: string[];
+  }
+>;
+
+function Dropdown(props: SingleSelectProps): React.ReactElement | null;
+function Dropdown(props: MultipleSelectProps): React.ReactElement | null;
+function Dropdown({
+  disabled,
+  selectedId,
+  label,
+  onChange,
+  onChangeMultiple,
+  onHighlight,
+  options: providedOptions,
+  multiple,
+}: SingleSelectProps | MultipleSelectProps): React.ReactElement | null {
+  const visibleProvidedOptions = providedOptions.filter(
+    ({ hidden }) => !hidden
+  );
+
+  const multipleSelectOptions: DropdownOption[] = [];
+
+  if (multiple) {
+    multipleSelectOptions.push({
+      id: SELECT_ALL_ID,
+      label:
+        visibleProvidedOptions.length === selectedId.length
+          ? "Deselect all"
+          : "Select all",
+    });
+  }
+
+  const visibleOptions = [...multipleSelectOptions, ...visibleProvidedOptions];
+
   const {
     isOpen,
     selectedItem,
@@ -120,23 +175,66 @@ const Dropdown: React.FC<{
     highlightedIndex,
     getItemProps,
   } = useSelect({
-    selectedItem: allOptions.find(({ id }) => id === selectedId),
+    selectedItem: multiple
+      ? null
+      : providedOptions.find(({ id }) => id === selectedId),
     items: visibleOptions,
+    stateReducer: (state, actionAndChanges) => {
+      const { changes, type } = actionAndChanges;
+      switch (type) {
+        case useSelect.stateChangeTypes.MenuKeyDownEnter:
+        case useSelect.stateChangeTypes.MenuKeyDownSpaceButton:
+        case useSelect.stateChangeTypes.ItemClick:
+          if (multiple) {
+            // preserve menu state for additional selections
+            changes.isOpen = true;
+            changes.highlightedIndex = state.highlightedIndex;
+          }
+          return changes;
+        default:
+          return changes;
+      }
+    },
     onSelectedItemChange: ({ selectedItem: newSelection }) => {
       if (newSelection) {
-        onChange(newSelection.id);
+        if (onChangeMultiple) {
+          if (newSelection.id === SELECT_ALL_ID) {
+            // if all are already selected, deselect all
+            if (selectedId.length === visibleProvidedOptions.length) {
+              onChangeMultiple([]);
+            } else {
+              onChangeMultiple(visibleProvidedOptions.map(({ id }) => id));
+            }
+          } else {
+            onChangeMultiple(xor(selectedId, [newSelection.id]));
+          }
+        } else if (onChange) {
+          onChange(newSelection.id);
+        }
       }
     },
     onIsOpenChange: () => setWaitForCloseAnimation(true),
+    onHighlightedIndexChange: ({ highlightedIndex: newHighlightedIndex }) => {
+      if (onHighlight) {
+        const highlightedId =
+          newHighlightedIndex !== undefined
+            ? visibleOptions[newHighlightedIndex]?.id
+            : undefined;
+        if (highlightedId !== SELECT_ALL_ID) onHighlight(highlightedId);
+      }
+    },
   });
 
   // animate button hover state
   const [buttonHover, setButtonHover] = useState(false);
   const buttonStyles = useSpring({
     from: { background: colors.buttonBackground },
-    background: buttonHover
-      ? colors.buttonBackgroundHover
-      : colors.buttonBackground,
+    background:
+      buttonHover && !disabled
+        ? colors.buttonBackgroundHover
+        : colors.buttonBackground,
+    cursor: disabled ? "not-allowed" : "pointer",
+    color: disabled ? colors.caption : colors.text,
   });
 
   // animate menu opening and closing
@@ -155,13 +253,58 @@ const Dropdown: React.FC<{
   // animate menu item highlight states
   const menuItemsStyles = useSprings(
     visibleOptions.length,
-    visibleOptions.map((option, index) => ({
-      background:
+    visibleOptions.map((option, index) => {
+      let background =
         highlightedIndex === index
           ? colors.buttonBackgroundHover
-          : colors.buttonBackground,
-    }))
+          : colors.buttonBackground;
+      let color = colors.text;
+
+      // multiple select can be color-coded; lots of conditions:
+      // - use color to indicate selected and highlighted
+      // - use faded color to indicate selected when another is highlighted
+      // - use default menu color if neither selected nor highlighted
+      if (multiple && option.color) {
+        if (highlightedIndex === index) {
+          background = option.color;
+          color = colors.textLight;
+        } else if (selectedId.includes(option.id)) {
+          background =
+            highlightedIndex === -1
+              ? option.color
+              : highlightFade(option.color);
+          color = colors.textLight;
+        } else {
+          background = colors.buttonBackground;
+        }
+      }
+
+      return { background, color };
+    })
   );
+
+  // button contents differ for single vs multiple select
+  let buttonContents: React.ReactNode;
+
+  if (typeof selectedId === "string") {
+    buttonContents = selectedItem?.label;
+  } else {
+    const firstSelected = providedOptions.find(
+      ({ id }) => id === selectedId[0]
+    );
+    buttonContents = (
+      <>
+        {!firstSelected && "Select …"}
+        {firstSelected && firstSelected.label}
+        {selectedId.length > 1 && (
+          <em>
+            &nbsp;and {selectedId.length - 1} other
+            {selectedId.length > 2 ? "s" : ""}
+          </em>
+        )}
+      </>
+    );
+  }
 
   return (
     <Measure
@@ -184,28 +327,47 @@ const Dropdown: React.FC<{
             onMouseOut={() => setButtonHover(false)}
             onBlur={() => setButtonHover(false)}
           >
-            {selectedItem?.label}
+            {buttonContents}
           </DropdownButton>
 
           <DropdownMenuWrapper style={menuStyles}>
             <DropdownMenu {...getMenuProps({ ref: measureRef })}>
               {showMenuItems &&
-                visibleOptions.map((option, index) => (
-                  <DropdownMenuItem
-                    key={option.id}
-                    {...getItemProps({ item: option, index, disabled })}
-                  >
-                    <DropdownMenuItemContents style={menuItemsStyles[index]}>
-                      {option.label}
-                    </DropdownMenuItemContents>
-                  </DropdownMenuItem>
-                ))}
+                visibleOptions.map((option, index) => {
+                  const itemProps = getItemProps({
+                    item: option,
+                    index,
+                    disabled,
+                  });
+
+                  const isMultipleSelected = Boolean(
+                    multiple && selectedId.includes(option.id)
+                  );
+
+                  // Downshift doesn't compute multiple selection but we can override
+                  if (isMultipleSelected) {
+                    itemProps["aria-selected"] = true;
+                  }
+
+                  return (
+                    <DropdownMenuItem key={option.id} {...itemProps}>
+                      <DropdownMenuItemContents style={menuItemsStyles[index]}>
+                        {option.label}
+                        {multiple && index > 0 && (
+                          <CheckMarkWrapper>
+                            <Check visible={isMultipleSelected} />
+                          </CheckMarkWrapper>
+                        )}
+                      </DropdownMenuItemContents>
+                    </DropdownMenuItem>
+                  );
+                })}
             </DropdownMenu>
           </DropdownMenuWrapper>
         </DropdownContainer>
       )}
     </Measure>
   );
-};
+}
 
 export default Dropdown;

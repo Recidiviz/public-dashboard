@@ -17,7 +17,7 @@
 
 import { ascending } from "d3-array";
 import { action, computed, makeObservable, observable } from "mobx";
-import { DataSeries } from "../charts";
+import { DataSeries, ItemToHighlight } from "../charts";
 import {
   getDemographicCategories,
   recordIsTotalByDimension,
@@ -46,6 +46,9 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
 
   private appliedCohortFilter?: number[];
 
+  // this is not strictly a UI concern because it affects the cohort filter
+  highlightedCohort?: number;
+
   constructor(
     props: BaseMetricConstructorOptions<RecidivismRateRecord> & {
       followUpYears?: number;
@@ -57,16 +60,18 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
 
     makeObservable<
       RecidivismRateMetric,
-      "appliedCohortFilter" | "allCohortDataSeries" | "allCohorts"
+      "appliedCohortFilter" | "allCohortDataSeries"
     >(this, {
-      followUpYears: observable,
-      appliedCohortFilter: observable,
-      selectedCohorts: computed,
-      singleFollowupDemographics: computed,
-      setSelectedCohorts: action,
-      cohortDataSeries: computed,
       allCohortDataSeries: computed,
       allCohorts: computed,
+      appliedCohortFilter: observable,
+      cohortDataSeries: computed,
+      followUpYears: observable,
+      highlightedCohort: observable,
+      selectedCohorts: computed,
+      setHighlightedCohort: action,
+      setSelectedCohorts: action,
+      singleFollowupDemographics: computed,
     });
   }
 
@@ -116,7 +121,7 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
     });
   }
 
-  private get allCohorts(): number[] | undefined {
+  get allCohorts(): number[] | undefined {
     if (this.allRecords !== undefined) {
       return Array.from(
         new Set(this.allRecords.map((d) => d.releaseCohort))
@@ -139,6 +144,18 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
     // demographic views are not supported for multiple cohorts; reset
     if (cohorts === undefined || cohorts.length > 1) {
       this.demographicView = "total";
+    }
+  }
+
+  /**
+   * Translates conventional highlight state signature into cohort identifier
+   * and updates the observable state.
+   */
+  setHighlightedCohort(item?: ItemToHighlight): void {
+    if (item) {
+      this.highlightedCohort = Number(item.label);
+    } else {
+      this.highlightedCohort = undefined;
     }
   }
 
@@ -181,22 +198,29 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
 
     // series for each cohort
     if (demographicView === "total") {
-      return allCohortDataSeries?.filter((series) =>
-        selectedCohorts.includes(Number(series.label))
-      );
+      return allCohortDataSeries?.filter((series) => {
+        const cohort = Number(series.label);
+        return (
+          cohort === this.highlightedCohort || selectedCohorts.includes(cohort)
+        );
+      });
     }
 
     return getDemographicCategories(demographicView).map((category, index) => {
+      const coordinates = records
+        .filter(
+          (record) =>
+            record[demographicView] === category.identifier &&
+            record.releaseCohort === selectedCohorts[0]
+        )
+        .sort((a, b) => ascending(a.followupYears, b.followupYears));
+
+      prependZeroRecord(coordinates);
+
       return {
         label: category.label,
         color: colors.dataViz[index],
-        coordinates: records
-          .filter(
-            (record) =>
-              record[demographicView] === category.identifier &&
-              record.releaseCohort === selectedCohorts[0]
-          )
-          .sort((a, b) => ascending(a.followupYears, b.followupYears)),
+        coordinates,
       };
     });
   }

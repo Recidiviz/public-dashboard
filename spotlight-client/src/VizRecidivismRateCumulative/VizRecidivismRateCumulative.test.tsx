@@ -15,12 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import {
-  fireEvent,
-  screen,
-  waitForElementToBeRemoved,
-  within,
-} from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { runInAction, when } from "mobx";
 import React from "react";
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
@@ -58,6 +54,7 @@ afterEach(() => {
   runInAction(() => {
     DataStore.tenantStore.currentTenantId = undefined;
     metric.demographicView = originalFilters.demographicView;
+    metric.setSelectedCohorts(undefined);
   });
 });
 
@@ -89,4 +86,165 @@ test("total chart", async () => {
       })
     ).toBeVisible();
   }
+});
+
+test("demographic charts", async () => {
+  renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
+
+  await when(() => !metric.isLoading);
+
+  const menuButton = screen.getByRole("button", {
+    name: "View Total",
+  });
+
+  // must select a single cohort to enable this filter
+  expect(menuButton).toBeDisabled();
+
+  metric.setSelectedCohorts([2017]);
+
+  fireEvent.click(menuButton);
+  fireEvent.click(screen.getByRole("option", { name: "Race or Ethnicity" }));
+
+  let [lineChart] = screen.getAllByRole("group", {
+    name: "5 lines in a line chart",
+  });
+
+  expect(lineChart).toBeVisible();
+
+  expect(
+    within(lineChart).getAllByRole("img", {
+      name: /^3 point line starting value 0% at 0 ending value \d+% at 2/,
+    }).length
+  ).toBe(5);
+
+  fireEvent.click(menuButton);
+  fireEvent.click(screen.getByRole("option", { name: "Gender" }));
+
+  [lineChart] = await screen.findAllByRole("group", {
+    name: "2 lines in a line chart",
+  });
+
+  expect(lineChart).toBeVisible();
+
+  expect(
+    within(lineChart).getAllByRole("img", {
+      name: /^3 point line starting value 0% at 0 ending value \d+% at 2/,
+    }).length
+  ).toBe(2);
+
+  fireEvent.click(menuButton);
+  fireEvent.click(screen.getByRole("option", { name: "Age Group" }));
+
+  await waitFor(() => {
+    [lineChart] = screen.getAllByRole("group", {
+      name: "5 lines in a line chart",
+    });
+  });
+
+  expect(lineChart).toBeVisible();
+
+  expect(
+    within(lineChart).getAllByRole("img", {
+      name: /^3 point line starting value 0% at 0 ending value \d+% at 2/,
+    }).length
+  ).toBe(5);
+});
+
+test("release cohorts filter", async () => {
+  renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
+
+  await when(() => !metric.isLoading);
+
+  expect(
+    screen.getAllByRole("group", {
+      name: "10 lines in a line chart",
+    }).length
+  ).toBe(2);
+
+  const menuButton = screen.getByRole("button", {
+    name: "Cohort 2009 and 9 others",
+  });
+  fireEvent.click(menuButton);
+  fireEvent.click(screen.getByRole("option", { name: "2012" }));
+
+  expect(
+    screen.getAllByRole("group", {
+      name: "9 lines in a line chart",
+    }).length
+  ).toBe(2);
+  expect(
+    screen.getByRole("option", { name: "2012", selected: false })
+  ).toBeVisible();
+
+  fireEvent.click(screen.getByRole("option", { name: "2014" }));
+  fireEvent.click(screen.getByRole("option", { name: "2015" }));
+
+  expect(
+    screen.getAllByRole("group", {
+      name: "7 lines in a line chart",
+    }).length
+  ).toBe(2);
+  expect(
+    screen.getAllByRole("option", { name: /201[45]/, selected: false }).length
+  ).toBe(2);
+
+  fireEvent.click(screen.getByRole("option", { name: "2012" }));
+  expect(
+    screen.getAllByRole("group", {
+      name: "8 lines in a line chart",
+    }).length
+  ).toBe(2);
+  expect(
+    screen.getByRole("option", { name: "2012", selected: true })
+  ).toBeVisible();
+});
+
+test("highlight release cohort", async () => {
+  renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
+
+  await screen.findAllByRole("group", {
+    name: "10 lines in a line chart",
+  });
+
+  const menuButton = screen.getByRole("button", {
+    name: "Cohort 2009 and 9 others",
+  });
+
+  userEvent.click(menuButton);
+
+  userEvent.hover(screen.getByRole("option", { name: "2012" }));
+
+  expect(screen.getByRole("group", { name: "points" })).toBeVisible();
+  expect(
+    screen.getAllByRole("img", { name: /^Point at x \d and y 0\.\d+/ }).length
+  ).toBe(7);
+});
+
+test("highlighted release cohorts are visible even if not selected", async () => {
+  renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
+
+  const menuButton = screen.getByRole("button", {
+    name: "Cohort 2009 and 9 others",
+  });
+
+  userEvent.click(menuButton);
+  userEvent.click(screen.getByRole("option", { name: "2012" }));
+
+  // still selected
+  await screen.findAllByRole("group", {
+    name: "10 lines in a line chart",
+  });
+
+  // move the mouse off
+  userEvent.hover(screen.getByRole("option", { name: "2013" }));
+  expect(
+    (await screen.findAllByRole("group", { name: "9 lines in a line chart" }))
+      .length
+  ).toBe(2);
+
+  // move the mouse back on
+  userEvent.hover(screen.getByRole("option", { name: "2012" }));
+  expect(
+    screen.getAllByRole("group", { name: "10 lines in a line chart" }).length
+  ).toBe(2);
 });
