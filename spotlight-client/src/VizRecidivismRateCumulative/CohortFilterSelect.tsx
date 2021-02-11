@@ -29,9 +29,7 @@ const CohortFilterSelect: React.FC<CohortSelectProps> = ({ metric }) => {
 
   if (allCohorts === undefined || selectedCohorts === undefined) return null;
 
-  const selection = selectedCohorts.map((year) => `${year}`);
-
-  const toggleSelection = (newSelection: string[]) => {
+  const updateSelection = (newSelection: string[]) => {
     metric.setSelectedCohorts(newSelection.map((cohort) => Number(cohort)));
   };
 
@@ -39,13 +37,13 @@ const CohortFilterSelect: React.FC<CohortSelectProps> = ({ metric }) => {
     <Dropdown
       label="Cohort"
       multiple
-      onChangeMultiple={toggleSelection}
+      onChangeMultiple={updateSelection}
       options={allCohorts.map((year, index) => ({
         id: `${year}`,
         label: `${year}`,
         color: colors.dataViz[index],
       }))}
-      selectedId={selection}
+      selectedId={selectedCohorts.map((year) => `${year}`)}
       onHighlight={(id) =>
         id
           ? // this works because cohort IDs and labels are the same

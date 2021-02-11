@@ -234,7 +234,7 @@ function Dropdown({
         ? colors.buttonBackgroundHover
         : colors.buttonBackground,
     cursor: disabled ? "not-allowed" : "pointer",
-    color: disabled ? colors.caption : colors.text,
+    color: disabled ? colors.textDisabled : colors.text,
   });
 
   // animate menu opening and closing

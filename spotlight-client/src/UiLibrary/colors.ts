@@ -53,6 +53,7 @@ export default {
   rule: gray,
   ruleHover: "#AFC1C3",
   text: pine,
+  textDisabled: pinePale,
   textLight: white,
   timeWindowFill: pine,
   timeWindowStroke: pine,
