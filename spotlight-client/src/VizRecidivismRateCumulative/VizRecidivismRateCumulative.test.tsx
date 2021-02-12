@@ -109,7 +109,9 @@ test("demographic charts", async () => {
     name: "5 lines in a line chart",
   });
 
-  expect(lineChart).toBeVisible();
+  await waitFor(() => {
+    expect(lineChart).toBeVisible();
+  });
 
   expect(
     within(lineChart).getAllByRole("img", {
@@ -124,7 +126,9 @@ test("demographic charts", async () => {
     name: "2 lines in a line chart",
   });
 
-  expect(lineChart).toBeVisible();
+  await waitFor(() => {
+    expect(lineChart).toBeVisible();
+  });
 
   expect(
     within(lineChart).getAllByRole("img", {
@@ -214,7 +218,10 @@ test("highlight release cohort", async () => {
 
   userEvent.hover(screen.getByRole("option", { name: "2012" }));
 
-  expect(screen.getByRole("group", { name: "points" })).toBeVisible();
+  await waitFor(() => {
+    expect(screen.getByRole("group", { name: "points" })).toBeVisible();
+  });
+
   expect(
     screen.getAllByRole("img", { name: /^Point at x \d and y 0\.\d+/ }).length
   ).toBe(7);

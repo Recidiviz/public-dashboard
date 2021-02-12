@@ -17,12 +17,24 @@
 
 import { observer } from "mobx-react-lite";
 import React from "react";
-import RateTrend from "../charts/RateTrend";
+import { animated, useTransition } from "react-spring/web.cjs";
+import styled from "styled-components/macro";
+import RateTrend, {
+  CHART_HEIGHT,
+  MIN_LEGEND_HEIGHT,
+} from "../charts/RateTrend";
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import FiltersWrapper from "../FiltersWrapper";
 import NoMetricData from "../NoMetricData";
+import { animation } from "../UiLibrary";
 import CohortFilterSelect from "./CohortFilterSelect";
+
+const ChartWrapper = styled.div`
+  /* px instead of rem for consistency with Semiotic */
+  min-height: ${CHART_HEIGHT + MIN_LEGEND_HEIGHT}px;
+  position: relative;
+`;
 
 type VizRecidivismRateCumulativeProps = {
   metric: RecidivismRateMetric;
@@ -31,7 +43,18 @@ type VizRecidivismRateCumulativeProps = {
 const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = ({
   metric,
 }) => {
-  const { cohortDataSeries, selectedCohorts, highlightedCohort } = metric;
+  const {
+    cohortDataSeries,
+    selectedCohorts,
+    highlightedCohort,
+    demographicView,
+  } = metric;
+
+  const chartTransitions = useTransition(
+    { demographicView, cohortDataSeries },
+    (item) => item.demographicView,
+    animation.crossFade
+  );
 
   if (cohortDataSeries && selectedCohorts) {
     return (
@@ -45,17 +68,27 @@ const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = 
             />,
           ]}
         />
-        <RateTrend
-          data={cohortDataSeries}
-          title="Cumulative Recidivism Rate"
-          xAccessor="followupYears"
-          // we don't want the X axis to get shorter when cohorts are filtered
-          xExtent={[0, 10]}
-          xLabel="Years since release"
-          highlighted={
-            highlightedCohort ? { label: `${highlightedCohort}` } : undefined
-          }
-        />
+        <ChartWrapper>
+          {chartTransitions.map(({ item, props, key }) => (
+            <animated.div key={key} style={props}>
+              {item.cohortDataSeries && (
+                <RateTrend
+                  data={item.cohortDataSeries}
+                  title="Cumulative Recidivism Rate"
+                  xAccessor="followupYears"
+                  // we don't want the X axis to get shorter when cohorts are filtered
+                  xExtent={[0, 10]}
+                  xLabel="Years since release"
+                  highlighted={
+                    highlightedCohort
+                      ? { label: `${highlightedCohort}` }
+                      : undefined
+                  }
+                />
+              )}
+            </animated.div>
+          ))}
+        </ChartWrapper>
       </>
     );
   }

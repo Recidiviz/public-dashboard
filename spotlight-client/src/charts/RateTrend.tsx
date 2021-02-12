@@ -15,7 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { rem } from "polished";
 import React, { useEffect, useState } from "react";
 import { XYFrameProps } from "semiotic/lib/types/xyTypes";
 import XYFrame from "semiotic/lib/XYFrame";
@@ -84,6 +83,9 @@ const BASE_MARK_PROPS = {
 
 const MARGIN = { bottom: 65, left: 56, right: 16, top: 48 };
 
+export const CHART_HEIGHT = 475;
+export const MIN_LEGEND_HEIGHT = 16;
+
 const ChartWrapper = styled(ChartWrapperBase)`
   .frame {
     .visualization-layer {
@@ -93,8 +95,9 @@ const ChartWrapper = styled(ChartWrapperBase)`
 `;
 
 const LegendWrapper = styled.div`
+  /* px instead of rem for consistency with Semiotic */
   margin-left: ${MARGIN.left}px;
-  min-height: ${rem(16)};
+  min-height: ${MIN_LEGEND_HEIGHT}px;
 `;
 
 const Wrapper = styled.div``;
@@ -165,7 +168,7 @@ export default function RateTrend({
                   otherChartProps={{
                     xExtent,
                   }}
-                  size={[width, 475]}
+                  size={[width, CHART_HEIGHT]}
                   tooltipControllerProps={{ getTooltipProps }}
                   xAccessor={xAccessor}
                 >
