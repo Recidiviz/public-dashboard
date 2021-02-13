@@ -20,6 +20,6 @@ export { default as breakpoints } from "./breakpoints";
 export { default as Check } from "./Check";
 export { default as Chevron } from "./Chevron";
 export { default as colors } from "./colors";
-export { default as Dropdown } from "./Dropdown";
+export * from "./Dropdown";
 export * from "./typography";
 export { default as zIndex } from "./zIndex";

@@ -18,7 +18,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
-import { colors, Dropdown } from "../UiLibrary";
+import { colors, DropdownMultiple } from "../UiLibrary";
 
 type CohortSelectProps = {
   metric: RecidivismRateMetric;
@@ -34,16 +34,15 @@ const CohortFilterSelect: React.FC<CohortSelectProps> = ({ metric }) => {
   };
 
   return (
-    <Dropdown
+    <DropdownMultiple
       label="Cohort"
-      multiple
-      onChangeMultiple={updateSelection}
+      onChange={updateSelection}
       options={allCohorts.map((year, index) => ({
         id: `${year}`,
         label: `${year}`,
         color: colors.dataViz[index],
       }))}
-      selectedId={selectedCohorts.map((year) => `${year}`)}
+      selectedIds={selectedCohorts.map((year) => `${year}`)}
       onHighlight={(id) =>
         id
           ? // this works because cohort IDs and labels are the same
