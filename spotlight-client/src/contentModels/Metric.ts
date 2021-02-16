@@ -33,6 +33,27 @@ import {
 } from "../metricsApi";
 import { MetricRecord, CollectionMap } from "./types";
 
+export async function fetchAndTransformMetric<RecordFormat>({
+  sourceFileName,
+  tenantId,
+  transformFn,
+}: {
+  sourceFileName: string;
+  tenantId: TenantId;
+  transformFn: (d: RawMetricData) => RecordFormat[];
+}): Promise<RecordFormat[]> {
+  const apiResponse = await fetchMetrics({
+    metricNames: [sourceFileName],
+    tenantId,
+  });
+
+  const rawData = apiResponse[sourceFileName];
+  if (rawData) {
+    return transformFn(rawData);
+  }
+  throw new Error(ERROR_MESSAGES.noMetricData);
+}
+
 export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   id: MetricTypeId;
   name: string;
@@ -83,7 +104,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
 
   isLoading?: boolean;
 
-  allRecords?: RecordFormat[];
+  protected allRecords?: RecordFormat[];
 
   error?: Error;
 
@@ -110,7 +131,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
     defaultLocalityId,
     localityLabels,
   }: BaseMetricConstructorOptions<RecordFormat>) {
-    makeObservable(this, {
+    makeObservable<Metric<RecordFormat>, "allRecords">(this, {
       allRecords: observable.ref,
       demographicView: observable,
       localityId: observable,
@@ -141,16 +162,11 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
    * Fetches the metric data from the server and transforms it.
    */
   protected async fetchAndTransform(): Promise<RecordFormat[]> {
-    const apiResponse = await fetchMetrics({
-      metricNames: [this.sourceFileName],
+    return fetchAndTransformMetric({
+      sourceFileName: this.sourceFileName,
       tenantId: this.tenantId,
+      transformFn: this.dataTransformer,
     });
-
-    const rawData = apiResponse[this.sourceFileName];
-    if (rawData) {
-      return this.dataTransformer(rawData);
-    }
-    throw new Error(ERROR_MESSAGES.noMetricData);
   }
 
   /**

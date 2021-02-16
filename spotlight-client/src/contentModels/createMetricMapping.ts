@@ -47,8 +47,7 @@ import PopulationBreakdownByLocationMetric from "./PopulationBreakdownByLocation
 import ProgramParticipationCurrentMetric from "./ProgramParticipationCurrentMetric";
 import RecidivismRateMetric from "./RecidivismRateMetric";
 import SentenceTypeByLocationMetric from "./SentenceTypeByLocationMetric";
-import SupervisionSuccessRateDemographicsMetric from "./SupervisionSuccessRateDemographicsMetric";
-import SupervisionSuccessRateMonthlyMetric from "./SupervisionSuccessRateMonthlyMetric";
+import SupervisionSuccessRateMetric from "./SupervisionSuccessRateMetric";
 import { ERROR_MESSAGES } from "../constants";
 import { NOFILTER_KEY, TOTAL_KEY } from "../demographics";
 import { colors } from "../UiLibrary";
@@ -276,7 +275,7 @@ export default function createMetricMapping({
 
         metricMapping.set(
           metricType,
-          new SupervisionSuccessRateMonthlyMetric({
+          new SupervisionSuccessRateMetric({
             ...metadata,
             id: metricType,
             tenantId,
@@ -285,6 +284,9 @@ export default function createMetricMapping({
             localityLabels: localityLabelMapping.Probation,
             dataTransformer: probationSuccessRateMonthly,
             sourceFileName: "supervision_success_by_month",
+            demographicDataTransformer: probationSuccessRateDemographics,
+            demographicSourceFileName:
+              "supervision_success_by_period_by_demographics",
           })
         );
         break;
@@ -294,7 +296,7 @@ export default function createMetricMapping({
 
         metricMapping.set(
           metricType,
-          new SupervisionSuccessRateMonthlyMetric({
+          new SupervisionSuccessRateMetric({
             ...metadata,
             id: metricType,
             tenantId,
@@ -303,42 +305,9 @@ export default function createMetricMapping({
             localityLabels: localityLabelMapping.Parole,
             dataTransformer: paroleSuccessRateMonthly,
             sourceFileName: "supervision_success_by_month",
-          })
-        );
-        break;
-      case "ProbationSuccessAggregate":
-        if (!localityLabelMapping?.Probation)
-          throw new Error(localityContentError);
-
-        metricMapping.set(
-          metricType,
-          new SupervisionSuccessRateDemographicsMetric({
-            ...metadata,
-            id: metricType,
-            tenantId,
-            defaultDemographicView: "total",
-            defaultLocalityId: TOTAL_KEY,
-            localityLabels: localityLabelMapping.Probation,
-            dataTransformer: probationSuccessRateDemographics,
-            sourceFileName: "supervision_success_by_period_by_demographics",
-          })
-        );
-        break;
-      case "ParoleSuccessAggregate":
-        if (!localityLabelMapping?.Parole)
-          throw new Error(localityContentError);
-
-        metricMapping.set(
-          metricType,
-          new SupervisionSuccessRateDemographicsMetric({
-            ...metadata,
-            id: metricType,
-            tenantId,
-            defaultDemographicView: "total",
-            defaultLocalityId: TOTAL_KEY,
-            localityLabels: localityLabelMapping.Parole,
-            dataTransformer: paroleSuccessRateDemographics,
-            sourceFileName: "supervision_success_by_period_by_demographics",
+            demographicDataTransformer: paroleSuccessRateDemographics,
+            demographicSourceFileName:
+              "supervision_success_by_period_by_demographics",
           })
         );
         break;
