@@ -49,3 +49,12 @@ export type RateFields = {
   rateNumerator: number;
   rate: number;
 };
+export function isRateFields(
+  record: Record<string, unknown>
+): record is RateFields {
+  return (
+    typeof record.rate === "number" &&
+    typeof record.rateNumerator === "number" &&
+    typeof record.rateDenominator === "number"
+  );
+}

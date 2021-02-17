@@ -75,6 +75,7 @@ describe("cohort data", () => {
 
     reactImmediately(() => {
       expect(metric.cohortRecords).toMatchSnapshot();
+      expect(metric.cohortRecords?.length).toBe(36);
     });
 
     expect.hasAssertions();

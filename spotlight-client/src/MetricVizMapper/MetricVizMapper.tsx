@@ -30,6 +30,8 @@ import VizRecidivismRateSingleFollowup from "../VizRecidivismRateSingleFollowup"
 import SentenceTypeByLocationMetric from "../contentModels/SentenceTypeByLocationMetric";
 import VizSentenceTypeByLocation from "../VizSentenceTypeByLocation";
 import VizRecidivismRateCumulative from "../VizRecidivismRateCumulative";
+import SupervisionSuccessRateMetric from "../contentModels/SupervisionSuccessRateMetric";
+import VizSupervisionSuccessRate from "../VizSupervisionSuccessRate";
 
 type MetricVizMapperProps = {
   metric: Metric<MetricRecord>;
@@ -56,6 +58,9 @@ const MetricVizMapper: React.FC<MetricVizMapperProps> = ({ metric }) => {
   }
   if (metric instanceof SentenceTypeByLocationMetric) {
     return <VizSentenceTypeByLocation metric={metric} />;
+  }
+  if (metric instanceof SupervisionSuccessRateMetric) {
+    return <VizSupervisionSuccessRate metric={metric} />;
   }
   return <h3>Placeholder for {metric.name}</h3>;
 };

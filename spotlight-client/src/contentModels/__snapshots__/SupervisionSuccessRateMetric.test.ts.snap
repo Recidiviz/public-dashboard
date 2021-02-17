@@ -3,6 +3,7 @@
 exports[`cohort data filtered by locality 1`] = `
 Array [
   Object {
+    "label": "Aug 2017",
     "locality": "NORTHEAST",
     "month": 8,
     "rate": 0.3448275862068966,
@@ -11,6 +12,7 @@ Array [
     "year": 2017,
   },
   Object {
+    "label": "Sep 2017",
     "locality": "NORTHEAST",
     "month": 9,
     "rate": 0.47368421052631576,
@@ -19,6 +21,7 @@ Array [
     "year": 2017,
   },
   Object {
+    "label": "Oct 2017",
     "locality": "NORTHEAST",
     "month": 10,
     "rate": 0.5555555555555556,
@@ -27,6 +30,7 @@ Array [
     "year": 2017,
   },
   Object {
+    "label": "Nov 2017",
     "locality": "NORTHEAST",
     "month": 11,
     "rate": 0.24,
@@ -35,6 +39,7 @@ Array [
     "year": 2017,
   },
   Object {
+    "label": "Dec 2017",
     "locality": "NORTHEAST",
     "month": 12,
     "rate": 0.30434782608695654,
@@ -43,6 +48,7 @@ Array [
     "year": 2017,
   },
   Object {
+    "label": "Jan 2018",
     "locality": "NORTHEAST",
     "month": 1,
     "rate": 0.3023255813953488,
@@ -51,6 +57,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Feb 2018",
     "locality": "NORTHEAST",
     "month": 2,
     "rate": 0.6551724137931034,
@@ -59,6 +66,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Mar 2018",
     "locality": "NORTHEAST",
     "month": 3,
     "rate": 0.52,
@@ -67,6 +75,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Apr 2018",
     "locality": "NORTHEAST",
     "month": 4,
     "rate": 0.7916666666666666,
@@ -75,6 +84,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "May 2018",
     "locality": "NORTHEAST",
     "month": 5,
     "rate": 0.3333333333333333,
@@ -83,6 +93,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Jun 2018",
     "locality": "NORTHEAST",
     "month": 6,
     "rate": 0.45161290322580644,
@@ -91,6 +102,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Jul 2018",
     "locality": "NORTHEAST",
     "month": 7,
     "rate": 0.42857142857142855,
@@ -99,6 +111,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Aug 2018",
     "locality": "NORTHEAST",
     "month": 8,
     "rate": 0.4,
@@ -107,6 +120,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Sep 2018",
     "locality": "NORTHEAST",
     "month": 9,
     "rate": 0.5263157894736842,
@@ -115,6 +129,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Oct 2018",
     "locality": "NORTHEAST",
     "month": 10,
     "rate": 0.4444444444444444,
@@ -123,6 +138,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Nov 2018",
     "locality": "NORTHEAST",
     "month": 11,
     "rate": 0.45,
@@ -131,6 +147,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Dec 2018",
     "locality": "NORTHEAST",
     "month": 12,
     "rate": 0.5277777777777778,
@@ -139,6 +156,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Jan 2019",
     "locality": "NORTHEAST",
     "month": 1,
     "rate": 0.47058823529411764,
@@ -147,6 +165,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Feb 2019",
     "locality": "NORTHEAST",
     "month": 2,
     "rate": 0.391304347826087,
@@ -155,6 +174,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Mar 2019",
     "locality": "NORTHEAST",
     "month": 3,
     "rate": 0.4827586206896552,
@@ -163,6 +183,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Apr 2019",
     "locality": "NORTHEAST",
     "month": 4,
     "rate": 0.4583333333333333,
@@ -171,6 +192,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "May 2019",
     "locality": "NORTHEAST",
     "month": 5,
     "rate": 0.325,
@@ -179,6 +201,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Jun 2019",
     "locality": "NORTHEAST",
     "month": 6,
     "rate": 0.4117647058823529,
@@ -187,6 +210,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Jul 2019",
     "locality": "NORTHEAST",
     "month": 7,
     "rate": 0.3939393939393939,
@@ -195,6 +219,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Aug 2019",
     "locality": "NORTHEAST",
     "month": 8,
     "rate": 0.45454545454545453,
@@ -203,6 +228,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Sep 2019",
     "locality": "NORTHEAST",
     "month": 9,
     "rate": 0.38461538461538464,
@@ -211,6 +237,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Oct 2019",
     "locality": "NORTHEAST",
     "month": 10,
     "rate": 0.4473684210526316,
@@ -219,6 +246,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Nov 2019",
     "locality": "NORTHEAST",
     "month": 11,
     "rate": 0.32,
@@ -227,6 +255,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Dec 2019",
     "locality": "NORTHEAST",
     "month": 12,
     "rate": 0.4,
@@ -235,6 +264,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Jan 2020",
     "locality": "NORTHEAST",
     "month": 1,
     "rate": 0.35,
@@ -243,6 +273,7 @@ Array [
     "year": 2020,
   },
   Object {
+    "label": "Feb 2020",
     "locality": "NORTHEAST",
     "month": 2,
     "rate": 0.45454545454545453,
@@ -251,6 +282,7 @@ Array [
     "year": 2020,
   },
   Object {
+    "label": "Mar 2020",
     "locality": "NORTHEAST",
     "month": 3,
     "rate": 0.3333333333333333,
@@ -259,6 +291,7 @@ Array [
     "year": 2020,
   },
   Object {
+    "label": "Apr 2020",
     "locality": "NORTHEAST",
     "month": 4,
     "rate": 0.41935483870967744,
@@ -267,6 +300,7 @@ Array [
     "year": 2020,
   },
   Object {
+    "label": "May 2020",
     "locality": "NORTHEAST",
     "month": 5,
     "rate": 0.36666666666666664,
@@ -275,6 +309,7 @@ Array [
     "year": 2020,
   },
   Object {
+    "label": "Jun 2020",
     "locality": "NORTHEAST",
     "month": 6,
     "rate": 0.3333333333333333,
@@ -283,6 +318,7 @@ Array [
     "year": 2020,
   },
   Object {
+    "label": "Jul 2020",
     "locality": "NORTHEAST",
     "month": 7,
     "rate": 0.125,
@@ -296,6 +332,7 @@ Array [
 exports[`cohort data total 1`] = `
 Array [
   Object {
+    "label": "Aug 2017",
     "locality": "ALL",
     "month": 8,
     "rate": 0.5205479452054794,
@@ -304,6 +341,7 @@ Array [
     "year": 2017,
   },
   Object {
+    "label": "Sep 2017",
     "locality": "ALL",
     "month": 9,
     "rate": 0.5802469135802469,
@@ -312,6 +350,7 @@ Array [
     "year": 2017,
   },
   Object {
+    "label": "Oct 2017",
     "locality": "ALL",
     "month": 10,
     "rate": 0.536723163841808,
@@ -320,6 +359,7 @@ Array [
     "year": 2017,
   },
   Object {
+    "label": "Nov 2017",
     "locality": "ALL",
     "month": 11,
     "rate": 0.5056179775280899,
@@ -328,6 +368,7 @@ Array [
     "year": 2017,
   },
   Object {
+    "label": "Dec 2017",
     "locality": "ALL",
     "month": 12,
     "rate": 0.49056603773584906,
@@ -336,6 +377,7 @@ Array [
     "year": 2017,
   },
   Object {
+    "label": "Jan 2018",
     "locality": "ALL",
     "month": 1,
     "rate": 0.5348837209302325,
@@ -344,6 +386,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Feb 2018",
     "locality": "ALL",
     "month": 2,
     "rate": 0.5067961165048543,
@@ -352,6 +395,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Mar 2018",
     "locality": "ALL",
     "month": 3,
     "rate": 0.5607476635514018,
@@ -360,6 +404,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Apr 2018",
     "locality": "ALL",
     "month": 4,
     "rate": 0.5603217158176944,
@@ -368,6 +413,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "May 2018",
     "locality": "ALL",
     "month": 5,
     "rate": 0.5354200988467874,
@@ -376,6 +422,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Jun 2018",
     "locality": "ALL",
     "month": 6,
     "rate": 0.5594936708860759,
@@ -384,6 +431,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Jul 2018",
     "locality": "ALL",
     "month": 7,
     "rate": 0.5414507772020726,
@@ -392,6 +440,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Aug 2018",
     "locality": "ALL",
     "month": 8,
     "rate": 0.5594713656387665,
@@ -400,6 +449,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Sep 2018",
     "locality": "ALL",
     "month": 9,
     "rate": 0.5148514851485149,
@@ -408,6 +458,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Oct 2018",
     "locality": "ALL",
     "month": 10,
     "rate": 0.5517241379310345,
@@ -416,6 +467,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Nov 2018",
     "locality": "ALL",
     "month": 11,
     "rate": 0.49875311720698257,
@@ -424,6 +476,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Dec 2018",
     "locality": "ALL",
     "month": 12,
     "rate": 0.5188284518828452,
@@ -432,6 +485,7 @@ Array [
     "year": 2018,
   },
   Object {
+    "label": "Jan 2019",
     "locality": "ALL",
     "month": 1,
     "rate": 0.5625,
@@ -440,6 +494,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Feb 2019",
     "locality": "ALL",
     "month": 2,
     "rate": 0.4907749077490775,
@@ -448,6 +503,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Mar 2019",
     "locality": "ALL",
     "month": 3,
     "rate": 0.5683836589698046,
@@ -456,6 +512,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Apr 2019",
     "locality": "ALL",
     "month": 4,
     "rate": 0.5382932166301969,
@@ -464,6 +521,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "May 2019",
     "locality": "ALL",
     "month": 5,
     "rate": 0.5552825552825553,
@@ -472,6 +530,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Jun 2019",
     "locality": "ALL",
     "month": 6,
     "rate": 0.5763546798029556,
@@ -480,6 +539,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Jul 2019",
     "locality": "ALL",
     "month": 7,
     "rate": 0.5150300601202404,
@@ -488,6 +548,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Aug 2019",
     "locality": "ALL",
     "month": 8,
     "rate": 0.5728643216080402,
@@ -496,6 +557,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Sep 2019",
     "locality": "ALL",
     "month": 9,
     "rate": 0.5243362831858407,
@@ -504,6 +566,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Oct 2019",
     "locality": "ALL",
     "month": 10,
     "rate": 0.5720930232558139,
@@ -512,6 +575,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Nov 2019",
     "locality": "ALL",
     "month": 11,
     "rate": 0.5731225296442688,
@@ -520,6 +584,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Dec 2019",
     "locality": "ALL",
     "month": 12,
     "rate": 0.5694444444444444,
@@ -528,6 +593,7 @@ Array [
     "year": 2019,
   },
   Object {
+    "label": "Jan 2020",
     "locality": "ALL",
     "month": 1,
     "rate": 0.5425531914893617,
@@ -536,6 +602,7 @@ Array [
     "year": 2020,
   },
   Object {
+    "label": "Feb 2020",
     "locality": "ALL",
     "month": 2,
     "rate": 0.5577689243027888,
@@ -544,6 +611,7 @@ Array [
     "year": 2020,
   },
   Object {
+    "label": "Mar 2020",
     "locality": "ALL",
     "month": 3,
     "rate": 0.46303501945525294,
@@ -552,6 +620,7 @@ Array [
     "year": 2020,
   },
   Object {
+    "label": "Apr 2020",
     "locality": "ALL",
     "month": 4,
     "rate": 0.523121387283237,
@@ -560,6 +629,7 @@ Array [
     "year": 2020,
   },
   Object {
+    "label": "May 2020",
     "locality": "ALL",
     "month": 5,
     "rate": 0.537864077669903,
@@ -568,6 +638,7 @@ Array [
     "year": 2020,
   },
   Object {
+    "label": "Jun 2020",
     "locality": "ALL",
     "month": 6,
     "rate": 0.4175824175824176,
@@ -576,6 +647,7 @@ Array [
     "year": 2020,
   },
   Object {
+    "label": "Jul 2020",
     "locality": "ALL",
     "month": 7,
     "rate": 0.43529411764705883,

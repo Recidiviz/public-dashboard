@@ -19,6 +19,7 @@ import { ascending } from "d3-array";
 import { computed, makeObservable, observable, runInAction } from "mobx";
 import { DemographicView, TOTAL_KEY } from "../demographics";
 import {
+  getCohortLabel,
   RawMetricData,
   recordMatchesLocality,
   SupervisionSuccessRateDemographicsRecord,
@@ -80,8 +81,8 @@ export default class SupervisionSuccessRateMetric extends Metric<
       SupervisionSuccessRateMetric,
       "allCohortRecords" | "allDemographicRecords"
     >(this, {
-      allDemographicRecords: observable,
-      allCohortRecords: observable,
+      allDemographicRecords: observable.ref,
+      allCohortRecords: observable.ref,
       cohortRecords: computed,
       demographicRecords: computed,
     });
@@ -146,6 +147,7 @@ export default class SupervisionSuccessRateMetric extends Metric<
         ...missingMonths.map(({ year, monthIndex }) => ({
           year,
           month: monthIndex + 1,
+          label: getCohortLabel({ year, month: monthIndex + 1 }),
           locality: localityId,
           rate: 0,
           rateNumerator: 0,
