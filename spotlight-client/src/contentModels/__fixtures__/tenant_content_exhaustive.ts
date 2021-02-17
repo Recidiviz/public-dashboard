@@ -219,12 +219,12 @@ const content: DeepRequired<TenantContent> = {
       label: "probation locality",
       entries: [
         {
-          id: "probation a",
-          label: "probation A",
+          id: "NORTHEAST",
+          label: "Northeast",
         },
         {
-          id: "probation b",
-          label: "probation B",
+          id: "SOUTHWEST",
+          label: "Southwest",
         },
       ],
     },

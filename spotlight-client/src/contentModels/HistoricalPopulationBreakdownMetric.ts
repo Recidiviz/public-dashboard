@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { ascending } from "d3-array";
-import { eachMonthOfInterval, format, startOfMonth, subMonths } from "date-fns";
+import { startOfMonth } from "date-fns";
 import { computed, makeObservable, observable, runInAction } from "mobx";
 import { DataSeries } from "../charts";
 import {
@@ -32,6 +32,7 @@ import {
   HistoricalPopulationBreakdownRecord,
 } from "../metricsApi";
 import { colors } from "../UiLibrary";
+import getMissingMonths from "./getMissingMonths";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 
 const EXPECTED_MONTHS = 240; // 20 years
@@ -42,8 +43,6 @@ function dataIncludesCurrentMonth(
   const thisMonth = startOfMonth(new Date());
   return records.some((record) => record.date === thisMonth);
 }
-
-const getMonthString = (date: Date) => format(date, "yyyy-MM");
 
 /**
  * Returns records for any months that are expected but missing from the input data.
@@ -61,37 +60,20 @@ function getMissingMonthsForSeries({
   includeCurrentMonth: boolean;
   records: HistoricalPopulationBreakdownRecord[];
 }): HistoricalPopulationBreakdownRecord[] {
-  // scan the data to see what months we have
-  const representedMonths: { [key: string]: boolean } = {};
-  records.forEach(({ date }) => {
-    representedMonths[getMonthString(date)] = true;
+  const missingMonths = getMissingMonths({
+    expectedMonths: EXPECTED_MONTHS,
+    includeCurrentMonth,
+    records: records.map(({ date }) => ({
+      year: date.getFullYear(),
+      monthIndex: date.getMonth(),
+    })),
   });
-  const isMonthMissing = (date: Date) => {
-    return !representedMonths[getMonthString(date)];
-  };
 
-  const newDataPoints: HistoricalPopulationBreakdownRecord[] = [];
-
-  let end = new Date();
-  if (!includeCurrentMonth) {
-    // there may be a reporting lag for the current month; if it's missing,
-    // instead of patching it we should just shift the entire window back one month
-    if (isMonthMissing(end)) {
-      end = subMonths(end, 1);
-    }
-  }
-  const start = subMonths(end, EXPECTED_MONTHS - 1);
-  eachMonthOfInterval({ start, end }).forEach((monthStart) => {
-    if (isMonthMissing(monthStart)) {
-      const monthData = {
-        date: monthStart,
-        count: 0,
-        ...demographicFields,
-      };
-      newDataPoints.push(monthData);
-    }
-  });
-  return newDataPoints;
+  return missingMonths.map(({ year, monthIndex }) => ({
+    date: new Date(year, monthIndex),
+    count: 0,
+    ...demographicFields,
+  }));
 }
 
 export default class HistoricalPopulationBreakdownMetric extends Metric<

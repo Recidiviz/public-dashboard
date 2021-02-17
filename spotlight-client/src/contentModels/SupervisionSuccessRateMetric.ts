@@ -15,16 +15,33 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { runInAction } from "mobx";
+import { ascending } from "d3-array";
+import { computed, makeObservable, observable, runInAction } from "mobx";
+import { DemographicView, TOTAL_KEY } from "../demographics";
 import {
   RawMetricData,
+  recordMatchesLocality,
   SupervisionSuccessRateDemographicsRecord,
   SupervisionSuccessRateMonthlyRecord,
 } from "../metricsApi";
+import getMissingMonths from "./getMissingMonths";
 import Metric, {
   BaseMetricConstructorOptions,
   fetchAndTransformMetric,
 } from "./Metric";
+
+function dataIncludesCurrentMonth(
+  records: SupervisionSuccessRateMonthlyRecord[]
+): boolean {
+  const now = new Date();
+  const thisYear = now.getFullYear();
+  // JS dates provide a month index, whereas records use calendar months
+  const thisMonth = now.getMonth() + 1;
+
+  return records.some(
+    (record) => record.year === thisYear && record.month === thisMonth
+  );
+}
 
 /**
  * This metric is unique in that it combines data from two different source files,
@@ -34,6 +51,8 @@ import Metric, {
 export default class SupervisionSuccessRateMetric extends Metric<
   SupervisionSuccessRateMonthlyRecord
 > {
+  demographicView: DemographicView = "total";
+
   private readonly demographicSourceFileName: string;
 
   private demographicDataTransformer: (
@@ -56,6 +75,16 @@ export default class SupervisionSuccessRateMetric extends Metric<
 
     this.demographicSourceFileName = props.demographicSourceFileName;
     this.demographicDataTransformer = props.demographicDataTransformer;
+
+    makeObservable<
+      SupervisionSuccessRateMetric,
+      "allCohortRecords" | "allDemographicRecords"
+    >(this, {
+      allDemographicRecords: observable,
+      allCohortRecords: observable,
+      cohortRecords: computed,
+      demographicRecords: computed,
+    });
   }
 
   /**
@@ -68,6 +97,70 @@ export default class SupervisionSuccessRateMetric extends Metric<
     throw new Error(
       "Method not supported. Use cohortRecords or demographicRecords for a specific record stream."
     );
+  }
+
+  private getOrFetchCohortRecords():
+    | SupervisionSuccessRateMonthlyRecord[]
+    | undefined {
+    if (this.allCohortRecords) return this.allCohortRecords;
+    if (!this.isLoading || !this.error) this.populateAllRecords();
+    return undefined;
+  }
+
+  /**
+   * Fetches cohort data from the server and transforms it.
+   * Imputes any missing months in the expected range to zero.
+   */
+  protected async fetchAndTransform(): Promise<
+    SupervisionSuccessRateMonthlyRecord[]
+  > {
+    const transformedData = await super.fetchAndTransform();
+
+    // if the current month is completely missing from data, we will assume it is
+    // actually missing due to reporting lag. But if any record contains it, we will
+    // assume that it should be replaced with an empty record when it is missing
+    const includeCurrentMonth = dataIncludesCurrentMonth(transformedData);
+
+    const missingRecords: SupervisionSuccessRateMonthlyRecord[] = [];
+
+    // isolate each locality and impute any missing records
+    const localityIds = [
+      ...this.localityLabels.entries.map(({ id }) => id),
+      TOTAL_KEY,
+    ];
+    localityIds.forEach((localityId) => {
+      const recordsForLocality = transformedData.filter(
+        recordMatchesLocality(localityId)
+      );
+
+      const missingMonths = getMissingMonths({
+        expectedMonths: 36,
+        includeCurrentMonth,
+        records: recordsForLocality.map(({ year, month }) => ({
+          year,
+          monthIndex: month - 1,
+        })),
+      });
+
+      missingRecords.push(
+        ...missingMonths.map(({ year, monthIndex }) => ({
+          year,
+          month: monthIndex + 1,
+          locality: localityId,
+          rate: 0,
+          rateNumerator: 0,
+          rateDenominator: 0,
+        }))
+      );
+    });
+
+    transformedData.push(...missingRecords);
+
+    transformedData.sort(
+      (a, b) => ascending(a.year, b.year) || ascending(a.month, b.month)
+    );
+
+    return transformedData;
   }
 
   /**
@@ -108,9 +201,14 @@ export default class SupervisionSuccessRateMetric extends Metric<
   }
 
   get cohortRecords(): SupervisionSuccessRateMonthlyRecord[] | undefined {
-    if (this.allCohortRecords) return this.allCohortRecords;
-    if (!this.isLoading || !this.error) this.populateAllRecords();
-    return undefined;
+    let recordsToReturn = this.getOrFetchCohortRecords();
+    if (recordsToReturn === undefined) return undefined;
+
+    recordsToReturn = recordsToReturn.filter(
+      recordMatchesLocality(this.localityId)
+    );
+
+    return recordsToReturn;
   }
 
   get demographicRecords():

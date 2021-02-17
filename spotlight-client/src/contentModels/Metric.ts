@@ -30,6 +30,7 @@ import {
   RawMetricData,
   DemographicFields,
   LocalityFields,
+  SupervisionSuccessRateMonthlyRecord,
 } from "../metricsApi";
 import { MetricRecord, CollectionMap } from "./types";
 
@@ -63,6 +64,9 @@ export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   sourceFileName: string;
   dataTransformer: (d: RawMetricData) => RecordFormat[];
   defaultDemographicView: RecordFormat extends DemographicFields
+    ? DemographicView
+    : // special case: this metric supports demographics for an alternative record format
+    RecordFormat extends SupervisionSuccessRateMonthlyRecord
     ? DemographicView
     : undefined;
   defaultLocalityId: RecordFormat extends LocalityFields ? string : undefined;
@@ -116,6 +120,9 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
     : undefined;
 
   demographicView: RecordFormat extends DemographicFields
+    ? DemographicView
+    : // special case: this metric supports demographics for an alternative record format
+    RecordFormat extends SupervisionSuccessRateMonthlyRecord
     ? DemographicView
     : undefined;
 
