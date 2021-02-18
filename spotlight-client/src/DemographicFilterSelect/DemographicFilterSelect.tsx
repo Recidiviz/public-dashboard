@@ -22,6 +22,7 @@ import type DemographicsByCategoryMetric from "../contentModels/DemographicsByCa
 import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import SentenceTypeByLocationMetric from "../contentModels/SentenceTypeByLocationMetric";
+import SupervisionSuccessRateMetric from "../contentModels/SupervisionSuccessRateMetric";
 import {
   DemographicView,
   DemographicViewList,
@@ -38,7 +39,8 @@ type DemographicFilterSelectProps = {
     | HistoricalPopulationBreakdownMetric
     | DemographicsByCategoryMetric
     | RecidivismRateMetric
-    | SentenceTypeByLocationMetric;
+    | SentenceTypeByLocationMetric
+    | SupervisionSuccessRateMetric;
 };
 
 const DemographicFilterSelect: React.FC<DemographicFilterSelectProps> = ({

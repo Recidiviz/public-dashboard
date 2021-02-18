@@ -17,6 +17,7 @@
 
 import { advanceTo, clear } from "jest-date-mock";
 import { runInAction, when } from "mobx";
+import { DemographicView } from "../demographics";
 import {
   fetchMetrics,
   SupervisionSuccessRateMonthlyRecord,
@@ -212,6 +213,48 @@ describe("cohort data", () => {
           expect.objectContaining({ year: 2017, month: 7 }),
         ])
       );
+    });
+
+    expect.hasAssertions();
+  });
+});
+
+describe("demographic data", () => {
+  test("total", async () => {
+    const metric = await getPopulatedMetric();
+
+    reactImmediately(() => {
+      expect(metric.demographicRecords).toMatchSnapshot();
+    });
+
+    expect.hasAssertions();
+  });
+
+  test("filtered by locality", async () => {
+    const metric = await getPopulatedMetric();
+
+    runInAction(() => {
+      metric.localityId = contentFixture.localities.Probation.entries[0].id;
+    });
+
+    reactImmediately(() => {
+      expect(metric.demographicRecords).toMatchSnapshot();
+    });
+
+    expect.hasAssertions();
+  });
+
+  test.each([["raceOrEthnicity"], ["gender"], ["ageBucket"]] as [
+    Exclude<DemographicView, "nofilter">
+  ][])("%s data", async (demographicView) => {
+    const metric = await getPopulatedMetric();
+
+    runInAction(() => {
+      metric.demographicView = demographicView;
+    });
+
+    reactImmediately(() => {
+      expect(metric.demographicRecords).toMatchSnapshot();
     });
 
     expect.hasAssertions();

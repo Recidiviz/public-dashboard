@@ -17,9 +17,15 @@
 
 import { ascending } from "d3-array";
 import { computed, makeObservable, observable, runInAction } from "mobx";
-import { DemographicView, TOTAL_KEY } from "../demographics";
+import {
+  DemographicView,
+  getDemographicCategories,
+  recordIsTotalByDimension,
+  TOTAL_KEY,
+} from "../demographics";
 import {
   getCohortLabel,
+  RateFields,
   RawMetricData,
   recordMatchesLocality,
   SupervisionSuccessRateDemographicsRecord,
@@ -92,18 +98,30 @@ export default class SupervisionSuccessRateMetric extends Metric<
    * Not supported. Use individual cohort or demographic record streams instead.
    */
   // eslint-disable-next-line class-methods-use-this
-  protected getOrFetchRecords():
-    | SupervisionSuccessRateMonthlyRecord[]
-    | undefined {
+  protected getOrFetchRecords(): undefined {
     throw new Error(
       "Method not supported. Use cohortRecords or demographicRecords for a specific record stream."
     );
   }
 
+  /**
+   * Returns unfiltered cohort records. Kicks off a fetch if necessary.
+   */
   private getOrFetchCohortRecords():
     | SupervisionSuccessRateMonthlyRecord[]
     | undefined {
     if (this.allCohortRecords) return this.allCohortRecords;
+    if (!this.isLoading || !this.error) this.populateAllRecords();
+    return undefined;
+  }
+
+  /**
+   * Returns unfiltered demographic records. Kicks off a fetch if necessary.
+   */
+  private getOrFetchDemographicRecords():
+    | SupervisionSuccessRateDemographicsRecord[]
+    | undefined {
+    if (this.allDemographicRecords) return this.allDemographicRecords;
     if (!this.isLoading || !this.error) this.populateAllRecords();
     return undefined;
   }
@@ -213,11 +231,41 @@ export default class SupervisionSuccessRateMetric extends Metric<
     return recordsToReturn;
   }
 
-  get demographicRecords():
-    | SupervisionSuccessRateDemographicsRecord[]
-    | undefined {
-    if (this.allDemographicRecords) return this.allDemographicRecords;
-    if (!this.isLoading || !this.error) this.populateAllRecords();
-    return undefined;
+  get demographicRecords(): (RateFields & { label: string })[] | undefined {
+    const allRecords = this.getOrFetchDemographicRecords();
+    const { demographicView } = this;
+    if (allRecords === undefined || demographicView === "nofilter")
+      return undefined;
+
+    const filteredRecords = allRecords
+      .filter(recordMatchesLocality(this.localityId))
+      .filter(recordIsTotalByDimension(demographicView));
+
+    return getDemographicCategories(demographicView).map(
+      ({ identifier, label }) => {
+        let matchingRecord:
+          | SupervisionSuccessRateDemographicsRecord
+          | undefined;
+        if (demographicView === "total") {
+          // there should only be one!
+          [matchingRecord] = filteredRecords;
+        } else {
+          matchingRecord = filteredRecords.find(
+            (record) => record[demographicView] === identifier
+          );
+        }
+        if (matchingRecord) {
+          const { rate, rateDenominator, rateNumerator } = matchingRecord;
+          return {
+            label,
+            rate,
+            rateDenominator,
+            rateNumerator,
+          };
+        }
+
+        return { label, rate: 0, rateNumerator: 0, rateDenominator: 0 };
+      }
+    );
   }
 }

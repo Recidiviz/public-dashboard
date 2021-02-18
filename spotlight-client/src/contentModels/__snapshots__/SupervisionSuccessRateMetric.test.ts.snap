@@ -657,3 +657,112 @@ Array [
   },
 ]
 `;
+
+exports[`demographic data ageBucket data 1`] = `
+Array [
+  Object {
+    "label": "<25",
+    "rate": 0.49851455733808675,
+    "rateDenominator": 1683,
+    "rateNumerator": 839,
+  },
+  Object {
+    "label": "25-29",
+    "rate": 0.5110088728228722,
+    "rateDenominator": 3043,
+    "rateNumerator": 1555,
+  },
+  Object {
+    "label": "30-34",
+    "rate": 0.5337026777469991,
+    "rateDenominator": 1083,
+    "rateNumerator": 578,
+  },
+  Object {
+    "label": "35-39",
+    "rate": 0.5302879841112215,
+    "rateDenominator": 1007,
+    "rateNumerator": 534,
+  },
+  Object {
+    "label": "40<",
+    "rate": 0.6179775280898876,
+    "rateDenominator": 2225,
+    "rateNumerator": 1375,
+  },
+]
+`;
+
+exports[`demographic data filtered by locality 1`] = `
+Array [
+  Object {
+    "label": "Total",
+    "rate": 0.44340505144995324,
+    "rateDenominator": 1069,
+    "rateNumerator": 474,
+  },
+]
+`;
+
+exports[`demographic data gender data 1`] = `
+Array [
+  Object {
+    "label": "Male",
+    "rate": 0.5458256787099408,
+    "rateDenominator": 4899,
+    "rateNumerator": 2674,
+  },
+  Object {
+    "label": "Female",
+    "rate": 0.5593275137407048,
+    "rateDenominator": 3093,
+    "rateNumerator": 1730,
+  },
+]
+`;
+
+exports[`demographic data raceOrEthnicity data 1`] = `
+Array [
+  Object {
+    "label": "Native American",
+    "rate": 0.3431667670078266,
+    "rateDenominator": 1661,
+    "rateNumerator": 570,
+  },
+  Object {
+    "label": "Black",
+    "rate": 0.5180180180180181,
+    "rateDenominator": 666,
+    "rateNumerator": 345,
+  },
+  Object {
+    "label": "Hispanic",
+    "rate": 0.5048732943469786,
+    "rateDenominator": 513,
+    "rateNumerator": 259,
+  },
+  Object {
+    "label": "White",
+    "rate": 0.5991040318566451,
+    "rateDenominator": 10045,
+    "rateNumerator": 6018,
+  },
+  Object {
+    "label": "Other",
+    "rate": 0.5443037974683544,
+    "rateDenominator": 79,
+    "rateNumerator": 43,
+  },
+]
+`;
+
+exports[`demographic data total 1`] = `
+Array [
+  Object {
+    "label": "Total",
+    "rate": 0.549307774227902,
+    "rateDenominator": 9390,
+    "rateNumerator": 5158,
+  },
+]
+`;

@@ -26,6 +26,8 @@ import ChartWrapper from "./ChartWrapper";
 import ResponsiveTooltipController from "./ResponsiveTooltipController";
 import { highlightFade, useHighlightedItem } from "./utils";
 
+export const CHART_HEIGHT = 350;
+
 const MARGIN = {
   top: 10,
   bottom: 20,
@@ -137,7 +139,7 @@ export default function RateCohorts({
                 rAccessor="rate"
                 rExtent={[0, 1]}
                 renderKey="label"
-                size={[width, 350]}
+                size={[width, CHART_HEIGHT]}
                 style={(d: { data: RateCohortRecord }) => {
                   let fill = colors.dataViz[0];
 

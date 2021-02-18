@@ -21,6 +21,11 @@ import { runInAction } from "mobx";
 import React from "react";
 import SupervisionSuccessRateMetric from "../contentModels/SupervisionSuccessRateMetric";
 import DataStore from "../DataStore";
+import {
+  DemographicView,
+  getDemographicCategories,
+  getDemographicViewLabel,
+} from "../demographics";
 import { reactImmediately, renderWithStore } from "../testUtils";
 import VizSupervisionSuccessRate from "./VizSupervisionSuccessRate";
 
@@ -30,6 +35,7 @@ let metric: SupervisionSuccessRateMetric;
 
 let originalFilters: {
   demographicView: SupervisionSuccessRateMetric["demographicView"];
+  localityId: SupervisionSuccessRateMetric["localityId"];
 };
 
 beforeEach(() => {
@@ -48,6 +54,7 @@ beforeEach(() => {
       metric = metricToTest;
       originalFilters = {
         demographicView: metric.demographicView,
+        localityId: metric.localityId,
       };
     }
   });
@@ -59,6 +66,7 @@ afterEach(() => {
   runInAction(() => {
     DataStore.tenantStore.currentTenantId = undefined;
     metric.demographicView = originalFilters.demographicView;
+    metric.localityId = originalFilters.localityId;
   });
 });
 
@@ -73,27 +81,25 @@ test("totals", async () => {
   const chart = await screen.findByRole("group", {
     name: "36 bars in a bar chart",
   });
-  expect(chart).toBeVisible();
+  expect(chart).toBeInTheDocument();
 
   // spot check one bar
   expect(
     within(chart).getByRole("img", { name: "Oct 2017 bar value 75%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
 
   // year boundaries should be labeled
-  expect(screen.getByText("2018")).toBeVisible();
-  expect(screen.getByText("2019")).toBeVisible();
-  expect(screen.getByText("2020")).toBeVisible();
+  expect(screen.getByText("2018")).toBeInTheDocument();
+  expect(screen.getByText("2019")).toBeInTheDocument();
+  expect(screen.getByText("2020")).toBeInTheDocument();
+
+  const stat = screen.getByRole("figure", { name: "Total" });
+  expect(within(stat).getByText("73%")).toBeInTheDocument();
 });
 
 test("locality filter", async () => {
   renderWithStore(<VizSupervisionSuccessRate metric={metric} />);
 
-  const chart = await screen.findByRole("group", {
-    name: "36 bars in a bar chart",
-  });
-
-  // locality filter
   const menuButton = screen.getByRole("button", {
     name: "Office All Offices",
   });
@@ -106,8 +112,39 @@ test("locality filter", async () => {
 
   // spot check one bar
   expect(
-    within(chart).getByRole("img", { name: "Oct 2017 bar value 67%" })
-  ).toBeVisible();
+    await screen.findByRole("img", { name: "Oct 2017 bar value 67%" })
+  ).toBeInTheDocument();
+
+  expect(
+    screen.getByText(
+      (content, element) =>
+        element.tagName.toLowerCase() === "figure" &&
+        element.textContent === "74%Total"
+    )
+  ).toBeInTheDocument();
 });
 
-test.todo("demographic filter");
+test("demographic filter", async () => {
+  renderWithStore(<VizSupervisionSuccessRate metric={metric} />);
+
+  const menuButton = await screen.findByRole("button", {
+    name: "View Total",
+  });
+
+  (["raceOrEthnicity", "gender", "ageBucket"] as Exclude<
+    DemographicView,
+    "nofilter"
+  >[]).forEach((demographicView) => {
+    fireEvent.click(menuButton);
+    fireEvent.click(
+      screen.getByRole("option", {
+        name: getDemographicViewLabel(demographicView),
+      })
+    );
+
+    getDemographicCategories(demographicView).forEach(({ label }) => {
+      const stat = screen.getByRole("figure", { name: label });
+      expect(within(stat).getByText(/\d+%/)).toBeInTheDocument();
+    });
+  });
+});

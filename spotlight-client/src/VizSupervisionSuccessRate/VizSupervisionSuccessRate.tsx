@@ -16,12 +16,48 @@
 // =============================================================================
 
 import { observer } from "mobx-react-lite";
+import { rem } from "polished";
 import React from "react";
-import RateCohorts from "../charts/RateCohorts";
+import Measure from "react-measure";
+import { animated, useSpring, useTransition } from "react-spring/web.cjs";
+import styled from "styled-components/macro";
+import RateCohorts, { CHART_HEIGHT } from "../charts/RateCohorts";
 import SupervisionSuccessRateMetric from "../contentModels/SupervisionSuccessRateMetric";
+import DemographicFilterSelect from "../DemographicFilterSelect";
 import FiltersWrapper from "../FiltersWrapper";
 import LocalityFilterSelect from "../LocalityFilterSelect";
 import NoMetricData from "../NoMetricData";
+import Statistic from "../Statistic";
+import { animation } from "../UiLibrary";
+import { formatAsPct } from "../utils";
+
+const DEMOGRAPHICS_MARGIN = 56;
+
+const DEFAULT_DEMOGRAPHICS_HEIGHT = 99;
+
+const CohortChartWrapper = styled.div`
+  position: relative;
+  /* using px instead of rem for consistency with Semiotic  */
+  min-height: ${CHART_HEIGHT}px;
+`;
+
+const DemographicsWrapper = styled.div`
+  text-align: center;
+  width: 100%;
+`;
+
+const StatWrapper = styled.div`
+  display: inline-block;
+  padding: 0 ${rem(24)} ${rem(24)};
+
+  &:first-child {
+    padding-left: 0;
+  }
+
+  &:last-child {
+    padding-right: 0;
+  }
+`;
 
 const getCohortLabel = (id: string) => {
   const [month, year] = id.split(" ");
@@ -35,13 +71,88 @@ type VizSupervisionSuccessRateProps = {
 const VizSupervisionSuccessRate: React.FC<VizSupervisionSuccessRateProps> = ({
   metric,
 }) => {
-  const { cohortRecords } = metric;
+  const {
+    cohortRecords,
+    demographicRecords,
+    demographicView,
+    localityId,
+  } = metric;
 
-  if (cohortRecords) {
+  const [demographicsWrapperStyles, setDemographicsWrapperStyles] = useSpring(
+    () => ({
+      from: { height: DEFAULT_DEMOGRAPHICS_HEIGHT },
+      height: DEFAULT_DEMOGRAPHICS_HEIGHT,
+      config: { friction: 40, tension: 220, clamp: true },
+    })
+  );
+
+  const cohortTransitions = useTransition(
+    { cohortRecords, localityId },
+    (item) => item.localityId,
+    animation.crossFade
+  );
+
+  const demographicTransitions = useTransition(
+    { demographicView, demographicRecords, localityId },
+    (item) => `${item.demographicView}_${item.localityId}`,
+    animation.crossFade
+  );
+
+  if (cohortRecords && demographicRecords) {
     return (
       <>
-        <FiltersWrapper filters={[<LocalityFilterSelect metric={metric} />]} />
-        <RateCohorts data={cohortRecords} getBarLabel={getCohortLabel} />
+        <FiltersWrapper
+          filters={[
+            <LocalityFilterSelect metric={metric} />,
+            <DemographicFilterSelect metric={metric} />,
+          ]}
+        />
+        <CohortChartWrapper>
+          {cohortTransitions.map(({ item, key, props }) => (
+            <animated.div key={key} style={props}>
+              {item.cohortRecords && (
+                <RateCohorts
+                  data={item.cohortRecords}
+                  getBarLabel={getCohortLabel}
+                />
+              )}
+            </animated.div>
+          ))}
+        </CohortChartWrapper>
+        <Measure
+          bounds
+          onResize={({ bounds }) => {
+            if (bounds) setDemographicsWrapperStyles({ height: bounds.height });
+          }}
+        >
+          {({ measureRef }) => (
+            <animated.div
+              style={{
+                ...demographicsWrapperStyles,
+                position: "relative",
+                marginTop: DEMOGRAPHICS_MARGIN,
+              }}
+            >
+              {demographicTransitions.map(({ item, key, props }) => (
+                <animated.div key={key} style={{ ...props, width: "100%" }}>
+                  <DemographicsWrapper ref={measureRef}>
+                    {item.demographicRecords &&
+                      item.demographicRecords.map(({ label, rate }) => (
+                        <StatWrapper key={label}>
+                          <Statistic
+                            maxSize={48}
+                            minSize={48}
+                            label={label}
+                            value={formatAsPct(rate)}
+                          />
+                        </StatWrapper>
+                      ))}
+                  </DemographicsWrapper>
+                </animated.div>
+              ))}
+            </animated.div>
+          )}
+        </Measure>
       </>
     );
   }
