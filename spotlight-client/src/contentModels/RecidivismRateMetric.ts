@@ -16,18 +16,38 @@
 // =============================================================================
 
 import { ascending } from "d3-array";
-import { computed, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
+import { DataSeries, ItemToHighlight } from "../charts";
 import {
   getDemographicCategories,
   recordIsTotalByDimension,
 } from "../demographics";
-import { RecidivismRateRecord } from "../metricsApi";
+import { RateFields, RecidivismRateRecord } from "../metricsApi";
 import { colors } from "../UiLibrary";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 import { DemographicCategoryRateRecords } from "./types";
 
+type CohortDataSeries = DataSeries<RateFields & { followupYears: number }>;
+
+/**
+ * Adds a zero record for followup period zero to an array of records.
+ * These are not in the raw data but the UI needs them.
+ */
+function prependZeroRecord(records: RecidivismRateRecord[]) {
+  const zero = { ...records[0] };
+  zero.rate = 0;
+  zero.rateNumerator = 0;
+  zero.followupYears = 0;
+  records.unshift(zero);
+}
+
 export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
   followUpYears?: number;
+
+  private appliedCohortFilter?: number[];
+
+  // this is not strictly a UI concern because it affects the cohort filter
+  highlightedCohort?: number;
 
   constructor(
     props: BaseMetricConstructorOptions<RecidivismRateRecord> & {
@@ -38,8 +58,19 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
 
     this.followUpYears = props.followUpYears;
 
-    makeObservable(this, {
+    makeObservable<
+      RecidivismRateMetric,
+      "appliedCohortFilter" | "allCohortDataSeries"
+    >(this, {
+      allCohortDataSeries: computed,
+      allCohorts: computed,
+      appliedCohortFilter: observable,
+      cohortDataSeries: computed,
       followUpYears: observable,
+      highlightedCohort: observable,
+      selectedCohorts: computed,
+      setHighlightedCohort: action,
+      setSelectedCohorts: action,
       singleFollowupDemographics: computed,
     });
   }
@@ -77,7 +108,7 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
               : record[demographicView] === identifier
           )
           .sort((a, b) => ascending(a.releaseCohort, b.releaseCohort))
-          .map((record, index) => {
+          .map((record) => {
             return {
               label: `${record.releaseCohort}`,
               color: colors.dataViz[0],
@@ -86,6 +117,110 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
               denominator: record.rateDenominator,
             };
           }),
+      };
+    });
+  }
+
+  get allCohorts(): number[] | undefined {
+    if (this.allRecords !== undefined) {
+      return Array.from(
+        new Set(this.allRecords.map((d) => d.releaseCohort))
+      ).sort((a, b) => ascending(a, b));
+    }
+    // if we don't have records yet, provide nothing
+    return undefined;
+  }
+
+  get selectedCohorts(): number[] | undefined {
+    // if the underlying value has been set, use that
+    if (this.appliedCohortFilter !== undefined) return this.appliedCohortFilter;
+    // if not, provide a default value based on records
+    return this.allCohorts;
+  }
+
+  setSelectedCohorts(cohorts: number[] | undefined): void {
+    this.appliedCohortFilter = cohorts;
+
+    // demographic views are not supported for multiple cohorts; reset
+    if (cohorts === undefined || cohorts.length > 1) {
+      this.demographicView = "total";
+    }
+  }
+
+  /**
+   * Translates conventional highlight state signature into cohort identifier
+   * and updates the observable state.
+   */
+  setHighlightedCohort(item?: ItemToHighlight): void {
+    if (item) {
+      this.highlightedCohort = Number(item.label);
+    } else {
+      this.highlightedCohort = undefined;
+    }
+  }
+
+  /**
+   * A list of all possible cohort data series. We can filter this
+   * for consumers while keeping color assignments stable.
+   */
+  private get allCohortDataSeries(): CohortDataSeries[] | undefined {
+    const { allCohorts, records } = this;
+    if (allCohorts === undefined || records === undefined) return undefined;
+
+    return allCohorts.map((cohort, index) => {
+      const coordinates = records
+        .filter((record) => record.releaseCohort === cohort)
+        .sort((a, b) => ascending(a.followupYears, b.followupYears));
+
+      prependZeroRecord(coordinates);
+
+      return {
+        label: `${cohort}`,
+        color: colors.dataViz[index],
+        coordinates,
+      };
+    });
+  }
+
+  get cohortDataSeries(): CohortDataSeries[] | undefined {
+    const {
+      selectedCohorts,
+      allCohortDataSeries,
+      demographicView,
+      records,
+    } = this;
+    if (
+      selectedCohorts === undefined ||
+      records === undefined ||
+      demographicView === "nofilter"
+    )
+      return undefined;
+
+    // series for each cohort
+    if (demographicView === "total") {
+      return allCohortDataSeries?.filter((series) => {
+        const cohort = Number(series.label);
+        return (
+          cohort === this.highlightedCohort || selectedCohorts.includes(cohort)
+        );
+      });
+    }
+
+    return getDemographicCategories(demographicView).map((category, index) => {
+      const coordinates = records
+        .filter(
+          (record) =>
+            record[demographicView] === category.identifier &&
+            record.releaseCohort === selectedCohorts[0]
+        )
+        .sort((a, b) => ascending(a.followupYears, b.followupYears));
+
+      prependZeroRecord(coordinates);
+
+      return {
+        label: category.label,
+        color: colors.dataViz[index],
+        coordinates,
       };
     });
   }

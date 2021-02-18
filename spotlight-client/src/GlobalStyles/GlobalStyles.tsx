@@ -40,6 +40,10 @@ const BaseStyles = createGlobalStyle`
     background-color: ${colors.background};
     color: ${colors.text};
   }
+
+  strong {
+    font-weight: 600;
+  }
 `;
 
 const GlobalStyles: React.FC = () => {

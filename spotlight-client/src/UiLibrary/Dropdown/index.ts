@@ -15,4 +15,5 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export { default } from "./Dropdown";
+export { default as Dropdown } from "./Dropdown";
+export { default as DropdownMultiple } from "./DropdownMultiple";

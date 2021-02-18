@@ -46,6 +46,10 @@ const SectionCopy = styled.div`
   max-width: ${rem(COPY_WIDTH)};
   position: sticky;
   top: ${rem(NAV_BAR_HEIGHT)};
+
+  p {
+    margin-top: 1em;
+  }
 `;
 
 const SectionTitle = styled.h2`

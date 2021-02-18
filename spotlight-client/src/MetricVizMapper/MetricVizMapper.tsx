@@ -29,6 +29,7 @@ import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import VizRecidivismRateSingleFollowup from "../VizRecidivismRateSingleFollowup";
 import SentenceTypeByLocationMetric from "../contentModels/SentenceTypeByLocationMetric";
 import VizSentenceTypeByLocation from "../VizSentenceTypeByLocation";
+import VizRecidivismRateCumulative from "../VizRecidivismRateCumulative";
 
 type MetricVizMapperProps = {
   metric: Metric<MetricRecord>;
@@ -51,6 +52,7 @@ const MetricVizMapper: React.FC<MetricVizMapperProps> = ({ metric }) => {
     if (metric.id === "PrisonRecidivismRateSingleFollowupHistorical") {
       return <VizRecidivismRateSingleFollowup metric={metric} />;
     }
+    return <VizRecidivismRateCumulative metric={metric} />;
   }
   if (metric instanceof SentenceTypeByLocationMetric) {
     return <VizSentenceTypeByLocation metric={metric} />;
