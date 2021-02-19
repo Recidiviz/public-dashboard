@@ -16,26 +16,23 @@
 // =============================================================================
 
 import { computed, makeObservable } from "mobx";
-import type { Topology } from "topojson-specification";
+import { MapData } from "../contentApi/types";
 import { ProgramParticipationCurrentRecord } from "../metricsApi";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 
 export default class ProgramParticipationCurrentMetric extends Metric<
   ProgramParticipationCurrentRecord
 > {
-  /**
-   * needed to plot metric records on a map
-   */
-  readonly topology: Topology;
+  readonly mapData: MapData;
 
   constructor(
     props: BaseMetricConstructorOptions<ProgramParticipationCurrentRecord> & {
-      topology: Topology;
+      mapData: MapData;
     }
   ) {
     super(props);
 
-    this.topology = props.topology;
+    this.mapData = props.mapData;
 
     makeObservable(this, { dataMapping: computed });
   }

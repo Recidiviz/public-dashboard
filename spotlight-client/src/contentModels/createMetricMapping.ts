@@ -252,7 +252,7 @@ export default function createMetricMapping({
             defaultDemographicView: undefined,
             defaultLocalityId: NOFILTER_KEY,
             localityLabels: localityLabelMapping.ProgramRegions,
-            topology: topologyMapping?.ProgramRegions,
+            mapData: topologyMapping?.ProgramRegions,
             dataTransformer: probationProgramParticipationCurrent,
             sourceFileName: "active_program_participation_by_region",
           })
@@ -274,7 +274,7 @@ export default function createMetricMapping({
             defaultDemographicView: undefined,
             defaultLocalityId: NOFILTER_KEY,
             localityLabels: localityLabelMapping.ProgramRegions,
-            topology: topologyMapping?.ProgramRegions,
+            mapData: topologyMapping?.ProgramRegions,
             dataTransformer: paroleProgramParticipationCurrent,
             sourceFileName: "active_program_participation_by_region",
           })

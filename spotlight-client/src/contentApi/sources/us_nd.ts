@@ -384,7 +384,10 @@ const content: TenantContent = {
     },
   },
   topologies: {
-    ProgramRegions: programRegionsTopology,
+    ProgramRegions: {
+      aspectRatio: 5 / 3,
+      topology: programRegionsTopology,
+    },
   },
 };
 

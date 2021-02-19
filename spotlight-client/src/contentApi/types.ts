@@ -59,7 +59,7 @@ export type TenantContent = NamedEntity & {
     [key in SystemNarrativeTypeId | "ProgramRegions"]?: LocalityLabels;
   };
   topologies?: {
-    ProgramRegions: Topology;
+    ProgramRegions: MapData;
   };
 };
 
@@ -109,6 +109,11 @@ export function isMetricTypeId(x: string): x is MetricTypeId {
 }
 
 type MetricContent = NamedEntity & { methodology: string };
+
+export type MapData = {
+  aspectRatio: number;
+  topology: Topology;
+};
 
 // ============================
 // Narrative types

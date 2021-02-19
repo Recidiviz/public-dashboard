@@ -36,11 +36,10 @@ const VizProgramParticipationCurrent: React.FC<VizProgramParticipationCurrentPro
   if (dataMapping) {
     return (
       <MapWrapper aria-label={`${metric.localityLabels.label} Map`}>
-        {/* TODO: don't hard code the aspect ratio */}
         <TopologicalMap
-          aspectRatio={5 / 3}
+          aspectRatio={metric.mapData.aspectRatio}
           localityData={dataMapping}
-          topology={metric.topology}
+          topology={metric.mapData.topology}
         />
       </MapWrapper>
     );

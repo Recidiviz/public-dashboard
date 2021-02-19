@@ -267,8 +267,11 @@ const content: ExhaustiveTenantContent = {
     },
   },
   topologies: {
-    // these objects are too complex to be worth mocking
-    ProgramRegions: programRegionsTopology,
+    ProgramRegions: {
+      aspectRatio: 1.5,
+      // these objects are too complex to be worth mocking
+      topology: programRegionsTopology,
+    },
   },
 };
 
