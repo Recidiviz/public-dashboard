@@ -83,6 +83,7 @@ function getMetricsForTenant(
   return createMetricMapping({
     localityLabelMapping: allTenantContent.localities,
     metadataMapping: allTenantContent.metrics,
+    topologyMapping: allTenantContent.topologies,
     tenantId,
   });
 }

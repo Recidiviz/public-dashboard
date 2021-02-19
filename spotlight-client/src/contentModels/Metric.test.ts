@@ -32,6 +32,7 @@ const getTestMapping = () =>
   createMetricMapping({
     localityLabelMapping: allTestContent.localities,
     metadataMapping: testMetadataMapping,
+    topologyMapping: allTestContent.topologies,
     tenantId: testTenantId,
   });
 

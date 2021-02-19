@@ -15,6 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import type { Topology } from "topojson-specification";
+
 export type NamedEntity = {
   name: string;
   description: string;
@@ -54,7 +56,10 @@ export type TenantContent = NamedEntity & {
   // this is optional because it is possible (though unlikely)
   // to not have any metrics that actually need it
   localities?: {
-    [key in SystemNarrativeTypeId]?: LocalityLabels;
+    [key in SystemNarrativeTypeId | "ProgramRegions"]?: LocalityLabels;
+  };
+  topologies?: {
+    ProgramRegions: Topology;
   };
 };
 

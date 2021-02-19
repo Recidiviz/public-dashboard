@@ -29,7 +29,12 @@ const testMetadataMapping = contentFixture.metrics;
 function getTestMetric(id: MetricTypeId) {
   return createMetricMapping({
     localityLabelMapping: contentFixture.localities,
-    metadataMapping: testMetadataMapping,
+    metadataMapping: {
+      PrisonRecidivismRateHistorical:
+        testMetadataMapping.PrisonRecidivismRateHistorical,
+      PrisonRecidivismRateSingleFollowupHistorical:
+        testMetadataMapping.PrisonRecidivismRateSingleFollowupHistorical,
+    },
     tenantId: testTenantId,
   }).get(id) as RecidivismRateMetric;
 }

@@ -15,15 +15,40 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { DataSeries } from "../charts";
+import { computed, makeObservable } from "mobx";
+import type { Topology } from "topojson-specification";
 import { ProgramParticipationCurrentRecord } from "../metricsApi";
-import Metric from "./Metric";
+import Metric, { BaseMetricConstructorOptions } from "./Metric";
 
 export default class ProgramParticipationCurrentMetric extends Metric<
   ProgramParticipationCurrentRecord
 > {
-  // eslint-disable-next-line class-methods-use-this
-  get dataSeries(): DataSeries<ProgramParticipationCurrentRecord>[] | null {
-    throw new Error("Method not implemented.");
+  /**
+   * needed to plot metric records on a map
+   */
+  readonly topology: Topology;
+
+  constructor(
+    props: BaseMetricConstructorOptions<ProgramParticipationCurrentRecord> & {
+      topology: Topology;
+    }
+  ) {
+    super(props);
+
+    this.topology = props.topology;
+
+    makeObservable(this, { dataMapping: computed });
+  }
+
+  /**
+   * Provides counts mapped by locality ID rather than in series.
+   */
+  get dataMapping(): Record<string, number> | undefined {
+    const { records } = this;
+    if (!records) return undefined;
+
+    return records.reduce((mapping, record) => {
+      return { ...mapping, [record.locality]: record.count };
+    }, {});
   }
 }

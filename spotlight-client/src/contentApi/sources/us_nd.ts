@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { TenantContent } from "../types";
+import programRegionsTopology from "./usNdProgramRegions";
 
 // localities for both sentencing and probation
 const judicialDistricts = [
@@ -274,7 +275,7 @@ const content: TenantContent = {
         {
           title: "Free Through Recovery program",
           body:
-            '<a href="https://www.behavioralhealth.nd.gov/addiction/FTR-old" >Free Through Recovery (FTR)</a> is a community based behavioral health program designed to increase recovery support services to individuals involved with the criminal justice system who have behavioral health concerns. The map below shows the number of people enrolled in the FTR program today.',
+            '<a href="https://www.behavioralhealth.nd.gov/addiction/FTR-old" >Free Through Recovery (FTR)</a> is a community based behavioral health program designed to increase recovery support services to individuals involved with the criminal justice system who have behavioral health concerns. This map shows the number of people enrolled in the FTR program today.',
           metricTypeId: "ProbationProgrammingCurrent",
         },
       ],
@@ -311,7 +312,7 @@ const content: TenantContent = {
         {
           title: "Free Through Recovery program",
           body:
-            '<a href="https://www.behavioralhealth.nd.gov/addiction/FTR-old" >Free Through Recovery (FTR)</a> is a community based behavioral health program designed to increase recovery support services to individuals involved with the criminal justice system who have behavioral health concerns. The map below shows the number of people enrolled in the FTR program today.',
+            '<a href="https://www.behavioralhealth.nd.gov/addiction/FTR-old" >Free Through Recovery (FTR)</a> is a community based behavioral health program designed to increase recovery support services to individuals involved with the criminal justice system who have behavioral health concerns. This map shows the number of people enrolled in the FTR program today.',
           metricTypeId: "ParoleProgrammingCurrent",
         },
       ],
@@ -368,6 +369,22 @@ const content: TenantContent = {
         { label: "Williston", id: "10" },
       ],
     },
+    ProgramRegions: {
+      label: "Region",
+      entries: [
+        { id: "1", label: "Region 1" },
+        { id: "2", label: "Region 2" },
+        { id: "3", label: "Region 3" },
+        { id: "4", label: "Region 4" },
+        { id: "5", label: "Region 5" },
+        { id: "6", label: "Region 6" },
+        { id: "7", label: "Region 7" },
+        { id: "8", label: "Region 8" },
+      ],
+    },
+  },
+  topologies: {
+    ProgramRegions: programRegionsTopology,
   },
 };
 
