@@ -256,12 +256,36 @@ const content: ExhaustiveTenantContent = {
       label: "program region",
       entries: [
         {
-          id: "region a",
-          label: "region A",
+          id: "1",
+          label: "Region A",
         },
         {
-          id: "region b",
-          label: "region B",
+          id: "2",
+          label: "Region B",
+        },
+        {
+          id: "3",
+          label: "Region C",
+        },
+        {
+          id: "4",
+          label: "Region D",
+        },
+        {
+          id: "5",
+          label: "Region E",
+        },
+        {
+          id: "6",
+          label: "Region F",
+        },
+        {
+          id: "7",
+          label: "Region G",
+        },
+        {
+          id: "8",
+          label: "Region H",
         },
       ],
     },

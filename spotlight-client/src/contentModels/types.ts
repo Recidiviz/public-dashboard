@@ -68,6 +68,11 @@ export type DemographicCategoryRateRecords = DemographicCategoryRecords & {
   records: { denominator: number }[];
 };
 
+export type LocalityDataMapping = Record<
+  string,
+  { value: number; label: string }
+>;
+
 // =======================================
 // Narrative types
 // =======================================

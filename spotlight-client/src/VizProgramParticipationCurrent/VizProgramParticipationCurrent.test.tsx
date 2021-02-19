@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import { runInAction } from "mobx";
 import React from "react";
 import ProgramParticipationCurrentMetric from "../contentModels/ProgramParticipationCurrentMetric";
@@ -56,5 +56,31 @@ test("loading", () => {
 test("renders a map", async () => {
   renderWithStore(<VizProgramParticipationCurrent metric={metric} />);
 
-  await screen.findByRole("figure", { name: "Region Map" });
+  const map = await screen.findByRole("figure", { name: "Region map chart" });
+  expect(map).toBeVisible();
+
+  expect(
+    within(map).getByRole("img", { name: "Region 1 value 7" })
+  ).toBeVisible();
+  expect(
+    within(map).getByRole("img", { name: "Region 2 value 47" })
+  ).toBeVisible();
+  expect(
+    within(map).getByRole("img", { name: "Region 3 value 50" })
+  ).toBeVisible();
+  expect(
+    within(map).getByRole("img", { name: "Region 4 value 25" })
+  ).toBeVisible();
+  expect(
+    within(map).getByRole("img", { name: "Region 5 value 51" })
+  ).toBeVisible();
+  expect(
+    within(map).getByRole("img", { name: "Region 6 value 21" })
+  ).toBeVisible();
+  expect(
+    within(map).getByRole("img", { name: "Region 7 value 106" })
+  ).toBeVisible();
+  expect(
+    within(map).getByRole("img", { name: "Region 8 value 17" })
+  ).toBeVisible();
 });

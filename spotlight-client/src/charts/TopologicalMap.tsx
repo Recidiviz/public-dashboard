@@ -23,10 +23,15 @@ import {
   Geographies,
   Geography,
   Marker,
+  GeographyProps,
 } from "react-simple-maps";
+import { animated, useSpring } from "react-spring/web.cjs";
+import { Spring } from "react-spring/renderprops.cjs";
 import styled from "styled-components/macro";
 import { mesh } from "topojson";
 import type { Topology } from "topojson-specification";
+import { ValuesType } from "utility-types";
+import { LocalityDataMapping } from "../contentModels/types";
 import MeasureWidth from "../MeasureWidth";
 import { colors } from "../UiLibrary";
 
@@ -47,7 +52,7 @@ const RatioContainerInner = styled.div({
  * Implements a version of the Aspect Ratio Box technique described here:
  * https://github.com/zcreativelabs/react-simple-maps/issues/37#issuecomment-349435145
  * but with explicit width (our flex layout prefers it or elements may collapse).
- * This is needed to size the map SVGs properly in IE 11 and some mobile devices.
+ * This is needed to size the map SVG properly in IE 11 and some mobile devices.
  */
 const RatioContainer: React.FC<{ width: number; aspectRatio: number }> = ({
   aspectRatio,
@@ -66,36 +71,9 @@ const RatioContainer: React.FC<{ width: number; aspectRatio: number }> = ({
 
 const Wrapper = styled.div``;
 
-const GeoRegion = styled(Geography)`
-  fill: ${colors.mapFill};
-  stroke: ${colors.mapStroke};
-  stroke-width: 1.5px;
-
-  &.clickable {
-    cursor: pointer;
-  }
-
-  &.hoverable {
-    &:hover,
-    &:focus {
-      fill: ${colors.mapFillHover};
-    }
-  }
-`;
-
-const RegionMarker = styled(Marker)``;
-
-const RegionLabel = styled.text`
-  fill: ${colors.text};
-  font-size: ${rem(18)};
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  text-anchor: middle;
-`;
-
 type MapProps = {
   aspectRatio: number;
-  localityData: Record<string, number>;
+  localityData: LocalityDataMapping;
   topology: Topology;
 };
 
@@ -108,8 +86,6 @@ export default function TopologicalMap({
   localityData,
   topology,
 }: MapProps): React.ReactElement {
-  const [hoveredLocationId, setHoveredLocationId] = useState<string | void>();
-
   return (
     <MeasureWidth>
       {({ measureRef, width }) => {
@@ -139,36 +115,12 @@ export default function TopologicalMap({
                 <Geographies geography={topology}>
                   {({ geographies }) => {
                     return geographies.map((geography) => {
-                      const centroid = geoCentroid(geography);
-                      const regionValue = localityData[geography.id];
                       return (
-                        <React.Fragment key={geography.id}>
-                          <GeoRegion
-                            key={`region_${geography.id}`}
-                            geography={geography}
-                            onBlur={() => setHoveredLocationId()}
-                            onFocus={() => setHoveredLocationId(geography.id)}
-                            onMouseDown={(e) => {
-                              // stop clicks from moving focus to this element
-                              e.preventDefault();
-                            }}
-                            onMouseOut={() => setHoveredLocationId()}
-                            onMouseOver={() =>
-                              setHoveredLocationId(geography.id)
-                            }
-                            tabIndex={0}
-                          />
-                          {regionValue !== undefined && (
-                            <RegionMarker
-                              key={`marker_${geography.id}`}
-                              coordinates={centroid}
-                            >
-                              <RegionLabel>{regionValue}</RegionLabel>
-                              {/* TODO: hovering */}
-                              {/* hover: hoveredLocationId === geography.id, */}
-                            </RegionMarker>
-                          )}
-                        </React.Fragment>
+                        <Region
+                          key={geography.id}
+                          geography={geography}
+                          data={localityData[geography.id]}
+                        />
                       );
                     });
                   }}
@@ -181,3 +133,89 @@ export default function TopologicalMap({
     </MeasureWidth>
   );
 }
+
+const RegionGroup = styled.g`
+  &:focus {
+    outline: none;
+  }
+`;
+
+const RegionGeography = styled(Geography)`
+  &:focus {
+    outline: none;
+  }
+`;
+
+const RegionMarker = styled(Marker)``;
+
+const RegionLabel = styled(animated.text)`
+  fill: ${colors.text};
+  font-size: ${rem(18)};
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  text-anchor: middle;
+`;
+
+const Region = ({
+  data,
+  geography,
+}: {
+  data: ValuesType<LocalityDataMapping>;
+  geography: GeographyProps["geography"];
+}) => {
+  const centroid = geoCentroid(geography);
+  const { label, value } = data;
+  const [hoverRegion, setHoverRegion] = useState(false);
+
+  const [labelStyles, setLabelStyles] = useSpring(() => ({
+    from: { fill: colors.text },
+    fill: colors.text,
+  }));
+
+  const setHover = () => {
+    setHoverRegion(true);
+    setLabelStyles({ fill: colors.accent });
+  };
+
+  const clearHover = () => {
+    setHoverRegion(false);
+    setLabelStyles({ fill: colors.text });
+  };
+
+  return (
+    <RegionGroup
+      onBlur={clearHover}
+      onMouseOut={clearHover}
+      onFocus={setHover}
+      onMouseOver={setHover}
+      tabIndex={0}
+      role="img"
+      aria-label={`${label} value ${value}`}
+    >
+      {/*
+        using spring renderprops instead of hook because
+        the Geography `style` prop clobbers the `animated` wrapper
+      */}
+      <Spring
+        from={{
+          fill: colors.mapFill,
+        }}
+        to={{ fill: hoverRegion ? colors.mapFillHover : colors.mapFill }}
+      >
+        {(props) => (
+          <RegionGeography
+            key={`region_${geography.id}`}
+            geography={geography}
+            fill={props.fill}
+            stroke={colors.mapStroke}
+            strokeWidth={1.5}
+            tabIndex={-1}
+          />
+        )}
+      </Spring>
+      <RegionMarker key={`marker_${geography.id}`} coordinates={centroid}>
+        <RegionLabel style={labelStyles}>{value}</RegionLabel>
+      </RegionMarker>
+    </RegionGroup>
+  );
+};

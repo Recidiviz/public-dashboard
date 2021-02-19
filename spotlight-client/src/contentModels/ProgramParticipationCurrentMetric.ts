@@ -19,6 +19,7 @@ import { computed, makeObservable } from "mobx";
 import { MapData } from "../contentApi/types";
 import { ProgramParticipationCurrentRecord } from "../metricsApi";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
+import { LocalityDataMapping } from "./types";
 
 export default class ProgramParticipationCurrentMetric extends Metric<
   ProgramParticipationCurrentRecord
@@ -40,12 +41,20 @@ export default class ProgramParticipationCurrentMetric extends Metric<
   /**
    * Provides counts mapped by locality ID rather than in series.
    */
-  get dataMapping(): Record<string, number> | undefined {
+  get dataMapping(): LocalityDataMapping | undefined {
     const { records } = this;
     if (!records) return undefined;
 
     return records.reduce((mapping, record) => {
-      return { ...mapping, [record.locality]: record.count };
+      return {
+        ...mapping,
+        [record.locality]: {
+          value: record.count,
+          label:
+            this.localityLabels.entries.find(({ id }) => id === record.locality)
+              ?.label || record.locality,
+        },
+      };
     }, {});
   }
 }
