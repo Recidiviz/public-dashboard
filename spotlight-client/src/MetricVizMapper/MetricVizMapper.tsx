@@ -67,7 +67,8 @@ const MetricVizMapper: React.FC<MetricVizMapperProps> = ({ metric }) => {
   if (metric instanceof ProgramParticipationCurrentMetric) {
     return <VizProgramParticipationCurrent metric={metric} />;
   }
-  // TODO: exhaustiveness check?
+
+  // there are no other metric types, so this should only be reached when developing new ones
   throw new Error("unknown metric type");
 };
 

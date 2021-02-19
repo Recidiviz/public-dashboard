@@ -25,7 +25,6 @@ import {
   Marker,
   GeographyProps,
 } from "react-simple-maps";
-import { animated, useSpring } from "react-spring/web.cjs";
 import { Spring } from "react-spring/renderprops.cjs";
 import styled from "styled-components/macro";
 import { mesh } from "topojson";
@@ -78,8 +77,8 @@ type MapProps = {
 };
 
 /**
- * Given a topology and a mapping of topological object IDs to values,
- * draws a map and labels the topological objects with their values.
+ * Given a topojson topology and a mapping of topological object IDs to values,
+ * draws a map and labels the topological objects accordingly.
  */
 export default function TopologicalMap({
   aspectRatio,
@@ -148,8 +147,7 @@ const RegionGeography = styled(Geography)`
 
 const RegionMarker = styled(Marker)``;
 
-const RegionLabel = styled(animated.text)`
-  fill: ${colors.text};
+const RegionLabel = styled.text`
   font-size: ${rem(18)};
   font-weight: 600;
   letter-spacing: -0.015em;
@@ -167,19 +165,12 @@ const Region = ({
   const { label, value } = data;
   const [hoverRegion, setHoverRegion] = useState(false);
 
-  const [labelStyles, setLabelStyles] = useSpring(() => ({
-    from: { fill: colors.text },
-    fill: colors.text,
-  }));
-
   const setHover = () => {
     setHoverRegion(true);
-    setLabelStyles({ fill: colors.accent });
   };
 
   const clearHover = () => {
     setHoverRegion(false);
-    setLabelStyles({ fill: colors.text });
   };
 
   return (
@@ -193,29 +184,35 @@ const Region = ({
       aria-label={`${label} value ${value}`}
     >
       {/*
-        using spring renderprops instead of hook because
-        the Geography `style` prop clobbers the `animated` wrapper
+        using spring renderprops instead of hook because react-simple-maps
+        components are not compatible with the `animated` wrapper
       */}
       <Spring
         from={{
           fill: colors.mapFill,
+          textFill: colors.text,
         }}
-        to={{ fill: hoverRegion ? colors.mapFillHover : colors.mapFill }}
+        to={{
+          fill: hoverRegion ? colors.mapFillHover : colors.mapFill,
+          textFill: hoverRegion ? colors.accent : colors.text,
+        }}
       >
         {(props) => (
-          <RegionGeography
-            key={`region_${geography.id}`}
-            geography={geography}
-            fill={props.fill}
-            stroke={colors.mapStroke}
-            strokeWidth={1.5}
-            tabIndex={-1}
-          />
+          <>
+            <RegionGeography
+              key={`region_${geography.id}`}
+              geography={geography}
+              fill={props.fill}
+              stroke={colors.mapStroke}
+              strokeWidth={1.5}
+              tabIndex={-1}
+            />
+            <RegionMarker key={`marker_${geography.id}`} coordinates={centroid}>
+              <RegionLabel fill={props.textFill}>{value}</RegionLabel>
+            </RegionMarker>
+          </>
         )}
       </Spring>
-      <RegionMarker key={`marker_${geography.id}`} coordinates={centroid}>
-        <RegionLabel style={labelStyles}>{value}</RegionLabel>
-      </RegionMarker>
     </RegionGroup>
   );
 };
