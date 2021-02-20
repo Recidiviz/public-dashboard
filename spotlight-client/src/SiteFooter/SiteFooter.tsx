@@ -25,16 +25,19 @@ import mediumPath from "../assets/medium-logo-light.svg";
 import wordmarkPath from "../assets/recidiviz-logo-light.svg";
 import twitterPath from "../assets/twitter-logo-light.svg";
 import { FOOTER_HEIGHT } from "../constants";
-import { colors } from "../UiLibrary";
+import { breakpoints, colors } from "../UiLibrary";
 
-const Container = styled.footer`
+const Wrapper = styled.footer`
+  align-content: flex-end;
   background: ${colors.footerBackground};
   color: ${colors.caption};
-  font-size: ${rem(8)};
+  display: flex;
+  font-size: ${rem(12)};
   font-weight: 700;
-  height: ${rem(FOOTER_HEIGHT)};
   line-height: 1.25;
-  padding: ${rem(184)} ${rem(32)} 0;
+  min-height: ${rem(FOOTER_HEIGHT)};
+  padding: ${rem(32)};
+  padding-bottom: 0;
   width: 100%;
 
   a {
@@ -42,35 +45,71 @@ const Container = styled.footer`
   }
 `;
 
-const Row = styled.div`
+const Contents = styled.div`
+  align-content: flex-end;
   display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
   justify-content: space-between;
 `;
 
 const Legalese = styled.div`
   align-items: center;
   display: flex;
+  margin-bottom: ${rem(32)};
 `;
 
-const Icons = styled.div`
+const BrandLinks = styled.div`
   align-items: center;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: ${rem(32)};
+`;
+
+const SocialLinks = styled.div`
+  align-items: center;
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  width: 100%;
+
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    width: auto;
+  }
 `;
 
 const SocialLink = styled.a`
-  margin: 0 ${rem(8)};
+  margin: ${rem(8)};
+
+  img {
+    height: ${rem(40)};
+    width: auto;
+  }
+
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    img {
+      height: ${rem(16)};
+    }
+  }
 `;
 
 const BrandLink = styled.a`
-  margin-left: ${rem(52)};
+  margin-bottom: ${rem(8)};
+  margin-left: ${rem(8)};
+
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    margin-bottom: 0;
+    margin-left: ${rem(56)};
+  }
 `;
 
 const SiteFooter: React.FC = () => {
   const year = new Date().getFullYear();
 
   return (
-    <Container>
-      <Row>
+    <Wrapper>
+      <Contents>
         <Legalese>
           <span>
             &#169; Copyright {year} Recidiviz. All rights reserved.{" "}
@@ -79,28 +118,30 @@ const SiteFooter: React.FC = () => {
             </a>
           </span>
         </Legalese>
-        <Icons>
-          <SocialLink href="https://twitter.com/RecidivizOrg">
-            <img alt="Twitter" src={twitterPath} />
-          </SocialLink>
-          <SocialLink href="https://www.linkedin.com/company/recidiviz/">
-            <img alt="LinkedIn" src={linkedinPath} />
-          </SocialLink>
-          <SocialLink href="https://github.com/Recidiviz/">
-            <img alt="GitHub" src={githubPath} />
-          </SocialLink>
-          <SocialLink href="https://medium.com/recidiviz">
-            <img alt="Medium" src={mediumPath} />
-          </SocialLink>
-          <SocialLink href="https://angel.co/company/recidiviz">
-            <img alt="AngelList" src={angelPath} />
-          </SocialLink>
+        <BrandLinks>
+          <SocialLinks>
+            <SocialLink href="https://twitter.com/RecidivizOrg">
+              <img alt="Twitter" src={twitterPath} />
+            </SocialLink>
+            <SocialLink href="https://www.linkedin.com/company/recidiviz/">
+              <img alt="LinkedIn" src={linkedinPath} />
+            </SocialLink>
+            <SocialLink href="https://github.com/Recidiviz/">
+              <img alt="GitHub" src={githubPath} />
+            </SocialLink>
+            <SocialLink href="https://medium.com/recidiviz">
+              <img alt="Medium" src={mediumPath} />
+            </SocialLink>
+            <SocialLink href="https://angel.co/company/recidiviz">
+              <img alt="AngelList" src={angelPath} />
+            </SocialLink>
+          </SocialLinks>
           <BrandLink href="https://recidiviz.org">
             <img alt="Recidiviz" src={wordmarkPath} />
           </BrandLink>
-        </Icons>
-      </Row>
-    </Container>
+        </BrandLinks>
+      </Contents>
+    </Wrapper>
   );
 };
 
