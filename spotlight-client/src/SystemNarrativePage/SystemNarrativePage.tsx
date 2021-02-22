@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { navigate, useParams } from "@reach/router";
+import useBreakpoint from "@w11r/use-breakpoint";
 import HTMLReactParser from "html-react-parser";
 import { rem } from "polished";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -27,7 +28,7 @@ import { NAV_BAR_HEIGHT } from "../constants";
 import SystemNarrative from "../contentModels/SystemNarrative";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
-import { colors, typefaces, Chevron } from "../UiLibrary";
+import { colors, typefaces, Chevron, breakpoints } from "../UiLibrary";
 import { X_PADDING } from "./constants";
 import Section from "./Section";
 import NarrativeNavigation from "../NarrativeNavigation";
@@ -49,24 +50,38 @@ const NavStickyContainer = styled.div`
 `;
 
 const IntroContainer = styled.div`
-  padding-top: ${rem(160)};
-  padding-bottom: ${rem(172)};
-  padding-right: ${rem(X_PADDING)};
   border-bottom: 1px solid ${colors.rule};
+  padding: ${rem(48)} ${rem(8)};
+
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    padding-bottom: ${rem(172)};
+    padding-left: 0;
+    padding-right: ${rem(X_PADDING)};
+    padding-top: ${rem(160)};
+  }
 `;
 
 const Title = styled.h1`
   font-family: ${typefaces.display};
-  font-size: ${rem(88)};
+  font-size: ${rem(32)};
   letter-spacing: -0.05em;
   line-height: 1;
-  margin-bottom: ${rem(64)};
+  margin-bottom: ${rem(24)};
+
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    font-size: ${rem(88)};
+    margin-bottom: ${rem(64)};
+  }
 `;
 
 const IntroCopy = styled.p`
-  font-size: ${rem(48)};
+  font-size: ${rem(18)};
   line-height: 1.5;
   letter-spacing: -0.025em;
+
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    font-size: ${rem(48)};
+  }
 `;
 
 const ScrollIndicator = styled.div`
@@ -77,7 +92,11 @@ const ScrollIndicator = styled.div`
   font-size: ${rem(12)};
   font-weight: 500;
   letter-spacing: 0.05em;
-  margin-top: ${rem(144)};
+  margin-top: ${rem(32)};
+
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    margin-top: ${rem(144)};
+  }
 
   span {
     margin-bottom: ${rem(16)};
@@ -97,6 +116,7 @@ const SystemNarrativePage: React.FC<{
   const sectionsContainerRef = useRef() as React.MutableRefObject<
     HTMLDivElement
   >;
+  const showSectionNavigation = useBreakpoint(true, ["mobile-", false]);
 
   // automated scrolling is a special case of section visibility;
   // this flag lets us suspend in-page navigation actions while it is in progress
@@ -170,16 +190,18 @@ const SystemNarrativePage: React.FC<{
 
   return (
     <Container>
-      <NavContainer>
-        <Sticker>
-          <NavStickyContainer>
-            <NarrativeNavigation
-              activeSection={activeSection}
-              narrative={narrative}
-            />
-          </NavStickyContainer>
-        </Sticker>
-      </NavContainer>
+      {showSectionNavigation && (
+        <NavContainer>
+          <Sticker>
+            <NavStickyContainer>
+              <NarrativeNavigation
+                activeSection={activeSection}
+                narrative={narrative}
+              />
+            </NavStickyContainer>
+          </Sticker>
+        </NavContainer>
+      )}
       <SectionsContainer ref={sectionsContainerRef}>
         <InView
           as="div"

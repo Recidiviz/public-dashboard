@@ -25,27 +25,34 @@ import Metric from "../contentModels/Metric";
 import { SystemNarrativeSection } from "../contentModels/SystemNarrative";
 import { MetricRecord } from "../contentModels/types";
 import MetricVizMapper from "../MetricVizMapper";
-import { colors, typefaces } from "../UiLibrary";
+import { breakpoints, colors, typefaces } from "../UiLibrary";
 import { X_PADDING } from "./constants";
 
 const COPY_WIDTH = 408;
 
 const Container = styled.section`
   border-bottom: 1px solid ${colors.rule};
-  display: flex;
-  min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
-  padding-right: ${rem(X_PADDING)};
+  padding: ${rem(40)} ${rem(8)} 0;
+
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    display: flex;
+    min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
+    padding: 0;
+    padding-right: ${rem(X_PADDING)};
+  }
 `;
 
 const SectionCopy = styled.div`
-  display: flex;
-  flex: 0 1 30%;
-  flex-direction: column;
-  height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
-  justify-content: center;
-  max-width: ${rem(COPY_WIDTH)};
-  position: sticky;
-  top: ${rem(NAV_BAR_HEIGHT)};
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    display: flex;
+    flex: 0 1 30%;
+    flex-direction: column;
+    height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
+    justify-content: center;
+    max-width: ${rem(COPY_WIDTH)};
+    position: sticky;
+    top: ${rem(NAV_BAR_HEIGHT)};
+  }
 
   p {
     margin-top: 1em;
@@ -69,11 +76,14 @@ const VizContainer = styled.div`
   flex: 1 1 auto;
   flex-direction: column;
   justify-content: center;
-  margin-left: 8%;
-  min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
   /* min-width cannot be auto or children will not shrink when viewport does */
   min-width: ${rem(320)};
   padding: ${rem(32)} 0;
+
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    margin-left: 8%;
+    min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
+  }
 `;
 
 const SectionViz: React.FC<{ metric: Metric<MetricRecord> }> = ({ metric }) => {

@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { RouteComponentProps } from "@reach/router";
+import useBreakpoint from "@w11r/use-breakpoint";
 import React from "react";
 import { SystemNarrativeTypeId } from "../contentApi/types";
 import NarrativeFooter from "../NarrativeFooter";
@@ -27,10 +28,12 @@ type PageNarrativeProps = RouteComponentProps & {
 };
 
 const PageNarrative: React.FC<PageNarrativeProps> = () => {
+  const showFooter = useBreakpoint(true, ["mobile-", false]);
+
   return (
     <>
       <SystemNarrativePage />
-      <NarrativeFooter />
+      {showFooter && <NarrativeFooter />}
     </>
   );
 };
