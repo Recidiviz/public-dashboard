@@ -20,16 +20,14 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import type PopulationBreakdownByLocationMetric from "../contentModels/PopulationBreakdownByLocationMetric";
 import type SentenceTypeByLocationMetric from "../contentModels/SentenceTypeByLocationMetric";
-import type SupervisionSuccessRateDemographicsMetric from "../contentModels/SupervisionSuccessRateDemographicsMetric";
-import type SupervisionSuccessRateMonthlyMetric from "../contentModels/SupervisionSuccessRateMonthlyMetric";
+import type SupervisionSuccessRateMetric from "../contentModels/SupervisionSuccessRateMetric";
 import { Dropdown } from "../UiLibrary";
 
 type LocalityFilterSelectProps = {
   metric:
     | PopulationBreakdownByLocationMetric
     | SentenceTypeByLocationMetric
-    | SupervisionSuccessRateMonthlyMetric
-    | SupervisionSuccessRateDemographicsMetric;
+    | SupervisionSuccessRateMetric;
 };
 
 const LocalityFilterSelect: React.FC<LocalityFilterSelectProps> = ({

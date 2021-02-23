@@ -15,29 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { DataSeries } from "../charts";
-import {
-  recordMatchesLocality,
-  SupervisionSuccessRateMonthlyRecord,
-} from "../metricsApi";
-import Metric from "./Metric";
-
-export default class SupervisionSuccessRateMonthlyMetric extends Metric<
-  SupervisionSuccessRateMonthlyRecord
-> {
-  get records(): SupervisionSuccessRateMonthlyRecord[] | undefined {
-    let recordsToReturn = this.getOrFetchRecords();
-    if (!recordsToReturn) return undefined;
-
-    recordsToReturn = recordsToReturn.filter(
-      recordMatchesLocality(this.localityId)
-    );
-
-    return recordsToReturn;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  get dataSeries(): DataSeries<SupervisionSuccessRateMonthlyRecord>[] | null {
-    throw new Error("Method not implemented.");
-  }
-}
+export { default } from "./VizSupervisionSuccessRate";

@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { format } from "date-fns";
 import { ValuesType } from "utility-types";
 import { RawMetricData } from "./fetchMetrics";
 import { LocalityFields, RateFields } from "./types";
@@ -24,15 +25,28 @@ export type SupervisionSuccessRateMonthlyRecord = LocalityFields &
   RateFields & {
     month: number;
     year: number;
+    label: string;
   };
+
+const dateFormatString = "MMM yyyy";
+
+export const getCohortLabel = (
+  record: Pick<SupervisionSuccessRateMonthlyRecord, "year" | "month">
+): string => {
+  // data uses normal calendar month numbers, Date needs month index
+  return format(new Date(record.year, record.month - 1), dateFormatString);
+};
 
 function createSupervisionSuccessRateMonthlyRecord(
   record: ValuesType<RawMetricData>
 ) {
+  const year = Number(record.projected_year);
+  const month = Number(record.projected_month);
   return {
     locality: record.district,
-    year: Number(record.projected_year),
-    month: Number(record.projected_month),
+    year,
+    month,
+    label: getCohortLabel({ year, month }),
     rateNumerator: Number(record.successful_termination_count),
     rateDenominator: Number(record.projected_completion_count),
     rate: Number(record.success_rate),

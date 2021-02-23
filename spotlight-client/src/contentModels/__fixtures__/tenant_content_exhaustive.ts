@@ -141,16 +141,6 @@ const content: DeepRequired<TenantContent> = {
       description: "test ParoleProgrammingCurrent description",
       methodology: "test ParoleProgrammingCurrent methodology",
     },
-    ParoleSuccessAggregate: {
-      name: "test ParoleSuccessAggregate name",
-      description: "test ParoleSuccessAggregate description",
-      methodology: "test ParoleSuccessAggregate methodology",
-    },
-    ProbationSuccessAggregate: {
-      name: "test ProbationSuccessAggregate name",
-      description: "test ProbationSuccessAggregate description",
-      methodology: "test ProbationSuccessAggregate methodology",
-    },
   },
   systemNarratives: {
     Prison: {
@@ -229,12 +219,12 @@ const content: DeepRequired<TenantContent> = {
       label: "probation locality",
       entries: [
         {
-          id: "probation a",
-          label: "probation A",
+          id: "NORTHEAST",
+          label: "Northeast",
         },
         {
-          id: "probation b",
-          label: "probation B",
+          id: "SOUTHWEST",
+          label: "Southwest",
         },
       ],
     },

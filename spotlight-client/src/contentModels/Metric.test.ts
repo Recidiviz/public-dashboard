@@ -77,7 +77,13 @@ describe("data fetching", () => {
     clear();
   });
 
-  test.each(MetricTypeIdList)("for metric %s", (metricId, done) => {
+  test.each(
+    MetricTypeIdList.filter(
+      (id) =>
+        // the `records` property is not supported for these metric types
+        !["ProbationSuccessHistorical", "ParoleSuccessHistorical"].includes(id)
+    )
+  )("for metric %s", (metricId, done) => {
     expect.hasAssertions();
     const metric = getTestMetric(metricId);
 
@@ -103,7 +109,7 @@ describe("data fetching", () => {
 test("file loading state", (done) => {
   testMetricMapping = getTestMapping();
   // not really necessary to test this once per type; we just pick one arbitrarily
-  const metric = getTestMetric("ParoleSuccessHistorical");
+  const metric = getTestMetric("PrisonReleaseTypeAggregate");
 
   let dataPromise: ReturnType<typeof fromPromise>;
 
