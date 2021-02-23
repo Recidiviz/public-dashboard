@@ -11556,7 +11556,7 @@ react-app-polyfill@^1.0.6:
     regenerator-runtime "^0.13.3"
     whatwg-fetch "^3.0.0"
 
-react-collapsed@^3.0.0:
+react-collapsed@^3.0.0, react-collapsed@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/react-collapsed/-/react-collapsed-3.0.1.tgz#1bd8daab639cba51917e7de6a5f7b4641d010717"
   integrity sha512-TP3TEszJv0VXDgAq2XaSJffGGeNErYCLuODwK6i5CRM1jcSmZuEoQw54rbxvten7XnhoaX9FYub7BA/zc0o17A==

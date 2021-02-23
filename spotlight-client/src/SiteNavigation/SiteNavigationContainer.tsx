@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,4 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export { default } from "./SiteNavigationContainer";
+import useBreakpoint from "@w11r/use-breakpoint";
+import React from "react";
+import SiteNavigation from "./SiteNavigation";
+import SiteNavigationMobile from "./SiteNavigationMobile";
+
+export default function SiteNavigationContainer(): React.ReactElement {
+  const isMobile = useBreakpoint(false, ["mobile-", true]);
+
+  return isMobile ? <SiteNavigationMobile /> : <SiteNavigation />;
+}
