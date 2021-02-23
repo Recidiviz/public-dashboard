@@ -35,6 +35,7 @@ const Wrapper = styled.footer`
   font-size: ${rem(12)};
   font-weight: 700;
   line-height: 1.25;
+  margin-top: ${rem(120)};
   min-height: ${rem(FOOTER_HEIGHT)};
   padding: ${rem(32)};
   padding-bottom: 0;
@@ -84,12 +85,14 @@ const SocialLink = styled.a`
 
   img {
     height: ${rem(40)};
+    padding: ${rem(8)};
     width: auto;
   }
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     img {
       height: ${rem(16)};
+      padding: 0;
     }
   }
 `;

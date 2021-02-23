@@ -51,6 +51,7 @@ const NavStickyContainer = styled.div`
 
 const IntroContainer = styled.div`
   border-bottom: 1px solid ${colors.rule};
+  min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
   padding: ${rem(48)} ${rem(8)};
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
