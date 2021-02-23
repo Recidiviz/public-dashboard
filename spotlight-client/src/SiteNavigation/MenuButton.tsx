@@ -40,7 +40,7 @@ export default function MenuButton({
   });
 
   return (
-    <Button {...buttonProps}>
+    <Button title="Toggle navigation menu" {...buttonProps}>
       <svg
         width="24"
         height="6"

@@ -112,7 +112,7 @@ const SiteNavigation: React.FC = () => {
         </NavGroup>
         <MenuButton isOpen={isExpanded} {...getToggleProps()} />
       </NavBar>
-      <NavMenu {...getCollapseProps()}>
+      <NavMenu {...getCollapseProps()} data-testid="NavMenu">
         {tenant && (
           <>
             <NavMenuItem>
