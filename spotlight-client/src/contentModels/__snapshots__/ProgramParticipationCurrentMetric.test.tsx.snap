@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`data mapping 1`] = `
+Object {
+  "1": Object {
+    "label": "Region A",
+    "value": 7,
+  },
+  "2": Object {
+    "label": "Region B",
+    "value": 47,
+  },
+  "3": Object {
+    "label": "Region C",
+    "value": 50,
+  },
+  "4": Object {
+    "label": "Region D",
+    "value": 25,
+  },
+  "5": Object {
+    "label": "Region E",
+    "value": 51,
+  },
+  "6": Object {
+    "label": "Region F",
+    "value": 21,
+  },
+  "7": Object {
+    "label": "Region G",
+    "value": 106,
+  },
+  "8": Object {
+    "label": "Region H",
+    "value": 17,
+  },
+}
+`;

@@ -32,6 +32,8 @@ import VizSentenceTypeByLocation from "../VizSentenceTypeByLocation";
 import VizRecidivismRateCumulative from "../VizRecidivismRateCumulative";
 import SupervisionSuccessRateMetric from "../contentModels/SupervisionSuccessRateMetric";
 import VizSupervisionSuccessRate from "../VizSupervisionSuccessRate";
+import ProgramParticipationCurrentMetric from "../contentModels/ProgramParticipationCurrentMetric";
+import VizProgramParticipationCurrent from "../VizProgramParticipationCurrent";
 
 type MetricVizMapperProps = {
   metric: Metric<MetricRecord>;
@@ -62,7 +64,12 @@ const MetricVizMapper: React.FC<MetricVizMapperProps> = ({ metric }) => {
   if (metric instanceof SupervisionSuccessRateMetric) {
     return <VizSupervisionSuccessRate metric={metric} />;
   }
-  return <h3>Placeholder for {metric.name}</h3>;
+  if (metric instanceof ProgramParticipationCurrentMetric) {
+    return <VizProgramParticipationCurrent metric={metric} />;
+  }
+
+  // there are no other metric types, so this should only be reached when developing new ones
+  throw new Error("unknown metric type");
 };
 
 export default MetricVizMapper;

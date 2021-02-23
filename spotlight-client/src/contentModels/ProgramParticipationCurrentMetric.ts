@@ -15,15 +15,46 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { DataSeries } from "../charts";
+import { computed, makeObservable } from "mobx";
+import { MapData } from "../contentApi/types";
 import { ProgramParticipationCurrentRecord } from "../metricsApi";
-import Metric from "./Metric";
+import Metric, { BaseMetricConstructorOptions } from "./Metric";
+import { LocalityDataMapping } from "./types";
 
 export default class ProgramParticipationCurrentMetric extends Metric<
   ProgramParticipationCurrentRecord
 > {
-  // eslint-disable-next-line class-methods-use-this
-  get dataSeries(): DataSeries<ProgramParticipationCurrentRecord>[] | null {
-    throw new Error("Method not implemented.");
+  readonly mapData: MapData;
+
+  constructor(
+    props: BaseMetricConstructorOptions<ProgramParticipationCurrentRecord> & {
+      mapData: MapData;
+    }
+  ) {
+    super(props);
+
+    this.mapData = props.mapData;
+
+    makeObservable(this, { dataMapping: computed });
+  }
+
+  /**
+   * Provides counts mapped by locality ID rather than in series.
+   */
+  get dataMapping(): LocalityDataMapping | undefined {
+    const { records } = this;
+    if (!records) return undefined;
+
+    return records.reduce((mapping, record) => {
+      return {
+        ...mapping,
+        [record.locality]: {
+          value: record.count,
+          label:
+            this.localityLabels.entries.find(({ id }) => id === record.locality)
+              ?.label || record.locality,
+        },
+      };
+    }, {});
   }
 }

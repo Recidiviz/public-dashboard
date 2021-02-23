@@ -17,8 +17,19 @@
 
 import { DeepRequired } from "utility-types";
 import { TenantContent } from "../../contentApi/types";
+import programRegionsTopology from "../../contentApi/sources/usNdProgramRegions";
 
-const content: DeepRequired<TenantContent> = {
+// some parts of this object are too complex to be deep-required,
+// but for most of it that's desirable
+type DeepRequiredTenantContent = DeepRequired<
+  Omit<TenantContent, "topologies">
+>;
+
+// any properties excluded from deep requirement are required shallowly
+type ExhaustiveTenantContent = Required<TenantContent> &
+  DeepRequiredTenantContent;
+
+const content: ExhaustiveTenantContent = {
   name: "Test Tenant",
   description: "test tenant description",
   collections: {
@@ -240,6 +251,50 @@ const content: DeepRequired<TenantContent> = {
           label: "parole B",
         },
       ],
+    },
+    ProgramRegions: {
+      label: "program region",
+      entries: [
+        {
+          id: "1",
+          label: "Region A",
+        },
+        {
+          id: "2",
+          label: "Region B",
+        },
+        {
+          id: "3",
+          label: "Region C",
+        },
+        {
+          id: "4",
+          label: "Region D",
+        },
+        {
+          id: "5",
+          label: "Region E",
+        },
+        {
+          id: "6",
+          label: "Region F",
+        },
+        {
+          id: "7",
+          label: "Region G",
+        },
+        {
+          id: "8",
+          label: "Region H",
+        },
+      ],
+    },
+  },
+  topologies: {
+    ProgramRegions: {
+      aspectRatio: 1.5,
+      // these objects are too complex to be worth mocking
+      topology: programRegionsTopology,
     },
   },
 };

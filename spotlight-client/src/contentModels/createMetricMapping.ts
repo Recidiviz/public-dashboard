@@ -53,8 +53,9 @@ import { NOFILTER_KEY, TOTAL_KEY } from "../demographics";
 import { colors } from "../UiLibrary";
 
 type MetricMappingFactoryOptions = {
-  localityLabelMapping: TenantContent["localities"];
+  localityLabelMapping?: TenantContent["localities"];
   metadataMapping: TenantContent["metrics"];
+  topologyMapping?: TenantContent["topologies"];
   tenantId: TenantId;
 };
 /**
@@ -66,6 +67,7 @@ type MetricMappingFactoryOptions = {
 export default function createMetricMapping({
   localityLabelMapping,
   metadataMapping,
+  topologyMapping,
   tenantId,
 }: MetricMappingFactoryOptions): MetricMapping {
   const metricMapping: MetricMapping = new Map();
@@ -82,6 +84,7 @@ export default function createMetricMapping({
     }
 
     // messages for errors we may hit at various points below
+    const topologyContentError = `${ERROR_MESSAGES.missingRequiredContent} (map topology)`;
     const localityContentError = `${ERROR_MESSAGES.missingRequiredContent} (locality labels)`;
     const totalLabelError = `${ERROR_MESSAGES.missingRequiredContent} (total population label)`;
 
@@ -234,8 +237,11 @@ export default function createMetricMapping({
         );
         break;
       case "ProbationProgrammingCurrent":
-        if (!localityLabelMapping?.Probation)
+        if (!localityLabelMapping?.ProgramRegions)
           throw new Error(localityContentError);
+
+        if (!topologyMapping?.ProgramRegions)
+          throw new Error(topologyContentError);
 
         metricMapping.set(
           metricType,
@@ -245,15 +251,19 @@ export default function createMetricMapping({
             tenantId,
             defaultDemographicView: undefined,
             defaultLocalityId: NOFILTER_KEY,
-            localityLabels: localityLabelMapping.Probation,
+            localityLabels: localityLabelMapping.ProgramRegions,
+            mapData: topologyMapping?.ProgramRegions,
             dataTransformer: probationProgramParticipationCurrent,
             sourceFileName: "active_program_participation_by_region",
           })
         );
         break;
       case "ParoleProgrammingCurrent":
-        if (!localityLabelMapping?.Parole)
+        if (!localityLabelMapping?.ProgramRegions)
           throw new Error(localityContentError);
+
+        if (!topologyMapping?.ProgramRegions)
+          throw new Error(topologyContentError);
 
         metricMapping.set(
           metricType,
@@ -263,7 +273,8 @@ export default function createMetricMapping({
             tenantId,
             defaultDemographicView: undefined,
             defaultLocalityId: NOFILTER_KEY,
-            localityLabels: localityLabelMapping.Parole,
+            localityLabels: localityLabelMapping.ProgramRegions,
+            mapData: topologyMapping?.ProgramRegions,
             dataTransformer: paroleProgramParticipationCurrent,
             sourceFileName: "active_program_participation_by_region",
           })

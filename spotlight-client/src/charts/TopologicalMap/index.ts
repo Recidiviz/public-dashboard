@@ -15,10 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export * from "./BarChartTrellis";
-export { default as BubbleChart } from "./BubbleChart";
-export { default as ProportionalBar } from "./ProportionalBar";
-export { default as TopologicalMap } from "./TopologicalMap";
-export { default as WindowedTimeSeries } from "./WindowedTimeSeries";
-export * from "./WindowedTimeSeries";
-export * from "./types";
+export { default } from "./TopologicalMap";
