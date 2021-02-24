@@ -17,9 +17,13 @@
 
 import useBreakpoint from "@w11r/use-breakpoint";
 import { observer } from "mobx-react-lite";
+import { rem } from "polished";
 import React from "react";
+import { useSpring } from "react-spring/web.cjs";
 import { useDataStore } from "../StoreProvider";
 import { FixedBottomPanel } from "../UiLibrary";
+
+const TOOLTIP_HEIGHT = 266;
 
 const TooltipMobile = (): React.ReactElement | null => {
   const enabled = useBreakpoint(false, ["mobile-", true]);
@@ -32,11 +36,29 @@ const TooltipMobile = (): React.ReactElement | null => {
     uiStore.clearTooltipMobile();
   };
 
-  if (enabled && tooltipMobileData && renderTooltipMobile) {
+  const isOpen = Boolean(enabled && tooltipMobileData && renderTooltipMobile);
+
+  // animate the panel opening and closing
+  const transitionStyles = useSpring({
+    from: { top: 0 },
+    top: isOpen ? TOOLTIP_HEIGHT : 0,
+  });
+
+  if (enabled) {
     return (
       <>
-        <FixedBottomPanel className="TooltipMobile" closePanel={dismiss} isOpen>
-          {renderTooltipMobile(tooltipMobileData)}
+        <FixedBottomPanel
+          className="TooltipMobile"
+          closePanel={dismiss}
+          isOpen={isOpen}
+          top={transitionStyles.top.interpolate((top) =>
+            // top should never be undefined in practice, this is just type safety
+            top === undefined ? "100%" : `calc(100% - ${rem(top)})`
+          )}
+        >
+          {tooltipMobileData &&
+            renderTooltipMobile &&
+            renderTooltipMobile(tooltipMobileData)}
         </FixedBottomPanel>
       </>
     );

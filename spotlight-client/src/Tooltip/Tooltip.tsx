@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
 import { colors, zIndex } from "../UiLibrary";
@@ -22,11 +23,11 @@ import { formatAsPct, formatAsNumber } from "../utils";
 
 const TooltipWrapper = styled.div`
   background: ${colors.tooltipBackground};
-  border-radius: 4px;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: ${rem(4)};
+  box-shadow: 0 ${rem(2)} ${rem(10)} rgba(0, 0, 0, 0.1);
   color: ${colors.textLight};
-  font-size: 14px;
-  padding: 16px;
+  font-size: ${rem(14)};
+  padding: ${rem(16)};
   position: relative;
   z-index: ${zIndex.tooltip};
 
@@ -34,8 +35,8 @@ const TooltipWrapper = styled.div`
     background: transparent;
     border-radius: 0;
     box-shadow: none;
-    overflow-x: auto;
-    padding: 0 32px 32px;
+    padding: 0;
+    padding-bottom: ${rem(32)};
     width: 100%;
   }
 `;
@@ -51,10 +52,14 @@ const LabelColorSwatch = styled.div`
 `;
 
 const TooltipTitle = styled.div`
-  color: ${colors.textLight};
+  color: ${colors.accent};
+  letter-spacing: -0.01em;
+  margin-bottom: ${rem(16)};
 
   .TooltipMobile & {
-    margin-bottom: 24px;
+    font-size: ${rem(16)};
+    padding: 0 ${rem(32)};
+    margin-bottom: ${rem(24)};
   }
 `;
 
@@ -62,44 +67,60 @@ const TooltipRecordList = styled.div`
   .TooltipMobile & {
     align-items: flex-end;
     display: flex;
+    overflow-x: auto;
+    padding: ${rem(8)} ${rem(32)};
   }
 `;
 
 const TooltipRecord = styled.div`
-  margin-bottom: 16px;
+  display: flex;
+  margin-bottom: ${rem(16)};
+  width: 100%;
 
   &:last-child {
     margin-bottom: 0;
   }
 
   .TooltipMobile & {
-    font-size: 24px;
-    margin-right: 24px;
+    display: block;
+    flex: 0 0 auto;
+    font-size: ${rem(24)};
+    line-height: 1.3;
+    margin-right: ${rem(24)};
     margin-bottom: 0;
-  }
-`;
+    width: auto;
 
-const TooltipLabel = styled.div`
-  .TooltipMobile & {
-    font-size: 16px;
-
-    .TooltipLabel__text {
-      opacity: 0.6;
+    &:last-child {
+      padding-right: ${rem(32)};
     }
   }
 `;
 
-const TooltipValue = styled.div`
-  display: inline-block;
+const RecordLabel = styled.div`
+  margin-right: auto;
+  padding-right: ${rem(24)};
 
   .TooltipMobile & {
-    display: block;
+    color: ${colors.caption};
+    font-size: ${rem(15)};
+    margin-right: 0;
   }
 `;
 
-const TooltipPct = styled.div`
+const RecordValue = styled.div`
   display: inline-block;
-  margin-left: 8px;
+  font-weight: 500;
+
+  .TooltipMobile & {
+    display: block;
+    font-weight: 400;
+    margin: ${rem(8)} 0;
+  }
+`;
+
+const RecordPct = styled.div`
+  display: inline-block;
+  margin-left: 0.3em;
 
   &::before {
     content: "(";
@@ -111,7 +132,7 @@ const TooltipPct = styled.div`
 
   .TooltipMobile & {
     display: block;
-    margin-left: 0;
+    margin: ${rem(8)} 0;
 
     &::before,
     &::after {
@@ -138,16 +159,16 @@ export const Tooltip: React.FC<TooltipContentProps> = ({ title, records }) => {
         {records.map(({ color, label, value, pct }, i) => (
           <TooltipRecord key={label || i}>
             {label && (
-              <TooltipLabel>
+              <RecordLabel>
                 {color && <LabelColorSwatch color={color} />}
                 <span className="TooltipLabel__text">{label}</span>
-              </TooltipLabel>
+              </RecordLabel>
             )}
-            <TooltipValue>
+            <RecordValue>
               {typeof value === "number" ? formatAsNumber(value) : value}
-            </TooltipValue>
+            </RecordValue>
             {pct !== undefined && !Number.isNaN(pct) && (
-              <TooltipPct>{formatAsPct(pct)}</TooltipPct>
+              <RecordPct>{formatAsPct(pct)}</RecordPct>
             )}
           </TooltipRecord>
         ))}

@@ -18,15 +18,13 @@
 import { rem } from "polished";
 import React from "react";
 import { Portal } from "react-portal";
-import { animated, useSpring } from "react-spring/web.cjs";
+import { useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { colors } from "..";
 import FixedBottomPanel from "../FixedBottomPanel";
 import { typefaces } from "../typography";
 import { OptionItemContents } from "./common";
 import { MenuProps } from "./types";
-
-const FixedMenuWrapper = animated(FixedBottomPanel);
 
 const FixedMenuLabel = styled.div`
   align-self: center;
@@ -78,7 +76,7 @@ const FixedMenu = ({
 
   return (
     <Portal>
-      <FixedMenuWrapper
+      <FixedBottomPanel
         closePanel={() => closeMenu()}
         isOpen={showMenuItems}
         top={menuStyles.top}
@@ -97,7 +95,7 @@ const FixedMenu = ({
               )}
           </FixedOptionList>
         </>
-      </FixedMenuWrapper>
+      </FixedBottomPanel>
     </Portal>
   );
 };

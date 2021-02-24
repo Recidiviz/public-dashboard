@@ -34,13 +34,13 @@ const COPY_WIDTH = 408;
 
 const Container = styled.section`
   border-bottom: 1px solid ${colors.rule};
+  min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
   padding: 0 ${rem(16)};
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
     padding-left: 0;
     padding-right: ${rem(X_PADDING)};
   }

@@ -16,6 +16,7 @@
 // =============================================================================
 
 import React from "react";
+import { animated } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { ReactComponent as MenuOpenIcon } from "../assets/menu-open.svg";
 import colors from "./colors";
@@ -85,4 +86,4 @@ const FixedBottomPanel: React.FC<FixedBottomPanelProps> = ({
   );
 };
 
-export default FixedBottomPanel;
+export default animated(FixedBottomPanel);
