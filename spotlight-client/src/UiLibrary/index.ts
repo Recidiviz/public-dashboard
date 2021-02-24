@@ -21,5 +21,6 @@ export { default as Check } from "./Check";
 export { default as Chevron } from "./Chevron";
 export { default as colors } from "./colors";
 export * from "./Dropdown";
+export { default as FixedBottomPanel } from "./FixedBottomPanel";
 export * from "./typography";
 export { default as zIndex } from "./zIndex";

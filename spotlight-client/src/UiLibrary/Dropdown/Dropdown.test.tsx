@@ -16,8 +16,13 @@
 // =============================================================================
 
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
+import useBreakpoint from "@w11r/use-breakpoint";
 import React from "react";
 import Dropdown from "./Dropdown";
+
+jest.mock("@w11r/use-breakpoint");
+
+const useBreakpointMock = useBreakpoint as jest.Mock;
 
 const testLabel = "Test Label";
 const mockOnChange = jest.fn();
@@ -27,125 +32,136 @@ const testOptions = [
   { id: "3", label: "option three" },
 ];
 
-beforeEach(() => {
+afterEach(() => {
   jest.resetAllMocks();
 });
 
-test("select from menu", async () => {
-  render(
-    <Dropdown
-      label={testLabel}
-      options={testOptions}
-      onChange={mockOnChange}
-      selectedId="1"
-    />
-  );
+describe.each([["mobile", true], ["desktop"]])(
+  "on %s:",
+  (...[label, isMobile]) => {
+    beforeEach(() => {
+      useBreakpointMock.mockReturnValue(isMobile);
+    });
 
-  const menuButton = screen.getByRole("button", {
-    name: `${testLabel} ${testOptions[0].label}`,
-  });
+    test("select from menu", async () => {
+      render(
+        <Dropdown
+          label={testLabel}
+          options={testOptions}
+          onChange={mockOnChange}
+          selectedId="1"
+        />
+      );
 
-  screen
-    .queryAllByRole("option")
-    .forEach((option) => expect(option).not.toBeInTheDocument());
+      const menuButton = screen.getByRole("button", {
+        name: `${testLabel} ${testOptions[0].label}`,
+      });
 
-  fireEvent.click(menuButton);
+      screen
+        .queryAllByRole("option")
+        .forEach((option) => expect(option).not.toBeInTheDocument());
 
-  testOptions.forEach((opt) => {
-    expect(screen.getByRole("option", { name: opt.label })).toBeVisible();
-  });
+      fireEvent.click(menuButton);
 
-  const newOption = screen.getByRole("option", { name: testOptions[2].label });
-  fireEvent.click(newOption);
+      testOptions.forEach((opt) => {
+        expect(screen.getByRole("option", { name: opt.label })).toBeVisible();
+      });
 
-  expect(mockOnChange.mock.calls[0][0]).toBe(testOptions[2].id);
+      const newOption = screen.getByRole("option", {
+        name: testOptions[2].label,
+      });
+      fireEvent.click(newOption);
 
-  // menu closes after selection is made; slight delay due to animation
-  await waitFor(() =>
-    screen.queryAllByRole("option").forEach((opt) => {
-      expect(opt).not.toBeInTheDocument();
-    })
-  );
-});
+      expect(mockOnChange.mock.calls[0][0]).toBe(testOptions[2].id);
 
-test("selection prop updates menu", () => {
-  const { rerender } = render(
-    <Dropdown
-      label={testLabel}
-      options={testOptions}
-      onChange={mockOnChange}
-      selectedId="1"
-    />
-  );
+      // menu closes after selection is made; slight delay due to animation
+      await waitFor(() =>
+        screen.queryAllByRole("option").forEach((opt) => {
+          expect(opt).not.toBeInTheDocument();
+        })
+      );
+    });
 
-  const menuButton = screen.getByRole("button", {
-    name: `${testLabel} ${testOptions[0].label}`,
-  });
+    test("selection prop updates menu", () => {
+      const { rerender } = render(
+        <Dropdown
+          label={testLabel}
+          options={testOptions}
+          onChange={mockOnChange}
+          selectedId="1"
+        />
+      );
 
-  rerender(
-    <Dropdown
-      label={testLabel}
-      options={testOptions}
-      onChange={mockOnChange}
-      selectedId="2"
-    />
-  );
+      const menuButton = screen.getByRole("button", {
+        name: `${testLabel} ${testOptions[0].label}`,
+      });
 
-  expect(menuButton).toHaveTextContent(testOptions[1].label);
-});
+      rerender(
+        <Dropdown
+          label={testLabel}
+          options={testOptions}
+          onChange={mockOnChange}
+          selectedId="2"
+        />
+      );
 
-test("can be disabled", () => {
-  render(
-    <Dropdown
-      label={testLabel}
-      options={testOptions}
-      onChange={mockOnChange}
-      selectedId="1"
-      disabled
-    />
-  );
-  const menuButton = screen.getByRole("button", {
-    name: `${testLabel} ${testOptions[0].label}`,
-  });
-  expect(menuButton).toBeDisabled();
+      expect(menuButton).toHaveTextContent(testOptions[1].label);
+    });
 
-  fireEvent.click(menuButton);
-  screen
-    .queryAllByRole("option")
-    .forEach((option) => expect(option).not.toBeInTheDocument());
-});
+    test("can be disabled", () => {
+      render(
+        <Dropdown
+          label={testLabel}
+          options={testOptions}
+          onChange={mockOnChange}
+          selectedId="1"
+          disabled
+        />
+      );
+      const menuButton = screen.getByRole("button", {
+        name: `${testLabel} ${testOptions[0].label}`,
+      });
+      expect(menuButton).toBeDisabled();
 
-test("options can be hidden", () => {
-  const hiddenOption = { id: "4", label: "Hidden option", hidden: true };
-  const testOptionsHidden = [...testOptions, hiddenOption];
-  const { rerender } = render(
-    <Dropdown
-      label={testLabel}
-      options={testOptionsHidden}
-      onChange={mockOnChange}
-      selectedId="1"
-    />
-  );
+      fireEvent.click(menuButton);
+      screen
+        .queryAllByRole("option")
+        .forEach((option) => expect(option).not.toBeInTheDocument());
+    });
 
-  const menuButton = screen.getByRole("button", {
-    name: `${testLabel} ${testOptions[0].label}`,
-  });
+    test("options can be hidden", () => {
+      const hiddenOption = { id: "4", label: "Hidden option", hidden: true };
+      const testOptionsHidden = [...testOptions, hiddenOption];
+      const { rerender } = render(
+        <Dropdown
+          label={testLabel}
+          options={testOptionsHidden}
+          onChange={mockOnChange}
+          selectedId="1"
+        />
+      );
 
-  fireEvent.click(menuButton);
+      const menuButton = screen.getByRole("button", {
+        name: `${testLabel} ${testOptions[0].label}`,
+      });
 
-  expect(
-    screen.queryByRole("option", { name: hiddenOption.label })
-  ).not.toBeInTheDocument();
+      fireEvent.click(menuButton);
 
-  // can still be set by controlling component
-  rerender(
-    <Dropdown
-      label={testLabel}
-      options={testOptionsHidden}
-      onChange={mockOnChange}
-      selectedId={hiddenOption.id}
-    />
-  );
+      expect(
+        screen.queryByRole("option", { name: hiddenOption.label })
+      ).not.toBeInTheDocument();
 
-  expect(menuButton).toHaveTextContent(hiddenOption.label);
-});
+      // can still be set by controlling component
+      rerender(
+        <Dropdown
+          label={testLabel}
+          options={testOptionsHidden}
+          onChange={mockOnChange}
+          selectedId={hiddenOption.id}
+        />
+      );
+
+      expect(menuButton).toHaveTextContent(hiddenOption.label);
+    });
+  }
+);

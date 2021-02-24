@@ -18,51 +18,8 @@
 import useBreakpoint from "@w11r/use-breakpoint";
 import { observer } from "mobx-react-lite";
 import React from "react";
-import styled from "styled-components/macro";
-import { ReactComponent as MenuOpenIcon } from "../assets/menu-open.svg";
 import { useDataStore } from "../StoreProvider";
-import { colors, zIndex } from "../UiLibrary";
-
-const TooltipMobileWrapper = styled.div`
-  background: ${colors.tooltipBackground};
-  border-radius: 0;
-  bottom: 0;
-  left: 0;
-  padding-top: 8px;
-  position: fixed;
-  right: 0;
-  z-index: ${zIndex.modal};
-`;
-
-const TooltipMobileOverlay = styled.div`
-  background: ${colors.tooltipBackground};
-  bottom: 0;
-  left: 0%;
-  opacity: 0.1;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: ${zIndex.modal};
-`;
-
-const CloseButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const CloseButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  margin-right: 24px;
-
-  rect {
-    fill: ${colors.textLight} !important;
-  }
-`;
-
-const ICON_SIZE = 16;
+import { FixedBottomPanel } from "../UiLibrary";
 
 const TooltipMobile = (): React.ReactElement | null => {
   const enabled = useBreakpoint(false, ["mobile-", true]);
@@ -78,15 +35,9 @@ const TooltipMobile = (): React.ReactElement | null => {
   if (enabled && tooltipMobileData && renderTooltipMobile) {
     return (
       <>
-        <TooltipMobileOverlay onClick={dismiss} />
-        <TooltipMobileWrapper className="TooltipMobile">
-          <CloseButtonWrapper>
-            <CloseButton onClick={dismiss}>
-              <MenuOpenIcon width={ICON_SIZE} height={ICON_SIZE} />
-            </CloseButton>
-          </CloseButtonWrapper>
+        <FixedBottomPanel className="TooltipMobile" closePanel={dismiss} isOpen>
           {renderTooltipMobile(tooltipMobileData)}
-        </TooltipMobileWrapper>
+        </FixedBottomPanel>
       </>
     );
   }
