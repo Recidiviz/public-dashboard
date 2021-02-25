@@ -118,7 +118,7 @@ const Section: React.FC<{ section: SystemNarrativeSection }> = ({
   // on large screens, we want the left column of copy to be sticky
   // while the visualization scrolls (if it's taller than one screen, which many are).
   // But if the COPY is also taller than one screen we don't want it to be sticky
-  // or you won't actually be able to read all of it. We wont know that until
+  // or you won't actually be able to read all of it. We won't know that until
   // we render it, so we have to detect a copy overflow and disable the sticky
   // behavior if it happens.
   const isDesktop = useBreakpoint(false, ["desktop+", true]);

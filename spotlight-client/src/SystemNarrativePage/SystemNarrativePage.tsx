@@ -121,8 +121,8 @@ const SystemNarrativePage: React.FC<{
 
   // automated scrolling is a special case of section visibility;
   // this flag lets us suspend in-page navigation actions while it is in progress
-  // (is it a local variable rather than a piece of state because
-  // the animation functions that use it are outside the render loop)
+  // (it is a local variable rather than a piece of React state because
+  // the animation functions are outside the render loop and won't receive state updates)
   let isScrolling = false;
   const cancelAutoScroll = () => {
     isScrolling = false;
