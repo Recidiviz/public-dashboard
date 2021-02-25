@@ -26,13 +26,11 @@ const BaseStyles = createGlobalStyle`
 
   html {
     box-sizing: border-box;
-
-    * {
-      font-family: ${typefaces.body};
-    }
+    font-family: ${typefaces.body};
 
     *, *:before, *:after {
       box-sizing: inherit;
+      font-family: inherit;
     }
   }
 

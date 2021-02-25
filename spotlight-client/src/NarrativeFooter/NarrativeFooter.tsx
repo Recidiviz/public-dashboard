@@ -29,7 +29,7 @@ import { colors, typefaces } from "../UiLibrary";
 import Arrow from "../UiLibrary/Arrow";
 
 const Container = styled.nav`
-  padding: ${rem(120)} ${rem(32)};
+  padding: ${rem(120)} ${rem(32)} 0;
 
   .NarrativeFooter__BackLink {
     color: ${colors.link};

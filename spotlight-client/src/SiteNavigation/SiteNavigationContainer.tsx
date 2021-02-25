@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,27 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { RouteComponentProps } from "@reach/router";
 import useBreakpoint from "@w11r/use-breakpoint";
 import React from "react";
-import { SystemNarrativeTypeId } from "../contentApi/types";
-import NarrativeFooter from "../NarrativeFooter";
-import SystemNarrativePage from "../SystemNarrativePage";
-import withRouteSync from "../withRouteSync";
+import SiteNavigation from "./SiteNavigation";
+import SiteNavigationMobile from "./SiteNavigationMobile";
 
-type PageNarrativeProps = RouteComponentProps & {
-  narrativeTypeId?: SystemNarrativeTypeId;
-};
+export default function SiteNavigationContainer(): React.ReactElement {
+  const isMobile = useBreakpoint(false, ["mobile-", true]);
 
-const PageNarrative: React.FC<PageNarrativeProps> = () => {
-  const showFooter = useBreakpoint(true, ["mobile-", false]);
-
-  return (
-    <>
-      <SystemNarrativePage />
-      {showFooter && <NarrativeFooter />}
-    </>
-  );
-};
-
-export default withRouteSync(PageNarrative);
+  return isMobile ? <SiteNavigationMobile /> : <SiteNavigation />;
+}
