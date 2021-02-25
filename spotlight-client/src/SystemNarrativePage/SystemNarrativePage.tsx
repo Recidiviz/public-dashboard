@@ -28,7 +28,14 @@ import { NAV_BAR_HEIGHT } from "../constants";
 import SystemNarrative from "../contentModels/SystemNarrative";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
-import { colors, typefaces, Chevron, breakpoints } from "../UiLibrary";
+import {
+  colors,
+  typefaces,
+  Chevron,
+  breakpoints,
+  PageSection,
+  CopyBlock,
+} from "../UiLibrary";
 import { X_PADDING } from "./constants";
 import Section from "./Section";
 import NarrativeNavigation from "../NarrativeNavigation";
@@ -49,15 +56,15 @@ const NavStickyContainer = styled.div`
   top: ${rem(NAV_BAR_HEIGHT)};
 `;
 
-const IntroContainer = styled.div`
+const IntroContainer = styled(PageSection)`
   border-bottom: 1px solid ${colors.rule};
   min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
-  padding: ${rem(48)} ${rem(8)};
+  padding-top: ${rem(48)};
+  padding-bottom: ${rem(48)};
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     padding-bottom: ${rem(172)};
     padding-left: 0;
-    padding-right: ${rem(X_PADDING)};
     padding-top: ${rem(160)};
   }
 `;
@@ -75,7 +82,7 @@ const Title = styled.h1`
   }
 `;
 
-const IntroCopy = styled.p`
+const IntroCopy = styled(CopyBlock)`
   font-size: ${rem(18)};
   line-height: 1.5;
   letter-spacing: -0.025em;

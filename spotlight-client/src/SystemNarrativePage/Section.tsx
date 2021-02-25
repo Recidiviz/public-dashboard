@@ -27,22 +27,25 @@ import Metric from "../contentModels/Metric";
 import { SystemNarrativeSection } from "../contentModels/SystemNarrative";
 import { MetricRecord } from "../contentModels/types";
 import MetricVizMapper from "../MetricVizMapper";
-import { breakpoints, colors, typefaces } from "../UiLibrary";
-import { X_PADDING } from "./constants";
+import {
+  breakpoints,
+  colors,
+  CopyBlock,
+  PageSection,
+  typefaces,
+} from "../UiLibrary";
 
 const COPY_WIDTH = 408;
 
-const Container = styled.section`
+const Container = styled(PageSection)`
   border-bottom: 1px solid ${colors.rule};
   min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
-  padding: 0 ${rem(16)};
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding-left: 0;
-    padding-right: ${rem(X_PADDING)};
   }
 
   @media screen and (min-width: ${breakpoints.desktop[0]}px) {
@@ -52,7 +55,7 @@ const Container = styled.section`
   }
 `;
 
-const SectionCopy = styled.div<{ $isSticky: boolean }>`
+const SectionCopy = styled(CopyBlock)<{ $isSticky: boolean }>`
   overflow: hidden;
   padding-top: ${rem(40)};
 
@@ -68,10 +71,6 @@ const SectionCopy = styled.div<{ $isSticky: boolean }>`
     padding-bottom: ${rem(40)};
     position: ${(props) => (props.$isSticky ? "sticky" : "static")};
     top: ${rem(NAV_BAR_HEIGHT)};
-  }
-
-  p {
-    margin-top: 1em;
   }
 `;
 

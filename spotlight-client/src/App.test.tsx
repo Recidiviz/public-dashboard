@@ -129,7 +129,10 @@ describe("navigation", () => {
     fireEvent.click(tenantLink);
     await waitFor(() =>
       expect(
-        screen.getByRole("heading", { name: "North Dakota", level: 1 })
+        screen.getByRole("heading", {
+          name: "Explore correctional data from North Dakota.",
+          level: 1,
+        })
       ).toBeInTheDocument()
     );
 

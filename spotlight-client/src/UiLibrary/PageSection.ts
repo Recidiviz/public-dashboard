@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,14 +15,21 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export { default as animation } from "./animation";
-export { default as breakpoints } from "./breakpoints";
-export { default as Check } from "./Check";
-export { default as Chevron } from "./Chevron";
-export { default as CopyBlock } from "./CopyBlock";
-export { default as colors } from "./colors";
-export * from "./Dropdown";
-export { default as FixedBottomPanel } from "./FixedBottomPanel";
-export { default as PageSection } from "./PageSection";
-export * from "./typography";
-export { default as zIndex } from "./zIndex";
+import { rem } from "polished";
+import styled from "styled-components/macro";
+import { X_PADDING } from "../SystemNarrativePage/constants";
+import breakpoints from "./breakpoints";
+
+/**
+ * Base styled component for all page-level content blocks.
+ * Mainly handles responsive bleed margins in a consistent way.
+ * (Uses padding rather than margins because many designs call for
+ * borders to bleed on one or both sides)
+ */
+export default styled.section`
+  padding: 0 ${rem(16)};
+
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    padding: 0 ${rem(X_PADDING)};
+  }
+`;

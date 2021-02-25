@@ -49,7 +49,7 @@ const PassThroughPage: React.FC<RouteComponentProps> = ({ children }) => (
 );
 
 const Main = styled.div.attrs((props) => ({ role: "main" }))`
-  margin-top: ${rem(NAV_BAR_HEIGHT)};
+  padding-top: ${rem(NAV_BAR_HEIGHT)};
   min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT + FOOTER_HEIGHT)});
 `;
 

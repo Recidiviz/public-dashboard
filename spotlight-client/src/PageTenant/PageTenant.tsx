@@ -16,21 +16,52 @@
 // =============================================================================
 
 import { RouteComponentProps } from "@reach/router";
+import HTMLReactParser from "html-react-parser";
 import { observer } from "mobx-react-lite";
+import { rem } from "polished";
 import React from "react";
-import { TenantId } from "../contentApi/types";
+import styled from "styled-components/macro";
+import OtherNarrativeLinks from "../OtherNarrativeLinks";
 import { useDataStore } from "../StoreProvider";
+import { CopyBlock, PageSection, typefaces } from "../UiLibrary";
 import withRouteSync from "../withRouteSync";
 
-type PageTenantProps = RouteComponentProps & { tenantId?: TenantId };
+const Introduction = styled(PageSection)`
+  margin: ${rem(160)} 0;
+`;
 
-const PageTenant: React.FC<PageTenantProps> = () => {
-  // tenant may be briefly undefined during initial page load
+const Links = styled(PageSection)``;
+
+const Title = styled.h1`
+  font-family: ${typefaces.display};
+  font-size: ${rem(52)};
+  letter-spacing: -0.04em;
+  line-height: 1.4;
+  margin-bottom: ${rem(32)};
+  max-width: ${rem(760)};
+`;
+
+const Description = styled(CopyBlock)`
+  font-size: ${rem(20)};
+  line-height: 1.7;
+  max-width: ${rem(760)};
+`;
+
+const PageTenant: React.FC<RouteComponentProps> = () => {
   const { tenant } = useDataStore();
 
+  if (!tenant) return null;
+
   return (
+    // tenant may be briefly undefined during initial page load
     <article>
-      <h1>{tenant?.name}</h1>{" "}
+      <Introduction>
+        <Title>Explore correctional data from {tenant.name}.</Title>
+        <Description>{HTMLReactParser(tenant.description)}</Description>
+      </Introduction>
+      <Links>
+        <OtherNarrativeLinks />
+      </Links>
     </article>
   );
 };
