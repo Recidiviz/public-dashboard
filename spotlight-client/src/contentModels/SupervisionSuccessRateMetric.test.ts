@@ -15,6 +15,9 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { csvParse } from "d3-dsv";
+import downloadjs from "downloadjs";
+import JsZip from "jszip";
 import { advanceTo, clear } from "jest-date-mock";
 import { runInAction, when } from "mobx";
 import { DemographicView } from "../demographics";
@@ -36,6 +39,9 @@ jest.mock("../metricsApi", () => {
 const mockedFetchMetrics = fetchMetrics as jest.MockedFunction<
   typeof fetchMetrics
 >;
+
+jest.mock("downloadjs");
+const downloadjsMock = downloadjs as jest.MockedFunction<typeof downloadjs>;
 
 const testTenantId = "US_ND";
 const testMetricId = "ProbationSuccessHistorical";
@@ -258,5 +264,56 @@ describe("demographic data", () => {
     });
 
     expect.hasAssertions();
+  });
+});
+
+test("data download", async (done) => {
+  expect.hasAssertions();
+  const metric = await getPopulatedMetric();
+
+  await metric.download();
+
+  expect(downloadjsMock).toHaveBeenCalled();
+
+  const [content, filename] = downloadjsMock.mock.calls[0];
+  expect(filename).toBe(`${testTenantId} ${testMetricId} data`);
+
+  // if we read the data in the zip file we should be able to reverse it
+  // into something resembling metric.allRecords; we will spot-check
+  // the downloaded file by verifying that the first record matches the source
+  const zip = await JsZip.loadAsync(content);
+  reactImmediately(async () => {
+    // expecting two files and their respective data sources
+    const expectedFiles = [
+      { name: "historical data.csv", source: metric.getOrFetchCohortRecords() },
+      {
+        name: "demographic aggregate data.csv",
+        source: metric.getOrFetchDemographicRecords(),
+      },
+    ];
+
+    await Promise.all(
+      expectedFiles.map(async ({ name, source }) => {
+        const csvContents = await zip.file(name)?.async("string");
+
+        if (csvContents) {
+          const recordsFromCsv = csvParse(csvContents);
+
+          // rather than try to re-typecast the CSV data,
+          // we'll cast the real record value to strings for comparison
+          const expectedRecord: Record<string, string> = {};
+
+          // in practice, source should not be undefined once we've gotten this far
+          Object.entries((source || [])[0]).forEach(([key, value]) => {
+            expectedRecord[key] = String(value);
+          });
+          expect(recordsFromCsv[0]).toEqual(expectedRecord);
+        } else {
+          throw new Error("unable to retrieve CSV data from zip file");
+        }
+      })
+    );
+
+    done();
   });
 });

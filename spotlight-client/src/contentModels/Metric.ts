@@ -15,12 +15,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { csvFormat } from "d3-dsv";
+import downloadjs from "downloadjs";
+import JsZip from "jszip";
 import {
   action,
   computed,
   makeObservable,
   observable,
   runInAction,
+  when,
 } from "mobx";
 import { ERROR_MESSAGES } from "../constants";
 import { LocalityLabels, MetricTypeId, TenantId } from "../contentApi/types";
@@ -207,5 +211,37 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
 
   get records(): RecordFormat[] | undefined {
     return this.getOrFetchRecords();
+  }
+
+  get recordsUnfiltered(): RecordFormat[] | undefined {
+    return this.allRecords;
+  }
+
+  /**
+   * Creates a zip file of all this metric's data in CSV format and
+   * initiates a download of that file in the user's browser.
+   */
+  download(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      when(
+        () => this.allRecords !== undefined,
+        () => {
+          const zip = new JsZip();
+          // this assertion is safe because we are waiting for it in the reaction above
+          const data = csvFormat(this.allRecords as RecordFormat[]);
+          zip.file("data.csv", data);
+
+          zip
+            .generateAsync({ type: "blob" })
+            .then((content) => {
+              downloadjs(content, `${this.tenantId} ${this.id} data`);
+              resolve();
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        }
+      );
+    });
   }
 }
