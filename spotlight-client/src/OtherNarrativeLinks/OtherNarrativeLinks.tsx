@@ -31,6 +31,11 @@ import Arrow from "../UiLibrary/Arrow";
 // grid styles adapted from IE-safe auto placement grid
 // https://css-tricks.com/css-grid-in-ie-faking-an-auto-placement-grid-with-gaps/
 
+const Wrapper = styled.div`
+  /* prevents the trailing grid gaps from pushing other stuff around */
+  overflow: hidden;
+`;
+
 const LinkList = styled.ul`
   display: flex;
   flex-wrap: wrap;
@@ -120,17 +125,19 @@ const OtherNarrativeLinks = (): React.ReactElement | null => {
     .filter((narrative) => narrative.id !== currentNarrativeTypeId);
 
   return (
-    <LinkList>
-      {narrativesToDisplay.map((narrative) => {
-        return (
-          <NarrativeLink
-            key={narrative.id}
-            tenantId={tenant.id}
-            narrative={narrative}
-          />
-        );
-      })}
-    </LinkList>
+    <Wrapper>
+      <LinkList>
+        {narrativesToDisplay.map((narrative) => {
+          return (
+            <NarrativeLink
+              key={narrative.id}
+              tenantId={tenant.id}
+              narrative={narrative}
+            />
+          );
+        })}
+      </LinkList>
+    </Wrapper>
   );
 };
 

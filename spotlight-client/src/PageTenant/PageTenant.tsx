@@ -23,22 +23,30 @@ import React from "react";
 import styled from "styled-components/macro";
 import OtherNarrativeLinks from "../OtherNarrativeLinks";
 import { useDataStore } from "../StoreProvider";
-import { CopyBlock, PageSection, typefaces } from "../UiLibrary";
+import { breakpoints, CopyBlock, PageSection, typefaces } from "../UiLibrary";
 import withRouteSync from "../withRouteSync";
 
 const Introduction = styled(PageSection)`
-  margin: ${rem(160)} 0;
+  margin: ${rem(48)} 0;
+
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    margin: ${rem(160)} 0;
+  }
 `;
 
 const Links = styled(PageSection)``;
 
 const Title = styled.h1`
   font-family: ${typefaces.display};
-  font-size: ${rem(52)};
+  font-size: ${rem(32)};
   letter-spacing: -0.04em;
   line-height: 1.4;
   margin-bottom: ${rem(32)};
   max-width: ${rem(760)};
+
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    font-size: ${rem(52)};
+  }
 `;
 
 const Description = styled(CopyBlock)`

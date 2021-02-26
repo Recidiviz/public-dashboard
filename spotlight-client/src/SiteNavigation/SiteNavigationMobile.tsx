@@ -100,7 +100,10 @@ const SiteNavigation: React.FC = () => {
       <NavBar style={{ borderColor: animatedStyles.borderColor }}>
         <NavGroup>
           <NavGroupItem>
-            <NavLink to={getUrlForResource({ page: "home" })}>
+            <NavLink
+              onClick={() => setExpanded(false)}
+              to={getUrlForResource({ page: "home" })}
+            >
               <BrandMark light />
             </NavLink>
           </NavGroupItem>

@@ -143,6 +143,7 @@ describe("on small screens", () => {
       expect(menu).toHaveAttribute("aria-hidden", "false");
     });
 
-    expect.hasAssertions();
+    fireEvent.click(screen.getByRole("link", { name: "Spotlight" }));
+    expect(menu).toHaveAttribute("aria-hidden", "true");
   });
 });
