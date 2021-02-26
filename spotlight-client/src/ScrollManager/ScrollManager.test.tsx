@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { waitFor } from "@testing-library/react";
+import { act } from "@testing-library/react";
 import { renderNavigableApp } from "../testUtils";
 
 const scrollSpy = jest.spyOn(window, "scrollTo");
@@ -32,14 +32,16 @@ test("scrolls on page change", async () => {
   expect(scrollSpy).toHaveBeenCalledWith(0, 0);
   scrollSpy.mockClear();
 
-  navigate("/us-nd");
-  await waitFor(() => expect(scrollSpy).toHaveBeenCalledWith(0, 0));
+  await act(() => navigate("/us-nd"));
+  expect(scrollSpy).toHaveBeenCalledWith(0, 0);
   scrollSpy.mockClear();
 
-  navigate("/us-nd/collections/prison");
-  await waitFor(() => expect(scrollSpy).toHaveBeenCalledWith(0, 0));
+  await act(() => navigate("/us-nd/collections/prison"));
+  expect(scrollSpy).toHaveBeenCalledWith(0, 0);
   scrollSpy.mockClear();
 
-  // don't think we can really test non-scrolling behavior reliably,
-  // because intra-page route changes also trigger scrolling
+  // we cannot really test non-scrolling behavior reliably,
+  // because intra-page route changes also trigger scrolling, and JSDOM
+  // does not implement any real scrolling functionality
+  // so the positions cannot be meaningfully inspected
 });

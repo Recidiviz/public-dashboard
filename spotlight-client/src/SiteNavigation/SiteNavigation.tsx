@@ -54,20 +54,6 @@ const SiteNavigation: React.FC = () => {
             </NavGroupItem>
           )}
         </NavGroup>
-        {tenant && (
-          <NavGroup>
-            <NavGroupItem>
-              <NavLink
-                to={getUrlForResource({
-                  page: "narrative list",
-                  params: { tenantId: tenant.id },
-                })}
-              >
-                Collections
-              </NavLink>
-            </NavGroupItem>
-          </NavGroup>
-        )}
       </NavBar>
     </NavContainer>
   );

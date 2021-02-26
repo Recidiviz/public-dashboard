@@ -27,14 +27,6 @@ jest.mock("@w11r/use-breakpoint");
 
 const useBreakpointMock = useBreakpoint as jest.Mock;
 
-beforeEach(() => {
-  useBreakpointMock.mockReturnValue(true);
-  runInAction(() => {
-    DataStore.tenantStore.currentTenantId = "US_ND";
-  });
-  renderWithStore(<SiteNavigationContainer />);
-});
-
 afterEach(() => {
   useBreakpointMock.mockReset();
   runInAction(() => {
@@ -42,71 +34,115 @@ afterEach(() => {
   });
 });
 
-test("expandable mobile menu", () => {
-  const nav = screen.getByRole("navigation");
+describe("on large screens", () => {
+  test("nav bar", async () => {
+    const dataPortalLabel = "Explore";
+    const narrativesLabel = "Collections";
 
-  const menuButton = within(nav).getByRole("button", {
-    name: "Toggle navigation menu",
+    renderWithStore(<SiteNavigationContainer />);
+
+    const inNav = within(screen.getByRole("navigation"));
+
+    expect(
+      inNav.queryByRole("link", { name: dataPortalLabel })
+    ).not.toBeInTheDocument();
+    expect(
+      inNav.queryByRole("link", { name: narrativesLabel })
+    ).not.toBeInTheDocument();
+
+    runInAction(() => {
+      DataStore.tenantStore.currentTenantId = "US_ND";
+    });
+
+    expect(inNav.getByRole("link", { name: "Spotlight" })).toHaveAttribute(
+      "href",
+      "/"
+    );
+    expect(inNav.getByRole("link", { name: "North Dakota" })).toHaveAttribute(
+      "href",
+      "/us-nd"
+    );
   });
-  expect(menuButton).toBeVisible();
-
-  const menu = within(nav).getByTestId("NavMenu");
-  // the library we use for the menu is animation-based so it doesn't totally work in JSDOM;
-  // this attribute check is a decent proxy for its expand/collapse behavior though
-  expect(menu).toHaveAttribute("aria-hidden", "true");
-
-  fireEvent.click(menuButton);
-
-  expect(menu).toHaveAttribute("aria-hidden", "false");
-
-  fireEvent.click(menuButton);
-
-  expect(menu).toHaveAttribute("aria-hidden", "true");
 });
 
-test("menu contents", async () => {
-  fireEvent.click(
-    screen.getByRole("button", {
+describe("on small screens", () => {
+  beforeEach(() => {
+    useBreakpointMock.mockReturnValue(true);
+    runInAction(() => {
+      DataStore.tenantStore.currentTenantId = "US_ND";
+    });
+    renderWithStore(<SiteNavigationContainer />);
+  });
+
+  test("expandable mobile menu", () => {
+    const nav = screen.getByRole("navigation");
+
+    const menuButton = within(nav).getByRole("button", {
       name: "Toggle navigation menu",
-    })
-  );
-  const menu = screen.getByTestId("NavMenu");
-  const navLinks = await within(menu).findAllByRole("link");
+    });
+    expect(menuButton).toBeVisible();
 
-  expect(navLinks.length).toBe(5);
-
-  expect(navLinks[0]).toHaveTextContent("Home");
-  expect(navLinks[0]).toHaveAttribute("href", "/us-nd");
-
-  expect(navLinks[1]).toHaveTextContent("Sentencing");
-  expect(navLinks[1]).toHaveAttribute("href", "/us-nd/collections/sentencing");
-
-  expect(navLinks[2]).toHaveTextContent("Prison");
-  expect(navLinks[2]).toHaveAttribute("href", "/us-nd/collections/prison");
-
-  expect(navLinks[3]).toHaveTextContent("Probation");
-  expect(navLinks[3]).toHaveAttribute("href", "/us-nd/collections/probation");
-
-  expect(navLinks[4]).toHaveTextContent("Parole");
-  expect(navLinks[4]).toHaveAttribute("href", "/us-nd/collections/parole");
-});
-
-test("menu closes after navigation", async () => {
-  const menuButton = screen.getByRole("button", {
-    name: "Toggle navigation menu",
-  });
-  fireEvent.click(menuButton);
-
-  const menu = screen.getByTestId("NavMenu");
-  const navLinks = await within(menu).findAllByRole("link");
-
-  navLinks.forEach((linkEl) => {
-    fireEvent.click(linkEl);
+    const menu = within(nav).getByTestId("NavMenu");
+    // the library we use for the menu is animation-based so it doesn't totally work in JSDOM;
+    // this attribute check is a decent proxy for its expand/collapse behavior though
     expect(menu).toHaveAttribute("aria-hidden", "true");
 
     fireEvent.click(menuButton);
+
     expect(menu).toHaveAttribute("aria-hidden", "false");
+
+    fireEvent.click(menuButton);
+
+    expect(menu).toHaveAttribute("aria-hidden", "true");
   });
 
-  expect.hasAssertions();
+  test("menu contents", async () => {
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "Toggle navigation menu",
+      })
+    );
+    const menu = screen.getByTestId("NavMenu");
+    const navLinks = await within(menu).findAllByRole("link");
+
+    expect(navLinks.length).toBe(5);
+
+    expect(navLinks[0]).toHaveTextContent("Home");
+    expect(navLinks[0]).toHaveAttribute("href", "/us-nd");
+
+    expect(navLinks[1]).toHaveTextContent("Sentencing");
+    expect(navLinks[1]).toHaveAttribute(
+      "href",
+      "/us-nd/collections/sentencing"
+    );
+
+    expect(navLinks[2]).toHaveTextContent("Prison");
+    expect(navLinks[2]).toHaveAttribute("href", "/us-nd/collections/prison");
+
+    expect(navLinks[3]).toHaveTextContent("Probation");
+    expect(navLinks[3]).toHaveAttribute("href", "/us-nd/collections/probation");
+
+    expect(navLinks[4]).toHaveTextContent("Parole");
+    expect(navLinks[4]).toHaveAttribute("href", "/us-nd/collections/parole");
+  });
+
+  test("menu closes after navigation", async () => {
+    const menuButton = screen.getByRole("button", {
+      name: "Toggle navigation menu",
+    });
+    fireEvent.click(menuButton);
+
+    const menu = screen.getByTestId("NavMenu");
+    const navLinks = await within(menu).findAllByRole("link");
+
+    navLinks.forEach((linkEl) => {
+      fireEvent.click(linkEl);
+      expect(menu).toHaveAttribute("aria-hidden", "true");
+
+      fireEvent.click(menuButton);
+      expect(menu).toHaveAttribute("aria-hidden", "false");
+    });
+
+    expect.hasAssertions();
+  });
 });

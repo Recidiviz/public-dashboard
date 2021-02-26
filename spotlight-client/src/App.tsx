@@ -26,7 +26,6 @@ import { FOOTER_HEIGHT, NAV_BAR_HEIGHT } from "./constants";
 import GlobalStyles from "./GlobalStyles";
 import PageHome from "./PageHome";
 import PageNarrative from "./PageNarrative";
-import PageNarrativeList from "./PageNarrativeList";
 import PageNotFound from "./PageNotFound";
 import PageTenant from "./PageTenant";
 import { NarrativesSlug } from "./routerUtils/types";
@@ -49,7 +48,7 @@ const PassThroughPage: React.FC<RouteComponentProps> = ({ children }) => (
   <>{children}</>
 );
 
-const Main = styled.div.attrs((props) => ({ role: "main" }))`
+const Main = styled.div.attrs({ role: "main" })`
   padding-top: ${rem(NAV_BAR_HEIGHT)};
   min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT + FOOTER_HEIGHT)});
 `;
@@ -70,10 +69,9 @@ const App: React.FC = () => {
               <PageHome path="/" />
               <PassThroughPage path="/:tenantId">
                 <PageTenant path="/" />
-                <PassThroughPage path={`/${NarrativesSlug}`}>
-                  <PageNarrativeList path="/" />
-                  <PageNarrative path="/:narrativeTypeId/*sectionNumber" />
-                </PassThroughPage>
+                <PageNarrative
+                  path={`/${NarrativesSlug}/:narrativeTypeId/*sectionNumber`}
+                />
                 <PageNotFound default />
               </PassThroughPage>
               <PageNotFound default />
