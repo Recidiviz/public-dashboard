@@ -30,6 +30,7 @@ import PageNarrativeList from "./PageNarrativeList";
 import PageNotFound from "./PageNotFound";
 import PageTenant from "./PageTenant";
 import { NarrativesSlug } from "./routerUtils/types";
+import ScrollManager from "./ScrollManager";
 import SiteFooter from "./SiteFooter";
 import SiteNavigation from "./SiteNavigation";
 import StoreProvider from "./StoreProvider";
@@ -77,6 +78,7 @@ const App: React.FC = () => {
               </PassThroughPage>
               <PageNotFound default />
             </Router>
+            <ScrollManager />
           </Main>
           <SiteFooter />
           <TooltipMobile />
