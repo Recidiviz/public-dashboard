@@ -21,7 +21,7 @@ import { animated, useTransition } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import SentenceTypeByLocationMetric from "../contentModels/SentenceTypeByLocationMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
-import FiltersWrapper from "../FiltersWrapper";
+import MetricVizControls from "../MetricVizControls";
 import LocalityFilterSelect from "../LocalityFilterSelect";
 import NoMetricData from "../NoMetricData";
 import { animation } from "../UiLibrary";
@@ -59,11 +59,12 @@ const VizSentenceTypeByLocation: React.FC<VizSentenceTypeByLocationProps> = ({
   if (metric.dataGraph) {
     return (
       <>
-        <FiltersWrapper
+        <MetricVizControls
           filters={[
             <LocalityFilterSelect metric={metric} />,
             <DemographicFilterSelect metric={metric} />,
           ]}
+          metric={metric}
         />
         <ChartWrapper>
           {chartTransitions.map(

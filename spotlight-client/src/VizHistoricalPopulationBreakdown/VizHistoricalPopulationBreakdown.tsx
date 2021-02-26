@@ -21,7 +21,7 @@ import React, { useState } from "react";
 import { isWindowSizeId, WindowedTimeSeries, WindowSizeId } from "../charts";
 import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
-import FiltersWrapper from "../FiltersWrapper";
+import MetricVizControls from "../MetricVizControls";
 import NoMetricData from "../NoMetricData";
 import { Dropdown } from "../UiLibrary";
 
@@ -47,7 +47,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
   if (metric.dataSeries)
     return (
       <>
-        <FiltersWrapper
+        <MetricVizControls
           filters={[
             <Dropdown
               label="Range"
@@ -65,6 +65,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
             />,
             <DemographicFilterSelect metric={metric} />,
           ]}
+          metric={metric}
         />
         <WindowedTimeSeries
           data={metric.dataSeries}

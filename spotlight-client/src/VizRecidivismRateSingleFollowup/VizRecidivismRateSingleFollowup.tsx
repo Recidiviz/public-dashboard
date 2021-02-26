@@ -28,7 +28,7 @@ import {
 } from "../charts";
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
-import FiltersWrapper from "../FiltersWrapper";
+import MetricVizControls from "../MetricVizControls";
 import NoMetricData from "../NoMetricData";
 import { animation } from "../UiLibrary";
 import FollowupPeriodFilterSelect from "./FollowupPeriodFilterSelect";
@@ -98,11 +98,12 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
       >
         {({ measureRef }) => (
           <>
-            <FiltersWrapper
+            <MetricVizControls
               filters={[
                 <FollowupPeriodFilterSelect metric={metric} />,
                 <DemographicFilterSelect metric={metric} />,
               ]}
+              metric={metric}
             />
             <animated.div style={chartContainerStyles}>
               <ChartsWrapper ref={measureRef}>

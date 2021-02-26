@@ -25,7 +25,7 @@ import RateTrend, {
 } from "../charts/RateTrend";
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
-import FiltersWrapper from "../FiltersWrapper";
+import MetricVizControls from "../MetricVizControls";
 import NoMetricData from "../NoMetricData";
 import { animation } from "../UiLibrary";
 import CohortFilterSelect from "./CohortFilterSelect";
@@ -59,7 +59,7 @@ const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = 
   if (cohortDataSeries && selectedCohorts) {
     return (
       <>
-        <FiltersWrapper
+        <MetricVizControls
           filters={[
             <CohortFilterSelect metric={metric} />,
             <DemographicFilterSelect
@@ -67,6 +67,7 @@ const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = 
               metric={metric}
             />,
           ]}
+          metric={metric}
         />
         <ChartWrapper>
           {chartTransitions.map(({ item, props, key }) => (

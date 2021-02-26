@@ -21,7 +21,7 @@ import React from "react";
 import styled from "styled-components/macro";
 import { ProportionalBar } from "../charts";
 import PopulationBreakdownByLocationMetric from "../contentModels/PopulationBreakdownByLocationMetric";
-import FiltersWrapper from "../FiltersWrapper";
+import MetricVizControls from "../MetricVizControls";
 import LocalityFilterSelect from "../LocalityFilterSelect";
 import NoMetricData from "../NoMetricData";
 import Statistic from "../Statistic";
@@ -45,7 +45,10 @@ const VizPopulationBreakdownByLocation: React.FC<VizPopulationBreakdownByLocatio
   if (metric.dataSeries) {
     return (
       <>
-        <FiltersWrapper filters={[<LocalityFilterSelect metric={metric} />]} />
+        <MetricVizControls
+          filters={[<LocalityFilterSelect metric={metric} />]}
+          metric={metric}
+        />
         {metric.dataSeries.map(({ label: viewName, records }) => (
           <ChartWrapper key={viewName}>
             <ProportionalBar title={viewName} data={records} height={88} />
