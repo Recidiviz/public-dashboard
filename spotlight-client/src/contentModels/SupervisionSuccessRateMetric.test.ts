@@ -20,6 +20,7 @@ import downloadjs from "downloadjs";
 import JsZip from "jszip";
 import { advanceTo, clear } from "jest-date-mock";
 import { runInAction, when } from "mobx";
+import { stripHtml } from "string-strip-html";
 import { DemographicView } from "../demographics";
 import {
   fetchMetrics,
@@ -276,7 +277,8 @@ test("data download", async (done) => {
   expect(downloadjsMock).toHaveBeenCalled();
 
   const [content, filename] = downloadjsMock.mock.calls[0];
-  expect(filename).toBe(`${testTenantId} ${testMetricId} data`);
+  const prefix = `${testTenantId} ${testMetricId} data`;
+  expect(filename).toBe(`${prefix}.zip`);
 
   // if we read the data in the zip file we should be able to reverse it
   // into something resembling metric.allRecords; we will spot-check
@@ -285,9 +287,12 @@ test("data download", async (done) => {
   reactImmediately(async () => {
     // expecting two files and their respective data sources
     const expectedFiles = [
-      { name: "historical data.csv", source: metric.getOrFetchCohortRecords() },
       {
-        name: "demographic aggregate data.csv",
+        name: `${prefix}/historical data.csv`,
+        source: metric.getOrFetchCohortRecords(),
+      },
+      {
+        name: `${prefix}/demographic aggregate data.csv`,
         source: metric.getOrFetchDemographicRecords(),
       },
     ];
@@ -313,6 +318,12 @@ test("data download", async (done) => {
         }
       })
     );
+
+    const readmeContents = await zip
+      .file(`${prefix}/README.txt`)
+      ?.async("string");
+    // the file in the archive is plain text but methodology can contain HTML tags
+    expect(readmeContents).toBe(stripHtml(metric.methodology).result);
 
     done();
   });

@@ -26,6 +26,7 @@ import {
   runInAction,
   when,
 } from "mobx";
+import { stripHtml } from "string-strip-html";
 import { ERROR_MESSAGES } from "../constants";
 import { LocalityLabels, MetricTypeId, TenantId } from "../contentApi/types";
 import { DemographicView } from "../demographics";
@@ -227,14 +228,16 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
         () => this.allRecords !== undefined,
         () => {
           const zip = new JsZip();
+          const zipName = `${this.tenantId} ${this.id} data`;
           // this assertion is safe because we are waiting for it in the reaction above
           const data = csvFormat(this.allRecords as RecordFormat[]);
-          zip.file("data.csv", data);
+          zip.file(`${zipName}/data.csv`, data);
+          zip.file(`${zipName}/README.txt`, stripHtml(this.methodology).result);
 
           zip
             .generateAsync({ type: "blob" })
             .then((content) => {
-              downloadjs(content, `${this.tenantId} ${this.id} data`);
+              downloadjs(content, `${zipName}.zip`);
               resolve();
             })
             .catch((error) => {

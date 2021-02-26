@@ -23,6 +23,7 @@ import fetchMock from "jest-fetch-mock";
 import JsZip from "jszip";
 import { when } from "mobx";
 import { fromPromise } from "mobx-utils";
+import { stripHtml } from "string-strip-html";
 import retrieveContent from "../contentApi/retrieveContent";
 import { MetricTypeId, MetricTypeIdList } from "../contentApi/types";
 import { reactImmediately } from "../testUtils";
@@ -201,8 +202,7 @@ describe("data download", () => {
         // see SupervisionSuccessRateMetric tests for coverage
         !["ProbationSuccessHistorical", "ParoleSuccessHistorical"].includes(id)
     )
-  )("for metric %s", async (metricId) => {
-    expect.hasAssertions();
+  )("for metric %s", async (metricId, done) => {
     const metric = getTestMetric(metricId);
     metric.populateAllRecords();
 
@@ -211,22 +211,29 @@ describe("data download", () => {
     expect(downloadjsMock).toHaveBeenCalled();
 
     const [content, filename] = downloadjsMock.mock.calls[0];
-    expect(filename).toBe(`${testTenantId} ${metricId} data`);
+
+    const zipPrefix = `${testTenantId} ${metricId} data`;
+    expect(filename).toBe(`${zipPrefix}.zip`);
 
     // if we read the data in the zip file we should be able to reverse it
     // into something resembling metric.allRecords; we will spot-check
     // the downloaded file by verifying that the first record matches the source
     const zip = await JsZip.loadAsync(content);
-    const csvContents = await zip.file("data.csv")?.async("string");
+    const readmeContents = await zip
+      .file(`${zipPrefix}/README.txt`)
+      ?.async("string");
+    const csvContents = await zip
+      .file(`${zipPrefix}/data.csv`)
+      ?.async("string");
 
-    if (csvContents) {
-      const recordsFromCsv = csvParse(csvContents);
+    reactImmediately(() => {
+      if (csvContents && readmeContents) {
+        const recordsFromCsv = csvParse(csvContents);
 
-      // rather than try to re-typecast the CSV data,
-      // we'll cast the real record value to strings for comparison
-      const expectedRecord: Record<string, string> = {};
+        // rather than try to re-typecast the CSV data,
+        // we'll cast the real record value to strings for comparison
+        const expectedRecord: Record<string, string> = {};
 
-      reactImmediately(() => {
         // in practice, recordsUnfiltered should not be undefined once we've gotten this far
         Object.entries((metric.recordsUnfiltered || [])[0]).forEach(
           ([key, value]) => {
@@ -240,9 +247,15 @@ describe("data download", () => {
             expectedRecord[key] = valueAsString;
           }
         );
-      });
 
-      expect(recordsFromCsv[0]).toEqual(expectedRecord);
-    }
+        expect(recordsFromCsv[0]).toEqual(expectedRecord);
+
+        // the file in the archive is plain text but methodology can contain HTML tags
+        expect(readmeContents).toBe(stripHtml(metric.methodology).result);
+
+        // @ts-expect-error typedefs for `test.each` are wrong, `done` will be a function
+        done();
+      }
+    });
   });
 });

@@ -20,6 +20,7 @@ import { csvFormat } from "d3-dsv";
 import downloadjs from "downloadjs";
 import JsZip from "jszip";
 import { computed, makeObservable, observable, runInAction, when } from "mobx";
+import { stripHtml } from "string-strip-html";
 import {
   DemographicView,
   getDemographicCategories,
@@ -282,6 +283,7 @@ export default class SupervisionSuccessRateMetric extends Metric<
           this.allDemographicRecords !== undefined,
         () => {
           const zip = new JsZip();
+          const zipName = `${this.tenantId} ${this.id} data`;
           // these assertions are safe because we are waiting for them in the reaction above
           const cohortData = csvFormat(
             this.allCohortRecords as SupervisionSuccessRateMonthlyRecord[]
@@ -291,13 +293,14 @@ export default class SupervisionSuccessRateMetric extends Metric<
               .allDemographicRecords as SupervisionSuccessRateDemographicsRecord[]
           );
           zip
-            .file("historical data.csv", cohortData)
-            .file("demographic aggregate data.csv", demographicData);
+            .file(`${zipName}/historical data.csv`, cohortData)
+            .file(`${zipName}/demographic aggregate data.csv`, demographicData)
+            .file(`${zipName}/README.txt`, stripHtml(this.methodology).result);
 
           zip
             .generateAsync({ type: "blob" })
             .then((content) => {
-              downloadjs(content, `${this.tenantId} ${this.id} data`);
+              downloadjs(content, `${zipName}.zip`);
               resolve();
             })
             .catch((error) => {
