@@ -121,7 +121,13 @@ const SystemNarrativePage: React.FC<{
 
   // automated scrolling is a special case of section visibility;
   // this flag lets us suspend in-page navigation actions while it is in progress
-  const [isScrolling, setIsScrolling] = useState(false);
+  // (it is a local variable rather than a piece of React state because
+  // the animation functions are outside the render loop and won't receive state updates)
+  let isScrolling = false;
+  const cancelAutoScroll = () => {
+    isScrolling = false;
+  };
+
   const [activeSection, directlySetActiveSection] = useState(
     // make sure we consume the section number in the URL, if any, on first mount
     Number(routeParams.sectionNumber) || 1
@@ -141,16 +147,27 @@ const SystemNarrativePage: React.FC<{
   }, [routeParams.sectionNumber]);
 
   const [, setScrollSpring] = useSpring(() => ({
-    onFrame: (props: { top: number }) => window.scrollTo(0, props.top),
-    // set the flag while animation is in progress
-    onRest: () => setIsScrolling(false),
-    onStart: () => setIsScrolling(true),
+    onFrame: (props: { top: number }) => {
+      if (isScrolling) window.scrollTo(0, props.top);
+    },
+    // set the flag while animation is in progress,
+    // and listen for user-initiated scrolling (which takes priority)
+    onRest: () => {
+      isScrolling = false;
+      window.removeEventListener("wheel", cancelAutoScroll);
+      window.removeEventListener("touchmove", cancelAutoScroll);
+    },
+    onStart: () => {
+      isScrolling = true;
+      window.addEventListener("wheel", cancelAutoScroll, { once: true });
+      window.addEventListener("touchmove", cancelAutoScroll, { once: true });
+    },
     to: { top: window.pageYOffset },
   }));
 
   const { tenantId, narrativeTypeId } = normalizeRouteParams(routeParams);
   // updating the active section has two key side effects:
-  // 1. smoothly scrolling to the active session
+  // 1. smoothly scrolling to the active section
   // 2. updating the page URL so the section can be linked to directly
   useEffect(() => {
     let scrollDestination;

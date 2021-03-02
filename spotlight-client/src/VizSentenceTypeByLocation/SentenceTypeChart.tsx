@@ -26,10 +26,11 @@ import { $Keys } from "utility-types";
 import ResponsiveTooltipController from "../charts/ResponsiveTooltipController";
 import { formatAsNumber } from "../utils";
 import MeasureWidth from "../MeasureWidth";
-import { animation, colors, typefaces } from "../UiLibrary";
+import { animation, breakpoints, colors, typefaces } from "../UiLibrary";
 
-export const CHART_HEIGHT = 500;
 export const CHART_BOTTOM_PADDING = 80;
+export const CHART_HEIGHT = 500;
+const CHART_MIN_WIDTH = 550;
 const MARGIN = { top: 10, bottom: 10, left: 140 };
 /**
  * Adjust right margin based on label length
@@ -42,6 +43,7 @@ const NODE_WIDTH = 72;
 // into the guts of this chart to tweak the layout
 
 const ChartWrapper = styled.figure`
+  overflow-x: auto;
   /*
     labels have a tendency to overflow the bottom of this container;
     this padding should ensure they have enough space to do so.
@@ -49,6 +51,10 @@ const ChartWrapper = styled.figure`
   padding-bottom: ${CHART_BOTTOM_PADDING}px;
   position: relative;
   width: 100%;
+
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    overflow-x: visible;
+  }
 `;
 
 const SOURCE_LABEL_X_OFFSET = `-${MARGIN.left + NODE_WIDTH / 2}`;
@@ -258,7 +264,7 @@ export default function SingleStepSankey({
                       sourceColors[d.id as $Keys<typeof sourceColors>] ||
                       targetColor,
                 })}
-                size={[width, CHART_HEIGHT]}
+                size={[Math.max(width, CHART_MIN_WIDTH), CHART_HEIGHT]}
               />
             </ResponsiveTooltipController>
           )}

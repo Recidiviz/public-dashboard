@@ -18,14 +18,9 @@
 import React from "react";
 import { useSprings } from "react-spring/web.cjs";
 import { Assign } from "utility-types";
-import { colors } from "..";
-import {
-  DropdownBase,
-  DropdownCommonProps,
-  DropdownMenuItem,
-  DropdownMenuItemContents,
-  DropdownOption,
-} from "./common";
+import { OptionItem, OptionItemContents, useOptionColors } from "./common";
+import DropdownBase from "./DropdownBase";
+import { DropdownCommonProps, DropdownOption } from "./types";
 
 const Dropdown: React.FC<Assign<
   DropdownCommonProps,
@@ -40,10 +35,11 @@ const Dropdown: React.FC<Assign<
   const selectedItem = options.find(({ id }) => id === selectedId);
 
   // animate menu item highlight states
+  const optionColors = useOptionColors();
   const [menuItemsStyles, setMenuItemsStyles] = useSprings(
     options.length,
     () => ({
-      background: colors.buttonBackground,
+      background: optionColors.base,
     })
   );
 
@@ -54,14 +50,14 @@ const Dropdown: React.FC<Assign<
       buttonContents={selectedItem?.label}
       options={visibleOptions}
       renderOption={({ option, index, getItemProps }) => (
-        <DropdownMenuItem
+        <OptionItem
           key={option.id}
           {...getItemProps({ item: option, index, disabled })}
         >
-          <DropdownMenuItemContents style={menuItemsStyles[index]}>
+          <OptionItemContents style={menuItemsStyles[index]}>
             {option.label}
-          </DropdownMenuItemContents>
-        </DropdownMenuItem>
+          </OptionItemContents>
+        </OptionItem>
       )}
       selectProps={{
         selectedItem,
@@ -75,8 +71,8 @@ const Dropdown: React.FC<Assign<
           setMenuItemsStyles((index) => ({
             background:
               index === highlightedIndex
-                ? colors.buttonBackgroundHover
-                : colors.buttonBackground,
+                ? optionColors.highlight
+                : optionColors.base,
           }));
         },
       }}

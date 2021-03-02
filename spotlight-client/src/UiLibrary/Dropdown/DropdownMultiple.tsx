@@ -25,13 +25,9 @@ import { Assign } from "utility-types";
 import { colors } from "..";
 import { highlightFade } from "../../charts/utils";
 import Check from "../Check";
-import {
-  DropdownBase,
-  DropdownCommonProps,
-  DropdownMenuItem,
-  DropdownMenuItemContents,
-  DropdownOption,
-} from "./common";
+import { OptionItem, OptionItemContents, useOptionColors } from "./common";
+import DropdownBase from "./DropdownBase";
+import { DropdownCommonProps, DropdownOption } from "./types";
 
 const SELECT_ALL_ID = "__ALL__";
 
@@ -82,6 +78,7 @@ function DropdownMultiple({
   );
 
   // animate menu item highlight states
+  const optionColors = useOptionColors();
   /**
    * Returns a setter function for useSprings that accounts for
    * color-coding with respect to both active selection and highlight state
@@ -91,10 +88,8 @@ function DropdownMultiple({
   ) => {
     // default base and highlight states; options with color coding may override
     let background =
-      highlightedIndex === index
-        ? colors.buttonBackgroundHover
-        : colors.buttonBackground;
-    let color = colors.text;
+      highlightedIndex === index ? optionColors.highlight : optionColors.base;
+    let color = optionColors.text;
 
     const option = optionsWithSelectAll[index];
 
@@ -147,8 +142,8 @@ function DropdownMultiple({
         }
 
         return (
-          <DropdownMenuItem key={option.id} {...itemProps}>
-            <DropdownMenuItemContents style={menuItemsStyles[index]}>
+          <OptionItem key={option.id} {...itemProps}>
+            <OptionItemContents style={menuItemsStyles[index]}>
               {option.label}
               {
                 // skipping zero because it's Select All
@@ -158,8 +153,8 @@ function DropdownMultiple({
                   </CheckMarkWrapper>
                 )
               }
-            </DropdownMenuItemContents>
-          </DropdownMenuItem>
+            </OptionItemContents>
+          </OptionItem>
         );
       }}
       selectProps={{
