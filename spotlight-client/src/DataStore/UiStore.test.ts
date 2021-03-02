@@ -20,10 +20,12 @@ import { reactImmediately } from "../testUtils";
 import RootStore from "./RootStore";
 import type UiStore from "./UiStore";
 
+let rootStore: RootStore;
 let store: UiStore;
 
 beforeEach(() => {
-  store = new RootStore().uiStore;
+  rootStore = new RootStore();
+  store = rootStore.uiStore;
 });
 
 test("set info panel contents", () => {
@@ -52,4 +54,36 @@ test("set info panel contents", () => {
     expect(store.tooltipMobileData).toBeUndefined();
     expect(store.renderTooltipMobile).toBeUndefined();
   });
+});
+
+test("current page ID", () => {
+  reactImmediately(() => {
+    expect(store.currentPageId).toBe("");
+  });
+
+  runInAction(() => {
+    rootStore.tenantStore.currentTenantId = "US_ND";
+  });
+
+  reactImmediately(() => {
+    expect(store.currentPageId).toBe("US_ND");
+  });
+
+  runInAction(() => {
+    rootStore.tenantStore.currentNarrativeTypeId = "Parole";
+  });
+
+  reactImmediately(() => {
+    expect(store.currentPageId).toBe("US_ND::Parole");
+  });
+
+  runInAction(() => {
+    rootStore.tenantStore.currentTenantId = undefined;
+  });
+
+  reactImmediately(() => {
+    expect(store.currentPageId).toBe("");
+  });
+
+  expect.hasAssertions();
 });

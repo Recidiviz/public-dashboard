@@ -19,10 +19,8 @@ import { Link } from "@reach/router";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
-import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
-import { TenantId } from "../contentApi/types";
-import SystemNarrative from "../contentModels/SystemNarrative";
+import OtherNarrativeLinks from "../OtherNarrativeLinks";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
 import { colors, typefaces } from "../UiLibrary";
@@ -49,83 +47,15 @@ const Heading = styled.h2`
   letter-spacing: -0.04em;
 `;
 
-const LinkList = styled.ul`
-  display: flex;
-  font-size: ${rem(24)};
-  line-height: 1.5;
-  margin: ${rem(48)} -${rem(16)};
-`;
-
-const LinkListItem = styled.li`
-  border-top: 1px solid ${colors.rule};
-  flex: 1 1 auto;
-  margin: 0 ${rem(16)};
-
-  a {
-    color: ${colors.text};
-    display: block;
-    padding-top: ${rem(32)};
-    text-decoration: none;
-    width: 100%;
-  }
-`;
-
-const FooterLink: React.FC<{
-  narrative: SystemNarrative;
-  tenantId: TenantId;
-}> = ({ narrative, tenantId }) => {
-  const [animationStyles, setAnimationStyles] = useSpring(() => ({
-    opacity: 0,
-    from: { opacity: 0 },
-  }));
-
-  return (
-    <LinkListItem>
-      <Link
-        to={getUrlForResource({
-          page: "narrative",
-          params: { tenantId, narrativeTypeId: narrative.id },
-        })}
-        onMouseOver={() => setAnimationStyles({ opacity: 1 })}
-        onFocus={() => setAnimationStyles({ opacity: 1 })}
-        onMouseOut={() => setAnimationStyles({ opacity: 0 })}
-        onBlur={() => setAnimationStyles({ opacity: 0 })}
-      >
-        {narrative.title}{" "}
-        <animated.span style={animationStyles}>
-          <Arrow color={colors.link} direction="right" />
-        </animated.span>
-      </Link>
-    </LinkListItem>
-  );
-};
-
 const Footer: React.FC = () => {
-  const {
-    tenant,
-    tenantStore: { currentNarrativeTypeId },
-  } = useDataStore();
+  const { tenant } = useDataStore();
 
   if (!tenant) return null;
-
-  const narrativesToDisplay = Object.values(tenant.systemNarratives).filter(
-    (narrative) => narrative && narrative.id !== currentNarrativeTypeId
-  ) as SystemNarrative[]; // this assertion is safe because undefined items were filtered out
 
   return (
     <Container aria-label="collections">
       <Heading>Continue Reading</Heading>
-      <LinkList>
-        {narrativesToDisplay.map((narrative) => {
-          return (
-            <FooterLink
-              key={narrative.id}
-              tenantId={tenant.id}
-              narrative={narrative}
-            />
-          );
-        })}
-      </LinkList>
+      <OtherNarrativeLinks />
       <Link
         className="NarrativeFooter__BackLink"
         to={getUrlForResource({

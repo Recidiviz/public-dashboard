@@ -35,7 +35,7 @@ const judicialDistricts = [
 const content: TenantContent = {
   name: "North Dakota",
   description:
-    '<a href="https://www.docr.nd.gov">The North Dakota Department of Corrections and Rehabilitation (DOCR)</a> provides correctional services for the state of North Dakota. Our mission is to transform lives, influence change, and strengthen community. Transparency is a critical element of our mission; sharing information builds greater accountability between the DOCR and the communities we serve. To this end, this collection of data visualizations is built to answer important questions that the public may have about the state of our correctional system in North Dakota. The data represented here is updated every day.',
+    '<a href="https://www.docr.nd.gov">The North Dakota Department of Corrections and Rehabilitation (DOCR)</a> provides correctional services for the state of North Dakota. Our mission is to transform lives, influence change, and strengthen community. Transparency is a critical element of our mission; sharing information builds greater accountability between the DOCR and the communities we serve.',
   collections: {
     Sentencing: {
       name: "Sentencing",

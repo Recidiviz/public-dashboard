@@ -39,4 +39,24 @@ export default class UiStore {
     this.tooltipMobileData = undefined;
     this.renderTooltipMobile = undefined;
   }
+
+  /**
+   * An easily watchable indicator of what page we're on
+   * (because not all routes are necessarily pages)
+   */
+  get currentPageId(): string {
+    const idParts: string[] = [];
+
+    const { tenant, narrative } = this.rootStore;
+
+    if (tenant) {
+      idParts.push(tenant.id);
+
+      if (narrative) {
+        idParts.push(narrative.id);
+      }
+    }
+
+    return idParts.join("::");
+  }
 }

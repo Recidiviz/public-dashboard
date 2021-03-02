@@ -22,7 +22,6 @@ import {
   ByRoleOptions,
   within,
   fireEvent,
-  waitFor,
 } from "@testing-library/react";
 import testContent from "./contentApi/sources/us_nd";
 import { renderNavigableApp } from "./testUtils";
@@ -69,14 +68,6 @@ describe("navigation", () => {
     return verifyWithNavigation({ targetPath, lookupArgs });
   });
 
-  test("narratives page", () => {
-    expect.hasAssertions();
-    const targetPath = "/us-nd/collections";
-    const lookupArgs = ["heading", { name: "Collections", level: 1 }] as const;
-
-    return verifyWithNavigation({ targetPath, lookupArgs });
-  });
-
   test("single narrative page", () => {
     expect.hasAssertions();
     const targetPath = "/us-nd/collections/prison";
@@ -91,53 +82,33 @@ describe("navigation", () => {
     return verifyWithNavigation({ targetPath, lookupArgs });
   });
 
-  test("nav bar", async () => {
-    const dataPortalLabel = "Explore";
-    const narrativesLabel = "Collections";
-
+  test("links", async () => {
     const {
       history: { navigate },
     } = renderNavigableApp();
     const inNav = within(screen.getByRole("navigation"));
 
-    expect(
-      inNav.queryByRole("link", { name: dataPortalLabel })
-    ).not.toBeInTheDocument();
-    expect(
-      inNav.queryByRole("link", { name: narrativesLabel })
-    ).not.toBeInTheDocument();
-
     await act(() => navigate("/us-nd"));
     const homeLink = inNav.getByRole("link", { name: "Spotlight" });
     const tenantLink = inNav.getByRole("link", { name: "North Dakota" });
-    const narrativesLink = inNav.getByRole("link", { name: narrativesLabel });
+    const sentencingLink = screen.getByRole("link", { name: "Sentencing" });
 
-    const verifyNavLinks = () => {
-      expect(homeLink).toBeInTheDocument();
-      expect(tenantLink).toBeInTheDocument();
-      expect(narrativesLink).toBeInTheDocument();
-    };
-
-    fireEvent.click(narrativesLink);
-    await waitFor(() =>
-      expect(
-        screen.getByRole("heading", { name: "Collections", level: 1 })
-      ).toBeInTheDocument()
-    );
-    verifyNavLinks();
+    fireEvent.click(sentencingLink);
+    expect(
+      await screen.findByRole("heading", { name: "Sentencing", level: 1 })
+    ).toBeInTheDocument();
 
     fireEvent.click(tenantLink);
-    await waitFor(() =>
-      expect(
-        screen.getByRole("heading", { name: "North Dakota", level: 1 })
-      ).toBeInTheDocument()
-    );
+    expect(
+      await screen.findByRole("heading", {
+        name: "Explore correctional data from North Dakota.",
+        level: 1,
+      })
+    ).toBeInTheDocument();
 
     fireEvent.click(homeLink);
-    await waitFor(() =>
-      expect(
-        screen.getByRole("heading", { name: "Spotlight", level: 1 })
-      ).toBeInTheDocument()
-    );
+    expect(
+      await screen.findByRole("heading", { name: "Spotlight", level: 1 })
+    ).toBeInTheDocument();
   });
 });
