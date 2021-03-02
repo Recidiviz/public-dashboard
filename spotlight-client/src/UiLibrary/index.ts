@@ -23,6 +23,7 @@ export { default as CopyBlock } from "./CopyBlock";
 export { default as colors } from "./colors";
 export * from "./Dropdown";
 export { default as FixedBottomPanel } from "./FixedBottomPanel";
+export * from "./Modal";
 export { default as PageSection } from "./PageSection";
 export * from "./typography";
 export { default as zIndex } from "./zIndex";

@@ -15,13 +15,15 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import HTMLReactParser from "html-react-parser";
 import { rem } from "polished";
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/macro";
 import downloadPath from "../assets/cloud-download.svg";
+import machineLearningPath from "../assets/machine-learning.svg";
 import Metric from "../contentModels/Metric";
 import { MetricRecord } from "../contentModels/types";
-import { colors, zIndex } from "../UiLibrary";
+import { colors, CopyBlock, Modal, ModalHeading, zIndex } from "../UiLibrary";
 
 const Wrapper = styled.div`
   background: ${colors.background};
@@ -50,7 +52,7 @@ const FilterWrapper = styled.div`
   }
 `;
 
-const DownloadButton = styled.button`
+const Button = styled.button`
   background: none;
   border: none;
   color: ${colors.link};
@@ -60,11 +62,16 @@ const DownloadButton = styled.button`
   padding: none;
 `;
 
-const DownloadIcon = styled.img.attrs({ src: downloadPath })`
+const ButtonIcon = styled.img`
   height: ${rem(16)};
   /* icon needs minor adjustment to align with text */
   margin-bottom: ${rem(-2)};
   width: ${rem(16)};
+`;
+
+const MethodologyCopy = styled(CopyBlock)`
+  line-height: 1.7;
+  margin-top: ${rem(16)};
 `;
 
 type MetricVizControlsProps = {
@@ -76,6 +83,8 @@ const MetricVizControls = ({
   filters,
   metric,
 }: MetricVizControlsProps): React.ReactElement => {
+  const [showMethodology, setShowMethodology] = useState(false);
+
   return (
     <Wrapper>
       <ControlsGroup>
@@ -87,9 +96,21 @@ const MetricVizControls = ({
         ))}
       </ControlsGroup>
       <ControlsGroup>
-        <DownloadButton onClick={() => metric.download()}>
-          <DownloadIcon /> Download Data
-        </DownloadButton>
+        <Button onClick={() => metric.download()}>
+          <ButtonIcon src={downloadPath} /> Download Data
+        </Button>
+        <Button onClick={() => setShowMethodology(true)}>
+          <ButtonIcon src={machineLearningPath} /> Methodology
+        </Button>
+        <Modal
+          isOpen={showMethodology}
+          onRequestClose={() => setShowMethodology(false)}
+        >
+          <ModalHeading>Methodology</ModalHeading>
+          <MethodologyCopy>
+            {HTMLReactParser(metric.methodology)}
+          </MethodologyCopy>
+        </Modal>
       </ControlsGroup>
     </Wrapper>
   );
