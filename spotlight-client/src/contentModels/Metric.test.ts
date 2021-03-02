@@ -251,7 +251,9 @@ describe("data download", () => {
         expect(recordsFromCsv[0]).toEqual(expectedRecord);
 
         // the file in the archive is plain text but methodology can contain HTML tags
-        expect(readmeContents).toBe(stripHtml(metric.methodology).result);
+        expect(readmeContents).toBe(
+          stripHtml(metric.methodology).result.replace(/\s+/g, " ")
+        );
 
         // @ts-expect-error typedefs for `test.each` are wrong, `done` will be a function
         done();
