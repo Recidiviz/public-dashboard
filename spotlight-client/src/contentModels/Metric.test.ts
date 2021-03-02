@@ -15,14 +15,22 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { csvParse } from "d3-dsv";
+import { formatISO } from "date-fns";
+import downloadjs from "downloadjs";
 import { advanceTo, clear } from "jest-date-mock";
 import fetchMock from "jest-fetch-mock";
-import { runInAction, when } from "mobx";
+import JsZip from "jszip";
+import { when } from "mobx";
 import { fromPromise } from "mobx-utils";
+import { stripHtml } from "string-strip-html";
 import retrieveContent from "../contentApi/retrieveContent";
 import { MetricTypeId, MetricTypeIdList } from "../contentApi/types";
 import { reactImmediately } from "../testUtils";
 import createMetricMapping from "./createMetricMapping";
+
+jest.mock("downloadjs");
+const downloadjsMock = downloadjs as jest.MockedFunction<typeof downloadjs>;
 
 const testTenantId = "US_ND";
 const allTestContent = retrieveContent({ tenantId: testTenantId });
@@ -172,33 +180,82 @@ test("fetch error state", async () => {
   fetchMock.dontMock();
 });
 
-test("demographic filter", async () => {
-  testMetricMapping = getTestMapping();
-  // one of several metric types that supports this type of filter
-  // (and will result in a relatively small snapshot!)
-  const metric = getTestMetric("ProbationRevocationsAggregate");
-
-  metric.populateAllRecords();
-
-  await when(() => metric.records !== undefined);
-
-  runInAction(() => {
-    metric.demographicView = "gender";
+describe("data download", () => {
+  beforeAll(() => {
+    // most recent month present in fixture
+    advanceTo(new Date(2020, 7, 15));
+    testMetricMapping = getTestMapping();
   });
 
-  reactImmediately(() => expect(metric.records).toMatchSnapshot());
-
-  runInAction(() => {
-    metric.demographicView = "raceOrEthnicity";
+  afterAll(() => {
+    clear();
   });
 
-  reactImmediately(() => expect(metric.records).toMatchSnapshot());
-
-  runInAction(() => {
-    metric.demographicView = "ageBucket";
+  afterEach(() => {
+    downloadjsMock.mockReset();
   });
 
-  reactImmediately(() => expect(metric.records).toMatchSnapshot());
+  test.each(
+    MetricTypeIdList.filter(
+      (id) =>
+        // these metric types have multiple data sources, so the files they download will be different;
+        // see SupervisionSuccessRateMetric tests for coverage
+        !["ProbationSuccessHistorical", "ParoleSuccessHistorical"].includes(id)
+    )
+  )("for metric %s", async (metricId, done) => {
+    const metric = getTestMetric(metricId);
+    metric.populateAllRecords();
 
-  expect.hasAssertions();
+    await metric.download();
+
+    expect(downloadjsMock).toHaveBeenCalled();
+
+    const [content, filename] = downloadjsMock.mock.calls[0];
+
+    const zipPrefix = `${testTenantId} ${metricId} data`;
+    expect(filename).toBe(`${zipPrefix}.zip`);
+
+    // if we read the data in the zip file we should be able to reverse it
+    // into something resembling metric.allRecords; we will spot-check
+    // the downloaded file by verifying that the first record matches the source
+    const zip = await JsZip.loadAsync(content);
+    const readmeContents = await zip
+      .file(`${zipPrefix}/README.txt`)
+      ?.async("string");
+    const csvContents = await zip
+      .file(`${zipPrefix}/data.csv`)
+      ?.async("string");
+
+    reactImmediately(() => {
+      if (csvContents && readmeContents) {
+        const recordsFromCsv = csvParse(csvContents);
+
+        // rather than try to re-typecast the CSV data,
+        // we'll cast the real record value to strings for comparison
+        const expectedRecord: Record<string, string> = {};
+
+        // in practice, recordsUnfiltered should not be undefined once we've gotten this far
+        Object.entries((metric.recordsUnfiltered || [])[0]).forEach(
+          ([key, value]) => {
+            let valueAsString = String(value);
+            if (value instanceof Date) {
+              // how the underlying CSV conversion function handles dates
+              // (https://github.com/d3/d3-dsv#dsv_format)
+              valueAsString = formatISO(value, { representation: "date" });
+            }
+
+            expectedRecord[key] = valueAsString;
+          }
+        );
+
+        expect(recordsFromCsv[0]).toEqual(expectedRecord);
+
+        // the file in the archive is plain text but methodology can contain HTML tags
+        expect(readmeContents).toBe(stripHtml(metric.methodology).result);
+
+        // @ts-expect-error typedefs for `test.each` are wrong, `done` will be a function
+        done();
+      }
+    });
+  });
 });

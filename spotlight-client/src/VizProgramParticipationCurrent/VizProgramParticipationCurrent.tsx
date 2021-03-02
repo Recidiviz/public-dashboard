@@ -20,6 +20,7 @@ import React from "react";
 import styled from "styled-components/macro";
 import { TopologicalMap } from "../charts";
 import ProgramParticipationCurrentMetric from "../contentModels/ProgramParticipationCurrentMetric";
+import MetricVizControls from "../MetricVizControls";
 import NoMetricData from "../NoMetricData";
 
 const MapWrapper = styled.figure``;
@@ -35,13 +36,16 @@ const VizProgramParticipationCurrent: React.FC<VizProgramParticipationCurrentPro
 
   if (dataMapping) {
     return (
-      <MapWrapper aria-label={`${metric.localityLabels.label} map chart`}>
-        <TopologicalMap
-          aspectRatio={metric.mapData.aspectRatio}
-          localityData={dataMapping}
-          topology={metric.mapData.topology}
-        />
-      </MapWrapper>
+      <>
+        <MetricVizControls filters={[]} metric={metric} />
+        <MapWrapper aria-label={`${metric.localityLabels.label} map chart`}>
+          <TopologicalMap
+            aspectRatio={metric.mapData.aspectRatio}
+            localityData={dataMapping}
+            topology={metric.mapData.topology}
+          />
+        </MapWrapper>
+      </>
     );
   }
 

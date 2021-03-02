@@ -28,7 +28,7 @@ import {
 } from "../charts";
 import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
-import FiltersWrapper from "../FiltersWrapper";
+import MetricVizControls from "../MetricVizControls";
 import { prisonStayLengthFields } from "../metricsApi";
 import NoMetricData from "../NoMetricData";
 import { animation } from "../UiLibrary";
@@ -100,8 +100,9 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
       >
         {({ measureRef }) => (
           <>
-            <FiltersWrapper
+            <MetricVizControls
               filters={[<DemographicFilterSelect metric={metric} />]}
+              metric={metric}
             />
             <animated.div style={chartContainerStyles}>
               <ChartsWrapper ref={measureRef}>

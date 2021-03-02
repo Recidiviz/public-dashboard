@@ -53,12 +53,6 @@ const Container = styled(PageSection)`
     flex-direction: row;
     justify-content: flex-start;
   }
-
-  @media screen and (min-width: ${breakpoints.desktop[0]}px) {
-    align-items: flex-start;
-    flex-direction: row;
-    justify-content: flex-start;
-  }
 `;
 
 const SectionCopy = styled(CopyBlock)<{ $isSticky: boolean }>`

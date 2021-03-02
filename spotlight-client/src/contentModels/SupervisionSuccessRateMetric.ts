@@ -16,7 +16,11 @@
 // =============================================================================
 
 import { ascending } from "d3-array";
-import { computed, makeObservable, observable, runInAction } from "mobx";
+import { csvFormat } from "d3-dsv";
+import downloadjs from "downloadjs";
+import JsZip from "jszip";
+import { computed, makeObservable, observable, runInAction, when } from "mobx";
+import { stripHtml } from "string-strip-html";
 import {
   DemographicView,
   getDemographicCategories,
@@ -107,9 +111,7 @@ export default class SupervisionSuccessRateMetric extends Metric<
   /**
    * Returns unfiltered cohort records. Kicks off a fetch if necessary.
    */
-  private getOrFetchCohortRecords():
-    | SupervisionSuccessRateMonthlyRecord[]
-    | undefined {
+  getOrFetchCohortRecords(): SupervisionSuccessRateMonthlyRecord[] | undefined {
     if (this.allCohortRecords) return this.allCohortRecords;
     if (!this.isLoading || !this.error) this.populateAllRecords();
     return undefined;
@@ -118,7 +120,7 @@ export default class SupervisionSuccessRateMetric extends Metric<
   /**
    * Returns unfiltered demographic records. Kicks off a fetch if necessary.
    */
-  private getOrFetchDemographicRecords():
+  getOrFetchDemographicRecords():
     | SupervisionSuccessRateDemographicsRecord[]
     | undefined {
     if (this.allDemographicRecords) return this.allDemographicRecords;
@@ -267,5 +269,45 @@ export default class SupervisionSuccessRateMetric extends Metric<
         return { label, rate: 0, rateNumerator: 0, rateDenominator: 0 };
       }
     );
+  }
+
+  /**
+   * Creates a zip file of all this metric's data in CSV format and
+   * initiates a download of that file in the user's browser.
+   */
+  download(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      when(
+        () =>
+          this.allCohortRecords !== undefined &&
+          this.allDemographicRecords !== undefined,
+        () => {
+          const zip = new JsZip();
+          const zipName = `${this.tenantId} ${this.id} data`;
+          // these assertions are safe because we are waiting for them in the reaction above
+          const cohortData = csvFormat(
+            this.allCohortRecords as SupervisionSuccessRateMonthlyRecord[]
+          );
+          const demographicData = csvFormat(
+            this
+              .allDemographicRecords as SupervisionSuccessRateDemographicsRecord[]
+          );
+          zip
+            .file(`${zipName}/historical data.csv`, cohortData)
+            .file(`${zipName}/demographic aggregate data.csv`, demographicData)
+            .file(`${zipName}/README.txt`, stripHtml(this.methodology).result);
+
+          zip
+            .generateAsync({ type: "blob" })
+            .then((content) => {
+              downloadjs(content, `${zipName}.zip`);
+              resolve();
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        }
+      );
+    });
   }
 }

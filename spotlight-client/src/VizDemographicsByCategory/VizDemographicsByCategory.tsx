@@ -25,7 +25,7 @@ import { BubbleChart, ProportionalBar } from "../charts";
 import { useHighlightedItem } from "../charts/utils";
 import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
-import FiltersWrapper from "../FiltersWrapper";
+import MetricVizControls from "../MetricVizControls";
 import NoMetricData from "../NoMetricData";
 import { animation, zIndex } from "../UiLibrary";
 
@@ -82,8 +82,9 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
       >
         {({ measureRef }) => (
           <>
-            <FiltersWrapper
+            <MetricVizControls
               filters={[<DemographicFilterSelect metric={metric} />]}
+              metric={metric}
             />
             <animated.div style={chartContainerStyles}>
               {chartTransitions.map(({ item, key, props }) => (

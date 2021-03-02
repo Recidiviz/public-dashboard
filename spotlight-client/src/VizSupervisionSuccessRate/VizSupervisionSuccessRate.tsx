@@ -24,7 +24,7 @@ import styled from "styled-components/macro";
 import RateCohorts, { CHART_HEIGHT } from "../charts/RateCohorts";
 import SupervisionSuccessRateMetric from "../contentModels/SupervisionSuccessRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
-import FiltersWrapper from "../FiltersWrapper";
+import MetricVizControls from "../MetricVizControls";
 import LocalityFilterSelect from "../LocalityFilterSelect";
 import NoMetricData from "../NoMetricData";
 import Statistic from "../Statistic";
@@ -101,11 +101,12 @@ const VizSupervisionSuccessRate: React.FC<VizSupervisionSuccessRateProps> = ({
   if (cohortRecords && demographicRecords) {
     return (
       <>
-        <FiltersWrapper
+        <MetricVizControls
           filters={[
             <LocalityFilterSelect metric={metric} />,
             <DemographicFilterSelect metric={metric} />,
           ]}
+          metric={metric}
         />
         <CohortChartWrapper>
           {cohortTransitions.map(({ item, key, props }) => (
