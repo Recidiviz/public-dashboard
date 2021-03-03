@@ -23,7 +23,7 @@ import { runInAction, when } from "mobx";
 import { stripHtml } from "string-strip-html";
 import { DemographicView } from "../demographics";
 import {
-  fetchMetrics,
+  fetchAndTransformMetric,
   SupervisionSuccessRateMonthlyRecord,
 } from "../metricsApi";
 import { reactImmediately } from "../testUtils";
@@ -33,12 +33,12 @@ import contentFixture from "./__fixtures__/tenant_content_exhaustive";
 
 jest.mock("../metricsApi", () => {
   const actualModule = jest.requireActual("../metricsApi");
-  const mockFetch = jest.fn(actualModule.fetchMetrics);
-  return { ...actualModule, fetchMetrics: mockFetch };
+  const mockFetch = jest.fn(actualModule.fetchAndTransformMetric);
+  return { ...actualModule, fetchAndTransformMetric: mockFetch };
 });
 
-const mockedFetchMetrics = fetchMetrics as jest.MockedFunction<
-  typeof fetchMetrics
+const mockedFetchAndTransformMetric = fetchAndTransformMetric as jest.MockedFunction<
+  typeof fetchAndTransformMetric
 >;
 
 jest.mock("downloadjs");
@@ -127,21 +127,16 @@ describe("cohort data", () => {
   });
 
   test("imputes missing cohorts", async () => {
-    mockedFetchMetrics.mockResolvedValueOnce({
-      supervision_success_by_month: [
-        {
-          state_code: "US_ND",
-          projected_year: "2019",
-          projected_month: "9",
-          district: "ALL",
-          supervision_type: "PROBATION",
-          successful_termination_count: "2",
-          projected_completion_count: "2",
-          success_rate: "1.0",
-        },
-      ],
-      supervision_success_by_period_by_demographics: [],
-    });
+    mockedFetchAndTransformMetric.mockResolvedValueOnce([
+      {
+        year: 2019,
+        month: 9,
+        district: "ALL",
+        rateNumerator: 2,
+        rateDenominator: 2,
+        rate: 1,
+      },
+    ]);
 
     const metric = await getPopulatedMetric();
 
@@ -177,21 +172,16 @@ describe("cohort data", () => {
   });
 
   test("imputes missing cohorts with current month", async () => {
-    mockedFetchMetrics.mockResolvedValueOnce({
-      supervision_success_by_month: [
-        {
-          state_code: "US_ND",
-          projected_year: "2020",
-          projected_month: "7",
-          district: "ALL",
-          supervision_type: "PROBATION",
-          successful_termination_count: "2",
-          projected_completion_count: "2",
-          success_rate: "1.0",
-        },
-      ],
-      supervision_success_by_period_by_demographics: [],
-    });
+    mockedFetchAndTransformMetric.mockResolvedValueOnce([
+      {
+        year: 2020,
+        month: 7,
+        district: "ALL",
+        rateNumerator: 2,
+        rateDenominator: 2,
+        rate: 1,
+      },
+    ]);
 
     const metric = await getPopulatedMetric();
 

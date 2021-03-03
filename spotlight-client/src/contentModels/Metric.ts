@@ -27,38 +27,16 @@ import {
   when,
 } from "mobx";
 import { stripHtml } from "string-strip-html";
-import { ERROR_MESSAGES } from "../constants";
 import { LocalityLabels, MetricTypeId, TenantId } from "../contentApi/types";
 import { DemographicView } from "../demographics";
 import {
-  fetchMetrics,
   RawMetricData,
   DemographicFields,
   LocalityFields,
   SupervisionSuccessRateMonthlyRecord,
+  fetchAndTransformMetric,
 } from "../metricsApi";
 import { MetricRecord, CollectionMap } from "./types";
-
-export async function fetchAndTransformMetric<RecordFormat>({
-  sourceFileName,
-  tenantId,
-  transformFn,
-}: {
-  sourceFileName: string;
-  tenantId: TenantId;
-  transformFn: (d: RawMetricData) => RecordFormat[];
-}): Promise<RecordFormat[]> {
-  const apiResponse = await fetchMetrics({
-    metricNames: [sourceFileName],
-    tenantId,
-  });
-
-  const rawData = apiResponse[sourceFileName];
-  if (rawData) {
-    return transformFn(rawData);
-  }
-  throw new Error(ERROR_MESSAGES.noMetricData);
-}
 
 export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   id: MetricTypeId;

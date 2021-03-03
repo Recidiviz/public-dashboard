@@ -28,6 +28,7 @@ import {
   TOTAL_KEY,
 } from "../demographics";
 import {
+  fetchAndTransformMetric,
   getCohortLabel,
   RateFields,
   RawMetricData,
@@ -36,10 +37,7 @@ import {
   SupervisionSuccessRateMonthlyRecord,
 } from "../metricsApi";
 import getMissingMonths from "./getMissingMonths";
-import Metric, {
-  BaseMetricConstructorOptions,
-  fetchAndTransformMetric,
-} from "./Metric";
+import Metric, { BaseMetricConstructorOptions } from "./Metric";
 
 function dataIncludesCurrentMonth(
   records: SupervisionSuccessRateMonthlyRecord[]
