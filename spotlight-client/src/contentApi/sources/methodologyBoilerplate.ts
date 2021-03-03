@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,25 +15,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import "react-app-polyfill/ie11";
-import "react-app-polyfill/stable";
-import "intersection-observer";
+export const ageGroup = `In distributions by age, individuals are counted towards the
+age group they fall into as of the reporting date.`;
 
-import { configure } from "mobx";
-import React from "react";
-import ReactDOM from "react-dom";
-import ReactModal from "react-modal";
-import App from "./App";
+export const gender = `Gender distributions only include male and female due to
+low numbers of other reported genders.`;
 
-configure({
-  // make proxies optional for IE 11 support
-  useProxies: "ifavailable",
-  // activate runtime linting
-  computedRequiresReaction: true,
-  reactionRequiresObservable: true,
-  observableRequiresReaction: true,
-});
-
-ReactDOM.render(<App />, document.getElementById("root"), () => {
-  ReactModal.setAppElement("#root");
-});
+export const raceOrEthnicity = `Distributions by race count individuals with more than
+one reported race or ethnicity towards the racial or ethnic identity that is least
+represented in the general population.`;

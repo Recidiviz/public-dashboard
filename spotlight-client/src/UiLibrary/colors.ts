@@ -57,6 +57,7 @@ export default {
   menuButtonOpen: pineBright,
   mobileMenuBackground: pineDark,
   mobileMenuRule: pine,
+  modalOverlay: gray,
   rule: gray,
   ruleHover: "#AFC1C3",
   text: pine,

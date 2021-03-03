@@ -232,7 +232,10 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
           // this assertion is safe because we are waiting for it in the reaction above
           const data = csvFormat(this.allRecords as RecordFormat[]);
           zip.file(`${zipName}/data.csv`, data);
-          zip.file(`${zipName}/README.txt`, stripHtml(this.methodology).result);
+          zip.file(
+            `${zipName}/README.txt`,
+            stripHtml(this.methodology).result.replace(/\s+/g, " ")
+          );
 
           zip
             .generateAsync({ type: "blob" })
