@@ -1,0 +1,287 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data before corrections 1`] = `
+Object {
+  "correctionsPctCurrent": 0.10849478390461997,
+  "populationPctCurrent": 0.020303781773093613,
+}
+`;
+
+exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data for parole 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.1096045197740113,
+  "newCrimeProportion36Mo": 0.26101694915254237,
+  "populationProportion36Mo": 0.12779552715654952,
+  "revocationProportion36Mo": 0.24094745439695073,
+  "technicalProportion36Mo": 0.6135593220338983,
+  "unknownProportion36Mo": 0.015819209039548022,
+}
+`;
+
+exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data for probation 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.2423500611995104,
+  "newCrimeProportion36Mo": 0.2717258261933905,
+  "populationProportion36Mo": 0.28701077708451506,
+  "revocationProportion36Mo": 0.2440991933074395,
+  "technicalProportion36Mo": 0.44920440636474906,
+  "unknownProportion36Mo": 0.03671970624235006,
+}
+`;
+
+exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data for programming 1`] = `
+Object {
+  "participantProportionCurrent": 0.22485207100591717,
+  "supervisionProportionCurrent": 0.045959204750839144,
+}
+`;
+
+exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data for releases to parole 1`] = `
+Object {
+  "paroleReleaseProportion36Mo": 0.10027855153203342,
+  "prisonPopulationProportion36Mo": 0.21291448516579406,
+}
+`;
+
+exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data for sentencing 1`] = `
+Object {
+  "incarcerationPctCurrent": 0.9306318681318682,
+  "probationPctCurrent": 0.3798076923076923,
+}
+`;
+
+exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data for supervision 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.17323775388291518,
+  "newCrimeProportion36Mo": 0.26463560334528075,
+  "populationProportion36Mo": 0.23299511461856445,
+  "revocationProportion36Mo": 0.24176776429809357,
+  "technicalProportion36Mo": 0.5376344086021505,
+  "unknownProportion36Mo": 0.024492234169653525,
+}
+`;
+
+exports[`BLACK data before corrections 1`] = `
+Object {
+  "correctionsPctCurrent": 0.18181818181818182,
+  "populationPctCurrent": 0.008601983880967142,
+}
+`;
+
+exports[`BLACK data for parole 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.21481481481481482,
+  "newCrimeProportion36Mo": 0.48518518518518516,
+  "populationProportion36Mo": 0.2641107561235357,
+  "revocationProportion36Mo": 0.22052817860059898,
+  "technicalProportion36Mo": 0.2617283950617284,
+  "unknownProportion36Mo": 0.03827160493827161,
+}
+`;
+
+exports[`BLACK data for probation 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.43846153846153846,
+  "newCrimeProportion36Mo": 0.46263736263736266,
+  "populationProportion36Mo": 0.15314804310833807,
+  "revocationProportion36Mo": 0.27188527039139526,
+  "technicalProportion36Mo": 0.06593406593406594,
+  "unknownProportion36Mo": 0.03296703296703297,
+}
+`;
+
+exports[`BLACK data for programming 1`] = `
+Object {
+  "participantProportionCurrent": 0.21499013806706113,
+  "supervisionProportionCurrent": 0.11373612186935192,
+}
+`;
+
+exports[`BLACK data for releases to parole 1`] = `
+Object {
+  "paroleReleaseProportion36Mo": 0.3286908077994429,
+  "prisonPopulationProportion36Mo": 0.08376963350785341,
+}
+`;
+
+exports[`BLACK data for sentencing 1`] = `
+Object {
+  "incarcerationPctCurrent": 0.6860655737704918,
+  "probationPctCurrent": 0.3762295081967213,
+}
+`;
+
+exports[`BLACK data for supervision 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.3333333333333333,
+  "newCrimeProportion36Mo": 0.47368421052631576,
+  "populationProportion36Mo": 0.19165727170236754,
+  "revocationProportion36Mo": 0.24696707105719237,
+  "technicalProportion36Mo": 0.15789473684210525,
+  "unknownProportion36Mo": 0.03508771929824561,
+}
+`;
+
+exports[`HISPANIC data before corrections 1`] = `
+Object {
+  "correctionsPctCurrent": 0.20588673621460507,
+  "populationPctCurrent": 0.02944823310601364,
+}
+`;
+
+exports[`HISPANIC data for parole 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.1842818428184282,
+  "newCrimeProportion36Mo": 0.33965672990063234,
+  "populationProportion36Mo": 0.0926517571884984,
+  "revocationProportion36Mo": 0.3013885107541519,
+  "technicalProportion36Mo": 0.42999096657633246,
+  "unknownProportion36Mo": 0.04607046070460705,
+}
+`;
+
+exports[`HISPANIC data for probation 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.22390317700453857,
+  "newCrimeProportion36Mo": 0.14977307110438728,
+  "populationProportion36Mo": 0.23936471922858762,
+  "revocationProportion36Mo": 0.19749028981177175,
+  "technicalProportion36Mo": 0.5597579425113465,
+  "unknownProportion36Mo": 0.06656580937972768,
+}
+`;
+
+exports[`HISPANIC data for programming 1`] = `
+Object {
+  "participantProportionCurrent": 0.29980276134122286,
+  "supervisionProportionCurrent": 0.323134521043119,
+}
+`;
+
+exports[`HISPANIC data for releases to parole 1`] = `
+Object {
+  "paroleReleaseProportion36Mo": 0.1392757660167131,
+  "prisonPopulationProportion36Mo": 0.10732984293193717,
+}
+`;
+
+exports[`HISPANIC data for sentencing 1`] = `
+Object {
+  "incarcerationPctCurrent": 0.15707564241766195,
+  "probationPctCurrent": 0.8878031125588128,
+}
+`;
+
+exports[`HISPANIC data for supervision 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.2,
+  "newCrimeProportion36Mo": 0.26857142857142857,
+  "populationProportion36Mo": 0.1882750845546787,
+  "revocationProportion36Mo": 0.25274407856730213,
+  "technicalProportion36Mo": 0.48,
+  "unknownProportion36Mo": 0.05142857142857143,
+}
+`;
+
+exports[`OTHER data before corrections 1`] = `
+Object {
+  "correctionsPctCurrent": 0.2572280178837556,
+  "populationPctCurrent": 0.0021698698078115313,
+}
+`;
+
+exports[`OTHER data for parole 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.23636363636363636,
+  "newCrimeProportion36Mo": 0.23636363636363636,
+  "populationProportion36Mo": 0.21299254526091588,
+  "revocationProportion36Mo": 0.05989654233596515,
+  "technicalProportion36Mo": 0.41818181818181815,
+  "unknownProportion36Mo": 0.10909090909090909,
+}
+`;
+
+exports[`OTHER data for probation 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.20320855614973263,
+  "newCrimeProportion36Mo": 0.48663101604278075,
+  "populationProportion36Mo": 0.23255813953488372,
+  "revocationProportion36Mo": 0.05587092919031969,
+  "technicalProportion36Mo": 0.21390374331550802,
+  "unknownProportion36Mo": 0.0962566844919786,
+}
+`;
+
+exports[`OTHER data for programming 1`] = `
+Object {
+  "participantProportionCurrent": 0.16765285996055226,
+  "supervisionProportionCurrent": 0.33372063000258195,
+}
+`;
+
+exports[`OTHER data for releases to parole 1`] = `
+Object {
+  "paroleReleaseProportion36Mo": 0.16991643454038996,
+  "prisonPopulationProportion36Mo": 0.010471204188481676,
+}
+`;
+
+exports[`OTHER data for sentencing 1`] = `
+Object {
+  "incarcerationPctCurrent": 0.3328505214368482,
+  "probationPctCurrent": 0.7471031286210892,
+}
+`;
+
+exports[`OTHER data for supervision 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.225,
+  "newCrimeProportion36Mo": 0.35,
+  "populationProportion36Mo": 0.2254791431792559,
+  "revocationProportion36Mo": 0.057770075101097634,
+  "technicalProportion36Mo": 0.325,
+  "unknownProportion36Mo": 0.1,
+}
+`;
+
+exports[`total data for introduction 1`] = `
+Object {
+  "AMERICAN_INDIAN_ALASKAN_NATIVE": 20.359795976275667,
+  "BLACK": 80.53416970914704,
+  "HISPANIC": 26.63855275087083,
+}
+`;
+
+exports[`total data for parole 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.23550231418459025,
+  "newCrimeProportion36Mo": 0.349033487612306,
+  "technicalProportion36Mo": 0.36809147835556766,
+  "unknownProportion36Mo": 0.04737271984753608,
+}
+`;
+
+exports[`total data for probation 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.31102479832685986,
+  "newCrimeProportion36Mo": 0.3223782491783687,
+  "technicalProportion36Mo": 0.31789662384224676,
+  "unknownProportion36Mo": 0.048700328652524646,
+}
+`;
+
+exports[`total data for sentencing 1`] = `
+Object {
+  "incarcerationPctCurrent": 0.49567809239940386,
+  "probationPctCurrent": 0.5938897168405365,
+}
+`;
+
+exports[`total data for supervision 1`] = `
+Object {
+  "absconsionProportion36Mo": 0.2729636048526863,
+  "newCrimeProportion36Mo": 0.33694396302715196,
+  "technicalProportion36Mo": 0.34517619872905836,
+  "unknownProportion36Mo": 0.044916233391103406,
+}
+`;
