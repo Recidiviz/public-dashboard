@@ -7,6 +7,45 @@ Object {
 }
 `;
 
+exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data for focused population data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of races in the state",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Native American",
+        "pct": 0.020303781773093613,
+        "value": 262,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "All other racial/ethnic groups",
+        "pct": 0.9796962182269063,
+        "value": 12642,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of races sentenced and under DOCR control",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Native American",
+        "pct": 0.10849478390461997,
+        "value": 1456,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "All other racial/ethnic groups",
+        "pct": 0.89150521609538,
+        "value": 11964,
+      },
+    ],
+  },
+]
+`;
+
 exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data for parole 1`] = `
 Object {
   "absconsionProportion36Mo": 0.1096045197740113,
@@ -18,6 +57,69 @@ Object {
 }
 `;
 
+exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data for parole revocations data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of revocation reasons for people who are Native American",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.1096045197740113,
+        "value": 97,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.26101694915254237,
+        "value": 231,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.6135593220338983,
+        "value": 543,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.015819209039548022,
+        "value": 14,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of revocation reasons overall",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.23550231418459025,
+        "value": 865,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.349033487612306,
+        "value": 1282,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.36809147835556766,
+        "value": 1352,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.04737271984753608,
+        "value": 174,
+      },
+    ],
+  },
+]
+`;
+
 exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data for probation 1`] = `
 Object {
   "absconsionProportion36Mo": 0.2423500611995104,
@@ -27,6 +129,69 @@ Object {
   "technicalProportion36Mo": 0.44920440636474906,
   "unknownProportion36Mo": 0.03671970624235006,
 }
+`;
+
+exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data for probation revocations data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of revocation reasons for people who are Native American",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.2423500611995104,
+        "value": 198,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.2717258261933905,
+        "value": 222,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.44920440636474906,
+        "value": 367,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.03671970624235006,
+        "value": 30,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of revocation reasons overall",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.31102479832685986,
+        "value": 1041,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.3223782491783687,
+        "value": 1079,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.31789662384224676,
+        "value": 1064,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.048700328652524646,
+        "value": 163,
+      },
+    ],
+  },
+]
 `;
 
 exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data for programming 1`] = `
@@ -61,11 +226,113 @@ Object {
 }
 `;
 
+exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data for supervision revocations data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of revocation reasons for people who are Native American",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.17323775388291518,
+        "value": 290,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.26463560334528075,
+        "value": 443,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.5376344086021505,
+        "value": 900,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.024492234169653525,
+        "value": 41,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of revocation reasons overall",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.2729636048526863,
+        "value": 1890,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.33694396302715196,
+        "value": 2333,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.34517619872905836,
+        "value": 2390,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.044916233391103406,
+        "value": 311,
+      },
+    ],
+  },
+]
+`;
+
 exports[`BLACK data before corrections 1`] = `
 Object {
   "correctionsPctCurrent": 0.18181818181818182,
   "populationPctCurrent": 0.008601983880967142,
 }
+`;
+
+exports[`BLACK data for focused population data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of races in the state",
+    "records": Array [
+      Object {
+        "color": "#D9A95F",
+        "label": "Black",
+        "pct": 0.008601983880967142,
+        "value": 111,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "All other racial/ethnic groups",
+        "pct": 0.9913980161190329,
+        "value": 12793,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of races sentenced and under DOCR control",
+    "records": Array [
+      Object {
+        "color": "#D9A95F",
+        "label": "Black",
+        "pct": 0.18181818181818182,
+        "value": 2440,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "All other racial/ethnic groups",
+        "pct": 0.8181818181818181,
+        "value": 10980,
+      },
+    ],
+  },
+]
 `;
 
 exports[`BLACK data for parole 1`] = `
@@ -79,6 +346,69 @@ Object {
 }
 `;
 
+exports[`BLACK data for parole revocations data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of revocation reasons for people who are Black",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.21481481481481482,
+        "value": 174,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.48518518518518516,
+        "value": 393,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.2617283950617284,
+        "value": 212,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.03827160493827161,
+        "value": 31,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of revocation reasons overall",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.23550231418459025,
+        "value": 865,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.349033487612306,
+        "value": 1282,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.36809147835556766,
+        "value": 1352,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.04737271984753608,
+        "value": 174,
+      },
+    ],
+  },
+]
+`;
+
 exports[`BLACK data for probation 1`] = `
 Object {
   "absconsionProportion36Mo": 0.43846153846153846,
@@ -88,6 +418,69 @@ Object {
   "technicalProportion36Mo": 0.06593406593406594,
   "unknownProportion36Mo": 0.03296703296703297,
 }
+`;
+
+exports[`BLACK data for probation revocations data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of revocation reasons for people who are Black",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.43846153846153846,
+        "value": 399,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.46263736263736266,
+        "value": 421,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.06593406593406594,
+        "value": 60,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.03296703296703297,
+        "value": 30,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of revocation reasons overall",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.31102479832685986,
+        "value": 1041,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.3223782491783687,
+        "value": 1079,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.31789662384224676,
+        "value": 1064,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.048700328652524646,
+        "value": 163,
+      },
+    ],
+  },
+]
 `;
 
 exports[`BLACK data for programming 1`] = `
@@ -122,11 +515,113 @@ Object {
 }
 `;
 
+exports[`BLACK data for supervision revocations data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of revocation reasons for people who are Black",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.3333333333333333,
+        "value": 570,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.47368421052631576,
+        "value": 810,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.15789473684210525,
+        "value": 270,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.03508771929824561,
+        "value": 60,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of revocation reasons overall",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.2729636048526863,
+        "value": 1890,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.33694396302715196,
+        "value": 2333,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.34517619872905836,
+        "value": 2390,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.044916233391103406,
+        "value": 311,
+      },
+    ],
+  },
+]
+`;
+
 exports[`HISPANIC data before corrections 1`] = `
 Object {
   "correctionsPctCurrent": 0.20588673621460507,
   "populationPctCurrent": 0.02944823310601364,
 }
+`;
+
+exports[`HISPANIC data for focused population data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of races in the state",
+    "records": Array [
+      Object {
+        "color": "#BA4F4F",
+        "label": "Hispanic",
+        "pct": 0.02944823310601364,
+        "value": 380,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "All other racial/ethnic groups",
+        "pct": 0.9705517668939864,
+        "value": 12524,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of races sentenced and under DOCR control",
+    "records": Array [
+      Object {
+        "color": "#BA4F4F",
+        "label": "Hispanic",
+        "pct": 0.20588673621460507,
+        "value": 2763,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "All other racial/ethnic groups",
+        "pct": 0.7941132637853949,
+        "value": 10657,
+      },
+    ],
+  },
+]
 `;
 
 exports[`HISPANIC data for parole 1`] = `
@@ -140,6 +635,69 @@ Object {
 }
 `;
 
+exports[`HISPANIC data for parole revocations data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of revocation reasons for people who are Hispanic",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.1842818428184282,
+        "value": 204,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.33965672990063234,
+        "value": 376,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.42999096657633246,
+        "value": 476,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.04607046070460705,
+        "value": 51,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of revocation reasons overall",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.23550231418459025,
+        "value": 865,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.349033487612306,
+        "value": 1282,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.36809147835556766,
+        "value": 1352,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.04737271984753608,
+        "value": 174,
+      },
+    ],
+  },
+]
+`;
+
 exports[`HISPANIC data for probation 1`] = `
 Object {
   "absconsionProportion36Mo": 0.22390317700453857,
@@ -149,6 +707,69 @@ Object {
   "technicalProportion36Mo": 0.5597579425113465,
   "unknownProportion36Mo": 0.06656580937972768,
 }
+`;
+
+exports[`HISPANIC data for probation revocations data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of revocation reasons for people who are Hispanic",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.22390317700453857,
+        "value": 148,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.14977307110438728,
+        "value": 99,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.5597579425113465,
+        "value": 370,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.06656580937972768,
+        "value": 44,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of revocation reasons overall",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.31102479832685986,
+        "value": 1041,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.3223782491783687,
+        "value": 1079,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.31789662384224676,
+        "value": 1064,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.048700328652524646,
+        "value": 163,
+      },
+    ],
+  },
+]
 `;
 
 exports[`HISPANIC data for programming 1`] = `
@@ -183,11 +804,113 @@ Object {
 }
 `;
 
+exports[`HISPANIC data for supervision revocations data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of revocation reasons for people who are Hispanic",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.2,
+        "value": 350,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.26857142857142857,
+        "value": 470,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.48,
+        "value": 840,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.05142857142857143,
+        "value": 90,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of revocation reasons overall",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.2729636048526863,
+        "value": 1890,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.33694396302715196,
+        "value": 2333,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.34517619872905836,
+        "value": 2390,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.044916233391103406,
+        "value": 311,
+      },
+    ],
+  },
+]
+`;
+
 exports[`OTHER data before corrections 1`] = `
 Object {
   "correctionsPctCurrent": 0.2572280178837556,
   "populationPctCurrent": 0.0021698698078115313,
 }
+`;
+
+exports[`OTHER data for focused population data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of races in the state",
+    "records": Array [
+      Object {
+        "color": "#90AEB5",
+        "label": "Other",
+        "pct": 0.0021698698078115313,
+        "value": 28,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "All other racial/ethnic groups",
+        "pct": 0.9978301301921885,
+        "value": 12876,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of races sentenced and under DOCR control",
+    "records": Array [
+      Object {
+        "color": "#90AEB5",
+        "label": "Other",
+        "pct": 0.2572280178837556,
+        "value": 3452,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "All other racial/ethnic groups",
+        "pct": 0.7427719821162444,
+        "value": 9968,
+      },
+    ],
+  },
+]
 `;
 
 exports[`OTHER data for parole 1`] = `
@@ -201,6 +924,69 @@ Object {
 }
 `;
 
+exports[`OTHER data for parole revocations data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of revocation reasons for people of other races",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.23636363636363636,
+        "value": 52,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.23636363636363636,
+        "value": 52,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.41818181818181815,
+        "value": 92,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.10909090909090909,
+        "value": 24,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of revocation reasons overall",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.23550231418459025,
+        "value": 865,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.349033487612306,
+        "value": 1282,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.36809147835556766,
+        "value": 1352,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.04737271984753608,
+        "value": 174,
+      },
+    ],
+  },
+]
+`;
+
 exports[`OTHER data for probation 1`] = `
 Object {
   "absconsionProportion36Mo": 0.20320855614973263,
@@ -210,6 +996,69 @@ Object {
   "technicalProportion36Mo": 0.21390374331550802,
   "unknownProportion36Mo": 0.0962566844919786,
 }
+`;
+
+exports[`OTHER data for probation revocations data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of revocation reasons for people of other races",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.20320855614973263,
+        "value": 38,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.48663101604278075,
+        "value": 91,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.21390374331550802,
+        "value": 40,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.0962566844919786,
+        "value": 18,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of revocation reasons overall",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.31102479832685986,
+        "value": 1041,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.3223782491783687,
+        "value": 1079,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.31789662384224676,
+        "value": 1064,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.048700328652524646,
+        "value": 163,
+      },
+    ],
+  },
+]
 `;
 
 exports[`OTHER data for programming 1`] = `
@@ -242,6 +1091,69 @@ Object {
   "technicalProportion36Mo": 0.325,
   "unknownProportion36Mo": 0.1,
 }
+`;
+
+exports[`OTHER data for supervision revocations data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of revocation reasons for people of other races",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.225,
+        "value": 90,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.35,
+        "value": 140,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.325,
+        "value": 130,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.1,
+        "value": 40,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of revocation reasons overall",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Absconsion",
+        "pct": 0.2729636048526863,
+        "value": 1890,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "New offense",
+        "pct": 0.33694396302715196,
+        "value": 2333,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Technical violation",
+        "pct": 0.34517619872905836,
+        "value": 2390,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "Unknown type",
+        "pct": 0.044916233391103406,
+        "value": 311,
+      },
+    ],
+  },
+]
 `;
 
 exports[`total data for introduction 1`] = `
@@ -284,4 +1196,79 @@ Object {
   "technicalProportion36Mo": 0.34517619872905836,
   "unknownProportion36Mo": 0.044916233391103406,
 }
+`;
+
+exports[`total data population data series 1`] = `
+Array [
+  Object {
+    "label": "Proportions of races in the state",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Native American",
+        "pct": 0.020303781773093613,
+        "value": 262,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Black",
+        "pct": 0.008601983880967142,
+        "value": 111,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Hispanic",
+        "pct": 0.02944823310601364,
+        "value": 380,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "White",
+        "pct": 0.9394761314321141,
+        "value": 12123,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Other",
+        "pct": 0.0021698698078115313,
+        "value": 28,
+      },
+    ],
+  },
+  Object {
+    "label": "Proportions of races sentenced and under DOCR control",
+    "records": Array [
+      Object {
+        "color": "#25636F",
+        "label": "Native American",
+        "pct": 0.10849478390461997,
+        "value": 1456,
+      },
+      Object {
+        "color": "#D9A95F",
+        "label": "Black",
+        "pct": 0.18181818181818182,
+        "value": 2440,
+      },
+      Object {
+        "color": "#BA4F4F",
+        "label": "Hispanic",
+        "pct": 0.20588673621460507,
+        "value": 2763,
+      },
+      Object {
+        "color": "#4C6290",
+        "label": "White",
+        "pct": 0.24657228017883756,
+        "value": 3309,
+      },
+      Object {
+        "color": "#90AEB5",
+        "label": "Other",
+        "pct": 0.2572280178837556,
+        "value": 3452,
+      },
+    ],
+  },
+]
 `;

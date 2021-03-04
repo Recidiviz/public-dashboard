@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { REVOCATION_TYPE_LABELS } from "../constants";
 import { RawMetricData } from "./fetchMetrics";
 import { DemographicFields } from "./types";
 import {
@@ -48,10 +49,19 @@ function getCategoryTransposeFunction(
 }
 
 const revocationReasonFields = [
-  { categoryLabel: "Absconsion", fieldName: "absconsion_count" },
-  { categoryLabel: "New offense", fieldName: "new_crime_count" },
-  { categoryLabel: "Technical violation", fieldName: "technical_count" },
-  { categoryLabel: "Unknown type", fieldName: "unknown_count" },
+  {
+    categoryLabel: REVOCATION_TYPE_LABELS.ABSCOND,
+    fieldName: "absconsion_count",
+  },
+  {
+    categoryLabel: REVOCATION_TYPE_LABELS.NEW_CRIME,
+    fieldName: "new_crime_count",
+  },
+  {
+    categoryLabel: REVOCATION_TYPE_LABELS.TECHNICAL,
+    fieldName: "technical_count",
+  },
+  { categoryLabel: REVOCATION_TYPE_LABELS.UNKNOWN, fieldName: "unknown_count" },
 ];
 
 export function probationRevocationReasons(

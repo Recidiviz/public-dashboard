@@ -127,6 +127,16 @@ describe("total data", () => {
       );
     }
   );
+
+  test("population data series", (done) => {
+    when(
+      () => narrative.populationDataSeries !== undefined,
+      () => {
+        expect(narrative.populationDataSeries).toMatchSnapshot();
+        done();
+      }
+    );
+  });
 });
 
 describe.each([
@@ -193,6 +203,34 @@ describe.each([
         () => narrative.supervision !== undefined,
         () => {
           expect(narrative.supervision).toMatchSnapshot();
+          // @ts-expect-error jest type definitions are wrong, this will be a callback
+          done();
+        }
+      );
+    }
+  );
+
+  test("for focused population data series", (done) => {
+    when(
+      () => narrative.focusedPopulationDataSeries !== undefined,
+      () => {
+        expect(narrative.focusedPopulationDataSeries).toMatchSnapshot();
+        done();
+      }
+    );
+  });
+
+  test.each(["supervision", "parole", "probation"] as const)(
+    "for %s revocations data series",
+    (supervisionType, done) => {
+      runInAction(() => {
+        narrative.supervisionType = supervisionType;
+      });
+
+      when(
+        () => narrative.revocationsDataSeries !== undefined,
+        () => {
+          expect(narrative.revocationsDataSeries).toMatchSnapshot();
           // @ts-expect-error jest type definitions are wrong, this will be a callback
           done();
         }

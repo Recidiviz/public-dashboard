@@ -15,10 +15,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { group } from "d3-array";
 import mapValues from "lodash.mapvalues";
 import { makeAutoObservable, observable, runInAction } from "mobx";
+import { REVOCATION_TYPE_LABELS } from "../constants";
 import { TenantId } from "../contentApi/types";
-import { RaceIdentifier } from "../demographics";
+import { getDemographicCategories, RaceIdentifier } from "../demographics";
 import { fetchAndTransformMetric } from "../metricsApi";
 import {
   CountsForSupervisionType,
@@ -26,6 +28,9 @@ import {
   RacialDisparitiesRecord,
   RevocationCountKeyList,
 } from "../metricsApi/RacialDisparitiesRecord";
+import { colors } from "../UiLibrary";
+import calculatePct from "./calculatePct";
+import { DemographicCategoryRecords } from "./types";
 
 const getCorrectionsRateCurrent = (record: RacialDisparitiesRecord) => {
   return record.currentTotalSentencedCount / record.totalStatePopulation;
@@ -86,15 +91,36 @@ function getSentencingMetrics(
   };
 }
 
+type ChartLabels = {
+  totalPopulation: string;
+  totalSentenced: string;
+};
+
 type ConstructorOpts = {
   tenantId: TenantId;
   defaultCategory?: RaceIdentifier;
   defaultSupervisionType?: SupervisionType;
 };
 
+/**
+ * Data model for the racial disparities narrative, which handles computation
+ * as well as fetching. The preferred method for instantiating this class is
+ * to use the static `build` method.
+ * @example
+ *
+ * ```js
+ * const narrative = RacialDisparitiesNarrative.build(props);
+ * ```
+ */
 export default class RacialDisparitiesNarrative {
   // metadata
   readonly title = "Racial Disparities";
+
+  // TODO: customize text?
+  readonly chartLabels: ChartLabels = {
+    totalPopulation: "Proportions of races in the state",
+    totalSentenced: "Proportions of races sentenced and under DOCR control",
+  };
 
   readonly tenantId: TenantId;
 
@@ -151,6 +177,20 @@ export default class RacialDisparitiesNarrative {
         this.error = e;
       });
     }
+  }
+
+  get selectedCategoryLabel(): string {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return getDemographicCategories("raceOrEthnicity").find(
+      ({ identifier }) => identifier === this.selectedCategory
+    )!.label;
+  }
+
+  get ethnonym(): string {
+    const { selectedCategory, selectedCategoryLabel } = this;
+    return selectedCategory === "OTHER"
+      ? "people of other races"
+      : `people who are ${selectedCategoryLabel}`;
   }
 
   get likelihoodVsWhite():
@@ -294,5 +334,120 @@ export default class RacialDisparitiesNarrative {
 
     const total = records.ALL[supervisionType];
     return getRevocationTypeProportions(total);
+  }
+
+  get populationDataSeries(): undefined | DemographicCategoryRecords[] {
+    const { records, chartLabels } = this;
+    if (records === undefined) return undefined;
+
+    const totalPopulation = {
+      label: chartLabels.totalPopulation,
+      records: calculatePct(
+        getDemographicCategories("raceOrEthnicity").map(
+          ({ identifier, label }, index) => {
+            return {
+              label,
+              color: colors.dataViz[index],
+              value: records[identifier as RaceIdentifier].totalStatePopulation,
+            };
+          }
+        )
+      ),
+    };
+
+    const correctionsPopulation = {
+      label: chartLabels.totalSentenced,
+      records: calculatePct(
+        getDemographicCategories("raceOrEthnicity").map(
+          ({ identifier, label }, index) => {
+            return {
+              label,
+              color: colors.dataViz[index],
+              value:
+                records[identifier as RaceIdentifier]
+                  .currentTotalSentencedCount,
+            };
+          }
+        )
+      ),
+    };
+
+    return [totalPopulation, correctionsPopulation];
+  }
+
+  get focusedPopulationDataSeries(): undefined | DemographicCategoryRecords[] {
+    const { selectedCategoryLabel, populationDataSeries } = this;
+    if (populationDataSeries === undefined) return undefined;
+
+    return populationDataSeries.map((series) => {
+      // merge all unselected categories into one
+      const splitRecords = group(
+        series.records,
+        (record) => record.label === selectedCategoryLabel
+      );
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const focusedRecord = splitRecords.get(true)![0];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const otherRecord = splitRecords.get(false)!.reduce(
+        (composite, currentRecord) => {
+          return { ...composite, value: composite.value + currentRecord.value };
+        },
+        {
+          label: "All other racial/ethnic groups",
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          color: colors.dataVizNamed.get("paleBlue")!,
+          value: 0,
+          pct: 0,
+        }
+      );
+
+      otherRecord.pct = 1 - focusedRecord.pct;
+
+      return { ...series, records: [focusedRecord, otherRecord] };
+    });
+  }
+
+  get revocationsDataSeries(): undefined | DemographicCategoryRecords[] {
+    const { records, selectedCategory, supervisionType, ethnonym } = this;
+    if (records === undefined) return undefined;
+
+    const selected = records[selectedCategory][supervisionType];
+    const total = records.ALL[supervisionType];
+
+    const seriesRecords = [selected, total].map((supervisionCounts) => {
+      return calculatePct([
+        {
+          label: REVOCATION_TYPE_LABELS.ABSCOND,
+          color: colors.dataViz[0],
+          value: supervisionCounts.absconsionCount36Mo,
+        },
+        {
+          label: REVOCATION_TYPE_LABELS.NEW_CRIME,
+          color: colors.dataViz[1],
+          value: supervisionCounts.newCrimeCount36Mo,
+        },
+        {
+          label: REVOCATION_TYPE_LABELS.TECHNICAL,
+          color: colors.dataViz[2],
+          value: supervisionCounts.technicalCount36Mo,
+        },
+        {
+          label: REVOCATION_TYPE_LABELS.UNKNOWN,
+          color: colors.dataViz[3],
+          value: supervisionCounts.unknownCount36Mo,
+        },
+      ]);
+    });
+
+    return [
+      {
+        label: `Proportions of revocation reasons for ${ethnonym}`,
+        records: seriesRecords[0],
+      },
+      {
+        label: "Proportions of revocation reasons overall",
+        records: seriesRecords[1],
+      },
+    ];
   }
 }
