@@ -33,3 +33,9 @@ export const REVOCATION_TYPE_LABELS = {
   TECHNICAL: "Technical violation",
   UNKNOWN: "Unknown type",
 };
+
+export const SENTENCE_TYPE_LABELS = {
+  INCARCERATION: "Incarceration",
+  PROBATION: "Probation",
+  DUAL_SENTENCE: "Both",
+};

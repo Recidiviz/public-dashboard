@@ -18,7 +18,8 @@
 import { group } from "d3-array";
 import mapValues from "lodash.mapvalues";
 import { makeAutoObservable, observable, runInAction } from "mobx";
-import { REVOCATION_TYPE_LABELS } from "../constants";
+import { upperCaseFirst } from "upper-case-first";
+import { REVOCATION_TYPE_LABELS, SENTENCE_TYPE_LABELS } from "../constants";
 import { TenantId } from "../contentApi/types";
 import { getDemographicCategories, RaceIdentifier } from "../demographics";
 import { fetchAndTransformMetric } from "../metricsApi";
@@ -94,6 +95,12 @@ function getSentencingMetrics(
 type ChartLabels = {
   totalPopulation: string;
   totalSentenced: string;
+  paroleGrant: string;
+  incarceratedPopulation: string;
+  otherGroups: string;
+  programmingParticipants: string;
+  supervisionPopulation: string;
+  totalPopulationSentences: string;
 };
 
 type ConstructorOpts = {
@@ -120,9 +127,20 @@ export default class RacialDisparitiesNarrative {
   readonly chartLabels: ChartLabels = {
     totalPopulation: "Proportions of races in the state",
     totalSentenced: "Proportions of races sentenced and under DOCR control",
+    paroleGrant: "People released on parole",
+    incarceratedPopulation: "Overall prison population",
+    otherGroups: "All other racial/ethnic groups",
+    programmingParticipants: "Free Through Recovery active participants",
+    supervisionPopulation: "People subject to supervision",
+    totalPopulationSentences: "All people sentenced and under DOCR control",
   };
 
   readonly tenantId: TenantId;
+
+  private readonly focusColor = colors.dataViz[0];
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  private readonly unfocusedColor = colors.dataVizNamed.get("paleBlue")!;
 
   // API data
   isLoading?: boolean;
@@ -376,7 +394,13 @@ export default class RacialDisparitiesNarrative {
   }
 
   get focusedPopulationDataSeries(): undefined | DemographicCategoryRecords[] {
-    const { selectedCategoryLabel, populationDataSeries } = this;
+    const {
+      chartLabels,
+      focusColor,
+      populationDataSeries,
+      selectedCategoryLabel,
+      unfocusedColor,
+    } = this;
     if (populationDataSeries === undefined) return undefined;
 
     return populationDataSeries.map((series) => {
@@ -387,15 +411,16 @@ export default class RacialDisparitiesNarrative {
       );
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const focusedRecord = splitRecords.get(true)![0];
+      focusedRecord.color = focusColor;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const otherRecord = splitRecords.get(false)!.reduce(
         (composite, currentRecord) => {
           return { ...composite, value: composite.value + currentRecord.value };
         },
         {
-          label: "All other racial/ethnic groups",
+          label: chartLabels.otherGroups,
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          color: colors.dataVizNamed.get("paleBlue")!,
+          color: unfocusedColor,
           value: 0,
           pct: 0,
         }
@@ -446,6 +471,147 @@ export default class RacialDisparitiesNarrative {
       },
       {
         label: "Proportions of revocation reasons overall",
+        records: seriesRecords[1],
+      },
+    ];
+  }
+
+  get paroleReleaseDataSeries(): undefined | DemographicCategoryRecords[] {
+    const {
+      chartLabels,
+      focusColor,
+      records,
+      selectedCategory,
+      selectedCategoryLabel,
+      unfocusedColor,
+    } = this;
+    if (records === undefined) return undefined;
+
+    const selected = records[selectedCategory];
+    const total = records.ALL;
+
+    const paroleReleases = {
+      label: chartLabels.paroleGrant,
+      records: calculatePct([
+        {
+          label: selectedCategoryLabel,
+          color: focusColor,
+          value: selected.parole.releaseCount36Mo,
+        },
+        {
+          label: chartLabels.otherGroups,
+          color: unfocusedColor,
+          value:
+            total.parole.releaseCount36Mo - selected.parole.releaseCount36Mo,
+        },
+      ]),
+    };
+
+    const prisonPopulation = {
+      label: chartLabels.incarceratedPopulation,
+      records: calculatePct([
+        {
+          label: selectedCategoryLabel,
+          color: focusColor,
+          value: selected.totalIncarceratedPopulation36Mo,
+        },
+        {
+          label: chartLabels.otherGroups,
+          color: unfocusedColor,
+          value:
+            total.totalIncarceratedPopulation36Mo -
+            selected.totalIncarceratedPopulation36Mo,
+        },
+      ]),
+    };
+
+    return [paroleReleases, prisonPopulation];
+  }
+
+  get programmingDataSeries(): undefined | DemographicCategoryRecords[] {
+    const {
+      chartLabels,
+      focusColor,
+      records,
+      selectedCategory,
+      selectedCategoryLabel,
+      unfocusedColor,
+    } = this;
+    if (records === undefined) return undefined;
+
+    const selected = records[selectedCategory];
+    const total = records.ALL;
+
+    const programParticipants = {
+      label: chartLabels.programmingParticipants,
+      records: calculatePct([
+        {
+          label: selectedCategoryLabel,
+          color: focusColor,
+          value: selected.currentFtrParticipationCount,
+        },
+        {
+          label: chartLabels.otherGroups,
+          color: unfocusedColor,
+          value:
+            total.currentFtrParticipationCount -
+            selected.currentFtrParticipationCount,
+        },
+      ]),
+    };
+
+    const supervisionPopulation = {
+      label: chartLabels.incarceratedPopulation,
+      records: calculatePct([
+        {
+          label: selectedCategoryLabel,
+          color: focusColor,
+          value: selected.currentSupervisionPopulation,
+        },
+        {
+          label: chartLabels.otherGroups,
+          color: unfocusedColor,
+          value:
+            total.currentSupervisionPopulation -
+            selected.currentSupervisionPopulation,
+        },
+      ]),
+    };
+
+    return [programParticipants, supervisionPopulation];
+  }
+
+  get sentencingDataSeries(): undefined | DemographicCategoryRecords[] {
+    const { chartLabels, ethnonym, records, selectedCategory } = this;
+    if (records === undefined) return undefined;
+
+    const selected = records[selectedCategory];
+    const total = records.ALL;
+
+    const seriesRecords = [selected, total].map((record) => {
+      return calculatePct([
+        {
+          label: SENTENCE_TYPE_LABELS.INCARCERATION,
+          color: colors.dataViz[0],
+          value: record.currentIncarcerationSentenceCount,
+        },
+        {
+          label: SENTENCE_TYPE_LABELS.PROBATION,
+          color: colors.dataViz[1],
+          value: record.currentProbationSentenceCount,
+        },
+        {
+          label: SENTENCE_TYPE_LABELS.DUAL_SENTENCE,
+          color: colors.dataViz[2],
+          value: record.currentDualSentenceCount,
+        },
+      ]);
+    });
+
+    return [
+      { label: upperCaseFirst(ethnonym), records: seriesRecords[0] },
+      {
+        label: chartLabels.totalPopulationSentences,
         records: seriesRecords[1],
       },
     ];

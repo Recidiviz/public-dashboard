@@ -220,6 +220,36 @@ describe.each([
     );
   });
 
+  test("for parole release data series", (done) => {
+    when(
+      () => narrative.paroleReleaseDataSeries !== undefined,
+      () => {
+        expect(narrative.paroleReleaseDataSeries).toMatchSnapshot();
+        done();
+      }
+    );
+  });
+
+  test("for programming data series", (done) => {
+    when(
+      () => narrative.programmingDataSeries !== undefined,
+      () => {
+        expect(narrative.programmingDataSeries).toMatchSnapshot();
+        done();
+      }
+    );
+  });
+
+  test("for sentencing data series", (done) => {
+    when(
+      () => narrative.sentencingDataSeries !== undefined,
+      () => {
+        expect(narrative.sentencingDataSeries).toMatchSnapshot();
+        done();
+      }
+    );
+  });
+
   test.each(["supervision", "parole", "probation"] as const)(
     "for %s revocations data series",
     (supervisionType, done) => {
