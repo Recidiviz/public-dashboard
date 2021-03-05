@@ -24,6 +24,7 @@ import {
 } from "../contentApi/types";
 import Collection from "./Collection";
 import Metric from "./Metric";
+import RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
 import { createTenant } from "./Tenant";
 import exhaustiveFixture from "./__fixtures__/tenant_content_exhaustive";
 import partialFixture from "./__fixtures__/tenant_content_partial";
@@ -189,4 +190,22 @@ test.each([
   expect(expectedNarratives.length).toBe(
     Object.keys(tenant.systemNarratives).length
   );
+});
+
+test("tenant has racial disparities narrative", () => {
+  retrieveContentMock.mockReturnValue(exhaustiveFixture);
+
+  const tenant = createTenant({ tenantId: "US_ND" });
+
+  expect(tenant.racialDisparitiesNarrative).toBeInstanceOf(
+    RacialDisparitiesNarrative
+  );
+});
+
+test("tenant does not have racial disparities narrative", () => {
+  retrieveContentMock.mockReturnValue(partialFixture);
+
+  const tenant = createTenant({ tenantId: "US_ND" });
+
+  expect(tenant.racialDisparitiesNarrative).toBeUndefined();
 });

@@ -23,6 +23,7 @@ import {
 } from "../contentApi/types";
 import { createCollection } from "./Collection";
 import createMetricMapping from "./createMetricMapping";
+import RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
 import { createSystemNarrative } from "./SystemNarrative";
 import { CollectionMap, MetricMapping, SystemNarrativeMapping } from "./types";
 
@@ -33,6 +34,7 @@ type InitOptions = {
   collections: CollectionMap;
   metrics: MetricMapping;
   systemNarratives: SystemNarrativeMapping;
+  racialDisparitiesNarrative?: RacialDisparitiesNarrative;
 };
 
 /**
@@ -55,6 +57,8 @@ export default class Tenant {
 
   readonly systemNarratives: SystemNarrativeMapping;
 
+  readonly racialDisparitiesNarrative?: RacialDisparitiesNarrative;
+
   constructor({
     id,
     name,
@@ -62,6 +66,7 @@ export default class Tenant {
     collections,
     metrics,
     systemNarratives,
+    racialDisparitiesNarrative,
   }: InitOptions) {
     this.id = id;
     this.name = name;
@@ -69,6 +74,7 @@ export default class Tenant {
     this.collections = collections;
     this.metrics = metrics;
     this.systemNarratives = systemNarratives;
+    this.racialDisparitiesNarrative = racialDisparitiesNarrative;
   }
 }
 
@@ -137,6 +143,13 @@ export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
 
   const metrics = getMetricsForTenant(allTenantContent, tenantId);
 
+  const racialDisparitiesNarrative =
+    allTenantContent.racialDisparitiesNarrative &&
+    RacialDisparitiesNarrative.build({
+      tenantId,
+      content: allTenantContent.racialDisparitiesNarrative,
+    });
+
   return new Tenant({
     id: tenantId,
     name: allTenantContent.name,
@@ -147,5 +160,6 @@ export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
       allTenantContent,
       metrics,
     }),
+    racialDisparitiesNarrative,
   });
 }
