@@ -20,7 +20,11 @@ import mapValues from "lodash.mapvalues";
 import { makeAutoObservable, observable, runInAction } from "mobx";
 import { upperCaseFirst } from "upper-case-first";
 import { REVOCATION_TYPE_LABELS, SENTENCE_TYPE_LABELS } from "../constants";
-import { TenantId } from "../contentApi/types";
+import {
+  RacialDisparitiesChartLabels,
+  RacialDisparitiesNarrativeContent,
+  TenantId,
+} from "../contentApi/types";
 import { getDemographicCategories, RaceIdentifier } from "../demographics";
 import { fetchAndTransformMetric } from "../metricsApi";
 import {
@@ -92,21 +96,11 @@ function getSentencingMetrics(
   };
 }
 
-type ChartLabels = {
-  totalPopulation: string;
-  totalSentenced: string;
-  paroleGrant: string;
-  incarceratedPopulation: string;
-  otherGroups: string;
-  programmingParticipants: string;
-  supervisionPopulation: string;
-  totalPopulationSentences: string;
-};
-
 type ConstructorOpts = {
   tenantId: TenantId;
   defaultCategory?: RaceIdentifier;
   defaultSupervisionType?: SupervisionType;
+  content: RacialDisparitiesNarrativeContent;
 };
 
 /**
@@ -123,17 +117,7 @@ export default class RacialDisparitiesNarrative {
   // metadata
   readonly title = "Racial Disparities";
 
-  // TODO: customize text?
-  readonly chartLabels: ChartLabels = {
-    totalPopulation: "Proportions of races in the state",
-    totalSentenced: "Proportions of races sentenced and under DOCR control",
-    paroleGrant: "People released on parole",
-    incarceratedPopulation: "Overall prison population",
-    otherGroups: "All other racial/ethnic groups",
-    programmingParticipants: "Free Through Recovery active participants",
-    supervisionPopulation: "People subject to supervision",
-    totalPopulationSentences: "All people sentenced and under DOCR control",
-  };
+  readonly chartLabels: RacialDisparitiesChartLabels;
 
   readonly tenantId: TenantId;
 
@@ -162,10 +146,12 @@ export default class RacialDisparitiesNarrative {
     tenantId,
     defaultCategory,
     defaultSupervisionType,
+    content,
   }: ConstructorOpts) {
     this.tenantId = tenantId;
     this.selectedCategory = defaultCategory || "BLACK";
     this.supervisionType = defaultSupervisionType || "supervision";
+    this.chartLabels = content.chartLabels;
 
     makeAutoObservable<RacialDisparitiesNarrative, "records">(this, {
       records: observable.ref,

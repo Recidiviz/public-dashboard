@@ -21,12 +21,16 @@ import { fromPromise } from "mobx-utils";
 import { RaceIdentifier } from "../demographics";
 import { reactImmediately } from "../testUtils";
 import RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
+import contentFixture from "./__fixtures__/tenant_content_exhaustive";
 
 let narrative: RacialDisparitiesNarrative;
 const testTenantId = "US_ND";
 
 beforeEach(() => {
-  narrative = RacialDisparitiesNarrative.build({ tenantId: testTenantId });
+  narrative = RacialDisparitiesNarrative.build({
+    tenantId: testTenantId,
+    content: contentFixture.racialDisparitiesNarrative,
+  });
 });
 
 test("file loading state", (done) => {

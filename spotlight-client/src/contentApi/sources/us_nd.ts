@@ -535,6 +535,18 @@ const content: TenantContent = {
       topology: programRegionsTopology,
     },
   },
+  racialDisparitiesNarrative: {
+    chartLabels: {
+      totalPopulation: "Proportions of races in the state",
+      totalSentenced: "Proportions of races sentenced and under DOCR control",
+      paroleGrant: "People released on parole",
+      incarceratedPopulation: "Overall prison population",
+      otherGroups: "All other racial/ethnic groups",
+      programmingParticipants: "Free Through Recovery active participants",
+      supervisionPopulation: "People subject to supervision",
+      totalPopulationSentences: "All people sentenced and under DOCR control",
+    },
+  },
 };
 
 export default content;

@@ -243,7 +243,7 @@ Object {
 exports[`AMERICAN_INDIAN_ALASKAN_NATIVE data for programming data series 1`] = `
 Array [
   Object {
-    "label": "Free Through Recovery active participants",
+    "label": "Active program participants",
     "records": Array [
       Object {
         "color": "#25636F",
@@ -661,7 +661,7 @@ Object {
 exports[`BLACK data for programming data series 1`] = `
 Array [
   Object {
-    "label": "Free Through Recovery active participants",
+    "label": "Active program participants",
     "records": Array [
       Object {
         "color": "#25636F",
@@ -1079,7 +1079,7 @@ Object {
 exports[`HISPANIC data for programming data series 1`] = `
 Array [
   Object {
-    "label": "Free Through Recovery active participants",
+    "label": "Active program participants",
     "records": Array [
       Object {
         "color": "#25636F",
@@ -1497,7 +1497,7 @@ Object {
 exports[`OTHER data for programming data series 1`] = `
 Array [
   Object {
-    "label": "Free Through Recovery active participants",
+    "label": "Active program participants",
     "records": Array [
       Object {
         "color": "#25636F",
