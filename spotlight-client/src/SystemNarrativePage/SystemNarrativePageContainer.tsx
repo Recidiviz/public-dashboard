@@ -17,13 +17,17 @@
 
 import { observer } from "mobx-react-lite";
 import React from "react";
+import SystemNarrative from "../contentModels/SystemNarrative";
 import { useDataStore } from "../StoreProvider";
 import SystemNarrativePage from "./SystemNarrativePage";
 
 const SystemNarrativePageContainer: React.FC = () => {
   const { narrative } = useDataStore();
 
-  if (narrative) return <SystemNarrativePage narrative={narrative} />;
+  if (narrative instanceof SystemNarrative) {
+    return <SystemNarrativePage narrative={narrative} />;
+  }
+
   return null;
 };
 

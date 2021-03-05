@@ -16,13 +16,18 @@
 // =============================================================================
 
 import { makeAutoObservable } from "mobx";
-import { SystemNarrativeTypeId, TenantId } from "../contentApi/types";
+import {
+  isSystemNarrativeTypeId,
+  NarrativeTypeId,
+  TenantId,
+} from "../contentApi/types";
+import RacialDisparitiesNarrative from "../contentModels/RacialDisparitiesNarrative";
 import type SystemNarrative from "../contentModels/SystemNarrative";
 import Tenant, { createTenant } from "../contentModels/Tenant";
 import type RootStore from "./RootStore";
 
 export default class TenantStore {
-  currentNarrativeTypeId?: SystemNarrativeTypeId;
+  currentNarrativeTypeId?: NarrativeTypeId;
 
   currentTenantId?: TenantId;
 
@@ -54,8 +59,17 @@ export default class TenantStore {
     return this.tenants.get(this.currentTenantId);
   }
 
-  get currentNarrative(): SystemNarrative | undefined {
-    if (!this.currentNarrativeTypeId || !this.currentTenant) return undefined;
-    return this.currentTenant.systemNarratives[this.currentNarrativeTypeId];
+  get currentNarrative():
+    | SystemNarrative
+    | RacialDisparitiesNarrative
+    | undefined {
+    const { currentNarrativeTypeId, currentTenant } = this;
+    if (!currentNarrativeTypeId || !currentTenant) return undefined;
+
+    if (isSystemNarrativeTypeId(currentNarrativeTypeId)) {
+      return currentTenant.systemNarratives[currentNarrativeTypeId];
+    }
+
+    return currentTenant.racialDisparitiesNarrative;
   }
 }

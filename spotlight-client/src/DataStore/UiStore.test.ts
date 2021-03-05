@@ -78,6 +78,14 @@ test("current page ID", () => {
   });
 
   runInAction(() => {
+    rootStore.tenantStore.currentNarrativeTypeId = "RacialDisparities";
+  });
+
+  reactImmediately(() => {
+    expect(store.currentPageId).toBe("US_ND::RacialDisparities");
+  });
+
+  runInAction(() => {
     rootStore.tenantStore.currentTenantId = undefined;
   });
 

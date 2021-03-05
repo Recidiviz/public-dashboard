@@ -129,6 +129,11 @@ export function isSystemNarrativeTypeId(x: string): x is SystemNarrativeTypeId {
   return SystemNarrativeTypeIdList.includes(x as SystemNarrativeTypeId);
 }
 
+export type NarrativeTypeId = SystemNarrativeTypeId | "RacialDisparities";
+export function isNarrativeTypeId(x: string): x is NarrativeTypeId {
+  return isSystemNarrativeTypeId(x) || x === "RacialDisparities";
+}
+
 type SystemNarrativeSection = {
   title: string;
   body: string;

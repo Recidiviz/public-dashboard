@@ -17,7 +17,7 @@
 
 import { constantCase, pascalCase } from "change-case";
 import { ValuesType } from "utility-types";
-import { isSystemNarrativeTypeId, isTenantId } from "../contentApi/types";
+import { isNarrativeTypeId, isTenantId } from "../contentApi/types";
 import { NormalizedRouteParams, RouteParams } from "./types";
 
 /**
@@ -46,7 +46,9 @@ function normalizeTenantId(rawParam: ValuesType<RouteParams>) {
 function normalizeNarrativeTypeId(rawParam: ValuesType<RouteParams>) {
   if (typeof rawParam === "string") {
     const normalizedString = pascalCase(rawParam);
-    if (isSystemNarrativeTypeId(normalizedString)) return normalizedString;
+
+    if (isNarrativeTypeId(normalizedString)) return normalizedString;
+
     throw new Error(`unknown narrative type id: ${normalizedString}`);
   }
   return undefined;

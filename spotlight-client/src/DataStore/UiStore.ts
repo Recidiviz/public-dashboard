@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { makeAutoObservable, observable } from "mobx";
+import SystemNarrative from "../contentModels/SystemNarrative";
 import type RootStore from "./RootStore";
 
 export default class UiStore {
@@ -52,9 +53,17 @@ export default class UiStore {
     if (tenant) {
       idParts.push(tenant.id);
 
+      let narrativeId;
+
       if (narrative) {
-        idParts.push(narrative.id);
+        if (narrative instanceof SystemNarrative) {
+          narrativeId = narrative.id;
+        } else {
+          narrativeId = "RacialDisparities";
+        }
       }
+
+      if (narrativeId) idParts.push(narrativeId);
     }
 
     return idParts.join("::");

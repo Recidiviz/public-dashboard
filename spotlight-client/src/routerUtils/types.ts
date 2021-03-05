@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { SystemNarrativeTypeId, TenantId } from "../contentApi/types";
+import { NarrativeTypeId, TenantId } from "../contentApi/types";
 
 export type RouteParams = {
   // these should match paths as defined in App.tsx
@@ -25,7 +25,7 @@ export type RouteParams = {
 
 export type NormalizedRouteParams = {
   tenantId?: TenantId;
-  narrativeTypeId?: SystemNarrativeTypeId;
+  narrativeTypeId?: NarrativeTypeId;
 };
 
 export const NarrativesSlug = "collections";
