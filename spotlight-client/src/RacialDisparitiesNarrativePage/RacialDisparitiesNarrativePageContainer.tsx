@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,16 +15,20 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export { default as animation } from "./animation";
-export { default as breakpoints } from "./breakpoints";
-export { default as Check } from "./Check";
-export { default as Chevron } from "./Chevron";
-export { default as CopyBlock } from "./CopyBlock";
-export { default as colors } from "./colors";
-export * from "./Dropdown";
-export { default as FixedBottomPanel } from "./FixedBottomPanel";
-export * from "./Modal";
-export * from "./narrative";
-export { default as PageSection } from "./PageSection";
-export * from "./typography";
-export { default as zIndex } from "./zIndex";
+import { observer } from "mobx-react-lite";
+import React from "react";
+import RacialDisparitiesNarrative from "../contentModels/RacialDisparitiesNarrative";
+import { useDataStore } from "../StoreProvider";
+import RacialDisparitiesNarrativePage from "./RacialDisparitiesNarrativePage";
+
+const RacialDisparitiesNarrativePageContainer: React.FC = () => {
+  const { narrative } = useDataStore();
+
+  if (narrative instanceof RacialDisparitiesNarrative) {
+    return <RacialDisparitiesNarrativePage narrative={narrative} />;
+  }
+
+  return null;
+};
+
+export default observer(RacialDisparitiesNarrativePageContainer);

@@ -115,6 +115,8 @@ type ConstructorOpts = {
  */
 export default class RacialDisparitiesNarrative {
   // metadata
+  readonly id = "RacialDisparities";
+
   readonly title = "Racial Disparities";
 
   readonly chartLabels: RacialDisparitiesChartLabels;
