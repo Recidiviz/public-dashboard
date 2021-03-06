@@ -134,9 +134,12 @@ export function isNarrativeTypeId(x: string): x is NarrativeTypeId {
   return isSystemNarrativeTypeId(x) || x === "RacialDisparities";
 }
 
-type SystemNarrativeSection = {
+type NarrativeSection = {
   title: string;
   body: string;
+};
+
+type SystemNarrativeSection = NarrativeSection & {
   metricTypeId: MetricTypeId;
 };
 
@@ -157,6 +160,24 @@ export type RacialDisparitiesChartLabels = {
   totalPopulationSentences: string;
 };
 
+type RacialDisparitiesSectionKey =
+  | "beforeCorrections"
+  | "sentencing"
+  | "releasesToParole"
+  | "programming"
+  | "supervision"
+  | "conclusion";
+
+export type RacialDisparitiesSections = {
+  [key in RacialDisparitiesSectionKey]?: NarrativeSection;
+};
+
+/**
+ * Introduction and section bodies support dynamic text
+ * via {@link https://mustache.github.io/ Mustache} template syntax
+ */
 export type RacialDisparitiesNarrativeContent = {
   chartLabels: RacialDisparitiesChartLabels;
+  introduction: string;
+  sections: RacialDisparitiesSections;
 };

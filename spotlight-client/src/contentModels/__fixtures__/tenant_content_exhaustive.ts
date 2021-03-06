@@ -308,6 +308,35 @@ const content: ExhaustiveTenantContent = {
       supervisionPopulation: "People subject to supervision",
       totalPopulationSentences: "All people sentenced and under DOCR control",
     },
+    introduction:
+      'introduction {{BLACK}} {{HISPANIC}} {{AMERICAN_INDIAN_ALASKAN_NATIVE}} <a href="/">intro link</a>',
+    sections: {
+      beforeCorrections: {
+        title: "beforeCorrections title",
+        body: `beforeCorrections body {{ethnonym}} {{ethnonymCapitalized}}
+        {{populationPctCurrent}} {{correctionsPctCurrent}}`,
+      },
+      conclusion: {
+        title: "conclusion title",
+        body: 'conclusion body <a href="/">conclusion body link</a>',
+      },
+      sentencing: {
+        title: "sentencing title",
+        body: "sentencing body",
+      },
+      supervision: {
+        title: "supervision title",
+        body: "supervision body",
+      },
+      releasesToParole: {
+        title: "releasesToParole title",
+        body: "releasesToParole body",
+      },
+      programming: {
+        title: "programming title",
+        body: "programming body",
+      },
+    },
   },
 };
 

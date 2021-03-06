@@ -15,4 +15,5 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export { default } from "./NarrativeLayout";
+export { default as NarrativeLayout } from "./NarrativeLayout";
+export { default as StickySection } from "./StickySection";

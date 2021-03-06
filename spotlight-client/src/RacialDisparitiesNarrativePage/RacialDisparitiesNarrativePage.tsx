@@ -15,18 +15,18 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import HTMLReactParser from "html-react-parser";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import RacialDisparitiesNarrative from "../contentModels/RacialDisparitiesNarrative";
+import { NarrativeLayout, StickySection } from "../NarrativeLayout";
 import {
   NarrativeIntroContainer,
-  NarrativeNavContainer,
-  NarrativeSectionsContainer,
+  NarrativeIntroCopy,
+  NarrativeSectionBody,
+  NarrativeSectionTitle,
   NarrativeTitle,
-  NarrativeWrapper,
 } from "../UiLibrary";
-
-// TODO: section navigation
 
 type RacialDisparitiesNarrativePageProps = {
   narrative: RacialDisparitiesNarrative;
@@ -36,14 +36,41 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
   narrative,
 }) => {
   return (
-    <NarrativeWrapper>
-      <NarrativeNavContainer />
-      <NarrativeSectionsContainer>
-        <NarrativeIntroContainer>
-          <NarrativeTitle>{narrative.title}</NarrativeTitle>
-        </NarrativeIntroContainer>
-      </NarrativeSectionsContainer>
-    </NarrativeWrapper>
+    <NarrativeLayout
+      sections={[
+        {
+          title: narrative.title,
+          contents: (
+            <NarrativeIntroContainer>
+              <NarrativeTitle>{narrative.title}</NarrativeTitle>
+              <NarrativeIntroCopy>
+                {HTMLReactParser(narrative.introduction)}
+              </NarrativeIntroCopy>
+            </NarrativeIntroContainer>
+          ),
+        },
+        ...narrative.sections.map((section) => {
+          return {
+            title: section.title,
+            contents: (
+              <StickySection
+                leftContents={
+                  <>
+                    <NarrativeSectionTitle>
+                      {section.title}
+                    </NarrativeSectionTitle>
+                    <NarrativeSectionBody>
+                      {HTMLReactParser(section.body)}
+                    </NarrativeSectionBody>
+                  </>
+                }
+                rightContents={<div>Placeholder for chart</div>}
+              />
+            ),
+          };
+        }),
+      ]}
+    />
   );
 };
 

@@ -23,6 +23,7 @@ import { REVOCATION_TYPE_LABELS, SENTENCE_TYPE_LABELS } from "../constants";
 import {
   RacialDisparitiesChartLabels,
   RacialDisparitiesNarrativeContent,
+  RacialDisparitiesSections,
   TenantId,
 } from "../contentApi/types";
 import { getDemographicCategories, RaceIdentifier } from "../demographics";
@@ -96,6 +97,11 @@ function getSentencingMetrics(
   };
 }
 
+type SectionData = {
+  title: string;
+  body: string;
+};
+
 type ConstructorOpts = {
   tenantId: TenantId;
   defaultCategory?: RaceIdentifier;
@@ -118,6 +124,10 @@ export default class RacialDisparitiesNarrative {
   readonly id = "RacialDisparities";
 
   readonly title = "Racial Disparities";
+
+  readonly introduction: string;
+
+  readonly sectionText: RacialDisparitiesSections;
 
   readonly chartLabels: RacialDisparitiesChartLabels;
 
@@ -154,6 +164,8 @@ export default class RacialDisparitiesNarrative {
     this.selectedCategory = defaultCategory || "BLACK";
     this.supervisionType = defaultSupervisionType || "supervision";
     this.chartLabels = content.chartLabels;
+    this.introduction = content.introduction;
+    this.sectionText = content.sections;
 
     makeAutoObservable<RacialDisparitiesNarrative, "records">(this, {
       records: observable.ref,
@@ -603,5 +615,37 @@ export default class RacialDisparitiesNarrative {
         records: seriesRecords[1],
       },
     ];
+  }
+
+  get sections(): SectionData[] {
+    const { sectionText } = this;
+    const sections = [];
+    const {
+      beforeCorrections,
+      conclusion,
+      programming,
+      releasesToParole,
+      supervision,
+      sentencing,
+    } = sectionText;
+    if (beforeCorrections) {
+      sections.push(beforeCorrections);
+    }
+    if (sentencing) {
+      sections.push(sentencing);
+    }
+    if (releasesToParole) {
+      sections.push(releasesToParole);
+    }
+    if (supervision) {
+      sections.push(supervision);
+    }
+    if (programming) {
+      sections.push(programming);
+    }
+    if (conclusion) {
+      sections.push(conclusion);
+    }
+    return sections;
   }
 }

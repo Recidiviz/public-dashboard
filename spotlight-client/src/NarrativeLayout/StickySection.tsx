@@ -16,24 +16,13 @@
 // =============================================================================
 
 import useBreakpoint from "@w11r/use-breakpoint";
-import HTMLReactParser from "html-react-parser";
 import { rem } from "polished";
 import React, { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import Sticker from "react-stickyfill";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
-import Metric from "../contentModels/Metric";
-import { SystemNarrativeSection } from "../contentModels/SystemNarrative";
-import { MetricRecord } from "../contentModels/types";
-import MetricVizMapper from "../MetricVizMapper";
-import {
-  breakpoints,
-  colors,
-  CopyBlock,
-  PageSection,
-  typefaces,
-} from "../UiLibrary";
+import { breakpoints, colors, CopyBlock, PageSection } from "../UiLibrary";
 
 const COPY_WIDTH = 408;
 
@@ -55,7 +44,7 @@ const Container = styled(PageSection)`
   }
 `;
 
-const SectionCopy = styled(CopyBlock)<{ $isSticky: boolean }>`
+const LeftContainer = styled(CopyBlock)<{ $isSticky: boolean }>`
   overflow: hidden;
   padding-top: ${rem(40)};
 
@@ -74,21 +63,9 @@ const SectionCopy = styled(CopyBlock)<{ $isSticky: boolean }>`
   }
 `;
 
-const CopyOverflowIndicator = styled.div``;
+const StickyOverflowIndicator = styled.div``;
 
-const SectionTitle = styled.h2`
-  font-family: ${typefaces.display};
-  font-size: ${rem(24)};
-  line-height: 1.25;
-  letter-spacing: -0.04em;
-  margin-bottom: ${rem(24)};
-`;
-
-const SectionBody = styled.div`
-  line-height: 1.67;
-`;
-
-const VizContainer = styled.div`
+const RightContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -103,22 +80,15 @@ const VizContainer = styled.div`
   }
 `;
 
-const SectionViz: React.FC<{ metric: Metric<MetricRecord> }> = ({ metric }) => {
-  return (
-    <VizContainer>
-      <MetricVizMapper metric={metric} />
-    </VizContainer>
-  );
-};
-
-const Section: React.FC<{ section: SystemNarrativeSection }> = ({
-  section,
-}) => {
-  // on large screens, we want the left column of copy to be sticky
-  // while the visualization scrolls (if it's taller than one screen, which many are).
-  // But if the COPY is also taller than one screen we don't want it to be sticky
-  // or you won't actually be able to read all of it. We won't know that until
-  // we render it, so we have to detect a copy overflow and disable the sticky
+const StickySection: React.FC<{
+  leftContents: React.ReactElement;
+  rightContents: React.ReactElement;
+}> = ({ leftContents, rightContents }) => {
+  // on large screens, we want the left column to be sticky while the
+  // right column scrolls (if it's taller than one screen, which many are).
+  // But if the left column is ALSO taller than one screen we don't want it to be sticky
+  // or you won't actually be able to see all of it. We won't know that until
+  // we render it, so we have to detect a vertical overflow and disable the sticky
   // behavior if it happens.
   const isDesktop = useBreakpoint(false, ["desktop+", true]);
 
@@ -128,7 +98,7 @@ const Section: React.FC<{ section: SystemNarrativeSection }> = ({
     root: copyContainerRef.current,
   });
 
-  const [isCopySticky, setIsCopySticky] = useState(false);
+  const [isLeftSticky, setIsLeftSticky] = useState(false);
 
   // to prevent an endless loop of sticking and unsticking,
   // keep track of whether we've tried to make the copy sticky
@@ -140,29 +110,28 @@ const Section: React.FC<{ section: SystemNarrativeSection }> = ({
       // if we re-enable stickiness it will become false again, in an endless loop.
       // checking this flag prevents us from looping
       if (!hasBeenSticky) {
-        setIsCopySticky(true);
+        setIsLeftSticky(true);
         // Unfortunately inView is ALWAYS false for the first few render cycles
         // while the DOM is being bootstrapped, so we want to set a flag the first time
         // it flips to true (on small screens we will never flip this and that's fine)
         setHasBeenSticky(true);
       }
     } else {
-      setIsCopySticky(false);
+      setIsLeftSticky(false);
     }
   }, [hasBeenSticky, inView, isDesktop]);
 
   return (
     <Container>
       <Sticker>
-        <SectionCopy ref={copyContainerRef} $isSticky={isCopySticky}>
-          <SectionTitle>{section.title}</SectionTitle>
-          <SectionBody>{HTMLReactParser(section.body)}</SectionBody>
-          <CopyOverflowIndicator ref={overflowRef} />
-        </SectionCopy>
+        <LeftContainer ref={copyContainerRef} $isSticky={isLeftSticky}>
+          {leftContents}
+          <StickyOverflowIndicator ref={overflowRef} />
+        </LeftContainer>
       </Sticker>
-      <SectionViz metric={section.metric} />
+      <RightContainer>{rightContents}</RightContainer>
     </Container>
   );
 };
 
-export default Section;
+export default StickySection;

@@ -546,6 +546,24 @@ const content: TenantContent = {
       supervisionPopulation: "People subject to supervision",
       totalPopulationSentences: "All people sentenced and under DOCR control",
     },
+    introduction: `<p>In North Dakota, people of color are overrepresented in prison,
+      on probation, and on parole.</p>
+      <p>Black North Dakotans are {{BLACK}} times as likely to be under DOCR control
+      as their white counterparts, Latino North Dakotans are {{HISPANIC}} times as
+      likely, and Native American North Dakotans {{AMERICAN_INDIAN_ALASKAN_NATIVE}} times.`,
+    sections: {
+      beforeCorrections: {
+        title: "Disparities are already present before incarceration",
+        body: `<p>Disparities emerge long before a person is incarcerated. By the time
+          someone comes under the DOCR’s care, they have been arrested, charged, convicted,
+          and sentenced.1 Even before contact with the criminal justice system,
+          disparities in community investment (education, housing, healthcare) may
+          play an important role in creating the disparities that we see in sentencing data.</p>
+          <p>{{ethnonym}} make up {{populationPctCurrent}} of North Dakota’s population, but
+          {{correctionsPctCurrent}} of the population sentenced to time under DOCR control.</p>`,
+      },
+    },
+    // TODO: remaining sections
   },
 };
 

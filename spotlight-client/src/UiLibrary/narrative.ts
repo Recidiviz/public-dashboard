@@ -78,3 +78,15 @@ export const NarrativeScrollIndicator = styled.div`
     margin-bottom: ${rem(16)};
   }
 `;
+
+export const NarrativeSectionTitle = styled.h2`
+  font-family: ${typefaces.display};
+  font-size: ${rem(24)};
+  line-height: 1.25;
+  letter-spacing: -0.04em;
+  margin-bottom: ${rem(24)};
+`;
+
+export const NarrativeSectionBody = styled.div`
+  line-height: 1.67;
+`;

@@ -23,10 +23,12 @@ import {
   NarrativeIntroContainer,
   NarrativeIntroCopy,
   NarrativeScrollIndicator,
+  NarrativeSectionBody,
+  NarrativeSectionTitle,
   NarrativeTitle,
 } from "../UiLibrary";
-import Section from "./Section";
-import NarrativeLayout from "../NarrativeLayout";
+import { NarrativeLayout, StickySection } from "../NarrativeLayout";
+import MetricVizMapper from "../MetricVizMapper";
 
 const SystemNarrativePage: React.FC<{
   narrative: SystemNarrative;
@@ -53,7 +55,21 @@ const SystemNarrativePage: React.FC<{
         ...narrative.sections.map((section) => {
           return {
             title: section.title,
-            contents: <Section section={section} />,
+            contents: (
+              <StickySection
+                leftContents={
+                  <>
+                    <NarrativeSectionTitle>
+                      {section.title}
+                    </NarrativeSectionTitle>
+                    <NarrativeSectionBody>
+                      {HTMLReactParser(section.body)}
+                    </NarrativeSectionBody>
+                  </>
+                }
+                rightContents={<MetricVizMapper metric={section.metric} />}
+              />
+            ),
           };
         }),
       ]}
