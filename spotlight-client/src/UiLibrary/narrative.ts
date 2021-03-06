@@ -18,28 +18,11 @@
 import { rem } from "polished";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
-import { X_PADDING } from "../SystemNarrativePage/constants";
 import breakpoints from "./breakpoints";
 import colors from "./colors";
 import CopyBlock from "./CopyBlock";
 import PageSection from "./PageSection";
 import { typefaces } from "./typography";
-
-export const NarrativeWrapper = styled.article`
-  display: flex;
-`;
-
-export const NarrativeNavContainer = styled.div`
-  flex: 0 0 auto;
-  width: ${rem(X_PADDING)};
-`;
-
-export const NarrativeNavStickyContainer = styled.div`
-  display: flex;
-  height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
-  position: sticky;
-  top: ${rem(NAV_BAR_HEIGHT)};
-`;
 
 export const NarrativeIntroContainer = styled(PageSection)`
   border-bottom: 1px solid ${colors.rule};
@@ -94,10 +77,4 @@ export const NarrativeScrollIndicator = styled.div`
   span {
     margin-bottom: ${rem(16)};
   }
-`;
-
-export const NarrativeSectionsContainer = styled.div`
-  flex: 1 1 auto;
-  /* min-width cannot be auto or children will not shrink when viewport does */
-  min-width: 0;
 `;

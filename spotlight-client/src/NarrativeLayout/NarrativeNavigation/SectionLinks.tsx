@@ -20,8 +20,8 @@ import { rem } from "polished";
 import React, { useEffect } from "react";
 import { animated, useSpring, useSprings } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
-import SystemNarrative from "../contentModels/SystemNarrative";
-import { colors } from "../UiLibrary";
+import { colors } from "../../UiLibrary";
+import { LayoutSection } from "../types";
 import { THUMB_SIZE } from "./utils";
 
 const PageProgressContainer = styled.div`
@@ -99,10 +99,11 @@ const getThumbOffset = (activeSection: number) =>
 
 const SectionLinks: React.FC<{
   activeSection: number;
-  narrative: SystemNarrative;
-  totalPages: number;
+  sections: LayoutSection[];
   urlBase: string;
-}> = ({ activeSection, narrative, totalPages, urlBase }) => {
+}> = ({ activeSection, sections, urlBase }) => {
+  const totalPages = sections.length;
+
   const progressBarHeight =
     (THUMB_SIZE.height + THUMB_SIZE.paddingBottom) * totalPages -
     // subtract one padding unit so there isn't dangling space after the last one
@@ -164,34 +165,18 @@ const SectionLinks: React.FC<{
         onMouseOut={() => setTrackStyles({ opacity: 1 })}
         onBlur={() => setTrackStyles({ opacity: 1 })}
       >
-        <SectionListItem>
-          <SectionLink
-            to={`${urlBase}/1`}
-            onMouseOver={showLinkLabel(0)}
-            onFocus={showLinkLabel(0)}
-            onMouseOut={hideLinkLabel(0)}
-            onBlur={hideLinkLabel(0)}
-          >
-            <SectionLinkBarSegment style={linkBarSegmentStyles[0]} />
-            <SectionLinkLabel style={linkLabelHoverStyles[0]}>
-              {narrative.title}
-            </SectionLinkLabel>
-          </SectionLink>
-        </SectionListItem>
-        {narrative.sections.map((section, index) => {
+        {sections.map((section, index) => {
           return (
             <SectionListItem key={section.title}>
               <SectionLink
-                to={`${urlBase}/${index + 2}`}
-                onMouseOver={showLinkLabel(index + 1)}
-                onFocus={showLinkLabel(index + 1)}
-                onMouseOut={hideLinkLabel(index + 1)}
-                onBlur={hideLinkLabel(index + 1)}
+                to={`${urlBase}/${index + 1}`}
+                onMouseOver={showLinkLabel(index)}
+                onFocus={showLinkLabel(index)}
+                onMouseOut={hideLinkLabel(index)}
+                onBlur={hideLinkLabel(index)}
               >
-                <SectionLinkBarSegment
-                  style={linkBarSegmentStyles[index + 1]}
-                />
-                <SectionLinkLabel style={linkLabelHoverStyles[index + 1]}>
+                <SectionLinkBarSegment style={linkBarSegmentStyles[index]} />
+                <SectionLinkLabel style={linkLabelHoverStyles[index]}>
                   {section.title}
                 </SectionLinkLabel>
               </SectionLink>
