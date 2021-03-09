@@ -556,12 +556,15 @@ const content: TenantContent = {
         title: "Disparities are already present before incarceration",
         body: `<p>Disparities emerge long before a person is incarcerated. By the time
           someone comes under the DOCR’s care, they have been arrested, charged, convicted,
-          and sentenced.1 Even before contact with the criminal justice system,
+          and sentenced.<sup>1</sup> Even before contact with the criminal justice system,
           disparities in community investment (education, housing, healthcare) may
           play an important role in creating the disparities that we see in sentencing data.</p>
           <p>{ethnonymCapitalized} make up {beforeCorrections.populationPctCurrent} of North Dakota’s
           population, but {beforeCorrections.correctionsPctCurrent} of the population sentenced
-          to time under DOCR control.</p>`,
+          to time under DOCR control.</p>
+          <aside>1. This dashboard only focuses on data from DOCR at the moment, which is why
+          disparities in arrests and charging aren’t shown. We’re working with colleagues across
+          the state to show the entire criminal justice system end-to-end as this page evolves.</aside>`,
       },
       sentencing: {
         title: "How can sentencing impact disparities?",
@@ -601,7 +604,7 @@ const content: TenantContent = {
           {supervision.newCrimeProportion36Mo}  of the time for new crimes. In contrast, overall revocations
           for technical violations are {supervision.overall.technicalProportion36Mo}, revocations for absconsion
           {supervision.overall.absconsionProportion36Mo} and revocations for new crime
-          {supervision.overall.newCrimeProportion36Mo}</p>`,
+          {supervision.overall.newCrimeProportion36Mo}.</p>`,
       },
       programming: {
         title: "Can programming help reduce disparities?",

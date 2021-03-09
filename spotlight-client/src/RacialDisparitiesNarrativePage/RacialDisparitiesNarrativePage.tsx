@@ -24,17 +24,14 @@ import RacialDisparitiesNarrative, {
   TemplateVariables,
 } from "../contentModels/RacialDisparitiesNarrative";
 import Loading from "../Loading";
-import {
-  NarrativeLayout,
-  StickySection,
-  wrapExpandedVariable,
-} from "../NarrativeLayout";
+import { NarrativeLayout, StickySection } from "../NarrativeLayout";
 import {
   NarrativeIntroContainer,
   NarrativeIntroCopy,
   NarrativeSectionBody,
   NarrativeSectionTitle,
   NarrativeTitle,
+  wrapExpandedVariable,
 } from "../UiLibrary";
 
 type RacialDisparitiesNarrativePageProps = {

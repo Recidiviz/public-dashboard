@@ -22,6 +22,7 @@ export { default as Chevron } from "./Chevron";
 export { default as CopyBlock } from "./CopyBlock";
 export { default as colors } from "./colors";
 export * from "./Dropdown";
+export * from "./dynamicText";
 export { default as FixedBottomPanel } from "./FixedBottomPanel";
 export * from "./Modal";
 export * from "./narrative";

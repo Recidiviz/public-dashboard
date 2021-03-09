@@ -15,41 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import styled from "styled-components/macro";
-import colors from "./colors";
-import { dynamicTextClass } from "./dynamicText";
+export const dynamicTextClass = "DynamicTextValue";
 
-export default styled.div`
-  p {
-    margin-top: 1em;
-  }
-
-  a {
-    color: ${colors.accent};
-  }
-
-  ul {
-    list-style: outside;
-    margin-top: 1em;
-    padding-left: 1.2em;
-  }
-
-  li {
-    margin-top: 0.5em;
-  }
-
-  /* footnotes */
-  sup {
-    font-size: 0.6em;
-    vertical-align: super;
-  }
-  aside {
-    font-size: 0.7em;
-    margin-top: 1.4em;
-  }
-
-  .${dynamicTextClass} {
-    color: ${colors.dynamicText};
-    font-weight: 600;
-  }
-`;
+export function wrapExpandedVariable(text: string): string {
+  return `<span class="${dynamicTextClass}">${text}</span>`;
+}
