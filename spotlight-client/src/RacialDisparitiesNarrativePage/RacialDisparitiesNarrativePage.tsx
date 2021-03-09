@@ -16,10 +16,19 @@
 // =============================================================================
 
 import HTMLReactParser from "html-react-parser";
+import mapValues from "lodash.mapvalues";
 import { observer } from "mobx-react-lite";
+import pupa from "pupa";
 import React from "react";
-import RacialDisparitiesNarrative from "../contentModels/RacialDisparitiesNarrative";
-import { NarrativeLayout, StickySection } from "../NarrativeLayout";
+import RacialDisparitiesNarrative, {
+  TemplateVariables,
+} from "../contentModels/RacialDisparitiesNarrative";
+import Loading from "../Loading";
+import {
+  NarrativeLayout,
+  StickySection,
+  wrapExpandedVariable,
+} from "../NarrativeLayout";
 import {
   NarrativeIntroContainer,
   NarrativeIntroCopy,
@@ -32,9 +41,20 @@ type RacialDisparitiesNarrativePageProps = {
   narrative: RacialDisparitiesNarrative;
 };
 
+function wrapDynamicText(vars: TemplateVariables): TemplateVariables {
+  return mapValues(vars, (templateVar) => {
+    if (typeof templateVar === "string") {
+      return wrapExpandedVariable(templateVar);
+    }
+    return wrapDynamicText(templateVar);
+  });
+}
+
 const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePageProps> = ({
   narrative,
 }) => {
+  const templateData = wrapDynamicText(narrative.templateData);
+
   return (
     <NarrativeLayout
       sections={[
@@ -43,9 +63,13 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
           contents: (
             <NarrativeIntroContainer>
               <NarrativeTitle>{narrative.title}</NarrativeTitle>
-              <NarrativeIntroCopy>
-                {HTMLReactParser(narrative.introduction)}
-              </NarrativeIntroCopy>
+              {narrative.isLoading || narrative.isLoading === undefined ? (
+                <Loading />
+              ) : (
+                <NarrativeIntroCopy>
+                  {HTMLReactParser(pupa(narrative.introduction, templateData))}
+                </NarrativeIntroCopy>
+              )}
             </NarrativeIntroContainer>
           ),
         },
@@ -59,9 +83,14 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
                     <NarrativeSectionTitle>
                       {section.title}
                     </NarrativeSectionTitle>
-                    <NarrativeSectionBody>
-                      {HTMLReactParser(section.body)}
-                    </NarrativeSectionBody>
+                    {narrative.isLoading ||
+                    narrative.isLoading === undefined ? (
+                      <Loading />
+                    ) : (
+                      <NarrativeSectionBody>
+                        {HTMLReactParser(pupa(section.body, templateData))}
+                      </NarrativeSectionBody>
+                    )}
                   </>
                 }
                 rightContents={<div>Placeholder for chart</div>}

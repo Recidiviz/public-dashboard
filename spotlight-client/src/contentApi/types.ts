@@ -174,7 +174,7 @@ export type RacialDisparitiesSections = {
 
 /**
  * Introduction and section bodies support dynamic text
- * via {@link https://mustache.github.io/ Mustache} template syntax
+ * via {@link https://github.com/sindresorhus/pupa Pupa} template syntax
  */
 export type RacialDisparitiesNarrativeContent = {
   chartLabels: RacialDisparitiesChartLabels;

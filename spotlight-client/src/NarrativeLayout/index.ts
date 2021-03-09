@@ -16,4 +16,5 @@
 // =============================================================================
 
 export { default as NarrativeLayout } from "./NarrativeLayout";
+export * from "./NarrativeLayout";
 export { default as StickySection } from "./StickySection";

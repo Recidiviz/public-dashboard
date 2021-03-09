@@ -35,6 +35,7 @@ import {
   RevocationCountKeyList,
 } from "../metricsApi/RacialDisparitiesRecord";
 import { colors } from "../UiLibrary";
+import { formatAsPct } from "../utils";
 import calculatePct from "./calculatePct";
 import { DemographicCategoryRecords } from "./types";
 
@@ -97,9 +98,32 @@ function getSentencingMetrics(
   };
 }
 
+const getRoundedPct = (number: number) => Number(number.toFixed(2));
+
+/**
+ * Given two numbers between 0 and 1, rounds them to two decimal places, compares them,
+ * and returns the result in natural language; i.e., "greater", "smaller", or "similar"
+ */
+const comparePercentagesAsString = (subject: number, base: number) => {
+  const roundedSubject = getRoundedPct(subject);
+  const roundedBase = getRoundedPct(base);
+
+  if (roundedSubject > roundedBase) {
+    return "greater";
+  }
+  if (roundedSubject < roundedBase) {
+    return "smaller";
+  }
+  return "similar";
+};
+
 type SectionData = {
   title: string;
   body: string;
+};
+
+export type TemplateVariables = {
+  [key: string]: string | TemplateVariables;
 };
 
 type ConstructorOpts = {
@@ -615,6 +639,55 @@ export default class RacialDisparitiesNarrative {
         records: seriesRecords[1],
       },
     ];
+  }
+
+  get templateData(): TemplateVariables {
+    const data: TemplateVariables = {
+      ethnonym: this.ethnonym,
+      ethnonymCapitalized: upperCaseFirst(this.ethnonym),
+    };
+
+    if (this.likelihoodVsWhite) {
+      data.likelihoodVsWhite = mapValues(this.likelihoodVsWhite, (val) =>
+        val.toFixed(1)
+      );
+    }
+
+    (["beforeCorrections", "releasesToParole"] as const).forEach((key) => {
+      if (this[key]) {
+        data[key] = mapValues(this[key], formatAsPct);
+      }
+    });
+
+    if (this.programming) {
+      data.programming = {
+        ...mapValues(this.programming, formatAsPct),
+        comparison: comparePercentagesAsString(
+          this.programming.participantProportionCurrent,
+          this.programming.supervisionProportionCurrent
+        ),
+      };
+    }
+
+    if (this.sentencing && this.sentencingOverall) {
+      data.sentencing = {
+        ...mapValues(this.sentencing, formatAsPct),
+        overall: mapValues(this.sentencingOverall, formatAsPct),
+        comparison: comparePercentagesAsString(
+          this.sentencing.incarcerationPctCurrent,
+          this.sentencingOverall.incarcerationPctCurrent
+        ),
+      };
+    }
+
+    if (this.supervision && this.supervisionOverall) {
+      data.supervision = {
+        ...mapValues(this.supervision, formatAsPct),
+        overall: mapValues(this.supervisionOverall, formatAsPct),
+      };
+    }
+
+    return data;
   }
 
   get sections(): SectionData[] {

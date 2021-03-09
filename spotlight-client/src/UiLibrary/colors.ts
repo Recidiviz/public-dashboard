@@ -48,6 +48,7 @@ export default {
   chartNoData: gray,
   dataViz: Array.from(dataVizColorMap.values()),
   dataVizNamed: dataVizColorMap,
+  dynamicText: pineAccent2,
   footerBackground: pineDark,
   link: pineAccent2,
   mapFill: "#E9ECEC",

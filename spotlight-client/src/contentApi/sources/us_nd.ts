@@ -548,9 +548,9 @@ const content: TenantContent = {
     },
     introduction: `<p>In North Dakota, people of color are overrepresented in prison,
       on probation, and on parole.</p>
-      <p>Black North Dakotans are {{BLACK}} times as likely to be under DOCR control
-      as their white counterparts, Latino North Dakotans are {{HISPANIC}} times as
-      likely, and Native American North Dakotans {{AMERICAN_INDIAN_ALASKAN_NATIVE}} times.`,
+      <p>Black North Dakotans are {likelihoodVsWhite.BLACK} times as likely to be under DOCR control
+      as their white counterparts, Latino North Dakotans are {likelihoodVsWhite.HISPANIC} times as
+      likely, and Native American North Dakotans {likelihoodVsWhite.AMERICAN_INDIAN_ALASKAN_NATIVE} times.</p>`,
     sections: {
       beforeCorrections: {
         title: "Disparities are already present before incarceration",
@@ -559,11 +559,77 @@ const content: TenantContent = {
           and sentenced.1 Even before contact with the criminal justice system,
           disparities in community investment (education, housing, healthcare) may
           play an important role in creating the disparities that we see in sentencing data.</p>
-          <p>{{ethnonym}} make up {{populationPctCurrent}} of North Dakota’s population, but
-          {{correctionsPctCurrent}} of the population sentenced to time under DOCR control.</p>`,
+          <p>{ethnonymCapitalized} make up {beforeCorrections.populationPctCurrent} of North Dakota’s
+          population, but {beforeCorrections.correctionsPctCurrent} of the population sentenced
+          to time under DOCR control.</p>`,
+      },
+      sentencing: {
+        title: "How can sentencing impact disparities?",
+        body: `<p>Many parts of the criminal justice system involve human judgment, creating the potential
+          for disparities to develop over time. Sentences are imposed based on the type and severity of crime.
+          In many cases, courts have some discretion over what sentence to impose on a person convicted of an
+          offense. In the aggregate, these variations in sentencing add up to significant trends.</p>
+          <p>Currently, {sentencing.incarcerationPctCurrent} of {ethnonym} under DOCR jurisdiction are
+          serving incarceration sentences and {sentencing.probationPctCurrent} are serving probation sentences,
+          a {sentencing.comparison} percentage serving incarceration sentences compared to the overall distribution of
+          {sentencing.overall.incarcerationPctCurrent} serving incarceration sentences versus
+          {sentencing.overall.probationPctCurrent} serving probation sentences.<p>`,
+      },
+      releasesToParole: {
+        title: "How can parole grant rates impact disparities?",
+        body: `<p>People sentenced to a prison term can serve the end-portion of their term while supervised
+          in the community, through the parole process.</p>
+          <p>The parole process is governed by the Parole Board, an independent commission that works closely
+          with the DOCR. In 2019, under guidance from Governor Burgum and then-Director of Corrections Leann
+          Bertsch, the DOCR and the Parole Board began tracking and reporting racial data for the parole process
+          in order to monitor and reduce disparities in the population granted parole.</p>
+          <p>In the last 3 years, {ethnonym} comprised {releasesToParole.paroleReleaseProportion36Mo} of
+          the individuals released on parole. They made up {releasesToParole.prisonPopulationProportion36Mo}
+          of the overall prison population during that time.</p>`,
+      },
+      supervision: {
+        title: "How can community supervision impact disparities?",
+        body: `<p>For individuals on probation (community supervision in lieu of a prison sentence) or on parole,
+          failure can mean revocation: a process that removes people from community supervision and places them
+          in prison.</p>
+          <p>{ethnonymCapitalized} represent {supervision.populationProportion36Mo} of the supervision
+          population, but were {supervision.revocationProportion36Mo} of revocation admissions to prison in
+          the last 3 years.</p>
+          <p>Reasons for a revocation can vary: {ethnonym} are revoked {supervision.technicalProportion36Mo}
+          of the time for technical violations (a rule of supervision, rather than a crime),
+          {supervision.absconsionProportion36Mo} of the time for absconsion from supervision, and
+          {supervision.newCrimeProportion36Mo}  of the time for new crimes. In contrast, overall revocations
+          for technical violations are {supervision.overall.technicalProportion36Mo}, revocations for absconsion
+          {supervision.overall.absconsionProportion36Mo} and revocations for new crime
+          {supervision.overall.newCrimeProportion36Mo}</p>`,
+      },
+      programming: {
+        title: "Can programming help reduce disparities?",
+        body: `<p>Programming is designed to improve outcomes for justice-involved individuals. If programming is
+          utilized more by groups overrepresented in the justice system, it could help close the gap.</p>
+          <p>In 2018, North Dakota launched Free Through Recovery, a wrap-around behavioral health program that
+          helps those with behavioral health challenges to succeed on community supervision. {ethnonymCapitalized}
+          are {programming.participantProportionCurrent} of active participants in FTR, a {programming.comparison}
+          representation compared to their overall {programming.supervisionProportionCurrent} of the current
+          supervision population.</p>`,
+      },
+      conclusion: {
+        title:
+          "What are we doing to further improve disparities in criminal justice in North Dakota?",
+        body: `<p>In 2019, the DOCR announced participation in the Restoring Promise initiative with the Vera
+          Institute of Justice and MILPA. This initiative will focus on strategies to improve outcomes for
+          incarcerated individuals age 18-25 with a strong emphasis on addressing racial inequities.</p>
+          <p>We all have a part to play in reducing racial disparities.</p>
+          <p>The good news is that many approaches have been shown to reduce disparities in criminal justice:</p>
+          <ul>
+            <li>Investing in community-based education, housing, and healthcare</li>
+            <li>Re-evaluation of community policing practices</li>
+            <li>Looking for and reducing bias in charging, and sentencing practices</li>
+          </ul>
+          <p>Finally, progress starts with transparency; this page helps North Dakota and those of us at the
+          DOCR to continue work to reduce the disparities in our system and create an equitable justice system.</p>`,
       },
     },
-    // TODO: remaining sections
   },
 };
 

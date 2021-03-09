@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { screen } from "@testing-library/react";
+import { getDefaultNormalizer, screen } from "@testing-library/react";
 import mockContentFixture from "../contentModels/__fixtures__/tenant_content_exhaustive";
 import { renderNavigableApp } from "../testUtils";
 
@@ -41,22 +41,57 @@ test("renders all the sections", () => {
   });
 });
 
-test("parses HTML in copy", async () => {
-  expect(screen.getByRole("link", { name: "intro link" })).toBeInTheDocument();
+test("renders dynamic text", async () => {
+  // expanded templates are broken up with internal markup
+  // that we will want to normalize away
+  const normalizeContents = getDefaultNormalizer();
+
+  // refer to the fixture to see what variables are in the text
+  expect(
+    await screen.findByText(
+      (content, element) =>
+        normalizeContents(element.textContent || "") ===
+        "introduction 81.0 26.9 23.1"
+    )
+  ).toBeVisible();
 
   expect(
-    screen.getByRole("link", { name: "conclusion body link" })
-  ).toBeInTheDocument();
-});
+    screen.getByText(
+      (content, element) =>
+        normalizeContents(element.textContent || "") ===
+        "beforeCorrections body People who are Black 1% 18%"
+    )
+  ).toBeVisible();
 
-test.skip("renders dynamic text", () => {
-  // refer to the fixture to see what variables are in the text
-  expect(screen.getByText("introduction 81.0 26.9 23.1")).toBeVisible();
-  //   sections: {
-  //     beforeCorrections: {
-  //       title: "beforeCorrections title",
-  //       body: `beforeCorrections body {{ethnonym}} {{ethnonymCapitalized}}
-  //       {{populationPctCurrent}} {{correctionsPctCurrent}}`,
-  //     },
-  // TODO: other sections
+  expect(
+    screen.getByText(
+      (content, element) =>
+        normalizeContents(element.textContent || "") ===
+        "sentencing body people who are Black 66% 36% 47% 56% greater"
+    )
+  ).toBeVisible();
+
+  expect(
+    screen.getByText(
+      (content, element) =>
+        normalizeContents(element.textContent || "") ===
+        "supervision body 33% 47% 16% 19% 25% 27% 34% 35%"
+    )
+  ).toBeVisible();
+
+  expect(
+    screen.getByText(
+      (content, element) =>
+        normalizeContents(element.textContent || "") ===
+        "releasesToParole body 33% 8%"
+    )
+  ).toBeVisible();
+
+  expect(
+    screen.getByText(
+      (content, element) =>
+        normalizeContents(element.textContent || "") ===
+        "programming body 21% 11% greater"
+    )
+  ).toBeVisible();
 });

@@ -25,6 +25,7 @@ const RacialDisparitiesNarrativePageContainer: React.FC = () => {
   const { narrative } = useDataStore();
 
   if (narrative instanceof RacialDisparitiesNarrative) {
+    if (narrative.isLoading === undefined) narrative.hydrate();
     return <RacialDisparitiesNarrativePage narrative={narrative} />;
   }
 

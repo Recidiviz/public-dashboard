@@ -27,6 +27,7 @@ import { NAV_BAR_HEIGHT } from "../constants";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { X_PADDING } from "../SystemNarrativePage/constants";
+import { colors } from "../UiLibrary";
 import NarrativeNavigation from "./NarrativeNavigation";
 import { LayoutSection } from "./types";
 
@@ -46,11 +47,22 @@ const NavStickyContainer = styled.div`
   top: ${rem(NAV_BAR_HEIGHT)};
 `;
 
+const dynamicTextClass = "DynamicTextValue";
+
 export const SectionsContainer = styled.div`
   flex: 1 1 auto;
   /* min-width cannot be auto or children will not shrink when viewport does */
   min-width: 0;
+
+  .${dynamicTextClass} {
+    color: ${colors.dynamicText};
+    font-weight: 600;
+  }
 `;
+
+export function wrapExpandedVariable(text: string): string {
+  return `<span class="${dynamicTextClass}">${text}</span>`;
+}
 
 type NarrativeLayoutProps = {
   sections: LayoutSection[];
