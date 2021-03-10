@@ -101,3 +101,7 @@ You can also run either TS or ESLint individually; while there are not predefine
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
 This package was bootstrapped with Create React App, which provides the option to `eject` its build tooling and configuration, allowing for full customization. See [the Create React App docs](https://create-react-app.dev/docs/available-scripts#npm-run-eject) for more information.
+
+## Adding new Tenants
+
+In addition to data being available from `spotlight-api`, adding a new tenant to the site also requires content for that tenant to be added to the Content API (which is included in the JS bundle, not served by the backend). See the [Content README](src/contentApi/README.md) for more information.
