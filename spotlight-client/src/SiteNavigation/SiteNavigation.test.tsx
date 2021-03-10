@@ -105,7 +105,7 @@ describe("on small screens", () => {
     const menu = screen.getByTestId("NavMenu");
     const navLinks = await within(menu).findAllByRole("link");
 
-    expect(navLinks.length).toBe(5);
+    expect(navLinks.length).toBe(6);
 
     expect(navLinks[0]).toHaveTextContent("Home");
     expect(navLinks[0]).toHaveAttribute("href", "/us-nd");
@@ -124,6 +124,12 @@ describe("on small screens", () => {
 
     expect(navLinks[4]).toHaveTextContent("Parole");
     expect(navLinks[4]).toHaveAttribute("href", "/us-nd/collections/parole");
+
+    expect(navLinks[5]).toHaveTextContent("Racial Disparities");
+    expect(navLinks[5]).toHaveAttribute(
+      "href",
+      "/us-nd/collections/racial-disparities"
+    );
   });
 
   test("menu closes after navigation", async () => {
