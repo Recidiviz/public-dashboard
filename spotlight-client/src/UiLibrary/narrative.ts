@@ -17,16 +17,13 @@
 
 import { rem } from "polished";
 import styled from "styled-components/macro";
-import { NAV_BAR_HEIGHT } from "../constants";
 import breakpoints from "./breakpoints";
 import colors from "./colors";
 import CopyBlock from "./CopyBlock";
-import PageSection from "./PageSection";
+import { FullScreenSection } from "./PageSection";
 import { typefaces } from "./typography";
 
-export const NarrativeIntroContainer = styled(PageSection)`
-  border-bottom: 1px solid ${colors.rule};
-  min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
+export const NarrativeIntroContainer = styled(FullScreenSection)`
   padding-top: ${rem(48)};
   padding-bottom: ${rem(48)};
 
@@ -87,6 +84,6 @@ export const NarrativeSectionTitle = styled.h2`
   margin-bottom: ${rem(24)};
 `;
 
-export const NarrativeSectionBody = styled.div`
+export const NarrativeSectionBody = styled(CopyBlock)`
   line-height: 1.67;
 `;

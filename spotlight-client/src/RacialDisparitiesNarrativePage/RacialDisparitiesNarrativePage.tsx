@@ -18,14 +18,18 @@
 import HTMLReactParser from "html-react-parser";
 import mapValues from "lodash.mapvalues";
 import { observer } from "mobx-react-lite";
+import { rem } from "polished";
 import pupa from "pupa";
 import React from "react";
+import styled from "styled-components/macro";
 import RacialDisparitiesNarrative, {
   TemplateVariables,
 } from "../contentModels/RacialDisparitiesNarrative";
 import Loading from "../Loading";
 import { NarrativeLayout, StickySection } from "../NarrativeLayout";
 import {
+  breakpoints,
+  FullScreenSection,
   NarrativeIntroContainer,
   NarrativeIntroCopy,
   NarrativeSectionBody,
@@ -34,9 +38,32 @@ import {
   wrapExpandedVariable,
 } from "../UiLibrary";
 
-type RacialDisparitiesNarrativePageProps = {
-  narrative: RacialDisparitiesNarrative;
-};
+const CopyOnlySection = styled(FullScreenSection)`
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 0;
+  }
+`;
+
+const SectionColumns = styled(NarrativeSectionBody)`
+  padding: ${rem(40)} 0;
+
+  @media screen and (min-width: ${breakpoints.desktop[0]}px) {
+    columns: 3;
+    column-gap: ${rem(32)};
+
+    ${NarrativeSectionTitle} {
+      break-after: column;
+    }
+
+    div {
+      break-after: column;
+      break-inside: avoid-column;
+    }
+  }
+`;
 
 function wrapDynamicText(vars: TemplateVariables): TemplateVariables {
   return mapValues(vars, (templateVar) => {
@@ -46,6 +73,10 @@ function wrapDynamicText(vars: TemplateVariables): TemplateVariables {
     return wrapDynamicText(templateVar);
   });
 }
+
+type RacialDisparitiesNarrativePageProps = {
+  narrative: RacialDisparitiesNarrative;
+};
 
 const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePageProps> = ({
   narrative,
@@ -70,7 +101,7 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
             </NarrativeIntroContainer>
           ),
         },
-        ...narrative.sections.map((section) => {
+        ...narrative.sections.slice(0, -1).map((section) => {
           return {
             title: section.title,
             contents: (
@@ -92,6 +123,23 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
                 }
                 rightContents={<div>Placeholder for chart</div>}
               />
+            ),
+          };
+        }),
+        ...narrative.sections.slice(-1).map((section) => {
+          return {
+            title: section.title,
+            contents: (
+              <CopyOnlySection>
+                <SectionColumns>
+                  <NarrativeSectionTitle>{section.title}</NarrativeSectionTitle>
+                  {narrative.isLoading || narrative.isLoading === undefined ? (
+                    <Loading />
+                  ) : (
+                    HTMLReactParser(pupa(section.body, templateData))
+                  )}
+                </SectionColumns>
+              </CopyOnlySection>
             ),
           };
         }),

@@ -26,6 +26,6 @@ export * from "./dynamicText";
 export { default as FixedBottomPanel } from "./FixedBottomPanel";
 export * from "./Modal";
 export * from "./narrative";
-export { default as PageSection } from "./PageSection";
+export * from "./PageSection";
 export * from "./typography";
 export { default as zIndex } from "./zIndex";

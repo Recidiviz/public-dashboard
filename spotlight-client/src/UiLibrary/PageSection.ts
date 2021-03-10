@@ -17,8 +17,10 @@
 
 import { rem } from "polished";
 import styled from "styled-components/macro";
+import { NAV_BAR_HEIGHT } from "../constants";
 import { X_PADDING } from "../SystemNarrativePage/constants";
 import breakpoints from "./breakpoints";
+import colors from "./colors";
 
 /**
  * Base styled component for all page-level content blocks.
@@ -26,10 +28,15 @@ import breakpoints from "./breakpoints";
  * (Uses padding rather than margins because many designs call for
  * borders to bleed on one or both sides)
  */
-export default styled.section`
+export const PageSection = styled.section`
   padding: 0 ${rem(16)};
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     padding: 0 ${rem(X_PADDING)};
   }
+`;
+
+export const FullScreenSection = styled(PageSection)`
+  border-bottom: 1px solid ${colors.rule};
+  min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
 `;

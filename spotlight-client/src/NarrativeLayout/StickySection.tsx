@@ -22,14 +22,11 @@ import { useInView } from "react-intersection-observer";
 import Sticker from "react-stickyfill";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
-import { breakpoints, colors, CopyBlock, PageSection } from "../UiLibrary";
+import { breakpoints, CopyBlock, FullScreenSection } from "../UiLibrary";
 
 const COPY_WIDTH = 408;
 
-const Container = styled(PageSection)`
-  border-bottom: 1px solid ${colors.rule};
-  min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
-
+const Container = styled(FullScreenSection)`
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     display: flex;
     flex-direction: column;

@@ -619,10 +619,10 @@ const content: TenantContent = {
       conclusion: {
         title:
           "What are we doing to further improve disparities in criminal justice in North Dakota?",
-        body: `<p>In 2019, the DOCR announced participation in the Restoring Promise initiative with the Vera
+        body: `<div>In 2019, the DOCR announced participation in the Restoring Promise initiative with the Vera
           Institute of Justice and MILPA. This initiative will focus on strategies to improve outcomes for
-          incarcerated individuals age 18-25 with a strong emphasis on addressing racial inequities.</p>
-          <p>We all have a part to play in reducing racial disparities.</p>
+          incarcerated individuals age 18-25 with a strong emphasis on addressing racial inequities.</div>
+          <div>We all have a part to play in reducing racial disparities.
           <p>The good news is that many approaches have been shown to reduce disparities in criminal justice:</p>
           <ul>
             <li>Investing in community-based education, housing, and healthcare</li>
@@ -630,7 +630,7 @@ const content: TenantContent = {
             <li>Looking for and reducing bias in charging, and sentencing practices</li>
           </ul>
           <p>Finally, progress starts with transparency; this page helps North Dakota and those of us at the
-          DOCR to continue work to reduce the disparities in our system and create an equitable justice system.</p>`,
+          DOCR to continue work to reduce the disparities in our system and create an equitable justice system.</p></div>`,
       },
     },
   },
