@@ -18,8 +18,8 @@
 import { rem } from "polished";
 import React, { useState } from "react";
 import styled from "styled-components/macro";
-import NavigationLink from "../NavigationLink";
-import { colors, Chevron } from "../UiLibrary";
+import NavigationLink from "../../NavigationLink";
+import { colors, Chevron } from "../../UiLibrary";
 
 const StyledNavLink = styled(NavigationLink)`
   padding: ${rem(8)};

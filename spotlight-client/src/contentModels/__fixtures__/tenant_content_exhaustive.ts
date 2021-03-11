@@ -308,6 +308,43 @@ const content: ExhaustiveTenantContent = {
       supervisionPopulation: "People subject to supervision",
       totalPopulationSentences: "All people sentenced and under DOCR control",
     },
+    introduction: `introduction {likelihoodVsWhite.BLACK} {likelihoodVsWhite.HISPANIC}
+        {likelihoodVsWhite.AMERICAN_INDIAN_ALASKAN_NATIVE}`,
+    sections: {
+      beforeCorrections: {
+        title: "beforeCorrections title",
+        body: `beforeCorrections body {ethnonymCapitalized} {beforeCorrections.populationPctCurrent}
+          {beforeCorrections.correctionsPctCurrent}`,
+      },
+      conclusion: {
+        title: "conclusion title",
+        body: "conclusion body",
+      },
+      sentencing: {
+        title: "sentencing title",
+        body: `sentencing body {ethnonym} {sentencing.incarcerationPctCurrent}
+          {sentencing.probationPctCurrent} {sentencing.overall.incarcerationPctCurrent}
+          {sentencing.overall.probationPctCurrent} {sentencing.comparison}`,
+      },
+      supervision: {
+        title: "supervision title",
+        body: `supervision body {supervision.absconsionProportion36Mo}
+          {supervision.newCrimeProportion36Mo} {supervision.technicalProportion36Mo}
+          {supervision.populationProportion36Mo} {supervision.revocationProportion36Mo}
+          {supervision.overall.absconsionProportion36Mo} {supervision.overall.newCrimeProportion36Mo}
+          {supervision.overall.technicalProportion36Mo}`,
+      },
+      releasesToParole: {
+        title: "releasesToParole title",
+        body: `releasesToParole body {releasesToParole.paroleReleaseProportion36Mo}
+          {releasesToParole.prisonPopulationProportion36Mo}`,
+      },
+      programming: {
+        title: "programming title",
+        body: `programming body {programming.participantProportionCurrent}
+          {programming.supervisionProportionCurrent} {programming.comparison}`,
+      },
+    },
   },
 };
 

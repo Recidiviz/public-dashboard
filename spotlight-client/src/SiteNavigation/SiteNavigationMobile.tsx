@@ -148,6 +148,22 @@ const SiteNavigation: React.FC = () => {
                   </NavMenuItem>
                 )
             )}
+            {tenant.racialDisparitiesNarrative && (
+              <NavMenuItem>
+                <NavLink
+                  onClick={() => setExpanded(false)}
+                  to={getUrlForResource({
+                    page: "narrative",
+                    params: {
+                      tenantId: tenant.id,
+                      narrativeTypeId: "RacialDisparities",
+                    },
+                  })}
+                >
+                  {tenant.racialDisparitiesNarrative.title}
+                </NavLink>
+              </NavMenuItem>
+            )}
           </>
         )}
       </NavMenu>

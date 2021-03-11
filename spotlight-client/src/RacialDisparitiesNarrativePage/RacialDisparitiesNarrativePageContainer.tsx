@@ -17,18 +17,19 @@
 
 import { observer } from "mobx-react-lite";
 import React from "react";
-import SystemNarrative from "../contentModels/SystemNarrative";
+import RacialDisparitiesNarrative from "../contentModels/RacialDisparitiesNarrative";
 import { useDataStore } from "../StoreProvider";
-import SystemNarrativePage from "./SystemNarrativePage";
+import RacialDisparitiesNarrativePage from "./RacialDisparitiesNarrativePage";
 
-const SystemNarrativePageContainer: React.FC = () => {
+const RacialDisparitiesNarrativePageContainer: React.FC = () => {
   const { narrative } = useDataStore();
 
-  if (narrative instanceof SystemNarrative) {
-    return <SystemNarrativePage narrative={narrative} />;
+  if (narrative instanceof RacialDisparitiesNarrative) {
+    if (narrative.isLoading === undefined) narrative.hydrate();
+    return <RacialDisparitiesNarrativePage narrative={narrative} />;
   }
 
   return null;
 };
 
-export default observer(SystemNarrativePageContainer);
+export default observer(RacialDisparitiesNarrativePageContainer);

@@ -22,7 +22,7 @@ import React from "react";
 import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { TenantId } from "../contentApi/types";
-import SystemNarrative from "../contentModels/SystemNarrative";
+import { Narrative } from "../contentModels/types";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
 import { breakpoints, colors } from "../UiLibrary";
@@ -50,6 +50,7 @@ const LinkListItem = styled.li`
   border: 0 solid transparent;
   border-width: 0 ${rem(32)} ${rem(32)} 0;
   flex: 0 0 auto;
+  white-space: nowrap;
   /* use width to create 1-4 columns, depending on screen size */
   width: 100%;
 
@@ -76,10 +77,14 @@ const LinkListItem = styled.li`
   }
 `;
 
+const LinkText = styled.span`
+  white-space: normal;
+`;
+
 const NarrativeLink: React.FC<{
-  narrative: SystemNarrative;
+  narrative: Narrative;
   tenantId: TenantId;
-}> = ({ narrative, tenantId }) => {
+}> = observer(({ narrative, tenantId }) => {
   const [animationStyles, setAnimationStyles] = useSpring(() => ({
     opacity: 0,
     from: { opacity: 0 },
@@ -97,14 +102,14 @@ const NarrativeLink: React.FC<{
         onMouseOut={() => setAnimationStyles({ opacity: 0 })}
         onBlur={() => setAnimationStyles({ opacity: 0 })}
       >
-        {narrative.title}&nbsp;
+        <LinkText>{narrative.title}</LinkText>&nbsp;
         <animated.span style={animationStyles}>
           <Arrow color={colors.link} direction="right" />
         </animated.span>
       </Link>
     </LinkListItem>
   );
-};
+});
 
 /**
  * Produces a grid of links to available narratives for the current tenant.
@@ -118,11 +123,13 @@ const OtherNarrativeLinks = (): React.ReactElement | null => {
 
   if (!tenant) return null;
 
-  const narrativesToDisplay = Object.values(tenant.systemNarratives)
-    .filter(
-      (narrative): narrative is SystemNarrative => narrative !== undefined
-    )
-    .filter((narrative) => narrative.id !== currentNarrativeTypeId);
+  const narrativesToDisplay = [
+    ...Object.values(tenant.systemNarratives),
+    tenant.racialDisparitiesNarrative,
+  ].filter((narrative): narrative is Narrative => {
+    if (narrative === undefined) return false;
+    return narrative.id !== currentNarrativeTypeId;
+  });
 
   return (
     <Wrapper>

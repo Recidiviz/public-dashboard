@@ -82,6 +82,20 @@ describe("navigation", () => {
     return verifyWithNavigation({ targetPath, lookupArgs });
   });
 
+  test("racial disparities narrative page", () => {
+    expect.hasAssertions();
+    const targetPath = "/us-nd/collections/racial-disparities";
+    const lookupArgs = [
+      "heading",
+      {
+        name: "Racial Disparities",
+        level: 1,
+      },
+    ] as const;
+
+    return verifyWithNavigation({ targetPath, lookupArgs });
+  });
+
   test("links", async () => {
     const {
       history: { navigate },
@@ -102,6 +116,17 @@ describe("navigation", () => {
     expect(
       await screen.findByRole("heading", {
         name: "Explore correctional data from North Dakota.",
+        level: 1,
+      })
+    ).toBeInTheDocument();
+
+    const disparitiesLink = screen.getByRole("link", {
+      name: "Racial Disparities",
+    });
+    fireEvent.click(disparitiesLink);
+    expect(
+      await screen.findByRole("heading", {
+        name: "Racial Disparities",
         level: 1,
       })
     ).toBeInTheDocument();

@@ -32,6 +32,7 @@ import {
 import type Collection from "./Collection";
 import type SystemNarrative from "./SystemNarrative";
 import type Metric from "./Metric";
+import type RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
 
 // =======================================
 // Collection types
@@ -79,3 +80,5 @@ export type LocalityDataMapping = Record<
 export type SystemNarrativeMapping = {
   [key in SystemNarrativeTypeId]?: SystemNarrative;
 };
+
+export type Narrative = SystemNarrative | RacialDisparitiesNarrative;

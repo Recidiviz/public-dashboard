@@ -15,20 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { observer } from "mobx-react-lite";
-import React from "react";
-import SystemNarrative from "../contentModels/SystemNarrative";
-import { useDataStore } from "../StoreProvider";
-import SystemNarrativePage from "./SystemNarrativePage";
+export const dynamicTextClass = "DynamicTextValue";
 
-const SystemNarrativePageContainer: React.FC = () => {
-  const { narrative } = useDataStore();
-
-  if (narrative instanceof SystemNarrative) {
-    return <SystemNarrativePage narrative={narrative} />;
-  }
-
-  return null;
-};
-
-export default observer(SystemNarrativePageContainer);
+export function wrapExpandedVariable(text: string): string {
+  return `<span class="${dynamicTextClass}">${text}</span>`;
+}

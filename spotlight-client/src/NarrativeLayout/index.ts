@@ -15,20 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { observer } from "mobx-react-lite";
-import React from "react";
-import SystemNarrative from "../contentModels/SystemNarrative";
-import { useDataStore } from "../StoreProvider";
-import SystemNarrativePage from "./SystemNarrativePage";
-
-const SystemNarrativePageContainer: React.FC = () => {
-  const { narrative } = useDataStore();
-
-  if (narrative instanceof SystemNarrative) {
-    return <SystemNarrativePage narrative={narrative} />;
-  }
-
-  return null;
-};
-
-export default observer(SystemNarrativePageContainer);
+export { default as NarrativeLayout } from "./NarrativeLayout";
+export * from "./NarrativeLayout";
+export { default as StickySection } from "./StickySection";

@@ -17,6 +17,7 @@
 
 import styled from "styled-components/macro";
 import colors from "./colors";
+import { dynamicTextClass } from "./dynamicText";
 
 export default styled.div`
   p {
@@ -25,5 +26,30 @@ export default styled.div`
 
   a {
     color: ${colors.accent};
+  }
+
+  ul {
+    list-style: outside;
+    margin-top: 1em;
+    padding-left: 1.2em;
+  }
+
+  li {
+    margin-top: 0.5em;
+  }
+
+  /* footnotes */
+  sup {
+    font-size: 0.6em;
+    vertical-align: super;
+  }
+  aside {
+    font-size: 0.7em;
+    margin-top: 1.4em;
+  }
+
+  .${dynamicTextClass} {
+    color: ${colors.dynamicText};
+    font-weight: 600;
   }
 `;

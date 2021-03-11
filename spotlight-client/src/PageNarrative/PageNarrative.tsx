@@ -15,24 +15,34 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { RouteComponentProps } from "@reach/router";
+import { Redirect, RouteComponentProps } from "@reach/router";
 import useBreakpoint from "@w11r/use-breakpoint";
 import React from "react";
-import { SystemNarrativeTypeId } from "../contentApi/types";
+import { isSystemNarrativeTypeId, NarrativeTypeId } from "../contentApi/types";
 import NarrativeFooter from "../NarrativeFooter";
+import RacialDisparitiesNarrativePage from "../RacialDisparitiesNarrativePage";
+import { NarrativesSlug } from "../routerUtils/types";
 import SystemNarrativePage from "../SystemNarrativePage";
 import withRouteSync from "../withRouteSync";
 
 type PageNarrativeProps = RouteComponentProps & {
-  narrativeTypeId?: SystemNarrativeTypeId;
+  narrativeTypeId?: NarrativeTypeId;
 };
 
-const PageNarrative: React.FC<PageNarrativeProps> = () => {
+const PageNarrative: React.FC<PageNarrativeProps> = ({ narrativeTypeId }) => {
   const showFooter = useBreakpoint(true, ["mobile-", false]);
+
+  if (narrativeTypeId === undefined) {
+    return <Redirect to={`/${NarrativesSlug}/not-found`} />;
+  }
 
   return (
     <>
-      <SystemNarrativePage />
+      {isSystemNarrativeTypeId(narrativeTypeId) ? (
+        <SystemNarrativePage />
+      ) : (
+        <RacialDisparitiesNarrativePage />
+      )}
       {showFooter && <NarrativeFooter />}
     </>
   );

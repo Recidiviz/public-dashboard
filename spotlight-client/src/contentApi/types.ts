@@ -129,9 +129,17 @@ export function isSystemNarrativeTypeId(x: string): x is SystemNarrativeTypeId {
   return SystemNarrativeTypeIdList.includes(x as SystemNarrativeTypeId);
 }
 
-type SystemNarrativeSection = {
+export type NarrativeTypeId = SystemNarrativeTypeId | "RacialDisparities";
+export function isNarrativeTypeId(x: string): x is NarrativeTypeId {
+  return isSystemNarrativeTypeId(x) || x === "RacialDisparities";
+}
+
+type NarrativeSection = {
   title: string;
   body: string;
+};
+
+type SystemNarrativeSection = NarrativeSection & {
   metricTypeId: MetricTypeId;
 };
 
@@ -152,6 +160,24 @@ export type RacialDisparitiesChartLabels = {
   totalPopulationSentences: string;
 };
 
+type RacialDisparitiesSectionKey =
+  | "beforeCorrections"
+  | "sentencing"
+  | "releasesToParole"
+  | "programming"
+  | "supervision"
+  | "conclusion";
+
+export type RacialDisparitiesSections = {
+  [key in RacialDisparitiesSectionKey]?: NarrativeSection;
+};
+
+/**
+ * Introduction and section bodies support dynamic text
+ * via {@link https://github.com/sindresorhus/pupa Pupa} template syntax
+ */
 export type RacialDisparitiesNarrativeContent = {
   chartLabels: RacialDisparitiesChartLabels;
+  introduction: string;
+  sections: RacialDisparitiesSections;
 };

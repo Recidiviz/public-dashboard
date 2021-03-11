@@ -20,9 +20,9 @@ import { format } from "d3-format";
 import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
-import SystemNarrative from "../contentModels/SystemNarrative";
-import getUrlForResource from "../routerUtils/getUrlForResource";
-import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
+import getUrlForResource from "../../routerUtils/getUrlForResource";
+import normalizeRouteParams from "../../routerUtils/normalizeRouteParams";
+import { LayoutSection } from "../types";
 import AdvanceLink from "./AdvanceLink";
 import SectionLinks from "./SectionLinks";
 
@@ -50,12 +50,12 @@ const SectionNumberFaded = styled(SectionNumber)`
 
 type NavigationProps = {
   activeSection: number;
-  narrative: SystemNarrative;
+  sections: LayoutSection[];
 };
 
 const SectionNavigation: React.FC<NavigationProps> = ({
   activeSection,
-  narrative,
+  sections,
 }) => {
   const { tenantId, narrativeTypeId } = normalizeRouteParams(
     useParams()
@@ -72,8 +72,7 @@ const SectionNavigation: React.FC<NavigationProps> = ({
     params: { tenantId, narrativeTypeId },
   });
 
-  // total includes the introduction
-  const totalPages = narrative.sections.length + 1;
+  const totalPages = sections.length;
 
   // these will be used to toggle prev/next links
   const disablePrev = activeSection === 1;
@@ -83,7 +82,7 @@ const SectionNavigation: React.FC<NavigationProps> = ({
     <SectionNav aria-label="page sections">
       <SectionNumber>{formatPageNum(activeSection)}</SectionNumber>
       <SectionNumberFaded>{formatPageNum(totalPages)}</SectionNumberFaded>
-      <SectionLinks {...{ activeSection, narrative, totalPages, urlBase }} />
+      <SectionLinks {...{ activeSection, sections, urlBase }} />
       <AdvanceLink
         urlBase={urlBase}
         activeSection={activeSection}
