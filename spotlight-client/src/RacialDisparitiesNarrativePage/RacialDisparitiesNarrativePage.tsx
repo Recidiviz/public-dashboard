@@ -104,7 +104,10 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
                 </IntroCopy>
               )}
               {narrative.populationDataSeries && (
-                <BarChartPair data={narrative.populationDataSeries} />
+                <BarChartPair
+                  data={narrative.populationDataSeries}
+                  methodology={narrative.introductionMethodology}
+                />
               )}
             </NarrativeIntroContainer>
           ),
@@ -136,7 +139,10 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
                     <Loading />
                   ) : (
                     <NarrativeSectionBody>
-                      <BarChartPair data={section.chartData} />
+                      <BarChartPair
+                        data={section.chartData}
+                        methodology={section.methodology}
+                      />
                     </NarrativeSectionBody>
                   )
                 }

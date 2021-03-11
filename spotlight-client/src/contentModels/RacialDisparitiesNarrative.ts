@@ -24,6 +24,7 @@ import {
   RacialDisparitiesChartLabels,
   RacialDisparitiesNarrativeContent,
   RacialDisparitiesSections,
+  RacialDisparitiesSection,
   TenantId,
 } from "../contentApi/types";
 import { getDemographicCategories, RaceIdentifier } from "../demographics";
@@ -117,9 +118,7 @@ const comparePercentagesAsString = (subject: number, base: number) => {
   return "similar";
 };
 
-type SectionData = {
-  title: string;
-  body: string;
+type SectionData = RacialDisparitiesSection & {
   chartData?: DemographicCategoryRecords[];
 };
 
@@ -151,6 +150,8 @@ export default class RacialDisparitiesNarrative {
   readonly title = "Racial Disparities";
 
   readonly introduction: string;
+
+  readonly introductionMethodology: string;
 
   readonly sectionText: RacialDisparitiesSections;
 
@@ -190,6 +191,7 @@ export default class RacialDisparitiesNarrative {
     this.supervisionType = defaultSupervisionType || "supervision";
     this.chartLabels = content.chartLabels;
     this.introduction = content.introduction;
+    this.introductionMethodology = content.introductionMethodology;
     this.sectionText = content.sections;
 
     makeAutoObservable<RacialDisparitiesNarrative, "records">(this, {

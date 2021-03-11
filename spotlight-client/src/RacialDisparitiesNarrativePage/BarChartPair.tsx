@@ -20,6 +20,7 @@ import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { ItemToHighlight, ProportionalBar } from "../charts";
 import { DemographicCategoryRecords } from "../contentModels/types";
+import VizControls from "../VizControls";
 
 const CHART_HEIGHT = 200;
 
@@ -33,10 +34,12 @@ const Spacer = styled.div`
 
 type BarChartPairProps = {
   data: DemographicCategoryRecords[];
+  methodology: string;
 };
 
 export default function BarChartPair({
   data,
+  methodology,
 }: BarChartPairProps): React.ReactElement {
   const [highlightedCategory, setHighlightedCategory] = useState<
     ItemToHighlight | undefined
@@ -44,6 +47,11 @@ export default function BarChartPair({
 
   return (
     <Wrapper>
+      <VizControls
+        filters={[]}
+        methodology={methodology}
+        download={() => null}
+      />
       <ProportionalBar
         data={data[0].records}
         title={data[0].label}

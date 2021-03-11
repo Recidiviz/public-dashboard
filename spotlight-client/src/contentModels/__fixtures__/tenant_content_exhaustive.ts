@@ -310,39 +310,46 @@ const content: ExhaustiveTenantContent = {
     },
     introduction: `introduction {likelihoodVsWhite.BLACK} {likelihoodVsWhite.HISPANIC}
         {likelihoodVsWhite.AMERICAN_INDIAN_ALASKAN_NATIVE}`,
+    introductionMethodology: "introduction methodology",
     sections: {
       beforeCorrections: {
         title: "beforeCorrections title",
         body: `beforeCorrections body {ethnonymCapitalized} {beforeCorrections.populationPctCurrent}
-          {beforeCorrections.correctionsPctCurrent}`,
+        {beforeCorrections.correctionsPctCurrent}`,
+        methodology: "beforeCorrections methodology",
       },
       conclusion: {
         title: "conclusion title",
         body: "conclusion body",
+        methodology: "conclusion methodology",
       },
       sentencing: {
         title: "sentencing title",
         body: `sentencing body {ethnonym} {sentencing.incarcerationPctCurrent}
-          {sentencing.probationPctCurrent} {sentencing.overall.incarcerationPctCurrent}
-          {sentencing.overall.probationPctCurrent} {sentencing.comparison}`,
+        {sentencing.probationPctCurrent} {sentencing.overall.incarcerationPctCurrent}
+        {sentencing.overall.probationPctCurrent} {sentencing.comparison}`,
+        methodology: "sentencing methodology",
       },
       supervision: {
         title: "supervision title",
         body: `supervision body {supervision.absconsionProportion36Mo}
-          {supervision.newCrimeProportion36Mo} {supervision.technicalProportion36Mo}
-          {supervision.populationProportion36Mo} {supervision.revocationProportion36Mo}
-          {supervision.overall.absconsionProportion36Mo} {supervision.overall.newCrimeProportion36Mo}
-          {supervision.overall.technicalProportion36Mo}`,
+        {supervision.newCrimeProportion36Mo} {supervision.technicalProportion36Mo}
+        {supervision.populationProportion36Mo} {supervision.revocationProportion36Mo}
+        {supervision.overall.absconsionProportion36Mo} {supervision.overall.newCrimeProportion36Mo}
+        {supervision.overall.technicalProportion36Mo}`,
+        methodology: "supervision methodology",
       },
       releasesToParole: {
         title: "releasesToParole title",
         body: `releasesToParole body {releasesToParole.paroleReleaseProportion36Mo}
-          {releasesToParole.prisonPopulationProportion36Mo}`,
+        {releasesToParole.prisonPopulationProportion36Mo}`,
+        methodology: "releasesToParole methodology",
       },
       programming: {
         title: "programming title",
         body: `programming body {programming.participantProportionCurrent}
-          {programming.supervisionProportionCurrent} {programming.comparison}`,
+        {programming.supervisionProportionCurrent} {programming.comparison}`,
+        methodology: "programming methodology",
       },
     },
   },
