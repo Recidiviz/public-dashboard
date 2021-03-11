@@ -15,27 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React from "react";
-import Metric from "../contentModels/Metric";
-import { MetricRecord } from "../contentModels/types";
-import VizControls from "../VizControls";
-
-type MetricVizControlsProps = {
-  filters: React.ReactElement[];
-  metric: Metric<MetricRecord>;
-};
-
-const MetricVizControls = ({
-  filters,
-  metric,
-}: MetricVizControlsProps): React.ReactElement => {
-  return (
-    <VizControls
-      filters={filters}
-      download={() => metric.download()}
-      methodology={metric.methodology}
-    />
-  );
-};
-
-export default MetricVizControls;
+export { default } from "./VizControls";
