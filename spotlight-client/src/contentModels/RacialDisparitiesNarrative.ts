@@ -120,6 +120,7 @@ const comparePercentagesAsString = (subject: number, base: number) => {
 type SectionData = {
   title: string;
   body: string;
+  chartData?: DemographicCategoryRecords[];
 };
 
 export type TemplateVariables = {
@@ -193,6 +194,7 @@ export default class RacialDisparitiesNarrative {
 
     makeAutoObservable<RacialDisparitiesNarrative, "records">(this, {
       records: observable.ref,
+      sectionText: false,
     });
   }
 
@@ -434,7 +436,7 @@ export default class RacialDisparitiesNarrative {
         (record) => record.label === selectedCategoryLabel
       );
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const focusedRecord = splitRecords.get(true)![0];
+      const focusedRecord = { ...splitRecords.get(true)![0] };
       focusedRecord.color = focusColor;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const otherRecord = splitRecords.get(false)!.reduce(
@@ -702,19 +704,25 @@ export default class RacialDisparitiesNarrative {
       sentencing,
     } = sectionText;
     if (beforeCorrections) {
-      sections.push(beforeCorrections);
+      sections.push({
+        ...beforeCorrections,
+        chartData: this.focusedPopulationDataSeries,
+      });
     }
     if (sentencing) {
-      sections.push(sentencing);
+      sections.push({ ...sentencing, chartData: this.sentencingDataSeries });
     }
     if (releasesToParole) {
-      sections.push(releasesToParole);
+      sections.push({
+        ...releasesToParole,
+        chartData: this.paroleReleaseDataSeries,
+      });
     }
     if (supervision) {
-      sections.push(supervision);
+      sections.push({ ...supervision, chartData: this.revocationsDataSeries });
     }
     if (programming) {
-      sections.push(programming);
+      sections.push({ ...programming, chartData: this.programmingDataSeries });
     }
     if (conclusion) {
       sections.push(conclusion);

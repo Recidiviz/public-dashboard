@@ -37,6 +37,11 @@ import {
   NarrativeTitle,
   wrapExpandedVariable,
 } from "../UiLibrary";
+import BarChartPair from "./BarChartPair";
+
+const IntroCopy = styled(NarrativeIntroCopy)`
+  margin-bottom: ${rem(112)};
+`;
 
 const CopyOnlySection = styled(FullScreenSection)`
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
@@ -94,9 +99,12 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
               {narrative.isLoading || narrative.isLoading === undefined ? (
                 <Loading />
               ) : (
-                <NarrativeIntroCopy>
+                <IntroCopy>
                   {HTMLReactParser(pupa(narrative.introduction, templateData))}
-                </NarrativeIntroCopy>
+                </IntroCopy>
+              )}
+              {narrative.populationDataSeries && (
+                <BarChartPair data={narrative.populationDataSeries} />
               )}
             </NarrativeIntroContainer>
           ),
@@ -121,7 +129,17 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
                     )}
                   </>
                 }
-                rightContents={<div>Placeholder for chart</div>}
+                rightContents={
+                  narrative.isLoading ||
+                  narrative.isLoading === undefined ||
+                  !section.chartData ? (
+                    <Loading />
+                  ) : (
+                    <NarrativeSectionBody>
+                      <BarChartPair data={section.chartData} />
+                    </NarrativeSectionBody>
+                  )
+                }
               />
             ),
           };

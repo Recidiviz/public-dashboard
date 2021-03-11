@@ -20,6 +20,7 @@ import mockContentFixture from "../contentModels/__fixtures__/tenant_content_exh
 import { renderNavigableApp } from "../testUtils";
 
 jest.mock("../contentApi/sources/us_nd", () => mockContentFixture);
+jest.mock("../MeasureWidth/MeasureWidth");
 
 const narrativeContent = mockContentFixture.racialDisparitiesNarrative;
 
@@ -94,4 +95,11 @@ test("renders dynamic text", async () => {
         "programming body 21% 11% greater"
     )
   ).toBeVisible();
+});
+
+test("renders charts", async () => {
+  const charts = await screen.findAllByRole("group", {
+    name: /\d+ bars in a bar chart/,
+  });
+  expect(charts.length).toBe(12);
 });
