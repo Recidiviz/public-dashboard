@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { ERROR_MESSAGES } from "../constants";
 import { TenantId } from "../contentApi/types";
 
 /**
@@ -62,4 +63,30 @@ export async function fetchMetrics({
       errorResponse.error || "none"
     }`
   );
+}
+
+/**
+ * Implements the standard retrieval for a single metric:
+ * fetches one metric, applies a transformation function to it,
+ * and throws an error if no data could be fetched.
+ */
+export async function fetchAndTransformMetric<RecordFormat>({
+  sourceFileName,
+  tenantId,
+  transformFn,
+}: {
+  sourceFileName: string;
+  tenantId: TenantId;
+  transformFn: (d: RawMetricData) => RecordFormat[];
+}): Promise<RecordFormat[]> {
+  const apiResponse = await fetchMetrics({
+    metricNames: [sourceFileName],
+    tenantId,
+  });
+
+  const rawData = apiResponse[sourceFileName];
+  if (rawData) {
+    return transformFn(rawData);
+  }
+  throw new Error(ERROR_MESSAGES.noMetricData);
 }

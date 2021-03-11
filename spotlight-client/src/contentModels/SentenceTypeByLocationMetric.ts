@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { computed, makeObservable } from "mobx";
+import { SENTENCE_TYPE_LABELS } from "../constants";
 import {
   getDemographicCategories,
   recordIsTotalByDimension,
@@ -68,7 +69,11 @@ export default class SentenceTypeByLocationMetric extends Metric<
     const { demographicView, records } = this;
     if (!records || demographicView === "nofilter") return undefined;
 
-    const sources = ["Incarceration", "Probation", "Both"];
+    const sources = [
+      SENTENCE_TYPE_LABELS.INCARCERATION,
+      SENTENCE_TYPE_LABELS.PROBATION,
+      SENTENCE_TYPE_LABELS.DUAL_SENTENCE,
+    ];
 
     const categories = getDemographicCategories(demographicView);
 

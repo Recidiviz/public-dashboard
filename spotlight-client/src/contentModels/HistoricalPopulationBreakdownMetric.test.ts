@@ -20,9 +20,8 @@ import { advanceTo, clear } from "jest-date-mock";
 import { runInAction } from "mobx";
 import { DemographicViewList, getDemographicCategories } from "../demographics";
 import {
-  fetchMetrics,
+  fetchAndTransformMetric,
   HistoricalPopulationBreakdownRecord,
-  RawMetricData,
 } from "../metricsApi";
 import { reactImmediately } from "../testUtils";
 import HistoricalPopulationBreakdownMetric from "./HistoricalPopulationBreakdownMetric";
@@ -30,11 +29,9 @@ import contentFixture from "./__fixtures__/tenant_content_exhaustive";
 
 jest.mock("../metricsApi", () => ({
   ...jest.requireActual("../metricsApi"),
-  fetchMetrics: jest.fn(),
+  fetchAndTransformMetric: jest.fn(),
 }));
 
-// we're not actually going to use this
-const mockResponseData: RawMetricData = [{ test: "whatever" }];
 // this has ... considerably less than 20 years of data
 const mockData: HistoricalPopulationBreakdownRecord[] = [
   // data for totals
@@ -62,17 +59,15 @@ const imputedRecordBase = {
   count: 0,
 };
 
-const mockedFetchMetrics = fetchMetrics as jest.MockedFunction<
-  typeof fetchMetrics
+const mockedFetchAndTransformMetric = fetchAndTransformMetric as jest.MockedFunction<
+  typeof fetchAndTransformMetric
 >;
 const mockSourceFileName = "test_metric_response";
-// we're taking a shortcut by creating test data that doesn't need to be transformed
-const mockTransformer = () => [...mockData];
+// we are mocking this so it won't be called anyway
+const mockTransformer = jest.fn();
 
 beforeEach(() => {
-  mockedFetchMetrics.mockResolvedValue({
-    [mockSourceFileName]: mockResponseData,
-  });
+  mockedFetchAndTransformMetric.mockResolvedValue([...mockData]);
 });
 
 afterEach(() => {

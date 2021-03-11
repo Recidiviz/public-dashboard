@@ -26,3 +26,16 @@ export const ERROR_MESSAGES = {
 export const NAV_BAR_HEIGHT = 80;
 
 export const FOOTER_HEIGHT = 248;
+
+export const REVOCATION_TYPE_LABELS = {
+  ABSCOND: "Absconsion",
+  NEW_CRIME: "New offense",
+  TECHNICAL: "Technical violation",
+  UNKNOWN: "Unknown type",
+};
+
+export const SENTENCE_TYPE_LABELS = {
+  INCARCERATION: "Incarceration",
+  PROBATION: "Probation",
+  DUAL_SENTENCE: "Both",
+};

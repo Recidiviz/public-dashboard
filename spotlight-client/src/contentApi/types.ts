@@ -61,6 +61,7 @@ export type TenantContent = NamedEntity & {
   topologies?: {
     ProgramRegions: MapData;
   };
+  racialDisparitiesNarrative?: RacialDisparitiesNarrativeContent;
 };
 
 // ============================
@@ -138,4 +139,19 @@ export type SystemNarrativeContent = {
   title: string;
   introduction: string;
   sections: SystemNarrativeSection[];
+};
+
+export type RacialDisparitiesChartLabels = {
+  totalPopulation: string;
+  totalSentenced: string;
+  paroleGrant: string;
+  incarceratedPopulation: string;
+  otherGroups: string;
+  programmingParticipants: string;
+  supervisionPopulation: string;
+  totalPopulationSentences: string;
+};
+
+export type RacialDisparitiesNarrativeContent = {
+  chartLabels: RacialDisparitiesChartLabels;
 };
