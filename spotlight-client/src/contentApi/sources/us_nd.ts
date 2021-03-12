@@ -551,7 +551,7 @@ const content: TenantContent = {
       incarceratedPopulation: "Overall prison population",
       otherGroups: "All other racial/ethnic groups",
       programmingParticipants: "Free Through Recovery active participants",
-      supervisionPopulation: "People subject to supervision",
+      supervisionPopulation: "All people under supervision",
       totalPopulationSentences: "All people sentenced and under DOCR control",
     },
     introduction: `<p>In North Dakota, people of color are overrepresented in prison,

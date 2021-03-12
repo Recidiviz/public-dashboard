@@ -260,7 +260,7 @@ Array [
     ],
   },
   Object {
-    "label": "Overall prison population",
+    "label": "People subject to supervision",
     "records": Array [
       Object {
         "color": "#25636F",
@@ -678,7 +678,7 @@ Array [
     ],
   },
   Object {
-    "label": "Overall prison population",
+    "label": "People subject to supervision",
     "records": Array [
       Object {
         "color": "#25636F",
@@ -1096,7 +1096,7 @@ Array [
     ],
   },
   Object {
-    "label": "Overall prison population",
+    "label": "People subject to supervision",
     "records": Array [
       Object {
         "color": "#25636F",
@@ -1514,7 +1514,7 @@ Array [
     ],
   },
   Object {
-    "label": "Overall prison population",
+    "label": "People subject to supervision",
     "records": Array [
       Object {
         "color": "#25636F",

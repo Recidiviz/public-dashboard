@@ -601,7 +601,7 @@ export default class RacialDisparitiesNarrative {
     };
 
     const supervisionPopulation = {
-      label: chartLabels.incarceratedPopulation,
+      label: chartLabels.supervisionPopulation,
       records: calculatePct([
         {
           label: selectedCategoryLabel,
