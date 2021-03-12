@@ -15,9 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { csvFormat } from "d3-dsv";
-import downloadjs from "downloadjs";
-import JsZip from "jszip";
 import {
   action,
   computed,
@@ -26,7 +23,6 @@ import {
   runInAction,
   when,
 } from "mobx";
-import { stripHtml } from "string-strip-html";
 import { LocalityLabels, MetricTypeId, TenantId } from "../contentApi/types";
 import { DemographicView } from "../demographics";
 import {
@@ -36,6 +32,7 @@ import {
   SupervisionSuccessRateMonthlyRecord,
   fetchAndTransformMetric,
 } from "../metricsApi";
+import downloadData from "./downloadData";
 import { MetricRecord, CollectionMap } from "./types";
 
 export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
@@ -200,32 +197,18 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
    * Creates a zip file of all this metric's data in CSV format and
    * initiates a download of that file in the user's browser.
    */
-  download(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      when(
-        () => this.allRecords !== undefined,
-        () => {
-          const zip = new JsZip();
-          const zipName = `${this.tenantId} ${this.id} data`;
-          // this assertion is safe because we are waiting for it in the reaction above
-          const data = csvFormat(this.allRecords as RecordFormat[]);
-          zip.file(`${zipName}/data.csv`, data);
-          zip.file(
-            `${zipName}/README.txt`,
-            stripHtml(this.methodology).result.replace(/\s+/g, " ")
-          );
+  async download(): Promise<void> {
+    await when(() => this.allRecords !== undefined);
 
-          zip
-            .generateAsync({ type: "blob" })
-            .then((content) => {
-              downloadjs(content, `${zipName}.zip`);
-              resolve();
-            })
-            .catch((error) => {
-              reject(error);
-            });
-        }
-      );
-    });
+    // we don't really need a reaction here;
+    // runInAction stops the Mobx linter from yelling at us
+    return runInAction(() =>
+      downloadData({
+        archiveName: `${this.tenantId} ${this.id} data`,
+        readmeContents: this.methodology,
+        // allRecords won't be undefined because we just awaited it
+        dataFiles: [{ name: "data", data: this.allRecords as RecordFormat[] }],
+      })
+    );
   }
 }

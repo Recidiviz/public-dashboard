@@ -16,11 +16,7 @@
 // =============================================================================
 
 import { ascending } from "d3-array";
-import { csvFormat } from "d3-dsv";
-import downloadjs from "downloadjs";
-import JsZip from "jszip";
 import { computed, makeObservable, observable, runInAction, when } from "mobx";
-import { stripHtml } from "string-strip-html";
 import {
   DemographicView,
   getDemographicCategories,
@@ -36,6 +32,7 @@ import {
   SupervisionSuccessRateDemographicsRecord,
   SupervisionSuccessRateMonthlyRecord,
 } from "../metricsApi";
+import downloadData from "./downloadData";
 import getMissingMonths from "./getMissingMonths";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 
@@ -273,39 +270,33 @@ export default class SupervisionSuccessRateMetric extends Metric<
    * Creates a zip file of all this metric's data in CSV format and
    * initiates a download of that file in the user's browser.
    */
-  download(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      when(
-        () =>
-          this.allCohortRecords !== undefined &&
-          this.allDemographicRecords !== undefined,
-        () => {
-          const zip = new JsZip();
-          const zipName = `${this.tenantId} ${this.id} data`;
-          // these assertions are safe because we are waiting for them in the reaction above
-          const cohortData = csvFormat(
-            this.allCohortRecords as SupervisionSuccessRateMonthlyRecord[]
-          );
-          const demographicData = csvFormat(
-            this
-              .allDemographicRecords as SupervisionSuccessRateDemographicsRecord[]
-          );
-          zip
-            .file(`${zipName}/historical data.csv`, cohortData)
-            .file(`${zipName}/demographic aggregate data.csv`, demographicData)
-            .file(`${zipName}/README.txt`, stripHtml(this.methodology).result);
+  async download(): Promise<void> {
+    await when(
+      () =>
+        this.allCohortRecords !== undefined &&
+        this.allDemographicRecords !== undefined
+    );
 
-          zip
-            .generateAsync({ type: "blob" })
-            .then((content) => {
-              downloadjs(content, `${zipName}.zip`);
-              resolve();
-            })
-            .catch((error) => {
-              reject(error);
-            });
-        }
-      );
-    });
+    // we don't really need a reaction here;
+    // runInAction stops the Mobx linter from yelling at us
+    return runInAction(() =>
+      downloadData({
+        archiveName: `${this.tenantId} ${this.id} data`,
+        readmeContents: this.methodology,
+        // these records won't be undefined because we just awaited them
+        dataFiles: [
+          {
+            name: "historical data",
+            data: this
+              .allCohortRecords as SupervisionSuccessRateMonthlyRecord[],
+          },
+          {
+            name: "demographic aggregate data",
+            data: this
+              .allDemographicRecords as SupervisionSuccessRateDemographicsRecord[],
+          },
+        ],
+      })
+    );
   }
 }
