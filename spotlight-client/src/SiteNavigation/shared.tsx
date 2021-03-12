@@ -46,7 +46,10 @@ export const NavGroup = styled.ul`
   display: flex;
 `;
 
-export const NavGroupItem = styled.li``;
+export const NavGroupItem = styled.li`
+  align-items: center;
+  display: flex;
+`;
 
 export const NavLink = styled(Link)`
   align-items: center;

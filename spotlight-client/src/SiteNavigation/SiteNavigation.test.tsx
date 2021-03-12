@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { navigate } from "@reach/router";
 import { fireEvent, screen, within } from "@testing-library/react";
 import useBreakpoint from "@w11r/use-breakpoint";
 import { runInAction } from "mobx";
@@ -24,8 +25,13 @@ import { renderWithStore } from "../testUtils";
 import SiteNavigationContainer from ".";
 
 jest.mock("@w11r/use-breakpoint");
-
 const useBreakpointMock = useBreakpoint as jest.Mock;
+
+jest.mock("@reach/router", () => ({
+  ...jest.requireActual("@reach/router"),
+  navigate: jest.fn().mockResolvedValue(undefined),
+}));
+const navigateMock = navigate as jest.MockedFunction<typeof navigate>;
 
 afterEach(() => {
   useBreakpointMock.mockReset();
@@ -49,6 +55,9 @@ describe("on large screens", () => {
     expect(
       inNav.queryByRole("link", { name: narrativesLabel })
     ).not.toBeInTheDocument();
+    expect(
+      inNav.queryByRole("button", { name: "Data Narratives" })
+    ).not.toBeInTheDocument();
 
     runInAction(() => {
       DataStore.tenantStore.currentTenantId = "US_ND";
@@ -62,6 +71,31 @@ describe("on large screens", () => {
       "href",
       "/us-nd"
     );
+    expect(
+      inNav.getByRole("button", { name: "Data Narratives" })
+    ).toBeInTheDocument();
+  });
+
+  test("Narratives menu", () => {
+    renderWithStore(<SiteNavigationContainer />);
+
+    runInAction(() => {
+      DataStore.tenantStore.currentTenantId = "US_ND";
+    });
+
+    const menuButton = screen.getByRole("button", { name: "Data Narratives" });
+    fireEvent.click(menuButton);
+
+    expect(screen.getByRole("option", { name: "Prison" })).toBeVisible();
+    expect(screen.getByRole("option", { name: "Probation" })).toBeVisible();
+    expect(screen.getByRole("option", { name: "Parole" })).toBeVisible();
+    expect(
+      screen.getByRole("option", { name: "Racial Disparities" })
+    ).toBeVisible();
+
+    fireEvent.click(screen.getByRole("option", { name: "Sentencing" }));
+
+    expect(navigateMock).toHaveBeenCalledWith("/us-nd/collections/sentencing");
   });
 });
 
