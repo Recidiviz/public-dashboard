@@ -108,6 +108,7 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
               {narrative.populationDataSeries && (
                 <BarChartPair
                   data={narrative.populationDataSeries}
+                  download={() => narrative.downloadPopulation()}
                   filters={[]}
                   methodology={narrative.introductionMethodology}
                 />
@@ -115,49 +116,54 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
             </NarrativeIntroContainer>
           ),
         },
-        ...narrative.sections.slice(0, -1).map((section) => {
-          return {
-            title: section.title,
-            contents: (
-              <StickySection
-                leftContents={
-                  <>
-                    <NarrativeSectionTitle>
-                      {section.title}
-                    </NarrativeSectionTitle>
-                    {narrative.isLoading ||
-                    narrative.isLoading === undefined ? (
+        ...narrative.sections.map((section) => {
+          // all sections except the conclusion should look like this
+          if ("chartData" in section) {
+            return {
+              title: section.title,
+              contents: (
+                <StickySection
+                  leftContents={
+                    <>
+                      <NarrativeSectionTitle>
+                        {section.title}
+                      </NarrativeSectionTitle>
+                      {narrative.isLoading ||
+                      narrative.isLoading === undefined ? (
+                        <Loading />
+                      ) : (
+                        <NarrativeSectionBody>
+                          {HTMLReactParser(pupa(section.body, templateData))}
+                        </NarrativeSectionBody>
+                      )}
+                    </>
+                  }
+                  rightContents={
+                    narrative.isLoading ||
+                    narrative.isLoading === undefined ||
+                    !section.chartData ? (
                       <Loading />
                     ) : (
-                      <NarrativeSectionBody>
-                        {HTMLReactParser(pupa(section.body, templateData))}
-                      </NarrativeSectionBody>
-                    )}
-                  </>
-                }
-                rightContents={
-                  narrative.isLoading ||
-                  narrative.isLoading === undefined ||
-                  !section.chartData ? (
-                    <Loading />
-                  ) : (
-                    <BarChartPair
-                      data={section.chartData}
-                      filters={[
-                        <RaceOrEthnicityFilterSelect narrative={narrative} />,
-                        section.supervisionFilter ? (
-                          <SupervisionTypeFilterSelect narrative={narrative} />
-                        ) : null,
-                      ]}
-                      methodology={section.methodology}
-                    />
-                  )
-                }
-              />
-            ),
-          };
-        }),
-        ...narrative.sections.slice(-1).map((section) => {
+                      <BarChartPair
+                        data={section.chartData}
+                        download={section.download}
+                        filters={[
+                          <RaceOrEthnicityFilterSelect narrative={narrative} />,
+                          section.supervisionFilter ? (
+                            <SupervisionTypeFilterSelect
+                              narrative={narrative}
+                            />
+                          ) : null,
+                        ]}
+                        methodology={section.methodology}
+                      />
+                    )
+                  }
+                />
+              ),
+            };
+          }
+          // without chart data we are copy-only in a multi-column layout
           return {
             title: section.title,
             contents: (

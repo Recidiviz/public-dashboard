@@ -16,7 +16,9 @@
 // =============================================================================
 
 import { group } from "d3-array";
-import mapValues from "lodash.mapvalues";
+import flatten from "flat";
+import mapValues from "lodash/mapValues";
+import pick from "lodash/pick";
 import { makeAutoObservable, observable, runInAction } from "mobx";
 import { upperCaseFirst } from "upper-case-first";
 import { REVOCATION_TYPE_LABELS, SENTENCE_TYPE_LABELS } from "../constants";
@@ -38,6 +40,7 @@ import {
 import { colors } from "../UiLibrary";
 import { formatAsPct } from "../utils";
 import calculatePct from "./calculatePct";
+import downloadData from "./downloadData";
 import { DemographicCategoryRecords } from "./types";
 
 const getCorrectionsRateCurrent = (record: RacialDisparitiesRecord) => {
@@ -123,10 +126,13 @@ const comparePercentagesAsString = (subject: number, base: number) => {
   return "similar";
 };
 
-type SectionData = RacialDisparitiesSection & {
-  chartData?: DemographicCategoryRecords[];
-  supervisionFilter?: boolean;
-};
+type SectionData =
+  | RacialDisparitiesSection
+  | (RacialDisparitiesSection & {
+      chartData: DemographicCategoryRecords[];
+      supervisionFilter?: boolean;
+      download: () => Promise<void>;
+    });
 
 export type TemplateVariables = {
   [key: string]: string | TemplateVariables;
@@ -703,7 +709,7 @@ export default class RacialDisparitiesNarrative {
 
   get sections(): SectionData[] {
     const { sectionText } = this;
-    const sections = [];
+    const sections: SectionData[] = [];
     const {
       beforeCorrections,
       conclusion,
@@ -716,15 +722,34 @@ export default class RacialDisparitiesNarrative {
       sections.push({
         ...beforeCorrections,
         chartData: this.focusedPopulationDataSeries,
+        download: this.downloadPopulation,
       });
     }
     if (sentencing) {
-      sections.push({ ...sentencing, chartData: this.sentencingDataSeries });
+      sections.push({
+        ...sentencing,
+        chartData: this.sentencingDataSeries,
+        download: this.getDownloadFn({
+          name: "sentencing",
+          fieldsToInclude: [
+            "currentIncarcerationSentenceCount",
+            "currentProbationSentenceCount",
+            "currentDualSentenceCount",
+          ],
+        }),
+      });
     }
     if (releasesToParole) {
       sections.push({
         ...releasesToParole,
         chartData: this.paroleReleaseDataSeries,
+        download: this.getDownloadFn({
+          name: "parole grants",
+          fieldsToInclude: [
+            "parole.releaseCount36Mo",
+            "totalIncarceratedPopulation36Mo",
+          ],
+        }),
       });
     }
     if (supervision) {
@@ -732,14 +757,61 @@ export default class RacialDisparitiesNarrative {
         ...supervision,
         chartData: this.revocationsDataSeries,
         supervisionFilter: true,
+        download: this.getDownloadFn({
+          name: "supervision",
+          fieldsToInclude: ["parole", "probation", "supervision"],
+        }),
       });
     }
     if (programming) {
-      sections.push({ ...programming, chartData: this.programmingDataSeries });
+      sections.push({
+        ...programming,
+        chartData: this.programmingDataSeries,
+        download: this.getDownloadFn({
+          name: "programming",
+          fieldsToInclude: [
+            "currentFtrParticipationCount",
+            "currentSupervisionPopulation",
+          ],
+        }),
+      });
     }
     if (conclusion) {
       sections.push(conclusion);
     }
     return sections;
+  }
+
+  private getDownloadFn({
+    name,
+    fieldsToInclude,
+  }: {
+    name: string;
+    fieldsToInclude: string[];
+  }) {
+    return (): Promise<void> =>
+      downloadData({
+        archiveName: `${this.tenantId} ${this.id} ${name}`,
+        readmeContents: this.introductionMethodology,
+        dataFiles: [
+          {
+            name: "data",
+            data: Object.values(
+              mapValues(this.records, (record) => {
+                return flatten<Partial<typeof record>, Record<string, unknown>>(
+                  pick(record, ["raceOrEthnicity", ...fieldsToInclude])
+                );
+              })
+            ),
+          },
+        ],
+      });
+  }
+
+  get downloadPopulation(): () => Promise<void> {
+    return this.getDownloadFn({
+      name: "population",
+      fieldsToInclude: ["totalStatePopulation", "currentTotalSentencedCount"],
+    });
   }
 }

@@ -34,12 +34,14 @@ const Spacer = styled.div`
 
 type BarChartPairProps = {
   data: DemographicCategoryRecords[];
+  download: () => void;
   filters: VizControlsProps["filters"];
   methodology: string;
 };
 
 export default function BarChartPair({
   data,
+  download,
   filters,
   methodology,
 }: BarChartPairProps): React.ReactElement {
@@ -52,7 +54,7 @@ export default function BarChartPair({
       <VizControls
         filters={filters}
         methodology={methodology}
-        download={() => null}
+        download={download}
       />
       <ProportionalBar
         data={data[0].records}
