@@ -332,7 +332,7 @@ const content: ExhaustiveTenantContent = {
       },
       supervision: {
         title: "supervision title",
-        body: `supervision body {supervision.absconsionProportion36Mo}
+        body: `supervision body {supervisionType} {supervision.absconsionProportion36Mo}
         {supervision.newCrimeProportion36Mo} {supervision.technicalProportion36Mo}
         {supervision.populationProportion36Mo} {supervision.revocationProportion36Mo}
         {supervision.overall.absconsionProportion36Mo} {supervision.overall.newCrimeProportion36Mo}

@@ -623,12 +623,12 @@ const content: TenantContent = {
         body: `<p>For individuals on probation (community supervision in lieu of a prison sentence) or on parole,
           failure can mean revocation: a process that removes people from community supervision and places them
           in prison.</p>
-          <p>{ethnonymCapitalized} represent {supervision.populationProportion36Mo} of the supervision
+          <p>{ethnonymCapitalized} represent {supervision.populationProportion36Mo} of the {supervisionType}
           population, but were {supervision.revocationProportion36Mo} of revocation admissions to prison in
           the last 3 years.</p>
           <p>Reasons for a revocation can vary: {ethnonym} are revoked {supervision.technicalProportion36Mo}
           of the time for technical violations (a rule of supervision, rather than a crime),
-          {supervision.absconsionProportion36Mo} of the time for absconsion from supervision, and
+          {supervision.absconsionProportion36Mo} of the time for absconsion from {supervisionType}, and
           {supervision.newCrimeProportion36Mo}  of the time for new crimes. In contrast, overall revocations
           for technical violations are {supervision.overall.technicalProportion36Mo}, revocations for absconsion
           {supervision.overall.absconsionProportion36Mo} and revocations for new crime

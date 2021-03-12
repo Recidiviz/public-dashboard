@@ -655,6 +655,7 @@ export default class RacialDisparitiesNarrative {
     const data: TemplateVariables = {
       ethnonym: this.ethnonym,
       ethnonymCapitalized: upperCaseFirst(this.ethnonym),
+      supervisionType: this.supervisionType,
     };
 
     if (this.likelihoodVsWhite) {

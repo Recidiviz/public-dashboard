@@ -76,7 +76,7 @@ test("renders dynamic text", async () => {
     screen.getByText(
       (content, element) =>
         normalizeContents(element.textContent || "") ===
-        "supervision body 33% 47% 16% 19% 25% 27% 34% 35%"
+        "supervision body supervision 33% 47% 16% 19% 25% 27% 34% 35%"
     )
   ).toBeVisible();
 
