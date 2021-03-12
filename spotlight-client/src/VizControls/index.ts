@@ -16,3 +16,4 @@
 // =============================================================================
 
 export { default } from "./VizControls";
+export * from "./VizControls";

@@ -72,8 +72,8 @@ const MethodologyCopy = styled(CopyBlock)`
   margin-top: ${rem(16)};
 `;
 
-interface VizControlsProps {
-  filters: React.ReactElement[];
+export interface VizControlsProps {
+  filters: (React.ReactElement | null)[];
   download: () => void;
   methodology: string;
 }
@@ -88,12 +88,13 @@ const VizControls = ({
   return (
     <Wrapper>
       <ControlsGroup>
-        {filters.map((filter, index) => (
-          // there's nothing else to use as a key, but these should be pretty static
-          // so there isn't any real performance concern
-          // eslint-disable-next-line react/no-array-index-key
-          <FilterWrapper key={index}>{filter}</FilterWrapper>
-        ))}
+        {filters.map(
+          (filter, index) =>
+            // there's nothing else to use as a key, but these should be pretty static
+            // so there isn't any real performance concern
+            // eslint-disable-next-line react/no-array-index-key
+            filter && <FilterWrapper key={index}>{filter}</FilterWrapper>
+        )}
       </ControlsGroup>
       <ControlsGroup>
         <Button onClick={() => download()}>

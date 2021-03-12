@@ -38,6 +38,8 @@ import {
   wrapExpandedVariable,
 } from "../UiLibrary";
 import BarChartPair from "./BarChartPair";
+import RaceOrEthnicityFilterSelect from "./RaceOrEthnicityFilterSelect";
+import SupervisionTypeFilterSelect from "./SupervisionTypeFilterSelect";
 
 const IntroCopy = styled(NarrativeIntroCopy)`
   margin-bottom: ${rem(112)};
@@ -106,6 +108,7 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
               {narrative.populationDataSeries && (
                 <BarChartPair
                   data={narrative.populationDataSeries}
+                  filters={[]}
                   methodology={narrative.introductionMethodology}
                 />
               )}
@@ -138,12 +141,16 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
                   !section.chartData ? (
                     <Loading />
                   ) : (
-                    <NarrativeSectionBody>
-                      <BarChartPair
-                        data={section.chartData}
-                        methodology={section.methodology}
-                      />
-                    </NarrativeSectionBody>
+                    <BarChartPair
+                      data={section.chartData}
+                      filters={[
+                        <RaceOrEthnicityFilterSelect narrative={narrative} />,
+                        section.supervisionFilter ? (
+                          <SupervisionTypeFilterSelect narrative={narrative} />
+                        ) : null,
+                      ]}
+                      methodology={section.methodology}
+                    />
                   )
                 }
               />

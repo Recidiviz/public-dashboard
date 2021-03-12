@@ -77,7 +77,12 @@ type SentencingMetrics = {
   probationPctCurrent: number;
 };
 
-type SupervisionType = "parole" | "probation" | "supervision";
+export const SupervisionTypeList = [
+  "supervision",
+  "parole",
+  "probation",
+] as const;
+export type SupervisionType = typeof SupervisionTypeList[number];
 
 function getSentencingMetrics(
   record: RacialDisparitiesRecord
@@ -120,6 +125,7 @@ const comparePercentagesAsString = (subject: number, base: number) => {
 
 type SectionData = RacialDisparitiesSection & {
   chartData?: DemographicCategoryRecords[];
+  supervisionFilter?: boolean;
 };
 
 export type TemplateVariables = {
@@ -721,7 +727,11 @@ export default class RacialDisparitiesNarrative {
       });
     }
     if (supervision) {
-      sections.push({ ...supervision, chartData: this.revocationsDataSeries });
+      sections.push({
+        ...supervision,
+        chartData: this.revocationsDataSeries,
+        supervisionFilter: true,
+      });
     }
     if (programming) {
       sections.push({ ...programming, chartData: this.programmingDataSeries });
