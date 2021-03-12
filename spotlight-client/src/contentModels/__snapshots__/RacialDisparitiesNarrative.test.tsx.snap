@@ -13,7 +13,7 @@ Array [
     "label": "Proportions of races in the state",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Native American",
         "pct": 0.020303781773093613,
         "value": 262,
@@ -30,7 +30,7 @@ Array [
     "label": "Proportions of races sentenced and under DOCR control",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Native American",
         "pct": 0.12031349290404575,
         "value": 1704,
@@ -63,7 +63,7 @@ Array [
     "label": "People released on parole",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Native American",
         "pct": 0.10027855153203342,
         "value": 36,
@@ -80,7 +80,7 @@ Array [
     "label": "Overall prison population",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Native American",
         "pct": 0.21291448516579406,
         "value": 244,
@@ -246,7 +246,7 @@ Array [
     "label": "Active program participants",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Native American",
         "pct": 0.22485207100591717,
         "value": 114,
@@ -263,7 +263,7 @@ Array [
     "label": "People subject to supervision",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Native American",
         "pct": 0.045959204750839144,
         "value": 356,
@@ -431,7 +431,7 @@ Array [
     "label": "Proportions of races in the state",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Black",
         "pct": 0.008601983880967142,
         "value": 111,
@@ -448,7 +448,7 @@ Array [
     "label": "Proportions of races sentenced and under DOCR control",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Black",
         "pct": 0.17870507660806326,
         "value": 2531,
@@ -481,7 +481,7 @@ Array [
     "label": "People released on parole",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Black",
         "pct": 0.3286908077994429,
         "value": 118,
@@ -498,7 +498,7 @@ Array [
     "label": "Overall prison population",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Black",
         "pct": 0.08376963350785341,
         "value": 96,
@@ -664,7 +664,7 @@ Array [
     "label": "Active program participants",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Black",
         "pct": 0.21499013806706113,
         "value": 109,
@@ -681,7 +681,7 @@ Array [
     "label": "People subject to supervision",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Black",
         "pct": 0.11373612186935192,
         "value": 881,
@@ -849,7 +849,7 @@ Array [
     "label": "Proportions of races in the state",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Hispanic",
         "pct": 0.02944823310601364,
         "value": 380,
@@ -866,7 +866,7 @@ Array [
     "label": "Proportions of races sentenced and under DOCR control",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Hispanic",
         "pct": 0.2029937160206171,
         "value": 2875,
@@ -899,7 +899,7 @@ Array [
     "label": "People released on parole",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Hispanic",
         "pct": 0.1392757660167131,
         "value": 50,
@@ -916,7 +916,7 @@ Array [
     "label": "Overall prison population",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Hispanic",
         "pct": 0.10732984293193717,
         "value": 123,
@@ -1082,7 +1082,7 @@ Array [
     "label": "Active program participants",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Hispanic",
         "pct": 0.29980276134122286,
         "value": 152,
@@ -1099,7 +1099,7 @@ Array [
     "label": "People subject to supervision",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Hispanic",
         "pct": 0.323134521043119,
         "value": 2503,
@@ -1267,7 +1267,7 @@ Array [
     "label": "Proportions of races in the state",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Other",
         "pct": 0.0021698698078115313,
         "value": 28,
@@ -1284,7 +1284,7 @@ Array [
     "label": "Proportions of races sentenced and under DOCR control",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Other",
         "pct": 0.2570076961095813,
         "value": 3640,
@@ -1317,7 +1317,7 @@ Array [
     "label": "People released on parole",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Other",
         "pct": 0.16991643454038996,
         "value": 61,
@@ -1334,7 +1334,7 @@ Array [
     "label": "Overall prison population",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Other",
         "pct": 0.010471204188481676,
         "value": 12,
@@ -1500,7 +1500,7 @@ Array [
     "label": "Active program participants",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Other",
         "pct": 0.16765285996055226,
         "value": 85,
@@ -1517,7 +1517,7 @@ Array [
     "label": "People subject to supervision",
     "records": Array [
       Object {
-        "color": "#25636F",
+        "color": "#4C6290",
         "label": "Other",
         "pct": 0.33372063000258195,
         "value": 2585,

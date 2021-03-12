@@ -171,7 +171,8 @@ export default class RacialDisparitiesNarrative {
 
   readonly tenantId: TenantId;
 
-  private readonly focusColor = colors.dataViz[0];
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  private readonly focusColor = colors.dataVizNamed.get("blue")!;
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   private readonly unfocusedColor = colors.dataVizNamed.get("paleBlue")!;
