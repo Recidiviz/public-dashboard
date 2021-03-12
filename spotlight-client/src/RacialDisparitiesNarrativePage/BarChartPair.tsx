@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import useBreakpoint from "@w11r/use-breakpoint";
 import { rem } from "polished";
 import React, { useState } from "react";
 import styled from "styled-components/macro";
@@ -22,7 +23,9 @@ import { ItemToHighlight, ProportionalBar } from "../charts";
 import { DemographicCategoryRecords } from "../contentModels/types";
 import VizControls, { VizControlsProps } from "../VizControls";
 
-const CHART_HEIGHT = 200;
+const CHART_HEIGHT = 165;
+
+const CHART_HEIGHT_MOBILE = 100;
 
 const Wrapper = styled.div`
   padding: ${rem(48)} 0;
@@ -49,6 +52,11 @@ export default function BarChartPair({
     ItemToHighlight | undefined
   >();
 
+  const chartHeight = useBreakpoint(CHART_HEIGHT, [
+    "mobile-",
+    CHART_HEIGHT_MOBILE,
+  ]);
+
   return (
     <Wrapper>
       <VizControls
@@ -59,7 +67,7 @@ export default function BarChartPair({
       <ProportionalBar
         data={data[0].records}
         title={data[0].label}
-        height={CHART_HEIGHT}
+        height={chartHeight}
         highlighted={highlightedCategory}
         showLegend={false}
       />
@@ -67,7 +75,7 @@ export default function BarChartPair({
       <ProportionalBar
         data={data[1].records}
         title={data[1].label}
-        height={CHART_HEIGHT}
+        height={chartHeight}
         highlighted={highlightedCategory}
         setHighlighted={setHighlightedCategory}
       />

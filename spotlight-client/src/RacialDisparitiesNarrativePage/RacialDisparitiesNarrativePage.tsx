@@ -42,7 +42,9 @@ import RaceOrEthnicityFilterSelect from "./RaceOrEthnicityFilterSelect";
 import SupervisionTypeFilterSelect from "./SupervisionTypeFilterSelect";
 
 const IntroCopy = styled(NarrativeIntroCopy)`
-  margin-bottom: ${rem(112)};
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    margin-bottom: ${rem(112)};
+  }
 `;
 
 const CopyOnlySection = styled(FullScreenSection)`
