@@ -16,7 +16,7 @@
 // =============================================================================
 
 import HTMLReactParser from "html-react-parser";
-import mapValues from "lodash.mapvalues";
+import mapValues from "lodash/mapValues";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import pupa from "pupa";
