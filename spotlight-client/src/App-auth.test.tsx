@@ -54,6 +54,9 @@ async function getApp() {
 // mocking the node env is esoteric, see https://stackoverflow.com/a/48042799
 const ORIGINAL_ENV = process.env;
 
+// home page redirects to the ND home page
+const authenticatedTextMatch = /North Dakota/;
+
 beforeEach(async () => {
   // make a copy that we can modify
   process.env = { ...ORIGINAL_ENV };
@@ -77,8 +80,10 @@ afterEach(() => {
 test("no auth required", async () => {
   const App = await getApp();
   render(<App />);
-  // seems like a pretty safe bet this word will always be there somewhere!
-  const websiteName = screen.getByRole("heading", { name: /spotlight/i });
+  // site home redirects to the ND home
+  const websiteName = await screen.findByRole("heading", {
+    name: authenticatedTextMatch,
+  });
   expect(websiteName).toBeInTheDocument();
 });
 
@@ -94,14 +99,14 @@ test("requires authentication", async () => {
   render(<App />);
 
   expect(
-    screen.queryByRole("heading", { name: /spotlight/i })
+    screen.queryByRole("heading", { name: authenticatedTextMatch })
   ).not.toBeInTheDocument();
   expect(screen.getByRole("status", { name: /loading/i })).toBeInTheDocument();
   await waitFor(() => {
     expect(mockLoginWithRedirect.mock.calls.length).toBe(1);
     // this should ... continue not being in the document
     expect(
-      screen.queryByRole("heading", { name: /spotlight/i })
+      screen.queryByRole("heading", { name: authenticatedTextMatch })
     ).not.toBeInTheDocument();
   });
 });
@@ -120,7 +125,7 @@ test("requires email verification", async () => {
   await waitFor(() => {
     // application contents should not have been rendered without verification
     expect(
-      screen.queryByRole("heading", { name: /spotlight/i })
+      screen.queryByRole("heading", { name: authenticatedTextMatch })
     ).not.toBeInTheDocument();
     // there should be a message about the verification requirement
     expect(
@@ -140,7 +145,9 @@ test("renders when authenticated", async () => {
   const App = await getApp();
   render(<App />);
   await waitFor(() => {
-    const websiteName = screen.getByRole("heading", { name: /spotlight/i });
+    const websiteName = screen.getByRole("heading", {
+      name: authenticatedTextMatch,
+    });
     expect(websiteName).toBeInTheDocument();
   });
 });
@@ -160,7 +167,7 @@ test("handles an Auth0 configuration error", async () => {
       screen.getByRole("heading", /an error occurred/i)
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: /spotlight/i })
+      screen.queryByRole("heading", { name: authenticatedTextMatch })
     ).not.toBeInTheDocument();
   });
 });

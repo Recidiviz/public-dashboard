@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { act } from "@testing-library/react";
+import { act, waitFor } from "@testing-library/react";
 import { renderNavigableApp } from "../testUtils";
 
 const scrollSpy = jest.spyOn(window, "scrollTo");
@@ -29,11 +29,11 @@ test("scrolls on page change", async () => {
     history: { navigate },
   } = renderNavigableApp();
 
-  expect(scrollSpy).toHaveBeenCalledWith(0, 0);
-  scrollSpy.mockClear();
-
-  await act(() => navigate("/us-nd"));
-  expect(scrollSpy).toHaveBeenCalledWith(0, 0);
+  await waitFor(() => {
+    // once for site root load, once for redirect to ND home
+    expect(scrollSpy).toHaveBeenNthCalledWith(1, 0, 0);
+    expect(scrollSpy).toHaveBeenNthCalledWith(2, 0, 0);
+  });
   scrollSpy.mockClear();
 
   await act(() => navigate("/us-nd/collections/prison"));
