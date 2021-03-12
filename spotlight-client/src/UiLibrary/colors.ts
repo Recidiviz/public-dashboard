@@ -15,6 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { ValuesType } from "utility-types";
+
 const gray = "#D6DCDC";
 const pine = "#00413E";
 const pineBright = "#25B894";
@@ -23,19 +25,33 @@ const pinePale = "#7D9897";
 const pineAccent2 = "#006C67";
 const pineDark = "#012322";
 
-const dataVizColorMap = new Map([
-  ["teal", "#25636F"],
-  ["gold", "#D9A95F"],
-  ["red", "#BA4F4F"],
-  ["blue", "#4C6290"],
-  ["paleBlue", "#90AEB5"],
-  ["pink", "#CC989C"],
-  ["paleGreen", "#B6CC98"],
-  ["purple", "#56256F"],
-  ["aqua", "#4FBABA"],
-  ["palePurple", "#904C84"],
-  ["skyBlue", "#5F8FD9"],
-]);
+const dataVizOrder = [
+  "teal",
+  "gold",
+  "red",
+  "blue",
+  "paleBlue",
+  "pink",
+  "paleGreen",
+  "purple",
+  "aqua",
+  "palePurple",
+  "skyBlue",
+] as const;
+
+const dataVizNamed: { [key in ValuesType<typeof dataVizOrder>]: string } = {
+  teal: "#25636F",
+  gold: "#D9A95F",
+  red: "#BA4F4F",
+  blue: "#4C6290",
+  paleBlue: "#90AEB5",
+  pink: "#CC989C",
+  paleGreen: "#B6CC98",
+  purple: "#56256F",
+  aqua: "#4FBABA",
+  palePurple: "#904C84",
+  skyBlue: "#5F8FD9",
+};
 
 export default {
   accent: pineBright,
@@ -46,8 +62,8 @@ export default {
   chartAxis: pine,
   chartGridLine: gray,
   chartNoData: gray,
-  dataViz: Array.from(dataVizColorMap.values()),
-  dataVizNamed: dataVizColorMap,
+  dataViz: dataVizOrder.map((key) => dataVizNamed[key]),
+  dataVizNamed,
   dynamicText: pineAccent2,
   footerBackground: pineDark,
   link: pineAccent2,

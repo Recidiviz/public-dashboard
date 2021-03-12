@@ -146,7 +146,7 @@ test("all bars are the same color", async () => {
   within(chart)
     .getAllByRole("img")
     .forEach((el) =>
-      expect(el).toHaveStyle(`fill: ${colors.dataVizNamed.get("teal")}`)
+      expect(el).toHaveStyle(`fill: ${colors.dataVizNamed.teal}`)
     );
 
   expect.hasAssertions();
