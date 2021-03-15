@@ -21,6 +21,7 @@ import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { ItemToHighlight, ProportionalBar } from "../charts";
 import { DemographicCategoryRecords } from "../contentModels/types";
+import SmallDataDisclaimer from "../SmallDataDisclaimer";
 import VizControls, { VizControlsProps } from "../VizControls";
 
 const CHART_HEIGHT = 165;
@@ -79,6 +80,7 @@ export default function BarChartPair({
         highlighted={highlightedCategory}
         setHighlighted={setHighlightedCategory}
       />
+      <SmallDataDisclaimer />
     </Wrapper>
   );
 }

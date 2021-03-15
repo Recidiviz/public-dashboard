@@ -27,6 +27,7 @@ import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategor
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
 import NoMetricData from "../NoMetricData";
+import SmallDataDisclaimer from "../SmallDataDisclaimer";
 import { animation, zIndex } from "../UiLibrary";
 
 const bubbleChartHeight = 325;
@@ -129,6 +130,7 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
                 </ChartWrapper>
               ))}
             </animated.div>
+            <SmallDataDisclaimer />
           </>
         )}
       </Measure>
