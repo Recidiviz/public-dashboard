@@ -157,5 +157,12 @@ describe("navigation", () => {
     // in-page navigation doesn't trigger additional pageviews
     await act(() => navigate("/us-nd/collections/prison/2"));
     expect(segmentMock.page).toHaveBeenCalledTimes(2);
+
+    await act(() => navigate("/us-nd/collections/sentencing"));
+
+    expect(document.title).toBe(
+      "Sentencing — North Dakota — Spotlight by Recidiviz"
+    );
+    expect(segmentMock.page).toHaveBeenCalledTimes(3);
   });
 });
