@@ -16,10 +16,11 @@
 // =============================================================================
 
 import { RouteComponentProps } from "@reach/router";
-import React from "react";
+import { action } from "mobx";
+import React, { useEffect } from "react";
+import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { RouteParams } from "../routerUtils/types";
-import withTrackPageview from "./withTrackPageview";
-import withUpdateStore from "./withUpdateStore";
+import { useDataStore } from "../StoreProvider";
 
 /**
  * A high-order component responsible for syncing relevant route parameters
@@ -28,10 +29,31 @@ import withUpdateStore from "./withUpdateStore";
  * from strings to unions of their valid values.
  * All Reach Router route components should be wrapped in this HOC!
  */
-const withRouteSync = <Props extends RouteComponentProps & RouteParams>(
+const withUpdateStore = <Props extends RouteComponentProps & RouteParams>(
   RouteComponent: React.FC<Props>
 ): React.FC<Props> => {
-  return withUpdateStore(withTrackPageview(RouteComponent));
+  const WrappedRouteComponent: React.FC<Props> = (props) => {
+    const { tenantStore } = useDataStore();
+
+    const normalizedProps = normalizeRouteParams(props);
+
+    useEffect(
+      action("sync route params", () => {
+        tenantStore.currentTenantId = normalizedProps.tenantId;
+        tenantStore.currentNarrativeTypeId = normalizedProps.narrativeTypeId;
+      })
+    );
+
+    return (
+      <RouteComponent
+        {...props}
+        tenantId={normalizedProps.tenantId}
+        narrativeTypeId={normalizedProps.narrativeTypeId}
+      />
+    );
+  };
+
+  return WrappedRouteComponent;
 };
 
-export default withRouteSync;
+export default withUpdateStore;

@@ -24,7 +24,7 @@ import {
   fireEvent,
 } from "@testing-library/react";
 import testContent from "./contentApi/sources/us_nd";
-import { renderNavigableApp } from "./testUtils";
+import { renderNavigableApp, segmentMock } from "./testUtils";
 
 describe("navigation", () => {
   /**
@@ -135,5 +135,23 @@ describe("navigation", () => {
     expect(
       await screen.findByRole("heading", { name: "Spotlight", level: 1 })
     ).toBeInTheDocument();
+  });
+
+  test("pageview tracking", async () => {
+    segmentMock.page.mockReset();
+
+    const {
+      history: { navigate },
+    } = renderNavigableApp();
+
+    expect(segmentMock.page).toHaveBeenCalledTimes(1);
+
+    await act(() => navigate("/us-nd/collections/prison"));
+
+    expect(segmentMock.page).toHaveBeenCalledTimes(2);
+
+    // in-page navigation doesn't trigger additional pageviews
+    await act(() => navigate("/us-nd/collections/prison/2"));
+    expect(segmentMock.page).toHaveBeenCalledTimes(2);
   });
 });

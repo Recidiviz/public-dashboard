@@ -25,6 +25,9 @@ import "intersection-observer";
 import fetchMock from "jest-fetch-mock";
 import "jest-date-mock";
 import { configure } from "mobx";
+// this mocks global Segment object via side effect
+// (which seems to be the only way it works for some reason)
+import "./testUtils/segmentMock";
 
 // we want this mock to be available but disabled by default;
 // tests should default to doing real fetches against a /spotlight-api test server

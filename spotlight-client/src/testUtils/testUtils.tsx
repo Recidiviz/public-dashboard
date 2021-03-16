@@ -24,8 +24,8 @@ import { render, RenderResult } from "@testing-library/react";
 import React from "react";
 import { autorun } from "mobx";
 import waitForLocalhost from "wait-for-localhost";
-import App from "./App";
-import StoreProvider from "./StoreProvider";
+import App from "../App";
+import StoreProvider from "../StoreProvider";
 
 export function waitForTestServer(): Promise<void> {
   return waitForLocalhost({ path: "/health", port: 3002 });
