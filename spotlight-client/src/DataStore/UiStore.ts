@@ -59,4 +59,34 @@ export default class UiStore {
 
     return idParts.join("::");
   }
+
+  /**
+   * Constructs an appropriate string for the `title` tag,
+   * or returns undefined if the page is still loading and title cannot be determined yet
+   */
+  get currentPageTitle(): string | undefined {
+    const titleParts: string[] = [];
+
+    const { tenant, narrative } = this.rootStore;
+
+    if (tenant) {
+      titleParts.unshift(tenant.name);
+
+      if (narrative) {
+        titleParts.unshift(narrative.title);
+      }
+    }
+
+    if (!titleParts.length) {
+      // this is valid if we are on the site homepage;
+      // otherwise it is an intermediate state that should not leak into reactions
+      if (window.location.pathname !== "/") {
+        return undefined;
+      }
+    }
+
+    titleParts.push("Spotlight by Recidiviz");
+
+    return titleParts.join(" — ");
+  }
 }

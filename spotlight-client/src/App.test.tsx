@@ -137,17 +137,21 @@ describe("navigation", () => {
     ).toBeInTheDocument();
   });
 
-  test("pageview tracking", async () => {
+  test.only("pageview tracking", async () => {
     segmentMock.page.mockReset();
 
     const {
       history: { navigate },
     } = renderNavigableApp();
 
+    expect(document.title).toBe("Spotlight by Recidiviz");
     expect(segmentMock.page).toHaveBeenCalledTimes(1);
 
     await act(() => navigate("/us-nd/collections/prison"));
 
+    expect(document.title).toBe(
+      "Prison — North Dakota — Spotlight by Recidiviz"
+    );
     expect(segmentMock.page).toHaveBeenCalledTimes(2);
 
     // in-page navigation doesn't trigger additional pageviews

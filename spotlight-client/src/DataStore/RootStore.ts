@@ -51,7 +51,7 @@ export default class RootStore {
   userStore: UserStore;
 
   constructor() {
-    makeObservable(this, { tenant: computed });
+    makeObservable(this, { tenant: computed, narrative: computed });
 
     this.tenantStore = new TenantStore({ rootStore: this });
 
