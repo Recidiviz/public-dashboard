@@ -149,6 +149,8 @@ test("imputed data does not include the current month", async () => {
     );
 
     expect(currentMonthRecords?.length).toBe(0);
+
+    expect(metric.dataIncludesCurrentMonth).toBe(false);
   });
   expect.hasAssertions();
 });
@@ -166,6 +168,8 @@ test("imputed data includes current month", async () => {
     );
 
     expect(currentMonthRecords?.length).toBe(1);
+
+    expect(metric.dataIncludesCurrentMonth).toBe(true);
   });
   expect.hasAssertions();
 });

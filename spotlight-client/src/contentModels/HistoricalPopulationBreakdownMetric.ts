@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { ascending } from "d3-array";
-import { startOfMonth } from "date-fns";
+import { isSameDay, startOfMonth } from "date-fns";
 import { computed, makeObservable, observable, runInAction } from "mobx";
 import { DataSeries } from "../charts";
 import {
@@ -41,7 +41,7 @@ function dataIncludesCurrentMonth(
   records: HistoricalPopulationBreakdownRecord[]
 ) {
   const thisMonth = startOfMonth(new Date());
-  return records.some((record) => record.date === thisMonth);
+  return records.some((record) => isSameDay(record.date, thisMonth));
 }
 
 /**
