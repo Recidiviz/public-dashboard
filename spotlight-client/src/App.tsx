@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { RouteComponentProps, Router } from "@reach/router";
+import { Redirect, RouteComponentProps, Router } from "@reach/router";
 import { setup as setupBreakpoints } from "@w11r/use-breakpoint";
 import { rem } from "polished";
 import React from "react";
@@ -24,7 +24,6 @@ import styled from "styled-components/macro";
 import AuthWall from "./AuthWall";
 import { FOOTER_HEIGHT, NAV_BAR_HEIGHT } from "./constants";
 import GlobalStyles from "./GlobalStyles";
-import PageHome from "./PageHome";
 import PageNarrative from "./PageNarrative";
 import PageNotFound from "./PageNotFound";
 import PageTenant from "./PageTenant";
@@ -66,7 +65,8 @@ const App: React.FC = () => {
                 NOTE: every leaf route component in this router should be wrapped
                 by the withRouteSync higher-order component to keep data and UI in sync!
               */}
-              <PageHome path="/" />
+              {/* while there is only one state, home simply redirects to ND home */}
+              <Redirect from="/" to="/us-nd" noThrow />
               <PassThroughPage path="/:tenantId">
                 <PageTenant path="/" />
                 <PageNarrative

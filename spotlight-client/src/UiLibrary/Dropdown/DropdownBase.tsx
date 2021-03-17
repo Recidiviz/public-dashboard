@@ -134,7 +134,7 @@ const DropdownBase: React.FC<
         onMouseOut={() => setButtonHover(false)}
         onBlur={() => setButtonHover(false)}
       >
-        {buttonContents}
+        {buttonContents || <span aria-hidden>{label}</span>}
       </DropdownButton>
       {useFixedMenu ? (
         <FixedMenu {...menuProps} />

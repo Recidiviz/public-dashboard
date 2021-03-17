@@ -27,7 +27,7 @@ const Dropdown: React.FC<Assign<
   {
     options: (DropdownOption & { hidden?: boolean })[];
     onChange: (id: string) => void;
-    selectedId: string;
+    selectedId?: string;
   }
 >> = ({ selectedId, onChange, options, disabled, ...passThruProps }) => {
   const visibleOptions = options.filter(({ hidden }) => !hidden);

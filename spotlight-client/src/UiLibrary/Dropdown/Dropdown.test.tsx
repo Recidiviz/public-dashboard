@@ -163,5 +163,20 @@ describe.each([["mobile", true], ["desktop"]])(
 
       expect(menuButton).toHaveTextContent(hiddenOption.label);
     });
+
+    test("label visible in button contents if nothing is selected", () => {
+      render(
+        <Dropdown
+          label={testLabel}
+          options={testOptions}
+          onChange={mockOnChange}
+        />
+      );
+      const menuButton = screen.getByRole("button", {
+        name: testLabel,
+      });
+
+      expect(menuButton).toHaveTextContent(testLabel);
+    });
   }
 );
