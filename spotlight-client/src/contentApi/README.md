@@ -26,6 +26,7 @@ Variables reflect the currently selected racial/ethnic group unless otherwise sp
 
 - **ethnonym**: name of the selected racial/ethnic group, e.g., "people who are Native American".
 - **ethnonymCapitalized**: same but "People" is capitalized.
+- **supervisionType**: "supervision", "parole", or "probation", per supervision type filter
 - **likelihoodVsWhite**: for each group listed, the relative likelihood of its members being justice-involved compared to white people. Rounded to the nearest tenth.
   - **BLACK**
   - **HISPANIC**

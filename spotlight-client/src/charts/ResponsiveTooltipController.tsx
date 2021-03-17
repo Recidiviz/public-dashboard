@@ -16,7 +16,7 @@
 // =============================================================================
 
 import useBreakpoint from "@w11r/use-breakpoint";
-import isEmpty from "lodash.isempty";
+import isEmpty from "lodash/isEmpty";
 import { action, autorun } from "mobx";
 import React, { useEffect, useState } from "react";
 import { AnnotationType } from "semiotic/lib/types/annotationTypes";

@@ -168,8 +168,12 @@ type RacialDisparitiesSectionKey =
   | "supervision"
   | "conclusion";
 
+export type RacialDisparitiesSection = NarrativeSection & {
+  methodology: string;
+};
+
 export type RacialDisparitiesSections = {
-  [key in RacialDisparitiesSectionKey]?: NarrativeSection;
+  [key in RacialDisparitiesSectionKey]?: RacialDisparitiesSection;
 };
 
 /**
@@ -179,5 +183,6 @@ export type RacialDisparitiesSections = {
 export type RacialDisparitiesNarrativeContent = {
   chartLabels: RacialDisparitiesChartLabels;
   introduction: string;
+  introductionMethodology: string;
   sections: RacialDisparitiesSections;
 };

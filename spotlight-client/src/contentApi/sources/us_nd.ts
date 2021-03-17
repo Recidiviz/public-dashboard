@@ -33,9 +33,11 @@ const judicialDistricts = [
   { id: "OTHER", label: "Other" },
 ];
 
-const demographicsBoilerplate = `<p>${ageGroup} ${gender} ${raceOrEthnicity}
-The “Other” category includes Asian and Native Hawaiian or other Pacific Islander
-individuals due to low counts of these reported racial identities in North Dakota.</p>`;
+const raceOrEthnicityBoilerplate = `${raceOrEthnicity} The “Other” category includes Asian
+and Native Hawaiian or other Pacific Islander individuals due to low counts of these
+reported racial identities in North Dakota.`;
+
+const demographicsBoilerplate = `<p>${ageGroup} ${gender} ${raceOrEthnicityBoilerplate}</p>`;
 
 const sentencingBoilerplate = `<p>District selection filters the data to only individuals
 whose sentence was imposed by a judge from a particular judicial district. Individuals are
@@ -71,6 +73,12 @@ different state.</p>`;
 
 const paroleOfficerBoilerplate = `<p>The offices associated with this data indicate individuals
 who are being supervised by a parole officer stationed in that office.</p>`;
+
+const supervisionBoilerplate = `<p>This data may include some individuals on probation or parole in
+North Dakota as part of the interstate compact program, in which North Dakota agrees to supervise
+individuals who were charged and sentenced in a different state, but have a compelling reason to
+serve their supervision in North Dakota. Under the same program, individuals placed on supervision
+in a North Dakota court may occasionally complete their supervision in a different state.</p>`;
 
 const content: TenantContent = {
   name: "North Dakota",
@@ -543,7 +551,7 @@ const content: TenantContent = {
       incarceratedPopulation: "Overall prison population",
       otherGroups: "All other racial/ethnic groups",
       programmingParticipants: "Free Through Recovery active participants",
-      supervisionPopulation: "People subject to supervision",
+      supervisionPopulation: "All people under supervision",
       totalPopulationSentences: "All people sentenced and under DOCR control",
     },
     introduction: `<p>In North Dakota, people of color are overrepresented in prison,
@@ -551,6 +559,7 @@ const content: TenantContent = {
       <p>Black North Dakotans are {likelihoodVsWhite.BLACK} times as likely to be under DOCR control
       as their white counterparts, Latino North Dakotans are {likelihoodVsWhite.HISPANIC} times as
       likely, and Native American North Dakotans {likelihoodVsWhite.AMERICAN_INDIAN_ALASKAN_NATIVE} times.</p>`,
+    introductionMethodology: `${raceOrEthnicityBoilerplate} ${supervisionBoilerplate}`,
     sections: {
       beforeCorrections: {
         title: "Disparities are already present before incarceration",
@@ -565,6 +574,10 @@ const content: TenantContent = {
           <aside>1. This dashboard only focuses on data from DOCR at the moment, which is why
           disparities in arrests and charging aren’t shown. We’re working with colleagues across
           the state to show the entire criminal justice system end-to-end as this page evolves.</aside>`,
+        methodology: `The source of data for racial and ethnic proportions overall in
+          North Dakota is the US Census Bureau. The proportion under DOCR control is the percent of
+          individuals currently incarcerated or under community supervision of a given racial or
+          ethnic group.<p>${raceOrEthnicityBoilerplate}</p>${supervisionBoilerplate}`,
       },
       sentencing: {
         title: "How can sentencing impact disparities?",
@@ -577,6 +590,16 @@ const content: TenantContent = {
           a {sentencing.comparison} percentage serving incarceration sentences compared to the overall distribution of
           {sentencing.overall.incarcerationPctCurrent} serving incarceration sentences versus
           {sentencing.overall.probationPctCurrent} serving probation sentences.<p>`,
+        methodology: `Incarceration includes any sentence that begins with a period of incarceration in a
+          ND DOCR facility. Probation includes any sentence that begins with a period of probation under the
+          supervision of a ND DOCR probation officer.
+          <p>Of note, individuals’ current status (incarcerated or on supervision) may differ from their sentence
+          category (incarceration or probation). Individuals now on parole after being incarcerated are still counted
+          in the incarceration sentence category. Individuals who have had their probation revoked and are now in
+          prison are likewise included in the probation sentence category because their sentence was first to probation.</p>
+          <p>It is possible for an individual to be serving both an incarceration and probation sentence simultaneously.
+          For this reason, the sum of the percentage of individuals serving each type of sentence may be greater than 100%.</p>
+          <p>${raceOrEthnicityBoilerplate}</p>${supervisionBoilerplate}`,
       },
       releasesToParole: {
         title: "How can parole grant rates impact disparities?",
@@ -589,22 +612,51 @@ const content: TenantContent = {
           <p>In the last 3 years, {ethnonym} comprised {releasesToParole.paroleReleaseProportion36Mo} of
           the individuals released on parole. They made up {releasesToParole.prisonPopulationProportion36Mo}
           of the overall prison population during that time.</p>`,
+        methodology: `Individuals are counted as released to parole if they have been released from a period
+          of incarceration where parole is documented as the reason for release. This data calculates the percent
+          of the overall incarceration population and overall releases to parole over the last 3 years, or
+          36 months, who were of the selected racial or ethnic group.
+          <p>${raceOrEthnicityBoilerplate}</p>${supervisionBoilerplate}`,
       },
       supervision: {
         title: "How can community supervision impact disparities?",
         body: `<p>For individuals on probation (community supervision in lieu of a prison sentence) or on parole,
           failure can mean revocation: a process that removes people from community supervision and places them
           in prison.</p>
-          <p>{ethnonymCapitalized} represent {supervision.populationProportion36Mo} of the supervision
+          <p>{ethnonymCapitalized} represent {supervision.populationProportion36Mo} of the {supervisionType}
           population, but were {supervision.revocationProportion36Mo} of revocation admissions to prison in
           the last 3 years.</p>
           <p>Reasons for a revocation can vary: {ethnonym} are revoked {supervision.technicalProportion36Mo}
           of the time for technical violations (a rule of supervision, rather than a crime),
-          {supervision.absconsionProportion36Mo} of the time for absconsion from supervision, and
+          {supervision.absconsionProportion36Mo} of the time for absconsion from {supervisionType}, and
           {supervision.newCrimeProportion36Mo}  of the time for new crimes. In contrast, overall revocations
           for technical violations are {supervision.overall.technicalProportion36Mo}, revocations for absconsion
           {supervision.overall.absconsionProportion36Mo} and revocations for new crime
           {supervision.overall.newCrimeProportion36Mo}.</p>`,
+        methodology: `This data includes the overall supervision population and revocation admissions
+          over the last 3 years, or 36 months.
+          <p>Revocation admissions count people who were incarcerated in a DOCR facility because their supervision
+          was revoked. Revocations are included based on the date that the person was admitted to a DOCR facility
+          because their supervision was revoked, not the date of the supervision case closure or causal violation
+          or offense.</p>
+          <p>Revocation admissions are linked to supervision cases closed via revocation within 90 days of the
+          admission. Each individual is counted once, even if they had multiple violation reasons or revocation
+          proceedings from multiple supervision cases. When an individual does have multiple violation types leading
+          to revocation, only the most severe violation is displayed. New offenses are considered more severe than
+          absconsions, which are considered more severe than technical violations. Violations of “Unknown Type”
+          indicate individuals who were admitted to prison for a supervision revocation where the violation that
+          caused the revocation cannot yet be determined. Revocation admissions without a supervision case closed
+          via revocation in the 90 day window will always be considered of “Unknown Type”.</p>
+          <p>Individuals occasionally serve probation and parole sentences simultaneously. For revoked individuals in
+          this situation, their revocation admission is categorized as either a probation or a parole revocation,
+          depending on who authorized the revocation admission (the parole board for parole revocations or the
+          sentencing judge for probation revocations).</p>
+          <p>Combined supervision counts include the number of unique individuals who have been admitted to a DOCR
+          facility for a supervision revocation. If an individual has had their probation revoked multiple times
+          in the last 3 years, the most recent revocation is counted. If an individual has had both probation and
+          parole revoked within the last 3 years, they will appear in the counts for both supervision types when
+          broken out separately.</p>
+          <p>${raceOrEthnicityBoilerplate}</p>${supervisionBoilerplate}`,
       },
       programming: {
         title: "Can programming help reduce disparities?",
@@ -615,6 +667,7 @@ const content: TenantContent = {
           are {programming.participantProportionCurrent} of active participants in FTR, a {programming.comparison}
           representation compared to their overall {programming.supervisionProportionCurrent} of the current
           supervision population.</p>`,
+        methodology: `<p>${raceOrEthnicityBoilerplate}</p>${supervisionBoilerplate}`,
       },
       conclusion: {
         title:
@@ -631,6 +684,8 @@ const content: TenantContent = {
           </ul>
           <p>Finally, progress starts with transparency; this page helps North Dakota and those of us at the
           DOCR to continue work to reduce the disparities in our system and create an equitable justice system.</p></div>`,
+        // empty because there is no chart or data in this section
+        methodology: "",
       },
     },
   },

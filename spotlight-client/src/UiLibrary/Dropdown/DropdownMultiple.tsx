@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { useSelect } from "downshift";
-import xor from "lodash.xor";
+import xor from "lodash/xor";
 import { rem } from "polished";
 import React from "react";
 import { useSprings } from "react-spring/web.cjs";
