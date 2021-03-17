@@ -137,7 +137,7 @@ describe("navigation", () => {
     ).toBeInTheDocument();
   });
 
-  test.only("pageview tracking", async () => {
+  test("pageview tracking", async () => {
     segmentMock.page.mockReset();
 
     const {
