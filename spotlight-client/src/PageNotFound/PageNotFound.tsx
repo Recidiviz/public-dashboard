@@ -15,13 +15,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Link, RouteComponentProps } from "@reach/router";
+import { Link } from "@reach/router";
 import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
 import { breakpoints, CopyBlock, PageSection, PageTitle } from "../UiLibrary";
+import withRouteSync from "../withRouteSync";
 
-const Introduction = styled(PageSection)`
+const Wrapper = styled(PageSection)`
   margin: ${rem(48)} 0;
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
@@ -29,14 +30,16 @@ const Introduction = styled(PageSection)`
   }
 `;
 
-const PageNotFound: React.FC<RouteComponentProps> = () => (
-  <Introduction>
-    <PageTitle>Page not found.</PageTitle>
-    <CopyBlock>
-      <Link to="/">Return home,</Link> or use the navigation menu above to find
-      your destination.
-    </CopyBlock>
-  </Introduction>
-);
+const PageNotFound = (): React.ReactElement => {
+  return (
+    <Wrapper>
+      <PageTitle>Page not found.</PageTitle>
+      <CopyBlock>
+        <Link to="/">Return home,</Link> or use the navigation menu above to
+        find your destination.
+      </CopyBlock>
+    </Wrapper>
+  );
+};
 
-export default PageNotFound;
+export default withRouteSync(PageNotFound);

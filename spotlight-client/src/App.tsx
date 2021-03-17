@@ -73,9 +73,8 @@ const App: React.FC = () => {
                 <PageNarrative
                   path={`/${NarrativesSlug}/:narrativeTypeId/*sectionNumber`}
                 />
-                <PageNotFound default />
+                <PageNotFound path="/*" />
               </PassThroughPage>
-              <PageNotFound default />
             </Router>
             <ScrollManager />
             <PageviewTracker />
