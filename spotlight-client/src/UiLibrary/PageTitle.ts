@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,28 +15,19 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Link, RouteComponentProps } from "@reach/router";
 import { rem } from "polished";
-import React from "react";
 import styled from "styled-components/macro";
-import { breakpoints, CopyBlock, PageSection, PageTitle } from "../UiLibrary";
+import breakpoints from "./breakpoints";
+import { typefaces } from "./typography";
 
-const Introduction = styled(PageSection)`
-  margin: ${rem(48)} 0;
+export default styled.h1`
+  font-family: ${typefaces.display};
+  font-size: ${rem(32)};
+  letter-spacing: -0.04em;
+  line-height: 1.4;
+  margin-bottom: ${rem(32)};
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
-    margin: ${rem(160)} 0;
+    font-size: ${rem(52)};
   }
 `;
-
-const PageNotFound: React.FC<RouteComponentProps> = () => (
-  <Introduction>
-    <PageTitle>Page not found.</PageTitle>
-    <CopyBlock>
-      <Link to="/">Return home,</Link> or use the navigation menu above to find
-      your destination.
-    </CopyBlock>
-  </Introduction>
-);
-
-export default PageNotFound;

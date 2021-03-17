@@ -21,6 +21,7 @@ import breakpoints from "./breakpoints";
 import colors from "./colors";
 import CopyBlock from "./CopyBlock";
 import { FullScreenSection } from "./PageSection";
+import PageTitle from "./PageTitle";
 import { typefaces } from "./typography";
 
 export const NarrativeIntroContainer = styled(FullScreenSection)`
@@ -34,13 +35,7 @@ export const NarrativeIntroContainer = styled(FullScreenSection)`
   }
 `;
 
-export const NarrativeTitle = styled.h1`
-  font-family: ${typefaces.display};
-  font-size: ${rem(32)};
-  letter-spacing: -0.05em;
-  line-height: 1;
-  margin-bottom: ${rem(24)};
-
+export const NarrativeTitle = styled(PageTitle)`
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     font-size: ${rem(88)};
     margin-bottom: ${rem(64)};
