@@ -16,7 +16,9 @@
 // =============================================================================
 
 import { group } from "d3-array";
-import mapValues from "lodash.mapvalues";
+import flatten from "flat";
+import mapValues from "lodash/mapValues";
+import pick from "lodash/pick";
 import { makeAutoObservable, observable, runInAction } from "mobx";
 import { upperCaseFirst } from "upper-case-first";
 import { REVOCATION_TYPE_LABELS, SENTENCE_TYPE_LABELS } from "../constants";
@@ -24,6 +26,7 @@ import {
   RacialDisparitiesChartLabels,
   RacialDisparitiesNarrativeContent,
   RacialDisparitiesSections,
+  RacialDisparitiesSection,
   TenantId,
 } from "../contentApi/types";
 import { getDemographicCategories, RaceIdentifier } from "../demographics";
@@ -37,6 +40,7 @@ import {
 import { colors } from "../UiLibrary";
 import { formatAsPct } from "../utils";
 import calculatePct from "./calculatePct";
+import downloadData from "./downloadData";
 import { DemographicCategoryRecords } from "./types";
 
 const getCorrectionsRateCurrent = (record: RacialDisparitiesRecord) => {
@@ -76,7 +80,12 @@ type SentencingMetrics = {
   probationPctCurrent: number;
 };
 
-type SupervisionType = "parole" | "probation" | "supervision";
+export const SupervisionTypeList = [
+  "supervision",
+  "parole",
+  "probation",
+] as const;
+export type SupervisionType = typeof SupervisionTypeList[number];
 
 function getSentencingMetrics(
   record: RacialDisparitiesRecord
@@ -117,10 +126,13 @@ const comparePercentagesAsString = (subject: number, base: number) => {
   return "similar";
 };
 
-type SectionData = {
-  title: string;
-  body: string;
-};
+type SectionData =
+  | RacialDisparitiesSection
+  | (RacialDisparitiesSection & {
+      chartData: DemographicCategoryRecords[];
+      supervisionFilter?: boolean;
+      download: () => Promise<void>;
+    });
 
 export type TemplateVariables = {
   [key: string]: string | TemplateVariables;
@@ -151,16 +163,17 @@ export default class RacialDisparitiesNarrative {
 
   readonly introduction: string;
 
+  readonly introductionMethodology: string;
+
   readonly sectionText: RacialDisparitiesSections;
 
   readonly chartLabels: RacialDisparitiesChartLabels;
 
   readonly tenantId: TenantId;
 
-  private readonly focusColor = colors.dataViz[0];
+  private readonly focusColor = colors.dataVizNamed.blue;
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  private readonly unfocusedColor = colors.dataVizNamed.get("paleBlue")!;
+  private readonly unfocusedColor = colors.dataVizNamed.paleBlue;
 
   // API data
   isLoading?: boolean;
@@ -189,10 +202,12 @@ export default class RacialDisparitiesNarrative {
     this.supervisionType = defaultSupervisionType || "supervision";
     this.chartLabels = content.chartLabels;
     this.introduction = content.introduction;
+    this.introductionMethodology = content.introductionMethodology;
     this.sectionText = content.sections;
 
     makeAutoObservable<RacialDisparitiesNarrative, "records">(this, {
       records: observable.ref,
+      sectionText: false,
     });
   }
 
@@ -434,7 +449,7 @@ export default class RacialDisparitiesNarrative {
         (record) => record.label === selectedCategoryLabel
       );
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const focusedRecord = splitRecords.get(true)![0];
+      const focusedRecord = { ...splitRecords.get(true)![0] };
       focusedRecord.color = focusColor;
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const otherRecord = splitRecords.get(false)!.reduce(
@@ -585,7 +600,7 @@ export default class RacialDisparitiesNarrative {
     };
 
     const supervisionPopulation = {
-      label: chartLabels.incarceratedPopulation,
+      label: chartLabels.supervisionPopulation,
       records: calculatePct([
         {
           label: selectedCategoryLabel,
@@ -645,6 +660,7 @@ export default class RacialDisparitiesNarrative {
     const data: TemplateVariables = {
       ethnonym: this.ethnonym,
       ethnonymCapitalized: upperCaseFirst(this.ethnonym),
+      supervisionType: this.supervisionType,
     };
 
     if (this.likelihoodVsWhite) {
@@ -692,7 +708,7 @@ export default class RacialDisparitiesNarrative {
 
   get sections(): SectionData[] {
     const { sectionText } = this;
-    const sections = [];
+    const sections: SectionData[] = [];
     const {
       beforeCorrections,
       conclusion,
@@ -702,23 +718,99 @@ export default class RacialDisparitiesNarrative {
       sentencing,
     } = sectionText;
     if (beforeCorrections) {
-      sections.push(beforeCorrections);
+      sections.push({
+        ...beforeCorrections,
+        chartData: this.focusedPopulationDataSeries,
+        download: this.downloadPopulation,
+      });
     }
     if (sentencing) {
-      sections.push(sentencing);
+      sections.push({
+        ...sentencing,
+        chartData: this.sentencingDataSeries,
+        download: this.getDownloadFn({
+          name: "sentencing",
+          fieldsToInclude: [
+            "currentIncarcerationSentenceCount",
+            "currentProbationSentenceCount",
+            "currentDualSentenceCount",
+          ],
+        }),
+      });
     }
     if (releasesToParole) {
-      sections.push(releasesToParole);
+      sections.push({
+        ...releasesToParole,
+        chartData: this.paroleReleaseDataSeries,
+        download: this.getDownloadFn({
+          name: "parole grants",
+          fieldsToInclude: [
+            "parole.releaseCount36Mo",
+            "totalIncarceratedPopulation36Mo",
+          ],
+        }),
+      });
     }
     if (supervision) {
-      sections.push(supervision);
+      sections.push({
+        ...supervision,
+        chartData: this.revocationsDataSeries,
+        supervisionFilter: true,
+        download: this.getDownloadFn({
+          name: "supervision",
+          fieldsToInclude: ["parole", "probation", "supervision"],
+        }),
+      });
     }
     if (programming) {
-      sections.push(programming);
+      sections.push({
+        ...programming,
+        chartData: this.programmingDataSeries,
+        download: this.getDownloadFn({
+          name: "programming",
+          fieldsToInclude: [
+            "currentFtrParticipationCount",
+            "currentSupervisionPopulation",
+          ],
+        }),
+      });
     }
     if (conclusion) {
       sections.push(conclusion);
     }
     return sections;
+  }
+
+  private getDownloadFn({
+    name,
+    fieldsToInclude,
+  }: {
+    name: string;
+    fieldsToInclude: string[];
+  }) {
+    return (): Promise<void> =>
+      downloadData({
+        archiveName: `${this.tenantId} ${this.id} ${name}`,
+        readmeContents: this.introductionMethodology,
+        dataFiles: [
+          {
+            name: "data",
+            data: Object.values(
+              mapValues(this.records, (record) => {
+                return flatten<Partial<typeof record>, Record<string, unknown>>(
+                  pick(record, ["raceOrEthnicity", ...fieldsToInclude])
+                );
+              })
+            ),
+          },
+        ],
+      });
+  }
+
+  get downloadPopulation(): () => Promise<void> {
+    return this.getDownloadFn({
+      name: "population",
+      fieldsToInclude: ["totalStatePopulation", "currentTotalSentencedCount"],
+    });
   }
 }

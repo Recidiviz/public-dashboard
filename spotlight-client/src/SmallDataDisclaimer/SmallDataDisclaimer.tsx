@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,28 +15,28 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Link, RouteComponentProps } from "@reach/router";
+import { rem } from "polished";
 import React from "react";
-import { TenantIdList } from "../contentApi/types";
-import getUrlForResource from "../routerUtils/getUrlForResource";
-import withRouteSync from "../withRouteSync";
+import styled from "styled-components/macro";
+import { colors } from "../UiLibrary";
 
-const PageHome: React.FC<RouteComponentProps> = () => {
+const Wrapper = styled.div`
+  color: ${colors.caption};
+  font-size: ${rem(13)};
+  font-weight: 500;
+  line-height: 1.7;
+  margin-top: ${rem(40)};
+`;
+
+const SmallDataDisclaimer = (): React.ReactElement => {
   return (
-    <div>
-      <h1>Spotlight</h1>
-      <ul>
-        {TenantIdList.map((tenantId) => (
-          <li key={tenantId}>
-            <Link
-              to={getUrlForResource({ page: "tenant", params: { tenantId } })}
-            >
-              {tenantId}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Wrapper>
+      Please always take note of the number of people associated with each
+      proportion presented here; in cases where the counts are especially low,
+      the proportion may not be statistically significant and therefore not
+      indicative of long-term trends.
+    </Wrapper>
   );
 };
-export default withRouteSync(PageHome);
+
+export default SmallDataDisclaimer;

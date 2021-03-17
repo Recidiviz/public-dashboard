@@ -30,6 +30,7 @@ import NoMetricData from "../NoMetricData";
 import Statistic from "../Statistic";
 import { animation } from "../UiLibrary";
 import { formatAsPct } from "../utils";
+import SmallDataDisclaimer from "../SmallDataDisclaimer";
 
 const DEMOGRAPHICS_MARGIN = 56;
 
@@ -154,6 +155,7 @@ const VizSupervisionSuccessRate: React.FC<VizSupervisionSuccessRateProps> = ({
             </animated.div>
           )}
         </Measure>
+        <SmallDataDisclaimer />
       </>
     );
   }

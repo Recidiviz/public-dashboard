@@ -427,7 +427,7 @@ export default function createMetricMapping({
             localityLabels: undefined,
             dataTransformer: prisonStayLengths,
             sourceFileName: "incarceration_lengths_by_demographics",
-            color: colors.dataVizNamed.get("teal"),
+            color: colors.dataVizNamed.teal,
           })
         );
         break;

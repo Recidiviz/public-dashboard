@@ -16,7 +16,7 @@
 // =============================================================================
 
 import HTMLReactParser from "html-react-parser";
-import mapValues from "lodash.mapvalues";
+import mapValues from "lodash/mapValues";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import pupa from "pupa";
@@ -37,6 +37,15 @@ import {
   NarrativeTitle,
   wrapExpandedVariable,
 } from "../UiLibrary";
+import BarChartPair from "./BarChartPair";
+import RaceOrEthnicityFilterSelect from "./RaceOrEthnicityFilterSelect";
+import SupervisionTypeFilterSelect from "./SupervisionTypeFilterSelect";
+
+const IntroCopy = styled(NarrativeIntroCopy)`
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    margin-bottom: ${rem(112)};
+  }
+`;
 
 const CopyOnlySection = styled(FullScreenSection)`
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
@@ -94,39 +103,69 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
               {narrative.isLoading || narrative.isLoading === undefined ? (
                 <Loading />
               ) : (
-                <NarrativeIntroCopy>
+                <IntroCopy>
                   {HTMLReactParser(pupa(narrative.introduction, templateData))}
-                </NarrativeIntroCopy>
+                </IntroCopy>
+              )}
+              {narrative.populationDataSeries && (
+                <BarChartPair
+                  data={narrative.populationDataSeries}
+                  download={() => narrative.downloadPopulation()}
+                  filters={[]}
+                  methodology={narrative.introductionMethodology}
+                />
               )}
             </NarrativeIntroContainer>
           ),
         },
-        ...narrative.sections.slice(0, -1).map((section) => {
-          return {
-            title: section.title,
-            contents: (
-              <StickySection
-                leftContents={
-                  <>
-                    <NarrativeSectionTitle>
-                      {section.title}
-                    </NarrativeSectionTitle>
-                    {narrative.isLoading ||
-                    narrative.isLoading === undefined ? (
+        ...narrative.sections.map((section) => {
+          // all sections except the conclusion should look like this
+          if ("chartData" in section) {
+            return {
+              title: section.title,
+              contents: (
+                <StickySection
+                  leftContents={
+                    <>
+                      <NarrativeSectionTitle>
+                        {section.title}
+                      </NarrativeSectionTitle>
+                      {narrative.isLoading ||
+                      narrative.isLoading === undefined ? (
+                        <Loading />
+                      ) : (
+                        <NarrativeSectionBody>
+                          {HTMLReactParser(pupa(section.body, templateData))}
+                        </NarrativeSectionBody>
+                      )}
+                    </>
+                  }
+                  rightContents={
+                    narrative.isLoading ||
+                    narrative.isLoading === undefined ||
+                    !section.chartData ? (
                       <Loading />
                     ) : (
-                      <NarrativeSectionBody>
-                        {HTMLReactParser(pupa(section.body, templateData))}
-                      </NarrativeSectionBody>
-                    )}
-                  </>
-                }
-                rightContents={<div>Placeholder for chart</div>}
-              />
-            ),
-          };
-        }),
-        ...narrative.sections.slice(-1).map((section) => {
+                      <BarChartPair
+                        data={section.chartData}
+                        download={section.download}
+                        filters={[
+                          <RaceOrEthnicityFilterSelect narrative={narrative} />,
+                          section.supervisionFilter ? (
+                            <SupervisionTypeFilterSelect
+                              narrative={narrative}
+                            />
+                          ) : null,
+                        ]}
+                        methodology={section.methodology}
+                      />
+                    )
+                  }
+                />
+              ),
+            };
+          }
+          // without chart data we are copy-only in a multi-column layout
           return {
             title: section.title,
             contents: (

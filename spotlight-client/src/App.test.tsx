@@ -52,11 +52,10 @@ describe("navigation", () => {
     expect(screen.getByRole(...lookupArgs)).toBeInTheDocument();
   }
 
-  test("site home", () => {
+  test("site home redirects to ND", async () => {
     renderNavigableApp();
-    // This can be replaced with something more distinctive once the page is designed and built
     expect(
-      screen.getByRole("heading", { name: /spotlight/i, level: 1 })
+      await screen.findByRole("heading", { name: /North Dakota/, level: 1 })
     ).toBeVisible();
   });
 
@@ -97,15 +96,15 @@ describe("navigation", () => {
   });
 
   test("links", async () => {
-    const {
-      history: { navigate },
-    } = renderNavigableApp();
+    renderNavigableApp();
+
     const inNav = within(screen.getByRole("navigation"));
 
-    await act(() => navigate("/us-nd"));
     const homeLink = inNav.getByRole("link", { name: "Spotlight" });
     const tenantLink = inNav.getByRole("link", { name: "North Dakota" });
-    const sentencingLink = screen.getByRole("link", { name: "Sentencing" });
+    const sentencingLink = await screen.findByRole("link", {
+      name: "Sentencing",
+    });
 
     fireEvent.click(sentencingLink);
     expect(
@@ -132,8 +131,9 @@ describe("navigation", () => {
     ).toBeInTheDocument();
 
     fireEvent.click(homeLink);
+    // home redirect to ND
     expect(
-      await screen.findByRole("heading", { name: "Spotlight", level: 1 })
+      await screen.findByRole("heading", { name: /North Dakota/, level: 1 })
     ).toBeInTheDocument();
   });
 

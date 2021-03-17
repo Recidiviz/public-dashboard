@@ -88,7 +88,7 @@ const ageBucketCategories: AgeCategory[] = [
   { identifier: "25-29", label: "25-29" },
   { identifier: "30-34", label: "30-34" },
   { identifier: "35-39", label: "35-39" },
-  { identifier: "40<", label: "40<" },
+  { identifier: "40<", label: "40+" },
 ];
 
 export function getDemographicCategories(
