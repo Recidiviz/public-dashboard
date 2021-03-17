@@ -65,17 +65,17 @@ Object {
     },
     Object {
       "source": "Incarceration",
-      "target": "40<",
+      "target": "40+",
       "value": 337,
     },
     Object {
       "source": "Probation",
-      "target": "40<",
+      "target": "40+",
       "value": 1601,
     },
     Object {
       "source": "Both",
-      "target": "40<",
+      "target": "40+",
       "value": 416,
     },
   ],
@@ -104,7 +104,7 @@ Object {
       "id": "35-39",
     },
     Object {
-      "id": "40<",
+      "id": "40+",
     },
   ],
 }

@@ -30,6 +30,7 @@ import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
 import NoMetricData from "../NoMetricData";
+import SmallDataDisclaimer from "../SmallDataDisclaimer";
 import { animation } from "../UiLibrary";
 import FollowupPeriodFilterSelect from "./FollowupPeriodFilterSelect";
 
@@ -124,6 +125,7 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
                 ))}
               </ChartsWrapper>
             </animated.div>
+            <SmallDataDisclaimer />
           </>
         )}
       </Measure>

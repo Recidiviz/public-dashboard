@@ -29,6 +29,7 @@ import SentenceTypeChart, {
   CHART_BOTTOM_PADDING,
   CHART_HEIGHT,
 } from "./SentenceTypeChart";
+import SmallDataDisclaimer from "../SmallDataDisclaimer";
 
 const ChartWrapper = styled.div`
   /* px rather than rem for consistency with Semiotic */
@@ -76,6 +77,7 @@ const VizSentenceTypeByLocation: React.FC<VizSentenceTypeByLocationProps> = ({
               )
           )}
         </ChartWrapper>
+        <SmallDataDisclaimer />
       </>
     );
   }

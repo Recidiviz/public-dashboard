@@ -32,6 +32,7 @@ import MetricVizControls from "../MetricVizControls";
 import { prisonStayLengthFields } from "../metricsApi";
 import NoMetricData from "../NoMetricData";
 import { animation } from "../UiLibrary";
+import SmallDataDisclaimer from "../SmallDataDisclaimer";
 
 const ChartsWrapper = styled.div`
   position: relative;
@@ -122,6 +123,7 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
                 ))}
               </ChartsWrapper>
             </animated.div>
+            <SmallDataDisclaimer />
           </>
         )}
       </Measure>
