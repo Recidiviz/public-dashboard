@@ -22,6 +22,7 @@ import {
   ByRoleOptions,
   within,
   fireEvent,
+  waitFor,
 } from "@testing-library/react";
 import testContent from "./contentApi/sources/us_nd";
 import { renderNavigableApp, segmentMock } from "./testUtils";
@@ -164,5 +165,61 @@ describe("navigation", () => {
       "Sentencing — North Dakota — Spotlight by Recidiviz"
     );
     expect(segmentMock.page).toHaveBeenCalledTimes(3);
+  });
+
+  describe("invalid URLs", () => {
+    const notFoundRoleArgs = [
+      "heading",
+      { name: /page not found/i, level: 1 },
+    ] as [ByRoleMatcher, ByRoleOptions];
+
+    test("invalid tenant", async () => {
+      renderNavigableApp({ route: "/invalid" });
+
+      expect(screen.getByRole(...notFoundRoleArgs)).toBeVisible();
+      expect(document.title).toBe("Page not found — Spotlight by Recidiviz");
+
+      fireEvent.click(screen.getByRole("link", { name: "Spotlight" }));
+
+      await waitFor(() =>
+        expect(screen.queryByRole(...notFoundRoleArgs)).not.toBeInTheDocument()
+      );
+    });
+
+    test("valid tenant with invalid path", async () => {
+      renderNavigableApp({ route: "/us-nd/invalid" });
+      expect(screen.getByRole(...notFoundRoleArgs)).toBeVisible();
+      expect(document.title).toBe(
+        "Page not found — North Dakota — Spotlight by Recidiviz"
+      );
+
+      // navigation within the tenant should be available
+      expect(
+        screen.getByRole("button", { name: "Data Narratives" })
+      ).toBeVisible();
+      fireEvent.click(screen.getByRole("link", { name: "North Dakota" }));
+
+      await waitFor(() =>
+        expect(screen.queryByRole(...notFoundRoleArgs)).not.toBeInTheDocument()
+      );
+    });
+
+    test("invalid narrative", async () => {
+      renderNavigableApp({ route: "/us-nd/collections/invalid" });
+      expect(screen.getByRole(...notFoundRoleArgs)).toBeVisible();
+      expect(document.title).toBe(
+        "Page not found — North Dakota — Spotlight by Recidiviz"
+      );
+
+      // navigation within the tenant should be available
+      expect(
+        screen.getByRole("button", { name: "Data Narratives" })
+      ).toBeVisible();
+      fireEvent.click(screen.getByRole("link", { name: "North Dakota" }));
+
+      await waitFor(() =>
+        expect(screen.queryByRole(...notFoundRoleArgs)).not.toBeInTheDocument()
+      );
+    });
   });
 });

@@ -20,7 +20,6 @@ import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
 import { breakpoints, CopyBlock, PageSection, PageTitle } from "../UiLibrary";
-import withRouteSync from "../withRouteSync";
 
 const Wrapper = styled(PageSection)`
   margin: ${rem(48)} 0;
@@ -30,7 +29,7 @@ const Wrapper = styled(PageSection)`
   }
 `;
 
-const PageNotFound = (): React.ReactElement => {
+const NotFound = (): React.ReactElement => {
   return (
     <Wrapper>
       <PageTitle>Page not found.</PageTitle>
@@ -42,4 +41,4 @@ const PageNotFound = (): React.ReactElement => {
   );
 };
 
-export default withRouteSync(PageNotFound);
+export default NotFound;

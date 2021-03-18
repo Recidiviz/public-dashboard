@@ -17,13 +17,14 @@
 
 import assertNever from "assert-never";
 import { paramCase } from "change-case";
+import { DeepNonNullable } from "utility-types";
 import { NarrativesSlug, NormalizedRouteParams } from "./types";
 
 function makeRouteParam(param: string) {
   return paramCase(param);
 }
 
-type RequiredParams = Required<NormalizedRouteParams>;
+type RequiredParams = DeepNonNullable<NormalizedRouteParams>;
 
 type GetUrlOptions =
   | { page: "home" }

@@ -24,8 +24,8 @@ export type RouteParams = {
 };
 
 export type NormalizedRouteParams = {
-  tenantId?: TenantId;
-  narrativeTypeId?: NarrativeTypeId;
+  tenantId?: TenantId | null;
+  narrativeTypeId?: NarrativeTypeId | null;
 };
 
 export const NarrativesSlug = "collections";
