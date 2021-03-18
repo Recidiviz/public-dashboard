@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,13 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-/// <reference types="react-scripts" />
-/// <reference types="styled-components/cssprop" />
-
-import { SegmentAnalytics } from "@segment/analytics.js-core";
-
-declare global {
-  interface Window {
-    analytics: SegmentAnalytics.AnalyticsJS;
-  }
-}
+export { default } from "./PageviewTracker";

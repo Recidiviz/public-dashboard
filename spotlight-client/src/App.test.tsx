@@ -24,7 +24,7 @@ import {
   fireEvent,
 } from "@testing-library/react";
 import testContent from "./contentApi/sources/us_nd";
-import { renderNavigableApp } from "./testUtils";
+import { renderNavigableApp, segmentMock } from "./testUtils";
 
 describe("navigation", () => {
   /**
@@ -135,5 +135,34 @@ describe("navigation", () => {
     expect(
       await screen.findByRole("heading", { name: /North Dakota/, level: 1 })
     ).toBeInTheDocument();
+  });
+
+  test("pageview tracking", async () => {
+    segmentMock.page.mockReset();
+
+    const {
+      history: { navigate },
+    } = renderNavigableApp({ route: "/us-nd" });
+
+    expect(document.title).toBe("North Dakota — Spotlight by Recidiviz");
+    expect(segmentMock.page).toHaveBeenCalledTimes(1);
+
+    await act(() => navigate("/us-nd/collections/prison"));
+
+    expect(document.title).toBe(
+      "Prison — North Dakota — Spotlight by Recidiviz"
+    );
+    expect(segmentMock.page).toHaveBeenCalledTimes(2);
+
+    // in-page navigation doesn't trigger additional pageviews
+    await act(() => navigate("/us-nd/collections/prison/2"));
+    expect(segmentMock.page).toHaveBeenCalledTimes(2);
+
+    await act(() => navigate("/us-nd/collections/sentencing"));
+
+    expect(document.title).toBe(
+      "Sentencing — North Dakota — Spotlight by Recidiviz"
+    );
+    expect(segmentMock.page).toHaveBeenCalledTimes(3);
   });
 });

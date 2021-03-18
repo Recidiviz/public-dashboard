@@ -27,6 +27,7 @@ import GlobalStyles from "./GlobalStyles";
 import PageNarrative from "./PageNarrative";
 import PageNotFound from "./PageNotFound";
 import PageTenant from "./PageTenant";
+import PageviewTracker from "./PageviewTracker";
 import { NarrativesSlug } from "./routerUtils/types";
 import ScrollManager from "./ScrollManager";
 import SiteFooter from "./SiteFooter";
@@ -77,6 +78,7 @@ const App: React.FC = () => {
               <PageNotFound default />
             </Router>
             <ScrollManager />
+            <PageviewTracker />
           </Main>
           <SiteFooter />
           <TooltipMobile />
