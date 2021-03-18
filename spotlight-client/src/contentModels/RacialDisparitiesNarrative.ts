@@ -41,7 +41,7 @@ import { colors } from "../UiLibrary";
 import { formatAsPct } from "../utils";
 import calculatePct from "./calculatePct";
 import downloadData from "./downloadData";
-import { DemographicCategoryRecords } from "./types";
+import { DemographicCategoryRecords, Hydratable } from "./types";
 
 const getCorrectionsRateCurrent = (record: RacialDisparitiesRecord) => {
   return record.currentTotalSentencedCount / record.totalStatePopulation;
@@ -155,7 +155,7 @@ type ConstructorOpts = {
  * const narrative = RacialDisparitiesNarrative.build(props);
  * ```
  */
-export default class RacialDisparitiesNarrative {
+export default class RacialDisparitiesNarrative implements Hydratable {
   // metadata
   readonly id = "RacialDisparities";
 

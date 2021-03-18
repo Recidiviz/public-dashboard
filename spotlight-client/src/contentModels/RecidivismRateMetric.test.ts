@@ -42,7 +42,7 @@ function getTestMetric(id: MetricTypeId) {
 async function getPopulatedMetric(id: MetricTypeId) {
   const metric = getTestMetric(id);
 
-  metric.populateAllRecords();
+  metric.hydrate();
 
   await when(() => Boolean(metric.records));
 

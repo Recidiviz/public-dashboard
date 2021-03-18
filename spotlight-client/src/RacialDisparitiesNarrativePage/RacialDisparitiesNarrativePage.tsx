@@ -25,7 +25,7 @@ import styled from "styled-components/macro";
 import RacialDisparitiesNarrative, {
   TemplateVariables,
 } from "../contentModels/RacialDisparitiesNarrative";
-import Loading from "../Loading";
+import ModelHydrator from "../ModelHydrator";
 import { NarrativeLayout, StickySection } from "../NarrativeLayout";
 import {
   breakpoints,
@@ -100,85 +100,73 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
           contents: (
             <NarrativeIntroContainer>
               <NarrativeTitle>{narrative.title}</NarrativeTitle>
-              {narrative.isLoading || narrative.isLoading === undefined ? (
-                <Loading />
-              ) : (
-                <IntroCopy>
-                  {HTMLReactParser(pupa(narrative.introduction, templateData))}
-                </IntroCopy>
-              )}
-              {narrative.populationDataSeries && (
-                <BarChartPair
-                  data={narrative.populationDataSeries}
-                  download={() => narrative.downloadPopulation()}
-                  filters={[]}
-                  methodology={narrative.introductionMethodology}
-                />
-              )}
+              <ModelHydrator model={narrative}>
+                <>
+                  <IntroCopy>
+                    {HTMLReactParser(
+                      pupa(narrative.introduction, templateData)
+                    )}
+                  </IntroCopy>
+                  {narrative.populationDataSeries && (
+                    <BarChartPair
+                      data={narrative.populationDataSeries}
+                      download={() => narrative.downloadPopulation()}
+                      filters={[]}
+                      methodology={narrative.introductionMethodology}
+                    />
+                  )}
+                </>
+              </ModelHydrator>
             </NarrativeIntroContainer>
           ),
         },
         ...narrative.sections.map((section) => {
+          let contents;
+
           // all sections except the conclusion should look like this
           if ("chartData" in section) {
-            return {
-              title: section.title,
-              contents: (
-                <StickySection
-                  leftContents={
-                    <>
-                      <NarrativeSectionTitle>
-                        {section.title}
-                      </NarrativeSectionTitle>
-                      {narrative.isLoading ||
-                      narrative.isLoading === undefined ? (
-                        <Loading />
-                      ) : (
-                        <NarrativeSectionBody>
-                          {HTMLReactParser(pupa(section.body, templateData))}
-                        </NarrativeSectionBody>
-                      )}
-                    </>
-                  }
-                  rightContents={
-                    narrative.isLoading ||
-                    narrative.isLoading === undefined ||
-                    !section.chartData ? (
-                      <Loading />
-                    ) : (
-                      <BarChartPair
-                        data={section.chartData}
-                        download={section.download}
-                        filters={[
-                          <RaceOrEthnicityFilterSelect narrative={narrative} />,
-                          section.supervisionFilter ? (
-                            <SupervisionTypeFilterSelect
-                              narrative={narrative}
-                            />
-                          ) : null,
-                        ]}
-                        methodology={section.methodology}
-                      />
-                    )
-                  }
-                />
-              ),
-            };
-          }
-          // without chart data we are copy-only in a multi-column layout
-          return {
-            title: section.title,
-            contents: (
+            contents = (
+              <StickySection
+                leftContents={
+                  <>
+                    <NarrativeSectionTitle>
+                      {section.title}
+                    </NarrativeSectionTitle>
+                    <NarrativeSectionBody>
+                      {HTMLReactParser(pupa(section.body, templateData))}
+                    </NarrativeSectionBody>
+                  </>
+                }
+                rightContents={
+                  <BarChartPair
+                    data={section.chartData}
+                    download={section.download}
+                    filters={[
+                      <RaceOrEthnicityFilterSelect narrative={narrative} />,
+                      section.supervisionFilter ? (
+                        <SupervisionTypeFilterSelect narrative={narrative} />
+                      ) : null,
+                    ]}
+                    methodology={section.methodology}
+                  />
+                }
+              />
+            );
+          } else {
+            contents = (
               <CopyOnlySection>
                 <SectionColumns>
                   <NarrativeSectionTitle>{section.title}</NarrativeSectionTitle>
-                  {narrative.isLoading || narrative.isLoading === undefined ? (
-                    <Loading />
-                  ) : (
-                    HTMLReactParser(pupa(section.body, templateData))
-                  )}
+                  {HTMLReactParser(pupa(section.body, templateData))}
                 </SectionColumns>
               </CopyOnlySection>
+            );
+          }
+
+          return {
+            title: section.title,
+            contents: (
+              <ModelHydrator model={narrative}>{contents}</ModelHydrator>
             ),
           };
         }),

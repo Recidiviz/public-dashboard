@@ -61,7 +61,7 @@ function getTestMetric() {
 async function getPopulatedMetric() {
   const metric = getTestMetric();
 
-  metric.populateAllRecords();
+  metric.hydrate();
 
   await when(() => !metric.isLoading && metric.error === undefined);
 

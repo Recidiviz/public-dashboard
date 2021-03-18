@@ -34,6 +34,17 @@ import type SystemNarrative from "./SystemNarrative";
 import type Metric from "./Metric";
 import type RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
 
+/**
+ * Describes the hydration state and mechanism,
+ * but not what the hydrated object will look like
+ * (because it may vary by model)
+ */
+export interface Hydratable {
+  isLoading?: boolean;
+  error?: Error;
+  hydrate: () => void;
+}
+
 // =======================================
 // Collection types
 // =======================================

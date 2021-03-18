@@ -35,11 +35,17 @@ test("renders all the sections", () => {
     screen.getByRole("heading", { name: "Racial Disparities", level: 1 })
   ).toBeVisible();
 
-  Object.values(narrativeContent.sections).forEach((section) => {
-    expect(
-      screen.getByRole("heading", { name: section.title })
-    ).toBeInTheDocument();
-  });
+  return Promise.all(
+    Object.values(narrativeContent.sections).map(async (section) => {
+      expect(
+        await screen.findByRole("heading", {
+          name: section.title,
+          // include hidden because of crossfade animation
+          hidden: true,
+        })
+      ).toBeInTheDocument();
+    })
+  );
 });
 
 test("renders dynamic text", async () => {
@@ -54,7 +60,7 @@ test("renders dynamic text", async () => {
         normalizeContents(element.textContent || "") ===
         "introduction 81.0 26.9 23.1"
     )
-  ).toBeVisible();
+  ).toBeInTheDocument();
 
   expect(
     screen.getByText(
@@ -62,7 +68,7 @@ test("renders dynamic text", async () => {
         normalizeContents(element.textContent || "") ===
         "beforeCorrections body People who are Black 1% 18%"
     )
-  ).toBeVisible();
+  ).toBeInTheDocument();
 
   expect(
     screen.getByText(
@@ -70,7 +76,7 @@ test("renders dynamic text", async () => {
         normalizeContents(element.textContent || "") ===
         "sentencing body people who are Black 66% 36% 47% 56% greater"
     )
-  ).toBeVisible();
+  ).toBeInTheDocument();
 
   expect(
     screen.getByText(
@@ -78,7 +84,7 @@ test("renders dynamic text", async () => {
         normalizeContents(element.textContent || "") ===
         "supervision body supervision 33% 47% 16% 19% 25% 27% 34% 35%"
     )
-  ).toBeVisible();
+  ).toBeInTheDocument();
 
   expect(
     screen.getByText(
@@ -86,7 +92,7 @@ test("renders dynamic text", async () => {
         normalizeContents(element.textContent || "") ===
         "releasesToParole body 33% 8%"
     )
-  ).toBeVisible();
+  ).toBeInTheDocument();
 
   expect(
     screen.getByText(
@@ -94,7 +100,7 @@ test("renders dynamic text", async () => {
         normalizeContents(element.textContent || "") ===
         "programming body 21% 11% greater"
     )
-  ).toBeVisible();
+  ).toBeInTheDocument();
 });
 
 test("renders charts", async () => {

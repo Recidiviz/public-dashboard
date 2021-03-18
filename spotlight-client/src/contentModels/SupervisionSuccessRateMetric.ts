@@ -108,7 +108,7 @@ export default class SupervisionSuccessRateMetric extends Metric<
    */
   getOrFetchCohortRecords(): SupervisionSuccessRateMonthlyRecord[] | undefined {
     if (this.allCohortRecords) return this.allCohortRecords;
-    if (!this.isLoading || !this.error) this.populateAllRecords();
+    if (!this.isLoading || !this.error) this.hydrate();
     return undefined;
   }
 
@@ -119,7 +119,7 @@ export default class SupervisionSuccessRateMetric extends Metric<
     | SupervisionSuccessRateDemographicsRecord[]
     | undefined {
     if (this.allDemographicRecords) return this.allDemographicRecords;
-    if (!this.isLoading || !this.error) this.populateAllRecords();
+    if (!this.isLoading || !this.error) this.hydrate();
     return undefined;
   }
 
@@ -183,7 +183,7 @@ export default class SupervisionSuccessRateMetric extends Metric<
   /**
    * Fetches data from both sources and stores the results reactively.
    */
-  async populateAllRecords(): Promise<void> {
+  async hydrate(): Promise<void> {
     this.isLoading = true;
     try {
       const [cohortData, demographicData] = await Promise.all([

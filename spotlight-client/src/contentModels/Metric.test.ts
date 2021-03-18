@@ -96,7 +96,7 @@ describe("data fetching", () => {
     expect.hasAssertions();
     const metric = getTestMetric(metricId);
 
-    metric.populateAllRecords();
+    metric.hydrate();
 
     when(
       () => metric.records !== undefined,
@@ -128,7 +128,7 @@ test("file loading state", (done) => {
     () => {
       expect(metric.records).toBeUndefined();
       // the fetch is initiated here; this will trigger the reactions below
-      dataPromise = fromPromise(metric.populateAllRecords());
+      dataPromise = fromPromise(metric.hydrate());
     }
   );
 
@@ -165,7 +165,7 @@ test("fetch error state", async () => {
     status: 500,
   });
 
-  await metric.populateAllRecords();
+  await metric.hydrate();
 
   reactImmediately(() => {
     expect(metric.error?.message).toBe(
@@ -204,7 +204,7 @@ describe("data download", () => {
     )
   )("for metric %s", async (metricId, done) => {
     const metric = getTestMetric(metricId);
-    metric.populateAllRecords();
+    metric.hydrate();
 
     await metric.download();
 
