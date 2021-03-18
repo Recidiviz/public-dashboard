@@ -142,9 +142,9 @@ describe("navigation", () => {
 
     const {
       history: { navigate },
-    } = renderNavigableApp();
+    } = renderNavigableApp({ route: "/us-nd" });
 
-    expect(document.title).toBe("Spotlight by Recidiviz");
+    expect(document.title).toBe("North Dakota — Spotlight by Recidiviz");
     expect(segmentMock.page).toHaveBeenCalledTimes(1);
 
     await act(() => navigate("/us-nd/collections/prison"));
