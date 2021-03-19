@@ -22,7 +22,6 @@ import { rem } from "polished";
 import pupa from "pupa";
 import React from "react";
 import styled from "styled-components/macro";
-import { NAV_BAR_HEIGHT } from "../constants";
 import RacialDisparitiesNarrative, {
   TemplateVariables,
 } from "../contentModels/RacialDisparitiesNarrative";
