@@ -17,13 +17,14 @@
 
 import React from "react";
 import { FallbackProps } from "react-error-boundary";
+import { CopyBlock, PageSection, PageTitle } from "../UiLibrary";
 
 const ErrorMessage: React.FC<FallbackProps> = ({ error }) => {
   return (
-    <div>
-      <h1>An error has occurred.</h1>
-      <p>{error?.message}</p>
-    </div>
+    <PageSection>
+      <PageTitle>An error has occurred.</PageTitle>
+      <CopyBlock>{error?.message}</CopyBlock>
+    </PageSection>
   );
 };
 
