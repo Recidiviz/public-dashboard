@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { screen, waitFor, within } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import { runInAction, when } from "mobx";
 import React from "react";
 import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
