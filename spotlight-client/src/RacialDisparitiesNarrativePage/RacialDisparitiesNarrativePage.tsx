@@ -22,6 +22,7 @@ import { rem } from "polished";
 import pupa from "pupa";
 import React from "react";
 import styled from "styled-components/macro";
+import { NAV_BAR_HEIGHT } from "../constants";
 import RacialDisparitiesNarrative, {
   TemplateVariables,
 } from "../contentModels/RacialDisparitiesNarrative";
@@ -40,6 +41,10 @@ import {
 import BarChartPair from "./BarChartPair";
 import RaceOrEthnicityFilterSelect from "./RaceOrEthnicityFilterSelect";
 import SupervisionTypeFilterSelect from "./SupervisionTypeFilterSelect";
+
+const Wrapper = styled.div`
+  min-height: 100vh;
+`;
 
 const IntroCopy = styled(NarrativeIntroCopy)`
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
@@ -93,85 +98,89 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
   const templateData = wrapDynamicText(narrative.templateData);
 
   return (
-    <NarrativeLayout
-      sections={[
-        {
-          title: narrative.title,
-          contents: (
-            <NarrativeIntroContainer>
-              <NarrativeTitle>{narrative.title}</NarrativeTitle>
-              <ModelHydrator model={narrative}>
-                <>
-                  <IntroCopy>
-                    {HTMLReactParser(
-                      pupa(narrative.introduction, templateData)
-                    )}
-                  </IntroCopy>
-                  {narrative.populationDataSeries && (
-                    <BarChartPair
-                      data={narrative.populationDataSeries}
-                      download={() => narrative.downloadPopulation()}
-                      filters={[]}
-                      methodology={narrative.introductionMethodology}
-                    />
-                  )}
-                </>
-              </ModelHydrator>
-            </NarrativeIntroContainer>
-          ),
-        },
-        ...narrative.sections.map((section) => {
-          let contents;
-
-          // all sections except the conclusion should look like this
-          if ("chartData" in section) {
-            contents = (
-              <StickySection
-                leftContents={
+    <Wrapper>
+      <ModelHydrator model={narrative}>
+        <NarrativeLayout
+          sections={[
+            {
+              title: narrative.title,
+              contents: (
+                <NarrativeIntroContainer>
+                  <NarrativeTitle>{narrative.title}</NarrativeTitle>
                   <>
-                    <NarrativeSectionTitle>
-                      {section.title}
-                    </NarrativeSectionTitle>
-                    <NarrativeSectionBody>
-                      {HTMLReactParser(pupa(section.body, templateData))}
-                    </NarrativeSectionBody>
+                    <IntroCopy>
+                      {HTMLReactParser(
+                        pupa(narrative.introduction, templateData)
+                      )}
+                    </IntroCopy>
+                    {narrative.populationDataSeries && (
+                      <BarChartPair
+                        data={narrative.populationDataSeries}
+                        download={() => narrative.downloadPopulation()}
+                        filters={[]}
+                        methodology={narrative.introductionMethodology}
+                      />
+                    )}
                   </>
-                }
-                rightContents={
-                  <BarChartPair
-                    data={section.chartData}
-                    download={section.download}
-                    filters={[
-                      <RaceOrEthnicityFilterSelect narrative={narrative} />,
-                      section.supervisionFilter ? (
-                        <SupervisionTypeFilterSelect narrative={narrative} />
-                      ) : null,
-                    ]}
-                    methodology={section.methodology}
-                  />
-                }
-              />
-            );
-          } else {
-            contents = (
-              <CopyOnlySection>
-                <SectionColumns>
-                  <NarrativeSectionTitle>{section.title}</NarrativeSectionTitle>
-                  {HTMLReactParser(pupa(section.body, templateData))}
-                </SectionColumns>
-              </CopyOnlySection>
-            );
-          }
+                </NarrativeIntroContainer>
+              ),
+            },
+            ...narrative.sections.map((section) => {
+              let contents;
 
-          return {
-            title: section.title,
-            contents: (
-              <ModelHydrator model={narrative}>{contents}</ModelHydrator>
-            ),
-          };
-        }),
-      ]}
-    />
+              // all sections except the conclusion should look like this
+              if ("chartData" in section) {
+                contents = (
+                  <StickySection
+                    leftContents={
+                      <>
+                        <NarrativeSectionTitle>
+                          {section.title}
+                        </NarrativeSectionTitle>
+                        <NarrativeSectionBody>
+                          {HTMLReactParser(pupa(section.body, templateData))}
+                        </NarrativeSectionBody>
+                      </>
+                    }
+                    rightContents={
+                      <BarChartPair
+                        data={section.chartData}
+                        download={section.download}
+                        filters={[
+                          <RaceOrEthnicityFilterSelect narrative={narrative} />,
+                          section.supervisionFilter ? (
+                            <SupervisionTypeFilterSelect
+                              narrative={narrative}
+                            />
+                          ) : null,
+                        ]}
+                        methodology={section.methodology}
+                      />
+                    }
+                  />
+                );
+              } else {
+                contents = (
+                  <CopyOnlySection>
+                    <SectionColumns>
+                      <NarrativeSectionTitle>
+                        {section.title}
+                      </NarrativeSectionTitle>
+                      {HTMLReactParser(pupa(section.body, templateData))}
+                    </SectionColumns>
+                  </CopyOnlySection>
+                );
+              }
+
+              return {
+                title: section.title,
+                contents,
+              };
+            }),
+          ]}
+        />
+      </ModelHydrator>
+    </Wrapper>
   );
 };
 

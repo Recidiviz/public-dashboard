@@ -17,26 +17,42 @@
 
 import { autorun } from "mobx";
 import { observer } from "mobx-react-lite";
-import React, { useEffect, useState } from "react";
+import { rem } from "polished";
+import React, { useEffect } from "react";
 import { animated, useTransition } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { Hydratable } from "../contentModels/types";
 import Loading from "../Loading";
 import { animation } from "../UiLibrary";
+import HydrationError from "./HydrationError";
 
 const Wrapper = styled.div`
   position: relative;
 `;
 
-const LoadingWrapper = styled(animated.div)`
+const StatusWrapper = styled(animated.div)`
   align-items: center;
   display: flex;
   height: 100%;
   justify-content: center;
+  padding: ${rem(32)};
   width: 100%;
 `;
 
-type ModelHydrator = {
+/**
+ * Creates an atomic status variable for transitions
+ */
+function getHydrationStatus(model: Hydratable): "pending" | "error" | "done" {
+  if (model.isLoading || model.isLoading === undefined) {
+    return "pending";
+  }
+  if (model.error) {
+    return "error";
+  }
+  return "done";
+}
+
+type ModelHydratorProps = {
   children: React.ReactElement;
   model: Hydratable;
 };
@@ -49,38 +65,46 @@ type ModelHydrator = {
 const ModelHydrator = ({
   children,
   model,
-}: ModelHydrator): React.ReactElement => {
-  const [isLoading, setIsLoading] = useState(model.isLoading);
-
+}: ModelHydratorProps): React.ReactElement => {
   useEffect(
     autorun(() => {
       if (model.isLoading === undefined) {
         model.hydrate();
       }
-      if (isLoading !== model.isLoading) {
-        setIsLoading(model.isLoading);
-      }
     })
   );
 
-  const transitions = useTransition(isLoading, null, animation.crossFade);
+  const transitions = useTransition(
+    getHydrationStatus(model),
+    null,
+    animation.crossFade
+  );
 
   return (
     <Wrapper>
-      {transitions.map(({ item: showLoading, key, props }) => {
-        if (showLoading || showLoading === undefined) {
-          return (
-            <LoadingWrapper key={key} style={{ ...props, width: "100%" }}>
-              <Loading />
-            </LoadingWrapper>
-          );
+      {transitions.map(({ item, key, props }) => {
+        switch (item) {
+          case "pending":
+            return (
+              <StatusWrapper key={key} style={props}>
+                <Loading />
+              </StatusWrapper>
+            );
+          case "error":
+            return (
+              <StatusWrapper key={key} style={props}>
+                <HydrationError />
+              </StatusWrapper>
+            );
+          case "done":
+            return (
+              <animated.div key={key} style={props}>
+                {children}
+              </animated.div>
+            );
+          default:
+            return null;
         }
-
-        return (
-          <animated.div key={key} style={props}>
-            {children}
-          </animated.div>
-        );
       })}
     </Wrapper>
   );

@@ -30,10 +30,10 @@ beforeEach(() => {
   });
 });
 
-test("renders all the sections", () => {
+test("renders all the sections", async () => {
   expect(
-    screen.getByRole("heading", { name: "Racial Disparities", level: 1 })
-  ).toBeVisible();
+    await screen.findByRole("heading", { name: "Racial Disparities", level: 1 })
+  ).toBeInTheDocument();
 
   return Promise.all(
     Object.values(narrativeContent.sections).map(async (section) => {
