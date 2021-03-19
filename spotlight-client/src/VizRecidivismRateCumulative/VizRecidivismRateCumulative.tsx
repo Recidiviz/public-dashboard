@@ -26,9 +26,9 @@ import RateTrend, {
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
-import NoMetricData from "../NoMetricData";
 import SmallDataDisclaimer from "../SmallDataDisclaimer";
 import { animation } from "../UiLibrary";
+import withMetricHydrator from "../withMetricHydrator";
 import CohortFilterSelect from "./CohortFilterSelect";
 
 const ChartWrapper = styled.div`
@@ -96,7 +96,7 @@ const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = 
     );
   }
 
-  return <NoMetricData metric={metric} />;
+  return null;
 };
 
-export default observer(VizRecidivismRateCumulative);
+export default withMetricHydrator(observer(VizRecidivismRateCumulative));

@@ -45,7 +45,7 @@ export default class DemographicsByCategoryMetric extends Metric<
   }
 
   get records(): DemographicsByCategoryRecord[] | undefined {
-    let recordsToReturn = this.getOrFetchRecords();
+    let recordsToReturn = this.allRecords;
     if (!recordsToReturn) return undefined;
 
     recordsToReturn = recordsToReturn.filter(

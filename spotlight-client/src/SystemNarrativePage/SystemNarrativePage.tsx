@@ -29,7 +29,6 @@ import {
 } from "../UiLibrary";
 import { NarrativeLayout, StickySection } from "../NarrativeLayout";
 import MetricVizMapper from "../MetricVizMapper";
-import ModelHydrator from "../ModelHydrator";
 
 const SystemNarrativePage: React.FC<{
   narrative: SystemNarrative;
@@ -68,11 +67,7 @@ const SystemNarrativePage: React.FC<{
                     </NarrativeSectionBody>
                   </>
                 }
-                rightContents={
-                  <ModelHydrator model={section.metric}>
-                    <MetricVizMapper metric={section.metric} />
-                  </ModelHydrator>
-                }
+                rightContents={<MetricVizMapper metric={section.metric} />}
               />
             ),
           };

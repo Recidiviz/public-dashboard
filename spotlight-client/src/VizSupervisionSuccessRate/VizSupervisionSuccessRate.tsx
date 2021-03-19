@@ -26,11 +26,11 @@ import SupervisionSuccessRateMetric from "../contentModels/SupervisionSuccessRat
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
 import LocalityFilterSelect from "../LocalityFilterSelect";
-import NoMetricData from "../NoMetricData";
 import Statistic from "../Statistic";
 import { animation } from "../UiLibrary";
 import { formatAsPct } from "../utils";
 import SmallDataDisclaimer from "../SmallDataDisclaimer";
+import withMetricHydrator from "../withMetricHydrator";
 
 const DEMOGRAPHICS_MARGIN = 56;
 
@@ -160,7 +160,7 @@ const VizSupervisionSuccessRate: React.FC<VizSupervisionSuccessRateProps> = ({
     );
   }
 
-  return <NoMetricData metric={metric} />;
+  return null;
 };
 
-export default observer(VizSupervisionSuccessRate);
+export default withMetricHydrator(observer(VizSupervisionSuccessRate));

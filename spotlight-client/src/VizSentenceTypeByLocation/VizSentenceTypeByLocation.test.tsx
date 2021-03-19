@@ -38,31 +38,31 @@ async function verifySankey(categories: string[], labels: string[]) {
   const chart = screen.getByRole("figure");
 
   labels.forEach((label) => {
-    expect(within(chart).getByText(label)).toBeVisible();
+    expect(within(chart).getByText(label)).toBeInTheDocument();
   });
 
   const nodes = within(chart).getByRole("group", { name: "nodes" });
-  expect(nodes).toBeVisible();
+  expect(nodes).toBeInTheDocument();
 
   const edges = within(chart).getByRole("group", { name: "edges" });
-  expect(edges).toBeVisible();
+  expect(edges).toBeInTheDocument();
 
   sentenceTypes.forEach((sentenceType) => {
     expect(
       // these are the only Semiotic labels we have to work with here
       within(nodes).getByRole("img", { name: `Node ${sentenceType}` })
-    ).toBeVisible();
+    ).toBeInTheDocument();
     // label
-    expect(within(chart).getByText(sentenceType)).toBeVisible();
+    expect(within(chart).getByText(sentenceType)).toBeInTheDocument();
 
     categories.forEach((category) => {
       expect(
         within(edges).getByRole("img", {
           name: `connection from ${sentenceType} to ${category}`,
         })
-      ).toBeVisible();
+      ).toBeInTheDocument();
       // label
-      expect(within(chart).getByText(category)).toBeVisible();
+      expect(within(chart).getByText(category)).toBeInTheDocument();
     });
   });
   // unfortunately there isn't really any sensible way to inspect the size of nodes within JSDOM
@@ -93,7 +93,7 @@ afterEach(() => {
 
 test("loading", () => {
   renderWithStore(<VizSentenceTypeByLocation metric={metric} />);
-  expect(screen.getByText(/loading/i)).toBeVisible();
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
 test("total chart", async () => {

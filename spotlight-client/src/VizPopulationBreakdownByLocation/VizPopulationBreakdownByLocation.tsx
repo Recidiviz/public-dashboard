@@ -23,10 +23,10 @@ import { ProportionalBar } from "../charts";
 import PopulationBreakdownByLocationMetric from "../contentModels/PopulationBreakdownByLocationMetric";
 import MetricVizControls from "../MetricVizControls";
 import LocalityFilterSelect from "../LocalityFilterSelect";
-import NoMetricData from "../NoMetricData";
 import Statistic from "../Statistic";
 import { formatAsNumber } from "../utils";
 import SmallDataDisclaimer from "../SmallDataDisclaimer";
+import withMetricHydrator from "../withMetricHydrator";
 
 const ChartWrapper = styled.div`
   margin-bottom: ${rem(16)};
@@ -70,7 +70,7 @@ const VizPopulationBreakdownByLocation: React.FC<VizPopulationBreakdownByLocatio
     );
   }
 
-  return <NoMetricData metric={metric} />;
+  return null;
 };
 
-export default observer(VizPopulationBreakdownByLocation);
+export default withMetricHydrator(observer(VizPopulationBreakdownByLocation));

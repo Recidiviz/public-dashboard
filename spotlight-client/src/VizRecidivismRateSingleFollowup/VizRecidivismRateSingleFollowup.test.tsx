@@ -66,7 +66,7 @@ afterEach(() => {
 
 test("loading", () => {
   renderWithStore(<VizRecidivismRateSingleFollowup metric={metric} />);
-  expect(screen.getByText(/loading/i)).toBeVisible();
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
 test("total chart", async () => {
@@ -75,31 +75,31 @@ test("total chart", async () => {
   await when(() => !metric.isLoading);
 
   const chart = screen.getByRole("group", { name: "8 bars in a bar chart" });
-  expect(chart).toBeVisible();
+  expect(chart).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "2009 bar value 27%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "2010 bar value 57%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "2011 bar value 39%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "2012 bar value 38%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "2013 bar value 40%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "2014 bar value 37%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "2015 bar value 30%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "2016 bar value 20%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
 });
 
 test("demographic charts", async () => {

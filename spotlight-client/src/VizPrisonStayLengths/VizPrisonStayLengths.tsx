@@ -30,9 +30,9 @@ import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategor
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
 import { prisonStayLengthFields } from "../metricsApi";
-import NoMetricData from "../NoMetricData";
 import { animation } from "../UiLibrary";
 import SmallDataDisclaimer from "../SmallDataDisclaimer";
+import withMetricHydrator from "../withMetricHydrator";
 
 const ChartsWrapper = styled.div`
   position: relative;
@@ -130,7 +130,7 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
     );
   }
 
-  return <NoMetricData metric={metric} />;
+  return null;
 };
 
-export default observer(VizPrisonStayLengths);
+export default withMetricHydrator(observer(VizPrisonStayLengths));

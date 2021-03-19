@@ -72,7 +72,7 @@ afterEach(() => {
 
 test("loading", () => {
   renderWithStore(<VizSupervisionSuccessRate metric={metric} />);
-  expect(screen.getByText(/loading/i)).toBeVisible();
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
 test("totals", async () => {

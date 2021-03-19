@@ -23,13 +23,13 @@ import SentenceTypeByLocationMetric from "../contentModels/SentenceTypeByLocatio
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
 import LocalityFilterSelect from "../LocalityFilterSelect";
-import NoMetricData from "../NoMetricData";
 import { animation } from "../UiLibrary";
 import SentenceTypeChart, {
   CHART_BOTTOM_PADDING,
   CHART_HEIGHT,
 } from "./SentenceTypeChart";
 import SmallDataDisclaimer from "../SmallDataDisclaimer";
+import withMetricHydrator from "../withMetricHydrator";
 
 const ChartWrapper = styled.div`
   /* px rather than rem for consistency with Semiotic */
@@ -82,7 +82,7 @@ const VizSentenceTypeByLocation: React.FC<VizSentenceTypeByLocationProps> = ({
     );
   }
 
-  return <NoMetricData metric={metric} />;
+  return null;
 };
 
-export default observer(VizSentenceTypeByLocation);
+export default withMetricHydrator(observer(VizSentenceTypeByLocation));

@@ -49,7 +49,7 @@ export default class SentenceTypeByLocationMetric extends Metric<
   }
 
   get records(): SentenceTypeByLocationRecord[] | undefined {
-    let recordsToReturn = this.getOrFetchRecords();
+    let recordsToReturn = this.allRecords;
     if (!recordsToReturn) return undefined;
 
     recordsToReturn = recordsToReturn.filter(

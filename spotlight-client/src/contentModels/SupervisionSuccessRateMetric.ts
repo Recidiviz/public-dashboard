@@ -65,9 +65,9 @@ export default class SupervisionSuccessRateMetric extends Metric<
     d: RawMetricData
   ) => SupervisionSuccessRateDemographicsRecord[];
 
-  private allCohortRecords?: SupervisionSuccessRateMonthlyRecord[];
+  allCohortRecords?: SupervisionSuccessRateMonthlyRecord[];
 
-  private allDemographicRecords?: SupervisionSuccessRateDemographicsRecord[];
+  allDemographicRecords?: SupervisionSuccessRateDemographicsRecord[];
 
   constructor(
     props: BaseMetricConstructorOptions<SupervisionSuccessRateMonthlyRecord> & {
@@ -91,36 +91,6 @@ export default class SupervisionSuccessRateMetric extends Metric<
       cohortRecords: computed,
       demographicRecords: computed,
     });
-  }
-
-  /**
-   * Not supported. Use individual cohort or demographic record streams instead.
-   */
-  // eslint-disable-next-line class-methods-use-this
-  protected getOrFetchRecords(): undefined {
-    throw new Error(
-      "Method not supported. Use cohortRecords or demographicRecords for a specific record stream."
-    );
-  }
-
-  /**
-   * Returns unfiltered cohort records. Kicks off a fetch if necessary.
-   */
-  getOrFetchCohortRecords(): SupervisionSuccessRateMonthlyRecord[] | undefined {
-    if (this.allCohortRecords) return this.allCohortRecords;
-    if (!this.isLoading || !this.error) this.hydrate();
-    return undefined;
-  }
-
-  /**
-   * Returns unfiltered demographic records. Kicks off a fetch if necessary.
-   */
-  getOrFetchDemographicRecords():
-    | SupervisionSuccessRateDemographicsRecord[]
-    | undefined {
-    if (this.allDemographicRecords) return this.allDemographicRecords;
-    if (!this.isLoading || !this.error) this.hydrate();
-    return undefined;
   }
 
   /**
@@ -218,7 +188,7 @@ export default class SupervisionSuccessRateMetric extends Metric<
   }
 
   get cohortRecords(): SupervisionSuccessRateMonthlyRecord[] | undefined {
-    let recordsToReturn = this.getOrFetchCohortRecords();
+    let recordsToReturn = this.allCohortRecords;
     if (recordsToReturn === undefined) return undefined;
 
     recordsToReturn = recordsToReturn.filter(
@@ -229,7 +199,7 @@ export default class SupervisionSuccessRateMetric extends Metric<
   }
 
   get demographicRecords(): (RateFields & { label: string })[] | undefined {
-    const allRecords = this.getOrFetchDemographicRecords();
+    const allRecords = this.allDemographicRecords;
     const { demographicView } = this;
     if (allRecords === undefined || demographicView === "nofilter")
       return undefined;

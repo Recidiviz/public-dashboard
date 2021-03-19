@@ -53,7 +53,7 @@ afterEach(() => {
 
 test("loading", () => {
   renderWithStore(<VizHistoricalPopulationBreakdown metric={metric} />);
-  expect(screen.getByText(/loading/i)).toBeVisible();
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
 test("renders total", async () => {
@@ -76,7 +76,7 @@ test("renders total", async () => {
       name:
         "248 point stacked area starting value 961 at Jan 2000 ending value 1,321 at Aug 2020",
     })
-  ).toBeVisible();
+  ).toBeInTheDocument();
 });
 
 test("plots demographic categories", async () => {

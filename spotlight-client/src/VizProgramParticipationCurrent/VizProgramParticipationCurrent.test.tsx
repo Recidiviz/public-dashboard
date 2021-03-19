@@ -50,37 +50,37 @@ afterEach(() => {
 
 test("loading", () => {
   renderWithStore(<VizProgramParticipationCurrent metric={metric} />);
-  expect(screen.getByText(/loading/i)).toBeVisible();
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
 test("renders a map", async () => {
   renderWithStore(<VizProgramParticipationCurrent metric={metric} />);
 
   const map = await screen.findByRole("figure", { name: "Region map chart" });
-  expect(map).toBeVisible();
+  expect(map).toBeInTheDocument();
 
   expect(
     within(map).getByRole("img", { name: "Region 1 value 7" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(map).getByRole("img", { name: "Region 2 value 47" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(map).getByRole("img", { name: "Region 3 value 50" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(map).getByRole("img", { name: "Region 4 value 25" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(map).getByRole("img", { name: "Region 5 value 51" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(map).getByRole("img", { name: "Region 6 value 21" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(map).getByRole("img", { name: "Region 7 value 106" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(map).getByRole("img", { name: "Region 8 value 17" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
 });

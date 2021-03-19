@@ -22,8 +22,8 @@ import { isWindowSizeId, WindowedTimeSeries, WindowSizeId } from "../charts";
 import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
-import NoMetricData from "../NoMetricData";
 import { Dropdown } from "../UiLibrary";
+import withMetricHydrator from "../withMetricHydrator";
 
 const VizHistoricalPopulationBreakdown: React.FC<{
   metric: HistoricalPopulationBreakdownMetric;
@@ -76,7 +76,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
       </>
     );
 
-  return <NoMetricData metric={metric} />;
+  return null;
 };
 
-export default observer(VizHistoricalPopulationBreakdown);
+export default withMetricHydrator(observer(VizHistoricalPopulationBreakdown));
