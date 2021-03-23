@@ -86,7 +86,7 @@ const getMetric = async () => {
     sourceFileName: mockSourceFileName,
   });
 
-  await metric.populateAllRecords();
+  await metric.hydrate();
 
   return metric;
 };

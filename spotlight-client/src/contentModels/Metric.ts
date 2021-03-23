@@ -33,7 +33,7 @@ import {
   fetchAndTransformMetric,
 } from "../metricsApi";
 import downloadData from "./downloadData";
-import { MetricRecord, CollectionMap } from "./types";
+import { MetricRecord, CollectionMap, Hydratable } from "./types";
 
 export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   id: MetricTypeId;
@@ -64,7 +64,8 @@ export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
  * `createMetricMapping` function, which is defined in its own module to
  * prevent cyclic dependencies in their respective class declarations.
  */
-export default abstract class Metric<RecordFormat extends MetricRecord> {
+export default abstract class Metric<RecordFormat extends MetricRecord>
+  implements Hydratable {
   // metadata properties
   readonly id: MetricTypeId;
 
@@ -123,7 +124,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
       demographicView: observable,
       localityId: observable,
       error: observable,
-      populateAllRecords: action,
+      hydrate: action,
       isLoading: observable,
       records: computed,
     });
@@ -159,7 +160,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
   /**
    * Fetches metric data and stores the result reactively on this Metric instance.
    */
-  async populateAllRecords(): Promise<void> {
+  async hydrate(): Promise<void> {
     this.isLoading = true;
     try {
       const fetchedData = await this.fetchAndTransform();
@@ -175,18 +176,8 @@ export default abstract class Metric<RecordFormat extends MetricRecord> {
     }
   }
 
-  /**
-   * Returns fetched, transformed, and (optionally) filtered data for this metric.
-   * Will automatically initiate a fetch if necessary.
-   */
-  protected getOrFetchRecords(): RecordFormat[] | undefined {
-    if (this.allRecords) return this.allRecords;
-    if (!this.isLoading || !this.error) this.populateAllRecords();
-    return undefined;
-  }
-
   get records(): RecordFormat[] | undefined {
-    return this.getOrFetchRecords();
+    return this.allRecords;
   }
 
   get recordsUnfiltered(): RecordFormat[] | undefined {

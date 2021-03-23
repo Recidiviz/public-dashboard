@@ -38,7 +38,7 @@ function getTestMetric() {
 test("locality filter", async () => {
   const metric = getTestMetric();
 
-  metric.populateAllRecords();
+  metric.hydrate();
 
   await when(() => metric.records !== undefined);
 
@@ -67,7 +67,7 @@ test("locality filter", async () => {
 test("demographic data series", async () => {
   const metric = getTestMetric();
 
-  metric.populateAllRecords();
+  metric.hydrate();
 
   await when(() => Boolean(metric.dataSeries));
 
@@ -81,7 +81,7 @@ test("demographic data series", async () => {
 test("total population", async () => {
   const metric = getTestMetric();
 
-  metric.populateAllRecords();
+  metric.hydrate();
 
   await when(() => Boolean(metric.records));
 

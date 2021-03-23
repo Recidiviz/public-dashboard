@@ -29,9 +29,9 @@ import {
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
-import NoMetricData from "../NoMetricData";
 import SmallDataDisclaimer from "../SmallDataDisclaimer";
 import { animation } from "../UiLibrary";
+import withMetricHydrator from "../withMetricHydrator";
 import FollowupPeriodFilterSelect from "./FollowupPeriodFilterSelect";
 
 const ChartsWrapper = styled.div`
@@ -132,7 +132,7 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
     );
   }
 
-  return <NoMetricData metric={metric} />;
+  return null;
 };
 
-export default observer(VizRecidivismRateSingleFollowup);
+export default withMetricHydrator(observer(VizRecidivismRateSingleFollowup));

@@ -82,7 +82,7 @@ describe("navigation", () => {
     return verifyWithNavigation({ targetPath, lookupArgs });
   });
 
-  test("racial disparities narrative page", () => {
+  test("racial disparities narrative page", async () => {
     expect.hasAssertions();
     const targetPath = "/us-nd/collections/racial-disparities";
     const lookupArgs = [
@@ -93,7 +93,17 @@ describe("navigation", () => {
       },
     ] as const;
 
-    return verifyWithNavigation({ targetPath, lookupArgs });
+    // because of loading states this page is different than the others
+    const {
+      history: { navigate },
+    } = renderNavigableApp({ route: targetPath });
+    expect(await screen.findByRole(...lookupArgs)).toBeInTheDocument();
+
+    await act(() => navigate("/"));
+    expect(screen.queryByRole(...lookupArgs)).not.toBeInTheDocument();
+
+    await act(() => navigate(targetPath));
+    expect(screen.getByRole(...lookupArgs)).toBeInTheDocument();
   });
 
   test("links", async () => {

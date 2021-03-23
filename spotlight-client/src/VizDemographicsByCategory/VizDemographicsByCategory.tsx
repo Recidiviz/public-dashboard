@@ -26,9 +26,9 @@ import { useHighlightedItem } from "../charts/utils";
 import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
-import NoMetricData from "../NoMetricData";
 import SmallDataDisclaimer from "../SmallDataDisclaimer";
 import { animation, zIndex } from "../UiLibrary";
+import withMetricHydrator from "../withMetricHydrator";
 
 const bubbleChartHeight = 325;
 
@@ -137,7 +137,7 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
     );
   }
 
-  return <NoMetricData metric={metric} />;
+  return null;
 };
 
-export default observer(VizDemographicsByCategory);
+export default withMetricHydrator(observer(VizDemographicsByCategory));

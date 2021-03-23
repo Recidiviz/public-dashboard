@@ -101,7 +101,7 @@ test("requires authentication", async () => {
   expect(
     screen.queryByRole("heading", { name: authenticatedTextMatch })
   ).not.toBeInTheDocument();
-  expect(screen.getByRole("status", { name: /loading/i })).toBeInTheDocument();
+  expect(screen.getByRole("status")).toHaveTextContent(/loading/i);
   await waitFor(() => {
     expect(mockLoginWithRedirect.mock.calls.length).toBe(1);
     // this should ... continue not being in the document

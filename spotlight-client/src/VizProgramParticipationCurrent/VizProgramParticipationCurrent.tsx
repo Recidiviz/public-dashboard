@@ -21,7 +21,7 @@ import styled from "styled-components/macro";
 import { TopologicalMap } from "../charts";
 import ProgramParticipationCurrentMetric from "../contentModels/ProgramParticipationCurrentMetric";
 import MetricVizControls from "../MetricVizControls";
-import NoMetricData from "../NoMetricData";
+import withMetricHydrator from "../withMetricHydrator";
 
 const MapWrapper = styled.figure``;
 
@@ -49,7 +49,7 @@ const VizProgramParticipationCurrent: React.FC<VizProgramParticipationCurrentPro
     );
   }
 
-  return <NoMetricData metric={metric} />;
+  return null;
 };
 
-export default observer(VizProgramParticipationCurrent);
+export default withMetricHydrator(observer(VizProgramParticipationCurrent));

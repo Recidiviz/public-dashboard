@@ -61,7 +61,7 @@ function getTestMetric() {
 async function getPopulatedMetric() {
   const metric = getTestMetric();
 
-  metric.populateAllRecords();
+  metric.hydrate();
 
   await when(() => !metric.isLoading && metric.error === undefined);
 
@@ -279,11 +279,11 @@ test("data download", async (done) => {
     const expectedFiles = [
       {
         name: `${prefix}/historical data.csv`,
-        source: metric.getOrFetchCohortRecords(),
+        source: metric.allCohortRecords,
       },
       {
         name: `${prefix}/demographic aggregate data.csv`,
-        source: metric.getOrFetchDemographicRecords(),
+        source: metric.allDemographicRecords,
       },
     ];
 

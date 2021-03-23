@@ -60,7 +60,7 @@ afterEach(() => {
 
 test("loading", () => {
   renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
-  expect(screen.getByText(/loading/i)).toBeVisible();
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
 test("total chart", async () => {
@@ -73,7 +73,7 @@ test("total chart", async () => {
   const chart = screen.getAllByRole("group", {
     name: "10 lines in a line chart",
   })[0];
-  expect(chart).toBeVisible();
+  expect(chart).toBeInTheDocument();
   // don't have to deeply inspect the values but let's make sure the lines have the proper shape
   for (let numPoints = 2; numPoints <= 11; numPoints += 1) {
     expect(
@@ -84,7 +84,7 @@ test("total chart", async () => {
           }`
         ),
       })
-    ).toBeVisible();
+    ).toBeInTheDocument();
   }
 });
 

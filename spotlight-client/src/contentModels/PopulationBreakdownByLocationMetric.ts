@@ -50,7 +50,7 @@ export default class PopulationBreakdownByLocationMetric extends Metric<
   }
 
   get records(): PopulationBreakdownByLocationRecord[] | undefined {
-    let recordsToReturn = this.getOrFetchRecords();
+    let recordsToReturn = this.allRecords;
     if (!recordsToReturn) return undefined;
 
     recordsToReturn = recordsToReturn.filter(

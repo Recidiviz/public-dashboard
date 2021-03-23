@@ -39,7 +39,7 @@ function getTestMetric() {
 test("total data", async () => {
   const metric = getTestMetric();
 
-  metric.populateAllRecords();
+  metric.hydrate();
 
   await when(() => Boolean(metric.dataSeries));
 
@@ -55,7 +55,7 @@ test.each([["raceOrEthnicity"], ["gender"], ["ageBucket"]] as [
 ][])("%s data", async (demographicView) => {
   const metric = getTestMetric();
 
-  metric.populateAllRecords();
+  metric.hydrate();
 
   await when(() => Boolean(metric.dataSeries));
 

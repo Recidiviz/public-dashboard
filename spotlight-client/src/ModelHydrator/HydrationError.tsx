@@ -15,20 +15,33 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { observer } from "mobx-react-lite";
+import { rem } from "polished";
 import React from "react";
-import Metric from "../contentModels/Metric";
-import { MetricRecord } from "../contentModels/types";
-import Loading from "../Loading";
+import styled from "styled-components/macro";
+import imgPath from "../assets/loading-error.svg";
+import { colors } from "../UiLibrary";
 
-type NoMetricDataProps = {
-  metric: Metric<MetricRecord>;
-};
+const Wrapper = styled.div`
+  color: ${colors.caption};
+  font-size: ${rem(14)};
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
+  width: ${rem(208)};
+`;
 
-const NoMetricData: React.FC<NoMetricDataProps> = ({ metric }) => {
-  if (metric.error) throw metric.error;
+const Image = styled.img`
+  height: ${rem(106)};
+  margin-bottom: ${rem(24)};
+  width: ${rem(148)};
+`;
+const Message = styled.div``;
 
-  return <Loading />;
-};
-
-export default observer(NoMetricData);
+export default function HydrationError(): React.ReactElement {
+  return (
+    <Wrapper role="status">
+      <Image src={imgPath} />
+      <Message>Some data could not be loaded because of an error.</Message>
+    </Wrapper>
+  );
+}

@@ -51,7 +51,7 @@ afterEach(() => {
 
 test("loading", () => {
   renderWithStore(<VizPopulationBreakdownByLocation metric={metric} />);
-  expect(screen.getByText(/loading/i)).toBeVisible();
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
 test("total counts", async () => {

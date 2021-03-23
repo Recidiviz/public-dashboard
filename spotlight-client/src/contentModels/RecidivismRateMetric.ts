@@ -76,7 +76,7 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
   }
 
   get records(): RecidivismRateRecord[] | undefined {
-    let recordsToReturn = this.getOrFetchRecords();
+    let recordsToReturn = this.allRecords;
     if (!recordsToReturn) return undefined;
 
     recordsToReturn = recordsToReturn.filter(

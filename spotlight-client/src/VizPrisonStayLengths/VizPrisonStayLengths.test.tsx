@@ -58,7 +58,7 @@ afterEach(() => {
 
 test("loading", () => {
   renderWithStore(<VizPrisonStayLengths metric={metric} />);
-  expect(screen.getByText(/loading/i)).toBeVisible();
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
 test("total chart", async () => {
@@ -67,28 +67,28 @@ test("total chart", async () => {
   await when(() => !metric.isLoading);
 
   const chart = screen.getByRole("group", { name: "7 bars in a bar chart" });
-  expect(chart).toBeVisible();
+  expect(chart).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "<1 year bar value 15%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "1–2 bar value 1%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "2–3 bar value 17%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "3–5 bar value 31%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "5–10 bar value 26%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "10–20 bar value 1%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "20+ bar value 9%" })
-  ).toBeVisible();
+  ).toBeInTheDocument();
 });
 
 test("demographic charts", async () => {

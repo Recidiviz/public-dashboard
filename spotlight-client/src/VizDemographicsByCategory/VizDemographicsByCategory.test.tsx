@@ -50,7 +50,7 @@ afterEach(() => {
 
 test("loading", () => {
   renderWithStore(<VizDemographicsByCategory metric={metric} />);
-  expect(screen.getByText(/loading/i)).toBeVisible();
+  expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
 test("total chart", async () => {
@@ -59,7 +59,7 @@ test("total chart", async () => {
   await when(() => !metric.isLoading);
 
   const bubbles = screen.getByRole("group", { name: "nodes" });
-  expect(bubbles).toBeVisible();
+  expect(bubbles).toBeInTheDocument();
   expect(within(bubbles).getAllByRole("img", { name: /Node/ }).length).toBe(4);
 });
 
