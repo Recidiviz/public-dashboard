@@ -26,7 +26,7 @@ import {
   recordMatchesLocality,
   SentenceTypeByLocationRecord,
 } from "../metricsApi";
-import countUnknowns from "./countUnknowns";
+import { countUnknowns, hasUnknowns } from "./unknowns";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 import { UnknownCounts } from "./types";
 
@@ -125,7 +125,7 @@ export default class SentenceTypeByLocationMetric extends Metric<
 
     if (!allRecords) return undefined;
 
-    return countUnknowns(
+    const counts = countUnknowns(
       allRecords.filter(recordMatchesLocality(localityId)),
       (groupedRecords: SentenceTypeByLocationRecord[]) =>
         sum(
@@ -133,5 +133,7 @@ export default class SentenceTypeByLocationMetric extends Metric<
           (r) => r.dualSentenceCount + r.incarcerationCount + r.probationCount
         )
     );
+
+    return hasUnknowns(counts) ? counts : undefined;
   }
 }

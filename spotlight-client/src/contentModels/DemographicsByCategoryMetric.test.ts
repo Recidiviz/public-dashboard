@@ -71,6 +71,18 @@ test.each([["raceOrEthnicity"], ["gender"], ["ageBucket"]] as [
   expect.hasAssertions();
 });
 
+test("no unknowns", async () => {
+  const metric = getTestMetric();
+
+  await metric.hydrate();
+
+  reactImmediately(() => {
+    expect(metric.unknowns).toBeUndefined();
+  });
+
+  expect.hasAssertions();
+});
+
 test("report unknowns", (done) => {
   const metric = getTestMetric();
 

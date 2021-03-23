@@ -29,8 +29,8 @@ import LocalityFilterSelect from "../LocalityFilterSelect";
 import Statistic from "../Statistic";
 import { animation } from "../UiLibrary";
 import { formatAsPct } from "../utils";
-import SmallDataDisclaimer from "../SmallDataDisclaimer";
 import withMetricHydrator from "../withMetricHydrator";
+import VizNotes from "../VizNotes";
 
 const DEMOGRAPHICS_MARGIN = 56;
 
@@ -155,7 +155,7 @@ const VizSupervisionSuccessRate: React.FC<VizSupervisionSuccessRateProps> = ({
             </animated.div>
           )}
         </Measure>
-        <SmallDataDisclaimer />
+        <VizNotes smallData unknowns={metric.unknowns} />
       </>
     );
   }

@@ -25,8 +25,8 @@ import MetricVizControls from "../MetricVizControls";
 import LocalityFilterSelect from "../LocalityFilterSelect";
 import Statistic from "../Statistic";
 import { formatAsNumber } from "../utils";
-import SmallDataDisclaimer from "../SmallDataDisclaimer";
 import withMetricHydrator from "../withMetricHydrator";
+import VizNotes from "../VizNotes";
 
 const ChartWrapper = styled.div`
   margin-bottom: ${rem(16)};
@@ -65,7 +65,7 @@ const VizPopulationBreakdownByLocation: React.FC<VizPopulationBreakdownByLocatio
             }
           />
         </StatisticWrapper>
-        <SmallDataDisclaimer />
+        <VizNotes smallData unknowns={metric.unknowns} />
       </>
     );
   }

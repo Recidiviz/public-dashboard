@@ -26,8 +26,8 @@ import { useHighlightedItem } from "../charts/utils";
 import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
-import SmallDataDisclaimer from "../SmallDataDisclaimer";
 import { animation, zIndex } from "../UiLibrary";
+import VizNotes from "../VizNotes";
 import withMetricHydrator from "../withMetricHydrator";
 
 const bubbleChartHeight = 325;
@@ -54,7 +54,7 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
 }) => {
   const { highlighted, setHighlighted } = useHighlightedItem();
 
-  const { demographicView, dataSeries } = metric;
+  const { demographicView, dataSeries, unknowns } = metric;
 
   const [chartContainerStyles, setChartContainerStyles] = useSpring(() => ({
     from: { height: bubbleChartHeight },
@@ -130,7 +130,7 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
                 </ChartWrapper>
               ))}
             </animated.div>
-            <SmallDataDisclaimer />
+            <VizNotes smallData unknowns={unknowns} />
           </>
         )}
       </Measure>

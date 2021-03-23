@@ -319,6 +319,17 @@ test("data download", async (done) => {
   });
 });
 
+test("no unknowns", async () => {
+  const metric = getTestMetric();
+  await metric.hydrate();
+
+  reactImmediately(() => {
+    expect(metric.unknowns).toBeUndefined();
+  });
+
+  expect.hasAssertions();
+});
+
 test("report unknowns", (done) => {
   const metric = getTestMetric();
 

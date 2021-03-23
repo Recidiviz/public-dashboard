@@ -98,6 +98,18 @@ test("locality filter", async () => {
   expect.hasAssertions();
 });
 
+test("no unknowns", async () => {
+  const metric = getTestMetric();
+
+  await metric.hydrate();
+
+  reactImmediately(() => {
+    expect(metric.unknowns).toBeUndefined();
+  });
+
+  expect.hasAssertions();
+});
+
 test("report unknowns for current locality", (done) => {
   const metric = getTestMetric();
 

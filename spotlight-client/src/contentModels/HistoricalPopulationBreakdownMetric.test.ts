@@ -174,6 +174,16 @@ test("imputed data includes current month", async () => {
   expect.hasAssertions();
 });
 
+test("no unknowns", async () => {
+  const metric = await getMetric();
+
+  reactImmediately(() => {
+    expect(metric.unknowns).toBeUndefined();
+  });
+
+  expect.hasAssertions();
+});
+
 test("report unknowns", async (done) => {
   // mock unknowns in response
   mockedFetchAndTransformMetric.mockResolvedValue([

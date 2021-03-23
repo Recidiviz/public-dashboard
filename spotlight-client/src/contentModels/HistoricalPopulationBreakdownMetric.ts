@@ -32,10 +32,10 @@ import {
   HistoricalPopulationBreakdownRecord,
 } from "../metricsApi";
 import { colors } from "../UiLibrary";
-import countUnknowns from "./countUnknowns";
+import { countUnknowns, hasUnknowns } from "./unknowns";
 import getMissingMonths from "./getMissingMonths";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
-import { UnknownCounts } from "./types";
+import { UnknownsByDate } from "./types";
 
 const EXPECTED_MONTHS = 240; // 20 years
 
@@ -183,18 +183,20 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<
     }));
   }
 
-  get unknowns(): { date: Date; unknowns: UnknownCounts }[] | undefined {
+  get unknowns(): UnknownsByDate | undefined {
     const { allRecords } = this;
 
     if (!allRecords) return undefined;
 
-    return groups(allRecords, (r) => r.date)
+    const countsByDate = groups(allRecords, (r) => r.date)
       .map(([date, records]) => ({
         date,
         unknowns: countUnknowns(records, (groupedRecords) =>
           sum(groupedRecords, (r) => r.count)
         ),
       }))
-      .filter((item) => Object.values(item.unknowns).some((val) => val));
+      .filter((item) => hasUnknowns(item.unknowns));
+
+    return countsByDate.length ? countsByDate : undefined;
   }
 }

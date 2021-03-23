@@ -31,8 +31,8 @@ import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
 import { prisonStayLengthFields } from "../metricsApi";
 import { animation } from "../UiLibrary";
-import SmallDataDisclaimer from "../SmallDataDisclaimer";
 import withMetricHydrator from "../withMetricHydrator";
+import VizNotes from "../VizNotes";
 
 const ChartsWrapper = styled.div`
   position: relative;
@@ -72,7 +72,7 @@ type VizPrisonStayLengthsProps = {
 const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
   metric,
 }) => {
-  const { dataSeries, demographicView } = metric;
+  const { dataSeries, demographicView, unknowns } = metric;
 
   const [chartContainerStyles, setChartContainerStyles] = useSpring(() => ({
     from: { height: singleChartHeight },
@@ -123,7 +123,7 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
                 ))}
               </ChartsWrapper>
             </animated.div>
-            <SmallDataDisclaimer />
+            <VizNotes smallData unknowns={unknowns} />
           </>
         )}
       </Measure>

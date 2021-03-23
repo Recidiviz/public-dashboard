@@ -24,9 +24,9 @@ import {
 } from "../demographics";
 import { RateFields, RecidivismRateRecord } from "../metricsApi";
 import { colors } from "../UiLibrary";
-import countUnknowns from "./countUnknowns";
+import { countUnknowns } from "./unknowns";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
-import { DemographicCategoryRateRecords, UnknownCounts } from "./types";
+import { DemographicCategoryRateRecords, UnknownsByCohort } from "./types";
 
 type CohortDataSeries = DataSeries<RateFields & { followupYears: number }>;
 
@@ -227,11 +227,11 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
     });
   }
 
-  get unknowns(): { cohort: number; unknowns: UnknownCounts }[] | undefined {
+  get unknowns(): UnknownsByCohort | undefined {
     const { allRecords } = this;
     if (!allRecords) return undefined;
 
-    return groups(allRecords, (r) => r.releaseCohort)
+    const countsByCohort = groups(allRecords, (r) => r.releaseCohort)
       .map(([cohort, records]) => ({
         cohort,
         unknowns: countUnknowns(
@@ -241,5 +241,7 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
         ),
       }))
       .filter((item) => Object.values(item.unknowns).some((val) => val));
+
+    return countsByCohort.length ? countsByCohort : undefined;
   }
 }

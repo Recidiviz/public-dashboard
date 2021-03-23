@@ -169,6 +169,16 @@ describe("cohorts data series", () => {
   });
 });
 
+test("no unknowns", async () => {
+  const metric = await getPopulatedMetric("PrisonRecidivismRateHistorical");
+
+  reactImmediately(() => {
+    expect(metric.unknowns).toBeUndefined();
+  });
+
+  expect.hasAssertions();
+});
+
 test("report unknowns", async (done) => {
   // mock unknowns in response
   fetchMock.mockOnce(

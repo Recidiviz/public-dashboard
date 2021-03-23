@@ -29,8 +29,8 @@ import {
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
-import SmallDataDisclaimer from "../SmallDataDisclaimer";
 import { animation } from "../UiLibrary";
+import VizNotes from "../VizNotes";
 import withMetricHydrator from "../withMetricHydrator";
 import FollowupPeriodFilterSelect from "./FollowupPeriodFilterSelect";
 
@@ -70,7 +70,7 @@ type VizRecidivismRateSingleFollowupProps = {
 const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupProps> = ({
   metric,
 }) => {
-  const { singleFollowupDemographics, demographicView } = metric;
+  const { singleFollowupDemographics, demographicView, unknowns } = metric;
 
   const [chartContainerStyles, setChartContainerStyles] = useSpring(() => ({
     from: { height: singleChartHeight },
@@ -125,7 +125,7 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
                 ))}
               </ChartsWrapper>
             </animated.div>
-            <SmallDataDisclaimer />
+            <VizNotes smallData unknowns={unknowns} />
           </>
         )}
       </Measure>

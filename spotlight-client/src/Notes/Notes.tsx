@@ -20,23 +20,30 @@ import React from "react";
 import styled from "styled-components/macro";
 import { colors } from "../UiLibrary";
 
-const Wrapper = styled.div`
+const Wrapper = styled.ol`
   color: ${colors.caption};
   font-size: ${rem(13)};
   font-weight: 500;
   line-height: 1.7;
+  list-style: decimal outside;
   margin-top: ${rem(40)};
+  padding-left: 1em;
 `;
 
-const SmallDataDisclaimer = (): React.ReactElement => {
+const Item = styled.li`
+  margin-bottom: 1em;
+  padding-left: 0.5em;
+`;
+
+/**
+ * Renders children as an ordered list of foot- or endnotes.
+ */
+const Notes: React.FC = ({ children }) => {
   return (
     <Wrapper>
-      Please always take note of the number of people associated with each
-      proportion presented here; in cases where the counts are especially low,
-      the proportion may not be statistically significant and therefore not
-      indicative of long-term trends.
+      {React.Children.map(children, (child) => child && <Item>{child}</Item>)}
     </Wrapper>
   );
 };
 
-export default SmallDataDisclaimer;
+export default Notes;

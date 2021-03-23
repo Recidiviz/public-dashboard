@@ -22,14 +22,16 @@ import {
   RaceIdentifier,
 } from "../demographics/types";
 
-export type DemographicFieldKey = Extract<
-  DemographicView,
-  "raceOrEthnicity" | "gender" | "ageBucket"
->;
+export const DemographicFieldKeyList = [
+  "ageBucket",
+  "gender",
+  "raceOrEthnicity",
+] as const;
+export type DemographicFieldKey = typeof DemographicFieldKeyList[number];
 export function isDemographicFieldKey(
   x: DemographicView
 ): x is DemographicFieldKey {
-  return ["raceOrEthnicity", "gender", "ageBucket"].includes(x);
+  return DemographicFieldKeyList.includes(x as DemographicFieldKey);
 }
 
 export type DemographicFields = {

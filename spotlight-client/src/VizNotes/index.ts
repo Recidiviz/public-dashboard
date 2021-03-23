@@ -15,23 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { rollup } from "d3-array";
-import { UNKNOWN_KEY } from "../demographics";
-import { DemographicFields } from "../metricsApi";
-import { UnknownCounts } from "./types";
-
-export default function countUnknowns<Record extends DemographicFields>(
-  allRecords: Record[],
-  reducer: (records: Record[]) => number
-): UnknownCounts {
-  const unknownCounts = {
-    raceOrEthnicity:
-      rollup(allRecords, reducer, (r) => r.raceOrEthnicity).get(UNKNOWN_KEY) ||
-      0,
-    gender: rollup(allRecords, reducer, (r) => r.gender).get(UNKNOWN_KEY) || 0,
-    ageBucket:
-      rollup(allRecords, reducer, (r) => r.ageBucket).get(UNKNOWN_KEY) || 0,
-  };
-
-  return unknownCounts;
-}
+export { default } from "./VizNotes";

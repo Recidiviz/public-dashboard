@@ -30,7 +30,7 @@ import {
 } from "../metricsApi";
 import { colors } from "../UiLibrary";
 import calculatePct from "./calculatePct";
-import countUnknowns from "./countUnknowns";
+import { countUnknowns, hasUnknowns } from "./unknowns";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 import { DemographicCategoryRecords, UnknownCounts } from "./types";
 
@@ -114,10 +114,12 @@ export default class PopulationBreakdownByLocationMetric extends Metric<
 
     if (!records) return undefined;
 
-    return countUnknowns(
+    const counts = countUnknowns(
       records,
       (groupedRecords: PopulationBreakdownByLocationRecord[]) =>
         sum(groupedRecords, (r) => r.population)
     );
+
+    return hasUnknowns(counts) ? counts : undefined;
   }
 }

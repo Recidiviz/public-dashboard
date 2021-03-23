@@ -32,7 +32,7 @@ import {
   SupervisionSuccessRateDemographicsRecord,
   SupervisionSuccessRateMonthlyRecord,
 } from "../metricsApi";
-import countUnknowns from "./countUnknowns";
+import { countUnknowns, hasUnknowns } from "./unknowns";
 import downloadData from "./downloadData";
 import getMissingMonths from "./getMissingMonths";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
@@ -277,10 +277,12 @@ export default class SupervisionSuccessRateMetric extends Metric<
     const { allDemographicRecords, localityId } = this;
     if (!allDemographicRecords) return undefined;
 
-    return countUnknowns(
+    const counts = countUnknowns(
       allDemographicRecords.filter(recordMatchesLocality(localityId)),
       (groupedRecords: SupervisionSuccessRateDemographicsRecord[]) =>
         sum(groupedRecords, (r) => r.rateDenominator)
     );
+
+    return hasUnknowns(counts) ? counts : undefined;
   }
 }

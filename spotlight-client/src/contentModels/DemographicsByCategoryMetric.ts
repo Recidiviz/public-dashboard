@@ -24,7 +24,7 @@ import {
 import { DemographicsByCategoryRecord } from "../metricsApi";
 import { colors } from "../UiLibrary";
 import calculatePct from "./calculatePct";
-import countUnknowns from "./countUnknowns";
+import { countUnknowns, hasUnknowns } from "./unknowns";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 import { DemographicCategoryRecords, UnknownCounts } from "./types";
 
@@ -89,9 +89,11 @@ export default class DemographicsByCategoryMetric extends Metric<
 
     if (!allRecords) return undefined;
 
-    return countUnknowns(
+    const counts = countUnknowns(
       allRecords,
       (records: DemographicsByCategoryRecord[]) => sum(records, (r) => r.count)
     );
+
+    return hasUnknowns(counts) ? counts : undefined;
   }
 }
