@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { ascending } from "d3-array";
+import { ascending, groups, sum } from "d3-array";
 import { isSameDay, startOfMonth } from "date-fns";
 import { computed, makeObservable, observable, runInAction } from "mobx";
 import { DataSeries } from "../charts";
@@ -32,8 +32,10 @@ import {
   HistoricalPopulationBreakdownRecord,
 } from "../metricsApi";
 import { colors } from "../UiLibrary";
+import countUnknowns from "./countUnknowns";
 import getMissingMonths from "./getMissingMonths";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
+import { UnknownCounts } from "./types";
 
 const EXPECTED_MONTHS = 240; // 20 years
 
@@ -90,6 +92,7 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<
     makeObservable(this, {
       dataIncludesCurrentMonth: observable,
       dataSeries: computed,
+      unknowns: computed,
     });
   }
 
@@ -178,5 +181,20 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<
           ? records
           : records.filter((record) => record[demographicView] === identifier),
     }));
+  }
+
+  get unknowns(): { date: Date; unknowns: UnknownCounts }[] | undefined {
+    const { allRecords } = this;
+
+    if (!allRecords) return undefined;
+
+    return groups(allRecords, (r) => r.date)
+      .map(([date, records]) => ({
+        date,
+        unknowns: countUnknowns(records, (groupedRecords) =>
+          sum(groupedRecords, (r) => r.count)
+        ),
+      }))
+      .filter((item) => Object.values(item.unknowns).some((val) => val));
   }
 }

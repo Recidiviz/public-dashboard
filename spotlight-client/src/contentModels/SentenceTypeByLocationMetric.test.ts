@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import fetchMock from "jest-fetch-mock";
 import { runInAction, when } from "mobx";
 import { DemographicView } from "../demographics";
 import { reactImmediately } from "../testUtils";
@@ -95,4 +96,117 @@ test("locality filter", async () => {
   });
 
   expect.hasAssertions();
+});
+
+test("report unknowns for current locality", (done) => {
+  const metric = getTestMetric();
+
+  // mock unknowns in response
+  fetchMock.mockOnce(
+    JSON.stringify({
+      sentence_type_by_district_by_demographics: [
+        {
+          district: "ALL",
+          gender: "ALL",
+          race_or_ethnicity: "EXTERNAL_UNKNOWN",
+          state_code: "US_ND",
+          age_bucket: "ALL",
+          incarceration_count: "8",
+          probation_count: "0",
+          total_population_count: "10",
+          dual_sentence_count: "2",
+        },
+        {
+          district: "ALL",
+          gender: "EXTERNAL_UNKNOWN",
+          race_or_ethnicity: "ALL",
+          state_code: "US_ND",
+          age_bucket: "ALL",
+          incarceration_count: "4",
+          probation_count: "12",
+          total_population_count: "20",
+          dual_sentence_count: "4",
+        },
+        {
+          district: "ALL",
+          gender: "ALL",
+          race_or_ethnicity: "ALL",
+          state_code: "US_ND",
+          age_bucket: "EXTERNAL_UNKNOWN",
+          incarceration_count: "29",
+          probation_count: "1",
+          total_population_count: "30",
+          dual_sentence_count: "0",
+        },
+        {
+          district: "test2",
+          gender: "ALL",
+          race_or_ethnicity: "EXTERNAL_UNKNOWN",
+          state_code: "US_ND",
+          age_bucket: "ALL",
+          incarceration_count: "8",
+          probation_count: "0",
+          total_population_count: "10",
+          dual_sentence_count: "2",
+        },
+        {
+          district: "test2",
+          gender: "EXTERNAL_UNKNOWN",
+          race_or_ethnicity: "ALL",
+          state_code: "US_ND",
+          age_bucket: "ALL",
+          incarceration_count: "0",
+          probation_count: "0",
+          total_population_count: "0",
+          dual_sentence_count: "0",
+        },
+        {
+          district: "test2",
+          gender: "ALL",
+          race_or_ethnicity: "ALL",
+          state_code: "US_ND",
+          age_bucket: "EXTERNAL_UNKNOWN",
+          incarceration_count: "3",
+          probation_count: "2",
+          total_population_count: "5",
+          dual_sentence_count: "0",
+        },
+      ],
+    })
+  );
+
+  metric.hydrate();
+
+  when(
+    () => metric.unknowns !== undefined,
+    () => {
+      expect(metric.unknowns).toEqual({
+        raceOrEthnicity: 10,
+        gender: 20,
+        ageBucket: 30,
+      });
+
+      runInAction(() => {
+        metric.localityId = "test2";
+      });
+
+      expect(metric.unknowns).toEqual({
+        raceOrEthnicity: 10,
+        gender: 0,
+        ageBucket: 5,
+      });
+
+      // this filter should be ignored
+      runInAction(() => {
+        metric.demographicView = "gender";
+      });
+
+      expect(metric.unknowns).toEqual({
+        raceOrEthnicity: 10,
+        gender: 0,
+        ageBucket: 5,
+      });
+      done();
+    }
+  );
 });

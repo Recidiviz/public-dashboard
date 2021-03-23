@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { sum } from "d3-array";
 import { computed, makeObservable } from "mobx";
 import {
   DemographicView,
@@ -29,8 +30,9 @@ import {
 } from "../metricsApi";
 import { colors } from "../UiLibrary";
 import calculatePct from "./calculatePct";
+import countUnknowns from "./countUnknowns";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
-import { DemographicCategoryRecords } from "./types";
+import { DemographicCategoryRecords, UnknownCounts } from "./types";
 
 export default class PopulationBreakdownByLocationMetric extends Metric<
   PopulationBreakdownByLocationRecord
@@ -46,7 +48,11 @@ export default class PopulationBreakdownByLocationMetric extends Metric<
 
     this.totalLabel = props.totalLabel;
 
-    makeObservable(this, { dataSeries: computed, totalPopulation: computed });
+    makeObservable(this, {
+      dataSeries: computed,
+      totalPopulation: computed,
+      unknowns: computed,
+    });
   }
 
   get records(): PopulationBreakdownByLocationRecord[] | undefined {
@@ -101,5 +107,17 @@ export default class PopulationBreakdownByLocationMetric extends Metric<
     if (!totalRecord) return undefined;
 
     return totalRecord.population;
+  }
+
+  get unknowns(): UnknownCounts | undefined {
+    const { records } = this;
+
+    if (!records) return undefined;
+
+    return countUnknowns(
+      records,
+      (groupedRecords: PopulationBreakdownByLocationRecord[]) =>
+        sum(groupedRecords, (r) => r.population)
+    );
   }
 }

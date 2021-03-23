@@ -21,6 +21,7 @@ import {
   SystemNarrativeTypeId,
 } from "../contentApi/types";
 import {
+  DemographicFieldKey,
   DemographicsByCategoryRecord,
   HistoricalPopulationBreakdownRecord,
   PopulationBreakdownByLocationRecord,
@@ -84,6 +85,8 @@ export type LocalityDataMapping = Record<
   string,
   { value: number; label: string }
 >;
+
+export type UnknownCounts = { [key in DemographicFieldKey]: number };
 
 // =======================================
 // Narrative types

@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { ascending } from "d3-array";
+import { ascending, sum } from "d3-array";
 import { computed, makeObservable, observable, runInAction, when } from "mobx";
 import {
   DemographicView,
@@ -32,9 +32,11 @@ import {
   SupervisionSuccessRateDemographicsRecord,
   SupervisionSuccessRateMonthlyRecord,
 } from "../metricsApi";
+import countUnknowns from "./countUnknowns";
 import downloadData from "./downloadData";
 import getMissingMonths from "./getMissingMonths";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
+import { UnknownCounts } from "./types";
 
 function dataIncludesCurrentMonth(
   records: SupervisionSuccessRateMonthlyRecord[]
@@ -90,6 +92,7 @@ export default class SupervisionSuccessRateMetric extends Metric<
       allCohortRecords: observable.ref,
       cohortRecords: computed,
       demographicRecords: computed,
+      unknowns: computed,
     });
   }
 
@@ -267,6 +270,17 @@ export default class SupervisionSuccessRateMetric extends Metric<
           },
         ],
       })
+    );
+  }
+
+  get unknowns(): UnknownCounts | undefined {
+    const { allDemographicRecords, localityId } = this;
+    if (!allDemographicRecords) return undefined;
+
+    return countUnknowns(
+      allDemographicRecords.filter(recordMatchesLocality(localityId)),
+      (groupedRecords: SupervisionSuccessRateDemographicsRecord[]) =>
+        sum(groupedRecords, (r) => r.rateDenominator)
     );
   }
 }

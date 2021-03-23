@@ -318,3 +318,73 @@ test("data download", async (done) => {
     done();
   });
 });
+
+test("report unknowns", (done) => {
+  const metric = getTestMetric();
+
+  // cohort data, which we don't care about here
+  mockedFetchAndTransformMetric.mockResolvedValueOnce([]);
+  // demographic data
+  mockedFetchAndTransformMetric.mockResolvedValueOnce([
+    {
+      locality: "ALL",
+      raceOrEthnicity: "ALL",
+      gender: "ALL",
+      ageBucket: "EXTERNAL_UNKNOWN",
+      rateNumerator: 1,
+      rateDenominator: 2,
+      rate: 0.5,
+    },
+    {
+      locality: "test1",
+      raceOrEthnicity: "ALL",
+      gender: "ALL",
+      ageBucket: "EXTERNAL_UNKNOWN",
+      rateNumerator: 0,
+      rateDenominator: 1,
+      rate: 0,
+    },
+    {
+      locality: "test2",
+      raceOrEthnicity: "ALL",
+      gender: "ALL",
+      ageBucket: "EXTERNAL_UNKNOWN",
+      rateNumerator: 1,
+      rateDenominator: 1,
+      rate: 1,
+    },
+  ]);
+
+  metric.hydrate();
+
+  when(
+    () => metric.unknowns !== undefined,
+    () => {
+      expect(metric.unknowns).toEqual({
+        raceOrEthnicity: 0,
+        gender: 0,
+        ageBucket: 2,
+      });
+
+      runInAction(() => {
+        metric.localityId = "test1";
+      });
+      expect(metric.unknowns).toEqual({
+        raceOrEthnicity: 0,
+        gender: 0,
+        ageBucket: 1,
+      });
+
+      // this filter should be ignored
+      runInAction(() => {
+        metric.demographicView = "raceOrEthnicity";
+      });
+      expect(metric.unknowns).toEqual({
+        raceOrEthnicity: 0,
+        gender: 0,
+        ageBucket: 1,
+      });
+      done();
+    }
+  );
+});

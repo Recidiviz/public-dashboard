@@ -21,8 +21,12 @@ export const TOTAL_KEY: TotalIdentifier = "ALL";
 type NoFilterIdentifier = "nofilter";
 export const NOFILTER_KEY: NoFilterIdentifier = "nofilter";
 
+export const UNKNOWN_KEY = "EXTERNAL_UNKNOWN";
+type UnknownIdentifier = typeof UNKNOWN_KEY;
+
 export type RaceIdentifier =
   | TotalIdentifier
+  | UnknownIdentifier
   | "AMERICAN_INDIAN_ALASKAN_NATIVE"
   | "ASIAN"
   | "BLACK"
@@ -30,9 +34,15 @@ export type RaceIdentifier =
   | "NATIVE_HAWAIIAN_PACIFIC_ISLANDER"
   | "WHITE"
   | "OTHER";
-export type GenderIdentifier = TotalIdentifier | "FEMALE" | "MALE";
+
+export type GenderIdentifier =
+  | TotalIdentifier
+  | UnknownIdentifier
+  | "FEMALE"
+  | "MALE";
 export type AgeIdentifier =
   | TotalIdentifier
+  | UnknownIdentifier
   | "<25"
   | "25-29"
   | "30-34"

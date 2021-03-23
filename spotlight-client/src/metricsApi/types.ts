@@ -22,7 +22,7 @@ import {
   RaceIdentifier,
 } from "../demographics/types";
 
-type DemographicFieldKey = Extract<
+export type DemographicFieldKey = Extract<
   DemographicView,
   "raceOrEthnicity" | "gender" | "ageBucket"
 >;
