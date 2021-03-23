@@ -15,17 +15,30 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { NarrativeTypeId, TenantId } from "../contentApi/types";
+import { Link } from "@reach/router";
+import { rem } from "polished";
+import React from "react";
+import styled from "styled-components/macro";
+import { breakpoints, CopyBlock, PageSection, PageTitle } from "../UiLibrary";
 
-export type RouteParams = {
-  // these should match paths as defined in App.tsx
-  tenantId?: string;
-  narrativeTypeId?: string;
+const Wrapper = styled(PageSection)`
+  margin: ${rem(48)} 0;
+
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    margin: ${rem(160)} 0;
+  }
+`;
+
+const NotFound = (): React.ReactElement => {
+  return (
+    <Wrapper>
+      <PageTitle>Page not found.</PageTitle>
+      <CopyBlock>
+        <Link to="/">Return home,</Link> or use the navigation menu above to
+        find your destination.
+      </CopyBlock>
+    </Wrapper>
+  );
 };
 
-export type NormalizedRouteParams = {
-  tenantId?: TenantId | null;
-  narrativeTypeId?: NarrativeTypeId | null;
-};
-
-export const NarrativesSlug = "collections";
+export default NotFound;

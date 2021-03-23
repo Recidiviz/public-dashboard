@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,11 +15,19 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { RouteComponentProps } from "@reach/router";
-import React from "react";
+import { rem } from "polished";
+import styled from "styled-components/macro";
+import breakpoints from "./breakpoints";
+import { typefaces } from "./typography";
 
-const PageNotFound: React.FC<RouteComponentProps> = () => (
-  <div>page not found</div>
-);
+export default styled.h1`
+  font-family: ${typefaces.display};
+  font-size: ${rem(32)};
+  letter-spacing: -0.04em;
+  line-height: 1.4;
+  margin-bottom: ${rem(32)};
 
-export default PageNotFound;
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    font-size: ${rem(52)};
+  }
+`;

@@ -24,8 +24,8 @@ import styled from "styled-components/macro";
 import AuthWall from "./AuthWall";
 import { FOOTER_HEIGHT, NAV_BAR_HEIGHT } from "./constants";
 import GlobalStyles from "./GlobalStyles";
+import NotFound from "./NotFound";
 import PageNarrative from "./PageNarrative";
-import PageNotFound from "./PageNotFound";
 import PageTenant from "./PageTenant";
 import PageviewTracker from "./PageviewTracker";
 import { NarrativesSlug } from "./routerUtils/types";
@@ -35,6 +35,7 @@ import SiteNavigation from "./SiteNavigation";
 import StoreProvider from "./StoreProvider";
 import TooltipMobile from "./TooltipMobile";
 import { breakpoints } from "./UiLibrary";
+import withRouteSync from "./withRouteSync";
 
 // set custom breakpoints for media queries
 setupBreakpoints({
@@ -47,6 +48,8 @@ setupBreakpoints({
 const PassThroughPage: React.FC<RouteComponentProps> = ({ children }) => (
   <>{children}</>
 );
+
+const PageNotFound = withRouteSync(NotFound);
 
 const Main = styled.div.attrs({ role: "main" })`
   padding-top: ${rem(NAV_BAR_HEIGHT)};
@@ -73,9 +76,8 @@ const App: React.FC = () => {
                 <PageNarrative
                   path={`/${NarrativesSlug}/:narrativeTypeId/*sectionNumber`}
                 />
-                <PageNotFound default />
+                <PageNotFound path="/*" />
               </PassThroughPage>
-              <PageNotFound default />
             </Router>
             <ScrollManager />
             <PageviewTracker />

@@ -27,5 +27,6 @@ export { default as FixedBottomPanel } from "./FixedBottomPanel";
 export * from "./Modal";
 export * from "./narrative";
 export * from "./PageSection";
+export { default as PageTitle } from "./PageTitle";
 export * from "./typography";
 export { default as zIndex } from "./zIndex";

@@ -25,6 +25,8 @@ export default class UiStore {
 
   renderTooltipMobile?: (props: Record<string, unknown>) => React.ReactNode;
 
+  isRouteInvalid = false;
+
   constructor({ rootStore }: { rootStore: RootStore }) {
     makeAutoObservable(this, {
       rootStore: false,
@@ -67,6 +69,7 @@ export default class UiStore {
   get currentPageTitle(): string | undefined {
     const titleParts: string[] = [];
 
+    const { isRouteInvalid } = this;
     const { tenant, narrative } = this.rootStore;
 
     if (tenant) {
@@ -77,7 +80,7 @@ export default class UiStore {
       }
     }
 
-    if (!titleParts.length) {
+    if (!titleParts.length && !isRouteInvalid) {
       // this is valid if we are on the site homepage;
       // otherwise it is an intermediate state that should not leak into reactions
       if (window.location.pathname !== "/") {
@@ -86,6 +89,10 @@ export default class UiStore {
     }
 
     titleParts.push("Spotlight by Recidiviz");
+
+    if (isRouteInvalid) {
+      titleParts.unshift("Page not found");
+    }
 
     return titleParts.join(" — ");
   }

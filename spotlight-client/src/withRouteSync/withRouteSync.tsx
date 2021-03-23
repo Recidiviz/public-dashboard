@@ -17,7 +17,8 @@
 
 import { RouteComponentProps } from "@reach/router";
 import { action } from "mobx";
-import React, { useEffect } from "react";
+import React, { ComponentType, useEffect } from "react";
+import NotFound from "../NotFound";
 import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { RouteParams } from "../routerUtils/types";
 import { useDataStore } from "../StoreProvider";
@@ -30,19 +31,32 @@ import { useDataStore } from "../StoreProvider";
  * All Reach Router route components should be wrapped in this HOC!
  */
 const withRouteSync = <Props extends RouteComponentProps & RouteParams>(
-  RouteComponent: React.FC<Props>
-): React.FC<Props> => {
+  RouteComponent: ComponentType<Props>
+): ComponentType<Props> => {
   const WrappedRouteComponent: React.FC<Props> = (props) => {
-    const { tenantStore } = useDataStore();
+    const { tenantStore, uiStore } = useDataStore();
 
     const normalizedProps = normalizeRouteParams(props);
 
+    const { path } = props;
+
+    const isRouteInvalid =
+      // catchall path for partially valid URLs; e.g. :tenantId/something-invalid
+      Object.values(normalizedProps).includes(null) || path === "/*";
+
     useEffect(
       action("sync route params", () => {
-        tenantStore.currentTenantId = normalizedProps.tenantId;
-        tenantStore.currentNarrativeTypeId = normalizedProps.narrativeTypeId;
+        tenantStore.currentTenantId = normalizedProps.tenantId ?? undefined;
+        tenantStore.currentNarrativeTypeId =
+          normalizedProps.narrativeTypeId ?? undefined;
+
+        uiStore.isRouteInvalid = isRouteInvalid;
       })
     );
+
+    if (isRouteInvalid) {
+      return <NotFound />;
+    }
 
     return (
       <RouteComponent

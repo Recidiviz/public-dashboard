@@ -38,7 +38,8 @@ function normalizeTenantId(rawParam: ValuesType<RouteParams>) {
   if (typeof rawParam === "string") {
     const normalizedString = constantCase(rawParam);
     if (isTenantId(normalizedString)) return normalizedString;
-    throw new Error(`unknown TenantId: ${normalizedString}`);
+
+    return null;
   }
   return undefined;
 }
@@ -49,7 +50,7 @@ function normalizeNarrativeTypeId(rawParam: ValuesType<RouteParams>) {
 
     if (isNarrativeTypeId(normalizedString)) return normalizedString;
 
-    throw new Error(`unknown narrative type id: ${normalizedString}`);
+    return null;
   }
   return undefined;
 }

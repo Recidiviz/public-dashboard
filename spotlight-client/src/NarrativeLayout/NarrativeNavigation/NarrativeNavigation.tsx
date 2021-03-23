@@ -20,6 +20,7 @@ import { format } from "d3-format";
 import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
+import { DeepNonNullable } from "utility-types";
 import getUrlForResource from "../../routerUtils/getUrlForResource";
 import normalizeRouteParams from "../../routerUtils/normalizeRouteParams";
 import { LayoutSection } from "../types";
@@ -60,7 +61,7 @@ const SectionNavigation: React.FC<NavigationProps> = ({
   const { tenantId, narrativeTypeId } = normalizeRouteParams(
     useParams()
     // these keys should always be present on this page
-  ) as Required<
+  ) as DeepNonNullable<
     Pick<
       ReturnType<typeof normalizeRouteParams>,
       "tenantId" | "narrativeTypeId"
