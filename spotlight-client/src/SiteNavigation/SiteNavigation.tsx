@@ -17,7 +17,6 @@
 
 import { navigate } from "@reach/router";
 import { observer } from "mobx-react-lite";
-import { rem } from "polished";
 import React from "react";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
@@ -30,6 +29,8 @@ import {
   NavGroup,
   NavGroupItem,
   NavLink,
+  ExternalNavLink,
+  FEEDBACK_URL,
 } from "./shared";
 
 const SiteNavigation: React.FC = () => {
@@ -70,7 +71,7 @@ const SiteNavigation: React.FC = () => {
             </NavLink>
           </NavGroupItem>
           {tenant && (
-            <NavGroupItem style={{ marginLeft: rem(24) }}>
+            <NavGroupItem>
               <NavLink
                 to={getUrlForResource({
                   page: "tenant",
@@ -93,6 +94,9 @@ const SiteNavigation: React.FC = () => {
               />
             </NavGroupItem>
           )}
+          <NavGroupItem>
+            <ExternalNavLink href={FEEDBACK_URL}>Feedback</ExternalNavLink>
+          </NavGroupItem>
         </NavGroup>
       </NavBar>
     </NavContainer>

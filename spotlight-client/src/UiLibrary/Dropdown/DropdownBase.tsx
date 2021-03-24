@@ -49,8 +49,8 @@ const DropdownButton = styled(animated.button)<{
   cursor: pointer;
   display: flex;
   height: ${rem(BUTTON_HEIGHT)};
-  font-size: ${rem(13)};
-  padding: 0 ${rem(16)};
+  font-size: ${(props) => (props.kind === "link" ? "1em" : rem(13))};
+  padding: 0 ${(props) => (props.kind === "link" ? 0 : rem(16))};
   z-index: ${zIndex.control};
 
   &:focus {

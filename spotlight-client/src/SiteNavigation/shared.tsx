@@ -17,7 +17,7 @@
 
 import { Link } from "@reach/router";
 import { rem } from "polished";
-import styled from "styled-components/macro";
+import styled, { css } from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import { colors, zIndex } from "../UiLibrary";
 
@@ -49,9 +49,13 @@ export const NavGroup = styled.ul`
 export const NavGroupItem = styled.li`
   align-items: center;
   display: flex;
+
+  &:nth-child(n + 2) {
+    margin-left: ${rem(24)};
+  }
 `;
 
-export const NavLink = styled(Link)`
+const linkStyles = css`
   align-items: center;
   color: ${colors.text};
   display: flex;
@@ -59,3 +63,14 @@ export const NavLink = styled(Link)`
   position: relative;
   text-decoration: none;
 `;
+
+export const NavLink = styled(Link)`
+  ${linkStyles}
+`;
+
+export const ExternalNavLink = styled.a.attrs({ target: "_blank" })`
+  ${linkStyles}
+`;
+
+export const FEEDBACK_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSc3_wV2ltGumMdGTcLehUM41tQri0ZW5RjIKh0JJlhpJGE9Hg/viewform";
