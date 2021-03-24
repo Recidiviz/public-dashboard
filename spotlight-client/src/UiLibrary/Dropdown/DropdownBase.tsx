@@ -37,9 +37,13 @@ const DropdownLabel = styled.label`
   display: none;
 `;
 
-const DropdownButton = styled(animated.button)`
+const DropdownButton = styled(animated.button)<{
+  kind: DropdownCommonProps["buttonKind"];
+}>`
   align-items: center;
-  border: 1px solid ${colors.rule};
+  background: ${colors.buttonBackground};
+  border: ${(props) =>
+    props.kind !== "link" ? `1px solid ${colors.rule}` : "none"};
   border-radius: ${rem(BUTTON_HEIGHT / 2)};
   color: ${colors.text};
   cursor: pointer;
@@ -56,7 +60,7 @@ const DropdownButton = styled(animated.button)`
   &::after {
     border-left: ${rem(4)} solid transparent;
     border-right: ${rem(4)} solid transparent;
-    border-top: ${rem(4)} solid ${colors.text};
+    border-top: ${rem(4)} solid currentColor;
     content: "";
     height: 0;
     margin-left: ${rem(16)};
@@ -72,6 +76,7 @@ const DropdownBase: React.FC<
   }
 > = ({
   buttonContents,
+  buttonKind,
   disabled,
   label,
   options,
@@ -97,14 +102,22 @@ const DropdownBase: React.FC<
 
   // animate button hover state
   const [buttonHover, setButtonHover] = useState(false);
-  const buttonStyles = useSpring({
-    from: { background: colors.buttonBackground },
-    background:
+  let buttonBackground: string;
+  let buttonColor: string;
+  if (buttonKind === "link") {
+    buttonBackground = "transparent";
+    buttonColor = buttonHover ? colors.link : colors.text;
+  } else {
+    buttonBackground =
       buttonHover && !disabled
         ? colors.buttonBackgroundHover
-        : colors.buttonBackground,
+        : colors.buttonBackground;
+    buttonColor = colors.text;
+  }
+  const buttonStyles = useSpring({
+    background: buttonBackground,
     cursor: disabled ? "not-allowed" : "pointer",
-    color: disabled ? colors.textDisabled : colors.text,
+    color: disabled ? colors.textDisabled : buttonColor,
   });
 
   const useFixedMenu = useBreakpoint(false, ["mobile-", true]);
@@ -127,6 +140,7 @@ const DropdownBase: React.FC<
       <DropdownLabel {...getLabelProps()}>{label}</DropdownLabel>
       <DropdownButton
         type="button"
+        kind={buttonKind}
         {...getToggleButtonProps({ disabled })}
         style={buttonStyles}
         onMouseOver={() => setButtonHover(true)}

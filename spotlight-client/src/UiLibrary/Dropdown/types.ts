@@ -23,6 +23,7 @@ export type DropdownOption = {
 };
 
 export type DropdownCommonProps = {
+  buttonKind?: "link";
   disabled?: boolean;
   label: string;
   options: DropdownOption[];

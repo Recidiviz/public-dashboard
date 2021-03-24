@@ -86,6 +86,7 @@ const SiteNavigation: React.FC = () => {
           {narrativeOptions.length > 0 && (
             <NavGroupItem>
               <Dropdown
+                buttonKind="link"
                 label="Data Narratives"
                 onChange={(id) => navigate(id)}
                 options={narrativeOptions}
