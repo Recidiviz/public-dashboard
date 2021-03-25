@@ -47,7 +47,8 @@ const NavStickyContainer = styled.div`
 `;
 
 export const SectionsContainer = styled.div`
-  flex: 1 1 auto;
+  /* flex-basis needs to be set or contents may overflow in IE 11 */
+  flex: 1 1 100%;
   /* min-width cannot be auto or children will not shrink when viewport does */
   min-width: 0;
 `;
