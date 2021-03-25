@@ -47,6 +47,14 @@ const ChartWrapper = styled(BaseChartWrapper)`
   .frame {
     .visualization-layer {
       shape-rendering: geometricPrecision;
+
+      /*
+        there are two of these but only the inner one has dimensions applied;
+        overflow isn't hidden by default in IE 11 which breaks windowing
+      */
+      .visualization-layer {
+        overflow: hidden;
+      }
     }
 
     .axis.x {
