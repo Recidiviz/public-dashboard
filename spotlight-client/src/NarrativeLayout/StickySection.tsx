@@ -120,8 +120,10 @@ const StickySection: React.FC<{
     <Container>
       <Sticker>
         <LeftContainer ref={copyContainerRef} $isSticky={isLeftSticky}>
-          {leftContents}
-          <StickyOverflowIndicator ref={overflowRef} />
+          <div>
+            {leftContents}
+            <StickyOverflowIndicator ref={overflowRef} />
+          </div>
         </LeftContainer>
       </Sticker>
       <RightContainer>{rightContents}</RightContainer>
