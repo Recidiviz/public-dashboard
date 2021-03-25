@@ -54,9 +54,10 @@ test("navigate to previous and next section", async () => {
   const nextLink = screen.getByRole("link", { name: nextLabel });
 
   // no previous on the first section
-  expect(
-    screen.queryByRole("link", { name: prevLabel })
-  ).not.toBeInTheDocument();
+  expect(screen.queryByRole("link", { name: prevLabel })).toHaveAttribute(
+    "aria-disabled",
+    "true"
+  );
   expect(nextLink).toBeInTheDocument();
 
   expect(within(navRegion).getByText("01")).toBeInTheDocument();
@@ -77,9 +78,10 @@ test("navigate to previous and next section", async () => {
   await waitFor(() =>
     expect(within(navRegion).getByText("01")).toBeInTheDocument()
   );
-  expect(
-    screen.queryByRole("link", { name: prevLabel })
-  ).not.toBeInTheDocument();
+  expect(screen.queryByRole("link", { name: prevLabel })).toHaveAttribute(
+    "aria-disabled",
+    "true"
+  );
 
   // advance to the last section
   history.navigate(
@@ -99,7 +101,7 @@ test("navigate to previous and next section", async () => {
     // the element referenced by nextLink is still present,
     // but it no longer has role=link
     screen.queryByRole("link", { name: nextLabel })
-  ).not.toBeInTheDocument();
+  ).toHaveAttribute("aria-disabled", "true");
 
   // JSDOM don't support layout features
   // so we can't really test anything related to scroll position :(

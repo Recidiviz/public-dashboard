@@ -138,7 +138,8 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
           `${getUrlForResource({
             page: "narrative",
             params: { tenantId, narrativeTypeId },
-          })}/${activeSection}`
+          })}/${activeSection}`,
+          { replace: true }
         );
       }
     }
