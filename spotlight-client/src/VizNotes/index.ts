@@ -15,28 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { rem } from "polished";
-import React from "react";
-import styled from "styled-components/macro";
-import { colors } from "../UiLibrary";
-
-const Wrapper = styled.div`
-  color: ${colors.caption};
-  font-size: ${rem(13)};
-  font-weight: 500;
-  line-height: 1.7;
-  margin-top: ${rem(40)};
-`;
-
-const SmallDataDisclaimer = (): React.ReactElement => {
-  return (
-    <Wrapper>
-      Please always take note of the number of people associated with each
-      proportion presented here; in cases where the counts are especially low,
-      the proportion may not be statistically significant and therefore not
-      indicative of long-term trends.
-    </Wrapper>
-  );
-};
-
-export default SmallDataDisclaimer;
+export { default } from "./VizNotes";

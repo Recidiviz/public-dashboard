@@ -1958,13 +1958,6 @@ Array [
   },
   Object {
     "ageBucket": "ALL",
-    "gender": "EXTERNAL_UNKNOWN",
-    "locality": "ALL",
-    "population": 7,
-    "raceOrEthnicity": "ALL",
-  },
-  Object {
-    "ageBucket": "ALL",
     "gender": "ALL",
     "locality": "ALL",
     "population": 96,
@@ -1989,13 +1982,6 @@ Array [
     "gender": "ALL",
     "locality": "ALL",
     "population": 242,
-    "raceOrEthnicity": "ALL",
-  },
-  Object {
-    "ageBucket": "EXTERNAL_UNKNOWN",
-    "gender": "ALL",
-    "locality": "ALL",
-    "population": 6,
     "raceOrEthnicity": "ALL",
   },
   Object {

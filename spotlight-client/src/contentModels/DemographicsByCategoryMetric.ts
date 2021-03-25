@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { sum } from "d3-array";
 import { computed, makeObservable } from "mobx";
 import {
   getDemographicCategories,
@@ -23,8 +24,9 @@ import {
 import { DemographicsByCategoryRecord } from "../metricsApi";
 import { colors } from "../UiLibrary";
 import calculatePct from "./calculatePct";
+import { countUnknowns, hasUnknowns } from "./unknowns";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
-import { DemographicCategoryRecords } from "./types";
+import { DemographicCategoryRecords, UnknownCounts } from "./types";
 
 export default class DemographicsByCategoryMetric extends Metric<
   DemographicsByCategoryRecord
@@ -41,7 +43,7 @@ export default class DemographicsByCategoryMetric extends Metric<
 
     this.color = props.color;
 
-    makeObservable(this, { dataSeries: computed });
+    makeObservable(this, { dataSeries: computed, unknowns: computed });
   }
 
   get records(): DemographicsByCategoryRecord[] | undefined {
@@ -80,5 +82,18 @@ export default class DemographicsByCategoryMetric extends Metric<
         ),
       };
     });
+  }
+
+  get unknowns(): UnknownCounts | undefined {
+    const { allRecords } = this;
+
+    if (!allRecords) return undefined;
+
+    const counts = countUnknowns(
+      allRecords,
+      (records: DemographicsByCategoryRecord[]) => sum(records, (r) => r.count)
+    );
+
+    return hasUnknowns(counts) ? counts : undefined;
   }
 }

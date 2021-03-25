@@ -1,6 +1,5 @@
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "TRC", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "gender": "ALL", "age_bucket": "ALL", "total_population": "7"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "FTPFAR", "race_or_ethnicity": "ALL", "gender": "MALE", "age_bucket": "ALL", "total_population": "1"}
-{"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "JRCC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "EXTERNAL_UNKNOWN", "total_population": "1"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MTPMND", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "40<", "total_population": "3"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "FTPMND", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "40<", "total_population": "0"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "GFC", "race_or_ethnicity": "HISPANIC", "gender": "ALL", "age_bucket": "ALL", "total_population": "0"}
@@ -17,7 +16,6 @@
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MTPMND", "race_or_ethnicity": "WHITE", "gender": "ALL", "age_bucket": "ALL", "total_population": "5"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "FTPFAR", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "40<", "total_population": "3"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "FTPMND", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "ALL", "total_population": "5"}
-{"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "BTC", "race_or_ethnicity": "ALL", "gender": "EXTERNAL_UNKNOWN", "age_bucket": "ALL", "total_population": "1"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "DWCRC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "35-39", "total_population": "6"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MTPMND", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "gender": "ALL", "age_bucket": "ALL", "total_population": "1"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MTPMND", "race_or_ethnicity": "BLACK", "gender": "ALL", "age_bucket": "ALL", "total_population": "0"}
@@ -27,8 +25,6 @@
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "DWCRC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "ALL", "total_population": "111"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "FTPMND", "race_or_ethnicity": "WHITE", "gender": "ALL", "age_bucket": "ALL", "total_population": "1"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "GFC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "35-39", "total_population": "1"}
-{"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MRCC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "EXTERNAL_UNKNOWN", "total_population": "0"}
-{"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "ALL", "race_or_ethnicity": "ALL", "gender": "EXTERNAL_UNKNOWN", "age_bucket": "ALL", "total_population": "7"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "DWCRC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "<25", "total_population": "9"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "JRCC", "race_or_ethnicity": "WHITE", "gender": "ALL", "age_bucket": "ALL", "total_population": "170"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "DWCRC", "race_or_ethnicity": "ALL", "gender": "MALE", "age_bucket": "ALL", "total_population": "2"}
@@ -37,7 +33,6 @@
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "TRC", "race_or_ethnicity": "WHITE", "gender": "ALL", "age_bucket": "ALL", "total_population": "10"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MRCC", "race_or_ethnicity": "HISPANIC", "gender": "ALL", "age_bucket": "ALL", "total_population": "2"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "GFC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "<25", "total_population": "0"}
-{"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MRCC", "race_or_ethnicity": "ALL", "gender": "EXTERNAL_UNKNOWN", "age_bucket": "ALL", "total_population": "0"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "BTC", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "gender": "ALL", "age_bucket": "ALL", "total_population": "15"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "DWCRC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "25-29", "total_population": "33"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "FTPFAR", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "25-29", "total_population": "5"}
@@ -50,7 +45,6 @@
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "NDSP", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "35-39", "total_population": "89"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "GFC", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "gender": "ALL", "age_bucket": "ALL", "total_population": "2"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MTPMND", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "ALL", "total_population": "7"}
-{"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "BTC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "EXTERNAL_UNKNOWN", "total_population": "0"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MTPFAR", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "ALL", "total_population": "5"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MTPMND", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "30-34", "total_population": "2"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "ALL", "race_or_ethnicity": "ALL", "gender": "MALE", "age_bucket": "ALL", "total_population": "661"}
@@ -62,12 +56,10 @@
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "TRC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "ALL", "total_population": "11"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "BTC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "40<", "total_population": "13"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "FTPFAR", "race_or_ethnicity": "BLACK", "gender": "ALL", "age_bucket": "ALL", "total_population": "1"}
-{"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "JRCC", "race_or_ethnicity": "ALL", "gender": "EXTERNAL_UNKNOWN", "age_bucket": "ALL", "total_population": "2"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "JRCC", "race_or_ethnicity": "OTHER", "gender": "ALL", "age_bucket": "ALL", "total_population": "5"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "NDSP", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "gender": "ALL", "age_bucket": "ALL", "total_population": "99"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MTPFAR", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "35-39", "total_population": "5"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "GFC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "ALL", "total_population": "9"}
-{"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "NDSP", "race_or_ethnicity": "ALL", "gender": "EXTERNAL_UNKNOWN", "age_bucket": "ALL", "total_population": "0"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "DWCRC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "30-34", "total_population": "9"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MRCC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "35-39", "total_population": "17"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MRCC", "race_or_ethnicity": "ALL", "gender": "MALE", "age_bucket": "ALL", "total_population": "77"}
@@ -84,9 +76,7 @@
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "DWCRC", "race_or_ethnicity": "WHITE", "gender": "ALL", "age_bucket": "ALL", "total_population": "71"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "JRCC", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "ALL", "total_population": "257"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "JRCC", "race_or_ethnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE", "gender": "ALL", "age_bucket": "ALL", "total_population": "88"}
-{"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "NDSP", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "EXTERNAL_UNKNOWN", "total_population": "1"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "ALL", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "35-39", "total_population": "242"}
-{"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "ALL", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "EXTERNAL_UNKNOWN", "total_population": "6"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MTPFAR", "race_or_ethnicity": "ALL", "gender": "ALL", "age_bucket": "<25", "total_population": "1"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MTPMND", "race_or_ethnicity": "ALL", "gender": "MALE", "age_bucket": "ALL", "total_population": "8"}
 {"state_code": "US_ND", "date_of_stay": "2020-07-23", "facility": "MRCC", "race_or_ethnicity": "BLACK", "gender": "ALL", "age_bucket": "ALL", "total_population": "18"}

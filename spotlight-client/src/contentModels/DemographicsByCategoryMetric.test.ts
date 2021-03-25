@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import fetchMock from "jest-fetch-mock";
 import { runInAction, when } from "mobx";
 import { DemographicView } from "../demographics";
 import { reactImmediately } from "../testUtils";
@@ -68,4 +69,68 @@ test.each([["raceOrEthnicity"], ["gender"], ["ageBucket"]] as [
   });
 
   expect.hasAssertions();
+});
+
+test("no unknowns", async () => {
+  const metric = getTestMetric();
+
+  await metric.hydrate();
+
+  reactImmediately(() => {
+    expect(metric.unknowns).toBeUndefined();
+  });
+
+  expect.hasAssertions();
+});
+
+test("report unknowns", (done) => {
+  const metric = getTestMetric();
+
+  // mock unknowns in response
+  fetchMock.mockOnce(
+    JSON.stringify({
+      incarceration_releases_by_type_by_period: [
+        {
+          state_code: "US_ND",
+          gender: "ALL",
+          age_bucket: "ALL",
+          race_or_ethnicity: "EXTERNAL_UNKNOWN",
+          total_release_count: "25",
+          external_transfer_count: "5",
+          sentence_completion_count: "0",
+          parole_count: "10",
+          probation_count: "5",
+          death_count: "5",
+          metric_period_months: "36",
+        },
+        {
+          state_code: "US_ND",
+          gender: "ALL",
+          age_bucket: "EXTERNAL_UNKNOWN",
+          race_or_ethnicity: "ALL",
+          total_release_count: "1",
+          external_transfer_count: "0",
+          sentence_completion_count: "0",
+          parole_count: "1",
+          probation_count: "0",
+          death_count: "0",
+          metric_period_months: "36",
+        },
+      ],
+    })
+  );
+
+  metric.hydrate();
+
+  when(
+    () => metric.unknowns !== undefined,
+    () => {
+      expect(metric.unknowns).toEqual({
+        raceOrEthnicity: 25,
+        gender: 0,
+        ageBucket: 1,
+      });
+      done();
+    }
+  );
 });

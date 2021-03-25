@@ -26,8 +26,8 @@ import RateTrend, {
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
-import SmallDataDisclaimer from "../SmallDataDisclaimer";
 import { animation } from "../UiLibrary";
+import VizNotes from "../VizNotes";
 import withMetricHydrator from "../withMetricHydrator";
 import CohortFilterSelect from "./CohortFilterSelect";
 
@@ -49,6 +49,7 @@ const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = 
     selectedCohorts,
     highlightedCohort,
     demographicView,
+    unknowns,
   } = metric;
 
   const chartTransitions = useTransition(
@@ -91,7 +92,7 @@ const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = 
             </animated.div>
           ))}
         </ChartWrapper>
-        <SmallDataDisclaimer />
+        <VizNotes smallData unknowns={unknowns} />
       </>
     );
   }

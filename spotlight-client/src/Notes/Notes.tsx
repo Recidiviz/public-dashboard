@@ -15,4 +15,35 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export { default } from "./SmallDataDisclaimer";
+import { rem } from "polished";
+import React from "react";
+import styled from "styled-components/macro";
+import { colors } from "../UiLibrary";
+
+const Wrapper = styled.ol`
+  color: ${colors.caption};
+  font-size: ${rem(13)};
+  font-weight: 500;
+  line-height: 1.7;
+  list-style: decimal outside;
+  margin-top: ${rem(40)};
+  padding-left: 1em;
+`;
+
+const Item = styled.li`
+  margin-bottom: 1em;
+  padding-left: 0.5em;
+`;
+
+/**
+ * Renders children as an ordered list of foot- or endnotes.
+ */
+const Notes: React.FC = ({ children }) => {
+  return (
+    <Wrapper>
+      {React.Children.map(children, (child) => child && <Item>{child}</Item>)}
+    </Wrapper>
+  );
+};
+
+export default Notes;

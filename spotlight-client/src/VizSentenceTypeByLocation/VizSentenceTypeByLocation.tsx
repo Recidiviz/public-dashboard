@@ -28,8 +28,8 @@ import SentenceTypeChart, {
   CHART_BOTTOM_PADDING,
   CHART_HEIGHT,
 } from "./SentenceTypeChart";
-import SmallDataDisclaimer from "../SmallDataDisclaimer";
 import withMetricHydrator from "../withMetricHydrator";
+import VizNotes from "../VizNotes";
 
 const ChartWrapper = styled.div`
   /* px rather than rem for consistency with Semiotic */
@@ -77,7 +77,7 @@ const VizSentenceTypeByLocation: React.FC<VizSentenceTypeByLocationProps> = ({
               )
           )}
         </ChartWrapper>
-        <SmallDataDisclaimer />
+        <VizNotes smallData unknowns={metric.unknowns} />
       </>
     );
   }

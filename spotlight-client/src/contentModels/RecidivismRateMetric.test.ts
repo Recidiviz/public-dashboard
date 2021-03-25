@@ -168,3 +168,99 @@ describe("cohorts data series", () => {
     expect.hasAssertions();
   });
 });
+
+test("no unknowns", async () => {
+  const metric = await getPopulatedMetric("PrisonRecidivismRateHistorical");
+
+  reactImmediately(() => {
+    expect(metric.unknowns).toBeUndefined();
+  });
+
+  expect.hasAssertions();
+});
+
+test("report unknowns", async (done) => {
+  // mock unknowns in response
+  fetchMock.mockOnce(
+    JSON.stringify({
+      recidivism_rates_by_cohort_by_year: [
+        {
+          state_code: "US_DEMO",
+          gender: "ALL",
+          age_bucket: "ALL",
+          race_or_ethnicity: "EXTERNAL_UNKNOWN",
+          releases: "10",
+          release_cohort: "2018",
+          followup_years: "1",
+          recidivism_rate: "0.2",
+          recidivated_releases: "2",
+        },
+        // counts are expected to be the same across followup periods;
+        // this is here to make sure we aren't double-counting
+        {
+          state_code: "US_DEMO",
+          gender: "ALL",
+          age_bucket: "ALL",
+          race_or_ethnicity: "EXTERNAL_UNKNOWN",
+          releases: "10",
+          release_cohort: "2018",
+          followup_years: "2",
+          recidivism_rate: "0.3",
+          recidivated_releases: "3",
+        },
+        {
+          state_code: "US_DEMO",
+          gender: "EXTERNAL_UNKNOWN",
+          age_bucket: "ALL",
+          race_or_ethnicity: "ALL",
+          releases: "2",
+          release_cohort: "2018",
+          followup_years: "1",
+          recidivism_rate: "0",
+          recidivated_releases: "0",
+        },
+        {
+          state_code: "US_DEMO",
+          gender: "ALL",
+          age_bucket: "EXTERNAL_UNKNOWN",
+          race_or_ethnicity: "ALL",
+          releases: "1",
+          release_cohort: "2018",
+          followup_years: "1",
+          recidivism_rate: "1",
+          recidivated_releases: "1",
+        },
+        {
+          state_code: "US_DEMO",
+          gender: "ALL",
+          age_bucket: "ALL",
+          race_or_ethnicity: "ALL",
+          releases: "355",
+          release_cohort: "2017",
+          followup_years: "1",
+          recidivism_rate: "0.2422535211",
+          recidivated_releases: "86",
+        },
+      ],
+    })
+  );
+
+  const metric = await getPopulatedMetric("PrisonRecidivismRateHistorical");
+
+  when(
+    () => metric.unknowns !== undefined,
+    () => {
+      expect(metric.unknowns).toEqual([
+        {
+          cohort: 2018,
+          unknowns: {
+            raceOrEthnicity: 10,
+            gender: 2,
+            ageBucket: 1,
+          },
+        },
+      ]);
+      done();
+    }
+  );
+});

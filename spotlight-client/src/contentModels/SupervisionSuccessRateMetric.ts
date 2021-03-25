@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { ascending } from "d3-array";
+import { ascending, sum } from "d3-array";
 import { computed, makeObservable, observable, runInAction, when } from "mobx";
 import {
   DemographicView,
@@ -32,9 +32,11 @@ import {
   SupervisionSuccessRateDemographicsRecord,
   SupervisionSuccessRateMonthlyRecord,
 } from "../metricsApi";
+import { countUnknowns, hasUnknowns } from "./unknowns";
 import downloadData from "./downloadData";
 import getMissingMonths from "./getMissingMonths";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
+import { UnknownCounts } from "./types";
 
 function dataIncludesCurrentMonth(
   records: SupervisionSuccessRateMonthlyRecord[]
@@ -90,6 +92,7 @@ export default class SupervisionSuccessRateMetric extends Metric<
       allCohortRecords: observable.ref,
       cohortRecords: computed,
       demographicRecords: computed,
+      unknowns: computed,
     });
   }
 
@@ -268,5 +271,18 @@ export default class SupervisionSuccessRateMetric extends Metric<
         ],
       })
     );
+  }
+
+  get unknowns(): UnknownCounts | undefined {
+    const { allDemographicRecords, localityId } = this;
+    if (!allDemographicRecords) return undefined;
+
+    const counts = countUnknowns(
+      allDemographicRecords.filter(recordMatchesLocality(localityId)),
+      (groupedRecords: SupervisionSuccessRateDemographicsRecord[]) =>
+        sum(groupedRecords, (r) => r.rateDenominator)
+    );
+
+    return hasUnknowns(counts) ? counts : undefined;
   }
 }

@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { ascending } from "d3-array";
+import { ascending, groups } from "d3-array";
 import { action, computed, makeObservable, observable } from "mobx";
 import { DataSeries, ItemToHighlight } from "../charts";
 import {
@@ -24,8 +24,9 @@ import {
 } from "../demographics";
 import { RateFields, RecidivismRateRecord } from "../metricsApi";
 import { colors } from "../UiLibrary";
+import { countUnknowns } from "./unknowns";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
-import { DemographicCategoryRateRecords } from "./types";
+import { DemographicCategoryRateRecords, UnknownsByCohort } from "./types";
 
 type CohortDataSeries = DataSeries<RateFields & { followupYears: number }>;
 
@@ -72,6 +73,7 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
       setHighlightedCohort: action,
       setSelectedCohorts: action,
       singleFollowupDemographics: computed,
+      unknowns: computed,
     });
   }
 
@@ -223,5 +225,23 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
         coordinates,
       };
     });
+  }
+
+  get unknowns(): UnknownsByCohort | undefined {
+    const { allRecords } = this;
+    if (!allRecords) return undefined;
+
+    const countsByCohort = groups(allRecords, (r) => r.releaseCohort)
+      .map(([cohort, records]) => ({
+        cohort,
+        unknowns: countUnknowns(
+          records,
+          // count should be the same across followup periods so we just need one
+          (groupedRecords) => groupedRecords[0].rateDenominator
+        ),
+      }))
+      .filter((item) => Object.values(item.unknowns).some((val) => val));
+
+    return countsByCohort.length ? countsByCohort : undefined;
   }
 }

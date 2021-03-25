@@ -17,7 +17,7 @@
 
 import { isEqual } from "date-fns";
 import { advanceTo, clear } from "jest-date-mock";
-import { runInAction } from "mobx";
+import { runInAction, when } from "mobx";
 import { DemographicViewList, getDemographicCategories } from "../demographics";
 import {
   fetchAndTransformMetric,
@@ -172,4 +172,76 @@ test("imputed data includes current month", async () => {
     expect(metric.dataIncludesCurrentMonth).toBe(true);
   });
   expect.hasAssertions();
+});
+
+test("no unknowns", async () => {
+  const metric = await getMetric();
+
+  reactImmediately(() => {
+    expect(metric.unknowns).toBeUndefined();
+  });
+
+  expect.hasAssertions();
+});
+
+test("report unknowns", async (done) => {
+  // mock unknowns in response
+  mockedFetchAndTransformMetric.mockResolvedValue([
+    {
+      date: new Date(2020, 9, 1),
+      count: 55,
+      raceOrEthnicity: "ALL",
+      gender: "EXTERNAL_UNKNOWN",
+      ageBucket: "ALL",
+    },
+    {
+      date: new Date(2020, 4, 1),
+      count: 12,
+      raceOrEthnicity: "ALL",
+      gender: "ALL",
+      ageBucket: "EXTERNAL_UNKNOWN",
+    },
+    {
+      date: new Date(2020, 7, 1),
+      count: 45,
+      raceOrEthnicity: "ALL",
+      gender: "EXTERNAL_UNKNOWN",
+      ageBucket: "ALL",
+    },
+  ]);
+
+  const metric = await getMetric();
+
+  when(
+    () => metric.unknowns !== undefined,
+    () => {
+      expect(metric.unknowns).toEqual([
+        {
+          date: new Date(2020, 4, 1),
+          unknowns: {
+            raceOrEthnicity: 0,
+            gender: 0,
+            ageBucket: 12,
+          },
+        },
+        {
+          date: new Date(2020, 7, 1),
+          unknowns: {
+            raceOrEthnicity: 0,
+            gender: 45,
+            ageBucket: 0,
+          },
+        },
+        {
+          date: new Date(2020, 9, 1),
+          unknowns: {
+            raceOrEthnicity: 0,
+            gender: 55,
+            ageBucket: 0,
+          },
+        },
+      ]);
+      done();
+    }
+  );
 });

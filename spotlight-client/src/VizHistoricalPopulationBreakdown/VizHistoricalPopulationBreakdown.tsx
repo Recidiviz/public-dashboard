@@ -23,6 +23,7 @@ import type HistoricalPopulationBreakdownMetric from "../contentModels/Historica
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
 import { Dropdown } from "../UiLibrary";
+import VizNotes from "../VizNotes";
 import withMetricHydrator from "../withMetricHydrator";
 
 const VizHistoricalPopulationBreakdown: React.FC<{
@@ -73,6 +74,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
           defaultRangeEnd={defaultRangeEnd}
           defaultRangeStart={defaultRangeStart}
         />
+        <VizNotes unknowns={metric.unknowns} />
       </>
     );
 

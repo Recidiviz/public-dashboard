@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import fetchMock from "jest-fetch-mock";
 import { runInAction, when } from "mobx";
 import { reactImmediately } from "../testUtils";
 import createMetricMapping from "./createMetricMapping";
@@ -96,4 +97,79 @@ test("total population", async () => {
   reactImmediately(() => expect(metric.totalPopulation).toBe(413));
 
   expect.hasAssertions();
+});
+
+test("no unknowns", async () => {
+  const metric = getTestMetric();
+
+  await metric.hydrate();
+
+  reactImmediately(() => {
+    expect(metric.unknowns).toBeUndefined();
+  });
+
+  expect.hasAssertions();
+});
+
+test("report unknowns for current locality", (done) => {
+  const metric = getTestMetric();
+
+  // mock unknowns in response
+  fetchMock.mockOnce(
+    JSON.stringify({
+      incarceration_population_by_facility_by_demographics: [
+        {
+          state_code: "US_ND",
+          date_of_stay: "2020-07-23",
+          facility: "ALL",
+          race_or_ethnicity: "EXTERNAL_UNKNOWN",
+          gender: "ALL",
+          age_bucket: "ALL",
+          total_population: "25",
+        },
+        {
+          state_code: "US_ND",
+          date_of_stay: "2020-07-23",
+          facility: "test1",
+          race_or_ethnicity: "EXTERNAL_UNKNOWN",
+          gender: "ALL",
+          age_bucket: "ALL",
+          total_population: "20",
+        },
+        {
+          state_code: "US_ND",
+          date_of_stay: "2020-07-23",
+          facility: "test2",
+          race_or_ethnicity: "EXTERNAL_UNKNOWN",
+          gender: "ALL",
+          age_bucket: "ALL",
+          total_population: "5",
+        },
+      ],
+    })
+  );
+
+  metric.hydrate();
+
+  when(
+    () => metric.unknowns !== undefined,
+    () => {
+      expect(metric.unknowns).toEqual({
+        raceOrEthnicity: 25,
+        gender: 0,
+        ageBucket: 0,
+      });
+
+      runInAction(() => {
+        metric.localityId = "test2";
+      });
+
+      expect(metric.unknowns).toEqual({
+        raceOrEthnicity: 5,
+        gender: 0,
+        ageBucket: 0,
+      });
+      done();
+    }
+  );
 });

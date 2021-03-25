@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { sum } from "d3-array";
 import { computed, makeObservable } from "mobx";
 import { SENTENCE_TYPE_LABELS } from "../constants";
 import {
@@ -25,7 +26,9 @@ import {
   recordMatchesLocality,
   SentenceTypeByLocationRecord,
 } from "../metricsApi";
+import { countUnknowns, hasUnknowns } from "./unknowns";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
+import { UnknownCounts } from "./types";
 
 type GraphNode = {
   id: string;
@@ -45,7 +48,7 @@ export default class SentenceTypeByLocationMetric extends Metric<
   ) {
     super(props);
 
-    makeObservable(this, { dataGraph: computed });
+    makeObservable(this, { dataGraph: computed, unknowns: computed });
   }
 
   get records(): SentenceTypeByLocationRecord[] | undefined {
@@ -115,5 +118,22 @@ export default class SentenceTypeByLocationMetric extends Metric<
       })),
       edges,
     };
+  }
+
+  get unknowns(): UnknownCounts | undefined {
+    const { allRecords, localityId } = this;
+
+    if (!allRecords) return undefined;
+
+    const counts = countUnknowns(
+      allRecords.filter(recordMatchesLocality(localityId)),
+      (groupedRecords: SentenceTypeByLocationRecord[]) =>
+        sum(
+          groupedRecords,
+          (r) => r.dualSentenceCount + r.incarcerationCount + r.probationCount
+        )
+    );
+
+    return hasUnknowns(counts) ? counts : undefined;
   }
 }
