@@ -106,7 +106,8 @@ describe("navigation", () => {
     expect(screen.getByRole(...lookupArgs)).toBeInTheDocument();
   });
 
-  test("links", async () => {
+  // TODO (#353) async specs fail intermittently
+  test.skip("links", async () => {
     renderNavigableApp();
 
     const inNav = within(screen.getByRole("navigation"));
@@ -148,7 +149,8 @@ describe("navigation", () => {
     ).toBeInTheDocument();
   });
 
-  test("pageview tracking", async () => {
+  // TODO (#353) async specs fail intermittently
+  test.skip("pageview tracking", async () => {
     segmentMock.page.mockReset();
 
     const {
