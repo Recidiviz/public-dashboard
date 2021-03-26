@@ -15,16 +15,20 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Modal as ModalBase } from "@recidiviz/case-triage-components";
+import {
+  Modal as ModalBase,
+  ModalProps,
+} from "@recidiviz/case-triage-components";
 import { rem, rgba } from "polished";
+import React from "react";
 import styled from "styled-components/macro";
+import { Omit } from "utility-types";
+import iconPath from "../assets/x.svg";
 import { colors } from ".";
 import animation from "./animation";
 import zIndex from "./zIndex";
 
-export const Modal = styled(ModalBase).attrs({
-  closeTimeoutMS: animation.defaultDuration,
-})`
+export const StyledModal = styled(ModalBase)`
   /*
     the double ampersands are a trick to overcome
     specificity in the imported component styles
@@ -54,5 +58,46 @@ export const Modal = styled(ModalBase).attrs({
     z-index: ${zIndex.modal + 1};
   }
 `;
+
+const CloseButton = styled.button.attrs({ type: "button" })`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: ${rem(16)};
+  position: absolute;
+  right: 0;
+  top: 0;
+`;
+const CloseIcon = styled.img`
+  height: ${rem(12)};
+  width: ${rem(12)};
+`;
+
+type SpotlightModalProps = Omit<ModalProps, "closeTimeoutMs">;
+
+/**
+ * Must provide a `close` function that flips `isOpen` to false
+ */
+export const Modal: React.FC<SpotlightModalProps> = ({
+  children,
+  onRequestClose,
+  ...passThruProps
+}) => {
+  return (
+    <StyledModal
+      {...{ ...passThruProps, onRequestClose }}
+      closeTimeoutMS={animation.defaultDuration}
+    >
+      <>
+        {onRequestClose && (
+          <CloseButton onClick={(e) => onRequestClose(e)}>
+            <CloseIcon alt="close modal" src={iconPath} />
+          </CloseButton>
+        )}
+        {children}
+      </>
+    </StyledModal>
+  );
+};
 
 export { ModalHeading } from "@recidiviz/case-triage-components";
