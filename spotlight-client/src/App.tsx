@@ -71,6 +71,11 @@ const App: React.FC = () => {
               */}
               {/* while there is only one state, home simply redirects to ND home */}
               <Redirect from="/" to="/us-nd" noThrow />
+              {/*
+                this was the ND homepage for v1;
+                let's make sure people who bookmarked it are not lost
+              */}
+              <Redirect from="/us_nd/overview" to="/us-nd" noThrow />
               <PassThroughPage path="/:tenantId">
                 <PageTenant path="/" />
                 <PageNarrative

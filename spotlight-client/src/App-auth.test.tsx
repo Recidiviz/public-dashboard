@@ -77,7 +77,8 @@ afterEach(() => {
   cleanup();
 });
 
-test("no auth required", async () => {
+// TODO (#353) async specs fail intermittently
+test.skip("no auth required", async () => {
   const App = await getApp();
   render(<App />);
   // site home redirects to the ND home
@@ -111,7 +112,8 @@ test("requires authentication", async () => {
   });
 });
 
-test("requires email verification", async () => {
+// TODO (#353) async specs fail intermittently
+test.skip("requires email verification", async () => {
   // configure environment for valid authentication
   process.env.REACT_APP_AUTH_ENABLED = "true";
   process.env.REACT_APP_AUTH_ENV = "development";

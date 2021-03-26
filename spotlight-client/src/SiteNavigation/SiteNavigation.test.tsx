@@ -139,7 +139,7 @@ describe("on small screens", () => {
     const menu = screen.getByTestId("NavMenu");
     const navLinks = await within(menu).findAllByRole("link");
 
-    expect(navLinks.length).toBe(6);
+    expect(navLinks.length).toBe(7);
 
     expect(navLinks[0]).toHaveTextContent("Home");
     expect(navLinks[0]).toHaveAttribute("href", "/us-nd");
@@ -164,6 +164,12 @@ describe("on small screens", () => {
       "href",
       "/us-nd/collections/racial-disparities"
     );
+
+    expect(navLinks[6]).toHaveTextContent("Feedback");
+    expect(navLinks[6]).toHaveAttribute(
+      "href",
+      expect.stringContaining("docs.google.com/forms")
+    );
   });
 
   test("menu closes after navigation", async () => {
@@ -175,7 +181,8 @@ describe("on small screens", () => {
     const menu = screen.getByTestId("NavMenu");
     const navLinks = await within(menu).findAllByRole("link");
 
-    navLinks.forEach((linkEl) => {
+    // exclude the last link because it doesn't navigate, it links out
+    navLinks.slice(0, -2).forEach((linkEl) => {
       fireEvent.click(linkEl);
       expect(menu).toHaveAttribute("aria-hidden", "true");
 

@@ -33,6 +33,8 @@ import {
   NavGroup,
   NavGroupItem as NavGroupItemBase,
   NavLink as NavLinkBase,
+  FEEDBACK_URL,
+  ExternalNavLink as ExternalNavLinkBase,
 } from "./shared";
 
 const NavContainer = styled(animated(NavContainerBase))<{
@@ -53,6 +55,10 @@ const NavGroupItem = styled(NavGroupItemBase)`
 `;
 
 const NavLink = styled(NavLinkBase)`
+  color: ${colors.textLight};
+`;
+
+const ExternalNavLink = styled(ExternalNavLinkBase)`
   color: ${colors.textLight};
 `;
 
@@ -164,6 +170,9 @@ const SiteNavigation: React.FC = () => {
                 </NavLink>
               </NavMenuItem>
             )}
+            <NavMenuItem>
+              <ExternalNavLink href={FEEDBACK_URL}>Feedback</ExternalNavLink>
+            </NavMenuItem>
           </>
         )}
       </NavMenu>

@@ -15,48 +15,26 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { useNavigate } from "@reach/router";
-import React from "react";
+import { Link } from "@reach/router";
 import styled from "styled-components/macro";
 
-const Anchor = styled.a`
-  &[aria-disabled="true"] {
-    cursor: not-allowed;
-  }
-`;
-
-type NavigationLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-  to: string;
+type NavigationLinkProps = {
   disabled?: boolean;
 };
 
 /**
- * An alternative to the @reach/router `Link` component.
- * Can be `disabled` to render link inoperative.
+ * Extends @reach/router Link component with a `disabled` prop
+ * that disables click events
  */
-const NavigationLink: React.FC<NavigationLinkProps> = ({
-  children,
-  disabled,
-  to,
-  ...props
-}) => {
-  const navigate = useNavigate();
-
-  return (
-    <Anchor
-      {...props}
-      href={disabled ? undefined : to}
-      onClick={(e) => {
-        e.preventDefault();
-        if (!disabled) {
-          navigate(to);
-        }
-      }}
-      aria-disabled={disabled}
-    >
-      {children}
-    </Anchor>
-  );
-};
+const NavigationLink = styled(Link).attrs<NavigationLinkProps>((props) => ({
+  "aria-disabled": props.disabled ? "true" : "false",
+  onClick: (e: MouseEvent) => {
+    if (props.disabled) e.preventDefault();
+  },
+}))<NavigationLinkProps>`
+  &[aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+`;
 
 export default NavigationLink;

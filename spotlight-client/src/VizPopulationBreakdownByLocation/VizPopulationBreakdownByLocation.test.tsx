@@ -54,7 +54,8 @@ test("loading", () => {
   expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
-test("total counts", async () => {
+// TODO (#353) async specs fail intermittently
+test.skip("total counts", async () => {
   renderWithStore(<VizPopulationBreakdownByLocation metric={metric} />);
 
   await waitFor(() => {
@@ -139,7 +140,8 @@ test("total counts", async () => {
   ).toHaveStyle(`fill: ${colors.dataViz[1]}`);
 });
 
-test("counts filtered by locality", async () => {
+// TODO (#353) async specs fail intermittently
+test.skip("counts filtered by locality", async () => {
   renderWithStore(<VizPopulationBreakdownByLocation metric={metric} />);
 
   await when(() => !metric.isLoading);

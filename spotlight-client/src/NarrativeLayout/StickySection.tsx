@@ -24,8 +24,6 @@ import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import { breakpoints, CopyBlock, FullScreenSection } from "../UiLibrary";
 
-const COPY_WIDTH = 408;
-
 const Container = styled(FullScreenSection)`
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     display: flex;
@@ -35,9 +33,11 @@ const Container = styled(FullScreenSection)`
   }
 
   @media screen and (min-width: ${breakpoints.desktop[0]}px) {
-    align-items: flex-start;
-    flex-direction: row;
-    justify-content: flex-start;
+    /* grid properties do not get auto-prefixed for IE during build */
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: minmax(${rem(250)}, 30%) 1fr;
+    grid-template-columns: minmax(${rem(250)}, 30%) 1fr;
   }
 `;
 
@@ -46,14 +46,13 @@ const LeftContainer = styled(CopyBlock)<{ $isSticky: boolean }>`
   padding-top: ${rem(40)};
 
   @media screen and (min-width: ${breakpoints.desktop[0]}px) {
-    align-self: flex-start;
     display: flex;
-    flex: 0 1 30%;
     flex-direction: column;
+    -ms-grid-column: 1;
+    grid-column: 1;
     height: ${(props) =>
       props.$isSticky ? `calc(100vh - ${rem(NAV_BAR_HEIGHT)})` : "auto"};
     justify-content: center;
-    max-width: ${rem(COPY_WIDTH)};
     padding-bottom: ${rem(40)};
     position: ${(props) => (props.$isSticky ? "sticky" : "static")};
     top: ${rem(NAV_BAR_HEIGHT)};
@@ -66,12 +65,11 @@ const RightContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* min-width cannot be auto or children will not shrink when viewport does */
-  min-width: ${rem(320)};
   padding: ${rem(32)} 0;
 
   @media screen and (min-width: ${breakpoints.desktop[0]}px) {
-    flex: 1 1 auto;
+    -ms-grid-column: 2;
+    grid-column: 2;
     margin-left: 8%;
     min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
   }

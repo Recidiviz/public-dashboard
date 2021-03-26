@@ -170,6 +170,7 @@ const SectionLinks: React.FC<{
             <SectionListItem key={section.title}>
               <SectionLink
                 to={`${urlBase}/${index + 1}`}
+                replace
                 onMouseOver={showLinkLabel(index)}
                 onFocus={showLinkLabel(index)}
                 onMouseOut={hideLinkLabel(index)}

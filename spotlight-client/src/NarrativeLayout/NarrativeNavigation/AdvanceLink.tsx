@@ -57,6 +57,7 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = ({
     <StyledNavLink
       to={`${urlBase}/${targetSection}`}
       disabled={disabled}
+      replace
       aria-label={`${type} section`}
       onMouseOver={() => setHovered(true)}
       onFocus={() => setHovered(true)}
