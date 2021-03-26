@@ -19,10 +19,11 @@ import {
   Modal as ModalBase,
   ModalProps,
 } from "@recidiviz/case-triage-components";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { rem, rgba } from "polished";
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components/macro";
-import { Omit } from "utility-types";
+import { Omit, Required } from "utility-types";
 import iconPath from "../assets/x.svg";
 import { colors } from ".";
 import animation from "./animation";
@@ -73,27 +74,47 @@ const CloseIcon = styled.img`
   width: ${rem(12)};
 `;
 
-type SpotlightModalProps = Omit<ModalProps, "closeTimeoutMs">;
+type SpotlightModalProps = Omit<
+  Required<ModalProps, "onRequestClose">,
+  "closeTimeoutMs"
+>;
 
-/**
- * Must provide a `close` function that flips `isOpen` to false
- */
 export const Modal: React.FC<SpotlightModalProps> = ({
   children,
+  onAfterOpen,
   onRequestClose,
   ...passThruProps
 }) => {
+  const modalContentRef = useRef<HTMLDivElement | null>(null);
+
+  const onRequestCloseWithScrollLock: ModalProps["onRequestClose"] = (e) => {
+    if (modalContentRef.current) {
+      enableBodyScroll(modalContentRef.current);
+    }
+    onRequestClose(e);
+  };
+
   return (
     <StyledModal
-      {...{ ...passThruProps, onRequestClose }}
+      {...passThruProps}
       closeTimeoutMS={animation.defaultDuration}
+      contentRef={(node) => {
+        modalContentRef.current = node;
+      }}
+      onAfterOpen={(opts) => {
+        if (modalContentRef.current) {
+          disableBodyScroll(modalContentRef.current);
+        }
+        if (onAfterOpen) {
+          onAfterOpen(opts);
+        }
+      }}
+      onRequestClose={onRequestCloseWithScrollLock}
     >
       <>
-        {onRequestClose && (
-          <CloseButton onClick={(e) => onRequestClose(e)}>
-            <CloseIcon alt="close modal" src={iconPath} />
-          </CloseButton>
-        )}
+        <CloseButton onClick={(e) => onRequestCloseWithScrollLock(e)}>
+          <CloseIcon alt="close modal" src={iconPath} />
+        </CloseButton>
         {children}
       </>
     </StyledModal>
