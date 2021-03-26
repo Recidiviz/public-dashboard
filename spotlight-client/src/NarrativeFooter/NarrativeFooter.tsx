@@ -59,11 +59,11 @@ const Footer: React.FC = () => {
       <Link
         className="NarrativeFooter__BackLink"
         to={getUrlForResource({
-          page: "narrative list",
+          page: "tenant",
           params: { tenantId: tenant.id },
         })}
       >
-        <Arrow direction="left" /> Back to Collections
+        <Arrow direction="left" /> Back to Data Narratives
       </Link>
     </Container>
   );

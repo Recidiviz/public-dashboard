@@ -169,6 +169,6 @@ test("includes links to other narratives", () => {
   ).not.toBeInTheDocument();
 
   expect(
-    within(nav).getByRole("link", { name: "Back to Collections" })
+    within(nav).getByRole("link", { name: "Back to Data Narratives" })
   ).toBeInTheDocument();
 });
