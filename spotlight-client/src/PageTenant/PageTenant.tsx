@@ -21,16 +21,27 @@ import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
+import { NAV_BAR_HEIGHT } from "../constants";
 import OtherNarrativeLinks from "../OtherNarrativeLinks";
 import { useDataStore } from "../StoreProvider";
 import { breakpoints, CopyBlock, PageSection, PageTitle } from "../UiLibrary";
 import withRouteSync from "../withRouteSync";
 
 const Introduction = styled(PageSection)`
-  margin: ${rem(48)} 0;
+  padding-bottom: ${rem(48)};
+  padding-top: ${rem(48)};
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
-    margin: ${rem(160)} 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* try to keep the links "above the fold" */
+    min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)} - ${rem(130)});
+
+    @media (min-height: ${rem(900)}) {
+      /* stop scaling height to viewport because it looks ridiculous */
+      min-height: ${rem(900 - NAV_BAR_HEIGHT - 130)};
+    }
   }
 `;
 
