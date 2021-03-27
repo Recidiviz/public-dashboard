@@ -15,6 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import HTMLReactParser from "html-react-parser";
+import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
@@ -25,6 +27,7 @@ import mediumPath from "../assets/medium-logo-light.svg";
 import wordmarkPath from "../assets/recidiviz-logo-light.svg";
 import twitterPath from "../assets/twitter-logo-light.svg";
 import { FOOTER_HEIGHT } from "../constants";
+import { useDataStore } from "../StoreProvider";
 import { breakpoints, colors } from "../UiLibrary";
 
 const Wrapper = styled.footer`
@@ -52,6 +55,12 @@ const Contents = styled.div`
   flex: 1 1 auto;
   flex-wrap: wrap;
   justify-content: space-between;
+`;
+
+const CoBranding = styled.div`
+  flex: 0 0 auto;
+  margin-bottom: ${rem(16)};
+  width: 100%;
 `;
 
 const Legalese = styled.div`
@@ -108,11 +117,16 @@ const BrandLink = styled.a`
 `;
 
 const SiteFooter: React.FC = () => {
+  const { tenant } = useDataStore();
+
   const year = new Date().getFullYear();
 
   return (
     <Wrapper>
       <Contents>
+        {tenant && (
+          <CoBranding>{HTMLReactParser(tenant.coBrandingCopy)}</CoBranding>
+        )}
         <Legalese>
           <span>
             &#169; Copyright {year} Recidiviz. All rights reserved.{" "}
@@ -148,4 +162,4 @@ const SiteFooter: React.FC = () => {
   );
 };
 
-export default SiteFooter;
+export default observer(SiteFooter);

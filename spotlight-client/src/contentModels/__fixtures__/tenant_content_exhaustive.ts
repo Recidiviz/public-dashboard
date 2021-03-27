@@ -32,6 +32,7 @@ type ExhaustiveTenantContent = Required<TenantContent> &
 const content: ExhaustiveTenantContent = {
   name: "Test Tenant",
   description: "test tenant description",
+  coBrandingCopy: "test tenant co-branding",
   collections: {
     Sentencing: {
       name: "Sentencing",
