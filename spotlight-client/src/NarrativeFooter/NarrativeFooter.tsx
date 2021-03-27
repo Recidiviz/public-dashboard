@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
   if (!tenant) return null;
 
   return (
-    <Container aria-label="collections">
+    <Container aria-label="data narratives">
       <Heading>Continue Reading</Heading>
       <OtherNarrativeLinks />
       <Link

@@ -19,6 +19,7 @@ import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import mockContentFixture from "./__fixtures__/contentSource";
 import { SystemNarrativeContent } from "../contentApi/types";
 import { renderNavigableApp } from "../testUtils";
+import { NarrativesSlug } from "../routerUtils/types";
 
 jest.mock("../contentApi/sources/us_nd", () => mockContentFixture);
 
@@ -26,7 +27,7 @@ const narrativeContent = mockContentFixture.systemNarratives
   .Parole as SystemNarrativeContent;
 
 test("renders all the sections", () => {
-  renderNavigableApp({ route: "/us-nd/collections/parole" });
+  renderNavigableApp({ route: `/us-nd/${NarrativesSlug}/parole` });
 
   expect(
     screen.getByRole("heading", { name: narrativeContent.title, level: 1 })
@@ -43,7 +44,7 @@ test("renders all the sections", () => {
 
 test("navigate to previous and next section", async () => {
   const { history } = renderNavigableApp({
-    route: "/us-nd/collections/parole",
+    route: `/us-nd/${NarrativesSlug}/parole`,
   });
 
   const nextLabel = "next section";
@@ -68,7 +69,7 @@ test("navigate to previous and next section", async () => {
   await waitFor(() => {
     expect(within(navRegion).getByText("02")).toBeInTheDocument();
   });
-  expect(history.location.pathname).toBe("/us-nd/collections/parole/2");
+  expect(history.location.pathname).toBe(`/us-nd/${NarrativesSlug}/parole/2`);
 
   const prevLink = screen.getByRole("link", { name: prevLabel });
   expect(prevLink).toBeInTheDocument();
@@ -85,7 +86,7 @@ test("navigate to previous and next section", async () => {
 
   // advance to the last section
   history.navigate(
-    `/us-nd/collections/parole/${narrativeContent.sections.length + 1}`
+    `/us-nd/${NarrativesSlug}/parole/${narrativeContent.sections.length + 1}`
   );
 
   await waitFor(() => {
@@ -109,7 +110,7 @@ test("navigate to previous and next section", async () => {
 
 test("navigate directly to any section", async () => {
   const { history } = renderNavigableApp({
-    route: "/us-nd/collections/parole",
+    route: `/us-nd/${NarrativesSlug}/parole`,
   });
 
   const navRegion = screen.getByRole("navigation", { name: "page sections" });
@@ -124,7 +125,7 @@ test("navigate directly to any section", async () => {
 
       await waitFor(() =>
         expect(history.location.pathname).toBe(
-          `/us-nd/collections/parole/${index + 2}`
+          `/us-nd/${NarrativesSlug}/parole/${index + 2}`
         )
       );
     })
@@ -137,13 +138,13 @@ test("navigate directly to any section", async () => {
   fireEvent.click(introLink);
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe("/us-nd/collections/parole/1")
+    expect(history.location.pathname).toBe(`/us-nd/${NarrativesSlug}/parole/1`)
   );
 });
 
 test("renders link tags in copy", async () => {
   // this fixture has links in the copy
-  renderNavigableApp({ route: "/us-nd/collections/sentencing" });
+  renderNavigableApp({ route: `/us-nd/${NarrativesSlug}/sentencing` });
 
   expect(screen.getByRole("link", { name: "intro link" })).toBeInTheDocument();
 
@@ -153,16 +154,19 @@ test("renders link tags in copy", async () => {
 });
 
 test("includes links to other narratives", () => {
-  renderNavigableApp({ route: "/us-nd/collections/parole" });
+  renderNavigableApp({ route: `/us-nd/${NarrativesSlug}/parole` });
 
-  const nav = screen.getByRole("navigation", { name: "collections" });
+  const nav = screen.getByRole("navigation", { name: "data narratives" });
 
   const otherLink = within(nav).getByRole("link", {
     name: mockContentFixture.systemNarratives.Sentencing?.title,
   });
 
   expect(otherLink).toBeInTheDocument();
-  expect(otherLink).toHaveAttribute("href", "/us-nd/collections/sentencing");
+  expect(otherLink).toHaveAttribute(
+    "href",
+    `/us-nd/${NarrativesSlug}/sentencing`
+  );
 
   expect(
     within(nav).queryByRole("link", { name: narrativeContent.title })

@@ -28,4 +28,4 @@ export type NormalizedRouteParams = {
   narrativeTypeId?: NarrativeTypeId | null;
 };
 
-export const NarrativesSlug = "collections";
+export const NarrativesSlug = "narratives";

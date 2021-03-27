@@ -17,6 +17,7 @@
 
 import { getDefaultNormalizer, screen } from "@testing-library/react";
 import mockContentFixture from "../contentModels/__fixtures__/tenant_content_exhaustive";
+import { NarrativesSlug } from "../routerUtils/types";
 import { renderNavigableApp } from "../testUtils";
 
 jest.mock("../contentApi/sources/us_nd", () => mockContentFixture);
@@ -26,7 +27,7 @@ const narrativeContent = mockContentFixture.racialDisparitiesNarrative;
 
 beforeEach(() => {
   renderNavigableApp({
-    route: "/us-nd/collections/racial-disparities",
+    route: `/us-nd/${NarrativesSlug}/racial-disparities`,
   });
 });
 

@@ -25,6 +25,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import testContent from "./contentApi/sources/us_nd";
+import { NarrativesSlug } from "./routerUtils/types";
 import { renderNavigableApp, segmentMock } from "./testUtils";
 
 describe("navigation", () => {
@@ -70,7 +71,7 @@ describe("navigation", () => {
 
   test("single narrative page", () => {
     expect.hasAssertions();
-    const targetPath = "/us-nd/collections/prison";
+    const targetPath = `/us-nd/${NarrativesSlug}/prison`;
     const lookupArgs = [
       "heading",
       {
@@ -84,7 +85,7 @@ describe("navigation", () => {
 
   test("racial disparities narrative page", async () => {
     expect.hasAssertions();
-    const targetPath = "/us-nd/collections/racial-disparities";
+    const targetPath = `/us-nd/${NarrativesSlug}/racial-disparities`;
     const lookupArgs = [
       "heading",
       {
@@ -160,7 +161,7 @@ describe("navigation", () => {
     expect(document.title).toBe("North Dakota — Spotlight by Recidiviz");
     expect(segmentMock.page).toHaveBeenCalledTimes(1);
 
-    await act(() => navigate("/us-nd/collections/prison"));
+    await act(() => navigate(`/us-nd/${NarrativesSlug}/prison`));
 
     expect(document.title).toBe(
       "Prison — North Dakota — Spotlight by Recidiviz"
@@ -168,10 +169,10 @@ describe("navigation", () => {
     expect(segmentMock.page).toHaveBeenCalledTimes(2);
 
     // in-page navigation doesn't trigger additional pageviews
-    await act(() => navigate("/us-nd/collections/prison/2"));
+    await act(() => navigate(`/us-nd/${NarrativesSlug}/prison/2`));
     expect(segmentMock.page).toHaveBeenCalledTimes(2);
 
-    await act(() => navigate("/us-nd/collections/sentencing"));
+    await act(() => navigate(`/us-nd/${NarrativesSlug}/sentencing`));
 
     expect(document.title).toBe(
       "Sentencing — North Dakota — Spotlight by Recidiviz"
@@ -217,7 +218,7 @@ describe("navigation", () => {
     });
 
     test("invalid narrative", async () => {
-      renderNavigableApp({ route: "/us-nd/collections/invalid" });
+      renderNavigableApp({ route: `/us-nd/${NarrativesSlug}/invalid` });
       expect(screen.getByRole(...notFoundRoleArgs)).toBeVisible();
       expect(document.title).toBe(
         "Page not found — North Dakota — Spotlight by Recidiviz"

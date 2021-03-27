@@ -23,6 +23,7 @@ import React from "react";
 import DataStore from "../DataStore";
 import { renderWithStore } from "../testUtils";
 import SiteNavigationContainer from ".";
+import { NarrativesSlug } from "../routerUtils/types";
 
 jest.mock("@w11r/use-breakpoint");
 const useBreakpointMock = useBreakpoint as jest.Mock;
@@ -43,7 +44,6 @@ afterEach(() => {
 describe("on large screens", () => {
   test("nav bar", async () => {
     const dataPortalLabel = "Explore";
-    const narrativesLabel = "Collections";
 
     renderWithStore(<SiteNavigationContainer />);
 
@@ -51,9 +51,6 @@ describe("on large screens", () => {
 
     expect(
       inNav.queryByRole("link", { name: dataPortalLabel })
-    ).not.toBeInTheDocument();
-    expect(
-      inNav.queryByRole("link", { name: narrativesLabel })
     ).not.toBeInTheDocument();
     expect(
       inNav.queryByRole("button", { name: "Data Narratives" })
@@ -95,7 +92,9 @@ describe("on large screens", () => {
 
     fireEvent.click(screen.getByRole("option", { name: "Sentencing" }));
 
-    expect(navigateMock).toHaveBeenCalledWith("/us-nd/collections/sentencing");
+    expect(navigateMock).toHaveBeenCalledWith(
+      `/us-nd/${NarrativesSlug}/sentencing`
+    );
   });
 });
 
@@ -147,22 +146,31 @@ describe("on small screens", () => {
     expect(navLinks[1]).toHaveTextContent("Sentencing");
     expect(navLinks[1]).toHaveAttribute(
       "href",
-      "/us-nd/collections/sentencing"
+      `/us-nd/${NarrativesSlug}/sentencing`
     );
 
     expect(navLinks[2]).toHaveTextContent("Prison");
-    expect(navLinks[2]).toHaveAttribute("href", "/us-nd/collections/prison");
+    expect(navLinks[2]).toHaveAttribute(
+      "href",
+      `/us-nd/${NarrativesSlug}/prison`
+    );
 
     expect(navLinks[3]).toHaveTextContent("Probation");
-    expect(navLinks[3]).toHaveAttribute("href", "/us-nd/collections/probation");
+    expect(navLinks[3]).toHaveAttribute(
+      "href",
+      `/us-nd/${NarrativesSlug}/probation`
+    );
 
     expect(navLinks[4]).toHaveTextContent("Parole");
-    expect(navLinks[4]).toHaveAttribute("href", "/us-nd/collections/parole");
+    expect(navLinks[4]).toHaveAttribute(
+      "href",
+      `/us-nd/${NarrativesSlug}/parole`
+    );
 
     expect(navLinks[5]).toHaveTextContent("Racial Disparities");
     expect(navLinks[5]).toHaveAttribute(
       "href",
-      "/us-nd/collections/racial-disparities"
+      `/us-nd/${NarrativesSlug}/racial-disparities`
     );
 
     expect(navLinks[6]).toHaveTextContent("Feedback");

@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { act, waitFor } from "@testing-library/react";
+import { NarrativesSlug } from "../routerUtils/types";
 import { renderNavigableApp } from "../testUtils";
 
 const scrollSpy = jest.spyOn(window, "scrollTo");
@@ -36,7 +37,7 @@ test("scrolls on page change", async () => {
   });
   scrollSpy.mockClear();
 
-  await act(() => navigate("/us-nd/collections/prison"));
+  await act(() => navigate(`/us-nd/${NarrativesSlug}/prison`));
   expect(scrollSpy).toHaveBeenCalledWith(0, 0);
   scrollSpy.mockClear();
 
