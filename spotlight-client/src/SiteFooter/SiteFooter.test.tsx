@@ -32,7 +32,6 @@ const retrieveContentMock = retrieveContent as jest.MockedFunction<
 
 retrieveContentMock.mockReturnValue(exhaustiveFixture);
 
-// retrieveContent
 beforeEach(() => {
   runInAction(() => {
     DataStore.tenantStore.currentTenantId = "US_ND";
