@@ -78,9 +78,7 @@ const App: React.FC = () => {
               <Redirect from="/us_nd/overview" to="/us-nd" noThrow />
               <PassThroughPage path="/:tenantId">
                 <PageTenant path="/" />
-                <PageNarrative
-                  path={`/${NarrativesSlug}/:narrativeTypeId/*sectionNumber`}
-                />
+                <PageNarrative path={`/${NarrativesSlug}/:narrativeTypeId`} />
                 <PageNotFound path="/*" />
               </PassThroughPage>
             </Router>
