@@ -37,6 +37,7 @@ export function isTenantId(x: string): x is TenantId {
 }
 
 export type TenantContent = NamedEntity & {
+  coBrandingCopy: string;
   collections: {
     [key in CollectionTypeId]?: CollectionContent;
   };

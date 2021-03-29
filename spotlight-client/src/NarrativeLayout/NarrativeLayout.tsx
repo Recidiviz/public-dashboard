@@ -15,7 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { navigate, useParams } from "@reach/router";
 import useBreakpoint from "@w11r/use-breakpoint";
 import { rem } from "polished";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -24,8 +23,6 @@ import { useSpring } from "react-spring/web.cjs";
 import Sticker from "react-stickyfill";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
-import getUrlForResource from "../routerUtils/getUrlForResource";
-import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { X_PADDING } from "../SystemNarrativePage/constants";
 import NarrativeNavigation from "./NarrativeNavigation";
 import { LayoutSection } from "./types";
@@ -58,7 +55,6 @@ type NarrativeLayoutProps = {
 };
 
 const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
-  const routeParams = useParams();
   const sectionsContainerRef = useRef() as React.MutableRefObject<
     HTMLDivElement
   >;
@@ -73,10 +69,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
     isScrolling = false;
   };
 
-  const [activeSection, directlySetActiveSection] = useState(
-    // make sure we consume the section number in the URL, if any, on first mount
-    Number(routeParams.sectionNumber) || 1
-  );
+  const [activeSection, directlySetActiveSection] = useState(1);
   // wrap the section state setter in a function that respects the flag
   const setActiveSection = useCallback(
     (sectionNumber: number) => {
@@ -86,10 +79,6 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
     },
     [isScrolling]
   );
-  // keep section state in sync with URL if it changes externally (e.g. via nav link)
-  useEffect(() => {
-    directlySetActiveSection(Number(routeParams.sectionNumber) || 1);
-  }, [routeParams.sectionNumber]);
 
   const [, setScrollSpring] = useSpring(() => ({
     onFrame: (props: { top: number }) => {
@@ -110,7 +99,6 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
     to: { top: window.pageYOffset },
   }));
 
-  const { tenantId, narrativeTypeId } = normalizeRouteParams(routeParams);
   // updating the active section has two key side effects:
   // 1. smoothly scrolling to the active section
   // 2. updating the page URL so the section can be linked to directly
@@ -132,25 +120,8 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
         from: { top: window.pageYOffset },
         reset: true,
       });
-
-      // these should always be defined on this page; more type safety
-      if (tenantId && narrativeTypeId) {
-        navigate(
-          `${getUrlForResource({
-            page: "narrative",
-            params: { tenantId, narrativeTypeId },
-          })}/${activeSection}`,
-          { replace: true }
-        );
-      }
     }
-  }, [
-    activeSection,
-    narrativeTypeId,
-    sectionsContainerRef,
-    setScrollSpring,
-    tenantId,
-  ]);
+  }, [activeSection, sectionsContainerRef, setScrollSpring]);
 
   return (
     <Wrapper>
@@ -161,6 +132,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
               <NarrativeNavigation
                 activeSection={activeSection}
                 sections={sections}
+                setActiveSection={directlySetActiveSection}
               />
             </NavStickyContainer>
           </Sticker>

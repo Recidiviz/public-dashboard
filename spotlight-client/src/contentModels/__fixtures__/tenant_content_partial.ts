@@ -20,6 +20,7 @@ import { TenantContent } from "../../contentApi/types";
 const content: TenantContent = {
   name: "Test Tenant",
   description: "test tenant description",
+  coBrandingCopy: "test tenant co-branding",
   // this is an intentionally non-exhaustive set of collections
   collections: {
     Prison: {

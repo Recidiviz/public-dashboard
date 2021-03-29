@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,17 +15,18 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { NarrativeTypeId, TenantId } from "../contentApi/types";
+import { render, screen } from "@testing-library/react";
+import React from "react";
+import { Modal } from "./Modal";
 
-export type RouteParams = {
-  // these should match paths as defined in App.tsx
-  tenantId?: string;
-  narrativeTypeId?: string;
-};
+test("includes a close button", () => {
+  render(
+    <Modal isOpen onRequestClose={() => undefined}>
+      whatever
+    </Modal>
+  );
 
-export type NormalizedRouteParams = {
-  tenantId?: TenantId | null;
-  narrativeTypeId?: NarrativeTypeId | null;
-};
-
-export const NarrativesSlug = "narratives";
+  expect(
+    screen.getByRole("button", { name: "close modal" })
+  ).toBeInTheDocument();
+});

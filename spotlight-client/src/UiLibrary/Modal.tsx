@@ -15,16 +15,21 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Modal as ModalBase } from "@recidiviz/case-triage-components";
+import {
+  Modal as ModalBase,
+  ModalProps,
+} from "@recidiviz/case-triage-components";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { rem, rgba } from "polished";
+import React, { useRef } from "react";
 import styled from "styled-components/macro";
+import { Omit, Required } from "utility-types";
+import iconPath from "../assets/x.svg";
 import { colors } from ".";
 import animation from "./animation";
 import zIndex from "./zIndex";
 
-export const Modal = styled(ModalBase).attrs({
-  closeTimeoutMS: animation.defaultDuration,
-})`
+export const StyledModal = styled(ModalBase)`
   /*
     the double ampersands are a trick to overcome
     specificity in the imported component styles
@@ -54,5 +59,66 @@ export const Modal = styled(ModalBase).attrs({
     z-index: ${zIndex.modal + 1};
   }
 `;
+
+const CloseButton = styled.button.attrs({ type: "button" })`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: ${rem(16)};
+  position: absolute;
+  right: 0;
+  top: 0;
+`;
+const CloseIcon = styled.img`
+  height: ${rem(12)};
+  width: ${rem(12)};
+`;
+
+type SpotlightModalProps = Omit<
+  Required<ModalProps, "onRequestClose">,
+  "closeTimeoutMs"
+>;
+
+export const Modal: React.FC<SpotlightModalProps> = ({
+  children,
+  onAfterOpen,
+  onRequestClose,
+  ...passThruProps
+}) => {
+  const modalContentRef = useRef<HTMLDivElement | null>(null);
+
+  const onRequestCloseWithScrollLock: ModalProps["onRequestClose"] = (e) => {
+    if (modalContentRef.current) {
+      enableBodyScroll(modalContentRef.current);
+    }
+    onRequestClose(e);
+  };
+
+  return (
+    <StyledModal
+      {...passThruProps}
+      closeTimeoutMS={animation.defaultDuration}
+      contentRef={(node) => {
+        modalContentRef.current = node;
+      }}
+      onAfterOpen={(opts) => {
+        if (modalContentRef.current) {
+          disableBodyScroll(modalContentRef.current);
+        }
+        if (onAfterOpen) {
+          onAfterOpen(opts);
+        }
+      }}
+      onRequestClose={onRequestCloseWithScrollLock}
+    >
+      <>
+        <CloseButton onClick={(e) => onRequestCloseWithScrollLock(e)}>
+          <CloseIcon alt="close modal" src={iconPath} />
+        </CloseButton>
+        {children}
+      </>
+    </StyledModal>
+  );
+};
 
 export { ModalHeading } from "@recidiviz/case-triage-components";

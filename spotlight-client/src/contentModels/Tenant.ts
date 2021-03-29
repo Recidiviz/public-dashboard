@@ -31,6 +31,7 @@ type InitOptions = {
   id: TenantId;
   name: string;
   description: string;
+  coBrandingCopy: string;
   collections: CollectionMap;
   metrics: MetricMapping;
   systemNarratives: SystemNarrativeMapping;
@@ -51,6 +52,8 @@ export default class Tenant {
 
   readonly description: string;
 
+  readonly coBrandingCopy: string;
+
   readonly collections: InitOptions["collections"];
 
   readonly metrics: InitOptions["metrics"];
@@ -63,6 +66,7 @@ export default class Tenant {
     id,
     name,
     description,
+    coBrandingCopy,
     collections,
     metrics,
     systemNarratives,
@@ -71,6 +75,7 @@ export default class Tenant {
     this.id = id;
     this.name = name;
     this.description = description;
+    this.coBrandingCopy = coBrandingCopy;
     this.collections = collections;
     this.metrics = metrics;
     this.systemNarratives = systemNarratives;
@@ -154,6 +159,7 @@ export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
     id: tenantId,
     name: allTenantContent.name,
     description: allTenantContent.description,
+    coBrandingCopy: allTenantContent.coBrandingCopy,
     collections: getCollectionsForTenant({ allTenantContent, metrics }),
     metrics,
     systemNarratives: getSystemNarrativesForTenant({

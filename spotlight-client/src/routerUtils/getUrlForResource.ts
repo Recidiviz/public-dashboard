@@ -29,7 +29,6 @@ type RequiredParams = DeepNonNullable<NormalizedRouteParams>;
 type GetUrlOptions =
   | { page: "home" }
   | { page: "tenant"; params: Pick<RequiredParams, "tenantId"> }
-  | { page: "narrative list"; params: Pick<RequiredParams, "tenantId"> }
   | {
       page: "narrative";
       params: Pick<RequiredParams, "tenantId" | "narrativeTypeId">;
@@ -44,8 +43,6 @@ function getUrlForResource(opts: GetUrlOptions): string {
       return "/";
     case "tenant":
       return `/${makeRouteParam(opts.params.tenantId)}`;
-    case "narrative list":
-      return `/${makeRouteParam(opts.params.tenantId)}/${NarrativesSlug}`;
     case "narrative":
       return `/${makeRouteParam(
         opts.params.tenantId
