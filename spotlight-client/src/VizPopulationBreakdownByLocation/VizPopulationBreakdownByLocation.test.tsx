@@ -58,13 +58,7 @@ test("total counts", async () => {
   renderWithStore(<VizPopulationBreakdownByLocation metric={metric} />);
 
   await waitFor(() => {
-    const stat = screen.getByRole("figure", {
-      name: "Total people in prison",
-      // performance is better if we don't check for visibility within the *ByRole query;
-      // it's also redundant since we do it immediately after this
-      hidden: true,
-    });
-
+    const stat = screen.getByLabelText("Total people in prison");
     expect(stat).toBeVisible();
     expect(within(stat).getByText("2,041")).toBeVisible();
   });
@@ -162,12 +156,7 @@ test("counts filtered by locality", async () => {
   fireEvent.click(option);
 
   await waitFor(() => {
-    const stat = screen.getByRole("figure", {
-      name: "Total people in prison",
-      // performance is better if we don't check for visibility within the *ByRole query;
-      // it's also redundant since we do it immediately after this
-      hidden: true,
-    });
+    const stat = screen.getByLabelText("Total people in prison");
     expect(within(stat).getByText("413")).toBeVisible();
   });
 
