@@ -56,7 +56,6 @@ test("hydration in progress", () => {
   expect(screen.queryByText("hydrated")).not.toBeInTheDocument();
 });
 
-// TODO (#353) async specs fail intermittently
 test("hydrated", async () => {
   runInAction(() => {
     mockModel.isLoading = false;

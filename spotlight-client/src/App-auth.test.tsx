@@ -77,7 +77,6 @@ afterEach(() => {
   cleanup();
 });
 
-// TODO (#353) async specs fail intermittently
 test("no auth required", async () => {
   const App = await getApp();
   render(<App />);
@@ -111,7 +110,6 @@ test("requires authentication", async () => {
   });
 });
 
-// TODO (#353) async specs fail intermittently
 test("requires email verification", async () => {
   // configure environment for valid authentication
   process.env.REACT_APP_AUTH_ENABLED = "true";

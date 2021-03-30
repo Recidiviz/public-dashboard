@@ -107,7 +107,6 @@ describe("navigation", () => {
     expect(screen.getByRole(...lookupArgs)).toBeInTheDocument();
   });
 
-  // TODO (#353) async specs fail intermittently
   test("links", async () => {
     renderNavigableApp();
 
@@ -154,7 +153,6 @@ describe("navigation", () => {
     );
   });
 
-  // TODO (#353) async specs fail intermittently
   test("pageview tracking", async () => {
     segmentMock.page.mockReset();
 
