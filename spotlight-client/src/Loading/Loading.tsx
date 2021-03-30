@@ -53,7 +53,7 @@ const LoadingSpinnerText = styled.div`
 
 export default function Loading(): JSX.Element {
   return (
-    <LoadingWrapper role="status">
+    <LoadingWrapper role="status" data-testid="LoadingIndicator">
       <LoadingSpinnerIcon />
       <LoadingSpinnerText>Data is loading</LoadingSpinnerText>
     </LoadingWrapper>
