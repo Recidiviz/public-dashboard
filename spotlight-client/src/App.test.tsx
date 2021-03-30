@@ -108,7 +108,7 @@ describe("navigation", () => {
   });
 
   // TODO (#353) async specs fail intermittently
-  test.skip("links", async () => {
+  test("links", async () => {
     renderNavigableApp();
 
     const inNav = within(screen.getByRole("navigation"));
@@ -120,34 +120,38 @@ describe("navigation", () => {
     });
 
     fireEvent.click(sentencingLink);
-    expect(
-      await screen.findByRole("heading", { name: "Sentencing", level: 1 })
-    ).toBeInTheDocument();
+    // NOTE: *ByRole queries can be too expensive to run async with this much DOM,
+    // so we are using *ByTestId queries here instead
+    await waitFor(async () =>
+      expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
+        "Sentencing"
+      )
+    );
 
     fireEvent.click(tenantLink);
-    expect(
-      await screen.findByRole("heading", {
-        name: "Explore correctional data from North Dakota.",
-        level: 1,
-      })
-    ).toBeInTheDocument();
+    await waitFor(async () =>
+      expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
+        "Explore correctional data from North Dakota."
+      )
+    );
 
     const disparitiesLink = screen.getByRole("link", {
       name: "Racial Disparities",
     });
     fireEvent.click(disparitiesLink);
-    expect(
-      await screen.findByRole("heading", {
-        name: "Racial Disparities",
-        level: 1,
-      })
-    ).toBeInTheDocument();
+    await waitFor(async () =>
+      expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
+        "Racial Disparities"
+      )
+    );
 
     fireEvent.click(homeLink);
     // home redirect to ND
-    expect(
-      await screen.findByRole("heading", { name: /North Dakota/, level: 1 })
-    ).toBeInTheDocument();
+    await waitFor(async () =>
+      expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
+        "North Dakota"
+      )
+    );
   });
 
   // TODO (#353) async specs fail intermittently

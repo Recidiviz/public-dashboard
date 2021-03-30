@@ -89,7 +89,7 @@ test("total chart", async () => {
 });
 
 // TODO (#353) async specs fail intermittently
-test.skip("demographic charts", async () => {
+test("demographic charts", async () => {
   renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
 
   await when(() => !metric.isLoading);
@@ -110,10 +110,6 @@ test.skip("demographic charts", async () => {
     name: "5 lines in a line chart",
   });
 
-  await waitFor(() => {
-    expect(lineChart).toBeVisible();
-  });
-
   expect(
     within(lineChart).getAllByRole("img", {
       name: /^3 point line starting value 0% at 0 ending value \d+% at 2/,
@@ -125,10 +121,6 @@ test.skip("demographic charts", async () => {
 
   [lineChart] = await screen.findAllByRole("group", {
     name: "2 lines in a line chart",
-  });
-
-  await waitFor(() => {
-    expect(lineChart).toBeVisible();
   });
 
   expect(
@@ -145,8 +137,6 @@ test.skip("demographic charts", async () => {
       name: "5 lines in a line chart",
     });
   });
-
-  expect(lineChart).toBeVisible();
 
   expect(
     within(lineChart).getAllByRole("img", {

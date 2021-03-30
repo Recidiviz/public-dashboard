@@ -31,10 +31,11 @@ beforeEach(() => {
   });
 });
 
+// TODO (#353) same thing as the others
 test("renders all the sections", async () => {
-  expect(
-    await screen.findByRole("heading", { name: "Racial Disparities", level: 1 })
-  ).toBeInTheDocument();
+  expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
+    "Racial Disparities"
+  );
 
   return Promise.all(
     Object.values(narrativeContent.sections).map(async (section) => {

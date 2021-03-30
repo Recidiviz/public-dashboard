@@ -20,7 +20,7 @@ import styled from "styled-components/macro";
 import breakpoints from "./breakpoints";
 import { typefaces } from "./typography";
 
-export default styled.h1`
+export default styled.h1.attrs({ "data-testid": "PageTitle" })`
   font-family: ${typefaces.display};
   font-size: ${rem(32)};
   letter-spacing: -0.04em;

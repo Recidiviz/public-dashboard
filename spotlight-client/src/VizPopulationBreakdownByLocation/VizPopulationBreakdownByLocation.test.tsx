@@ -55,11 +55,17 @@ test("loading", () => {
 });
 
 // TODO (#353) async specs fail intermittently
-test.skip("total counts", async () => {
+test("total counts", async () => {
   renderWithStore(<VizPopulationBreakdownByLocation metric={metric} />);
 
   await waitFor(() => {
-    const stat = screen.getByRole("figure", { name: "Total people in prison" });
+    const stat = screen.getByRole("figure", {
+      name: "Total people in prison",
+      // performance is better if we don't check for visibility within the *ByRole query;
+      // it's also redundant since we do it immediately after this
+      hidden: true,
+    });
+
     expect(stat).toBeVisible();
     expect(within(stat).getByText("2,041")).toBeVisible();
   });
@@ -141,7 +147,7 @@ test.skip("total counts", async () => {
 });
 
 // TODO (#353) async specs fail intermittently
-test.skip("counts filtered by locality", async () => {
+test("counts filtered by locality", async () => {
   renderWithStore(<VizPopulationBreakdownByLocation metric={metric} />);
 
   await when(() => !metric.isLoading);
@@ -158,7 +164,12 @@ test.skip("counts filtered by locality", async () => {
   fireEvent.click(option);
 
   await waitFor(() => {
-    const stat = screen.getByRole("figure", { name: "Total people in prison" });
+    const stat = screen.getByRole("figure", {
+      name: "Total people in prison",
+      // performance is better if we don't check for visibility within the *ByRole query;
+      // it's also redundant since we do it immediately after this
+      hidden: true,
+    });
     expect(within(stat).getByText("413")).toBeVisible();
   });
 

@@ -57,7 +57,7 @@ test("hydration in progress", () => {
 });
 
 // TODO (#353) async specs fail intermittently
-test.skip("hydrated", async () => {
+test("hydrated", async () => {
   runInAction(() => {
     mockModel.isLoading = false;
   });
