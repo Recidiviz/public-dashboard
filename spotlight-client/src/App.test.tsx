@@ -155,7 +155,7 @@ describe("navigation", () => {
   });
 
   // TODO (#353) async specs fail intermittently
-  test.skip("pageview tracking", async () => {
+  test("pageview tracking", async () => {
     segmentMock.page.mockReset();
 
     const {
@@ -170,10 +170,6 @@ describe("navigation", () => {
     expect(document.title).toBe(
       "Prison — North Dakota — Spotlight by Recidiviz"
     );
-    expect(segmentMock.page).toHaveBeenCalledTimes(2);
-
-    // in-page navigation doesn't trigger additional pageviews
-    await act(() => navigate(`/us-nd/${NarrativesSlug}/prison/2`));
     expect(segmentMock.page).toHaveBeenCalledTimes(2);
 
     await act(() => navigate(`/us-nd/${NarrativesSlug}/sentencing`));
