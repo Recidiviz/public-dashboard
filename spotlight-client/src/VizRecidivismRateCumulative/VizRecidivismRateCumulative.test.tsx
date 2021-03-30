@@ -88,7 +88,6 @@ test("total chart", async () => {
   }
 });
 
-// TODO (#353) async specs fail intermittently
 test("demographic charts", async () => {
   renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
 

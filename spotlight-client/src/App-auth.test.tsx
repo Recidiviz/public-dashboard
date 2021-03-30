@@ -77,7 +77,6 @@ afterEach(() => {
   cleanup();
 });
 
-// TODO (#353) async specs fail intermittently
 test("no auth required", async () => {
   const App = await getApp();
   render(<App />);
@@ -111,7 +110,6 @@ test("requires authentication", async () => {
   });
 });
 
-// TODO (#353) async specs fail intermittently
 test("requires email verification", async () => {
   // configure environment for valid authentication
   process.env.REACT_APP_AUTH_ENABLED = "true";
@@ -125,12 +123,10 @@ test("requires email verification", async () => {
   render(<App />);
   await waitFor(() => {
     // application contents should not have been rendered without verification
-    expect(
-      screen.queryByRole("heading", { name: authenticatedTextMatch })
-    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId("PageTitle")).not.toBeInTheDocument();
     // there should be a message about the verification requirement
     expect(
-      screen.getByRole("heading", { name: /verification/i })
+      screen.getByRole("heading", { name: /verification/i, hidden: true })
     ).toBeInTheDocument();
   });
 });

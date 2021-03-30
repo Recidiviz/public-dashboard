@@ -102,7 +102,6 @@ test("total chart", async () => {
   ).toBeInTheDocument();
 });
 
-// TODO (#353) async specs fail intermittently
 test("demographic charts", async () => {
   renderWithStore(<VizRecidivismRateSingleFollowup metric={metric} />);
 
@@ -148,7 +147,6 @@ test("demographic charts", async () => {
   ).toBe(5);
 });
 
-// TODO: (#353): oneYearChart query finds nothing????
 test("followup period filter", async () => {
   renderWithStore(<VizRecidivismRateSingleFollowup metric={metric} />);
 

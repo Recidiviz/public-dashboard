@@ -31,7 +31,6 @@ beforeEach(() => {
   });
 });
 
-// TODO (#353) same thing as the others
 test("renders all the sections", async () => {
   expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
     "Racial Disparities"
