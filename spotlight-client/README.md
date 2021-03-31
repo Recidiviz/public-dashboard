@@ -54,7 +54,7 @@ There is no per-view authentication; enabling auth (via environment variable, as
 
 ## Deploys
 
-This app can currently only be run locally or in a staging environment. Information about the production environment will be added here once it is provisioned.
+This app can be run locally, in staging, and in production. Deploying to staging and production are very similar, as described below.
 
 ### Pre-requisites
 
@@ -71,6 +71,14 @@ You can also generate and deploy staging builds locally as needed. To generate a
 You should then test this locally by running `firebase serve`: it will run the staging build locally, pointed to the staging API backend. (Note that this means you will have to deploy the backend to staging first if your build requires unreleased backend features.)
 
 When you're satisfied, deploy the frontend to staging with `firebase deploy -P staging`. Test vigorously on staging before deploying to production.
+
+### Deploying to Production
+
+Similar to above, but with slightly different commands:
+
+Generate a production build with `yarn build`. Test locally with `firebase serve`. Deploy the frontend with `firebase deploy -P production`.
+
+Test vigorously! Don't be afraid to rollback the deploy through the Firebase console.
 
 ## Available Scripts
 

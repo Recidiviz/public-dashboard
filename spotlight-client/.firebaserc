@@ -1,5 +1,6 @@
 {
   "projects": {
+    "production": "recidiviz-public-dashboard",
     "staging": "spotlight-staging-f0154"
   }
 }
