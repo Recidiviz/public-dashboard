@@ -36,103 +36,83 @@ const content: ExhaustiveTenantContent = {
   metrics: {
     SentencePopulationCurrent: {
       name: "test SentencePopulationCurrent name",
-      description: "test sentence population current description",
       methodology: "test sentence population current methodology",
       totalLabel: "test sentence population label",
     },
     SentenceTypesCurrent: {
       name: "test SentenceTypesCurrent name",
-      description: "test SentenceTypesCurrent description",
       methodology: "test SentenceTypesCurrent methodology",
     },
     PrisonPopulationCurrent: {
       name: "test PrisonPopulationCurrent name",
-      description: "test PrisonPopulationCurrent description",
       methodology: "test PrisonPopulationCurrent methodology",
       totalLabel: "test prison population label",
     },
     PrisonPopulationHistorical: {
       name: "test PrisonPopulationHistorical name",
-      description: "test PrisonPopulationHistorical description",
       methodology: "test PrisonPopulationHistorical methodology",
     },
     PrisonAdmissionReasonsCurrent: {
       name: "test PrisonAdmissionReasonsCurrent name",
-      description: "test PrisonAdmissionReasonsCurrent description",
       methodology: "test PrisonAdmissionReasonsCurrent methodology",
     },
     PrisonStayLengthAggregate: {
       name: "test PrisonStayLengthAggregate name",
-      description: "test PrisonStayLengthAggregate description",
       methodology: "test PrisonStayLengthAggregate methodology",
     },
     PrisonReleaseTypeAggregate: {
       name: "test PrisonReleaseTypeAggregate name",
-      description: "test PrisonReleaseTypeAggregate description",
       methodology: "test PrisonReleaseTypeAggregate methodology",
     },
     PrisonRecidivismRateHistorical: {
       name: "test PrisonRecidivismRateHistorical name",
-      description: "test PrisonRecidivismRateHistorical description",
       methodology: "test PrisonRecidivismRateHistorical methodology",
     },
     PrisonRecidivismRateSingleFollowupHistorical: {
       name: "test PrisonRecidivismRateSingleFollowupHistorical name",
-      description:
-        "test PrisonRecidivismRateSingleFollowupHistorical description",
       methodology:
         "test PrisonRecidivismRateSingleFollowupHistorical methodology",
     },
     ProbationPopulationCurrent: {
       name: "test ProbationPopulationCurrent name",
-      description: "test ProbationPopulationCurrent description",
       methodology: "test ProbationPopulationCurrent methodology",
       totalLabel: "test probation population label",
     },
     ProbationPopulationHistorical: {
       name: "test ProbationPopulationHistorical name",
-      description: "test ProbationPopulationHistorical description",
       methodology: "test ProbationPopulationHistorical methodology",
     },
     ProbationSuccessHistorical: {
       name: "test ProbationSuccessHistorical name",
-      description: "test ProbationSuccessHistorical description",
       methodology: "test ProbationSuccessHistorical methodology",
     },
     ProbationRevocationsAggregate: {
       name: "test ProbationRevocationsAggregate name",
-      description: "test ProbationRevocationsAggregate description",
       methodology: "test ProbationRevocationsAggregate methodology",
     },
     ProbationProgrammingCurrent: {
       name: "test ProbationProgrammingCurrent name",
-      description: "test ProbationProgrammingCurrent description",
       methodology: "test ProbationProgrammingCurrent methodology",
     },
     ParolePopulationCurrent: {
       name: "test ParolePopulationCurrent name",
-      description: "test ParolePopulationCurrent description",
       methodology: "test ParolePopulationCurrent methodology",
       totalLabel: "test parole population label",
     },
     ParolePopulationHistorical: {
       name: "test ParolePopulationHistorical name",
-      description: "test ParolePopulationHistorical description",
       methodology: "test ParolePopulationHistorical methodology",
     },
     ParoleSuccessHistorical: {
       name: "test ParoleSuccessHistorical name",
-      description: "test ParoleSuccessHistorical description",
       methodology: "test ParoleSuccessHistorical methodology",
     },
     ParoleRevocationsAggregate: {
       name: "test ParoleRevocationsAggregate name",
-      description: "test ParoleRevocationsAggregate description",
       methodology: "test ParoleRevocationsAggregate methodology",
     },
     ParoleProgrammingCurrent: {
       name: "test ParoleProgrammingCurrent name",
-      description: "test ParoleProgrammingCurrent description",
       methodology: "test ParoleProgrammingCurrent methodology",
     },
   },

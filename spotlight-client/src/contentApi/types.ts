@@ -17,11 +17,6 @@
 
 import type { Topology } from "topojson-specification";
 
-export type NamedEntity = {
-  name: string;
-  description: string;
-};
-
 export type LocalityLabels = {
   label: string;
   entries: { id: string; label: string }[];
@@ -36,7 +31,9 @@ export function isTenantId(x: string): x is TenantId {
   return TenantIdList.includes(x as TenantId);
 }
 
-export type TenantContent = NamedEntity & {
+export type TenantContent = {
+  name: string;
+  description: string;
   coBrandingCopy: string;
   metrics: {
     [key in Extract<
@@ -91,7 +88,7 @@ export function isMetricTypeId(x: string): x is MetricTypeId {
   return MetricTypeIdList.includes(x as MetricTypeId);
 }
 
-type MetricContent = NamedEntity & { methodology: string };
+type MetricContent = { name: string; methodology: string };
 
 export type MapData = {
   aspectRatio: number;

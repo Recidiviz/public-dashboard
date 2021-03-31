@@ -89,14 +89,12 @@ const content: TenantContent = {
   metrics: {
     SentencePopulationCurrent: {
       name: "Sentenced Population",
-      description: "description TK",
       methodology: `This data includes all individuals that are currently incarcerated, on parole, or on probation
         in North Dakota. ${demographicsBoilerplate} ${sentencingBoilerplate}`,
       totalLabel: "Total people sentenced",
     },
     SentenceTypesCurrent: {
       name: "Sentence Types",
-      description: "description TK",
       methodology: `Incarceration includes any sentence that begins with a period of incarceration in a ND DOCR facility.
         Probation includes any sentence that begins with a period of probation under the supervision of a
         ND DOCR probation officer. <p>Of note, individuals’ current status (incarcerated or on supervision)
@@ -109,7 +107,6 @@ const content: TenantContent = {
     },
     PrisonPopulationCurrent: {
       name: "Current Prison Population",
-      description: "description TK",
       methodology: `This data includes all individuals that are currently incarcerated in a ND DOCR facility.
         It does not include individuals incarcerated in county jails nor individuals currently
         serving their prison sentence in the community through the Community Placement Program.
@@ -118,7 +115,6 @@ const content: TenantContent = {
     },
     PrisonPopulationHistorical: {
       name: "Historical Prison Population",
-      description: "description TK",
       methodology: `This data includes the number of people that were incarcerated in a ND DOCR facility on the
         first day of each month over the last 20 years. It does not include individuals incarcerated
         in county jails nor individuals serving their prison sentence in the community through the
@@ -126,7 +122,6 @@ const content: TenantContent = {
     },
     PrisonAdmissionReasonsCurrent: {
       name: "Reason for Incarceration",
-      description: "description TK",
       methodology: `This data includes the original reason for admission for all individuals currently incarcerated
         in a ND DOCR facility. When an individual is admitted to a state prison, the reason for the admission
         is documented by prison officials. These categories are pulled from that documentation.
@@ -134,7 +129,6 @@ const content: TenantContent = {
     },
     PrisonStayLengthAggregate: {
       name: "Length of Prison Stay",
-      description: "description TK",
       methodology: `This data reports how long (in years) individuals spent in prison prior to their
         first official release for a specific sentence. It includes individuals released
         in the past 3 years who, prior to release, were serving a new sentence of
@@ -148,7 +142,6 @@ const content: TenantContent = {
     },
     PrisonReleaseTypeAggregate: {
       name: "Placement After Prison",
-      description: "description TK",
       methodology: `This data includes all individuals released in the last 3 years, including releases
         directly from the Community Placement Program. When an individual is released from a
         state prison, the reason for the release is documented by prison officials. These
@@ -158,7 +151,6 @@ const content: TenantContent = {
     },
     PrisonRecidivismRateHistorical: {
       name: "Cumulative Recidivism Rates",
-      description: "description TK",
       methodology: `This data reports reincarceration recidivism rates, which is the proportion of individuals
         released from a ND DOCR facility that return to a ND DOCR facility at some point in the
         future. The releases are grouped by the calendar year in which the release occurred, and
@@ -171,28 +163,24 @@ const content: TenantContent = {
     },
     PrisonRecidivismRateSingleFollowupHistorical: {
       name: "Recidivism Rates Over Time",
-      description: "description TK",
       methodology: `This data reports the reincarceration recidivism rate for a set number of years
         since the release, for the 10 most recent release cohorts. ${demographicsBoilerplate}
         ${prisonBoilerplate}`,
     },
     ProbationPopulationCurrent: {
       name: "Current Probation Population",
-      description: "description TK",
       methodology: `This data includes people currently on probation in North Dakota.
         ${demographicsBoilerplate} ${probationBoilerplate} ${probationDistrictBoilerplate}`,
       totalLabel: "Total people on probation",
     },
     ProbationPopulationHistorical: {
       name: "Historical Probation Population",
-      description: "description TK",
       methodology: `This data includes the number of people that were on probation in
         North Dakota on the first day of each month over the last 20 years.
         ${demographicsBoilerplate} ${probationBoilerplate}`,
     },
     ProbationSuccessHistorical: {
       name: "Historical Probation Completion Rates",
-      description: "description TK",
       methodology: `This data reports the percentage of people projected to complete probation
         in a given month who have successfully completed probation by the end of that month.
         <p>Probation is considered successfully completed if the individual is discharged from
@@ -211,7 +199,6 @@ const content: TenantContent = {
     },
     ProbationRevocationsAggregate: {
       name: "Reasons for Probation Revocation",
-      description: "description TK",
       methodology: `This data includes people who were incarcerated in a DOCR facility within the last
         3 years because their probation was revoked. Revocations are included based on the
         date that the person was admitted to a DOCR facility because their probation was
@@ -237,7 +224,6 @@ const content: TenantContent = {
     },
     ProbationProgrammingCurrent: {
       name: "Free Through Recovery Program Participation in Probation",
-      description: "description TK",
       methodology: `This data includes the total number of people on probation who are actively
         enrolled in Free Through Recovery (FTR). Free Through Recovery is run jointly
         with the Department of Health and Human Services (DHS): as a result, FTR enrollment
@@ -246,21 +232,18 @@ const content: TenantContent = {
     },
     ParolePopulationCurrent: {
       name: "Current Parole Population",
-      description: "description TK",
       methodology: `This data includes people currently on parole in North Dakota.
         ${demographicsBoilerplate} ${paroleBoilerplate} ${paroleOfficerBoilerplate}`,
       totalLabel: "Total people on parole",
     },
     ParolePopulationHistorical: {
       name: "Historical Parole Population",
-      description: "description TK",
       methodology: `This data includes the number of people that were on parole in North Dakota
         on the first day of each month over the last 20 years. ${demographicsBoilerplate}
         ${paroleBoilerplate}`,
     },
     ParoleSuccessHistorical: {
       name: "Historical Parole Completion Rates",
-      description: "description TK",
       methodology: `This data reports the percentage of people projected to complete parole
         in a given month who have successfully completed parole by the end of that month.
         <p>Parole is considered successfully completed if an individual is discharged from
@@ -279,7 +262,6 @@ const content: TenantContent = {
     },
     ParoleRevocationsAggregate: {
       name: "Reasons for Parole Revocation",
-      description: "description TK",
       methodology: `This data includes people who were incarcerated in a DOCR facility within the
         last 3 years because their parole was revoked. Revocations are included based on the date
         that the person was admitted to a DOCR facility because their parole was revoked, not the
@@ -305,7 +287,6 @@ const content: TenantContent = {
     },
     ParoleProgrammingCurrent: {
       name: "Free Through Recovery Program Participation in Parole",
-      description: "description TK",
       methodology: `This data includes the total number of people on parole who are actively enrolled
         in Free Through Recovery (FTR). Free Through Recovery is run jointly with the Department of
         Health and Human Services (DHS): as a result, FTR enrollment is aggregated into the 8 DHS service

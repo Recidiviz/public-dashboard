@@ -38,7 +38,6 @@ import { MetricRecord, Hydratable } from "./types";
 export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   id: MetricTypeId;
   name: string;
-  description: string;
   methodology: string;
   tenantId: TenantId;
   sourceFileName: string;
@@ -68,8 +67,6 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
   implements Hydratable {
   // metadata properties
   readonly id: MetricTypeId;
-
-  readonly description: string;
 
   readonly methodology: string;
 
@@ -107,7 +104,6 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
 
   constructor({
     name,
-    description,
     methodology,
     id,
     tenantId,
@@ -129,7 +125,6 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
 
     // initialize metadata
     this.name = name;
-    this.description = description;
     this.methodology = methodology;
     this.id = id;
 
