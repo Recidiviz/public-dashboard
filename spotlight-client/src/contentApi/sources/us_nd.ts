@@ -86,24 +86,6 @@ const content: TenantContent = {
     '<a href="https://www.docr.nd.gov">The North Dakota Department of Corrections and Rehabilitation (DOCR)</a> provides correctional services for the state of North Dakota. Our mission is to transform lives, influence change, and strengthen community. Transparency is a critical element of our mission; sharing information builds greater accountability between the DOCR and the communities we serve.',
   coBrandingCopy:
     'Produced in collaboration with <a href="https://www.docr.nd.gov">the North Dakota Department of Corrections and Rehabilitation</a>.',
-  collections: {
-    Sentencing: {
-      name: "Sentencing",
-      description: "description TK",
-    },
-    Prison: {
-      name: "Prison",
-      description: "description TK",
-    },
-    Probation: {
-      name: "Probation",
-      description: "description TK",
-    },
-    Parole: {
-      name: "Parole",
-      description: "description TK",
-    },
-  },
   metrics: {
     SentencePopulationCurrent: {
       name: "Sentenced Population",

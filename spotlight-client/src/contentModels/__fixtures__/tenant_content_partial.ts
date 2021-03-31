@@ -21,18 +21,6 @@ const content: TenantContent = {
   name: "Test Tenant",
   description: "test tenant description",
   coBrandingCopy: "test tenant co-branding",
-  // this is an intentionally non-exhaustive set of collections
-  collections: {
-    Prison: {
-      name: "Prison",
-      description: "test prison description",
-    },
-
-    Parole: {
-      name: "Parole",
-      description: "test parole description",
-    },
-  },
   // this is an intentionally non-exhaustive set of metrics
   metrics: {
     SentencePopulationCurrent: {

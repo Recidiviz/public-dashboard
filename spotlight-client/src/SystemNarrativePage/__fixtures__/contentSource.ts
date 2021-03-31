@@ -21,7 +21,6 @@ const content: TenantContent = {
   name: "Test Tenant",
   description: "test tenant description",
   coBrandingCopy: "test tenant co-branding",
-  collections: {},
   metrics: {
     SentencePopulationCurrent: {
       name: "test SentencePopulationCurrent name",

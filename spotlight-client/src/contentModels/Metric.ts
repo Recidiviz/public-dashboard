@@ -33,7 +33,7 @@ import {
   fetchAndTransformMetric,
 } from "../metricsApi";
 import downloadData from "./downloadData";
-import { MetricRecord, CollectionMap, Hydratable } from "./types";
+import { MetricRecord, Hydratable } from "./types";
 
 export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   id: MetricTypeId;
@@ -76,8 +76,6 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
   readonly name: string;
 
   // relationships
-  collections: CollectionMap = new Map();
-
   // we don't really need the entire Tenant object,
   // only the ID for use in the API request
   readonly tenantId: TenantId;

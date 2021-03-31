@@ -33,24 +33,6 @@ const content: ExhaustiveTenantContent = {
   name: "Test Tenant",
   description: "test tenant description",
   coBrandingCopy: "test tenant co-branding",
-  collections: {
-    Sentencing: {
-      name: "Sentencing",
-      description: "test sentencing description",
-    },
-    Prison: {
-      name: "Prison",
-      description: "test prison description",
-    },
-    Probation: {
-      name: "Probation",
-      description: "test probation description",
-    },
-    Parole: {
-      name: "Parole",
-      description: "test parole description",
-    },
-  },
   metrics: {
     SentencePopulationCurrent: {
       name: "test SentencePopulationCurrent name",

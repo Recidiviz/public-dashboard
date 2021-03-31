@@ -38,9 +38,6 @@ export function isTenantId(x: string): x is TenantId {
 
 export type TenantContent = NamedEntity & {
   coBrandingCopy: string;
-  collections: {
-    [key in CollectionTypeId]?: CollectionContent;
-  };
   metrics: {
     [key in Extract<
       MetricTypeId,
@@ -64,22 +61,6 @@ export type TenantContent = NamedEntity & {
   };
   racialDisparitiesNarrative?: RacialDisparitiesNarrativeContent;
 };
-
-// ============================
-// Collection types
-
-export const CollectionTypeIdList = [
-  "Sentencing",
-  "Prison",
-  "Probation",
-  "Parole",
-] as const;
-export type CollectionTypeId = typeof CollectionTypeIdList[number];
-export function isCollectionTypeId(x: string): x is CollectionTypeId {
-  return CollectionTypeIdList.includes(x as CollectionTypeId);
-}
-
-type CollectionContent = NamedEntity;
 
 // ============================
 // Metric types
