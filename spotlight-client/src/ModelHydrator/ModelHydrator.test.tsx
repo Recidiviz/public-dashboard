@@ -56,14 +56,13 @@ test("hydration in progress", () => {
   expect(screen.queryByText("hydrated")).not.toBeInTheDocument();
 });
 
-// TODO (#353) async specs fail intermittently
-test.skip("hydrated", async () => {
+test("hydrated", async () => {
   runInAction(() => {
     mockModel.isLoading = false;
   });
 
   await waitFor(() => {
-    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("LoadingIndicator")).not.toBeInTheDocument();
     expect(screen.getByText("hydrated")).toBeInTheDocument();
   });
 });

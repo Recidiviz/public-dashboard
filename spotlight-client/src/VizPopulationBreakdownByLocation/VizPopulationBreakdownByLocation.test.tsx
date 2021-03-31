@@ -54,12 +54,11 @@ test("loading", () => {
   expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
-// TODO (#353) async specs fail intermittently
-test.skip("total counts", async () => {
+test("total counts", async () => {
   renderWithStore(<VizPopulationBreakdownByLocation metric={metric} />);
 
   await waitFor(() => {
-    const stat = screen.getByRole("figure", { name: "Total people in prison" });
+    const stat = screen.getByLabelText("Total people in prison");
     expect(stat).toBeVisible();
     expect(within(stat).getByText("2,041")).toBeVisible();
   });
@@ -140,8 +139,7 @@ test.skip("total counts", async () => {
   ).toHaveStyle(`fill: ${colors.dataViz[1]}`);
 });
 
-// TODO (#353) async specs fail intermittently
-test.skip("counts filtered by locality", async () => {
+test("counts filtered by locality", async () => {
   renderWithStore(<VizPopulationBreakdownByLocation metric={metric} />);
 
   await when(() => !metric.isLoading);
@@ -158,7 +156,7 @@ test.skip("counts filtered by locality", async () => {
   fireEvent.click(option);
 
   await waitFor(() => {
-    const stat = screen.getByRole("figure", { name: "Total people in prison" });
+    const stat = screen.getByLabelText("Total people in prison");
     expect(within(stat).getByText("413")).toBeVisible();
   });
 

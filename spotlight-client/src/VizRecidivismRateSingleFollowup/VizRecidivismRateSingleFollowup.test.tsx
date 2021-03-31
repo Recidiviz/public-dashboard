@@ -102,8 +102,7 @@ test("total chart", async () => {
   ).toBeInTheDocument();
 });
 
-// TODO (#353) async specs fail intermittently
-test.skip("demographic charts", async () => {
+test("demographic charts", async () => {
   renderWithStore(<VizRecidivismRateSingleFollowup metric={metric} />);
 
   await when(() => !metric.isLoading);
@@ -159,8 +158,9 @@ test("followup period filter", async () => {
   fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: "1 Year" }));
 
-  const oneYearChart = screen.getByRole("group", {
+  const oneYearChart = await screen.findByRole("group", {
     name: "10 bars in a bar chart",
+    hidden: true,
   });
   expect(oneYearChart).toBeVisible();
 
