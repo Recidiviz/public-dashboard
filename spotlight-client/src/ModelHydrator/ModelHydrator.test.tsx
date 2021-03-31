@@ -62,7 +62,7 @@ test("hydrated", async () => {
   });
 
   await waitFor(() => {
-    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("LoadingIndicator")).not.toBeInTheDocument();
     expect(screen.getByText("hydrated")).toBeInTheDocument();
   });
 });

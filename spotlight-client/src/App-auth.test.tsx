@@ -123,12 +123,10 @@ test("requires email verification", async () => {
   render(<App />);
   await waitFor(() => {
     // application contents should not have been rendered without verification
-    expect(
-      screen.queryByRole("heading", { name: authenticatedTextMatch })
-    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId("PageTitle")).not.toBeInTheDocument();
     // there should be a message about the verification requirement
     expect(
-      screen.getByRole("heading", { name: /verification/i })
+      screen.getByRole("heading", { name: /verification/i, hidden: true })
     ).toBeInTheDocument();
   });
 });
