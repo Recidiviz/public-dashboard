@@ -1,7 +1,7 @@
 {
   "name": "spotlight-api",
   "description": "Backend for serving data to Spotlight dashboard",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
   "repository": "git@github.com:Recidiviz/public-dashboard.git",
   "author": "Recidiviz <team@recidiviz.org>",
