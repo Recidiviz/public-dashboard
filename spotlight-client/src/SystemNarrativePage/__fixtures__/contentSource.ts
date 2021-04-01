@@ -21,28 +21,23 @@ const content: TenantContent = {
   name: "Test Tenant",
   description: "test tenant description",
   coBrandingCopy: "test tenant co-branding",
-  collections: {},
   metrics: {
     SentencePopulationCurrent: {
       name: "test SentencePopulationCurrent name",
-      description: "test sentence population current description",
       methodology: "test sentence population current methodology",
       totalLabel: "test sentence population label",
     },
     SentenceTypesCurrent: {
       name: "test SentenceTypesCurrent name",
-      description: "test SentenceTypesCurrent description",
       methodology: "test SentenceTypesCurrent methodology",
     },
     ParolePopulationCurrent: {
       name: "test ParolePopulationCurrent name",
-      description: "test ParolePopulationCurrent description",
       methodology: "test ParolePopulationCurrent methodology",
       totalLabel: "test parole population label",
     },
     ParolePopulationHistorical: {
       name: "test ParolePopulationHistorical name",
-      description: "test ParolePopulationHistorical description",
       methodology: "test ParolePopulationHistorical methodology",
     },
   },

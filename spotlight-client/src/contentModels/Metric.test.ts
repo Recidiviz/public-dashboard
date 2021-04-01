@@ -70,7 +70,6 @@ describe("metadata", () => {
     }
 
     expect(metric.name).toBe(testMetadata.name);
-    expect(metric.description).toBe(testMetadata.description);
     expect(metric.methodology).toBe(testMetadata.methodology);
   });
 });

@@ -16,23 +16,17 @@
 // =============================================================================
 
 import retrieveContent from "../contentApi/retrieveContent";
-import {
-  CollectionTypeIdList,
-  SystemNarrativeTypeIdList,
-  TenantId,
-} from "../contentApi/types";
-import { createCollection } from "./Collection";
+import { SystemNarrativeTypeIdList, TenantId } from "../contentApi/types";
 import createMetricMapping from "./createMetricMapping";
 import RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
 import { createSystemNarrative } from "./SystemNarrative";
-import { CollectionMap, MetricMapping, SystemNarrativeMapping } from "./types";
+import { MetricMapping, SystemNarrativeMapping } from "./types";
 
 type InitOptions = {
   id: TenantId;
   name: string;
   description: string;
   coBrandingCopy: string;
-  collections: CollectionMap;
   metrics: MetricMapping;
   systemNarratives: SystemNarrativeMapping;
   racialDisparitiesNarrative?: RacialDisparitiesNarrative;
@@ -43,7 +37,7 @@ type InitOptions = {
  * The recommended way to instantiate a `Tenant` is with the `createTenant` factory
  * exported from this module; it contains all logic needed for retrieving the
  * `Tenant`'s "content" object, which contains all metadata and determines which
- * `Collection`s and `Metric`s will be instantiated for the `Tenant`.
+ * `Metric`s will be instantiated for the `Tenant`.
  */
 export default class Tenant {
   readonly id: TenantId;
@@ -53,8 +47,6 @@ export default class Tenant {
   readonly description: string;
 
   readonly coBrandingCopy: string;
-
-  readonly collections: InitOptions["collections"];
 
   readonly metrics: InitOptions["metrics"];
 
@@ -67,7 +59,6 @@ export default class Tenant {
     name,
     description,
     coBrandingCopy,
-    collections,
     metrics,
     systemNarratives,
     racialDisparitiesNarrative,
@@ -76,7 +67,6 @@ export default class Tenant {
     this.name = name;
     this.description = description;
     this.coBrandingCopy = coBrandingCopy;
-    this.collections = collections;
     this.metrics = metrics;
     this.systemNarratives = systemNarratives;
     this.racialDisparitiesNarrative = racialDisparitiesNarrative;
@@ -103,27 +93,6 @@ type MetricRelatedModelOptions = {
   allTenantContent: ReturnType<typeof retrieveContent>;
   metrics: MetricMapping;
 };
-
-function getCollectionsForTenant({
-  allTenantContent,
-  metrics,
-}: MetricRelatedModelOptions) {
-  const collectionMapping: InitOptions["collections"] = new Map();
-
-  // not all collections are required; content object is the source of truth
-  // for which collections to include
-  CollectionTypeIdList.forEach((id) => {
-    const content = allTenantContent.collections[id];
-    if (content) {
-      collectionMapping.set(
-        id,
-        createCollection({ ...content, typeId: id, metrics })
-      );
-    }
-  });
-
-  return collectionMapping;
-}
 
 function getSystemNarrativesForTenant({
   allTenantContent,
@@ -160,7 +129,6 @@ export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
     name: allTenantContent.name,
     description: allTenantContent.description,
     coBrandingCopy: allTenantContent.coBrandingCopy,
-    collections: getCollectionsForTenant({ allTenantContent, metrics }),
     metrics,
     systemNarratives: getSystemNarrativesForTenant({
       allTenantContent,

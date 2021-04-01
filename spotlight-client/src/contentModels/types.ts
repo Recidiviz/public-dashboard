@@ -15,11 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import {
-  CollectionTypeId,
-  MetricTypeId,
-  SystemNarrativeTypeId,
-} from "../contentApi/types";
+import { MetricTypeId, SystemNarrativeTypeId } from "../contentApi/types";
 import {
   DemographicFieldKey,
   DemographicsByCategoryRecord,
@@ -30,7 +26,6 @@ import {
   SentenceTypeByLocationRecord,
   SupervisionSuccessRateMonthlyRecord,
 } from "../metricsApi";
-import type Collection from "./Collection";
 import type SystemNarrative from "./SystemNarrative";
 import type Metric from "./Metric";
 import type RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
@@ -45,12 +40,6 @@ export interface Hydratable {
   error?: Error;
   hydrate: () => void;
 }
-
-// =======================================
-// Collection types
-// =======================================
-
-export type CollectionMap = Map<CollectionTypeId, Collection | undefined>;
 
 // =======================================
 // Metric types
