@@ -1,6 +1,6 @@
 import { mediaQuery } from "@w11r/use-breakpoint";
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import NavBar from "../nav-bar";
 import { DETAIL_PAGES } from "../constants";

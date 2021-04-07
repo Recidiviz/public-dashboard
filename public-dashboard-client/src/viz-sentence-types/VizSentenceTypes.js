@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import Measure from "react-measure";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { DIMENSION_DATA_KEYS } from "../constants";
 import SentenceTypesChart from "../sentence-types-chart";
 import { formatDemographicValue, recordIsTotalByDimension } from "../utils";

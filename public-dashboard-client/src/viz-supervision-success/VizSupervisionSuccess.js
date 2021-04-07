@@ -1,7 +1,7 @@
 import { ascending } from "d3-array";
 import PropTypes from "prop-types";
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { DIMENSION_DATA_KEYS, DIMENSION_LABELS } from "../constants";
 import MonthlyTimeseries from "../monthly-timeseries";
 import Statistic from "../statistic";

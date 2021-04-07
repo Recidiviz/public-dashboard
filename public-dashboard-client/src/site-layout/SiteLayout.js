@@ -2,7 +2,7 @@ import { ErrorBoundary } from "@sentry/react";
 import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
 import PropTypes from "prop-types";
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { useMatch } from "@reach/router";
 import BrandingBar from "../branding-bar";
 import { COLLAPSIBLE_NAV_BREAKPOINT, PATHS } from "../constants";

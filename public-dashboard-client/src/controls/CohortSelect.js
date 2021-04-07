@@ -21,7 +21,7 @@ import { ascending } from "d3-array";
 import { useSelect } from "downshift";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import checkMarkPath from "../assets/icons/checkMark.svg";
 import {
   ControlLabel,

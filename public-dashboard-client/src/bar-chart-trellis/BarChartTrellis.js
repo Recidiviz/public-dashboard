@@ -18,7 +18,7 @@
 import PropTypes from "prop-types";
 import React, { useState, useCallback } from "react";
 import { FacetController, OrdinalFrame } from "semiotic";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import ChartWrapper from "../chart-wrapper";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
 import { THEME } from "../theme";

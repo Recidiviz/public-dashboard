@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import useBreakpoint from "@w11r/use-breakpoint";
 
 import CloseModalSrc from "../assets/icons/closeModal.svg";

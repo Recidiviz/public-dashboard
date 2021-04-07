@@ -4,9 +4,7 @@
   "workspaces": [
     "public-dashboard-client",
     "spotlight-api",
-    "spotlight-client",
-    ".yalc/*",
-    ".yalc/@*/*"
+    "spotlight-client"
   ],
   "author": "Recidiviz <team@recidiviz.org>",
   "license": "GNU General Public License v3",

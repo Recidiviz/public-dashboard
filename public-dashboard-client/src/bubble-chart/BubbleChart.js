@@ -5,7 +5,7 @@ import forceLimit from "d3-force-limit";
 import { scaleSqrt } from "d3-scale";
 import React, { useState } from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import ColorLegend from "../color-legend";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
 import { THEME } from "../theme";

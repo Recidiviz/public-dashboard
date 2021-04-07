@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import Measure from "react-measure";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import BubbleChart from "../bubble-chart";
 import { DIMENSION_KEYS, TOTAL_KEY } from "../constants";
 import Disclaimer from "../disclaimer";

@@ -2,7 +2,7 @@ import { parse, format } from "date-fns";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import ResponsiveOrdinalFrame from "semiotic/lib/ResponsiveOrdinalFrame";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import ChartWrapper from "../chart-wrapper";
 import Disclaimer from "../disclaimer";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";

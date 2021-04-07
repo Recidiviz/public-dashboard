@@ -27,7 +27,7 @@ import {
   MenuItems,
   MenuPopover,
 } from "@reach/menu-button";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import {
   ControlContainer,
   ControlLabel,

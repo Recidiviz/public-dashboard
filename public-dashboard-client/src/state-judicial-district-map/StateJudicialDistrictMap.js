@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import judicialDistrictsTopology from "../assets/maps/us_nd_judicial_districts.json";
 import { DEFAULT_TENANT, OTHER_LABEL, TENANTS, OTHER } from "../constants";
 import StateMap from "../state-map";

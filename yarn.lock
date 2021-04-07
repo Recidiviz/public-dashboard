@@ -1774,6 +1774,20 @@
     styled-components "^5.2.1"
     web-vitals "^1.0.1"
 
+"@recidiviz/eslint-config@file:public-dashboard-client/.yalc/@recidiviz/eslint-config":
+  version "1.0.0"
+  dependencies:
+    eslint-config-airbnb "^18.2.0"
+    eslint-config-prettier "^8.1.0"
+    prettier "^2.2.1"
+
+"@recidiviz/eslint-config@file:spotlight-api/.yalc/@recidiviz/eslint-config":
+  version "1.0.0"
+  dependencies:
+    eslint-config-airbnb "^18.2.0"
+    eslint-config-prettier "^8.1.0"
+    prettier "^2.2.1"
+
 "@recidiviz/eslint-config@file:spotlight-client/.yalc/@recidiviz/eslint-config":
   version "1.0.0"
   dependencies:

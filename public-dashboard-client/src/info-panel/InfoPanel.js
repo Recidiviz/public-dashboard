@@ -1,7 +1,7 @@
 import useBreakpoint from "@w11r/use-breakpoint";
 import PropTypes from "prop-types";
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { ReactComponent as MenuOpenIcon } from "../assets/icons/menuOpen.svg";
 import { useInfoPanelDispatch } from "./InfoPanelContext";
 

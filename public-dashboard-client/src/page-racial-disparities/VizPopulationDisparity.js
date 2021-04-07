@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { DIMENSION_DATA_KEYS, RACE_LABELS, TOTAL_KEY } from "../constants";
 import ProportionalBar from "../proportional-bar";
 import { demographicsAscending } from "../utils";

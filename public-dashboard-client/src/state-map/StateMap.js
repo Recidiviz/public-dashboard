@@ -8,7 +8,7 @@ import {
   Geography,
   Marker,
 } from "react-simple-maps";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { mesh } from "topojson";
 import AspectRatioWrapper from "../aspect-ratio-wrapper";
 import { hoverColor } from "../utils";
@@ -96,7 +96,7 @@ export default function StateMap({
                       hoverable,
                       highlighted: locationId === geography.id,
                     })}
-                    key={`region_{geography.id}`}
+                    key="region_{geography.id}"
                     geography={geography}
                     onBlur={() => setHoveredLocationId()}
                     onClick={(e) => {
@@ -122,7 +122,7 @@ export default function StateMap({
                   />
                   {LabelComponent && (
                     <RegionMarker
-                      key={`marker_{geography.id}`}
+                      key="marker_{geography.id}"
                       coordinates={centroid}
                     >
                       <LabelComponent

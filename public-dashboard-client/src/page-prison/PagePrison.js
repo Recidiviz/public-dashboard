@@ -267,7 +267,7 @@ export default function PagePrison() {
       showDimensionControl: true,
       VizComponent: VizRecidivismSingleFollowup,
       vizData: {
-        followupYears: parseInt(recidivismFollowupPeriod, 10),
+        followupYears: parseInt(recidivismFollowupPeriod),
         recidivismRates,
       },
     },

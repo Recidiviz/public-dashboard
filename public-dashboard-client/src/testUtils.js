@@ -19,7 +19,7 @@ import fs from "fs";
 import path from "path";
 import React from "react";
 import { render } from "@testing-library/react";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "styled-components/macro";
 import { THEME } from "./theme";
 import { InfoPanelProvider } from "./info-panel";
 

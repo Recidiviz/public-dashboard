@@ -1,6 +1,6 @@
 import useBreakpoint from "@w11r/use-breakpoint";
 import { sum } from "d3-array";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import {
   SUPERVISION_TYPES,
   VIOLATION_COUNT_KEYS,

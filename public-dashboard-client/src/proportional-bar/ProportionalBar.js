@@ -2,7 +2,7 @@ import { sum } from "d3-array";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import ResponsiveOrdinalFrame from "semiotic/lib/ResponsiveOrdinalFrame";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import ColorLegend from "../color-legend";
 import { THEME } from "../theme";
 import { getDataWithPct, highlightFade } from "../utils";
