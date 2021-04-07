@@ -28,9 +28,7 @@ import { countUnknowns, hasUnknowns } from "./unknowns";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 import { DemographicCategoryRecords, UnknownCounts } from "./types";
 
-export default class DemographicsByCategoryMetric extends Metric<
-  DemographicsByCategoryRecord
-> {
+export default class DemographicsByCategoryMetric extends Metric<DemographicsByCategoryRecord> {
   // consumers can override to make all records the same color
   private readonly color?: string;
 

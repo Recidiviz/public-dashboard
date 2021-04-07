@@ -78,9 +78,7 @@ function getMissingMonthsForSeries({
   }));
 }
 
-export default class HistoricalPopulationBreakdownMetric extends Metric<
-  HistoricalPopulationBreakdownRecord
-> {
+export default class HistoricalPopulationBreakdownMetric extends Metric<HistoricalPopulationBreakdownRecord> {
   // UI needs to know this in order to configure proper viewing window
   dataIncludesCurrentMonth?: boolean;
 

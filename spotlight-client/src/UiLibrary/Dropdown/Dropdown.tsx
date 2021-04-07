@@ -22,14 +22,16 @@ import { OptionItem, OptionItemContents, useOptionColors } from "./common";
 import DropdownBase from "./DropdownBase";
 import { DropdownCommonProps, DropdownOption } from "./types";
 
-const Dropdown: React.FC<Assign<
-  DropdownCommonProps,
-  {
-    options: (DropdownOption & { hidden?: boolean })[];
-    onChange: (id: string) => void;
-    selectedId?: string;
-  }
->> = ({ selectedId, onChange, options, disabled, ...passThruProps }) => {
+const Dropdown: React.FC<
+  Assign<
+    DropdownCommonProps,
+    {
+      options: (DropdownOption & { hidden?: boolean })[];
+      onChange: (id: string) => void;
+      selectedId?: string;
+    }
+  >
+> = ({ selectedId, onChange, options, disabled, ...passThruProps }) => {
   const visibleOptions = options.filter(({ hidden }) => !hidden);
 
   const selectedItem = options.find(({ id }) => id === selectedId);

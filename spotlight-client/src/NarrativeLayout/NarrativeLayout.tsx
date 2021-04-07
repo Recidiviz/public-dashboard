@@ -55,9 +55,7 @@ type NarrativeLayoutProps = {
 };
 
 const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
-  const sectionsContainerRef = useRef() as React.MutableRefObject<
-    HTMLDivElement
-  >;
+  const sectionsContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const showSectionNavigation = useBreakpoint(true, ["mobile-", false]);
 
   // automated scrolling is a special case of section visibility;

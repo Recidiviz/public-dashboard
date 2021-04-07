@@ -44,6 +44,8 @@ const withRouteSync = <Props extends RouteComponentProps & RouteParams>(
       // catchall path for partially valid URLs; e.g. :tenantId/something-invalid
       Object.values(normalizedProps).includes(null) || path === "/*";
 
+    // this is fine, we actually want this to run on every render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(
       action("sync route params", () => {
         tenantStore.currentTenantId = normalizedProps.tenantId ?? undefined;
