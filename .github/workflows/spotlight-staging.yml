@@ -2,7 +2,7 @@ name: Spotlight Staging Deploy
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - "spotlight-client/**"
 defaults:

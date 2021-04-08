@@ -64,7 +64,7 @@ Once you have the required permissions, you can set up your environment for depl
 
 ### Deploying to Staging
 
-All commits to `master` are automatically deployed to the staging environment by the `spotlight-staging` Github CI workflow, keeping staging up to date as pull requests are merged. (It thus bears mentioning that you should not merge anything to `master` that isn't immediately deployable!)
+All commits to `main` are automatically deployed to the staging environment by the `spotlight-staging` Github CI workflow, keeping staging up to date as pull requests are merged. (It thus bears mentioning that you should not merge anything to `main` that isn't immediately deployable!)
 
 You can also generate and deploy staging builds locally as needed. To generate a staging build, invoke the following yarn script: `yarn build-staging`. This will include the appropriate environment variables from `.env.development`. Each time this is run, the `/build` directory will be wiped clean.
 
