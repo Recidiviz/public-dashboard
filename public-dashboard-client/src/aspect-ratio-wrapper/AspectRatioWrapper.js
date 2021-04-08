@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 // implements a version of the Aspect Ratio Box technique described here:
 // https://github.com/zcreativelabs/react-simple-maps/issues/37#issuecomment-349435145

@@ -21,9 +21,7 @@ import { ProgramParticipationCurrentRecord } from "../metricsApi";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 import { LocalityDataMapping } from "./types";
 
-export default class ProgramParticipationCurrentMetric extends Metric<
-  ProgramParticipationCurrentRecord
-> {
+export default class ProgramParticipationCurrentMetric extends Metric<ProgramParticipationCurrentRecord> {
   readonly mapData: MapData;
 
   constructor(

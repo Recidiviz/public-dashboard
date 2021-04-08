@@ -56,9 +56,7 @@ function dataIncludesCurrentMonth(
  * both of which are required, that map to two different record formats. As a result
  * the core "records" property is not really useful and has been disabled.
  */
-export default class SupervisionSuccessRateMetric extends Metric<
-  SupervisionSuccessRateMonthlyRecord
-> {
+export default class SupervisionSuccessRateMetric extends Metric<SupervisionSuccessRateMonthlyRecord> {
   demographicView: DemographicView = "total";
 
   private readonly demographicSourceFileName: string;

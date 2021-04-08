@@ -23,7 +23,7 @@ import React, { useState } from "react";
 import Measure from "react-measure";
 import { StickyContainer, Sticky } from "react-sticky";
 import { exact, tail } from "set-order";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import ChartError from "../chart-error";
 import {
   COLLAPSIBLE_NAV_BREAKPOINT,

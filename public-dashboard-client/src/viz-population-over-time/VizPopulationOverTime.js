@@ -22,7 +22,7 @@ import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useState } from "react";
 import Measure from "react-measure";
 import MinimapXYFrame from "semiotic/lib/MinimapXYFrame";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import BaseChartWrapper from "../chart-wrapper";
 import { THEME } from "../theme";
 import { formatAsNumber, getDataWithPct, highlightFade } from "../utils";

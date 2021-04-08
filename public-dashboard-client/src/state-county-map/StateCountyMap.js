@@ -10,7 +10,7 @@ import {
   Geography,
   Marker,
 } from "react-simple-maps";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { mesh } from "topojson";
 import AspectRatioWrapper from "../aspect-ratio-wrapper";
 import ndGeography from "../assets/maps/us_nd.json";

@@ -1,6 +1,6 @@
 import { Link } from "@reach/router";
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { HeadingTitle, HeadingDescription } from "../heading";
 
 const Wrapper = styled.div`

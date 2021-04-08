@@ -40,9 +40,7 @@ type GraphEdge = {
   value: number;
 };
 
-export default class SentenceTypeByLocationMetric extends Metric<
-  SentenceTypeByLocationRecord
-> {
+export default class SentenceTypeByLocationMetric extends Metric<SentenceTypeByLocationRecord> {
   constructor(
     props: BaseMetricConstructorOptions<SentenceTypeByLocationRecord>
   ) {

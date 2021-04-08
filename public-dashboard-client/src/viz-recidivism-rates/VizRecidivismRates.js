@@ -147,6 +147,7 @@ VizRecidivismRates.propTypes = {
       PropTypes.shape({ label: PropTypes.string.isRequired })
     ),
     // this will be passed through to the chart, let that component validate it
+    // eslint-disable-next-line react/forbid-prop-types
     highlightedCohort: PropTypes.any,
   }).isRequired,
 };

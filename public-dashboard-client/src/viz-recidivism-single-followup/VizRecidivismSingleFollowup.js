@@ -19,7 +19,7 @@ import { group } from "d3-array";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import Measure from "react-measure";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import BarChartTrellis from "../bar-chart-trellis";
 import {
   DIMENSION_DATA_KEYS,

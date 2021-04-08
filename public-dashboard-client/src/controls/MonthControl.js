@@ -1,6 +1,6 @@
 import { Slider, Track, Thumb } from "@accessible/slider";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import PropTypes from "prop-types";
 import { ControlContainer, ControlLabel, ControlValue } from "./shared";
 

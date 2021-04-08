@@ -1,6 +1,6 @@
 import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
 import React from "react";
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components/macro";
 
 import { HeadingTitle } from "../heading";
 import { ReactComponent as SpinnerIcon } from "../assets/icons/spinner.svg";

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import Disclaimer from "../disclaimer";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
 import { THEME } from "../theme";

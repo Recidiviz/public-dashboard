@@ -49,18 +49,32 @@
     "react-sticky": "^6.0.3",
     "semiotic": "^1.20.5",
     "set-order": "^0.3.5",
-    "//": "TODO(#236): unpin & upgrade styled-components after bugfix",
     "styled-components": "5.1.1",
     "styled-normalize": "^8.0.7",
     "topojson": "^3.0.2"
   },
   "devDependencies": {
+    "@recidiviz/eslint-config": "^1.0.0",
     "@testing-library/dom": "^7.26.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^12.1.10",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
+    "babel-eslint": "^10.0.0",
+    "eslint": "^6.6.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-import-resolver-typescript": "^2.3.0",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.23.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
     "jest-date-mock": "^1.0.8",
-    "lint-staged": ">=10"
+    "lint-staged": ">=10",
+    "prettier": "^2.2.1"
   },
   "browserslist": {
     "production": [

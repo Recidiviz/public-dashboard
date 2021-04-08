@@ -1,7 +1,7 @@
 import { Router, Redirect, useLocation } from "@reach/router";
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { ALL_PAGES, PATHS } from "../constants";
 import useCurrentPage from "../hooks/useCurrentPage";
 import PageNotFound from "../page-not-found";

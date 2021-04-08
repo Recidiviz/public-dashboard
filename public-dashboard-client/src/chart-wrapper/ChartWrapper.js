@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const ChartWrapper = styled.div`
   /* classes provided by Semiotic */

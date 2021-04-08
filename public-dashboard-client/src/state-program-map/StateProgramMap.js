@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import ndGeography from "../assets/maps/us_nd_program_regions.json";
 import { DEFAULT_TENANT, TENANTS } from "../constants";
 import StateMap from "../state-map";

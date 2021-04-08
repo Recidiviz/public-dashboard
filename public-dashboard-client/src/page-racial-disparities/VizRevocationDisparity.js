@@ -1,7 +1,7 @@
 import { ascending } from "d3-array";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { TOTAL_KEY, VIOLATION_LABELS } from "../constants";
 import Disclaimer from "../disclaimer";
 import ProportionalBar from "../proportional-bar";

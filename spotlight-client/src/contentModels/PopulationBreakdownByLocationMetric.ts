@@ -34,9 +34,7 @@ import { countUnknowns, hasUnknowns } from "./unknowns";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 import { DemographicCategoryRecords, UnknownCounts } from "./types";
 
-export default class PopulationBreakdownByLocationMetric extends Metric<
-  PopulationBreakdownByLocationRecord
-> {
+export default class PopulationBreakdownByLocationMetric extends Metric<PopulationBreakdownByLocationRecord> {
   readonly totalLabel: string;
 
   constructor(

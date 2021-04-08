@@ -18,6 +18,8 @@ build/
 node_modules/
 .pnp
 .pnp.js
+.yalc
+yalc.lock
 
 # Code coverage directory
 coverage/

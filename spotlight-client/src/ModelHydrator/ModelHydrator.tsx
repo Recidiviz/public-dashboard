@@ -66,6 +66,8 @@ const ModelHydrator = ({
   children,
   model,
 }: ModelHydratorProps): React.ReactElement => {
+  // this is fine, mobx autoruns don't need dependencies
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     autorun(() => {
       if (model.isLoading === undefined) {

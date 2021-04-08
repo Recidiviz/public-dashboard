@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Link } from "@reach/router";
 import classNames from "classnames";
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { mediaQuery } from "@w11r/use-breakpoint";
 
 import { PATHS, ALL_PAGES } from "../constants";

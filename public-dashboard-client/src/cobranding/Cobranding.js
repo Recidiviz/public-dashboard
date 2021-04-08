@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import cobrandingSrc from "../assets/images/us_nd_cobranding.png";
 import cobrandingLightSrc from "../assets/images/us_nd_cobranding_light.png";

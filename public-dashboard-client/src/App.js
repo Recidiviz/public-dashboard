@@ -2,7 +2,7 @@ import { Router, Redirect } from "@reach/router";
 import { setup as setupBreakpoints } from "@w11r/use-breakpoint";
 import React from "react";
 import { Helmet } from "react-helmet";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "styled-components/macro";
 import { CUSTOM_BREAKPOINTS, DEFAULT_TENANT } from "./constants";
 import { InfoPanelProvider } from "./info-panel";
 import SiteStyles from "./site-styles";

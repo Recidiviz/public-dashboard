@@ -19,7 +19,7 @@ import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Measure from "react-measure";
 import XYFrame from "semiotic/lib/XYFrame";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import ChartWrapperBase from "../chart-wrapper";
 import ColorLegend from "../color-legend";
 import { DIMENSION_DATA_KEYS } from "../constants";

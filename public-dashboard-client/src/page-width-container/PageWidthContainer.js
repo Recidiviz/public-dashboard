@@ -1,5 +1,5 @@
 import { mediaQuery } from "@w11r/use-breakpoint";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const PADDING_LARGE = "80px";
 const PADDING_SMALL = "8px";

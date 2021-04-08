@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Measure from "react-measure";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 import StateProgramMap from "../state-program-map";
 

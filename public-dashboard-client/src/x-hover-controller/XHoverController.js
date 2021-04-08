@@ -19,7 +19,7 @@ import { bisectCenter } from "d3-array";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import XYFrame from "semiotic/lib/XYFrame";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import ResponsiveTooltipController from "../responsive-tooltip-controller";
 
 const TOOLTIP_OFFSET = 8;

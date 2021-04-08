@@ -1,5 +1,5 @@
 import { mediaQuery } from "@w11r/use-breakpoint";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { THEME } from "../theme";
 
 const HeadingTitle = styled.h1`

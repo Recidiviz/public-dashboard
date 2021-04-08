@@ -3,7 +3,7 @@ import useBreakpoint, { mediaQuery } from "@w11r/use-breakpoint";
 import classNames from "classnames";
 import React from "react";
 import useCollapse from "react-collapsed";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 import MenuClosedIconSrc from "../assets/icons/menuClosed.svg";
 import MenuOpenIconSrc from "../assets/icons/menuOpen.svg";
 import ExternalLinkSrc from "../assets/icons/externalLink.svg";
