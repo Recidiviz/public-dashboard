@@ -40,13 +40,13 @@ Please provide as much information as you can to help us reproduce and fix the
 bug. We have issue templates from which to choose when filing new issues.
 Generally, they require:
 
-* A concise title and clear description of the bug and how it manifests
-* Precise, ordered steps to reproduce it
-* A description of what you expected to occur and how it differed from reality
-* A description of any relevant data that was present and//or used (_sans PII of
-any kind_)
-* Environment information, such as your OS and browser, or versions of
-Python, Google Cloud SDK, or any relevant libraries
+- A concise title and clear description of the bug and how it manifests
+- Precise, ordered steps to reproduce it
+- A description of what you expected to occur and how it differed from reality
+- A description of any relevant data that was present and//or used (_sans PII of
+  any kind_)
+- Environment information, such as your OS and browser, or versions of
+  Python, Google Cloud SDK, or any relevant libraries
 
 ### Submitting Feature Requests
 
@@ -56,11 +56,11 @@ to what you believe to be the right repository.
 Provide as much information as you can to help us consider and prioritize the
 feature. Again, we have issue templates to help. They include:
 
-* A concise title and clear description of the suggested feature
-* Why you believe it would be valuable, and the impact you believe it would
-provide
-* If a change in existing functionality, why you believe this is advantageous to
-the current functionality
+- A concise title and clear description of the suggested feature
+- Why you believe it would be valuable, and the impact you believe it would
+  provide
+- If a change in existing functionality, why you believe this is advantageous to
+  the current functionality
 
 ### Questions, Comments, Concerns
 
@@ -88,6 +88,7 @@ into an area where you feel less comfortable or need to learn something new.
 ### Doing the Work
 
 **tl;dr:**
+
 1. Work on a feature branch
 1. Test your change manually by running the app locally
 1. [Run linting and tests often](README.md)
@@ -112,7 +113,7 @@ Related, include unit and//or integration tests to cover any new code. Update or
 remove existing test cases where appropriate.
 
 When you are passing linting and testing locally and are satisfied with the
-current state of your work, submit a pull request against `master`. However,
+current state of your work, submit a pull request against `main`. However,
 you can also submit Work In Progress ("WIP") pull requests to gather early
 feedback if you believe it would be helpful. If you do so, please format the
 title as "WIP: My title here" and place the PR in a "Draft" state via Github's UI.
