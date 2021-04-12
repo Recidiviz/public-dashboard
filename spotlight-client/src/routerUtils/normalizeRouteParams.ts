@@ -17,7 +17,7 @@
 
 import { constantCase, pascalCase } from "change-case";
 import { ValuesType } from "utility-types";
-import { isNarrativeTypeId, isTenantId } from "../contentApi/types";
+import { isNarrativeTypeId, isTenantId, TenantId } from "../contentApi/types";
 import { NormalizedRouteParams, RouteParams } from "./types";
 
 /**
@@ -34,7 +34,9 @@ export default function normalizeRouteParams(
   };
 }
 
-function normalizeTenantId(rawParam: ValuesType<RouteParams>) {
+export function normalizeTenantId(
+  rawParam: ValuesType<RouteParams>
+): TenantId | null | undefined {
   if (typeof rawParam === "string") {
     const normalizedString = constantCase(rawParam);
     if (isTenantId(normalizedString)) return normalizedString;
