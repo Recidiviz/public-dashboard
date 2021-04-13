@@ -21,19 +21,27 @@ import Tenant from "../contentModels/Tenant";
 import { reactImmediately } from "../testUtils";
 import RootStore from "./RootStore";
 
-let DataStore: RootStore;
-let tenantStore: typeof DataStore.tenantStore;
+let originalUrl: string;
 
 beforeEach(() => {
-  DataStore = new RootStore();
-  tenantStore = DataStore.tenantStore;
+  originalUrl = window.location.href;
 });
 
+afterEach(() => {
+  jsdom.reconfigure({ url: originalUrl });
+});
+
+function getDataStore() {
+  return new RootStore();
+}
+
 test("belongs to root store", () => {
+  const DataStore = getDataStore();
   expect(DataStore.tenantStore).toBeDefined();
 });
 
 test("has no default tenant", () => {
+  const { tenantStore } = getDataStore();
   reactImmediately(() => {
     expect(tenantStore.currentTenant).toBeUndefined();
   });
@@ -41,17 +49,20 @@ test("has no default tenant", () => {
 });
 
 test("can set current tenant", () => {
+  const { tenantStore } = getDataStore();
   runInAction(() => {
     tenantStore.currentTenantId = "US_ND";
   });
 
   reactImmediately(() => {
     expect(tenantStore.currentTenant).toBeInstanceOf(Tenant);
+    expect(tenantStore.currentTenant?.id).toBe("US_ND");
   });
   expect.hasAssertions();
 });
 
 test("can set current narrative", () => {
+  const { tenantStore } = getDataStore();
   expect(tenantStore.currentTenant).toBeUndefined();
 
   runInAction(() => {
@@ -64,4 +75,31 @@ test("can set current narrative", () => {
   });
 
   expect.assertions(2);
+});
+
+test("set tenant from current domain", () => {
+  jsdom.reconfigure({ url: "https://dashboard.docr.nd.gov" });
+
+  const { tenantStore } = getDataStore();
+
+  reactImmediately(() => {
+    expect(tenantStore.currentTenant?.id).toBe("US_ND");
+  });
+});
+
+test("lock tenant if set from current domain", () => {
+  jsdom.reconfigure({ url: "https://dashboard.docr.nd.gov" });
+
+  const { tenantStore } = getDataStore();
+
+  // we shouldn't be able to clear the current tenant
+  runInAction(() => {
+    tenantStore.currentTenantId = undefined;
+  });
+  reactImmediately(() => {
+    expect(tenantStore.currentTenant?.id).toBe("US_ND");
+    expect(tenantStore.currentTenantId).toBe("US_ND");
+  });
+
+  // TODO (#391): we shouldn't be able to change to another tenant either
 });
