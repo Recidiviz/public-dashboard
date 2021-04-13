@@ -12,7 +12,7 @@
     "dev": "react-scripts start",
     "eject": "react-scripts eject",
     "lint": "tsc && eslint '**/*.{js,ts,tsx}'",
-    "test": "react-scripts test --env=jest-environment-jsdom-sixteen"
+    "test": "react-scripts test --env=jest-environment-jsdom-global"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.13.1",
@@ -101,27 +101,29 @@
     "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^12.7.0",
     "@types/jest": "^24.0.0",
+    "@types/jsdom": "^16.2.10",
     "@types/node": "^12.0.0",
-    "env-cmd": "^10.1.0",
-    "@typescript-eslint/parser": "^4.4.0",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
+    "babel-eslint": "^10.0.0",
+    "env-cmd": "^10.1.0",
     "eslint": "^6.6.0",
+    "eslint-config-react-app": "^6.0.0",
     "eslint-import-resolver-typescript": "^2.3.0",
+    "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.23.1",
-    "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
-    "babel-eslint": "^10.0.0",
-    "prettier": "^2.2.1",
-    "eslint-plugin-flowtype": "^5.2.0",
     "jest-date-mock": "^1.0.8",
+    "jest-environment-jsdom-global": "^2.0.4",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "jest-fetch-mock": "^3.0.3",
     "jest-mock-extended": "^1.0.13",
-    "lint-staged": ">=10"
+    "lint-staged": ">=10",
+    "prettier": "^2.2.1"
   },
   "browserslist": {
     "production": [

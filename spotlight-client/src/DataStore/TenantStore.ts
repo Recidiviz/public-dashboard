@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { makeAutoObservable } from "mobx";
+import { intercept, makeAutoObservable } from "mobx";
 import {
   isSystemNarrativeTypeId,
   NarrativeTypeId,
@@ -25,6 +25,7 @@ import RacialDisparitiesNarrative from "../contentModels/RacialDisparitiesNarrat
 import type SystemNarrative from "../contentModels/SystemNarrative";
 import Tenant, { createTenant } from "../contentModels/Tenant";
 import type RootStore from "./RootStore";
+import { getTenantFromDomain } from "./utils";
 
 export default class TenantStore {
   currentNarrativeTypeId?: NarrativeTypeId;
@@ -41,6 +42,14 @@ export default class TenantStore {
     this.rootStore = rootStore;
 
     this.tenants = new Map();
+
+    // tenant mapped from domain should be locked
+    const tenantFromDomain = getTenantFromDomain();
+    if (tenantFromDomain) {
+      this.currentTenantId = tenantFromDomain;
+      // returning null renders an observable property immutable
+      intercept(this, "currentTenantId", () => null);
+    }
   }
 
   /**
