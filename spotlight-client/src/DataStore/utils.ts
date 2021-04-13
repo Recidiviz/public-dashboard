@@ -36,7 +36,7 @@ export function getTenantFromDomain(): TenantId | undefined {
   }
 
   // staging domains
-  const stagingRegex = /^(.+).spotlight-staging.recidiviz.org$/;
+  const stagingRegex = /^(.+).spotlight-staging.recidiviz.org$/i;
   const stagingMatch = stagingRegex.exec(domain);
   if (stagingMatch) {
     return normalizeTenantId(stagingMatch[1]) ?? undefined;
