@@ -22,52 +22,46 @@ import { reactImmediately } from "../testUtils";
 import RootStore from "./RootStore";
 
 let DataStore: RootStore;
+let tenantStore: typeof DataStore.tenantStore;
 
 beforeEach(() => {
   DataStore = new RootStore();
+  tenantStore = DataStore.tenantStore;
 });
 
-test("contains a tenant store", () => {
+test("belongs to root store", () => {
   expect(DataStore.tenantStore).toBeDefined();
 });
 
-describe("tenant store", () => {
-  let tenantStore: typeof DataStore.tenantStore;
-
-  beforeEach(() => {
-    tenantStore = DataStore.tenantStore;
-  });
-
-  test("has no default tenant", () => {
-    reactImmediately(() => {
-      expect(tenantStore.currentTenant).toBeUndefined();
-    });
-    expect.hasAssertions();
-  });
-
-  test("can set current tenant", () => {
-    runInAction(() => {
-      tenantStore.currentTenantId = "US_ND";
-    });
-
-    reactImmediately(() => {
-      expect(tenantStore.currentTenant).toBeInstanceOf(Tenant);
-    });
-    expect.hasAssertions();
-  });
-
-  test("can set current narrative", () => {
+test("has no default tenant", () => {
+  reactImmediately(() => {
     expect(tenantStore.currentTenant).toBeUndefined();
-
-    runInAction(() => {
-      tenantStore.currentTenantId = "US_ND";
-      tenantStore.currentNarrativeTypeId = "Prison";
-    });
-
-    reactImmediately(() => {
-      expect(tenantStore.currentNarrative).toBeInstanceOf(SystemNarrative);
-    });
-
-    expect.assertions(2);
   });
+  expect.hasAssertions();
+});
+
+test("can set current tenant", () => {
+  runInAction(() => {
+    tenantStore.currentTenantId = "US_ND";
+  });
+
+  reactImmediately(() => {
+    expect(tenantStore.currentTenant).toBeInstanceOf(Tenant);
+  });
+  expect.hasAssertions();
+});
+
+test("can set current narrative", () => {
+  expect(tenantStore.currentTenant).toBeUndefined();
+
+  runInAction(() => {
+    tenantStore.currentTenantId = "US_ND";
+    tenantStore.currentNarrativeTypeId = "Prison";
+  });
+
+  reactImmediately(() => {
+    expect(tenantStore.currentNarrative).toBeInstanceOf(SystemNarrative);
+  });
+
+  expect.assertions(2);
 });
