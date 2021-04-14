@@ -24,9 +24,22 @@ import {
   fireEvent,
   waitFor,
 } from "@testing-library/react";
+import { isTenantEnabled } from "./contentApi/isTenantEnabled";
 import testContent from "./contentApi/sources/us_nd";
 import { NarrativesSlug } from "./routerUtils/types";
 import { renderNavigableApp, segmentMock } from "./testUtils";
+
+jest.mock("./contentApi/isTenantEnabled", () => ({
+  isTenantEnabled: jest.fn(),
+}));
+
+const isTenantEnabledMock = isTenantEnabled as jest.MockedFunction<
+  typeof isTenantEnabled
+>;
+
+beforeEach(() => {
+  isTenantEnabledMock.mockReturnValue(true);
+});
 
 describe("navigation", () => {
   /**
@@ -226,6 +239,21 @@ describe("navigation", () => {
         screen.getByRole("button", { name: "Data Narratives" })
       ).toBeVisible();
       fireEvent.click(screen.getByRole("link", { name: "North Dakota" }));
+
+      await waitFor(() =>
+        expect(screen.queryByRole(...notFoundRoleArgs)).not.toBeInTheDocument()
+      );
+    });
+
+    test("disabled tenant", async () => {
+      isTenantEnabledMock.mockReturnValue(false);
+
+      renderNavigableApp({ route: "/us-pa" });
+
+      expect(screen.getByRole(...notFoundRoleArgs)).toBeVisible();
+      expect(document.title).toBe("Page not found — Spotlight by Recidiviz");
+
+      fireEvent.click(screen.getByRole("link", { name: "Spotlight" }));
 
       await waitFor(() =>
         expect(screen.queryByRole(...notFoundRoleArgs)).not.toBeInTheDocument()

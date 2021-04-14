@@ -19,6 +19,7 @@ import { RouteComponentProps } from "@reach/router";
 import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { ComponentType, useEffect } from "react";
+import { isTenantEnabled } from "../contentApi/isTenantEnabled";
 import NotFound from "../NotFound";
 import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { RouteParams } from "../routerUtils/types";
@@ -47,8 +48,14 @@ const withRouteSync = <Props extends RouteComponentProps & RouteParams>(
       normalizedProps.tenantId &&
       tenantStore.currentTenantId !== normalizedProps.tenantId;
 
+    const isTenantDisabled = Boolean(
+      tenantStore.currentTenantId &&
+        !isTenantEnabled(tenantStore.currentTenantId)
+    );
+
     const isRouteInvalid =
       isTenantForbidden ||
+      isTenantDisabled ||
       Object.values(normalizedProps).includes(null) ||
       // catchall path for partially valid URLs; e.g. :tenantId/something-invalid
       path === "/*";

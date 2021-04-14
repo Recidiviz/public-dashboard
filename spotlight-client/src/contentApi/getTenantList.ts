@@ -18,9 +18,17 @@
 import retrieveContent from "./retrieveContent";
 import { TenantId, TenantIdList } from "./types";
 
-export default function getTenantList(): { id: TenantId; name: string }[] {
-  return TenantIdList.map((id) => ({
-    id,
-    name: retrieveContent({ tenantId: id }).name,
-  }));
+type TenantListItem = { id: TenantId; name: string };
+
+export default function getTenantList(): TenantListItem[] {
+  return TenantIdList.map((id) => {
+    try {
+      return {
+        id,
+        name: retrieveContent({ tenantId: id }).name,
+      };
+    } catch {
+      return null;
+    }
+  }).filter((t): t is TenantListItem => t !== null);
 }

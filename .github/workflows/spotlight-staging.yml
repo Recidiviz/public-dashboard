@@ -30,6 +30,8 @@ jobs:
           REACT_APP_AUTH_ENABLED: true
           REACT_APP_AUTH_ENV: development
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_ENABLED_TENANTS: US_ND,US_PA
+
         run: yarn build
       - name: Store build artifact
         uses: actions/upload-artifact@v2

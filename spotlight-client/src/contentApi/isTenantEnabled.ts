@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,26 +15,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { ERROR_MESSAGES } from "../constants";
-import { isTenantEnabled } from "./isTenantEnabled";
-import US_ND from "./sources/us_nd";
-import US_PA from "./sources/us_pa";
-import { TenantContent, TenantId } from "./types";
+import { TenantId } from "./types";
 
-const CONTENT_SOURCES: Record<TenantId, TenantContent> = { US_ND, US_PA };
-
-type RetrieveContentParams = {
-  tenantId: TenantId;
-};
+const enabledTenants = process.env.REACT_APP_ENABLED_TENANTS?.split(
+  ","
+).map((id) => id.trim());
 
 /**
- * Provides the entire content object for the tenant specified by `tenantId`.
+ * Tenants have to be explicitly enabled per environment; this function
+ * checks against that configuration for a given tenant.
  */
-export default function retrieveContent({
-  tenantId,
-}: RetrieveContentParams): TenantContent {
-  if (isTenantEnabled(tenantId)) {
-    return CONTENT_SOURCES[tenantId];
-  }
-  throw new Error(`${ERROR_MESSAGES.disabledTenant} (${tenantId})`);
+export function isTenantEnabled(id: TenantId): boolean {
+  return Array.isArray(enabledTenants) && enabledTenants.includes(id);
 }

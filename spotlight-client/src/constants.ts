@@ -21,6 +21,7 @@ export const ERROR_MESSAGES = {
   noMetricData: "Unable to retrieve valid data for this metric.",
   missingRequiredContent:
     "Unable to create Metric because required content is missing.",
+  disabledTenant: "This tenant has not been enabled.",
 };
 
 export const NAV_BAR_HEIGHT = 80;
