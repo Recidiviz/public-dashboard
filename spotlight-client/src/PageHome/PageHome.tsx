@@ -39,6 +39,7 @@ const PageHome = (): React.ReactElement => {
   if (locked && currentTenantId) {
     return (
       <Redirect
+        noThrow
         to={getUrlForResource({
           page: "tenant",
           params: { tenantId: currentTenantId },
