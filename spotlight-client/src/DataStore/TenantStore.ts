@@ -32,6 +32,8 @@ export default class TenantStore {
 
   currentTenantId?: TenantId;
 
+  readonly locked: boolean = false;
+
   rootStore: RootStore;
 
   tenants: Map<TenantId, Tenant>;
@@ -46,6 +48,7 @@ export default class TenantStore {
     // tenant mapped from domain should be locked
     const tenantFromDomain = getTenantFromDomain();
     if (tenantFromDomain) {
+      this.locked = true;
       this.currentTenantId = tenantFromDomain;
       // returning null renders an observable property immutable
       intercept(this, "currentTenantId", () => null);

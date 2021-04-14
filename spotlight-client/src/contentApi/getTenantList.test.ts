@@ -15,30 +15,19 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { act, waitFor } from "@testing-library/react";
-import { NarrativesSlug } from "../routerUtils/types";
-import { renderNavigableApp } from "../testUtils";
+import getTenantList from "./getTenantList";
 
-const scrollSpy = jest.spyOn(window, "scrollTo");
-
-afterEach(() => {
-  jest.clearAllMocks();
-});
-
-test("scrolls on page change", async () => {
-  const {
-    history: { navigate },
-  } = renderNavigableApp();
-
-  expect(scrollSpy).toHaveBeenCalledWith(0, 0);
-  scrollSpy.mockClear();
-
-  await act(() => navigate(`/us-nd/${NarrativesSlug}/prison`));
-  expect(scrollSpy).toHaveBeenCalledWith(0, 0);
-  scrollSpy.mockClear();
-
-  // we cannot really test non-scrolling behavior reliably,
-  // because intra-page route changes also trigger scrolling, and JSDOM
-  // does not implement any real scrolling functionality
-  // so the positions cannot be meaningfully inspected
+test("getTenantList", () => {
+  expect(getTenantList()).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "id": "US_ND",
+        "name": "North Dakota",
+      },
+      Object {
+        "id": "US_PA",
+        "name": "Pennsylvania",
+      },
+    ]
+  `);
 });

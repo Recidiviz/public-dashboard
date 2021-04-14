@@ -25,6 +25,7 @@ import AuthWall from "./AuthWall";
 import { FOOTER_HEIGHT, NAV_BAR_HEIGHT } from "./constants";
 import GlobalStyles from "./GlobalStyles";
 import NotFound from "./NotFound";
+import PageHome from "./PageHome";
 import PageNarrative from "./PageNarrative";
 import PageTenant from "./PageTenant";
 import PageviewTracker from "./PageviewTracker";
@@ -69,13 +70,12 @@ const App: React.FC = () => {
                 NOTE: every leaf route component in this router should be wrapped
                 by the withRouteSync higher-order component to keep data and UI in sync!
               */}
-              {/* while there is only one state, home simply redirects to ND home */}
-              <Redirect from="/" to="/us-nd" noThrow />
               {/*
                 this was the ND homepage for v1;
                 let's make sure people who bookmarked it are not lost
               */}
               <Redirect from="/us_nd/overview" to="/us-nd" noThrow />
+              <PageHome path="/" />
               <PassThroughPage path="/:tenantId">
                 <PageTenant path="/" />
                 <PageNarrative path={`/${NarrativesSlug}/:narrativeTypeId`} />

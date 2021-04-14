@@ -54,8 +54,7 @@ async function getApp() {
 // mocking the node env is esoteric, see https://stackoverflow.com/a/48042799
 const ORIGINAL_ENV = process.env;
 
-// home page redirects to the ND home page
-const authenticatedTextMatch = /North Dakota/;
+const authenticatedTextMatch = /Spotlight/;
 
 beforeEach(async () => {
   // make a copy that we can modify

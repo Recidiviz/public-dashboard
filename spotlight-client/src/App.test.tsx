@@ -54,10 +54,10 @@ describe("navigation", () => {
     expect(screen.getByRole(...lookupArgs)).toBeInTheDocument();
   }
 
-  test("site home redirects to ND", async () => {
+  test("site home", async () => {
     renderNavigableApp();
     expect(
-      await screen.findByRole("heading", { name: /North Dakota/, level: 1 })
+      await screen.findByRole("heading", { name: /Spotlight/, level: 1 })
     ).toBeVisible();
   });
 
@@ -108,7 +108,7 @@ describe("navigation", () => {
   });
 
   test("links", async () => {
-    renderNavigableApp();
+    renderNavigableApp({ route: "/us-nd" });
 
     const inNav = within(screen.getByRole("navigation"));
 
@@ -145,10 +145,9 @@ describe("navigation", () => {
     );
 
     fireEvent.click(homeLink);
-    // home redirect to ND
     await waitFor(async () =>
       expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
-        "North Dakota"
+        "Spotlight"
       )
     );
   });
