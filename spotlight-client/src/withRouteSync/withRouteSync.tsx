@@ -17,7 +17,9 @@
 
 import { RouteComponentProps } from "@reach/router";
 import { action } from "mobx";
+import { observer } from "mobx-react-lite";
 import React, { ComponentType, useEffect } from "react";
+import { isTenantEnabled } from "../contentApi/isTenantEnabled";
 import NotFound from "../NotFound";
 import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { RouteParams } from "../routerUtils/types";
@@ -40,9 +42,23 @@ const withRouteSync = <Props extends RouteComponentProps & RouteParams>(
 
     const { path } = props;
 
+    const isTenantForbidden =
+      tenantStore.locked &&
+      // we're checking for wrong Tenants, not no Tenant
+      normalizedProps.tenantId &&
+      tenantStore.currentTenantId !== normalizedProps.tenantId;
+
+    const isTenantDisabled = Boolean(
+      tenantStore.currentTenantId &&
+        !isTenantEnabled(tenantStore.currentTenantId)
+    );
+
     const isRouteInvalid =
+      isTenantForbidden ||
+      isTenantDisabled ||
+      Object.values(normalizedProps).includes(null) ||
       // catchall path for partially valid URLs; e.g. :tenantId/something-invalid
-      Object.values(normalizedProps).includes(null) || path === "/*";
+      path === "/*";
 
     // this is fine, we actually want this to run on every render
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,7 +85,7 @@ const withRouteSync = <Props extends RouteComponentProps & RouteParams>(
     );
   };
 
-  return WrappedRouteComponent;
+  return observer(WrappedRouteComponent);
 };
 
 export default withRouteSync;

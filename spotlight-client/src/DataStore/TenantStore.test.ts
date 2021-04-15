@@ -99,7 +99,16 @@ test("lock tenant if set from current domain", () => {
   reactImmediately(() => {
     expect(tenantStore.currentTenant?.id).toBe("US_ND");
     expect(tenantStore.currentTenantId).toBe("US_ND");
+    expect(tenantStore.locked).toBe(true);
   });
 
-  // TODO (#391): we shouldn't be able to change to another tenant either
+  // we shouldn't be able to switch to another tenant either
+  runInAction(() => {
+    tenantStore.currentTenantId = "US_PA";
+  });
+  reactImmediately(() => {
+    expect(tenantStore.currentTenant?.id).toBe("US_ND");
+    expect(tenantStore.currentTenantId).toBe("US_ND");
+    expect(tenantStore.locked).toBe(true);
+  });
 });

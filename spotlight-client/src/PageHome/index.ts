@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,12 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import retrieveContent from "./retrieveContent";
-import US_ND from "./sources/us_nd";
-import US_PA from "./sources/us_pa";
-
-test("returns content for the specified tenant", () => {
-  expect(retrieveContent({ tenantId: "US_ND" })).toEqual(US_ND);
-
-  expect(retrieveContent({ tenantId: "US_PA" })).toEqual(US_PA);
-});
+export { default } from "./PageHome";

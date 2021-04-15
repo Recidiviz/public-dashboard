@@ -15,10 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { ERROR_MESSAGES } from "../constants";
+import { isTenantEnabled } from "./isTenantEnabled";
 import US_ND from "./sources/us_nd";
+import US_PA from "./sources/us_pa";
 import { TenantContent, TenantId } from "./types";
 
-const CONTENT_SOURCES: Record<TenantId, TenantContent> = { US_ND };
+const CONTENT_SOURCES: Record<TenantId, TenantContent> = { US_ND, US_PA };
 
 type RetrieveContentParams = {
   tenantId: TenantId;
@@ -30,5 +33,8 @@ type RetrieveContentParams = {
 export default function retrieveContent({
   tenantId,
 }: RetrieveContentParams): TenantContent {
-  return CONTENT_SOURCES[tenantId];
+  if (isTenantEnabled(tenantId)) {
+    return CONTENT_SOURCES[tenantId];
+  }
+  throw new Error(`${ERROR_MESSAGES.disabledTenant} (${tenantId})`);
 }

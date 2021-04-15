@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,12 +15,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import retrieveContent from "./retrieveContent";
-import US_ND from "./sources/us_nd";
-import US_PA from "./sources/us_pa";
+import { TenantId } from "./types";
 
-test("returns content for the specified tenant", () => {
-  expect(retrieveContent({ tenantId: "US_ND" })).toEqual(US_ND);
+const enabledTenants = process.env.REACT_APP_ENABLED_TENANTS?.split(
+  ","
+).map((id) => id.trim());
 
-  expect(retrieveContent({ tenantId: "US_PA" })).toEqual(US_PA);
-});
+/**
+ * Tenants have to be explicitly enabled per environment; this function
+ * checks against that configuration for a given tenant.
+ */
+export function isTenantEnabled(id: TenantId): boolean {
+  return Array.isArray(enabledTenants) && enabledTenants.includes(id);
+}

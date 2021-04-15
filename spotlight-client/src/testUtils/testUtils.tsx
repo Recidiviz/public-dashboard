@@ -48,6 +48,9 @@ export function renderNavigableApp({ route = "/" } = {}): {
   history: ReturnType<typeof createHistory>;
   rendered: ReturnType<typeof render>;
 } {
+  // make sure the current window.history state matches the route we are rendering
+  // (Reach Router will keep it in sync for subsequent navigation)
+  window.history.replaceState(null, "", route);
   const history = createHistory(createMemorySource(route));
 
   return {

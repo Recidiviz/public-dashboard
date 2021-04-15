@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { intercept, makeAutoObservable } from "mobx";
+import { ERROR_MESSAGES } from "../constants";
 import {
   isSystemNarrativeTypeId,
   NarrativeTypeId,
@@ -32,6 +33,8 @@ export default class TenantStore {
 
   currentTenantId?: TenantId;
 
+  readonly locked: boolean = false;
+
   rootStore: RootStore;
 
   tenants: Map<TenantId, Tenant>;
@@ -46,6 +49,7 @@ export default class TenantStore {
     // tenant mapped from domain should be locked
     const tenantFromDomain = getTenantFromDomain();
     if (tenantFromDomain) {
+      this.locked = true;
       this.currentTenantId = tenantFromDomain;
       // returning null renders an observable property immutable
       intercept(this, "currentTenantId", () => null);
@@ -60,10 +64,18 @@ export default class TenantStore {
   get currentTenant(): Tenant | undefined {
     if (!this.currentTenantId) return undefined;
     if (!this.tenants.has(this.currentTenantId)) {
-      this.tenants.set(
-        this.currentTenantId,
-        createTenant({ tenantId: this.currentTenantId })
-      );
+      // if the tenant is not enabled, the caller will get undefined,
+      // so they need to be prepared to handle that
+      try {
+        this.tenants.set(
+          this.currentTenantId,
+          createTenant({ tenantId: this.currentTenantId })
+        );
+      } catch (error) {
+        if (!error.message.includes(ERROR_MESSAGES.disabledTenant)) {
+          throw error;
+        }
+      }
     }
     return this.tenants.get(this.currentTenantId);
   }

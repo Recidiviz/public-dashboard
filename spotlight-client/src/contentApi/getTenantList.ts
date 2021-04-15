@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,11 +16,19 @@
 // =============================================================================
 
 import retrieveContent from "./retrieveContent";
-import US_ND from "./sources/us_nd";
-import US_PA from "./sources/us_pa";
+import { TenantId, TenantIdList } from "./types";
 
-test("returns content for the specified tenant", () => {
-  expect(retrieveContent({ tenantId: "US_ND" })).toEqual(US_ND);
+type TenantListItem = { id: TenantId; name: string };
 
-  expect(retrieveContent({ tenantId: "US_PA" })).toEqual(US_PA);
-});
+export default function getTenantList(): TenantListItem[] {
+  return TenantIdList.map((id) => {
+    try {
+      return {
+        id,
+        name: retrieveContent({ tenantId: id }).name,
+      };
+    } catch {
+      return null;
+    }
+  }).filter((t): t is TenantListItem => t !== null);
+}
