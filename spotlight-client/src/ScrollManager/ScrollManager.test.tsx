@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { act, waitFor } from "@testing-library/react";
+import { act } from "@testing-library/react";
 import { NarrativesSlug } from "../routerUtils/types";
 import { renderNavigableApp } from "../testUtils";
 
