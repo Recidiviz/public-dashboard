@@ -18,7 +18,6 @@
 import { rem } from "polished";
 import styled from "styled-components/macro";
 import breakpoints from "./breakpoints";
-import colors from "./colors";
 import CopyBlock from "./CopyBlock";
 import { FullScreenSection } from "./PageSection";
 import PageTitle from "./PageTitle";
@@ -49,25 +48,6 @@ export const NarrativeIntroCopy = styled(CopyBlock)`
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     font-size: ${rem(48)};
-  }
-`;
-
-export const NarrativeScrollIndicator = styled.div`
-  align-items: center;
-  color: ${colors.caption};
-  display: flex;
-  flex-direction: column;
-  font-size: ${rem(12)};
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  margin-top: ${rem(32)};
-
-  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
-    margin-top: ${rem(144)};
-  }
-
-  span {
-    margin-bottom: ${rem(16)};
   }
 `;
 
