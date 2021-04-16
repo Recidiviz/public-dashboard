@@ -16,8 +16,11 @@
 // =============================================================================
 
 import { scaleLinear } from "d3-scale";
+// security is not  a concern here, non-secure is faster
+import { customAlphabet } from "nanoid/non-secure";
+import { lowercase, uppercase } from "nanoid-dictionary";
 import { rgba } from "polished";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import { GenericObject } from "semiotic/lib/types/generalTypes";
 import { EdgeType } from "semiotic/lib/types/networkTypes";
@@ -119,9 +122,17 @@ const targetColor = rgba(baseColor, 0.5);
 
 const hoverColor = rgba(baseColor, 0.2);
 
-const Gradients = (
+/**
+ * Returns a unique ID string appropriate for use as a Semiotic fill property
+ * (alphabetical only to avoid interpolation). Will remain stable per instance.
+ */
+const useGradientIdPrefix = () => {
+  return useMemo(() => customAlphabet(`${lowercase}${uppercase}`, 10)(), []);
+};
+
+const Gradients = ({ idPrefix }: { idPrefix: string }) => (
   <>
-    <linearGradient id="incarcerationGradient">
+    <linearGradient id={`${idPrefix}incarcerationGradient`}>
       <stop offset="0" stopColor={sourceColors.Incarceration} stopOpacity="1" />
       <stop
         offset="15%"
@@ -130,12 +141,12 @@ const Gradients = (
       />
       <stop offset="90%" stopColor={targetColor} stopOpacity="1" />
     </linearGradient>
-    <linearGradient id="probationGradient">
+    <linearGradient id={`${idPrefix}probationGradient`}>
       <stop offset="0" stopColor={sourceColors.Probation} stopOpacity="1" />
       <stop offset="15%" stopColor={sourceColors.Probation} stopOpacity="0.8" />
       <stop offset="90%" stopColor={targetColor} stopOpacity="1" />
     </linearGradient>
-    <linearGradient id="bothGradient">
+    <linearGradient id={`${idPrefix}bothGradient`}>
       <stop offset="0" stopColor={sourceColors.Both} stopOpacity="1" />
       <stop offset="15%" stopColor={sourceColors.Both} stopOpacity="0.8" />
       <stop offset="90%" stopColor={targetColor} stopOpacity="1" />
@@ -221,6 +232,12 @@ export default function SingleStepSankey({
     );
   };
 
+  // some browsers (most notably iOS Safari) fail to render these gradients
+  // if this component appears more than once on the page, because the ids
+  // are then non-unique in the context of the HTML document. Thus the prefix,
+  // which should be unique per component instance.
+  const gradientIdPrefix = useGradientIdPrefix();
+
   return (
     <MeasureWidth>
       {({ measureRef, width }) => (
@@ -232,7 +249,7 @@ export default function SingleStepSankey({
               setHighlighted={setHighlighted}
             >
               <NetworkFrame
-                additionalDefs={Gradients}
+                additionalDefs={<Gradients idPrefix={gradientIdPrefix} />}
                 baseMarkProps={{
                   transitionDuration: {
                     fill: animation.defaultDuration,
@@ -243,7 +260,7 @@ export default function SingleStepSankey({
                   return {
                     fill: shouldFade(d)
                       ? hoverColor
-                      : `url(#${d.source.id.toLowerCase()}Gradient)`,
+                      : `url(#${gradientIdPrefix}${d.source.id.toLowerCase()}Gradient)`,
                   };
                 }}
                 margin={{ ...MARGIN, right: rightMargin }}
