@@ -86,6 +86,8 @@ const DropdownBase: React.FC<
   // helper for animation of menu opening and closing
   const [waitForCloseAnimation, setWaitForCloseAnimation] = useState(false);
 
+  const { selectedItem, ...passThruSelectProps } = selectProps;
+
   const {
     closeMenu,
     isOpen,
@@ -97,7 +99,11 @@ const DropdownBase: React.FC<
   } = useSelect({
     items: options,
     onIsOpenChange: () => setWaitForCloseAnimation(true),
-    ...selectProps,
+    // passing null explicitly clears the selection; without it,
+    // Downshift maintains an internal selection state that we don't want.
+    // The dropdown is either fully controlled by an input prop or it is stateless
+    selectedItem: selectedItem || null,
+    ...passThruSelectProps,
   });
 
   // animate button hover state
