@@ -30,7 +30,7 @@ import MeasureWidth from "../MeasureWidth";
 
 export const singleChartHeight = 300;
 
-const MARGIN = { top: 56, bottom: 64, left: 48, right: 0 };
+const MARGIN = { top: 56, bottom: 80, left: 48, right: 0 };
 
 const ChartTitle = styled.text`
   font-weight: 500;
@@ -52,6 +52,7 @@ type BarChartData = {
 };
 
 type BarChartTrellisProps = {
+  angledLabels?: boolean;
   barAxisLabel?: string;
   data: BarChartData[];
   formatBarLabel?: (label: string) => string;
@@ -63,6 +64,7 @@ type BarChartTrellisProps = {
  * with identical Y axis ranges and cross-highlighting.
  */
 export function BarChartTrellis({
+  angledLabels,
   barAxisLabel,
   data,
   formatBarLabel = (label) => label,
@@ -123,7 +125,13 @@ export function BarChartTrellis({
                     oAccessor="label"
                     // @ts-expect-error Semiotic types can't handle a styled component here but it's fine
                     oLabel={(barLabel) => (
-                      <ColumnLabel>
+                      <ColumnLabel
+                        transform={
+                          angledLabels
+                            ? `rotate(-45) translate(-10)`
+                            : undefined
+                        }
+                      >
                         {formatBarLabel(barLabel as string)}
                       </ColumnLabel>
                     )}
