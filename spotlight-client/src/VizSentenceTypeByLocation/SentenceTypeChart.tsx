@@ -15,12 +15,10 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { useId } from "@reach/auto-id";
 import { scaleLinear } from "d3-scale";
-// security is not  a concern here, non-secure is faster
-import { customAlphabet } from "nanoid/non-secure";
-import { lowercase, uppercase } from "nanoid-dictionary";
 import { rgba } from "polished";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import { GenericObject } from "semiotic/lib/types/generalTypes";
 import { EdgeType } from "semiotic/lib/types/networkTypes";
@@ -29,7 +27,7 @@ import { $Keys } from "utility-types";
 import ResponsiveTooltipController from "../charts/ResponsiveTooltipController";
 import { formatAsNumber } from "../utils";
 import MeasureWidth from "../MeasureWidth";
-import { animation, breakpoints, colors, typefaces } from "../UiLibrary";
+import { breakpoints, colors, typefaces } from "../UiLibrary";
 
 export const CHART_BOTTOM_PADDING = 80;
 export const CHART_HEIGHT = 500;
@@ -122,15 +120,7 @@ const targetColor = rgba(baseColor, 0.5);
 
 const hoverColor = rgba(baseColor, 0.2);
 
-/**
- * Returns a unique ID string appropriate for use as a Semiotic fill property
- * (alphabetical only to avoid interpolation). Will remain stable per instance.
- */
-const useGradientIdPrefix = () => {
-  return useMemo(() => customAlphabet(`${lowercase}${uppercase}`, 10)(), []);
-};
-
-const Gradients = ({ idPrefix }: { idPrefix: string }) => (
+const Gradients = ({ idPrefix }: { idPrefix: string | undefined }) => (
   <>
     <linearGradient id={`${idPrefix}incarcerationGradient`}>
       <stop offset="0" stopColor={sourceColors.Incarceration} stopOpacity="1" />
@@ -236,7 +226,7 @@ export default function SingleStepSankey({
   // if this component appears more than once on the page, because the ids
   // are then non-unique in the context of the HTML document. Thus the prefix,
   // which should be unique per component instance.
-  const gradientIdPrefix = useGradientIdPrefix();
+  const gradientIdPrefix = useId();
 
   return (
     <MeasureWidth>
@@ -252,7 +242,9 @@ export default function SingleStepSankey({
                 additionalDefs={<Gradients idPrefix={gradientIdPrefix} />}
                 baseMarkProps={{
                   transitionDuration: {
-                    fill: animation.defaultDuration,
+                    // transitions don't work well with our gradient fills;
+                    // less janky to just disable them
+                    fill: 0,
                   },
                 }}
                 edges={edges}
