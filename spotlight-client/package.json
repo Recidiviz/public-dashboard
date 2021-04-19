@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.13.1",
+    "@reach/auto-id": "^0.15.0",
     "@reach/router": "^1.3.4",
     "@recidiviz/case-triage-components": "^0.2.2",
     "@types/body-scroll-lock": "^2.6.1",

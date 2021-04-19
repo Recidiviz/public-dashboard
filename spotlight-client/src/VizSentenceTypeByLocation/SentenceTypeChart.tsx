@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { useId } from "@reach/auto-id";
 import { scaleLinear } from "d3-scale";
 import { rgba } from "polished";
 import React, { useState } from "react";
@@ -26,7 +27,7 @@ import { $Keys } from "utility-types";
 import ResponsiveTooltipController from "../charts/ResponsiveTooltipController";
 import { formatAsNumber } from "../utils";
 import MeasureWidth from "../MeasureWidth";
-import { animation, breakpoints, colors, typefaces } from "../UiLibrary";
+import { breakpoints, colors, typefaces } from "../UiLibrary";
 
 export const CHART_BOTTOM_PADDING = 80;
 export const CHART_HEIGHT = 500;
@@ -119,9 +120,9 @@ const targetColor = rgba(baseColor, 0.5);
 
 const hoverColor = rgba(baseColor, 0.2);
 
-const Gradients = (
+const Gradients = ({ idPrefix }: { idPrefix: string | undefined }) => (
   <>
-    <linearGradient id="incarcerationGradient">
+    <linearGradient id={`${idPrefix}incarcerationGradient`}>
       <stop offset="0" stopColor={sourceColors.Incarceration} stopOpacity="1" />
       <stop
         offset="15%"
@@ -130,12 +131,12 @@ const Gradients = (
       />
       <stop offset="90%" stopColor={targetColor} stopOpacity="1" />
     </linearGradient>
-    <linearGradient id="probationGradient">
+    <linearGradient id={`${idPrefix}probationGradient`}>
       <stop offset="0" stopColor={sourceColors.Probation} stopOpacity="1" />
       <stop offset="15%" stopColor={sourceColors.Probation} stopOpacity="0.8" />
       <stop offset="90%" stopColor={targetColor} stopOpacity="1" />
     </linearGradient>
-    <linearGradient id="bothGradient">
+    <linearGradient id={`${idPrefix}bothGradient`}>
       <stop offset="0" stopColor={sourceColors.Both} stopOpacity="1" />
       <stop offset="15%" stopColor={sourceColors.Both} stopOpacity="0.8" />
       <stop offset="90%" stopColor={targetColor} stopOpacity="1" />
@@ -221,6 +222,12 @@ export default function SingleStepSankey({
     );
   };
 
+  // some browsers (most notably iOS Safari) fail to render these gradients
+  // if this component appears more than once on the page, because the ids
+  // are then non-unique in the context of the HTML document. Thus the prefix,
+  // which should be unique per component instance.
+  const gradientIdPrefix = useId();
+
   return (
     <MeasureWidth>
       {({ measureRef, width }) => (
@@ -232,10 +239,12 @@ export default function SingleStepSankey({
               setHighlighted={setHighlighted}
             >
               <NetworkFrame
-                additionalDefs={Gradients}
+                additionalDefs={<Gradients idPrefix={gradientIdPrefix} />}
                 baseMarkProps={{
                   transitionDuration: {
-                    fill: animation.defaultDuration,
+                    // transitions don't work well with our gradient fills;
+                    // less janky to just disable them
+                    fill: 0,
                   },
                 }}
                 edges={edges}
@@ -243,7 +252,7 @@ export default function SingleStepSankey({
                   return {
                     fill: shouldFade(d)
                       ? hoverColor
-                      : `url(#${d.source.id.toLowerCase()}Gradient)`,
+                      : `url(#${gradientIdPrefix}${d.source.id.toLowerCase()}Gradient)`,
                   };
                 }}
                 margin={{ ...MARGIN, right: rightMargin }}

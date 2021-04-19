@@ -35,15 +35,11 @@ const ControlsGroup = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-bottom: ${rem(16)};
-  padding-bottom: ${rem(16)};
 `;
 
 const FilterWrapper = styled.div`
-  margin: 0 ${rem(16)};
-
-  &:first-child {
-    margin-left: 0;
-  }
+  margin-bottom: ${rem(16)};
+  margin-right: ${rem(32)};
 
   &:last-child {
     margin-right: 0;
@@ -57,6 +53,7 @@ const Button = styled.button`
   cursor: pointer;
   font-size: ${rem(14)};
   font-weight: 500;
+  margin-bottom: ${rem(16)};
   padding: none;
 `;
 

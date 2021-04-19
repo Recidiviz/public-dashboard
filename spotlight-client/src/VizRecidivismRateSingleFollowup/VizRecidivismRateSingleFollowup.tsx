@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { observer } from "mobx-react-lite";
-import React from "react";
+import React, { useState } from "react";
 import Measure from "react-measure";
 import { animated, useSpring, useTransition } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
@@ -70,7 +70,12 @@ type VizRecidivismRateSingleFollowupProps = {
 const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupProps> = ({
   metric,
 }) => {
-  const { singleFollowupDemographics, demographicView, unknowns } = metric;
+  const {
+    demographicView,
+    followUpYears,
+    singleFollowupDemographics,
+    unknowns,
+  } = metric;
 
   const [chartContainerStyles, setChartContainerStyles] = useSpring(() => ({
     from: { height: singleChartHeight },
@@ -84,6 +89,14 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
     animation.crossFade
   );
 
+  const [containerWidth, setContainerWidth] = useState<number>();
+  // this is NOT a sophisticated heuristic, but the bar labels
+  // (which are years) tend to get cramped around this size
+  const useAngledLabels =
+    typeof containerWidth === "number" &&
+    containerWidth < 400 &&
+    followUpYears === 1;
+
   if (demographicView === "nofilter")
     throw new Error(
       "Unable to display this metric without demographic filter."
@@ -94,7 +107,10 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
       <Measure
         bounds
         onResize={({ bounds }) => {
-          if (bounds) setChartContainerStyles({ height: bounds.height });
+          if (bounds) {
+            setChartContainerStyles({ height: bounds.height });
+            setContainerWidth(bounds.width);
+          }
         }}
       >
         {({ measureRef }) => (
@@ -115,6 +131,7 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
                       // but it should always be defined if we've gotten this far
                       item.singleFollowupDemographics && (
                         <BarChartTrellis
+                          angledLabels={useAngledLabels}
                           barAxisLabel="Release Cohort"
                           data={item.singleFollowupDemographics}
                           getTooltipProps={getTooltipProps}

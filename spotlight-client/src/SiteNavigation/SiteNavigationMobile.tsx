@@ -15,9 +15,10 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
-import React from "react";
+import React, { useRef } from "react";
 import useCollapse from "react-collapsed";
 import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
@@ -65,9 +66,11 @@ const ExternalNavLink = styled(ExternalNavLinkBase)`
 const NavMenu = styled.ul`
   font-family: ${typefaces.display};
   font-size: ${rem(20)};
+  height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
   letter-spacing: -0.015em;
   line-height: 1.3;
   margin-left: ${rem(16)};
+  overflow: auto;
 `;
 
 const NavMenuItem = styled.li`
@@ -83,12 +86,21 @@ const NavMenuItem = styled.li`
 const SiteNavigation: React.FC = () => {
   const { tenant } = useDataStore();
 
+  const menuScrollRef = useRef<HTMLDivElement>(null);
+
   const {
     getCollapseProps,
     getToggleProps,
     isExpanded,
     setExpanded,
-  } = useCollapse({});
+  } = useCollapse({
+    onCollapseStart: () => {
+      if (menuScrollRef.current) enableBodyScroll(menuScrollRef.current);
+    },
+    onExpandStart: () => {
+      if (menuScrollRef.current) disableBodyScroll(menuScrollRef.current);
+    },
+  });
 
   const animatedStyles = useSpring({
     from: { background: colors.background },
@@ -121,61 +133,63 @@ const SiteNavigation: React.FC = () => {
         </NavGroup>
         <MenuButton isOpen={isExpanded} {...getToggleProps()} />
       </NavBar>
-      <NavMenu {...getCollapseProps()} data-testid="NavMenu">
-        {tenant && (
-          <>
-            <NavMenuItem>
-              <NavLink
-                onClick={() => setExpanded(false)}
-                to={getUrlForResource({
-                  page: "tenant",
-                  params: { tenantId: tenant.id },
-                })}
-              >
-                Home
-              </NavLink>
-            </NavMenuItem>
-            {Object.values(tenant.systemNarratives).map(
-              (narrative) =>
-                narrative && (
-                  <NavMenuItem key={narrative.id}>
-                    <NavLink
-                      onClick={() => setExpanded(false)}
-                      to={getUrlForResource({
-                        page: "narrative",
-                        params: {
-                          tenantId: tenant.id,
-                          narrativeTypeId: narrative.id,
-                        },
-                      })}
-                    >
-                      {narrative.title}
-                    </NavLink>
-                  </NavMenuItem>
-                )
-            )}
-            {tenant.racialDisparitiesNarrative && (
+      <div ref={menuScrollRef}>
+        <NavMenu {...getCollapseProps()} data-testid="NavMenu">
+          {tenant && (
+            <>
               <NavMenuItem>
                 <NavLink
                   onClick={() => setExpanded(false)}
                   to={getUrlForResource({
-                    page: "narrative",
-                    params: {
-                      tenantId: tenant.id,
-                      narrativeTypeId: "RacialDisparities",
-                    },
+                    page: "tenant",
+                    params: { tenantId: tenant.id },
                   })}
                 >
-                  {tenant.racialDisparitiesNarrative.title}
+                  Home
                 </NavLink>
               </NavMenuItem>
-            )}
-            <NavMenuItem>
-              <ExternalNavLink href={FEEDBACK_URL}>Feedback</ExternalNavLink>
-            </NavMenuItem>
-          </>
-        )}
-      </NavMenu>
+              {Object.values(tenant.systemNarratives).map(
+                (narrative) =>
+                  narrative && (
+                    <NavMenuItem key={narrative.id}>
+                      <NavLink
+                        onClick={() => setExpanded(false)}
+                        to={getUrlForResource({
+                          page: "narrative",
+                          params: {
+                            tenantId: tenant.id,
+                            narrativeTypeId: narrative.id,
+                          },
+                        })}
+                      >
+                        {narrative.title}
+                      </NavLink>
+                    </NavMenuItem>
+                  )
+              )}
+              {tenant.racialDisparitiesNarrative && (
+                <NavMenuItem>
+                  <NavLink
+                    onClick={() => setExpanded(false)}
+                    to={getUrlForResource({
+                      page: "narrative",
+                      params: {
+                        tenantId: tenant.id,
+                        narrativeTypeId: "RacialDisparities",
+                      },
+                    })}
+                  >
+                    {tenant.racialDisparitiesNarrative.title}
+                  </NavLink>
+                </NavMenuItem>
+              )}
+              <NavMenuItem>
+                <ExternalNavLink href={FEEDBACK_URL}>Feedback</ExternalNavLink>
+              </NavMenuItem>
+            </>
+          )}
+        </NavMenu>
+      </div>
     </NavContainer>
   );
 };

@@ -19,10 +19,8 @@ import HTMLReactParser from "html-react-parser";
 import React from "react";
 import SystemNarrative from "../contentModels/SystemNarrative";
 import {
-  Chevron,
   NarrativeIntroContainer,
   NarrativeIntroCopy,
-  NarrativeScrollIndicator,
   NarrativeSectionBody,
   NarrativeSectionTitle,
   NarrativeTitle,
@@ -44,11 +42,6 @@ const SystemNarrativePage: React.FC<{
               <NarrativeIntroCopy>
                 {HTMLReactParser(narrative.introduction)}
               </NarrativeIntroCopy>
-              <NarrativeScrollIndicator>
-                <span>SCROLL</span>
-                <Chevron direction="down" faded />
-                <Chevron direction="down" />
-              </NarrativeScrollIndicator>
             </NarrativeIntroContainer>
           ),
         },
