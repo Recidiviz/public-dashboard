@@ -86,6 +86,7 @@ function getMetricsForTenant(
     metadataMapping: allTenantContent.metrics,
     topologyMapping: allTenantContent.topologies,
     tenantId,
+    demographicFilter: allTenantContent.demographicCategories,
   });
 }
 
@@ -122,6 +123,7 @@ export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
     RacialDisparitiesNarrative.build({
       tenantId,
       content: allTenantContent.racialDisparitiesNarrative,
+      categoryFilter: allTenantContent.demographicCategories?.raceOrEthnicity,
     });
 
   return new Tenant({

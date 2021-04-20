@@ -20,7 +20,6 @@ import { runInAction, when } from "mobx";
 import React from "react";
 import SentenceTypeByLocationMetric from "../contentModels/SentenceTypeByLocationMetric";
 import DataStore from "../DataStore";
-import { getDemographicCategories } from "../demographics";
 import { reactImmediately, renderWithStore } from "../testUtils";
 import VizSentenceTypeByLocation from "./VizSentenceTypeByLocation";
 
@@ -107,10 +106,10 @@ test("total chart", async () => {
 });
 
 test.each([
-  ["Race or Ethnicity", getDemographicCategories("raceOrEthnicity")],
-  ["Gender", getDemographicCategories("gender")],
-  ["Age Group", getDemographicCategories("ageBucket")],
-])("%s charts", async (demographicLabel, categories) => {
+  ["Race or Ethnicity", "raceOrEthnicity"],
+  ["Gender", "gender"],
+  ["Age Group", "ageBucket"],
+])("%s charts", async (demographicLabel, demographicView) => {
   renderWithStore(<VizSentenceTypeByLocation metric={metric} />);
 
   await when(() => !metric.isLoading);
@@ -122,7 +121,10 @@ test.each([
   fireEvent.click(screen.getByRole("option", { name: demographicLabel }));
 
   verifySankey(
-    categories.map(({ label }) => label),
+    metric
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .getDemographicCategories(demographicView as any)
+      .map(({ label }) => label),
     ["6,193", "3,399", "2,056"]
   );
 });

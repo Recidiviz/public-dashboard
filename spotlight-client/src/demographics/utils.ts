@@ -64,7 +64,7 @@ const totalCategories: TotalCategory[] = [
   { identifier: TOTAL_KEY, label: "Total" },
 ];
 
-type RaceOrEthnicityCategory = {
+export type RaceOrEthnicityCategory = {
   label: string;
   identifier: RaceOrEthnicityValue;
 };
@@ -93,14 +93,15 @@ const ageBucketCategories: AgeCategory[] = [
   { identifier: "40<", label: "40+" },
 ];
 
-export function createDemographicCategories(
-  demographicFilter?: DemographicCategoryFilter
-): {
+export type DemographicCategories = {
   total: TotalCategory[];
   raceOrEthnicity: RaceOrEthnicityCategory[];
   gender: GenderCategory[];
   ageBucket: AgeCategory[];
-} {
+};
+export function createDemographicCategories(
+  demographicFilter?: DemographicCategoryFilter
+): DemographicCategories {
   return {
     total: totalCategories,
     // only applying filters if the keys are actually present
@@ -119,18 +120,19 @@ export function createDemographicCategories(
   };
 }
 
-export function getDemographicCategories(
-  view: Exclude<DemographicView, "nofilter">
+export function getDemographicCategoriesForView(
+  view: Exclude<DemographicView, "nofilter">,
+  categories: DemographicCategories
 ): (TotalCategory | RaceOrEthnicityCategory | GenderCategory | AgeCategory)[] {
   switch (view) {
     case "total":
-      return totalCategories;
+      return categories.total;
     case "raceOrEthnicity":
-      return raceOrEthnicityCategories;
+      return categories.raceOrEthnicity;
     case "gender":
-      return genderCategories;
+      return categories.gender;
     case "ageBucket":
-      return ageBucketCategories;
+      return categories.ageBucket;
     default:
       assertNever(view);
   }

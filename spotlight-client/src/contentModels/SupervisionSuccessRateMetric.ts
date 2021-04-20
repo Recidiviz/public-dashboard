@@ -19,7 +19,6 @@ import { ascending, sum } from "d3-array";
 import { computed, makeObservable, observable, runInAction, when } from "mobx";
 import {
   DemographicView,
-  getDemographicCategories,
   recordIsTotalByDimension,
   TOTAL_KEY,
 } from "../demographics";
@@ -201,7 +200,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
 
   get demographicRecords(): (RateFields & { label: string })[] | undefined {
     const allRecords = this.allDemographicRecords;
-    const { demographicView } = this;
+    const { demographicView, getDemographicCategories } = this;
     if (allRecords === undefined || demographicView === "nofilter")
       return undefined;
 

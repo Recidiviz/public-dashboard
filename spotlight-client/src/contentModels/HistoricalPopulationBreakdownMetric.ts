@@ -22,7 +22,6 @@ import { DataSeries } from "../charts";
 import {
   DemographicViewList,
   recordIsTotalByDimension,
-  getDemographicCategories,
   RaceIdentifier,
   GenderIdentifier,
   AgeIdentifier,
@@ -115,7 +114,7 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
         recordIsTotalByDimension(demographicView)
       );
 
-      const categories = getDemographicCategories(demographicView);
+      const categories = this.getDemographicCategories(demographicView);
       categories.forEach(({ identifier }) => {
         let recordsForCategory;
         if (demographicView !== "total") {
@@ -166,7 +165,7 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
   }
 
   get dataSeries(): DataSeries<HistoricalPopulationBreakdownRecord>[] | null {
-    const { records, demographicView } = this;
+    const { records, demographicView, getDemographicCategories } = this;
     if (!records || demographicView === "nofilter") return null;
 
     const categories = getDemographicCategories(demographicView);

@@ -28,8 +28,13 @@ import {
   RacialDisparitiesSections,
   RacialDisparitiesSection,
   TenantId,
+  DemographicCategoryFilter,
 } from "../contentApi/types";
-import { getDemographicCategories, RaceIdentifier } from "../demographics";
+import {
+  createDemographicCategories,
+  RaceIdentifier,
+  RaceOrEthnicityCategory,
+} from "../demographics";
 import { fetchAndTransformMetric } from "../metricsApi";
 import {
   CountsForSupervisionType,
@@ -143,6 +148,7 @@ type ConstructorOpts = {
   defaultCategory?: RaceIdentifier;
   defaultSupervisionType?: SupervisionType;
   content: RacialDisparitiesNarrativeContent;
+  categoryFilter?: DemographicCategoryFilter["raceOrEthnicity"];
 };
 
 /**
@@ -183,6 +189,8 @@ export default class RacialDisparitiesNarrative implements Hydratable {
   error?: Error;
 
   // filters
+  readonly allCategories: RaceOrEthnicityCategory[];
+
   selectedCategory: RaceIdentifier;
 
   supervisionType: SupervisionType;
@@ -196,6 +204,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
     defaultCategory,
     defaultSupervisionType,
     content,
+    categoryFilter,
   }: ConstructorOpts) {
     this.tenantId = tenantId;
     this.selectedCategory = defaultCategory || "BLACK";
@@ -204,10 +213,14 @@ export default class RacialDisparitiesNarrative implements Hydratable {
     this.introduction = content.introduction;
     this.introductionMethodology = content.introductionMethodology;
     this.sectionText = content.sections;
+    this.allCategories = createDemographicCategories({
+      raceOrEthnicity: categoryFilter,
+    }).raceOrEthnicity;
 
     makeAutoObservable<RacialDisparitiesNarrative, "records">(this, {
       records: observable.ref,
       sectionText: false,
+      allCategories: false,
     });
   }
 
@@ -238,7 +251,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
 
   get selectedCategoryLabel(): string {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return getDemographicCategories("raceOrEthnicity").find(
+    return this.allCategories.find(
       ({ identifier }) => identifier === this.selectedCategory
     )!.label;
   }
@@ -394,38 +407,33 @@ export default class RacialDisparitiesNarrative implements Hydratable {
   }
 
   get populationDataSeries(): undefined | DemographicCategoryRecords[] {
-    const { records, chartLabels } = this;
+    const { records, chartLabels, allCategories } = this;
     if (records === undefined) return undefined;
 
     const totalPopulation = {
       label: chartLabels.totalPopulation,
       records: calculatePct(
-        getDemographicCategories("raceOrEthnicity").map(
-          ({ identifier, label }, index) => {
-            return {
-              label,
-              color: colors.dataViz[index],
-              value: records[identifier as RaceIdentifier].totalStatePopulation,
-            };
-          }
-        )
+        allCategories.map(({ identifier, label }, index) => {
+          return {
+            label,
+            color: colors.dataViz[index],
+            value: records[identifier as RaceIdentifier].totalStatePopulation,
+          };
+        })
       ),
     };
 
     const correctionsPopulation = {
       label: chartLabels.totalSentenced,
       records: calculatePct(
-        getDemographicCategories("raceOrEthnicity").map(
-          ({ identifier, label }, index) => {
-            return {
-              label,
-              color: colors.dataViz[index],
-              value:
-                records[identifier as RaceIdentifier]
-                  .currentTotalSentencedCount,
-            };
-          }
-        )
+        allCategories.map(({ identifier, label }, index) => {
+          return {
+            label,
+            color: colors.dataViz[index],
+            value:
+              records[identifier as RaceIdentifier].currentTotalSentencedCount,
+          };
+        })
       ),
     };
 

@@ -18,10 +18,7 @@
 import { sum } from "d3-array";
 import { computed, makeObservable } from "mobx";
 import { SENTENCE_TYPE_LABELS } from "../constants";
-import {
-  getDemographicCategories,
-  recordIsTotalByDimension,
-} from "../demographics";
+import { recordIsTotalByDimension } from "../demographics";
 import {
   recordMatchesLocality,
   SentenceTypeByLocationRecord,
@@ -67,7 +64,7 @@ export default class SentenceTypeByLocationMetric extends Metric<SentenceTypeByL
   get dataGraph():
     | { sources: GraphNode[]; targets: GraphNode[]; edges: GraphEdge[] }
     | undefined {
-    const { demographicView, records } = this;
+    const { demographicView, records, getDemographicCategories } = this;
     if (!records || demographicView === "nofilter") return undefined;
 
     const sources = [

@@ -62,6 +62,8 @@ describe("createDemographicCategories", () => {
   test("defaults", () => {
     const categories = createDemographicCategories();
 
+    expect(categories.total).toEqual([{ identifier: "ALL", label: "Total" }]);
+
     expect(categories.raceOrEthnicity).toEqual([
       {
         identifier: "AMERICAN_INDIAN_ALASKAN_NATIVE",

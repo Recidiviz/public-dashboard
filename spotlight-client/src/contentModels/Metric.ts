@@ -23,8 +23,18 @@ import {
   runInAction,
   when,
 } from "mobx";
-import { LocalityLabels, MetricTypeId, TenantId } from "../contentApi/types";
-import { DemographicView } from "../demographics";
+import {
+  DemographicCategoryFilter,
+  LocalityLabels,
+  MetricTypeId,
+  TenantId,
+} from "../contentApi/types";
+import {
+  createDemographicCategories,
+  DemographicCategories,
+  DemographicView,
+  getDemographicCategoriesForView,
+} from "../demographics";
 import {
   RawMetricData,
   DemographicFields,
@@ -42,6 +52,7 @@ export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   tenantId: TenantId;
   sourceFileName: string;
   dataTransformer: (d: RawMetricData) => RecordFormat[];
+  demographicFilter?: DemographicCategoryFilter;
   defaultDemographicView: RecordFormat extends DemographicFields
     ? DemographicView
     : // special case: this metric supports demographics for an alternative record format
@@ -89,6 +100,8 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
   error?: Error;
 
   // filter properties
+  private readonly demographicCategories: DemographicCategories;
+
   localityId: RecordFormat extends LocalityFields ? string : undefined;
 
   localityLabels: RecordFormat extends LocalityFields
@@ -109,6 +122,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     tenantId,
     sourceFileName,
     dataTransformer,
+    demographicFilter,
     defaultDemographicView,
     defaultLocalityId,
     localityLabels,
@@ -134,6 +148,8 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     this.dataTransformer = dataTransformer;
 
     // initialize filters
+    this.demographicCategories = createDemographicCategories(demographicFilter);
+    this.getDemographicCategories = this.getDemographicCategories.bind(this);
     this.localityId = defaultLocalityId;
     this.localityLabels = localityLabels;
     this.demographicView = defaultDemographicView;
@@ -194,5 +210,11 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
         dataFiles: [{ name: "data", data: this.allRecords as RecordFormat[] }],
       })
     );
+  }
+
+  getDemographicCategories(
+    view: Exclude<DemographicView, "nofilter">
+  ): ReturnType<typeof getDemographicCategoriesForView> {
+    return getDemographicCategoriesForView(view, this.demographicCategories);
   }
 }

@@ -20,7 +20,6 @@ import { computed, makeObservable } from "mobx";
 import {
   DemographicView,
   DemographicViewList,
-  getDemographicCategories,
   getDemographicViewLabel,
   recordIsTotalByDimension,
 } from "../demographics";
@@ -65,7 +64,7 @@ export default class PopulationBreakdownByLocationMetric extends Metric<Populati
   }
 
   get dataSeries(): DemographicCategoryRecords[] | null {
-    const { records } = this;
+    const { records, getDemographicCategories } = this;
     if (!records) return null;
 
     return DemographicViewList.filter(

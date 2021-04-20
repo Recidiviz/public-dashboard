@@ -36,6 +36,7 @@ function getTestMetric(id: MetricTypeId) {
         testMetadataMapping.PrisonRecidivismRateSingleFollowupHistorical,
     },
     tenantId: testTenantId,
+    demographicFilter: contentFixture.demographicCategories,
   }).get(id) as RecidivismRateMetric;
 }
 
