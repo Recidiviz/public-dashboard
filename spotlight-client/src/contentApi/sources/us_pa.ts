@@ -52,10 +52,10 @@ const content: TenantContent = {
         {
           title: "How did they get there?",
           body: `<p>
-            There are many possible paths for someone to come to prison. “New Admission”
-            represents someone being incarcerated for the first time as part of their
-            sentence. “Revocation” represents when someone on probation or parole is sent
-            to (or back to) prison.
+            There are many possible paths for someone to be admitted to prison. Many of
+            the admissions to prison are not “new admissions” (that is, admitted for the
+            first time as part of their sentence), but are actually people who are pulled
+            back to prison from community supervision due to a violation or new crime.
           </p>`,
           metricTypeId: "PrisonAdmissionReasonsCurrent",
         },
@@ -67,14 +67,16 @@ const content: TenantContent = {
         Parole is a period of supervised release after prison. People on parole must
         regularly check in with a parole officer, who ensures that they are following
         all the requirements of the release. If these requirements are violated, the
-        person’s parole may be revoked.
+        person’s parole may be “revoked” and they will be sent back to prison.
       </p>`,
       sections: [
         {
           title: "Who is on parole?",
           body: `<p>
-            Parole is granted to people in prison with a track record of good behavior as
-            a way to complete their sentences in their communities.
+            People on parole have generally completed certain requirements of their
+            sentence (such as a minimum time spent) and have been approved for
+            release by a parole board. Ideally, the corrections system will ensure
+            that the person is set up for success before they are released.
           </p>`,
           metricTypeId: "ParolePopulationCurrent",
         },
@@ -91,19 +93,20 @@ const content: TenantContent = {
         {
           title: "What happens after parole?",
           body: `<p>
-            After parole, a person may be successfully discharged or revoked to prison.
-            Take a look at how the rate of successful parole completion has changed over
-            time, and how the overall rate of successful parole completion varies by
-            demographic.
+            A successful end to one’s parole term is a “discharge,” after which they are
+            no longer supervised by a parole officer; failure to succeed generally means
+            a return to prison, or “revocation.” This success rate is improved by
+            addressing critical needs of justice-involved individuals, including employment,
+            housing, and need-based care.
           </p>`,
           metricTypeId: "ParoleSuccessHistorical",
         },
         {
           title: "Why do revocations happen?",
           body: `<p>
-            Revocations happen when a person on parole violates a condition of their
+            Revocations occur when a person on parole violates a condition of their
             supervision or commits a new crime and is reincarcerated as a result. Reasons
-            for revocation fall into one of three categories: technical violation, new
+            for revocation generally fall into one of three categories: technical violation, new
             offense, and absconsion.
           </p>`,
           metricTypeId: "ParoleRevocationsAggregate",
