@@ -92,3 +92,60 @@ test("tenant does not have racial disparities narrative", () => {
 
   expect(tenant.racialDisparitiesNarrative).toBeUndefined();
 });
+
+test("tenant has default demographic categories", () => {
+  retrieveContentMock.mockReturnValue(partialFixture);
+
+  const tenant = createTenant({ tenantId: "US_ND" });
+
+  expect(tenant.getDemographicCategories("raceOrEthnicity")).toEqual([
+    { identifier: "AMERICAN_INDIAN_ALASKAN_NATIVE", label: "Native American" },
+    { identifier: "BLACK", label: "Black" },
+    { identifier: "HISPANIC", label: "Hispanic" },
+    { identifier: "WHITE", label: "White" },
+    { identifier: "ASIAN", label: "Asian" },
+    {
+      identifier: "NATIVE_HAWAIIAN_PACIFIC_ISLANDER",
+      label: "Pacific Islander",
+    },
+    { identifier: "OTHER", label: "Other" },
+  ]);
+
+  expect(tenant.getDemographicCategories("gender")).toEqual([
+    { identifier: "MALE", label: "Male" },
+    { identifier: "FEMALE", label: "Female" },
+  ]);
+
+  expect(tenant.getDemographicCategories("ageBucket")).toEqual([
+    { identifier: "<25", label: "<25" },
+    { identifier: "25-29", label: "25-29" },
+    { identifier: "30-34", label: "30-34" },
+    { identifier: "35-39", label: "35-39" },
+    { identifier: "40<", label: "40+" },
+  ]);
+});
+
+test("tenant has customized demographic categories", () => {
+  retrieveContentMock.mockReturnValue({
+    ...partialFixture,
+    demographicCategories: {
+      raceOrEthnicity: [
+        "AMERICAN_INDIAN_ALASKAN_NATIVE",
+        "BLACK",
+        "HISPANIC",
+        "WHITE",
+        "OTHER",
+      ],
+    },
+  });
+
+  const tenant = createTenant({ tenantId: "US_ND" });
+
+  expect(tenant.getDemographicCategories("raceOrEthnicity")).toEqual([
+    { identifier: "AMERICAN_INDIAN_ALASKAN_NATIVE", label: "Native American" },
+    { identifier: "BLACK", label: "Black" },
+    { identifier: "HISPANIC", label: "Hispanic" },
+    { identifier: "WHITE", label: "White" },
+    { identifier: "OTHER", label: "Other" },
+  ]);
+});

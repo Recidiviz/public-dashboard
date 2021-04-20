@@ -15,8 +15,24 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import assertNever from "assert-never";
 import retrieveContent from "../contentApi/retrieveContent";
-import { SystemNarrativeTypeIdList, TenantId } from "../contentApi/types";
+import {
+  DemographicCategoryFilter,
+  SystemNarrativeTypeIdList,
+  TenantId,
+} from "../contentApi/types";
+import {
+  ageBucketCategories,
+  AgeCategory,
+  DemographicView,
+  genderCategories,
+  GenderCategory,
+  raceOrEthnicityCategories,
+  RaceOrEthnicityCategory,
+  totalCategories,
+  TotalCategory,
+} from "../demographics";
 import createMetricMapping from "./createMetricMapping";
 import RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
 import { createSystemNarrative } from "./SystemNarrative";
@@ -27,6 +43,7 @@ type InitOptions = {
   name: string;
   description: string;
   coBrandingCopy: string;
+  demographicFilter: DemographicCategoryFilter | undefined;
   metrics: MetricMapping;
   systemNarratives: SystemNarrativeMapping;
   racialDisparitiesNarrative?: RacialDisparitiesNarrative;
@@ -54,11 +71,19 @@ export default class Tenant {
 
   readonly racialDisparitiesNarrative?: RacialDisparitiesNarrative;
 
+  private readonly demographicCategories: {
+    readonly total: TotalCategory[];
+    readonly raceOrEthnicity: RaceOrEthnicityCategory[];
+    readonly gender: GenderCategory[];
+    readonly ageBucket: AgeCategory[];
+  };
+
   constructor({
     id,
     name,
     description,
     coBrandingCopy,
+    demographicFilter,
     metrics,
     systemNarratives,
     racialDisparitiesNarrative,
@@ -70,6 +95,44 @@ export default class Tenant {
     this.metrics = metrics;
     this.systemNarratives = systemNarratives;
     this.racialDisparitiesNarrative = racialDisparitiesNarrative;
+    this.demographicCategories = {
+      total: totalCategories,
+      // only applying filters if the keys are actually present
+      raceOrEthnicity: raceOrEthnicityCategories.filter(
+        ({ identifier }) =>
+          demographicFilter?.raceOrEthnicity?.includes(identifier) ?? true
+      ),
+      gender: genderCategories.filter(
+        ({ identifier }) =>
+          demographicFilter?.gender?.includes(identifier) ?? true
+      ),
+      ageBucket: ageBucketCategories.filter(
+        ({ identifier }) =>
+          demographicFilter?.ageBucket?.includes(identifier) ?? true
+      ),
+    };
+  }
+
+  getDemographicCategories(
+    view: Exclude<DemographicView, "nofilter">
+  ): (
+    | TotalCategory
+    | RaceOrEthnicityCategory
+    | GenderCategory
+    | AgeCategory
+  )[] {
+    switch (view) {
+      case "total":
+        return this.demographicCategories.total;
+      case "raceOrEthnicity":
+        return this.demographicCategories.raceOrEthnicity;
+      case "gender":
+        return this.demographicCategories.gender;
+      case "ageBucket":
+        return this.demographicCategories.ageBucket;
+      default:
+        assertNever(view);
+    }
   }
 }
 
@@ -129,6 +192,7 @@ export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
     name: allTenantContent.name,
     description: allTenantContent.description,
     coBrandingCopy: allTenantContent.coBrandingCopy,
+    demographicFilter: allTenantContent.demographicCategories,
     metrics,
     systemNarratives: getSystemNarrativesForTenant({
       allTenantContent,

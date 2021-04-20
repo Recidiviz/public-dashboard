@@ -18,12 +18,12 @@
 import assertNever from "assert-never";
 import { DemographicFields, isDemographicFieldKey } from "../metricsApi";
 import {
-  AgeIdentifier,
+  AgeValue,
   DemographicView,
   DemographicViewList,
-  GenderIdentifier,
+  GenderValue,
   NOFILTER_KEY,
-  RaceIdentifier,
+  RaceOrEthnicityValue,
   TOTAL_KEY,
 } from "./types";
 
@@ -58,32 +58,33 @@ export function recordIsTotalByDimension(
   };
 }
 
-type TotalCategory = { identifier: "ALL"; label: string };
-const totalCategories: TotalCategory[] = [
+export type TotalCategory = { identifier: "ALL"; label: string };
+export const totalCategories: TotalCategory[] = [
   { identifier: TOTAL_KEY, label: "Total" },
 ];
 
-type RaceOrEthnicityCategory = {
+export type RaceOrEthnicityCategory = {
   label: string;
-  identifier: RaceIdentifier;
+  identifier: RaceOrEthnicityValue;
 };
-const raceOrEthnicityCategories: RaceOrEthnicityCategory[] = [
+export const raceOrEthnicityCategories: RaceOrEthnicityCategory[] = [
   { identifier: "AMERICAN_INDIAN_ALASKAN_NATIVE", label: "Native American" },
   { identifier: "BLACK", label: "Black" },
   { identifier: "HISPANIC", label: "Hispanic" },
   { identifier: "WHITE", label: "White" },
+  { identifier: "ASIAN", label: "Asian" },
+  { identifier: "NATIVE_HAWAIIAN_PACIFIC_ISLANDER", label: "Pacific Islander" },
   { identifier: "OTHER", label: "Other" },
-  // TODO(#314): additional categories in RaceIdentifier that weren't in ND?
 ];
 
-type GenderCategory = { label: string; identifier: GenderIdentifier };
-const genderCategories: GenderCategory[] = [
+export type GenderCategory = { label: string; identifier: GenderValue };
+export const genderCategories: GenderCategory[] = [
   { identifier: "MALE", label: "Male" },
   { identifier: "FEMALE", label: "Female" },
 ];
 
-type AgeCategory = { label: string; identifier: AgeIdentifier };
-const ageBucketCategories: AgeCategory[] = [
+export type AgeCategory = { label: string; identifier: AgeValue };
+export const ageBucketCategories: AgeCategory[] = [
   { identifier: "<25", label: "<25" },
   { identifier: "25-29", label: "25-29" },
   { identifier: "30-34", label: "30-34" },
