@@ -17,7 +17,7 @@
 
 import { DemographicFields } from "../metricsApi";
 import { DemographicView } from "./types";
-import { recordIsTotalByDimension } from "./utils";
+import { createDemographicCategories, recordIsTotalByDimension } from "./utils";
 
 describe("recordIsTotalByDimension", () => {
   const testData: Array<DemographicFields & { count: number }> = [
@@ -55,5 +55,63 @@ describe("recordIsTotalByDimension", () => {
 
   test("returns age categories", () => {
     verifyFilter("ageBucket", testData.slice(5, 7));
+  });
+});
+
+describe("createDemographicCategories", () => {
+  test("defaults", () => {
+    const categories = createDemographicCategories();
+
+    expect(categories.raceOrEthnicity).toEqual([
+      {
+        identifier: "AMERICAN_INDIAN_ALASKAN_NATIVE",
+        label: "Native American",
+      },
+      { identifier: "BLACK", label: "Black" },
+      { identifier: "HISPANIC", label: "Hispanic" },
+      { identifier: "WHITE", label: "White" },
+      { identifier: "ASIAN", label: "Asian" },
+      {
+        identifier: "NATIVE_HAWAIIAN_PACIFIC_ISLANDER",
+        label: "Pacific Islander",
+      },
+      { identifier: "OTHER", label: "Other" },
+    ]);
+
+    expect(categories.gender).toEqual([
+      { identifier: "MALE", label: "Male" },
+      { identifier: "FEMALE", label: "Female" },
+    ]);
+
+    expect(categories.ageBucket).toEqual([
+      { identifier: "<25", label: "<25" },
+      { identifier: "25-29", label: "25-29" },
+      { identifier: "30-34", label: "30-34" },
+      { identifier: "35-39", label: "35-39" },
+      { identifier: "40<", label: "40+" },
+    ]);
+  });
+
+  test("customized", () => {
+    const categories = createDemographicCategories({
+      raceOrEthnicity: [
+        "AMERICAN_INDIAN_ALASKAN_NATIVE",
+        "BLACK",
+        "HISPANIC",
+        "WHITE",
+        "OTHER",
+      ],
+    });
+
+    expect(categories.raceOrEthnicity).toEqual([
+      {
+        identifier: "AMERICAN_INDIAN_ALASKAN_NATIVE",
+        label: "Native American",
+      },
+      { identifier: "BLACK", label: "Black" },
+      { identifier: "HISPANIC", label: "Hispanic" },
+      { identifier: "WHITE", label: "White" },
+      { identifier: "OTHER", label: "Other" },
+    ]);
   });
 });
