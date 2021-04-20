@@ -33,6 +33,18 @@ const content: ExhaustiveTenantContent = {
   name: "Test Tenant",
   description: "test tenant description",
   coBrandingCopy: "test tenant co-branding",
+  // tests are based on ND data which has this demo profile
+  demographicCategories: {
+    raceOrEthnicity: [
+      "AMERICAN_INDIAN_ALASKAN_NATIVE",
+      "BLACK",
+      "HISPANIC",
+      "WHITE",
+      "OTHER",
+    ],
+    gender: ["MALE", "FEMALE"],
+    ageBucket: ["<25", "25-29", "30-34", "35-39", "40<"],
+  },
   metrics: {
     SentencePopulationCurrent: {
       name: "test SentencePopulationCurrent name",
