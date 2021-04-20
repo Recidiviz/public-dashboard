@@ -316,14 +316,15 @@ const content: TenantContent = {
       Pennsylvania may occasionally complete their supervision in a different state.
     </p>`,
     chartLabels: {
-      totalPopulation: "",
-      totalSentenced: "",
-      paroleGrant: "",
-      incarceratedPopulation: "",
-      otherGroups: "",
+      totalPopulation: "Proportions of racial/ethnic groups in the state",
+      totalSentenced:
+        "Proportions of racial/ethnic groups sentenced and under DOC control",
+      paroleGrant: "People released on parole",
+      incarceratedPopulation: "Overall prison population",
+      otherGroups: "All other racial/ethnic groups",
       programmingParticipants: "",
-      supervisionPopulation: "",
-      totalPopulationSentences: "",
+      supervisionPopulation: "All people under supervision",
+      totalPopulationSentences: "All people sentenced and under DOC control",
     },
     sections: {
       beforeCorrections: {
