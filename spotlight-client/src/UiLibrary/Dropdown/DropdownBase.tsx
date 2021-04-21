@@ -56,16 +56,16 @@ const DropdownButton = styled(animated.button)<{
   &:focus {
     outline: none;
   }
+`;
 
-  &::after {
-    border-left: ${rem(4)} solid transparent;
-    border-right: ${rem(4)} solid transparent;
-    border-top: ${rem(4)} solid currentColor;
-    content: "";
-    height: 0;
-    margin-left: ${rem(16)};
-    width: 0;
-  }
+const DropdownButtonCaret = styled.span`
+  border-left: ${rem(4)} solid transparent;
+  border-right: ${rem(4)} solid transparent;
+  border-top: ${rem(4)} solid currentColor;
+  content: "";
+  height: 0;
+  margin-left: ${rem(16)};
+  width: 0;
 `;
 
 const DropdownBase: React.FC<
@@ -155,6 +155,7 @@ const DropdownBase: React.FC<
         onBlur={() => setButtonHover(false)}
       >
         {buttonContents || <span aria-hidden>{label}</span>}
+        <DropdownButtonCaret />
       </DropdownButton>
       {useFixedMenu ? (
         <FixedMenu {...menuProps} />
