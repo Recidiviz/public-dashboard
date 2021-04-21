@@ -192,7 +192,7 @@ const content: TenantContent = {
     ParolePopulationHistorical: {
       name: "Historical Parole Population",
       methodology: `<p>
-        This data includes the number of people that were on parole in North Dakota on
+        This data includes the number of people that were on parole in Pennsylvania on
         the first day of each month over the last 20 years.
       </p>
       <p>
@@ -348,7 +348,7 @@ const content: TenantContent = {
         </p>
         <p>
           {ethnonymCapitalized} make up {beforeCorrections.populationPctCurrent} of
-          North Dakota’s population, but {beforeCorrections.correctionsPctCurrent} of
+          Pennsylvania’s population, but {beforeCorrections.correctionsPctCurrent} of
           the population sentenced to time under DOC control.
         </p>`,
         methodology: `<p>
