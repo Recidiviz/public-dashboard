@@ -31,12 +31,13 @@ import { useDataStore } from "../StoreProvider";
 import { breakpoints, colors } from "../UiLibrary";
 
 const Wrapper = styled.footer`
-  align-content: flex-end;
   background: ${colors.footerBackground};
   color: ${colors.caption};
   display: flex;
+  flex-direction: column;
   font-size: ${rem(12)};
   font-weight: 700;
+  justify-content: flex-end;
   line-height: 1.25;
   margin-top: ${rem(120)};
   min-height: ${rem(FOOTER_HEIGHT)};
@@ -47,12 +48,20 @@ const Wrapper = styled.footer`
   a {
     color: ${colors.caption};
   }
+
+  /*
+    on smaller screens where we stack vertically, height may need to grow;
+    however, IE mangles vertical placement if there is only a min-height set.
+    larger screens should not require a taller footer
+  */
+  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    height: ${rem(FOOTER_HEIGHT)};
+  }
 `;
 
 const Contents = styled.div`
-  align-content: flex-end;
+  align-items: flex-end;
   display: flex;
-  flex: 1 1 auto;
   flex-wrap: wrap;
   justify-content: space-between;
 `;
