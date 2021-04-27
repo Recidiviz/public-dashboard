@@ -16,14 +16,15 @@
 // =============================================================================
 
 import assertNever from "assert-never";
+import { DemographicCategoryFilter } from "../contentApi/types";
 import { DemographicFields, isDemographicFieldKey } from "../metricsApi";
 import {
-  AgeIdentifier,
+  AgeValue,
   DemographicView,
   DemographicViewList,
-  GenderIdentifier,
+  GenderValue,
   NOFILTER_KEY,
-  RaceIdentifier,
+  RaceOrEthnicityValue,
   TOTAL_KEY,
 } from "./types";
 
@@ -63,26 +64,27 @@ const totalCategories: TotalCategory[] = [
   { identifier: TOTAL_KEY, label: "Total" },
 ];
 
-type RaceOrEthnicityCategory = {
+export type RaceOrEthnicityCategory = {
   label: string;
-  identifier: RaceIdentifier;
+  identifier: RaceOrEthnicityValue;
 };
 const raceOrEthnicityCategories: RaceOrEthnicityCategory[] = [
   { identifier: "AMERICAN_INDIAN_ALASKAN_NATIVE", label: "Native American" },
   { identifier: "BLACK", label: "Black" },
   { identifier: "HISPANIC", label: "Hispanic" },
   { identifier: "WHITE", label: "White" },
+  { identifier: "ASIAN", label: "Asian" },
+  { identifier: "NATIVE_HAWAIIAN_PACIFIC_ISLANDER", label: "Pacific Islander" },
   { identifier: "OTHER", label: "Other" },
-  // TODO(#314): additional categories in RaceIdentifier that weren't in ND?
 ];
 
-type GenderCategory = { label: string; identifier: GenderIdentifier };
+type GenderCategory = { label: string; identifier: GenderValue };
 const genderCategories: GenderCategory[] = [
   { identifier: "MALE", label: "Male" },
   { identifier: "FEMALE", label: "Female" },
 ];
 
-type AgeCategory = { label: string; identifier: AgeIdentifier };
+type AgeCategory = { label: string; identifier: AgeValue };
 const ageBucketCategories: AgeCategory[] = [
   { identifier: "<25", label: "<25" },
   { identifier: "25-29", label: "25-29" },
@@ -91,18 +93,46 @@ const ageBucketCategories: AgeCategory[] = [
   { identifier: "40<", label: "40+" },
 ];
 
-export function getDemographicCategories(
-  view: Exclude<DemographicView, "nofilter">
+export type DemographicCategories = {
+  total: TotalCategory[];
+  raceOrEthnicity: RaceOrEthnicityCategory[];
+  gender: GenderCategory[];
+  ageBucket: AgeCategory[];
+};
+export function createDemographicCategories(
+  demographicFilter?: DemographicCategoryFilter
+): DemographicCategories {
+  return {
+    total: totalCategories,
+    // only applying filters if the keys are actually present
+    raceOrEthnicity: raceOrEthnicityCategories.filter(
+      ({ identifier }) =>
+        demographicFilter?.raceOrEthnicity?.includes(identifier) ?? true
+    ),
+    gender: genderCategories.filter(
+      ({ identifier }) =>
+        demographicFilter?.gender?.includes(identifier) ?? true
+    ),
+    ageBucket: ageBucketCategories.filter(
+      ({ identifier }) =>
+        demographicFilter?.ageBucket?.includes(identifier) ?? true
+    ),
+  };
+}
+
+export function getDemographicCategoriesForView(
+  view: Exclude<DemographicView, "nofilter">,
+  categories: DemographicCategories
 ): (TotalCategory | RaceOrEthnicityCategory | GenderCategory | AgeCategory)[] {
   switch (view) {
     case "total":
-      return totalCategories;
+      return categories.total;
     case "raceOrEthnicity":
-      return raceOrEthnicityCategories;
+      return categories.raceOrEthnicity;
     case "gender":
-      return genderCategories;
+      return categories.gender;
     case "ageBucket":
-      return ageBucketCategories;
+      return categories.ageBucket;
     default:
       assertNever(view);
   }

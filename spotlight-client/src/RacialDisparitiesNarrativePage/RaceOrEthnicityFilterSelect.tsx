@@ -19,16 +19,8 @@ import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import RacialDisparitiesNarrative from "../contentModels/RacialDisparitiesNarrative";
-import {
-  getDemographicCategories,
-  getDemographicViewLabel,
-  RaceIdentifier,
-} from "../demographics";
+import { getDemographicViewLabel, RaceIdentifier } from "../demographics";
 import { Dropdown } from "../UiLibrary";
-
-const DROPDOWN_OPTIONS = getDemographicCategories(
-  "raceOrEthnicity"
-).map(({ identifier, label }) => ({ label, id: identifier }));
 
 type RaceOrEthnicityFilterSelectProps = {
   narrative: RacialDisparitiesNarrative;
@@ -46,11 +38,15 @@ const RaceOrEthnicityFilterSelect: React.FC<RaceOrEthnicityFilterSelectProps> = 
     }
   );
 
+  const dropdownOptions = narrative.allCategories.map(
+    ({ identifier, label }) => ({ label, id: identifier })
+  );
+
   return (
     <Dropdown
       label={getDemographicViewLabel("raceOrEthnicity")}
       onChange={onChange}
-      options={DROPDOWN_OPTIONS}
+      options={dropdownOptions}
       selectedId={narrative.selectedCategory}
     />
   );

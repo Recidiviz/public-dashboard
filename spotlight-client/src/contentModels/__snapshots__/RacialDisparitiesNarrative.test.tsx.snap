@@ -1672,6 +1672,64 @@ Array [
 ]
 `;
 
+exports[`available categories customized 1`] = `
+Array [
+  Object {
+    "identifier": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "label": "Native American",
+  },
+  Object {
+    "identifier": "BLACK",
+    "label": "Black",
+  },
+  Object {
+    "identifier": "HISPANIC",
+    "label": "Hispanic",
+  },
+  Object {
+    "identifier": "WHITE",
+    "label": "White",
+  },
+  Object {
+    "identifier": "OTHER",
+    "label": "Other",
+  },
+]
+`;
+
+exports[`available categories default 1`] = `
+Array [
+  Object {
+    "identifier": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+    "label": "Native American",
+  },
+  Object {
+    "identifier": "BLACK",
+    "label": "Black",
+  },
+  Object {
+    "identifier": "HISPANIC",
+    "label": "Hispanic",
+  },
+  Object {
+    "identifier": "WHITE",
+    "label": "White",
+  },
+  Object {
+    "identifier": "ASIAN",
+    "label": "Asian",
+  },
+  Object {
+    "identifier": "NATIVE_HAWAIIAN_PACIFIC_ISLANDER",
+    "label": "Pacific Islander",
+  },
+  Object {
+    "identifier": "OTHER",
+    "label": "Other",
+  },
+]
+`;
+
 exports[`total data for introduction 1`] = `
 Object {
   "AMERICAN_INDIAN_ALASKAN_NATIVE": 23.101602986336477,

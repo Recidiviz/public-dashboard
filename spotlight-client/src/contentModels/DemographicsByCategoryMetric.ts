@@ -17,10 +17,7 @@
 
 import { sum } from "d3-array";
 import { computed, makeObservable } from "mobx";
-import {
-  getDemographicCategories,
-  recordIsTotalByDimension,
-} from "../demographics";
+import { recordIsTotalByDimension } from "../demographics";
 import { DemographicsByCategoryRecord } from "../metricsApi";
 import { colors } from "../UiLibrary";
 import calculatePct from "./calculatePct";
@@ -55,7 +52,7 @@ export default class DemographicsByCategoryMetric extends Metric<DemographicsByC
   }
 
   get dataSeries(): DemographicCategoryRecords[] | null {
-    const { color, demographicView, records } = this;
+    const { color, demographicView, records, getDemographicCategories } = this;
     if (!records || demographicView === "nofilter") return null;
 
     const categories = getDemographicCategories(demographicView);

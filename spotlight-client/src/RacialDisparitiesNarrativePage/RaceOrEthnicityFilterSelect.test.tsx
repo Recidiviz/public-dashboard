@@ -36,6 +36,7 @@ beforeEach(() => {
   narrative = RacialDisparitiesNarrative.build({
     tenantId: "US_ND",
     content: contentFixture.racialDisparitiesNarrative,
+    categoryFilter: contentFixture.demographicCategories.raceOrEthnicity,
   });
 
   render(<RaceOrEthnicityFilterSelect narrative={narrative} />);

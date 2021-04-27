@@ -24,30 +24,31 @@ export const NOFILTER_KEY: NoFilterIdentifier = "nofilter";
 export const UNKNOWN_KEY = "EXTERNAL_UNKNOWN";
 type UnknownIdentifier = typeof UNKNOWN_KEY;
 
+export const RaceOrEthnicityValueList = [
+  "AMERICAN_INDIAN_ALASKAN_NATIVE",
+  "BLACK",
+  "HISPANIC",
+  "WHITE",
+  "ASIAN",
+  "NATIVE_HAWAIIAN_PACIFIC_ISLANDER",
+  "OTHER",
+] as const;
+export type RaceOrEthnicityValue = typeof RaceOrEthnicityValueList[number];
 export type RaceIdentifier =
   | TotalIdentifier
   | UnknownIdentifier
-  | "AMERICAN_INDIAN_ALASKAN_NATIVE"
-  | "ASIAN"
-  | "BLACK"
-  | "HISPANIC"
-  | "NATIVE_HAWAIIAN_PACIFIC_ISLANDER"
-  | "WHITE"
-  | "OTHER";
+  | RaceOrEthnicityValue;
 
+export const GenderValueList = ["MALE", "FEMALE"] as const;
+export type GenderValue = typeof GenderValueList[number];
 export type GenderIdentifier =
   | TotalIdentifier
   | UnknownIdentifier
-  | "FEMALE"
-  | "MALE";
-export type AgeIdentifier =
-  | TotalIdentifier
-  | UnknownIdentifier
-  | "<25"
-  | "25-29"
-  | "30-34"
-  | "35-39"
-  | "40<";
+  | GenderValue;
+
+export const AgeValueList = ["<25", "25-29", "30-34", "35-39", "40<"] as const;
+export type AgeValue = typeof AgeValueList[number];
+export type AgeIdentifier = TotalIdentifier | UnknownIdentifier | AgeValue;
 
 export const DemographicViewList = [
   "total",

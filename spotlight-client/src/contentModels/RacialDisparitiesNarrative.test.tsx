@@ -30,6 +30,7 @@ beforeEach(() => {
   narrative = RacialDisparitiesNarrative.build({
     tenantId: testTenantId,
     content: contentFixture.racialDisparitiesNarrative,
+    categoryFilter: contentFixture.demographicCategories.raceOrEthnicity,
   });
 });
 
@@ -271,4 +272,19 @@ describe.each([
       );
     }
   );
+});
+
+describe("available categories", () => {
+  test("default", () => {
+    narrative = RacialDisparitiesNarrative.build({
+      tenantId: testTenantId,
+      content: contentFixture.racialDisparitiesNarrative,
+      categoryFilter: undefined,
+    });
+    expect(narrative.allCategories).toMatchSnapshot();
+  });
+
+  test("customized", () => {
+    expect(narrative.allCategories).toMatchSnapshot();
+  });
 });

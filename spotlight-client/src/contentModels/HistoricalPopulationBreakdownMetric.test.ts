@@ -18,7 +18,11 @@
 import { isEqual } from "date-fns";
 import { advanceTo, clear } from "jest-date-mock";
 import { runInAction, when } from "mobx";
-import { DemographicViewList, getDemographicCategories } from "../demographics";
+import {
+  createDemographicCategories,
+  DemographicViewList,
+  getDemographicCategoriesForView,
+} from "../demographics";
 import {
   fetchAndTransformMetric,
   HistoricalPopulationBreakdownRecord,
@@ -104,7 +108,10 @@ test("fills in missing data", async () => {
     reactImmediately(() => {
       const data = metric.dataSeries;
       if (data) {
-        const categories = getDemographicCategories(demographicView);
+        const categories = getDemographicCategoriesForView(
+          demographicView,
+          createDemographicCategories()
+        );
         categories.forEach(({ identifier }, index) => {
           const series = data[index].coordinates;
           expect(series.length).toBe(240);

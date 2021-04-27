@@ -33,6 +33,7 @@ function getTestMetric() {
     localityLabelMapping: contentFixture.localities,
     metadataMapping: testMetadataMapping,
     tenantId: testTenantId,
+    demographicFilter: contentFixture.demographicCategories,
   }).get(testMetricId) as PopulationBreakdownByLocationMetric;
 }
 

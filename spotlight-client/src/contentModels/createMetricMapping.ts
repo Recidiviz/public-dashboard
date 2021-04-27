@@ -57,6 +57,7 @@ type MetricMappingFactoryOptions = {
   metadataMapping: TenantContent["metrics"];
   topologyMapping?: TenantContent["topologies"];
   tenantId: TenantId;
+  demographicFilter?: TenantContent["demographicCategories"];
 };
 /**
  * Factory function for converting a mapping of content objects by metric ID
@@ -69,6 +70,7 @@ export default function createMetricMapping({
   metadataMapping,
   topologyMapping,
   tenantId,
+  demographicFilter,
 }: MetricMappingFactoryOptions): MetricMapping {
   const metricMapping: MetricMapping = new Map();
 
@@ -100,6 +102,7 @@ export default function createMetricMapping({
             metricType,
             new PopulationBreakdownByLocationMetric({
               ...metadata,
+              demographicFilter,
               id: metricType,
               tenantId,
               defaultDemographicView: NOFILTER_KEY,
@@ -120,6 +123,7 @@ export default function createMetricMapping({
           metricType,
           new SentenceTypeByLocationMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -139,6 +143,7 @@ export default function createMetricMapping({
             metricType,
             new PopulationBreakdownByLocationMetric({
               ...metadata,
+              demographicFilter,
               id: metricType,
               tenantId,
               defaultDemographicView: NOFILTER_KEY,
@@ -159,6 +164,7 @@ export default function createMetricMapping({
             metricType,
             new PopulationBreakdownByLocationMetric({
               ...metadata,
+              demographicFilter,
               id: metricType,
               tenantId,
               defaultDemographicView: NOFILTER_KEY,
@@ -179,6 +185,7 @@ export default function createMetricMapping({
             metricType,
             new PopulationBreakdownByLocationMetric({
               ...metadata,
+              demographicFilter,
               id: metricType,
               tenantId,
               defaultDemographicView: NOFILTER_KEY,
@@ -196,6 +203,7 @@ export default function createMetricMapping({
           metricType,
           new HistoricalPopulationBreakdownMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -211,6 +219,7 @@ export default function createMetricMapping({
           metricType,
           new HistoricalPopulationBreakdownMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -226,6 +235,7 @@ export default function createMetricMapping({
           metricType,
           new HistoricalPopulationBreakdownMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -247,6 +257,7 @@ export default function createMetricMapping({
           metricType,
           new ProgramParticipationCurrentMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: undefined,
@@ -269,6 +280,7 @@ export default function createMetricMapping({
           metricType,
           new ProgramParticipationCurrentMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: undefined,
@@ -288,6 +300,7 @@ export default function createMetricMapping({
           metricType,
           new SupervisionSuccessRateMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -309,6 +322,7 @@ export default function createMetricMapping({
           metricType,
           new SupervisionSuccessRateMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -327,6 +341,7 @@ export default function createMetricMapping({
           metricType,
           new DemographicsByCategoryMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -343,6 +358,7 @@ export default function createMetricMapping({
           metricType,
           new DemographicsByCategoryMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -359,6 +375,7 @@ export default function createMetricMapping({
           metricType,
           new DemographicsByCategoryMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -374,6 +391,7 @@ export default function createMetricMapping({
           metricType,
           new DemographicsByCategoryMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -389,6 +407,7 @@ export default function createMetricMapping({
           metricType,
           new RecidivismRateMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -404,6 +423,7 @@ export default function createMetricMapping({
           metricType,
           new RecidivismRateMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -420,6 +440,7 @@ export default function createMetricMapping({
           metricType,
           new DemographicsByCategoryMetric({
             ...metadata,
+            demographicFilter,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",

@@ -21,11 +21,7 @@ import { runInAction } from "mobx";
 import React from "react";
 import SupervisionSuccessRateMetric from "../contentModels/SupervisionSuccessRateMetric";
 import DataStore from "../DataStore";
-import {
-  DemographicView,
-  getDemographicCategories,
-  getDemographicViewLabel,
-} from "../demographics";
+import { DemographicView, getDemographicViewLabel } from "../demographics";
 import { reactImmediately, renderWithStore } from "../testUtils";
 import VizSupervisionSuccessRate from "./VizSupervisionSuccessRate";
 
@@ -142,7 +138,7 @@ test("demographic filter", async () => {
       })
     );
 
-    getDemographicCategories(demographicView).forEach(({ label }) => {
+    metric.getDemographicCategories(demographicView).forEach(({ label }) => {
       const stat = screen.getByRole("figure", { name: label });
       expect(within(stat).getByText(/\d+%/)).toBeInTheDocument();
     });

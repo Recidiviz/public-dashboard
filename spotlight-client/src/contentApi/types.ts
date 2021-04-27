@@ -16,6 +16,7 @@
 // =============================================================================
 
 import type { Topology } from "topojson-specification";
+import { AgeValue, GenderValue, RaceOrEthnicityValue } from "../demographics";
 
 export type LocalityLabels = {
   label: string;
@@ -30,6 +31,12 @@ export type TenantId = typeof TenantIdList[number];
 export function isTenantId(x: string): x is TenantId {
   return TenantIdList.includes(x as TenantId);
 }
+
+export type DemographicCategoryFilter = {
+  raceOrEthnicity?: RaceOrEthnicityValue[];
+  gender?: GenderValue[];
+  ageBucket?: AgeValue[];
+};
 
 export type TenantContent = {
   name: string;
@@ -57,6 +64,9 @@ export type TenantContent = {
     ProgramRegions: MapData;
   };
   racialDisparitiesNarrative?: RacialDisparitiesNarrativeContent;
+  // if categories are enumerated for any of the keys here, they will be the only ones used;
+  // otherwise categories default to including all values in the associated unions
+  demographicCategories?: DemographicCategoryFilter;
 };
 
 // ============================

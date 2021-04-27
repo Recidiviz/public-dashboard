@@ -259,4 +259,40 @@ describe("data download", () => {
       }
     });
   });
+
+  describe("demographic categories", () => {
+    test("default", () => {
+      testMetricMapping = getTestMapping();
+
+      // arbitrary choice, they should all be the same
+      const metric = getTestMetric("PrisonPopulationCurrent");
+
+      expect(
+        metric.getDemographicCategories("raceOrEthnicity")
+      ).toMatchSnapshot();
+    });
+
+    test("customized", () => {
+      createMetricMapping({
+        localityLabelMapping: allTestContent.localities,
+        metadataMapping: testMetadataMapping,
+        topologyMapping: allTestContent.topologies,
+        demographicFilter: allTestContent.demographicCategories,
+        tenantId: testTenantId,
+      });
+
+      const metric = createMetricMapping({
+        localityLabelMapping: allTestContent.localities,
+        metadataMapping: testMetadataMapping,
+        topologyMapping: allTestContent.topologies,
+        demographicFilter: allTestContent.demographicCategories,
+        tenantId: testTenantId,
+        // arbitrary choice, they should all be the same
+      }).get("PrisonPopulationCurrent");
+
+      expect(
+        metric?.getDemographicCategories("raceOrEthnicity")
+      ).toMatchSnapshot();
+    });
+  });
 });
