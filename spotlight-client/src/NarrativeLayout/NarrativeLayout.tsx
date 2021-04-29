@@ -54,7 +54,7 @@ const NavStickyContainer = styled.div`
   top: ${rem(NAV_BAR_HEIGHT)};
 `;
 
-export const SectionsContainer = styled.div`
+const SectionsContainer = styled.div`
   /* flex-basis needs to be set or contents may overflow in IE 11 */
   flex: 1 1 100%;
   /* min-width cannot be auto or children will not shrink when viewport does */
@@ -68,27 +68,6 @@ type NarrativeLayoutProps = {
 const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
   const routeParams = useParams();
   const { tenantId, narrativeTypeId } = normalizeRouteParams(routeParams);
-  const sectionsContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
-  const showSectionNavigation = useBreakpoint(true, ["mobile-", false]);
-
-  // TODO: this should be in the normalize function?
-  const sectionNumber = Number(routeParams.sectionNumber) || 1;
-  // make sure we consume the section number in the URL, if any, on first mount
-  const [initialSection] = useState(sectionNumber);
-  const [sectionInView, setSectionInView] = useState(sectionNumber);
-
-  const [placeholderSections, setPlaceholderSections] = useState(
-    range(1, initialSection)
-  );
-
-  // remove sections from the placeholder list as we pass through their range
-  useEffect(() => {
-    const placeholderEnd = Math.min(sectionNumber, initialSection);
-    if (placeholderSections.length) {
-      setPlaceholderSections(range(1, placeholderEnd));
-    }
-  }, [sectionNumber, initialSection, placeholderSections.length]);
-
   const navigateToSection = useCallback(
     (newSectionNumber: number) => {
       // these should always exist, this is just for type safety
@@ -108,29 +87,64 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
     },
     [narrativeTypeId, tenantId]
   );
+  const sectionsContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const showSectionNavigation = useBreakpoint(true, ["mobile-", false]);
 
+  // we have to keep track of various states of the section number for animation and navigation:
+  // this one will always reflect the current URL
+  const sectionNumber = Number(routeParams.sectionNumber) || 1;
+  // this is just the initial value and will never change
+  // (needed for handling direct section links without layout jank)
+  const [initialSection] = useState(sectionNumber);
+  // if we have navigated directly to a section, bring it into the viewport
+  useLayoutEffect(
+    () => {
+      scrollToSection(initialSection);
+    },
+    // this should only run once when the component first mounts
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  // when navigating directly to a section at page load, we will
+  // replace any sections above it with fixed-height placeholders
+  // to prevent them from pushing other content down the page as they load
+  const [placeholderSections, setPlaceholderSections] = useState(
+    range(1, initialSection)
+  );
+
+  // remove sections from the placeholder list as we pass through their range;
+  // retain any placeholders above the current section until we get all the way to the top
   useEffect(() => {
-    if (sectionInView !== sectionNumber) {
-      navigateToSection(sectionInView);
+    const placeholderEnd = Math.min(sectionNumber, initialSection);
+    if (placeholderSections.length) {
+      setPlaceholderSections(range(1, placeholderEnd));
     }
-  }, [navigateToSection, sectionInView, sectionNumber]);
+  }, [sectionNumber, initialSection, placeholderSections.length]);
 
-  const scrollToSection = useCallback((targetSection: number) => {
-    const sectionEl = sectionsContainerRef.current.querySelector(
-      `#section${targetSection}`
-    );
+  const scrollToSection = useCallback(
+    (targetSection: number) => {
+      const sectionEl = sectionsContainerRef.current.querySelector(
+        `#section${targetSection}`
+      );
 
-    if (sectionEl) {
-      const { top } = sectionEl.getBoundingClientRect();
-      window.scrollBy({
-        top: top - NAV_BAR_HEIGHT,
-        behavior: "smooth",
-      });
-    }
-  }, []);
+      if (sectionEl) {
+        const { top } = sectionEl.getBoundingClientRect();
+        // NOTE: we are using a polyfill to make sure this method works in all browsers;
+        // native support is spotty as of this writing
+        window.scrollBy({
+          top: top - NAV_BAR_HEIGHT,
+          behavior: "smooth",
+        });
+      }
+    },
+    [sectionsContainerRef]
+  );
 
-  // if we have landed on the first section there won't be any initial scroll
+  // some navigation features need to be disabled until we have made sure
+  // the initial section indicated by the URL is in the viewport, so let's keep track of that
   const [initialScrollComplete, setInitialScrollComplete] = useState(
+    // if we have landed on the first section there won't be any initial scroll
     initialSection === 1
   );
   useGesture(
@@ -142,14 +156,6 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
     },
     { domTarget: window }
   );
-  useLayoutEffect(
-    () => {
-      scrollToSection(initialSection);
-    },
-    // this should only run once when the component first mounts
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
 
   return (
     <Wrapper>
@@ -158,7 +164,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
           <Sticker>
             <NavStickyContainer>
               <NarrativeNavigation
-                activeSection={sectionInView}
+                activeSection={sectionNumber}
                 goToSection={scrollToSection}
                 sections={sections}
               />
@@ -177,7 +183,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
               key={section.title}
               threshold={0.3}
               onChange={(inView) => {
-                if (initialScrollComplete && inView) setSectionInView(pageId);
+                if (initialScrollComplete && inView) navigateToSection(pageId);
               }}
             >
               {placeholderSections.includes(pageId) ? (

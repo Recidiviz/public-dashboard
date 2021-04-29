@@ -31,7 +31,6 @@ type GetUrlOptions =
   | { page: "tenant"; params: Pick<RequiredParams, "tenantId"> }
   | {
       page: "narrative";
-      // TODO: route params should include number?
       params: Pick<RequiredParams, "tenantId" | "narrativeTypeId"> & {
         sectionNumber?: number;
       };
