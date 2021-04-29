@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2021 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,28 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import "react-app-polyfill/ie11";
-import "react-app-polyfill/stable";
-import "intersection-observer";
-
-import { configure } from "mobx";
-import React from "react";
-import ReactDOM from "react-dom";
-import ReactModal from "react-modal";
-import smoothScroll from "smoothscroll-polyfill";
-import App from "./App";
-
-smoothScroll.polyfill();
-
-configure({
-  // make proxies optional for IE 11 support
-  useProxies: "ifavailable",
-  // activate runtime linting
-  computedRequiresReaction: true,
-  reactionRequiresObservable: true,
-  observableRequiresReaction: true,
-});
-
-ReactDOM.render(<App />, document.getElementById("root"), () => {
-  ReactModal.setAppElement("#root");
-});
+declare module "smoothscroll-polyfill";

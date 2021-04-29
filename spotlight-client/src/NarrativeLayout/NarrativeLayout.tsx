@@ -20,7 +20,7 @@ import useBreakpoint from "@w11r/use-breakpoint";
 import { rem } from "polished";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { InView } from "react-intersection-observer";
-import { useSpring } from "react-spring/web.cjs";
+import { useGesture } from "react-use-gesture";
 import Sticker from "react-stickyfill";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
@@ -60,104 +60,76 @@ type NarrativeLayoutProps = {
 
 const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
   const routeParams = useParams();
+  const { tenantId, narrativeTypeId } = normalizeRouteParams(routeParams);
   const sectionsContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const showSectionNavigation = useBreakpoint(true, ["mobile-", false]);
-
-  // automated scrolling is a special case of section visibility;
-  // this flag lets us suspend in-page navigation actions while it is in progress
-  // (it is a local variable rather than a piece of React state because
-  // the animation functions are outside the render loop and won't receive state updates)
-  let isScrolling = false;
-  const cancelAutoScroll = () => {
-    isScrolling = false;
-  };
 
   // TODO: this should be in the normalize function?
   const sectionNumber = Number(routeParams.sectionNumber) || 1;
   // make sure we consume the section number in the URL, if any, on first mount
   const [initialSection] = useState(sectionNumber);
-  const [activeSection, directlySetActiveSection] = useState(sectionNumber);
-  // wrap the section state setter in a function that respects the flag
-  const setActiveSection = useCallback(
+  const [sectionInView, setSectionInView] = useState(sectionNumber);
+
+  const navigateToSection = useCallback(
     (newSectionNumber: number) => {
-      if (!isScrolling) {
-        directlySetActiveSection(newSectionNumber);
-      }
-    },
-    [isScrolling]
-  );
-  // keep section state in sync with URL if it changes externally (e.g. via nav link)
-  useEffect(() => {
-    directlySetActiveSection(Number(routeParams.sectionNumber) || 1);
-  }, [routeParams.sectionNumber]);
-  // whether to hide preceding sections
-  const [hidePreceding, setHidePreceding] = useState(true);
-  useEffect(() => {
-    if (activeSection < initialSection) {
-      setHidePreceding(false);
-    }
-  }, [activeSection, initialSection]);
-
-  const [, setScrollSpring] = useSpring(() => ({
-    onFrame: (props: { top: number }) => {
-      if (isScrolling) window.scrollTo(0, props.top);
-    },
-    // set the flag while animation is in progress,
-    // and listen for user-initiated scrolling (which takes priority)
-    onRest: () => {
-      isScrolling = false;
-      window.removeEventListener("wheel", cancelAutoScroll);
-      window.removeEventListener("touchmove", cancelAutoScroll);
-    },
-    onStart: () => {
-      isScrolling = true;
-      window.addEventListener("wheel", cancelAutoScroll, { once: true });
-      window.addEventListener("touchmove", cancelAutoScroll, { once: true });
-    },
-    to: { top: window.pageYOffset },
-  }));
-
-  const { tenantId, narrativeTypeId } = normalizeRouteParams(routeParams);
-  // updating the active section has two key side effects:
-  // 1. smoothly scrolling to the active section
-  // 2. updating the page URL so the section can be linked to directly
-  useEffect(() => {
-    let scrollDestination;
-    // scroll to the corresponding section by calculating its offset
-    const desiredSection = sectionsContainerRef.current.querySelector(
-      `#section${activeSection}`
-    );
-    if (desiredSection) {
-      scrollDestination =
-        window.pageYOffset + desiredSection.getBoundingClientRect().top;
-    }
-
-    // in practice this should always be defined, this is just type safety
-    if (scrollDestination !== undefined) {
-      setScrollSpring({
-        to: { top: scrollDestination - NAV_BAR_HEIGHT },
-        from: { top: window.pageYOffset },
-        reset: true,
-      });
-
-      // these should always be defined on this page; more type safety
+      // these should always exist, this is just for type safety
       if (tenantId && narrativeTypeId) {
         navigate(
-          `${getUrlForResource({
+          getUrlForResource({
             page: "narrative",
-            params: { tenantId, narrativeTypeId },
-          })}/${activeSection}`,
+            params: {
+              tenantId,
+              narrativeTypeId,
+              sectionNumber: newSectionNumber,
+            },
+          }),
           { replace: true }
         );
       }
+    },
+    [narrativeTypeId, tenantId]
+  );
+
+  // initialized as true in anticipation of the initial scroll when the page loads
+  const [isScrolling, setIsScrolling] = useState(true);
+  useGesture(
+    {
+      onScrollStart: () => {
+        setIsScrolling(true);
+      },
+      onScrollEnd: () => {
+        setIsScrolling(false);
+      },
+    },
+    { domTarget: window }
+  );
+  useEffect(() => {
+    if (!isScrolling && sectionInView !== sectionNumber) {
+      navigateToSection(sectionInView);
     }
-  }, [
-    activeSection,
-    narrativeTypeId,
-    sectionsContainerRef,
-    setScrollSpring,
-    tenantId,
-  ]);
+  }, [isScrolling, navigateToSection, sectionInView, sectionNumber]);
+
+  useEffect(() => {
+    const sectionEl = sectionsContainerRef.current.querySelector(
+      `#section${sectionNumber}`
+    );
+
+    if (sectionEl) {
+      const { top } = sectionEl.getBoundingClientRect();
+      window.scrollBy({
+        top: top - NAV_BAR_HEIGHT,
+        behavior: "smooth",
+      });
+    }
+  }, [sectionNumber]);
+
+  // whether to hide preceding sections
+  const [hidePreceding, setHidePreceding] = useState(true);
+  useEffect(() => {
+    if (sectionNumber < initialSection) {
+      setHidePreceding(false);
+    }
+  }, [sectionNumber, initialSection]);
 
   return (
     <Wrapper>
@@ -166,7 +138,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
           <Sticker>
             <NavStickyContainer>
               <NarrativeNavigation
-                activeSection={activeSection}
+                activeSection={sectionInView}
                 sections={sections}
               />
             </NavStickyContainer>
@@ -184,7 +156,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
               key={section.title}
               threshold={0.3}
               onChange={(inView) => {
-                if (inView) setActiveSection(pageId);
+                if (inView) setSectionInView(pageId);
               }}
             >
               {hidePreceding && pageId < initialSection ? (
