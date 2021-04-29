@@ -28,6 +28,7 @@ import getUrlForResource from "../routerUtils/getUrlForResource";
 import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { X_PADDING } from "../SystemNarrativePage/constants";
 import NarrativeNavigation from "./NarrativeNavigation";
+import SectionPlaceholder from "./SectionPlaceholder";
 import { LayoutSection } from "./types";
 
 const Wrapper = styled.article`
@@ -71,15 +72,16 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
     isScrolling = false;
   };
 
-  const [activeSection, directlySetActiveSection] = useState(
-    // make sure we consume the section number in the URL, if any, on first mount
-    Number(routeParams.sectionNumber) || 1
-  );
+  // TODO: this should be in the normalize function?
+  const sectionNumber = Number(routeParams.sectionNumber) || 1;
+  // make sure we consume the section number in the URL, if any, on first mount
+  const [initialSection] = useState(sectionNumber);
+  const [activeSection, directlySetActiveSection] = useState(sectionNumber);
   // wrap the section state setter in a function that respects the flag
   const setActiveSection = useCallback(
-    (sectionNumber: number) => {
+    (newSectionNumber: number) => {
       if (!isScrolling) {
-        directlySetActiveSection(sectionNumber);
+        directlySetActiveSection(newSectionNumber);
       }
     },
     [isScrolling]
@@ -88,6 +90,13 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
   useEffect(() => {
     directlySetActiveSection(Number(routeParams.sectionNumber) || 1);
   }, [routeParams.sectionNumber]);
+  // whether to hide preceding sections
+  const [hidePreceding, setHidePreceding] = useState(true);
+  useEffect(() => {
+    if (activeSection < initialSection) {
+      setHidePreceding(false);
+    }
+  }, [activeSection, initialSection]);
 
   const [, setScrollSpring] = useSpring(() => ({
     onFrame: (props: { top: number }) => {
@@ -178,7 +187,11 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
                 if (inView) setActiveSection(pageId);
               }}
             >
-              {section.contents}
+              {hidePreceding && pageId < initialSection ? (
+                <SectionPlaceholder />
+              ) : (
+                section.contents
+              )}
             </InView>
           );
         })}
