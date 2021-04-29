@@ -15,13 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { Link } from "@reach/router";
 import { rem } from "polished";
 import React, { useEffect } from "react";
 import { animated, useSpring, useSprings } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { colors } from "../../UiLibrary";
 import { LayoutSection } from "../types";
-import { SetSection } from "./types";
 import { THUMB_SIZE } from "./utils";
 
 const PageProgressContainer = styled.div`
@@ -64,17 +64,13 @@ const SectionList = styled.ul`
 
 const SectionListItem = styled.li``;
 
-const SectionLink = styled.button.attrs({ type: "button" })`
-  border: none;
-  background: none;
+const SectionLink = styled(Link)`
   color: ${colors.text};
-  cursor: pointer;
   display: flex;
   height: ${rem(THUMB_SIZE.height)};
   justify-content: center;
   margin-bottom: ${rem(THUMB_SIZE.paddingBottom)};
   position: relative;
-  text-align: left;
   width: 100%;
 `;
 
@@ -104,8 +100,8 @@ const getThumbOffset = (activeSection: number) =>
 const SectionLinks: React.FC<{
   activeSection: number;
   sections: LayoutSection[];
-  setActiveSection: SetSection;
-}> = ({ activeSection, sections, setActiveSection }) => {
+  urlBase: string;
+}> = ({ activeSection, sections, urlBase }) => {
   const totalPages = sections.length;
 
   const progressBarHeight =
@@ -173,8 +169,8 @@ const SectionLinks: React.FC<{
           return (
             <SectionListItem key={section.title}>
               <SectionLink
-                // sections are 1-indexed for display purposes
-                onClick={() => setActiveSection(index + 1)}
+                to={`${urlBase}/${index + 1}`}
+                replace
                 onMouseOver={showLinkLabel(index)}
                 onFocus={showLinkLabel(index)}
                 onMouseOut={hideLinkLabel(index)}
