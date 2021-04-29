@@ -15,13 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Link } from "@reach/router";
 import { rem } from "polished";
 import React, { useEffect } from "react";
 import { animated, useSpring, useSprings } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
-import { colors } from "../../UiLibrary";
+import { colors, UnStyledButton } from "../../UiLibrary";
 import { LayoutSection } from "../types";
+import { SectionNavProps } from "./types";
 import { THUMB_SIZE } from "./utils";
 
 const PageProgressContainer = styled.div`
@@ -64,7 +64,7 @@ const SectionList = styled.ul`
 
 const SectionListItem = styled.li``;
 
-const SectionLink = styled(Link)`
+const SectionLink = styled(UnStyledButton)`
   color: ${colors.text};
   display: flex;
   height: ${rem(THUMB_SIZE.height)};
@@ -97,11 +97,11 @@ const getThumbOffset = (activeSection: number) =>
   // section numbers are 1-indexed for human readability
   (activeSection - 1) * (THUMB_SIZE.height + THUMB_SIZE.paddingBottom);
 
-const SectionLinks: React.FC<{
-  activeSection: number;
-  sections: LayoutSection[];
-  urlBase: string;
-}> = ({ activeSection, sections, urlBase }) => {
+const SectionLinks: React.FC<
+  SectionNavProps & {
+    sections: LayoutSection[];
+  }
+> = ({ activeSection, goToSection, sections }) => {
   const totalPages = sections.length;
 
   const progressBarHeight =
@@ -169,8 +169,9 @@ const SectionLinks: React.FC<{
           return (
             <SectionListItem key={section.title}>
               <SectionLink
-                to={`${urlBase}/${index + 1}`}
-                replace
+                onClick={() => {
+                  goToSection(index + 1);
+                }}
                 onMouseOver={showLinkLabel(index)}
                 onFocus={showLinkLabel(index)}
                 onMouseOut={hideLinkLabel(index)}

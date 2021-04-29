@@ -18,27 +18,25 @@
 import { rem } from "polished";
 import React, { useState } from "react";
 import styled from "styled-components/macro";
-import NavigationLink from "../../NavigationLink";
-import { colors, Chevron } from "../../UiLibrary";
+import { colors, Chevron, UnStyledButton } from "../../UiLibrary";
+import { SectionNavProps } from "./types";
 
-const StyledNavLink = styled(NavigationLink)`
+const NavLink = styled(UnStyledButton)`
   padding: ${rem(8)};
 `;
 
-type AdvanceLinkProps = {
-  activeSection: number;
+type AdvanceLinkProps = SectionNavProps & {
   disabled: boolean;
   type: "previous" | "next";
-  urlBase: string;
 };
 
 const AdvanceLink: React.FC<AdvanceLinkProps> = ({
   activeSection,
   disabled,
+  goToSection,
   type,
-  urlBase,
 }) => {
-  let targetSection;
+  let targetSection: number;
   let direction: "up" | "down";
 
   if (type === "previous") {
@@ -54,10 +52,9 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = ({
   const color = hovered && !disabled ? colors.accent : undefined;
 
   return (
-    <StyledNavLink
-      to={`${urlBase}/${targetSection}`}
+    <NavLink
       disabled={disabled}
-      replace
+      onClick={() => !disabled && goToSection(targetSection)}
       aria-label={`${type} section`}
       onMouseOver={() => setHovered(true)}
       onFocus={() => setHovered(true)}
@@ -65,7 +62,7 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = ({
       onBlur={() => setHovered(false)}
     >
       <Chevron direction={direction} faded={disabled} color={color} />
-    </StyledNavLink>
+    </NavLink>
   );
 };
 

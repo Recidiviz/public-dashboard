@@ -15,17 +15,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { useParams } from "@reach/router";
 import { format } from "d3-format";
 import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
-import { DeepNonNullable } from "utility-types";
-import getUrlForResource from "../../routerUtils/getUrlForResource";
-import normalizeRouteParams from "../../routerUtils/normalizeRouteParams";
 import { LayoutSection } from "../types";
 import AdvanceLink from "./AdvanceLink";
 import SectionLinks from "./SectionLinks";
+import { SectionNavProps } from "./types";
 
 const formatPageNum = format("02");
 
@@ -49,30 +46,15 @@ const SectionNumberFaded = styled(SectionNumber)`
   opacity: 0.3;
 `;
 
-type NavigationProps = {
-  activeSection: number;
+type NavigationProps = SectionNavProps & {
   sections: LayoutSection[];
 };
 
 const SectionNavigation: React.FC<NavigationProps> = ({
   activeSection,
+  goToSection,
   sections,
 }) => {
-  const { tenantId, narrativeTypeId } = normalizeRouteParams(
-    useParams()
-    // these keys should always be present on this page
-  ) as DeepNonNullable<
-    Pick<
-      ReturnType<typeof normalizeRouteParams>,
-      "tenantId" | "narrativeTypeId"
-    >
-  >;
-  // base is the current page, minus the section number
-  const urlBase = getUrlForResource({
-    page: "narrative",
-    params: { tenantId, narrativeTypeId },
-  });
-
   const totalPages = sections.length;
 
   // these will be used to toggle prev/next links
@@ -83,17 +65,17 @@ const SectionNavigation: React.FC<NavigationProps> = ({
     <SectionNav aria-label="page sections">
       <SectionNumber>{formatPageNum(activeSection)}</SectionNumber>
       <SectionNumberFaded>{formatPageNum(totalPages)}</SectionNumberFaded>
-      <SectionLinks {...{ activeSection, sections, urlBase }} />
+      <SectionLinks {...{ activeSection, goToSection, sections }} />
       <AdvanceLink
-        urlBase={urlBase}
         activeSection={activeSection}
         disabled={disablePrev}
+        goToSection={goToSection}
         type="previous"
       />
       <AdvanceLink
-        urlBase={urlBase}
         activeSection={activeSection}
         disabled={disableNext}
+        goToSection={goToSection}
         type="next"
       />
     </SectionNav>

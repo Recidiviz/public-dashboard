@@ -29,4 +29,5 @@ export * from "./narrative";
 export * from "./PageSection";
 export { default as PageTitle } from "./PageTitle";
 export * from "./typography";
+export * from "./UnStyledButton";
 export { default as zIndex } from "./zIndex";

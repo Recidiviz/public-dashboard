@@ -15,26 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React from "react";
-import styled from "styled-components/macro";
-import Loading from "../Loading";
-import { FullScreenSection } from "../UiLibrary";
-
-const Wrapper = styled(FullScreenSection)`
-  align-items: center;
-  display: flex;
-  justify-content: center;
-`;
-
-/**
- * A fixed-height placeholder for sections that are not yet ready to be rendered
- */
-const SectionPlaceholder = (): JSX.Element => {
-  return (
-    <Wrapper>
-      <Loading />
-    </Wrapper>
-  );
+export type SectionNavProps = {
+  activeSection: number;
+  goToSection: (s: number) => void;
 };
-
-export default SectionPlaceholder;

@@ -17,8 +17,15 @@
 
 import { navigate, useParams } from "@reach/router";
 import useBreakpoint from "@w11r/use-breakpoint";
+import { range } from "d3-array";
 import { rem } from "polished";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useLayoutEffect,
+} from "react";
 import { InView } from "react-intersection-observer";
 import { useGesture } from "react-use-gesture";
 import Sticker from "react-stickyfill";
@@ -70,6 +77,18 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
   const [initialSection] = useState(sectionNumber);
   const [sectionInView, setSectionInView] = useState(sectionNumber);
 
+  const [placeholderSections, setPlaceholderSections] = useState(
+    range(1, initialSection)
+  );
+
+  // remove sections from the placeholder list as we pass through their range
+  useEffect(() => {
+    const placeholderEnd = Math.min(sectionNumber, initialSection);
+    if (placeholderSections.length) {
+      setPlaceholderSections(range(1, placeholderEnd));
+    }
+  }, [sectionNumber, initialSection, placeholderSections.length]);
+
   const navigateToSection = useCallback(
     (newSectionNumber: number) => {
       // these should always exist, this is just for type safety
@@ -90,28 +109,15 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
     [narrativeTypeId, tenantId]
   );
 
-  // initialized as true in anticipation of the initial scroll when the page loads
-  const [isScrolling, setIsScrolling] = useState(true);
-  useGesture(
-    {
-      onScrollStart: () => {
-        setIsScrolling(true);
-      },
-      onScrollEnd: () => {
-        setIsScrolling(false);
-      },
-    },
-    { domTarget: window }
-  );
   useEffect(() => {
-    if (!isScrolling && sectionInView !== sectionNumber) {
+    if (sectionInView !== sectionNumber) {
       navigateToSection(sectionInView);
     }
-  }, [isScrolling, navigateToSection, sectionInView, sectionNumber]);
+  }, [navigateToSection, sectionInView, sectionNumber]);
 
-  useEffect(() => {
+  const scrollToSection = useCallback((targetSection: number) => {
     const sectionEl = sectionsContainerRef.current.querySelector(
-      `#section${sectionNumber}`
+      `#section${targetSection}`
     );
 
     if (sectionEl) {
@@ -121,15 +127,29 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
         behavior: "smooth",
       });
     }
-  }, [sectionNumber]);
+  }, []);
 
-  // whether to hide preceding sections
-  const [hidePreceding, setHidePreceding] = useState(true);
-  useEffect(() => {
-    if (sectionNumber < initialSection) {
-      setHidePreceding(false);
-    }
-  }, [sectionNumber, initialSection]);
+  // if we have landed on the first section there won't be any initial scroll
+  const [initialScrollComplete, setInitialScrollComplete] = useState(
+    initialSection === 1
+  );
+  useGesture(
+    {
+      onScrollEnd: () => {
+        // the first scroll event should be the automatic one
+        if (!initialScrollComplete) setInitialScrollComplete(true);
+      },
+    },
+    { domTarget: window }
+  );
+  useLayoutEffect(
+    () => {
+      scrollToSection(initialSection);
+    },
+    // this should only run once when the component first mounts
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <Wrapper>
@@ -139,6 +159,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
             <NavStickyContainer>
               <NarrativeNavigation
                 activeSection={sectionInView}
+                goToSection={scrollToSection}
                 sections={sections}
               />
             </NavStickyContainer>
@@ -156,10 +177,10 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
               key={section.title}
               threshold={0.3}
               onChange={(inView) => {
-                if (inView) setSectionInView(pageId);
+                if (initialScrollComplete && inView) setSectionInView(pageId);
               }}
             >
-              {hidePreceding && pageId < initialSection ? (
+              {placeholderSections.includes(pageId) ? (
                 <SectionPlaceholder />
               ) : (
                 section.contents
