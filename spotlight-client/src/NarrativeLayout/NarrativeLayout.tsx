@@ -18,13 +18,7 @@
 import useBreakpoint from "@w11r/use-breakpoint";
 import { range } from "d3-array";
 import { rem } from "polished";
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useLayoutEffect,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { InView } from "react-intersection-observer";
 import Sticker from "react-stickyfill";
 import styled from "styled-components/macro";
@@ -89,12 +83,11 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
     [sectionsContainerRef]
   );
 
-  // TODO: doesn't work consistently with back/forward buttons
   // needed for handling direct section links without layout jank
   const [initialSection] = useState(sectionNumber);
   // if we have navigated directly to a section, bring it into the viewport;
   // this should only run once when the component first mounts
-  useLayoutEffect(() => {
+  useEffect(() => {
     scrollToSection(initialSection);
   }, [initialSection, navigateToSection, scrollToSection]);
 
