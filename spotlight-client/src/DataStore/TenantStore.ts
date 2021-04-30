@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import clamp from "lodash/clamp";
 import { intercept, makeAutoObservable } from "mobx";
 import { ERROR_MESSAGES } from "../constants";
 import {
@@ -32,6 +33,8 @@ export default class TenantStore {
   currentNarrativeTypeId?: NarrativeTypeId;
 
   currentTenantId?: TenantId;
+
+  private validatedSectionNumber?: number;
 
   readonly locked: boolean = false;
 
@@ -92,5 +95,25 @@ export default class TenantStore {
     }
 
     return currentTenant.racialDisparitiesNarrative;
+  }
+
+  get currentSectionNumber(): number | undefined {
+    return this.validatedSectionNumber;
+  }
+
+  set currentSectionNumber(value: number | undefined) {
+    let validatedValue;
+    if (this.currentNarrative) {
+      validatedValue = 1;
+      if (value) {
+        validatedValue = clamp(
+          value,
+          // +1 for the intro
+          this.currentNarrative.sections.length + 1
+        );
+      }
+    }
+
+    this.validatedSectionNumber = validatedValue;
   }
 }

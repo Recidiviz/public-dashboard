@@ -21,11 +21,13 @@ export type RouteParams = {
   // these should match paths as defined in App.tsx
   tenantId?: string;
   narrativeTypeId?: string;
+  sectionNumber?: string;
 };
 
 export type NormalizedRouteParams = {
   tenantId?: TenantId | null;
   narrativeTypeId?: NarrativeTypeId | null;
+  sectionNumber?: string | null;
 };
 
 export const NarrativesSlug = "narratives";

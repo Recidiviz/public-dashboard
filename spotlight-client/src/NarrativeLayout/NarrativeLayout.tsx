@@ -15,7 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { navigate, useParams } from "@reach/router";
 import useBreakpoint from "@w11r/use-breakpoint";
 import { range } from "d3-array";
 import { rem } from "polished";
@@ -27,16 +26,14 @@ import React, {
   useLayoutEffect,
 } from "react";
 import { InView } from "react-intersection-observer";
-import { useGesture } from "react-use-gesture";
 import Sticker from "react-stickyfill";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
-import getUrlForResource from "../routerUtils/getUrlForResource";
-import normalizeRouteParams from "../routerUtils/normalizeRouteParams";
 import { X_PADDING } from "../SystemNarrativePage/constants";
 import NarrativeNavigation from "./NarrativeNavigation";
 import SectionPlaceholder from "./SectionPlaceholder";
 import { LayoutSection } from "./types";
+import { InjectedProps, withNarrativeParams } from "./withNarrativeParams";
 
 const Wrapper = styled.article`
   display: flex;
@@ -61,66 +58,17 @@ const SectionsContainer = styled.div`
   min-width: 0;
 `;
 
-type NarrativeLayoutProps = {
+type NarrativeLayoutProps = InjectedProps & {
   sections: LayoutSection[];
 };
 
-const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
-  const routeParams = useParams();
-  const { tenantId, narrativeTypeId } = normalizeRouteParams(routeParams);
-  const navigateToSection = useCallback(
-    (newSectionNumber: number) => {
-      // these should always exist, this is just for type safety
-      if (tenantId && narrativeTypeId) {
-        navigate(
-          getUrlForResource({
-            page: "narrative",
-            params: {
-              tenantId,
-              narrativeTypeId,
-              sectionNumber: newSectionNumber,
-            },
-          }),
-          { replace: true }
-        );
-      }
-    },
-    [narrativeTypeId, tenantId]
-  );
+const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
+  navigateToSection,
+  sectionNumber,
+  sections,
+}) => {
   const sectionsContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const showSectionNavigation = useBreakpoint(true, ["mobile-", false]);
-
-  // we have to keep track of various states of the section number for animation and navigation:
-  // this one will always reflect the current URL
-  const sectionNumber = Number(routeParams.sectionNumber) || 1;
-  // this is just the initial value and will never change
-  // (needed for handling direct section links without layout jank)
-  const [initialSection] = useState(sectionNumber);
-  // if we have navigated directly to a section, bring it into the viewport
-  useLayoutEffect(
-    () => {
-      scrollToSection(initialSection);
-    },
-    // this should only run once when the component first mounts
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-
-  // when navigating directly to a section at page load, we will
-  // replace any sections above it with fixed-height placeholders
-  // to prevent them from pushing other content down the page as they load
-  const [placeholderSections, setPlaceholderSections] = useState(
-    range(1, initialSection)
-  );
-
-  // remove sections from the placeholder list as we pass through their range;
-  // retain any placeholders above the current section until we get all the way to the top
-  useEffect(() => {
-    const placeholderEnd = Math.min(sectionNumber, initialSection);
-    if (placeholderSections.length) {
-      setPlaceholderSections(range(1, placeholderEnd));
-    }
-  }, [sectionNumber, initialSection, placeholderSections.length]);
 
   const scrollToSection = useCallback(
     (targetSection: number) => {
@@ -141,20 +89,39 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
     [sectionsContainerRef]
   );
 
+  // TODO: doesn't work consistently with back/forward buttons
+  // needed for handling direct section links without layout jank
+  const [initialSection] = useState(sectionNumber);
+  // if we have navigated directly to a section, bring it into the viewport;
+  // this should only run once when the component first mounts
+  useLayoutEffect(() => {
+    scrollToSection(initialSection);
+  }, [initialSection, navigateToSection, scrollToSection]);
+
+  // when navigating directly to a section at page load, we will
+  // replace any sections above it with fixed-height placeholders
+  // to prevent them from pushing other content down the page as they load
+  const [placeholderSections, setPlaceholderSections] = useState(
+    range(1, initialSection)
+  );
+
+  // remove sections from the placeholder list as we pass through their range;
+  // retain any placeholders above the current section until we get all the way to the top
+  useEffect(() => {
+    const placeholderEnd = Math.min(sectionNumber, initialSection);
+    if (placeholderSections.length) {
+      setPlaceholderSections(
+        // make sure we don't add any sections back when we scroll down again
+        range(1, placeholderEnd).slice(0, placeholderSections.length)
+      );
+    }
+  }, [sectionNumber, initialSection, placeholderSections.length]);
+
   // some navigation features need to be disabled until we have made sure
   // the initial section indicated by the URL is in the viewport, so let's keep track of that
   const [initialScrollComplete, setInitialScrollComplete] = useState(
     // if we have landed on the first section there won't be any initial scroll
     initialSection === 1
-  );
-  useGesture(
-    {
-      onScrollEnd: () => {
-        // the first scroll event should be the automatic one
-        if (!initialScrollComplete) setInitialScrollComplete(true);
-      },
-    },
-    { domTarget: window }
   );
 
   return (
@@ -181,9 +148,18 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
               as="div"
               id={`section${pageId}`}
               key={section.title}
+              // TODO: we are not guaranteed to hit this threshold particularly on mobile
               threshold={0.3}
               onChange={(inView) => {
-                if (initialScrollComplete && inView) navigateToSection(pageId);
+                if (inView) {
+                  if (initialScrollComplete) {
+                    navigateToSection(pageId);
+                  } else if (pageId === initialSection) {
+                    navigateToSection(pageId);
+                    scrollToSection(pageId);
+                    setInitialScrollComplete(true);
+                  }
+                }
               }}
             >
               {placeholderSections.includes(pageId) ? (
@@ -199,4 +175,4 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
   );
 };
 
-export default NarrativeLayout;
+export default withNarrativeParams(NarrativeLayout);
