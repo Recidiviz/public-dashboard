@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import mockContentFixture from "./__fixtures__/contentSource";
 import { SystemNarrativeContent } from "../contentApi/types";
 import { renderNavigableApp } from "../testUtils";
@@ -75,104 +75,4 @@ test("includes links to other narratives", () => {
   expect(
     within(nav).getByRole("link", { name: "Back to Data Narratives" })
   ).toBeInTheDocument();
-});
-
-test("navigate to previous and next section", async () => {
-  const { history } = renderNavigableApp({
-    route: `/us-nd/${NarrativesSlug}/parole`,
-  });
-
-  const nextLabel = "next section";
-  const prevLabel = "previous section";
-
-  const navRegion = screen.getByRole("navigation", { name: "page sections" });
-
-  const nextLink = screen.getByRole("link", { name: nextLabel });
-
-  // no previous on the first section
-  expect(screen.queryByRole("link", { name: prevLabel })).toHaveAttribute(
-    "aria-disabled",
-    "true"
-  );
-  expect(nextLink).toBeInTheDocument();
-
-  expect(within(navRegion).getByText("01")).toBeInTheDocument();
-
-  // advance to section 2
-  fireEvent.click(nextLink);
-
-  await waitFor(() => {
-    expect(within(navRegion).getByText("02")).toBeInTheDocument();
-  });
-  expect(history.location.pathname).toBe(`/us-nd/${NarrativesSlug}/parole/2`);
-
-  const prevLink = screen.getByRole("link", { name: prevLabel });
-  expect(prevLink).toBeInTheDocument();
-
-  // return to section 1 again
-  fireEvent.click(prevLink);
-  await waitFor(() =>
-    expect(within(navRegion).getByText("01")).toBeInTheDocument()
-  );
-  expect(screen.queryByRole("link", { name: prevLabel })).toHaveAttribute(
-    "aria-disabled",
-    "true"
-  );
-
-  // advance to the last section
-  history.navigate(
-    `/us-nd/${NarrativesSlug}/parole/${narrativeContent.sections.length + 1}`
-  );
-
-  await waitFor(() => {
-    // both of the page numbers should be the same, e.g. 08/08
-    expect(
-      within(navRegion).getAllByText(`0${narrativeContent.sections.length + 1}`)
-        .length
-    ).toBe(2);
-  });
-
-  // no next on the last section
-  expect(
-    // the element referenced by nextLink is still present,
-    // but it no longer has role=link
-    screen.queryByRole("link", { name: nextLabel })
-  ).toHaveAttribute("aria-disabled", "true");
-
-  // JSDOM don't support layout features
-  // so we can't really test anything related to scroll position :(
-});
-
-test("navigate directly to any section", async () => {
-  const { history } = renderNavigableApp({
-    route: `/us-nd/${NarrativesSlug}/parole`,
-  });
-
-  const navRegion = screen.getByRole("navigation", { name: "page sections" });
-
-  await Promise.all(
-    narrativeContent.sections.map(async (section, index) => {
-      const linkToSection = within(navRegion).getByRole("link", {
-        name: section.title,
-      });
-
-      fireEvent.click(linkToSection);
-
-      await waitFor(() =>
-        expect(history.location.pathname).toBe(
-          `/us-nd/${NarrativesSlug}/parole/${index + 2}`
-        )
-      );
-    })
-  );
-
-  const introLink = within(navRegion).getByRole("link", {
-    name: narrativeContent.title,
-  });
-
-  fireEvent.click(introLink);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(`/us-nd/${NarrativesSlug}/parole/1`)
-  );
 });
