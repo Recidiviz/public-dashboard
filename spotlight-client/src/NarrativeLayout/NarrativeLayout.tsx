@@ -62,7 +62,8 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
   sections,
 }) => {
   const sectionsContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
-  const showSectionNavigation = useBreakpoint(true, ["mobile-", false]);
+  const isMobile = useBreakpoint(false, ["mobile-", true]);
+  const showSectionNavigation = !isMobile;
 
   const scrollToSection = useCallback(
     (targetSection: number) => {
@@ -141,7 +142,6 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
               as="div"
               id={`section${pageId}`}
               key={section.title}
-              // TODO: we are not guaranteed to hit this threshold particularly on mobile
               threshold={0.3}
               onChange={(inView) => {
                 if (inView) {
