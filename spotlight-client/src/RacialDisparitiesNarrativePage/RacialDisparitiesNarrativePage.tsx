@@ -30,7 +30,7 @@ import { NarrativeLayout, StickySection } from "../NarrativeLayout";
 import {
   breakpoints,
   FullScreenSection,
-  NarrativeIntroContainer,
+  NarrativeIntroContainer as NarrativeIntroContainerBase,
   NarrativeIntroCopy,
   NarrativeSectionBody,
   NarrativeSectionTitle,
@@ -45,9 +45,13 @@ const Wrapper = styled.div`
   min-height: 100vh;
 `;
 
+const NarrativeIntroContainer = styled(NarrativeIntroContainerBase)`
+  padding-bottom: ${rem(124)};
+`;
+
 const IntroCopy = styled(NarrativeIntroCopy)`
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
-    margin-bottom: ${rem(112)};
+    /* margin-bottom: ${rem(112)}; */
   }
 `;
 

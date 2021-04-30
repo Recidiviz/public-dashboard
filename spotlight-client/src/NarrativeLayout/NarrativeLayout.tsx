@@ -31,7 +31,7 @@ import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import { X_PADDING } from "../SystemNarrativePage/constants";
 import NarrativeNavigation from "./NarrativeNavigation";
-import SectionPlaceholder from "./SectionPlaceholder";
+import NarrativeSection from "./NarrativeSection";
 import { LayoutSection } from "./types";
 import { InjectedProps, withNarrativeParams } from "./withNarrativeParams";
 
@@ -39,19 +39,19 @@ const Wrapper = styled.article`
   display: flex;
 `;
 
-const NavContainer = styled.div`
+const NavWrapper = styled.div`
   flex: 0 0 auto;
   width: ${rem(X_PADDING)};
 `;
 
-const NavStickyContainer = styled.div`
+const NavStickyWrapper = styled.div`
   display: flex;
   height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
   position: sticky;
   top: ${rem(NAV_BAR_HEIGHT)};
 `;
 
-const SectionsContainer = styled.div`
+const SectionsWrapper = styled.div`
   /* flex-basis needs to be set or contents may overflow in IE 11 */
   flex: 1 1 100%;
   /* min-width cannot be auto or children will not shrink when viewport does */
@@ -99,23 +99,23 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
   }, [initialSection, navigateToSection, scrollToSection]);
 
   // when navigating directly to a section at page load, we will
-  // replace any sections above it with fixed-height placeholders
+  // restrict the heights of any sections above it
   // to prevent them from pushing other content down the page as they load
-  const [placeholderSections, setPlaceholderSections] = useState(
+  const [fixedHeightSections, setFixedHeightSections] = useState(
     range(1, initialSection)
   );
 
-  // remove sections from the placeholder list as we pass through their range;
-  // retain any placeholders above the current section until we get all the way to the top
+  // remove sections from the fixed-height list as we pass through their range;
+  // retain any still above the current section until we get all the way to the top
   useEffect(() => {
-    const placeholderEnd = Math.min(sectionNumber, initialSection);
-    if (placeholderSections.length) {
-      setPlaceholderSections(
+    const fixedHeightEnd = Math.min(sectionNumber, initialSection);
+    if (fixedHeightSections.length) {
+      setFixedHeightSections(
         // make sure we don't add any sections back when we scroll down again
-        range(1, placeholderEnd).slice(0, placeholderSections.length)
+        range(1, fixedHeightEnd).slice(0, fixedHeightSections.length)
       );
     }
-  }, [sectionNumber, initialSection, placeholderSections.length]);
+  }, [sectionNumber, initialSection, fixedHeightSections.length]);
 
   // some navigation features need to be disabled until we have made sure
   // the initial section indicated by the URL is in the viewport, so let's keep track of that
@@ -127,19 +127,19 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
   return (
     <Wrapper>
       {showSectionNavigation && (
-        <NavContainer>
+        <NavWrapper>
           <Sticker>
-            <NavStickyContainer>
+            <NavStickyWrapper>
               <NarrativeNavigation
                 activeSection={sectionNumber}
                 goToSection={scrollToSection}
                 sections={sections}
               />
-            </NavStickyContainer>
+            </NavStickyWrapper>
           </Sticker>
-        </NavContainer>
+        </NavWrapper>
       )}
-      <SectionsContainer ref={sectionsContainerRef}>
+      <SectionsWrapper ref={sectionsContainerRef}>
         {sections.map((section, index) => {
           // 1-indexed for human readability
           const pageId = index + 1;
@@ -162,15 +162,15 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
                 }
               }}
             >
-              {placeholderSections.includes(pageId) ? (
-                <SectionPlaceholder />
-              ) : (
-                section.contents
-              )}
+              <NarrativeSection
+                restrictHeight={fixedHeightSections.includes(pageId)}
+              >
+                {section.contents}
+              </NarrativeSection>
             </InView>
           );
         })}
-      </SectionsContainer>
+      </SectionsWrapper>
     </Wrapper>
   );
 };
