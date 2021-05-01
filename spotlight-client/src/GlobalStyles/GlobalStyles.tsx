@@ -15,10 +15,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { rem } from "polished";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { createGlobalStyle } from "styled-components/macro";
 import reset from "styled-reset";
+import { NAV_BAR_HEIGHT } from "../constants";
 import { colors, typefaces } from "../UiLibrary";
 
 const BaseStyles = createGlobalStyle`
@@ -27,6 +29,8 @@ const BaseStyles = createGlobalStyle`
   html {
     box-sizing: border-box;
     font-family: ${typefaces.body};
+    scroll-padding-top: ${rem(NAV_BAR_HEIGHT)};
+    scroll-snap-type: y proximity;
 
     *, *:before, *:after {
       box-sizing: inherit;

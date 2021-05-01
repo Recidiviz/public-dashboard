@@ -21,10 +21,8 @@ import Measure from "react-measure";
 import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
-import { colors } from "../UiLibrary";
 
 const Wrapper = styled(animated.div)`
-  border-bottom: 1px solid ${colors.rule};
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -33,13 +31,17 @@ const Wrapper = styled(animated.div)`
   position: relative;
 `;
 
-type NarrativeSectionProps = { restrictHeight: boolean };
+type NarrativeSectionProps = {
+  restrictHeight: boolean;
+  onSectionExpanded: () => void;
+};
 
 /**
  * A fixed-height placeholder for sections that are not yet ready to be rendered
  */
 const NarrativeSection: React.FC<NarrativeSectionProps> = ({
   children,
+  onSectionExpanded,
   restrictHeight,
 }) => {
   const [contentHeight, setContentHeight] = useState(0);
@@ -48,6 +50,11 @@ const NarrativeSection: React.FC<NarrativeSectionProps> = ({
     height: restrictHeight
       ? window.innerHeight - getValueAndUnit(remToPx(rem(NAV_BAR_HEIGHT)))[0]
       : contentHeight,
+    onRest: () => {
+      if (!restrictHeight) {
+        onSectionExpanded();
+      }
+    },
   });
 
   return (

@@ -58,7 +58,7 @@ type NarrativeLayoutProps = InjectedProps & {
 
 const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
   navigateToSection,
-  sectionNumber,
+  sectionNumber: activeSectionNumber,
   sections,
 }) => {
   const sectionsContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
@@ -85,7 +85,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
   );
 
   // needed for handling direct section links without layout jank
-  const [initialSection] = useState(sectionNumber);
+  const [initialSection] = useState(activeSectionNumber);
   // if we have navigated directly to a section, bring it into the viewport;
   // this should only run once when the component first mounts
   useEffect(() => {
@@ -98,18 +98,21 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
   const [fixedHeightSections, setFixedHeightSections] = useState(
     range(1, initialSection)
   );
+  // scroll snapping and fixed height sections do not play nicely together;
+  // we won't enable it until all sections have been expanded
+  const [enableSnapping, setEnableSnapping] = useState(initialSection === 1);
 
   // remove sections from the fixed-height list as we pass through their range;
   // retain any still above the current section until we get all the way to the top
   useEffect(() => {
-    const fixedHeightEnd = Math.min(sectionNumber, initialSection);
+    const fixedHeightEnd = Math.min(activeSectionNumber, initialSection);
     if (fixedHeightSections.length) {
       setFixedHeightSections(
         // make sure we don't add any sections back when we scroll down again
         range(1, fixedHeightEnd).slice(0, fixedHeightSections.length)
       );
     }
-  }, [sectionNumber, initialSection, fixedHeightSections.length]);
+  }, [activeSectionNumber, initialSection, fixedHeightSections.length]);
 
   // some navigation features need to be disabled until we have made sure
   // the initial section indicated by the URL is in the viewport, so let's keep track of that
@@ -125,7 +128,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
           <Sticker>
             <NavStickyWrapper>
               <NarrativeNavigation
-                activeSection={sectionNumber}
+                activeSection={activeSectionNumber}
                 goToSection={scrollToSection}
                 sections={sections}
               />
@@ -136,30 +139,42 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
       <SectionsWrapper ref={sectionsContainerRef}>
         {sections.map((section, index) => {
           // 1-indexed for human readability
-          const pageId = index + 1;
+          const sectionNumber = index + 1;
+
           return (
             <InView
               as="div"
-              id={`section${pageId}`}
+              id={`section${sectionNumber}`}
               key={section.title}
               threshold={0.3}
               onChange={(inView) => {
                 if (inView) {
                   if (initialScrollComplete) {
-                    navigateToSection(pageId);
-                  } else if (pageId === initialSection) {
-                    navigateToSection(pageId);
-                    scrollToSection(pageId);
+                    navigateToSection(sectionNumber);
+                  } else if (sectionNumber === initialSection) {
+                    navigateToSection(sectionNumber);
+                    scrollToSection(sectionNumber);
                     setInitialScrollComplete(true);
                   }
                 }
               }}
             >
-              <NarrativeSection
-                restrictHeight={fixedHeightSections.includes(pageId)}
+              <div
+                style={{
+                  scrollSnapAlign: enableSnapping ? "start" : undefined,
+                }}
               >
-                {section.contents}
-              </NarrativeSection>
+                <NarrativeSection
+                  restrictHeight={fixedHeightSections.includes(sectionNumber)}
+                  onSectionExpanded={() => {
+                    if (sectionNumber === 1) {
+                      setEnableSnapping(true);
+                    }
+                  }}
+                >
+                  {section.contents}
+                </NarrativeSection>
+              </div>
             </InView>
           );
         })}
