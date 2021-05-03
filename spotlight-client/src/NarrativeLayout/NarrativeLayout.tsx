@@ -16,9 +16,9 @@
 // =============================================================================
 
 import useBreakpoint from "@w11r/use-breakpoint";
-import { range } from "d3-array";
+import { observer } from "mobx-react-lite";
 import { rem } from "polished";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React from "react";
 import Sticker from "react-stickyfill";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
@@ -26,7 +26,7 @@ import { X_PADDING } from "../SystemNarrativePage/constants";
 import NarrativeNavigation from "./NarrativeNavigation";
 import NarrativeSection from "./NarrativeSection";
 import { LayoutSection } from "./types";
-import { InjectedProps, withNarrativeParams } from "./withNarrativeParams";
+import { useInternalNavigation } from "./useInternalNavigation";
 
 const Wrapper = styled.article`
   display: flex;
@@ -51,90 +51,23 @@ const SectionsWrapper = styled.div`
   min-width: 0;
 `;
 
-type NarrativeLayoutProps = InjectedProps & {
+type NarrativeLayoutProps = {
   sections: LayoutSection[];
 };
 
-const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
-  navigateToSection,
-  sectionNumber: activeSectionNumber,
-  sections,
-}) => {
-  const sectionsContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
-  const isMobile = useBreakpoint(false, ["mobile-", true]);
-  const showSectionNavigation = !isMobile;
+const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
+  const showSectionNavigation = useBreakpoint(true, ["mobile-", false]);
 
-  const scrollToSection = useCallback(
-    (targetSection: number) => {
-      const sectionEl = sectionsContainerRef.current.querySelector(
-        `#section${targetSection}`
-      );
-
-      if (sectionEl) {
-        const { top } = sectionEl.getBoundingClientRect();
-        // NOTE: we are using a polyfill to make sure this method works in all browsers;
-        // native support is spotty as of this writing
-        window.scrollBy({
-          top: top - NAV_BAR_HEIGHT,
-          behavior: "smooth",
-        });
-      }
-    },
-    [sectionsContainerRef]
-  );
-
-  // needed for handling direct section links without layout jank
-  const [initialSection] = useState(activeSectionNumber);
-  // if we have navigated directly to a section, bring it into the viewport;
-  // this should only run once when the component first mounts
-  useEffect(() => {
-    scrollToSection(initialSection);
-  }, [initialSection, navigateToSection, scrollToSection]);
-
-  // when navigating directly to a section at page load, we will
-  // restrict the heights of any sections above it
-  // to prevent them from pushing other content down the page as they load
-  const [fixedHeightSections, setFixedHeightSections] = useState(
-    range(1, initialSection)
-  );
-  // scroll snapping and fixed height sections do not play nicely together;
-  // we won't enable it until all sections have been expanded
-  const [enableSnapping, setEnableSnapping] = useState(initialSection === 1);
-
-  // remove sections from the fixed-height list as we pass through their range;
-  // retain any still above the current section until we get all the way to the top
-  useEffect(() => {
-    const fixedHeightEnd = Math.min(activeSectionNumber, initialSection);
-    if (fixedHeightSections.length) {
-      setFixedHeightSections(
-        // make sure we don't add any sections back when we scroll down again
-        range(1, fixedHeightEnd).slice(0, fixedHeightSections.length)
-      );
-    }
-  }, [activeSectionNumber, initialSection, fixedHeightSections.length]);
-
-  // some navigation features need to be disabled until we have made sure
-  // the initial section indicated by the URL is in the viewport, so let's keep track of that
-  const [initialScrollComplete, setInitialScrollComplete] = useState(
-    // if we have landed on the first section there won't be any initial scroll
-    initialSection === 1
-  );
-
-  // when new sections come into view, call this to sync state and URL with section visibility
-  const onInViewChange = useCallback(
-    ({ inView, sectionNumber }: { inView: boolean; sectionNumber: number }) => {
-      if (inView) {
-        if (initialScrollComplete) {
-          navigateToSection(sectionNumber);
-        } else if (sectionNumber === initialSection) {
-          navigateToSection(sectionNumber);
-          scrollToSection(sectionNumber);
-          setInitialScrollComplete(true);
-        }
-      }
-    },
-    [initialScrollComplete, initialSection, navigateToSection, scrollToSection]
-  );
+  const {
+    alwaysExpanded,
+    currentSectionNumber,
+    enableSnapping,
+    fixedHeightSections,
+    scrollToSection,
+    sectionsContainerRef,
+    getOnSectionExpanded,
+    onInViewChange,
+  } = useInternalNavigation();
 
   return (
     <Wrapper>
@@ -143,7 +76,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
           <Sticker>
             <NavStickyWrapper>
               <NarrativeNavigation
-                activeSection={activeSectionNumber}
+                activeSection={currentSectionNumber}
                 goToSection={scrollToSection}
                 sections={sections}
               />
@@ -165,13 +98,9 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
               }}
             >
               <NarrativeSection
-                alwaysExpanded={initialSection === 1}
+                alwaysExpanded={alwaysExpanded}
                 onInViewChange={onInViewChange}
-                onSectionExpanded={() => {
-                  if (sectionNumber === 1) {
-                    setEnableSnapping(true);
-                  }
-                }}
+                onSectionExpanded={getOnSectionExpanded(sectionNumber)}
                 restrictHeight={fixedHeightSections.includes(sectionNumber)}
                 sectionNumber={sectionNumber}
               >
@@ -185,4 +114,4 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
   );
 };
 
-export default withNarrativeParams(NarrativeLayout);
+export default observer(NarrativeLayout);

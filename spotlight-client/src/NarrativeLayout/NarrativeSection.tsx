@@ -42,7 +42,7 @@ const InViewSensor = styled.div`
 type NarrativeSectionProps = {
   alwaysExpanded: boolean;
   onInViewChange: (props: { inView: boolean; sectionNumber: number }) => void;
-  onSectionExpanded: () => void;
+  onSectionExpanded?: () => void;
   restrictHeight: boolean;
   sectionNumber: number;
 };
@@ -69,7 +69,7 @@ const NarrativeSection: React.FC<NarrativeSectionProps> = ({
       ? window.innerHeight - actualNavBarHeight
       : contentHeight,
     onRest: () => {
-      if (!restrictHeight) {
+      if (!restrictHeight && onSectionExpanded) {
         onSectionExpanded();
       }
     },
