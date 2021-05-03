@@ -120,6 +120,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
     initialSection === 1
   );
 
+  // when new sections come into view, call this to sync state and URL with section visibility
   const onInViewChange = useCallback(
     ({ inView, sectionNumber }: { inView: boolean; sectionNumber: number }) => {
       if (inView) {

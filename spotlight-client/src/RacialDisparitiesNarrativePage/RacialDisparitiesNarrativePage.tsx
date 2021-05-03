@@ -49,12 +49,6 @@ const NarrativeIntroContainer = styled(NarrativeIntroContainerBase)`
   padding-bottom: ${rem(124)};
 `;
 
-const IntroCopy = styled(NarrativeIntroCopy)`
-  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
-    /* margin-bottom: ${rem(112)}; */
-  }
-`;
-
 const CopyOnlySection = styled(FullScreenSection)`
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     display: flex;
@@ -111,11 +105,11 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
                 <NarrativeIntroContainer>
                   <NarrativeTitle>{narrative.title}</NarrativeTitle>
                   <>
-                    <IntroCopy>
+                    <NarrativeIntroCopy>
                       {HTMLReactParser(
                         pupa(narrative.introduction, templateData)
                       )}
-                    </IntroCopy>
+                    </NarrativeIntroCopy>
                     {narrative.populationDataSeries && (
                       <BarChartPair
                         data={narrative.populationDataSeries}

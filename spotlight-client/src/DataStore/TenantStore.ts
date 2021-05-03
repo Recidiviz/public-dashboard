@@ -97,6 +97,11 @@ export default class TenantStore {
     return currentTenant.racialDisparitiesNarrative;
   }
 
+  /**
+   * If there is a current narrative (all narratives have sections),
+   * this will always be a number between 1 and the number of sections
+   * to be displayed on the narrative page (which includes an introduction).
+   */
   get currentSectionNumber(): number | undefined {
     return this.validatedSectionNumber;
   }

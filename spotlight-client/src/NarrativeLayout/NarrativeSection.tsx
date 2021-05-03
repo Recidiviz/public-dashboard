@@ -48,7 +48,10 @@ type NarrativeSectionProps = {
 };
 
 /**
- * A fixed-height placeholder for sections that are not yet ready to be rendered
+ * This component encapsulates two responsibilities: controlling the height
+ * of sections above the current one on initial page load, to prevent them pushing
+ * the current section down the page; and rendering "sensor" elements to
+ * capture when sections scroll in and out of view.
  */
 const NarrativeSection: React.FC<NarrativeSectionProps> = ({
   alwaysExpanded,
