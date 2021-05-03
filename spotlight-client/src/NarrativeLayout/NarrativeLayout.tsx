@@ -100,7 +100,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
   );
   // scroll snapping and fixed height sections do not play nicely together;
   // we won't enable it until all sections have been expanded
-  const [enableSnapping, setEnableSnapping] = useState(initialSection === 1);
+  const [enableSnapping, setEnableSnapping] = useState(false);
 
   // remove sections from the fixed-height list as we pass through their range;
   // retain any still above the current section until we get all the way to the top
