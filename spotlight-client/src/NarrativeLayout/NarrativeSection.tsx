@@ -16,7 +16,8 @@
 // =============================================================================
 
 import { rem, remToPx, getValueAndUnit } from "polished";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import Measure from "react-measure";
 import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
@@ -31,24 +32,39 @@ const Wrapper = styled(animated.div)`
   position: relative;
 `;
 
+const InViewSensor = styled.div`
+  height: 1px;
+  pointer-events: none;
+  position: absolute;
+  visibility: hidden;
+  width: 100%;
+`;
+
 type NarrativeSectionProps = {
-  restrictHeight: boolean;
+  alwaysExpanded: boolean;
+  onInViewChange: (props: { inView: boolean; sectionNumber: number }) => void;
   onSectionExpanded: () => void;
+  restrictHeight: boolean;
+  sectionNumber: number;
 };
 
 /**
  * A fixed-height placeholder for sections that are not yet ready to be rendered
  */
 const NarrativeSection: React.FC<NarrativeSectionProps> = ({
+  alwaysExpanded,
   children,
+  onInViewChange,
   onSectionExpanded,
   restrictHeight,
+  sectionNumber,
 }) => {
   const [contentHeight, setContentHeight] = useState(0);
+  const actualNavBarHeight = getValueAndUnit(remToPx(rem(NAV_BAR_HEIGHT)))[0];
 
   const { height } = useSpring({
     height: restrictHeight
-      ? window.innerHeight - getValueAndUnit(remToPx(rem(NAV_BAR_HEIGHT)))[0]
+      ? window.innerHeight - actualNavBarHeight
       : contentHeight,
     onRest: () => {
       if (!restrictHeight) {
@@ -57,8 +73,23 @@ const NarrativeSection: React.FC<NarrativeSectionProps> = ({
     },
   });
 
+  const topSensor = useInView({
+    rootMargin: `-${actualNavBarHeight}px 0px 0px 0px`,
+  });
+  const bottomSensor = useInView({
+    rootMargin: `-${actualNavBarHeight}px 0px 0px 0px`,
+  });
+
+  useEffect(() => {
+    onInViewChange({ inView: topSensor.inView, sectionNumber });
+  }, [onInViewChange, sectionNumber, topSensor.inView]);
+
+  useEffect(() => {
+    onInViewChange({ inView: bottomSensor.inView, sectionNumber });
+  }, [onInViewChange, bottomSensor.inView, sectionNumber]);
+
   return (
-    <Wrapper style={{ height }}>
+    <Wrapper style={alwaysExpanded ? undefined : { height }}>
       <Measure
         bounds
         onResize={({ bounds }) => {
@@ -67,6 +98,11 @@ const NarrativeSection: React.FC<NarrativeSectionProps> = ({
       >
         {({ measureRef }) => <div ref={measureRef}>{children}</div>}
       </Measure>
+      <InViewSensor
+        ref={topSensor.ref}
+        style={{ top: `${30 + sectionNumber}vh` }}
+      />
+      <InViewSensor ref={bottomSensor.ref} style={{ bottom: "30vh" }} />
     </Wrapper>
   );
 };

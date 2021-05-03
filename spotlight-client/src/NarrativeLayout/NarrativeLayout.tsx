@@ -19,7 +19,6 @@ import useBreakpoint from "@w11r/use-breakpoint";
 import { range } from "d3-array";
 import { rem } from "polished";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { InView } from "react-intersection-observer";
 import Sticker from "react-stickyfill";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
@@ -100,7 +99,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
   );
   // scroll snapping and fixed height sections do not play nicely together;
   // we won't enable it until all sections have been expanded
-  const [enableSnapping, setEnableSnapping] = useState(false);
+  const [enableSnapping, setEnableSnapping] = useState(initialSection === 1);
 
   // remove sections from the fixed-height list as we pass through their range;
   // retain any still above the current section until we get all the way to the top
@@ -119,6 +118,21 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
   const [initialScrollComplete, setInitialScrollComplete] = useState(
     // if we have landed on the first section there won't be any initial scroll
     initialSection === 1
+  );
+
+  const onInViewChange = useCallback(
+    ({ inView, sectionNumber }: { inView: boolean; sectionNumber: number }) => {
+      if (inView) {
+        if (initialScrollComplete) {
+          navigateToSection(sectionNumber);
+        } else if (sectionNumber === initialSection) {
+          navigateToSection(sectionNumber);
+          scrollToSection(sectionNumber);
+          setInitialScrollComplete(true);
+        }
+      }
+    },
+    [initialScrollComplete, initialSection, navigateToSection, scrollToSection]
   );
 
   return (
@@ -142,40 +156,27 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({
           const sectionNumber = index + 1;
 
           return (
-            <InView
-              as="div"
+            <div
               id={`section${sectionNumber}`}
-              key={section.title}
-              threshold={0.3}
-              onChange={(inView) => {
-                if (inView) {
-                  if (initialScrollComplete) {
-                    navigateToSection(sectionNumber);
-                  } else if (sectionNumber === initialSection) {
-                    navigateToSection(sectionNumber);
-                    scrollToSection(sectionNumber);
-                    setInitialScrollComplete(true);
-                  }
-                }
+              key={sectionNumber}
+              style={{
+                scrollSnapAlign: enableSnapping ? "start" : undefined,
               }}
             >
-              <div
-                style={{
-                  scrollSnapAlign: enableSnapping ? "start" : undefined,
+              <NarrativeSection
+                alwaysExpanded={initialSection === 1}
+                onInViewChange={onInViewChange}
+                onSectionExpanded={() => {
+                  if (sectionNumber === 1) {
+                    setEnableSnapping(true);
+                  }
                 }}
+                restrictHeight={fixedHeightSections.includes(sectionNumber)}
+                sectionNumber={sectionNumber}
               >
-                <NarrativeSection
-                  restrictHeight={fixedHeightSections.includes(sectionNumber)}
-                  onSectionExpanded={() => {
-                    if (sectionNumber === 1) {
-                      setEnableSnapping(true);
-                    }
-                  }}
-                >
-                  {section.contents}
-                </NarrativeSection>
-              </div>
-            </InView>
+                {section.contents}
+              </NarrativeSection>
+            </div>
           );
         })}
       </SectionsWrapper>
