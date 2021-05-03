@@ -28,7 +28,6 @@ const Wrapper = styled(animated.div)`
   flex-direction: column;
   justify-content: flex-end;
   min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
-  overflow: hidden;
   position: relative;
 `;
 
@@ -98,10 +97,7 @@ const NarrativeSection: React.FC<NarrativeSectionProps> = ({
       >
         {({ measureRef }) => <div ref={measureRef}>{children}</div>}
       </Measure>
-      <InViewSensor
-        ref={topSensor.ref}
-        style={{ top: `${30 + sectionNumber}vh` }}
-      />
+      <InViewSensor ref={topSensor.ref} style={{ top: "30vh" }} />
       <InViewSensor ref={bottomSensor.ref} style={{ bottom: "30vh" }} />
     </Wrapper>
   );
