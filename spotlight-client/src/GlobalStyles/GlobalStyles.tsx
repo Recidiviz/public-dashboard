@@ -50,8 +50,7 @@ const BaseStyles = createGlobalStyle`
       Safari only supports full-page scroll snapping with this element for some reason;
       see https://stackoverflow.com/a/60470570.
       Setting it on both elements does not appear to create any conflicts
-     */
-
+    */
     ${scrollSnapStyles}
   }
 
