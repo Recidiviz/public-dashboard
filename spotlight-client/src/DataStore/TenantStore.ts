@@ -103,7 +103,8 @@ export default class TenantStore {
    * to be displayed on the narrative page (which includes an introduction).
    */
   get currentSectionNumber(): number | undefined {
-    return this.validatedSectionNumber;
+    if (!this.currentNarrative) return undefined;
+    return this.validatedSectionNumber || 1;
   }
 
   set currentSectionNumber(value: number | undefined) {
@@ -113,6 +114,7 @@ export default class TenantStore {
       if (value) {
         validatedValue = clamp(
           value,
+          1,
           // +1 for the intro
           this.currentNarrative.sections.length + 1
         );

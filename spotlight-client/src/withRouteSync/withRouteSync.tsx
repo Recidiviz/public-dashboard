@@ -67,8 +67,9 @@ const withRouteSync = <Props extends RouteComponentProps & RouteParams>(
         tenantStore.currentTenantId = normalizedProps.tenantId ?? undefined;
         tenantStore.currentNarrativeTypeId =
           normalizedProps.narrativeTypeId ?? undefined;
-        tenantStore.currentSectionNumber =
-          Number(normalizedProps.sectionNumber) || undefined;
+        tenantStore.currentSectionNumber = Number(
+          normalizedProps.sectionNumber
+        );
 
         uiStore.isRouteInvalid = isRouteInvalid;
       })

@@ -17,6 +17,8 @@
 
 import { navigate } from "@reach/router";
 import { range } from "d3-array";
+import { reaction } from "mobx";
+import { useLocalObservable } from "mobx-react-lite";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { NAV_BAR_HEIGHT } from "../constants";
 import getUrlForResource from "../routerUtils/getUrlForResource";
@@ -32,17 +34,19 @@ export const useInternalNavigation = (): {
   enableSnapping: boolean;
   fixedHeightSections: number[];
   getOnSectionExpanded: (s: number) => (() => void) | undefined;
-  onInViewChange: (props: { inView: boolean; sectionNumber: number }) => void;
+  onSectionInViewChange: (props: {
+    inView: boolean;
+    sectionNumber: number;
+  }) => void;
   scrollToSection: (s: number) => void;
   sectionsContainerRef: React.MutableRefObject<HTMLDivElement | null>;
 } => {
+  const { tenantStore } = useDataStore();
   const {
-    tenantStore: {
-      currentTenantId: tenantId,
-      currentNarrativeTypeId: narrativeTypeId,
-      currentSectionNumber = 1,
-    },
-  } = useDataStore();
+    currentTenantId: tenantId,
+    currentNarrativeTypeId: narrativeTypeId,
+    currentSectionNumber = 1,
+  } = tenantStore;
 
   // call this to update the URL, which will in turn update
   // the currentSectionNumber we get from the data store
@@ -90,10 +94,29 @@ export const useInternalNavigation = (): {
   );
 
   // needed for handling direct section links without layout jank
-  const [initialSection] = useState(currentSectionNumber);
+  const initialState = useLocalObservable(() => ({
+    initialSection: currentSectionNumber,
+  }));
+  // when the narrative changes, reset the initial section
+  useEffect(() =>
+    reaction(
+      () => {
+        // sectionNumber is only "initial" when it's accompanied by one or both of these changing;
+        // we don't actually need to consume them, only react to them
+        return [
+          tenantStore.currentTenantId,
+          tenantStore.currentNarrativeTypeId,
+        ];
+      },
+      () => {
+        initialState.initialSection = tenantStore.currentSectionNumber || 1;
+      }
+    )
+  );
+  // dereference for the sake of brevity
+  const { initialSection } = initialState;
 
-  // if we have navigated directly to a section, bring it into the viewport;
-  // this should only run once when the component first mounts
+  // if we have navigated directly to a section, bring it into the viewport
   useEffect(() => {
     scrollToSection(initialSection);
   }, [initialSection, navigateToSection, scrollToSection]);
@@ -140,7 +163,7 @@ export const useInternalNavigation = (): {
 
   // call this when new sections come into view; it makes sure the initial section is aligned
   // with the viewport, and it updates the URL to reflect what's currently in view
-  const onInViewChange = useCallback(
+  const onSectionInViewChange = useCallback(
     ({ inView, sectionNumber }: { inView: boolean; sectionNumber: number }) => {
       if (inView) {
         if (initialScrollComplete) {
@@ -164,7 +187,7 @@ export const useInternalNavigation = (): {
     enableSnapping,
     fixedHeightSections,
     getOnSectionExpanded,
-    onInViewChange,
+    onSectionInViewChange,
     scrollToSection,
     sectionsContainerRef,
   };

@@ -66,7 +66,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
     scrollToSection,
     sectionsContainerRef,
     getOnSectionExpanded,
-    onInViewChange,
+    onSectionInViewChange,
   } = useInternalNavigation();
 
   return (
@@ -99,7 +99,7 @@ const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
             >
               <NarrativeSection
                 alwaysExpanded={alwaysExpanded}
-                onInViewChange={onInViewChange}
+                onInViewChange={onSectionInViewChange}
                 onSectionExpanded={getOnSectionExpanded(sectionNumber)}
                 restrictHeight={fixedHeightSections.includes(sectionNumber)}
                 sectionNumber={sectionNumber}
