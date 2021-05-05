@@ -16,12 +16,27 @@
 // =============================================================================
 
 import useBreakpoint from "@w11r/use-breakpoint";
-import React from "react";
+import React, { useCallback, useState } from "react";
+import ShareModal from "../ShareModal";
 import SiteNavigation from "./SiteNavigation";
 import SiteNavigationMobile from "./SiteNavigationMobile";
 
 export default function SiteNavigationContainer(): React.ReactElement {
   const isMobile = useBreakpoint(false, ["mobile-", true]);
 
-  return isMobile ? <SiteNavigationMobile /> : <SiteNavigation />;
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const openShareModal = useCallback(() => setShareModalOpen(true), []);
+  return (
+    <>
+      {isMobile ? (
+        <SiteNavigationMobile openShareModal={openShareModal} />
+      ) : (
+        <SiteNavigation openShareModal={openShareModal} />
+      )}
+      <ShareModal
+        isOpen={shareModalOpen}
+        onRequestClose={() => setShareModalOpen(false)}
+      />
+    </>
+  );
 }

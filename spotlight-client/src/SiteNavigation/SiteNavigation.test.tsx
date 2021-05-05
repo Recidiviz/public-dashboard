@@ -216,4 +216,18 @@ describe("on small screens", () => {
     fireEvent.click(screen.getByRole("link", { name: "Spotlight" }));
     expect(menu).toHaveAttribute("aria-hidden", "true");
   });
+
+  test("share modal", async () => {
+    const menuButton = screen.getByRole("button", {
+      name: "Toggle navigation menu",
+    });
+    fireEvent.click(menuButton);
+
+    fireEvent.click(await screen.findByRole("button", { name: "Share" }));
+
+    const modal = screen.getByRole("dialog");
+
+    expect(modal).toBeVisible();
+    expect(within(modal).getByRole("heading", { name: "Share" })).toBeVisible();
+  });
 });
