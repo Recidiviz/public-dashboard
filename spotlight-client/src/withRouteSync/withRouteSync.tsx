@@ -67,6 +67,9 @@ const withRouteSync = <Props extends RouteComponentProps & RouteParams>(
         tenantStore.currentTenantId = normalizedProps.tenantId ?? undefined;
         tenantStore.currentNarrativeTypeId =
           normalizedProps.narrativeTypeId ?? undefined;
+        tenantStore.currentSectionNumber = Number(
+          normalizedProps.sectionNumber
+        );
 
         uiStore.isRouteInvalid = isRouteInvalid;
       })
@@ -76,13 +79,7 @@ const withRouteSync = <Props extends RouteComponentProps & RouteParams>(
       return <NotFound />;
     }
 
-    return (
-      <RouteComponent
-        {...props}
-        tenantId={normalizedProps.tenantId}
-        narrativeTypeId={normalizedProps.narrativeTypeId}
-      />
-    );
+    return <RouteComponent {...props} {...normalizedProps} />;
   };
 
   return observer(WrappedRouteComponent);

@@ -30,7 +30,7 @@ import { NarrativeLayout, StickySection } from "../NarrativeLayout";
 import {
   breakpoints,
   FullScreenSection,
-  NarrativeIntroContainer,
+  NarrativeIntroContainer as NarrativeIntroContainerBase,
   NarrativeIntroCopy,
   NarrativeSectionBody,
   NarrativeSectionTitle,
@@ -45,10 +45,8 @@ const Wrapper = styled.div`
   min-height: 100vh;
 `;
 
-const IntroCopy = styled(NarrativeIntroCopy)`
-  @media screen and (min-width: ${breakpoints.tablet[0]}px) {
-    margin-bottom: ${rem(112)};
-  }
+const NarrativeIntroContainer = styled(NarrativeIntroContainerBase)`
+  padding-bottom: ${rem(124)};
 `;
 
 const CopyOnlySection = styled(FullScreenSection)`
@@ -107,11 +105,11 @@ const RacialDisparitiesNarrativePage: React.FC<RacialDisparitiesNarrativePagePro
                 <NarrativeIntroContainer>
                   <NarrativeTitle>{narrative.title}</NarrativeTitle>
                   <>
-                    <IntroCopy>
+                    <NarrativeIntroCopy>
                       {HTMLReactParser(
                         pupa(narrative.introduction, templateData)
                       )}
-                    </IntroCopy>
+                    </NarrativeIntroCopy>
                     {narrative.populationDataSeries && (
                       <BarChartPair
                         data={narrative.populationDataSeries}

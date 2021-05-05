@@ -26,11 +26,12 @@ import { NormalizedRouteParams, RouteParams } from "./types";
 export default function normalizeRouteParams(
   rawParams: RouteParams
 ): NormalizedRouteParams {
-  const { tenantId, narrativeTypeId } = rawParams;
+  const { tenantId, narrativeTypeId, sectionNumber } = rawParams;
 
   return {
     tenantId: normalizeTenantId(tenantId),
     narrativeTypeId: normalizeNarrativeTypeId(narrativeTypeId),
+    sectionNumber: normalizeSectionNumber(sectionNumber),
   };
 }
 
@@ -53,6 +54,19 @@ function normalizeNarrativeTypeId(rawParam: ValuesType<RouteParams>) {
     if (isNarrativeTypeId(normalizedString)) return normalizedString;
 
     return null;
+  }
+  return undefined;
+}
+
+function normalizeSectionNumber(rawParam: ValuesType<RouteParams>) {
+  if (rawParam && typeof rawParam === "string") {
+    const normalizedNumber = Number(rawParam);
+
+    // we can't actually return a number here because route params must be strings,
+    // but we can make sure it will resolve to a valid number when cast
+    if (!normalizedNumber || normalizedNumber < 1) return null;
+
+    return rawParam;
   }
   return undefined;
 }

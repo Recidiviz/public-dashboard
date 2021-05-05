@@ -16,34 +16,35 @@
 // =============================================================================
 
 import useBreakpoint from "@w11r/use-breakpoint";
+import { observer } from "mobx-react-lite";
 import { rem } from "polished";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { InView } from "react-intersection-observer";
-import { useSpring } from "react-spring/web.cjs";
+import React from "react";
 import Sticker from "react-stickyfill";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import { X_PADDING } from "../SystemNarrativePage/constants";
 import NarrativeNavigation from "./NarrativeNavigation";
+import NarrativeSection from "./NarrativeSection";
 import { LayoutSection } from "./types";
+import { useInternalNavigation } from "./useInternalNavigation";
 
 const Wrapper = styled.article`
   display: flex;
 `;
 
-const NavContainer = styled.div`
+const NavWrapper = styled.div`
   flex: 0 0 auto;
   width: ${rem(X_PADDING)};
 `;
 
-const NavStickyContainer = styled.div`
+const NavStickyWrapper = styled.div`
   display: flex;
   height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
   position: sticky;
   top: ${rem(NAV_BAR_HEIGHT)};
 `;
 
-export const SectionsContainer = styled.div`
+const SectionsWrapper = styled.div`
   /* flex-basis needs to be set or contents may overflow in IE 11 */
   flex: 1 1 100%;
   /* min-width cannot be auto or children will not shrink when viewport does */
@@ -55,108 +56,62 @@ type NarrativeLayoutProps = {
 };
 
 const NarrativeLayout: React.FC<NarrativeLayoutProps> = ({ sections }) => {
-  const sectionsContainerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const showSectionNavigation = useBreakpoint(true, ["mobile-", false]);
 
-  // automated scrolling is a special case of section visibility;
-  // this flag lets us suspend in-page navigation actions while it is in progress
-  // (it is a local variable rather than a piece of React state because
-  // the animation functions are outside the render loop and won't receive state updates)
-  let isScrolling = false;
-  const cancelAutoScroll = () => {
-    isScrolling = false;
-  };
-
-  const [activeSection, directlySetActiveSection] = useState(1);
-  // wrap the section state setter in a function that respects the flag
-  const setActiveSection = useCallback(
-    (sectionNumber: number) => {
-      if (!isScrolling) {
-        directlySetActiveSection(sectionNumber);
-      }
-    },
-    [isScrolling]
-  );
-
-  const [, setScrollSpring] = useSpring(() => ({
-    onFrame: (props: { top: number }) => {
-      if (isScrolling) window.scrollTo(0, props.top);
-    },
-    // set the flag while animation is in progress,
-    // and listen for user-initiated scrolling (which takes priority)
-    onRest: () => {
-      isScrolling = false;
-      window.removeEventListener("wheel", cancelAutoScroll);
-      window.removeEventListener("touchmove", cancelAutoScroll);
-    },
-    onStart: () => {
-      isScrolling = true;
-      window.addEventListener("wheel", cancelAutoScroll, { once: true });
-      window.addEventListener("touchmove", cancelAutoScroll, { once: true });
-    },
-    to: { top: window.pageYOffset },
-  }));
-
-  // updating the active section has two key side effects:
-  // 1. smoothly scrolling to the active section
-  // 2. updating the page URL so the section can be linked to directly
-  useEffect(() => {
-    let scrollDestination;
-    // scroll to the corresponding section by calculating its offset
-    const desiredSection = sectionsContainerRef.current.querySelector(
-      `#section${activeSection}`
-    );
-    if (desiredSection) {
-      scrollDestination =
-        window.pageYOffset + desiredSection.getBoundingClientRect().top;
-    }
-
-    // in practice this should always be defined, this is just type safety
-    if (scrollDestination !== undefined) {
-      setScrollSpring({
-        to: { top: scrollDestination - NAV_BAR_HEIGHT },
-        from: { top: window.pageYOffset },
-        reset: true,
-      });
-    }
-  }, [activeSection, sectionsContainerRef, setScrollSpring]);
+  const {
+    alwaysExpanded,
+    currentSectionNumber,
+    enableSnapping,
+    fixedHeightSections,
+    scrollToSection,
+    sectionsContainerRef,
+    getOnSectionExpanded,
+    onSectionInViewChange,
+  } = useInternalNavigation();
 
   return (
     <Wrapper>
       {showSectionNavigation && (
-        <NavContainer>
+        <NavWrapper>
           <Sticker>
-            <NavStickyContainer>
+            <NavStickyWrapper>
               <NarrativeNavigation
-                activeSection={activeSection}
+                activeSection={currentSectionNumber}
+                goToSection={scrollToSection}
                 sections={sections}
-                setActiveSection={directlySetActiveSection}
               />
-            </NavStickyContainer>
+            </NavStickyWrapper>
           </Sticker>
-        </NavContainer>
+        </NavWrapper>
       )}
-      <SectionsContainer ref={sectionsContainerRef}>
+      <SectionsWrapper ref={sectionsContainerRef}>
         {sections.map((section, index) => {
           // 1-indexed for human readability
-          const pageId = index + 1;
+          const sectionNumber = index + 1;
+
           return (
-            <InView
-              as="div"
-              id={`section${pageId}`}
-              key={section.title}
-              threshold={0.3}
-              onChange={(inView) => {
-                if (inView) setActiveSection(pageId);
+            <div
+              id={`section${sectionNumber}`}
+              key={sectionNumber}
+              style={{
+                scrollSnapAlign: enableSnapping ? "start" : undefined,
               }}
             >
-              {section.contents}
-            </InView>
+              <NarrativeSection
+                alwaysExpanded={alwaysExpanded}
+                onInViewChange={onSectionInViewChange}
+                onSectionExpanded={getOnSectionExpanded(sectionNumber)}
+                restrictHeight={fixedHeightSections.includes(sectionNumber)}
+                sectionNumber={sectionNumber}
+              >
+                {section.contents}
+              </NarrativeSection>
+            </div>
           );
         })}
-      </SectionsContainer>
+      </SectionsWrapper>
     </Wrapper>
   );
 };
 
-export default NarrativeLayout;
+export default observer(NarrativeLayout);

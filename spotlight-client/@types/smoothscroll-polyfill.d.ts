@@ -15,7 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export type SectionNavProps = {
-  activeSection: number;
-  goToSection: (s: number) => void;
-};
+declare module "smoothscroll-polyfill";

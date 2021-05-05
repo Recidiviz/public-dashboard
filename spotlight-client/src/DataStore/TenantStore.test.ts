@@ -112,3 +112,87 @@ test("lock tenant if set from current domain", () => {
     expect(tenantStore.locked).toBe(true);
   });
 });
+
+test("default section number", () => {
+  const { tenantStore } = getDataStore();
+
+  reactImmediately(() => {
+    expect(tenantStore.currentSectionNumber).toBeUndefined();
+  });
+
+  runInAction(() => {
+    tenantStore.currentTenantId = "US_PA";
+    tenantStore.currentNarrativeTypeId = "Prison";
+  });
+
+  reactImmediately(() => {
+    expect(tenantStore.currentSectionNumber).toBe(1);
+  });
+
+  runInAction(() => {
+    tenantStore.currentNarrativeTypeId = undefined;
+  });
+
+  reactImmediately(() => {
+    expect(tenantStore.currentSectionNumber).toBeUndefined();
+  });
+});
+
+test("can set current section number", () => {
+  const { tenantStore } = getDataStore();
+
+  runInAction(() => {
+    tenantStore.currentTenantId = "US_PA";
+    tenantStore.currentNarrativeTypeId = "Prison";
+    tenantStore.currentSectionNumber = 2;
+  });
+
+  reactImmediately(() => {
+    expect(tenantStore.currentSectionNumber).toBe(2);
+  });
+});
+
+test("section number is validated against current narrative", () => {
+  const { tenantStore } = getDataStore();
+
+  runInAction(() => {
+    tenantStore.currentTenantId = "US_PA";
+    tenantStore.currentNarrativeTypeId = "Prison";
+    tenantStore.currentSectionNumber = 3;
+  });
+
+  // cannot be cleared
+  runInAction(() => {
+    tenantStore.currentSectionNumber = undefined;
+  });
+
+  reactImmediately(() => {
+    expect(tenantStore.currentSectionNumber).toBe(1);
+  });
+
+  // cannot be nonsense
+  runInAction(() => {
+    tenantStore.currentSectionNumber = 0;
+  });
+
+  reactImmediately(() => {
+    expect(tenantStore.currentSectionNumber).toBe(1);
+  });
+
+  runInAction(() => {
+    tenantStore.currentSectionNumber = -5;
+  });
+
+  reactImmediately(() => {
+    expect(tenantStore.currentSectionNumber).toBe(1);
+  });
+
+  // cannot be higher than the number of sections
+  runInAction(() => {
+    tenantStore.currentSectionNumber = 99;
+  });
+
+  reactImmediately(() => {
+    expect(tenantStore.currentSectionNumber).toBe(4);
+  });
+});

@@ -22,7 +22,7 @@ import styled from "styled-components/macro";
 import { LayoutSection } from "../types";
 import AdvanceLink from "./AdvanceLink";
 import SectionLinks from "./SectionLinks";
-import { SetSection } from "./types";
+import { SectionNavProps } from "./types";
 
 const formatPageNum = format("02");
 
@@ -46,16 +46,14 @@ const SectionNumberFaded = styled(SectionNumber)`
   opacity: 0.3;
 `;
 
-type NavigationProps = {
-  activeSection: number;
+type NavigationProps = SectionNavProps & {
   sections: LayoutSection[];
-  setActiveSection: SetSection;
 };
 
 const SectionNavigation: React.FC<NavigationProps> = ({
   activeSection,
+  goToSection,
   sections,
-  setActiveSection,
 }) => {
   const totalPages = sections.length;
 
@@ -67,17 +65,17 @@ const SectionNavigation: React.FC<NavigationProps> = ({
     <SectionNav aria-label="page sections">
       <SectionNumber>{formatPageNum(activeSection)}</SectionNumber>
       <SectionNumberFaded>{formatPageNum(totalPages)}</SectionNumberFaded>
-      <SectionLinks {...{ activeSection, sections, setActiveSection }} />
+      <SectionLinks {...{ activeSection, goToSection, sections }} />
       <AdvanceLink
         activeSection={activeSection}
         disabled={disablePrev}
-        setActiveSection={setActiveSection}
+        goToSection={goToSection}
         type="previous"
       />
       <AdvanceLink
         activeSection={activeSection}
         disabled={disableNext}
-        setActiveSection={setActiveSection}
+        goToSection={goToSection}
         type="next"
       />
     </SectionNav>

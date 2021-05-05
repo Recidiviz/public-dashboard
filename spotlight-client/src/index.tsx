@@ -23,7 +23,10 @@ import { configure } from "mobx";
 import React from "react";
 import ReactDOM from "react-dom";
 import ReactModal from "react-modal";
+import smoothScroll from "smoothscroll-polyfill";
 import App from "./App";
+
+smoothScroll.polyfill();
 
 configure({
   // make proxies optional for IE 11 support

@@ -31,7 +31,9 @@ type GetUrlOptions =
   | { page: "tenant"; params: Pick<RequiredParams, "tenantId"> }
   | {
       page: "narrative";
-      params: Pick<RequiredParams, "tenantId" | "narrativeTypeId">;
+      params: Pick<RequiredParams, "tenantId" | "narrativeTypeId"> & {
+        sectionNumber?: number;
+      };
     };
 
 /**
@@ -46,7 +48,9 @@ function getUrlForResource(opts: GetUrlOptions): string {
     case "narrative":
       return `/${makeRouteParam(
         opts.params.tenantId
-      )}/${NarrativesSlug}/${makeRouteParam(opts.params.narrativeTypeId)}`;
+      )}/${NarrativesSlug}/${makeRouteParam(opts.params.narrativeTypeId)}${
+        opts.params.sectionNumber ? `/${opts.params.sectionNumber}` : ""
+      }`;
     default:
       assertNever(opts);
   }

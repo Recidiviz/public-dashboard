@@ -78,7 +78,9 @@ const App: React.FC = () => {
               <PageHome path="/" />
               <PassThroughPage path="/:tenantId">
                 <PageTenant path="/" />
-                <PageNarrative path={`/${NarrativesSlug}/:narrativeTypeId`} />
+                <PageNarrative
+                  path={`/${NarrativesSlug}/:narrativeTypeId/*sectionNumber`}
+                />
                 <PageNotFound path="/*" />
               </PassThroughPage>
             </Router>

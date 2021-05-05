@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import clamp from "lodash/clamp";
 import { intercept, makeAutoObservable } from "mobx";
 import { ERROR_MESSAGES } from "../constants";
 import {
@@ -32,6 +33,8 @@ export default class TenantStore {
   currentNarrativeTypeId?: NarrativeTypeId;
 
   currentTenantId?: TenantId;
+
+  private validatedSectionNumber?: number;
 
   readonly locked: boolean = false;
 
@@ -92,5 +95,32 @@ export default class TenantStore {
     }
 
     return currentTenant.racialDisparitiesNarrative;
+  }
+
+  /**
+   * If there is a current narrative (all narratives have sections),
+   * this will always be a number between 1 and the number of sections
+   * to be displayed on the narrative page (which includes an introduction).
+   */
+  get currentSectionNumber(): number | undefined {
+    if (!this.currentNarrative) return undefined;
+    return this.validatedSectionNumber || 1;
+  }
+
+  set currentSectionNumber(value: number | undefined) {
+    let validatedValue;
+    if (this.currentNarrative) {
+      validatedValue = 1;
+      if (value) {
+        validatedValue = clamp(
+          value,
+          1,
+          // +1 for the intro
+          this.currentNarrative.sections.length + 1
+        );
+      }
+    }
+
+    this.validatedSectionNumber = validatedValue;
   }
 }

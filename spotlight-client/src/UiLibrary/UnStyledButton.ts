@@ -15,7 +15,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export type SectionNavProps = {
-  activeSection: number;
-  goToSection: (s: number) => void;
-};
+import styled from "styled-components/macro";
+
+export const UnStyledButton = styled.button.attrs({ type: "button" })`
+  background: none;
+  cursor: pointer;
+  margin: none;
+  padding: none;
+  border: none;
+`;
