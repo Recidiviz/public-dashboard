@@ -71,6 +71,10 @@ describe("on large screens", () => {
     expect(
       inNav.getByRole("button", { name: "Data Narratives" })
     ).toBeInTheDocument();
+
+    expect(inNav.getByRole("link", { name: "Feedback" })).toBeInTheDocument();
+
+    expect(inNav.getByRole("button", { name: "Share" })).toBeInTheDocument();
   });
 
   test("Narratives menu", () => {
@@ -95,6 +99,17 @@ describe("on large screens", () => {
     expect(navigateMock).toHaveBeenCalledWith(
       `/us-nd/${NarrativesSlug}/sentencing`
     );
+  });
+
+  test("share modal", () => {
+    renderWithStore(<SiteNavigationContainer />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Share" }));
+
+    const modal = screen.getByRole("dialog");
+
+    expect(modal).toBeVisible();
+    expect(within(modal).getByRole("heading", { name: "Share" })).toBeVisible();
   });
 });
 

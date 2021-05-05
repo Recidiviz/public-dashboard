@@ -146,7 +146,7 @@ const SiteFooter: React.FC = () => {
         </Legalese>
         <BrandLinks>
           <SocialLinks>
-            <SocialLink href="https://twitter.com/RecidivizOrg">
+            <SocialLink href="https://twitter.com/Recidiviz">
               <img alt="Twitter" src={twitterPath} />
             </SocialLink>
             <SocialLink href="https://www.linkedin.com/company/recidiviz/">

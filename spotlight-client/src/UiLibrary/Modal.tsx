@@ -17,6 +17,7 @@
 
 import {
   Modal as ModalBase,
+  ModalHeading as ModalHeadingBase,
   ModalProps,
 } from "@recidiviz/case-triage-components";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
@@ -29,7 +30,11 @@ import { colors } from ".";
 import animation from "./animation";
 import zIndex from "./zIndex";
 
-export const StyledModal = styled(ModalBase)`
+export const ModalHeading = styled(ModalHeadingBase)`
+  margin-bottom: ${rem(16)};
+`;
+
+const StyledModal = styled(ModalBase)`
   /*
     the double ampersands are a trick to overcome
     specificity in the imported component styles
@@ -74,7 +79,7 @@ const CloseIcon = styled.img`
   width: ${rem(12)};
 `;
 
-type SpotlightModalProps = Omit<
+export type SpotlightModalProps = Omit<
   Required<ModalProps, "onRequestClose">,
   "closeTimeoutMs"
 >;
@@ -120,5 +125,3 @@ export const Modal: React.FC<SpotlightModalProps> = ({
     </StyledModal>
   );
 };
-
-export { ModalHeading } from "@recidiviz/case-triage-components";

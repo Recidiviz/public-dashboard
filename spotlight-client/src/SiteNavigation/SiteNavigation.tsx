@@ -17,8 +17,9 @@
 
 import { navigate } from "@reach/router";
 import { observer } from "mobx-react-lite";
-import React from "react";
+import React, { useState } from "react";
 import getUrlForResource from "../routerUtils/getUrlForResource";
+import ShareModal from "../ShareModal";
 import { useDataStore } from "../StoreProvider";
 import { Dropdown } from "../UiLibrary";
 import { DropdownOption } from "../UiLibrary/Dropdown/types";
@@ -37,6 +38,7 @@ const SiteNavigation: React.FC = () => {
   const { tenant } = useDataStore();
 
   const narrativeOptions: DropdownOption[] = [];
+  const [shareModalOpen, setShareModalOpen] = useState(false);
 
   if (tenant) {
     Object.values(tenant.systemNarratives).forEach((narrative) => {
@@ -96,6 +98,15 @@ const SiteNavigation: React.FC = () => {
           )}
           <NavGroupItem>
             <ExternalNavLink href={FEEDBACK_URL}>Feedback</ExternalNavLink>
+          </NavGroupItem>
+          <NavGroupItem>
+            <button type="button" onClick={() => setShareModalOpen(true)}>
+              Share
+            </button>
+            <ShareModal
+              isOpen={shareModalOpen}
+              onRequestClose={() => setShareModalOpen(false)}
+            />
           </NavGroupItem>
         </NavGroup>
       </NavBar>
