@@ -18,6 +18,7 @@
 export { default as animation } from "./animation";
 export { default as breakpoints } from "./breakpoints";
 export { default as Check } from "./Check";
+export * from "./Checkbox";
 export { default as Chevron } from "./Chevron";
 export { default as CopyBlock } from "./CopyBlock";
 export { default as colors } from "./colors";

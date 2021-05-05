@@ -20,6 +20,7 @@ import styled from "styled-components/macro";
 export const UnStyledButton = styled.button.attrs({ type: "button" })`
   background: none;
   cursor: pointer;
+  font-size: 1rem;
   margin: none;
   padding: none;
   border: none;

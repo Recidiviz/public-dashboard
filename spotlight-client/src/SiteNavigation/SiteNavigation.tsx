@@ -32,6 +32,7 @@ import {
   NavLink,
   ExternalNavLink,
   FEEDBACK_URL,
+  NavButton,
 } from "./shared";
 
 const SiteNavigation: React.FC = () => {
@@ -100,9 +101,7 @@ const SiteNavigation: React.FC = () => {
             <ExternalNavLink href={FEEDBACK_URL}>Feedback</ExternalNavLink>
           </NavGroupItem>
           <NavGroupItem>
-            <button type="button" onClick={() => setShareModalOpen(true)}>
-              Share
-            </button>
+            <NavButton onClick={() => setShareModalOpen(true)}>Share</NavButton>
             <ShareModal
               isOpen={shareModalOpen}
               onRequestClose={() => setShareModalOpen(false)}

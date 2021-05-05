@@ -19,7 +19,7 @@ import { Link } from "@reach/router";
 import { rem } from "polished";
 import styled, { css } from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
-import { colors, zIndex } from "../UiLibrary";
+import { animation, colors, UnStyledButton, zIndex } from "../UiLibrary";
 
 export const NavContainer = styled.nav`
   background: ${colors.background};
@@ -62,6 +62,11 @@ const linkStyles = css`
   height: 100%;
   position: relative;
   text-decoration: none;
+  transition: color ${animation.defaultDuration}ms;
+
+  &:hover {
+    color: ${colors.link};
+  }
 `;
 
 export const NavLink = styled(Link)`
@@ -69,6 +74,10 @@ export const NavLink = styled(Link)`
 `;
 
 export const ExternalNavLink = styled.a.attrs({ target: "_blank" })`
+  ${linkStyles}
+`;
+
+export const NavButton = styled(UnStyledButton)`
   ${linkStyles}
 `;
 

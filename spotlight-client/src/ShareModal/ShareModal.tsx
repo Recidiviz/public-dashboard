@@ -16,24 +16,49 @@
 // =============================================================================
 
 import { observer } from "mobx-react-lite";
+import { rem } from "polished";
 import React, { useState } from "react";
 import styled from "styled-components/macro";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
 import {
-  CopyBlock,
+  Checkbox,
+  colors,
   Modal,
   ModalHeading,
   SpotlightModalProps,
+  typefaces,
 } from "../UiLibrary";
 
-const ShareActions = styled.div``;
+const ShareActions = styled.div`
+  border-color: ${colors.rule};
+  border-style: solid;
+  border-width: 1px 0;
+  margin: ${rem(24)} 0;
+  padding: ${rem(24)} 0;
+`;
 
-const UrlText = styled.div``;
+const UrlText = styled.div`
+  font-family: ${typefaces.display};
+  font-size: ${rem(21)};
+  letter-spacing: -0.04em;
+  overflow: auto;
+  padding-bottom: ${rem(16)};
+  white-space: nowrap;
+`;
 
 const ShareButtons = styled.div``;
 
-const IncludeSectionLabel = styled.label``;
+const IncludeSectionLabel = styled.label`
+  align-items: baseline;
+  display: flex;
+  font-size: ${rem(14)};
+  line-height: 1.4;
+`;
+
+const SectionTitle = styled.span`
+  color: ${colors.link};
+`;
 
 const ShareModal = (
   props: Omit<SpotlightModalProps, "children">
@@ -41,6 +66,7 @@ const ShareModal = (
   const {
     tenantStore: {
       currentTenantId,
+      currentNarrative,
       currentNarrativeTypeId,
       currentSectionNumber,
     },
@@ -70,26 +96,25 @@ const ShareModal = (
   return (
     <Modal {...props}>
       <ModalHeading>Share</ModalHeading>
-      <CopyBlock>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nec vel vel
-        nunc lacus diam varius varius enim risus. Sagittis, in risus sed sit
-        elementum volutpat amet turpis nisi.
-      </CopyBlock>
       <ShareActions>
         <UrlText>{urlToShare}</UrlText>
         <ShareButtons>buttons</ShareButtons>
       </ShareActions>
       <>
-        {currentNarrativeTypeId && (
+        {currentSectionNumber && currentSectionNumber > 1 && (
           <IncludeSectionLabel>
-            <input
-              type="checkbox"
+            <Checkbox
               checked={includeSection}
               onChange={(e) => {
                 setIncludeSection(e.target.checked);
               }}
-            />{" "}
-            label text
+            />
+            <span>
+              Link to current section:{" "}
+              <SectionTitle>
+                {currentNarrative?.sections[currentSectionNumber - 2].title}
+              </SectionTitle>
+            </span>
           </IncludeSectionLabel>
         )}
       </>
