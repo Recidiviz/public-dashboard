@@ -286,6 +286,7 @@ const content: ExhaustiveTenantContent = {
     introduction: `introduction {likelihoodVsWhite.BLACK} {likelihoodVsWhite.HISPANIC}
         {likelihoodVsWhite.AMERICAN_INDIAN_ALASKAN_NATIVE}`,
     introductionMethodology: "introduction methodology",
+    supervisionTypes: ["supervision", "parole", "probation"],
     sections: {
       beforeCorrections: {
         title: "beforeCorrections title",

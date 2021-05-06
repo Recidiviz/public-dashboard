@@ -146,7 +146,6 @@ export type TemplateVariables = {
 type ConstructorOpts = {
   tenantId: TenantId;
   defaultCategory?: RaceIdentifier;
-  defaultSupervisionType?: SupervisionType;
   content: RacialDisparitiesNarrativeContent;
   categoryFilter?: DemographicCategoryFilter["raceOrEthnicity"];
 };
@@ -193,6 +192,8 @@ export default class RacialDisparitiesNarrative implements Hydratable {
 
   selectedCategory: RaceIdentifier;
 
+  readonly supervisionTypeList: SupervisionType[];
+
   supervisionType: SupervisionType;
 
   static build(props: ConstructorOpts): RacialDisparitiesNarrative {
@@ -202,13 +203,15 @@ export default class RacialDisparitiesNarrative implements Hydratable {
   constructor({
     tenantId,
     defaultCategory,
-    defaultSupervisionType,
     content,
     categoryFilter,
   }: ConstructorOpts) {
     this.tenantId = tenantId;
     this.selectedCategory = defaultCategory || "BLACK";
-    this.supervisionType = defaultSupervisionType || "supervision";
+    this.supervisionTypeList = [
+      ...(content.supervisionTypes || SupervisionTypeList),
+    ];
+    [this.supervisionType] = this.supervisionTypeList;
     this.chartLabels = content.chartLabels;
     this.introduction = content.introduction;
     this.introductionMethodology = content.introductionMethodology;
@@ -763,9 +766,11 @@ export default class RacialDisparitiesNarrative implements Hydratable {
       sections.push({
         ...supervision,
         chartData: this.revocationsDataSeries,
+        // TODO: only true if there are multiple types available
         supervisionFilter: true,
         download: this.getDownloadFn({
           name: "supervision",
+          // TODO: limit to what's known to be available? or will that happen automatically
           fieldsToInclude: ["parole", "probation", "supervision"],
         }),
       });
