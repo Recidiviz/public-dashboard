@@ -81,9 +81,7 @@ const UrlText = styled.div`
   font-family: ${typefaces.display};
   font-size: ${rem(21)};
   letter-spacing: -0.04em;
-  overflow: auto;
   padding-bottom: ${rem(16)};
-  white-space: nowrap;
 `;
 
 const ShareButtons = styled.div`
