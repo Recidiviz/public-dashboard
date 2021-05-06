@@ -85,11 +85,7 @@ type SentencingMetrics = {
   probationPctCurrent: number;
 };
 
-export const SupervisionTypeList = [
-  "supervision",
-  "parole",
-  "probation",
-] as const;
+const SupervisionTypeList = ["supervision", "parole", "probation"] as const;
 export type SupervisionType = typeof SupervisionTypeList[number];
 
 function getSentencingMetrics(
@@ -766,12 +762,10 @@ export default class RacialDisparitiesNarrative implements Hydratable {
       sections.push({
         ...supervision,
         chartData: this.revocationsDataSeries,
-        // TODO: only true if there are multiple types available
-        supervisionFilter: true,
+        supervisionFilter: this.supervisionTypeList.length > 1,
         download: this.getDownloadFn({
           name: "supervision",
-          // TODO: limit to what's known to be available? or will that happen automatically
-          fieldsToInclude: ["parole", "probation", "supervision"],
+          fieldsToInclude: this.supervisionTypeList,
         }),
       });
     }
