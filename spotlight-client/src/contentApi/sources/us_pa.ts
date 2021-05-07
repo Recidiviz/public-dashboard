@@ -336,6 +336,7 @@ const content: TenantContent = {
       supervisionPopulation: "All people under supervision",
       totalPopulationSentences: "All people sentenced and under DOC control",
     },
+    supervisionTypes: ["parole"],
     sections: {
       beforeCorrections: {
         title: "Disparities are already present before incarceration",
@@ -375,13 +376,12 @@ const content: TenantContent = {
       supervision: {
         title: "How can community supervision impact disparities?",
         body: `<p>
-          For individuals on probation (community supervision in lieu of a prison
-          sentence) or on parole, failure can mean revocation: a process that removes
+          For individuals on parole, failure can mean revocation: a process that removes
           people from community supervision and places them in prison.
         </p>
         <p>
           {ethnonymCapitalized} represent {supervision.populationProportion36Mo} of the
-          {supervisionType} population, but were {supervision.revocationProportion36Mo}
+          parole population, but were {supervision.revocationProportion36Mo}
           of revocation admissions to prison in the last 3 years.
         </p>
         <p>
@@ -389,7 +389,7 @@ const content: TenantContent = {
           {supervision.technicalProportion36Mo} of the time for technical violations (a
           rule of supervision, rather than a crime),
           {supervision.absconsionProportion36Mo} of the time for absconsion from
-          {supervisionType}, and {supervision.newCrimeProportion36Mo} of the time for
+          parole, and {supervision.newCrimeProportion36Mo} of the time for
           new crimes. In contrast, overall revocations for technical violations are
           {supervision.overall.technicalProportion36Mo}, revocations for absconsion
           {supervision.overall.absconsionProportion36Mo} and revocations for new crime

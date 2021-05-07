@@ -16,6 +16,7 @@
 // =============================================================================
 
 import type { Topology } from "topojson-specification";
+import { SupervisionType } from "../contentModels/RacialDisparitiesNarrative";
 import { AgeValue, GenderValue, RaceOrEthnicityValue } from "../demographics";
 
 export type LocalityLabels = {
@@ -174,4 +175,5 @@ export type RacialDisparitiesNarrativeContent = {
   introduction: string;
   introductionMethodology: string;
   sections: RacialDisparitiesSections;
+  supervisionTypes?: SupervisionType[];
 };

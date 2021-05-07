@@ -21,14 +21,8 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import RacialDisparitiesNarrative, {
   SupervisionType,
-  SupervisionTypeList,
 } from "../contentModels/RacialDisparitiesNarrative";
 import { Dropdown } from "../UiLibrary";
-
-const DROPDOWN_OPTIONS = SupervisionTypeList.map((id) => ({
-  id,
-  label: `${id === "supervision" ? "All " : ""}${capitalCase(id)}`,
-}));
 
 type SupervisionTypeFilterSelectProps = {
   narrative: RacialDisparitiesNarrative;
@@ -46,11 +40,16 @@ const SupervisionTypeFilterSelect: React.FC<SupervisionTypeFilterSelectProps> = 
     }
   );
 
+  const options = narrative.supervisionTypeList.map((id) => ({
+    id,
+    label: `${id === "supervision" ? "All " : ""}${capitalCase(id)}`,
+  }));
+
   return (
     <Dropdown
       label="Supervision Type"
       onChange={onChange}
-      options={DROPDOWN_OPTIONS}
+      options={options}
       selectedId={narrative.supervisionType}
     />
   );

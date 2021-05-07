@@ -288,3 +288,32 @@ describe("available categories", () => {
     expect(narrative.allCategories).toMatchSnapshot();
   });
 });
+
+describe("supervision types", () => {
+  test("default", async () => {
+    reactImmediately(() => {
+      expect(narrative.supervisionTypeList).toEqual([
+        "supervision",
+        "parole",
+        "probation",
+      ]);
+      expect(narrative.supervisionType).toBe("supervision");
+    });
+  });
+
+  test("limited", () => {
+    narrative = RacialDisparitiesNarrative.build({
+      tenantId: testTenantId,
+      content: {
+        ...contentFixture.racialDisparitiesNarrative,
+        supervisionTypes: ["parole"],
+      },
+      categoryFilter: contentFixture.demographicCategories.raceOrEthnicity,
+    });
+
+    reactImmediately(() => {
+      expect(narrative.supervisionTypeList).toEqual(["parole"]);
+      expect(narrative.supervisionType).toBe("parole");
+    });
+  });
+});
