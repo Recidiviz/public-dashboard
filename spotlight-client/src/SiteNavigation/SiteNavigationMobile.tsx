@@ -21,7 +21,7 @@ import { rem } from "polished";
 import React, { useRef } from "react";
 import useCollapse from "react-collapsed";
 import { animated, useSpring } from "react-spring/web.cjs";
-import styled from "styled-components/macro";
+import styled, { css } from "styled-components/macro";
 import { animation, colors, typefaces } from "../UiLibrary";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
@@ -36,6 +36,8 @@ import {
   NavLink as NavLinkBase,
   FEEDBACK_URL,
   ExternalNavLink as ExternalNavLinkBase,
+  NavButton as ExternalNavButton,
+  ShareButtonProps,
 } from "./shared";
 
 const NavContainer = styled(animated(NavContainerBase))<{
@@ -63,14 +65,32 @@ const ExternalNavLink = styled(ExternalNavLinkBase)`
   color: ${colors.textLight};
 `;
 
-const NavMenu = styled.ul`
-  font-family: ${typefaces.display};
+const menuTextStyles = css`
   font-size: ${rem(20)};
-  height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
   letter-spacing: -0.015em;
   line-height: 1.3;
-  margin-left: ${rem(16)};
+`;
+
+const NavButton = styled(ExternalNavButton)`
+  color: ${colors.textLight};
+  padding: 0;
+
+  ${menuTextStyles}
+`;
+
+const NavMenuWrapper = styled.div`
+  max-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
+`;
+
+const NavMenu = styled.ul`
+  font-family: ${typefaces.display};
+  margin-left: ${rem(16)};
+  /* make room for the bottom UI that may cover part of the page */
+  padding-bottom: ${rem(64)};
+
+  ${menuTextStyles}
 `;
 
 const NavMenuItem = styled.li`
@@ -83,7 +103,7 @@ const NavMenuItem = styled.li`
   }
 `;
 
-const SiteNavigation: React.FC = () => {
+const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
   const { tenant } = useDataStore();
 
   const menuScrollRef = useRef<HTMLDivElement>(null);
@@ -133,7 +153,7 @@ const SiteNavigation: React.FC = () => {
         </NavGroup>
         <MenuButton isOpen={isExpanded} {...getToggleProps()} />
       </NavBar>
-      <div ref={menuScrollRef}>
+      <NavMenuWrapper ref={menuScrollRef}>
         <NavMenu {...getCollapseProps()} data-testid="NavMenu">
           {tenant && (
             <>
@@ -186,10 +206,20 @@ const SiteNavigation: React.FC = () => {
               <NavMenuItem>
                 <ExternalNavLink href={FEEDBACK_URL}>Feedback</ExternalNavLink>
               </NavMenuItem>
+              <NavMenuItem>
+                <NavButton
+                  onClick={() => {
+                    openShareModal();
+                    setExpanded(false);
+                  }}
+                >
+                  Share
+                </NavButton>
+              </NavMenuItem>
             </>
           )}
         </NavMenu>
-      </div>
+      </NavMenuWrapper>
     </NavContainer>
   );
 };

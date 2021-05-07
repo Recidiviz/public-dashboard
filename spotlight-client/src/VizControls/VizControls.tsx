@@ -66,7 +66,6 @@ const ButtonIcon = styled.img`
 
 const MethodologyCopy = styled(CopyBlock)`
   line-height: 1.7;
-  margin-top: ${rem(16)};
 `;
 
 export interface VizControlsProps {

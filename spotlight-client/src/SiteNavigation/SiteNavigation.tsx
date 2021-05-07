@@ -31,9 +31,11 @@ import {
   NavLink,
   ExternalNavLink,
   FEEDBACK_URL,
+  NavButton,
+  ShareButtonProps,
 } from "./shared";
 
-const SiteNavigation: React.FC = () => {
+const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
   const { tenant } = useDataStore();
 
   const narrativeOptions: DropdownOption[] = [];
@@ -96,6 +98,9 @@ const SiteNavigation: React.FC = () => {
           )}
           <NavGroupItem>
             <ExternalNavLink href={FEEDBACK_URL}>Feedback</ExternalNavLink>
+          </NavGroupItem>
+          <NavGroupItem>
+            <NavButton onClick={openShareModal}>Share</NavButton>
           </NavGroupItem>
         </NavGroup>
       </NavBar>

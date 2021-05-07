@@ -62,6 +62,7 @@ export default {
   chartAxis: pine,
   chartGridLine: gray,
   chartNoData: gray,
+  checkbox: "#90AEB5",
   dataViz: dataVizOrder.map((key) => dataVizNamed[key]),
   dataVizNamed,
   dynamicText: pineAccent2,
