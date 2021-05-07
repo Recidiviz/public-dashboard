@@ -182,7 +182,16 @@ const ShareModal = (
         <UrlText>{urlToShare}</UrlText>
         <ShareButtons>
           <Button onClick={() => copyUrl()}>Copy URL</Button>
-          <EmailShareButton url={urlToShare}>
+          <EmailShareButton
+            url={urlToShare}
+            // opens the link in a new tab or window;
+            // good for webmail users and consistent with other share links
+            // that also open a new window by default
+            openShareDialogOnClick
+            // prevents the mailto link from also opening a webmail client
+            //  in the current window, which happens in some browsers
+            onClick={() => undefined}
+          >
             <Button as="div">
               <IconEmail />
             </Button>
