@@ -1,6 +1,0 @@
-{
-  "projects": {
-    "production": "recidiviz-public-dashboard",
-    "staging": "recidiviz-public-dashboard-stg"
-  }
-}

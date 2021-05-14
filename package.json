@@ -2,23 +2,18 @@
   "private": true,
   "repository": "git@github.com:Recidiviz/public-dashboard.git",
   "workspaces": [
-    "public-dashboard-client",
     "spotlight-api",
     "spotlight-client"
   ],
   "author": "Recidiviz <team@recidiviz.org>",
   "license": "GNU General Public License v3",
   "scripts": {
-    "demo:pd": "IS_DEMO=true REACT_APP_API_URL=http://localhost:3001 yarn dev:pd",
     "dev:api": "yarn workspace spotlight-api run dev",
-    "dev:pd": "run-p dev:api dev:pdc",
-    "dev:pdc": "yarn workspace public-dashboard-client run dev",
     "dev:sc": "yarn workspace spotlight-client run dev",
     "demo:spotlight": "IS_DEMO=true REACT_APP_API_URL=http://localhost:3001 yarn dev:spotlight",
     "dev:spotlight": "run-p dev:api dev:sc",
     "test": "run-p \"test:* -- {@}\" --",
     "test:api": "yarn workspace spotlight-api run test",
-    "test:pdc": "yarn workspace public-dashboard-client run test",
     "test:sc": "yarn workspace spotlight-client run test"
   },
   "devDependencies": {

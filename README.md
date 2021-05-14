@@ -8,17 +8,13 @@ This repository contains npm packages related to our Spotlight data publishing p
 
 More information about how to use each individual package can be found in their respective README files.
 
-### [Public Dashboard Client](public-dashboard-client/)
-
-A React application for the original Spotlight website (North Dakota only)
-
 ### [Spotlight API](spotlight-api/)
 
 A thin Node/Express backend that serves data for the Spotlight website.
 
 ### [Spotlight Client](spotlight-client/)
 
-A React application for the next-generation Spotlight website (not yet launched).
+A React application for the Spotlight website frontend.
 
 ## Development
 
@@ -54,13 +50,9 @@ It also allows you to run a Yarn command sequentially in each package with `yarn
 
 In addition, there are some Yarn scripts defined in the root package as a convenience for running multiple packages in a coordinated fashion:
 
-`yarn dev:pd` — starts the development servers for the Spotlight API and the Public Dashboard Client in a single terminal window. Be sure you have configured each of those applications with the necessary environment variables, as described in their README files, or this will not work!
+`yarn dev:spotlight` — starts the development servers for the Spotlight API and the Spotlight Client in a single terminal window. Be sure you have configured each of those applications with the necessary environment variables, as described in their README files, or this will not work!
 
-`yarn dev:spotlight` - similar to the above, but with Spotlight Client as the frontend.
-
-`yarn demo:pd` — starts the development servers for the Spotlight API and the Public Dashboard client in "demo mode" by supplying the necessary environment variables in the command line. (This will run your local site off of fake data fixtures rather than live data from a calculation pipeline; see the [Spotlight API documentation](spotlight-api/#demo-mode) for more information.)
-
-`yarn demo:spotlight` - again, similar to the above, with with Spotlight Client as the frontend.
+`yarn demo:spotlight` — starts the development servers for the Spotlight API and the Spotlight client in "demo mode" by supplying the necessary environment variables in the command line. (This will run your local site off of fake data fixtures rather than live data from a calculation pipeline; see the [Spotlight API documentation](spotlight-api/#demo-mode) for more information.)
 
 `yarn test` - runs the tests for all packages in a single command. (The output this produces is pretty messy at the moment but it can be useful for editor integration)
 
