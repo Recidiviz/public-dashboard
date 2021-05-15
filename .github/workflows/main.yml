@@ -35,6 +35,9 @@ jobs:
           node-version: "14.x"
       - uses: c-hive/gha-yarn-cache@v1
       - run: yarn install --frozen-lockfile
+      - name: install test server dependencies
+        run: yarn install --frozen-lockfile
+        working-directory: spotlight-api
       - run: yarn test --coverage --forceExit --runInBand
       - name: Coveralls
         uses: coverallsapp/github-action@master
