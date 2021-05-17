@@ -17,11 +17,11 @@
 
 import { action } from "mobx";
 import { observer } from "mobx-react-lite";
-import React from "react";
+import React, { useMemo } from "react";
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import { Dropdown } from "../UiLibrary";
 
-const options = [
+const OPTIONS = [
   {
     id: "1",
     label: "1 Year",
@@ -50,6 +50,13 @@ const FollowupPeriodFilterSelect: React.FC<FollowupPeriodFilterSelectProps> = ({
       metric.followUpYears = Number(newFilter);
     }
   );
+
+  // 5 year followup is not guaranteed to be supported;
+  // technically none of them are "guaranteed", but 3 years is industry standard,
+  // so in practice maxFollowupPeriod should never be less than that
+  const options = useMemo(() => {
+    return OPTIONS.filter((opt) => Number(opt.id) <= metric.maxFollowupPeriod);
+  }, [metric.maxFollowupPeriod]);
 
   return (
     <Dropdown
