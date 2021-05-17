@@ -80,8 +80,13 @@ const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = 
                   title="Cumulative Recidivism Rate"
                   xAccessor="followupYears"
                   // we don't want the X axis to get shorter when cohorts are filtered
-                  xExtent={[0, 10]}
+                  xExtent={[0, metric.maxFollowupPeriod]}
                   xLabel="Years since release"
+                  xTicks={
+                    metric.maxFollowupPeriod < 10
+                      ? metric.maxFollowupPeriod
+                      : undefined
+                  }
                   highlighted={
                     highlightedCohort
                       ? { label: `${highlightedCohort}` }

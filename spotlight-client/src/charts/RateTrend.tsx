@@ -109,6 +109,7 @@ type RateTrendProps = {
   xAccessor: string;
   xExtent?: XYFrameProps["xExtent"];
   xLabel?: string;
+  xTicks?: number;
 };
 
 /**
@@ -122,6 +123,7 @@ export default function RateTrend({
   xAccessor,
   xExtent,
   xLabel,
+  xTicks = 10,
 }: RateTrendProps): React.ReactElement {
   const [highlighted, setHighlighted] = useState<ItemToHighlight | undefined>();
 
@@ -187,7 +189,7 @@ export default function RateTrend({
                         // @ts-expect-error seems to be a typing error in Semiotic,
                         // this needs to be a string
                         label: xLabel,
-                        ticks: 10,
+                        ticks: xTicks,
                       },
                     ]}
                     baseMarkProps={BASE_MARK_PROPS}

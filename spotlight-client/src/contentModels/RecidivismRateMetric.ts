@@ -66,6 +66,7 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
       cohortDataSeries: computed,
       followUpYears: observable,
       highlightedCohort: observable,
+      maxFollowupPeriod: computed,
       selectedCohorts: computed,
       setHighlightedCohort: action,
       setSelectedCohorts: action,
@@ -241,5 +242,15 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
       .filter((item) => Object.values(item.unknowns).some((val) => val));
 
     return countsByCohort.length ? countsByCohort : undefined;
+  }
+
+  /**
+   * Maximum follow-up period present in data. Defaults to 10 when not hydrated.
+   */
+  get maxFollowupPeriod(): number {
+    const { allRecords } = this;
+    if (!allRecords) return 10;
+
+    return Math.max(...allRecords.map((record) => record.followupYears));
   }
 }
