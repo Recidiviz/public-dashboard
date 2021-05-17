@@ -193,6 +193,6 @@ test("section number is validated against current narrative", () => {
   });
 
   reactImmediately(() => {
-    expect(tenantStore.currentSectionNumber).toBe(4);
+    expect(tenantStore.currentSectionNumber).toBe(6);
   });
 });

@@ -265,3 +265,42 @@ test("report unknowns", async (done) => {
     }
   );
 });
+
+test("maxFollowupPeriod", async () => {
+  fetchMock.mockOnce(
+    JSON.stringify({
+      recidivism_rates_by_cohort_by_year: [
+        {
+          state_code: "US_DEMO",
+          gender: "ALL",
+          age_bucket: "ALL",
+          race_or_ethnicity: "ALL",
+          releases: "10",
+          release_cohort: "2018",
+          followup_years: "1",
+          recidivism_rate: "0.2",
+          recidivated_releases: "2",
+        },
+        {
+          state_code: "US_DEMO",
+          gender: "ALL",
+          age_bucket: "ALL",
+          race_or_ethnicity: "ALL",
+          releases: "10",
+          release_cohort: "2018",
+          followup_years: "3",
+          recidivism_rate: "0.3",
+          recidivated_releases: "3",
+        },
+      ],
+    })
+  );
+
+  const metric = await getPopulatedMetric("PrisonRecidivismRateHistorical");
+
+  reactImmediately(() => {
+    expect(metric.maxFollowupPeriod).toBe(3);
+  });
+
+  expect.hasAssertions();
+});
