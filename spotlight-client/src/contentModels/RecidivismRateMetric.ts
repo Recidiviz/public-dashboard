@@ -18,7 +18,10 @@
 import { ascending, groups } from "d3-array";
 import { action, computed, makeObservable, observable } from "mobx";
 import { DataSeries, ItemToHighlight } from "../charts";
-import { recordIsTotalByDimension } from "../demographics";
+import {
+  dataIncludesBreakdowns,
+  recordIsTotalByDimension,
+} from "../demographics";
 import { RateFields, RecidivismRateRecord } from "../metricsApi";
 import { colors } from "../UiLibrary";
 import { countUnknowns } from "./unknowns";
@@ -66,6 +69,7 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
       cohortDataSeries: computed,
       followUpYears: observable,
       highlightedCohort: observable,
+      includesDemographics: computed,
       maxFollowupPeriod: computed,
       selectedCohorts: computed,
       setHighlightedCohort: action,
@@ -252,5 +256,12 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
     if (!allRecords) return 10;
 
     return Math.max(...allRecords.map((record) => record.followupYears));
+  }
+
+  get includesDemographics(): boolean | undefined {
+    const { allRecords } = this;
+    if (!allRecords) return undefined;
+
+    return dataIncludesBreakdowns(allRecords);
   }
 }

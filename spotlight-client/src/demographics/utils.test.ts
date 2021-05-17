@@ -17,7 +17,11 @@
 
 import { DemographicFields } from "../metricsApi";
 import { DemographicView } from "./types";
-import { createDemographicCategories, recordIsTotalByDimension } from "./utils";
+import {
+  createDemographicCategories,
+  dataIncludesBreakdowns,
+  recordIsTotalByDimension,
+} from "./utils";
 
 describe("recordIsTotalByDimension", () => {
   const testData: Array<DemographicFields & { count: number }> = [
@@ -116,4 +120,40 @@ describe("createDemographicCategories", () => {
       { identifier: "OTHER", label: "Other" },
     ]);
   });
+});
+
+test("dataIncludesBreakdowns", () => {
+  expect(
+    dataIncludesBreakdowns([
+      {
+        gender: "ALL",
+        ageBucket: "ALL",
+        raceOrEthnicity: "ALL",
+        count: 10,
+      },
+      {
+        gender: "ALL",
+        ageBucket: "ALL",
+        raceOrEthnicity: "ALL",
+        count: 20,
+      },
+    ])
+  ).toBe(false);
+
+  expect(
+    dataIncludesBreakdowns([
+      {
+        gender: "MALE",
+        ageBucket: "ALL",
+        raceOrEthnicity: "ALL",
+        count: 10,
+      },
+      {
+        gender: "ALL",
+        ageBucket: "ALL",
+        raceOrEthnicity: "ALL",
+        count: 20,
+      },
+    ])
+  ).toBe(true);
 });

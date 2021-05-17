@@ -152,3 +152,18 @@ export function getDemographicViewLabel(
 ): string {
   return demographicViewLabels[view];
 }
+
+/**
+ * Inspects an array of records to report whether it contains breakdown records
+ * or is made exclusively of total records.
+ */
+export function dataIncludesBreakdowns<RecordFormat extends DemographicFields>(
+  data: RecordFormat[]
+): boolean {
+  return data.some(
+    (record) =>
+      record.ageBucket !== TOTAL_KEY ||
+      record.gender !== TOTAL_KEY ||
+      record.raceOrEthnicity !== TOTAL_KEY
+  );
+}

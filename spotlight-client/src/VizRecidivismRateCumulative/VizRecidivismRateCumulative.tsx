@@ -64,10 +64,12 @@ const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = 
         <MetricVizControls
           filters={[
             <CohortFilterSelect metric={metric} />,
-            <DemographicFilterSelect
-              disabled={selectedCohorts.length !== 1}
-              metric={metric}
-            />,
+            metric.includesDemographics && (
+              <DemographicFilterSelect
+                disabled={selectedCohorts.length !== 1}
+                metric={metric}
+              />
+            ),
           ]}
           metric={metric}
         />

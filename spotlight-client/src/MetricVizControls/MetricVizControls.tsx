@@ -18,10 +18,10 @@
 import React from "react";
 import Metric from "../contentModels/Metric";
 import { MetricRecord } from "../contentModels/types";
-import VizControls from "../VizControls";
+import VizControls, { VizControlsProps } from "../VizControls";
 
 type MetricVizControlsProps = {
-  filters: React.ReactElement[];
+  filters: VizControlsProps["filters"];
   metric: Metric<MetricRecord>;
 };
 
