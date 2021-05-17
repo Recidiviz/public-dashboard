@@ -69,6 +69,22 @@ const content: TenantContent = {
           </p>`,
           metricTypeId: "PrisonAdmissionReasonsCurrent",
         },
+        {
+          title: "How many people end up back in prison?",
+          body: `<p>
+            After release from prison, a significant proportion of formerly incarcerated
+            individuals are charged with additional crimes. This is typically termed “recidivism.”
+          </p>`,
+          metricTypeId: "PrisonRecidivismRateHistorical",
+        },
+        {
+          title: "How has the recidivism rate changed over time?",
+          body: `<p>
+            We can also observe the recidivism rate over time for a given number of years
+            after original release.
+          </p>`,
+          metricTypeId: "PrisonRecidivismRateSingleFollowupHistorical",
+        },
       ],
     },
     Parole: {
@@ -162,6 +178,26 @@ const content: TenantContent = {
         currently incarcerated in a DOC facility. When an individual is admitted to a
         state prison, the reason for the admission is documented by prison officials.
         These categories are pulled from that documentation.
+      </p>`,
+    },
+    PrisonRecidivismRateHistorical: {
+      name: "Cumulative Recidivism Rates",
+      methodology: `<p>
+        In distributions by age, individuals are counted towards the age group they
+        fall into as of the reporting date. Gender distributions only include male and
+        female due to low numbers of other reported genders. Distributions by race count
+        individuals with more than one reported race or ethnicity towards the racial or
+        ethnic identity that is least represented in the general population.
+      </p>`,
+    },
+    PrisonRecidivismRateSingleFollowupHistorical: {
+      name: "Recidivism Rates Over Time",
+      methodology: `<p>
+        In distributions by age, individuals are counted towards the age group they
+        fall into as of the reporting date. Gender distributions only include male and
+        female due to low numbers of other reported genders. Distributions by race count
+        individuals with more than one reported race or ethnicity towards the racial or
+        ethnic identity that is least represented in the general population.
       </p>`,
     },
 
