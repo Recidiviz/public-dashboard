@@ -183,21 +183,19 @@ const content: TenantContent = {
     PrisonRecidivismRateHistorical: {
       name: "Cumulative Recidivism Rates",
       methodology: `<p>
-        In distributions by age, individuals are counted towards the age group they
-        fall into as of the reporting date. Gender distributions only include male and
-        female due to low numbers of other reported genders. Distributions by race count
-        individuals with more than one reported race or ethnicity towards the racial or
-        ethnic identity that is least represented in the general population.
+        The DOC uses three different measures of recidivism: rearrest, reincarceration,
+        and overall recidivism. This data depicts overall recidivism, which is
+        defined by the DOC as the first instance of any type of rearrest or reincarceration
+        after the individual is released from the DOC.
       </p>`,
     },
     PrisonRecidivismRateSingleFollowupHistorical: {
       name: "Recidivism Rates Over Time",
       methodology: `<p>
-        In distributions by age, individuals are counted towards the age group they
-        fall into as of the reporting date. Gender distributions only include male and
-        female due to low numbers of other reported genders. Distributions by race count
-        individuals with more than one reported race or ethnicity towards the racial or
-        ethnic identity that is least represented in the general population.
+        The DOC uses three different measures of recidivism: rearrest, reincarceration,
+        and overall recidivism. This data depicts overall recidivism, which is
+        defined by the DOC as the first instance of any type of rearrest or reincarceration
+        after the individual is released from the DOC.
       </p>`,
     },
 
