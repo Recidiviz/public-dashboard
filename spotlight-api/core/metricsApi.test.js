@@ -15,19 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-const {
-  getFirstRecordFromFixture,
-  expectedMetricsByGroup,
-} = require("../testUtils");
-const {
-  fetchMetricsByName,
-  fetchParoleMetrics,
-  fetchPrisonMetrics,
-  fetchProbationMetrics,
-  fetchRaceMetrics,
-  fetchSentencingMetrics,
-  clearCache,
-} = require("./metricsApi");
+const { getFirstRecordFromFixture } = require("../testUtils");
+const { fetchMetricsByName, clearCache } = require("./metricsApi");
 const objectStorageMock = require("./objectStorage");
 
 jest.mock("./objectStorage");
@@ -92,39 +81,6 @@ function getFsCallback(metricNames, done) {
     }
   };
 }
-
-const fileGroupMatrix = [
-  [fetchParoleMetrics, "GCS", expectedMetricsByGroup.parole],
-  [fetchParoleMetrics, "filesystem", expectedMetricsByGroup.parole],
-  [fetchPrisonMetrics, "GCS", expectedMetricsByGroup.prison],
-  [fetchPrisonMetrics, "filesystem", expectedMetricsByGroup.prison],
-  [fetchProbationMetrics, "GCS", expectedMetricsByGroup.probation],
-  [fetchProbationMetrics, "filesystem", expectedMetricsByGroup.probation],
-  [fetchSentencingMetrics, "GCS", expectedMetricsByGroup.sentencing],
-  [fetchSentencingMetrics, "filesystem", expectedMetricsByGroup.sentencing],
-  [fetchRaceMetrics, "GCS", expectedMetricsByGroup.race],
-  [fetchRaceMetrics, "filesystem", expectedMetricsByGroup.race],
-];
-
-test.each(fileGroupMatrix)(
-  "%p fetches files from %s",
-  (testFn, source, metricsList, done) => {
-    expect.hasAssertions();
-
-    let isDemo;
-    let callback;
-
-    if (source === "GCS") {
-      isDemo = false;
-      callback = getGCSCallback(metricsList, done);
-    } else if (source === "filesystem") {
-      isDemo = true;
-      callback = getFsCallback(metricsList, done);
-    }
-
-    testFn(isDemo, "test_id", callback);
-  }
-);
 
 test.each(["GCS", "filesystem"])(
   "fetches metrics by name from %s",

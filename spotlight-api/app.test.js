@@ -16,10 +16,7 @@
 // =============================================================================
 
 const request = require("supertest");
-const {
-  getFirstRecordFromFixture,
-  expectedMetricsByGroup,
-} = require("./testUtils");
+const { getFirstRecordFromFixture } = require("./testUtils");
 const { app } = require("./app");
 
 jest.mock("./utils/demoMode", () => {
@@ -31,24 +28,6 @@ jest.mock("./utils/demoMode", () => {
 
 afterEach(() => {
   jest.resetAllMocks();
-});
-
-test.each([
-  ["parole", expectedMetricsByGroup.parole],
-  ["prison", expectedMetricsByGroup.prison],
-  ["probation", expectedMetricsByGroup.probation],
-  ["race", expectedMetricsByGroup.race],
-  ["sentencing", expectedMetricsByGroup.sentencing],
-])("/%s endpoint", async (endpoint, expectedMetrics) => {
-  const response = await request(app).get(`/api/test_id/${endpoint}`);
-
-  expect(response.status).toBe(200);
-  expect(response.get("Content-Type")).toMatch("json");
-  expectedMetrics.forEach((metricName) => {
-    expect(response.body[metricName]).toContainEqual(
-      getFirstRecordFromFixture(`${metricName}.json`)
-    );
-  });
 });
 
 test("/public endpoint", async () => {

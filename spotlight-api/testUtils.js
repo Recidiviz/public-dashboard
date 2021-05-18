@@ -29,42 +29,6 @@ function getFirstRecordFromFixture(metricName) {
   return JSON.parse(lineReader.next().toString());
 }
 
-const expectedMetricsByGroup = {
-  parole: [
-    "active_program_participation_by_region",
-    "site_offices",
-    "supervision_population_by_district_by_demographics",
-    "supervision_revocations_by_period_by_type_by_demographics",
-    "supervision_success_by_month",
-    "supervision_success_by_period_by_demographics",
-    "supervision_population_by_month_by_demographics",
-  ],
-  prison: [
-    "incarceration_facilities",
-    "incarceration_population_by_admission_reason",
-    "incarceration_population_by_facility_by_demographics",
-    "incarceration_releases_by_type_by_period",
-    "incarceration_lengths_by_demographics",
-    "incarceration_population_by_month_by_demographics",
-    "recidivism_rates_by_cohort_by_year",
-  ],
-  probation: [
-    "active_program_participation_by_region",
-    "judicial_districts",
-    "supervision_population_by_district_by_demographics",
-    "supervision_revocations_by_period_by_type_by_demographics",
-    "supervision_success_by_month",
-    "supervision_success_by_period_by_demographics",
-    "supervision_population_by_month_by_demographics",
-  ],
-  race: ["racial_disparities"],
-  sentencing: [
-    "judicial_districts",
-    "sentence_type_by_district_by_demographics",
-  ],
-};
-
 module.exports = {
   getFirstRecordFromFixture,
-  expectedMetricsByGroup,
 };
