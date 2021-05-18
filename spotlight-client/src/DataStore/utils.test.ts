@@ -40,10 +40,12 @@ test("*.nd.gov matches ND", () => {
   expect(getTenantFromDomain).toThrow();
 });
 
-test("other .gov domains error", () => {
-  jsdom.reconfigure({ url: "https://dashboard.pa.gov" });
-  expect(getTenantFromDomain).toThrow();
+test("*.pa.gov matches PA", () => {
+  jsdom.reconfigure({ url: "https://dashboard.cor.pa.gov" });
+  expect(getTenantFromDomain()).toBe("US_PA");
+});
 
+test("other .gov domains error", () => {
   jsdom.reconfigure({ url: "https://dashboard.ca.gov" });
   expect(getTenantFromDomain).toThrow();
 
@@ -57,6 +59,9 @@ test("other .gov domains error", () => {
 test("staging domains matching tenants", () => {
   jsdom.reconfigure({ url: "https://us-nd.spotlight-staging.recidiviz.org" });
   expect(getTenantFromDomain()).toBe("US_ND");
+
+  jsdom.reconfigure({ url: "https://us-pa.spotlight-staging.recidiviz.org" });
+  expect(getTenantFromDomain()).toBe("US_PA");
 });
 
 test("no match", () => {

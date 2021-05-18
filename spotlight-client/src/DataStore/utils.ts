@@ -32,6 +32,9 @@ export function getTenantFromDomain(): TenantId | undefined {
     if (domain.endsWith(".nd.gov")) {
       return "US_ND";
     }
+    if (domain.endsWith(".pa.gov")) {
+      return "US_PA";
+    }
     throw new Error("Unable to proceed; this .gov domain is not supported.");
   }
 
