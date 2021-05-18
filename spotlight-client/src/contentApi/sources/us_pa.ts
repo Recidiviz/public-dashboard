@@ -73,7 +73,8 @@ const content: TenantContent = {
           title: "How many people end up back in prison?",
           body: `<p>
             After release from prison, a significant proportion of formerly incarcerated
-            individuals are charged with additional crimes. This is typically termed “recidivism.”
+            individuals end up back in prison or charged with additional crimes. This is
+            typically termed “recidivism.”
           </p>`,
           metricTypeId: "PrisonRecidivismRateHistorical",
         },
