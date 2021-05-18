@@ -19,7 +19,7 @@ import {
   Modal as ModalBase,
   ModalHeading as ModalHeadingBase,
   ModalProps,
-} from "@recidiviz/case-triage-components";
+} from "@recidiviz/design-system";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { rem, rgba } from "polished";
 import React, { useRef } from "react";
