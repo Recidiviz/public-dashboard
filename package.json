@@ -4,16 +4,16 @@
   "author": "Recidiviz <team@recidiviz.org>",
   "license": "GNU General Public License v3",
   "scripts": {
-    "dev:api": "(cd spotlight-api && yarn dev)",
-    "dev:sc": "(cd spotlight-client && yarn dev)",
+    "dev:api": "cd spotlight-api && yarn dev",
+    "dev:sc": "cd spotlight-client && yarn dev",
     "demo": "IS_DEMO=true REACT_APP_API_URL=http://localhost:3001 yarn dev",
     "dev": "run-p dev:api dev:sc",
-    "install:api": "(cd spotlight-api && yarn)",
-    "install:sc": "(cd spotlight-client && yarn)",
+    "install:api": "cd spotlight-api && yarn",
+    "install:sc": "cd spotlight-client && yarn",
     "postinstall": "run-p install:*",
     "test": "run-p \"test:* -- {@}\" --",
-    "test:api": "(cd spotlight-api && yarn test)",
-    "test:sc": "(cd spotlight-client && yarn test)"
+    "test:api": "cd spotlight-api && yarn test",
+    "test:sc": "cd spotlight-client && yarn test"
   },
   "devDependencies": {
     "husky": ">=4",
