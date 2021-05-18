@@ -1597,6 +1597,13 @@
     eslint-config-prettier "^8.1.0"
     prettier "^2.2.1"
 
+"@recidiviz/tsconfig@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@recidiviz/tsconfig/-/tsconfig-1.0.0.tgz#317b6dc9a6c45016d10f4f4864b124d4ce5ba097"
+  integrity sha512-N6brrksfnQIYh7fqKhFhM+SQr817lXQdCgtHJyEvRL9rhtOR+1Y0b0nhVADZWEUSdRJdzjHoWWkOIJPoI9AluA==
+  dependencies:
+    "@tsconfig/node12" "^1.0.7"
+
 "@segment/analytics.js-core@^4.1.5":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@segment/analytics.js-core/-/analytics.js-core-4.1.5.tgz#5c293859518df3951b66b4869bc9f3083de30fde"
@@ -1858,6 +1865,11 @@
   integrity sha512-KzRM1KNDoW8pJ2HTenrUhTjV6wJMHvWAagDs8DDrYSWz6y4PN+K2jSvlm2bMHWNRk5LTJPo9jqIjNjJ3FlqXNw==
   dependencies:
     "@babel/runtime" "^7.12.5"
+
+"@tsconfig/node12@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@tsconfig/node12/-/node12-1.0.7.tgz#677bd9117e8164dc319987dd6ff5fc1ba6fbf18b"
+  integrity sha512-dgasobK/Y0wVMswcipr3k0HpevxFJLijN03A8mYfEPvWvOs14v0ZlYTR4kIgMx8g4+fTyTFv8/jLCIfRqLDJ4A==
 
 "@types/aria-query@^4.2.0":
   version "4.2.0"
