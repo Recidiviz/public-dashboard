@@ -20,7 +20,6 @@
  * in server.js.
  */
 
-const { csvFormat } = require("d3-dsv");
 const metricsApi = require("../core/metricsApi");
 const demoMode = require("../utils/demoMode");
 
@@ -37,96 +36,6 @@ function responder(res) {
       res.send(data);
     }
   };
-}
-
-/**
- * A callback which resolves or rejects a Promise with the data or error payload, respectively.
- */
-function promisifier(resolve, reject) {
-  return function promisify(err, data) {
-    if (err) {
-      reject(err);
-    } else {
-      resolve(
-        Object.entries(data).map(([fileName, content]) => {
-          return {
-            name: `${fileName}.csv`,
-            content: csvFormat(content),
-          };
-        })
-      );
-    }
-  };
-}
-
-async function download(req, res) {
-  const {
-    fetchParoleMetrics,
-    fetchPrisonMetrics,
-    fetchProbationMetrics,
-    fetchRaceMetrics,
-    fetchSentencingMetrics,
-  } = metricsApi;
-
-  const metricPromises = [
-    fetchParoleMetrics,
-    fetchPrisonMetrics,
-    fetchProbationMetrics,
-    fetchRaceMetrics,
-    fetchSentencingMetrics,
-  ].map((metricFn) => {
-    return new Promise((resolve, reject) => {
-      metricFn(isDemoMode, req.params.tenantId, promisifier(resolve, reject));
-    });
-  });
-
-  try {
-    const allFileLists = await Promise.all(metricPromises);
-    res.zip({
-      files: [].concat(...allFileLists),
-      filename: `${req.params.tenantId}_data.zip`,
-    });
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-    res.sendStatus(500);
-  }
-}
-
-function parole(req, res) {
-  metricsApi.fetchParoleMetrics(
-    isDemoMode,
-    req.params.tenantId,
-    responder(res)
-  );
-}
-
-function prison(req, res) {
-  metricsApi.fetchPrisonMetrics(
-    isDemoMode,
-    req.params.tenantId,
-    responder(res)
-  );
-}
-
-function probation(req, res) {
-  metricsApi.fetchProbationMetrics(
-    isDemoMode,
-    req.params.tenantId,
-    responder(res)
-  );
-}
-
-function race(req, res) {
-  metricsApi.fetchRaceMetrics(isDemoMode, req.params.tenantId, responder(res));
-}
-
-function sentencing(req, res) {
-  metricsApi.fetchSentencingMetrics(
-    isDemoMode,
-    req.params.tenantId,
-    responder(res)
-  );
 }
 
 function metricsByName(req, res) {
@@ -146,11 +55,5 @@ function metricsByName(req, res) {
 }
 
 module.exports = {
-  download,
-  parole,
-  prison,
-  probation,
-  sentencing,
-  race,
   metricsByName,
 };

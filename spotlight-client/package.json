@@ -126,7 +126,6 @@
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "jest-fetch-mock": "^3.0.3",
     "jest-mock-extended": "^1.0.13",
-    "lint-staged": ">=10",
     "prettier": "^2.2.1"
   },
   "browserslist": {
@@ -142,14 +141,6 @@
       "last 1 safari version",
       "ie 11"
     ]
-  },
-  "lint-staged": {
-    "**.{ts,tsx}": [
-      "bash -c tsc",
-      "eslint --fix"
-    ],
-    "**.{js,jsx}": "eslint --fix",
-    "**.json": "prettier --write"
   },
   "jest": {
     "globalSetup": "./globalTestSetup.js",

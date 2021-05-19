@@ -46,44 +46,22 @@ function clearCache() {
 
 const asyncReadFile = util.promisify(fs.readFile);
 
-const FILES_BY_METRIC_TYPE = {
-  parole: [
-    "active_program_participation_by_region.json",
-    "site_offices.json",
-    "supervision_population_by_district_by_demographics.json",
-    "supervision_revocations_by_period_by_type_by_demographics.json",
-    "supervision_success_by_month.json",
-    "supervision_success_by_period_by_demographics.json",
-    "supervision_population_by_month_by_demographics.json",
-  ],
-  prison: [
-    "incarceration_facilities.json",
-    "incarceration_population_by_admission_reason.json",
-    "incarceration_population_by_facility_by_demographics.json",
-    "incarceration_releases_by_type_by_period.json",
-    "incarceration_lengths_by_demographics.json",
-    "incarceration_population_by_month_by_demographics.json",
-    "recidivism_rates_by_cohort_by_year.json",
-  ],
-  probation: [
-    "active_program_participation_by_region.json",
-    "judicial_districts.json",
-    "supervision_population_by_district_by_demographics.json",
-    "supervision_revocations_by_period_by_type_by_demographics.json",
-    "supervision_success_by_month.json",
-    "supervision_success_by_period_by_demographics.json",
-    "supervision_population_by_month_by_demographics.json",
-  ],
-  race: ["racial_disparities.json"],
-  sentencing: [
-    "judicial_districts.json",
-    "sentence_type_by_district_by_demographics.json",
-  ],
-};
-
-const ALL_METRIC_FILES = Array.from(
-  new Set([].concat(...Object.values(FILES_BY_METRIC_TYPE))).values() // using Set to de-duplicate filenames
-);
+const ALL_METRIC_FILES = [
+  "active_program_participation_by_region.json",
+  "incarceration_lengths_by_demographics.json",
+  "incarceration_population_by_admission_reason.json",
+  "incarceration_population_by_facility_by_demographics.json",
+  "incarceration_population_by_month_by_demographics.json",
+  "incarceration_releases_by_type_by_period.json",
+  "racial_disparities.json",
+  "recidivism_rates_by_cohort_by_year.json",
+  "sentence_type_by_district_by_demographics.json",
+  "supervision_population_by_district_by_demographics.json",
+  "supervision_population_by_month_by_demographics.json",
+  "supervision_revocations_by_period_by_type_by_demographics.json",
+  "supervision_success_by_month.json",
+  "supervision_success_by_period_by_demographics.json",
+];
 
 /**
  * Converts the given contents, a Buffer of bytes, into a JS object or array.
@@ -122,24 +100,6 @@ function normalizeMetricFilenames({ names, registeredFiles }) {
     }
     throw new Error(`Metric file ${normalizedFile} not registered`);
   });
-}
-
-/**
- * Returns an array of all of the files that should be retrieved based on the
- * given metric type.
-
- * If a file is given, it will return an array containing only a normalized
- * version of that file name, unless that file does not match the given metric
- * type, in which case this throws an Error.
- */
-function filesForMetricType(metricType, file) {
-  const files = FILES_BY_METRIC_TYPE[metricType];
-
-  if (file) {
-    return normalizeMetricFilenames({ names: [file], registeredFiles: files });
-  }
-
-  return files;
 }
 
 /**
@@ -189,88 +149,6 @@ function fetchFilesFromLocal(tenantId, files) {
   });
 
   return promises;
-}
-
-/**
- * Retrieves all metric files for the given metric type from Google Cloud Storage.
- * @param {string} tenantId - tenant to fetch from
- * @param {string} metricType - metric grouping to get files for
- * @param {string} [file] - if provided, only this file will be fetched instead of the entire group.
- * Must be a member of the metricType group or an error will be thrown.
- * @return {Promise<FetchedFile>[]} a list of Promises, one per metric file for the given type
- * (or a single promise if `file` was provided)
- */
-function fetchMetricsFromGCS(tenantId, metricType, file) {
-  return fetchFilesFromGCS(tenantId, filesForMetricType(metricType, file));
-}
-
-/**
- * This is a parallel to fetchMetricsFromGCS, but instead fetches metric files from the local
- * file system.
- *
- * @param {string} tenantId - tenant to fetch from
- * @param {string} metricType - metric grouping to get files for
- * @param {string} [file] - if provided, only this file will be fetched instead of the entire group.
- * Must be a member of the metricType group or an error will be thrown.
- * @return {Promise<FetchedFile>[]} a list of Promises, one per metric file for the given type
- * (or a single promise if `file` was provided)
- */
-function fetchMetricsFromLocal(tenantId, metricType, file) {
-  return fetchFilesFromLocal(tenantId, filesForMetricType(metricType, file));
-}
-
-/**
- * Retrieves the metrics for the given metric type and passes them into the given callback.
- *
- * The callback should be a function with a signature of `function (error, results)`. `results` is
- * a single object with keys mapping to individual metric files and values corresponding to the
- * deserialized contents of those files.
- *
- * First checks the cache to see if the metrics with the given type are already in memory and not
- * expired beyond the configured TTL. If not, then fetches the metrics for that type from the
- * appropriate files and invokes the callback only once all files have been retrieved.
- *
- * If we are in demo mode, then fetches the files from a static directory, /core/demo_data/.
- * Otherwise, fetches from Google Cloud Storage.
- */
-function fetchMetrics(tenantId, metricType, file, isDemo, callback) {
-  const cacheKey = `${tenantId}-${metricType}-${file}`;
-  // eslint-disable-next-line no-console
-  console.log(`Handling call to fetch ${cacheKey} metrics...`);
-
-  return memoryCache.wrap(
-    cacheKey,
-    (cacheCb) => {
-      let fetcher = null;
-      let source = null;
-      if (isDemo) {
-        source = "local";
-        fetcher = fetchMetricsFromLocal;
-      } else {
-        source = "GCS";
-        fetcher = fetchMetricsFromGCS;
-      }
-
-      // eslint-disable-next-line no-console
-      console.log(`Fetching ${cacheKey} metrics from ${source}...`);
-      const metricPromises = fetcher(tenantId.toUpperCase(), metricType, file);
-
-      Promise.all(metricPromises).then((allFileContents) => {
-        const results = {};
-        allFileContents.forEach((contents) => {
-          // eslint-disable-next-line no-console
-          console.log(`Fetched contents for fileKey ${contents.fileKey}`);
-          const deserializedFile = convertDownloadToJson(contents.contents);
-          results[contents.fileKey] = deserializedFile;
-        });
-
-        // eslint-disable-next-line no-console
-        console.log(`Fetched all ${cacheKey} metrics from ${source}`);
-        cacheCb(null, results);
-      });
-    },
-    callback
-  );
 }
 
 /**
@@ -351,32 +229,7 @@ async function fetchMetricsByName(tenantId, metricNames, isDemo, callback) {
   }
 }
 
-function fetchParoleMetrics(isDemo, tenantId, callback) {
-  return fetchMetrics(tenantId, "parole", null, isDemo, callback);
-}
-
-function fetchPrisonMetrics(isDemo, tenantId, callback) {
-  return fetchMetrics(tenantId, "prison", null, isDemo, callback);
-}
-
-function fetchProbationMetrics(isDemo, tenantId, callback) {
-  return fetchMetrics(tenantId, "probation", null, isDemo, callback);
-}
-
-function fetchRaceMetrics(isDemo, tenantId, callback) {
-  return fetchMetrics(tenantId, "race", null, isDemo, callback);
-}
-
-function fetchSentencingMetrics(isDemo, tenantId, callback) {
-  return fetchMetrics(tenantId, "sentencing", null, isDemo, callback);
-}
-
 module.exports = {
   fetchMetricsByName,
-  fetchParoleMetrics,
-  fetchPrisonMetrics,
-  fetchProbationMetrics,
-  fetchSentencingMetrics,
-  fetchRaceMetrics,
   clearCache,
 };

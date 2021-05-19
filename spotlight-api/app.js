@@ -33,12 +33,6 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(zip());
 
-app.get("/api/:tenantId/download", api.download);
-app.get("/api/:tenantId/parole", api.parole);
-app.get("/api/:tenantId/prison", api.prison);
-app.get("/api/:tenantId/probation", api.probation);
-app.get("/api/:tenantId/race", api.race);
-app.get("/api/:tenantId/sentencing", api.sentencing);
 app.post("/api/:tenantId/public", express.json(), api.metricsByName);
 
 // uptime check endpoint

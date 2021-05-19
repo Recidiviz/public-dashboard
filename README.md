@@ -8,17 +8,13 @@ This repository contains npm packages related to our Spotlight data publishing p
 
 More information about how to use each individual package can be found in their respective README files.
 
-### [Public Dashboard Client](public-dashboard-client/)
-
-A React application for the original Spotlight website (North Dakota only)
-
 ### [Spotlight API](spotlight-api/)
 
 A thin Node/Express backend that serves data for the Spotlight website.
 
 ### [Spotlight Client](spotlight-client/)
 
-A React application for the next-generation Spotlight website (not yet launched).
+A React application for the Spotlight website frontend.
 
 ## Development
 
@@ -46,29 +42,15 @@ Individual packages may require some additional configuration to work properly; 
 
 ### Multi-package tools
 
-We use [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/) for some light multi-package management on top of standard Yarn commands.
+There is a root `package.json` that defines some minimal repository-level dependencies. As a convenience, running `yarn install` in the root will trigger a post-install script that will install dependencies for all packages.
 
-This means that running `yarn install` in the root or in any package directory will install the dependencies for all packages in the repository — so you only need to do it once no matter how many packages you wish to use.
+In addition, there are some Yarn scripts defined in the root package as a convenience for running packages in a coordinated fashion:
 
-It also allows you to run a Yarn command sequentially in each package with `yarn workspaces <command>` or individually with `yarn workspace <workspace-name> <command>` as an alternative to setting your working directory to the package's directory before executing it. For example, if you wanted to run lint tests for the entire repository, you could use `yarn workspaces run lint` to run the `lint` script in each package.
+`yarn dev` — starts the development servers for the Spotlight API and the Spotlight Client in a single terminal window. Be sure you have configured each of those applications with the necessary environment variables, as described in their README files, or this will not work!
 
-In addition, there are some Yarn scripts defined in the root package as a convenience for running multiple packages in a coordinated fashion:
-
-`yarn dev:pd` — starts the development servers for the Spotlight API and the Public Dashboard Client in a single terminal window. Be sure you have configured each of those applications with the necessary environment variables, as described in their README files, or this will not work!
-
-`yarn dev:spotlight` - similar to the above, but with Spotlight Client as the frontend.
-
-`yarn demo:pd` — starts the development servers for the Spotlight API and the Public Dashboard client in "demo mode" by supplying the necessary environment variables in the command line. (This will run your local site off of fake data fixtures rather than live data from a calculation pipeline; see the [Spotlight API documentation](spotlight-api/#demo-mode) for more information.)
-
-`yarn demo:spotlight` - again, similar to the above, with with Spotlight Client as the frontend.
+`yarn demo` — starts the development servers for the Spotlight API and the Spotlight client in "demo mode" by supplying the necessary environment variables in the command line. (This will run your local site off of fake data fixtures rather than live data from a calculation pipeline; see the [Spotlight API documentation](spotlight-api/#demo-mode) for more information.)
 
 `yarn test` - runs the tests for all packages in a single command. (The output this produces is pretty messy at the moment but it can be useful for editor integration)
-
-#### Notes and quirks
-
-The monorepo tooling in this project can be a little rough at times. Any bits of secret knowledge that will help with troubleshooting and configuration should be collected here.
-
-- **Jest versions must match across projects**: We are pinned to an older version of Jest by Create React App. Packages that install Jest independently of CRA (e.g., the API server) need to match that version or tests for all packages will fail with an error about finding multiple versions of Jest. (This happens because Yarn hoists most packages to the root.)
 
 ### Code editor integration
 
@@ -77,7 +59,7 @@ Your code editor may need some additional configuration to properly integrate wi
 #### Visual Studio Code
 
 - install the [ESLint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint), and in your Workspace settings, set the ESLint Working Directories to an array of all the package directories.
-- install the [Jest plugin](https://marketplace.visualstudio.com/items?itemName=Orta.vscode-jest), and in your Workspace settings, set the "path to Jest" to `yarn test --`
+- install the [Jest plugin](https://marketplace.visualstudio.com/items?itemName=Orta.vscode-jest), and in your Workspace settings, set the "Jest command line" to `yarn test --`
 
 ### Other tools
 
@@ -89,13 +71,9 @@ We use [Github Actions](https://docs.github.com/en/free-pro-team@latest/actions)
 
 ## Adding new packages
 
-Packages themselves do not have any special requirements under Yarn Workspaces, nor are they required to use the same packages or versions as any other Workspace; just create a new directory, **add it to the `workspaces` list in the root `package.json`**, and then run `yarn init` in your package directory as you normally would. (The entire repo is covered by a GPL V3 license, so make sure your package's `license` field conforms to that.)
+Packages in this repository are independent of each other; just create a new directory, and then run `yarn init` in your package directory as you normally would. (The entire repo is covered by a GPL V3 license, so make sure your package's `license` field conforms to that.)
 
-Do note that there should only be one `yarn.lock` file for the entire repository; if one is created in your new package directory, you should delete it, make sure the directory is properly listed in the `workspaces` list, and re-run `yarn install`.
-
-ESLint and lint-staged should be installed and applied to your new package directory automatically based on the configurations in the root directory. If you need to extend the default ESLint configuration, create a configuration file in your package directory; if you need to modify or add lint-staged rules, you can do so in the root `package.json`.
-
-In addition, there are some conventions you should follow when setting up your new package, unless you have a compelling and well-documented reason not to:
+There are some conventions you should follow when setting up your new package, unless you have a compelling and well-documented reason not to:
 
 - The package name should be the same as the directory name
 - `yarn dev` should execute the main entry point for development (e.g., starting a development server)
