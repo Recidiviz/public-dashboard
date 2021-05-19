@@ -1574,10 +1574,10 @@
     tiny-warning "^1.0.3"
     tslib "^2.1.0"
 
-"@recidiviz/design-system@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@recidiviz/design-system/-/design-system-0.5.1.tgz#cbf124e069afe32662e70d25dd90443490a2c21a"
-  integrity sha512-ZnOAD7CLeQKUZWogxCqbeZ3blC/pbmvT826qGIXbZkOMblZSTp3nfA4A6rmdvpJY+P6k8jQK1cxPY/SmF70VBg==
+"@recidiviz/design-system@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@recidiviz/design-system/-/design-system-0.5.2.tgz#e1f74d67a15a174bb8191383d26c61a20a6a37c1"
+  integrity sha512-a4cYX4fDkOt/2iyWnneN7jnWmZLQy0EYTzzAhijlccatO61z6/s/Dqd1smbzXL05YWLQ7I5KhsB+w7iSq2Ty4g==
   dependencies:
     "@fontsource/libre-baskerville" "^4.1.0"
     "@fontsource/libre-franklin" "^4.1.0"
