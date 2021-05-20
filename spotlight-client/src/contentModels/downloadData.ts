@@ -18,11 +18,23 @@
 import { csvFormat } from "d3-dsv";
 import downloadjs from "downloadjs";
 import JsZip from "jszip";
+import mapValues from "lodash/mapValues";
 import { stripHtml } from "string-strip-html";
+
+type Records = Record<string, unknown>[];
+
+function recordsToCsv(data: Records): string {
+  // filter out NaNs before writing to file
+  return csvFormat(
+    data.map((record) =>
+      mapValues(record, (v) => (Number.isNaN(v) ? undefined : v))
+    )
+  );
+}
 
 type DownloadProps = {
   archiveName: string;
-  dataFiles: { name: string; data: Record<string, unknown>[] }[];
+  dataFiles: { name: string; data: Records }[];
   readmeContents: string;
 };
 
@@ -39,7 +51,7 @@ export default function downloadData({
     );
 
     dataFiles.forEach(({ name, data }) => {
-      zip.file(`${archiveName}/${name}.csv`, csvFormat(data));
+      zip.file(`${archiveName}/${name}.csv`, recordsToCsv(data));
     });
 
     zip

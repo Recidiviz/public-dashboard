@@ -69,7 +69,7 @@ const MethodologyCopy = styled(CopyBlock)`
 `;
 
 export interface VizControlsProps {
-  filters: (React.ReactElement | null)[];
+  filters: React.ReactNode[];
   download: () => void;
   methodology: string;
 }

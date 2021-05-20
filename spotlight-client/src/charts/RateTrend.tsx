@@ -21,7 +21,7 @@ import XYFrame from "semiotic/lib/XYFrame";
 import styled from "styled-components/macro";
 import ChartWrapperBase from "./ChartWrapper";
 import ColorLegend from "./ColorLegend";
-import { formatAsPct } from "../utils";
+import { formatAsNumber, formatAsPct } from "../utils";
 import XHoverController from "./XHoverController";
 import { animation } from "../UiLibrary";
 import { highlightFade } from "./utils";
@@ -109,6 +109,7 @@ type RateTrendProps = {
   xAccessor: string;
   xExtent?: XYFrameProps["xExtent"];
   xLabel?: string;
+  xTicks?: number;
 };
 
 /**
@@ -122,6 +123,7 @@ export default function RateTrend({
   xAccessor,
   xExtent,
   xLabel,
+  xTicks = 10,
 }: RateTrendProps): React.ReactElement {
   const [highlighted, setHighlighted] = useState<ItemToHighlight | undefined>();
 
@@ -141,11 +143,24 @@ export default function RateTrend({
       );
       if (!matchingRecord) return;
 
+      let pct: number | undefined = matchingRecord.rate;
+      let value = `${formatAsNumber(
+        matchingRecord.rateNumerator
+      )} of ${formatAsNumber(matchingRecord.rateDenominator)}`;
+
+      if (Number.isNaN(matchingRecord.rateNumerator)) {
+        value = `${formatAsPct(pct)} of ${formatAsNumber(
+          matchingRecord.rateDenominator
+        )}`;
+
+        pct = undefined;
+      }
+
       records.push({
         color: dataSeries.color,
         label: dataSeries.label,
-        pct: matchingRecord.rate,
-        value: `${matchingRecord.rateNumerator} of ${matchingRecord.rateDenominator}`,
+        pct,
+        value,
       });
     });
 
@@ -187,7 +202,7 @@ export default function RateTrend({
                         // @ts-expect-error seems to be a typing error in Semiotic,
                         // this needs to be a string
                         label: xLabel,
-                        ticks: 10,
+                        ticks: xTicks,
                       },
                     ]}
                     baseMarkProps={BASE_MARK_PROPS}

@@ -30,6 +30,7 @@ import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
 import { animation } from "../UiLibrary";
+import { formatAsNumber, formatAsPct } from "../utils";
 import VizNotes from "../VizNotes";
 import withMetricHydrator from "../withMetricHydrator";
 import FollowupPeriodFilterSelect from "./FollowupPeriodFilterSelect";
@@ -52,14 +53,22 @@ const getTooltipProps: TooltipContentFunction = (columnData) => {
     summary: { data: CommonDataPoint & { denominator: number } }[];
   };
 
+  const records = [];
+
+  if (Number.isNaN(value)) {
+    records.push({
+      value: `${formatAsPct(pct as number)} of ${formatAsNumber(denominator)}`,
+    });
+  } else {
+    records.push({
+      pct,
+      value: `${value} of ${formatAsNumber(denominator)}`,
+    });
+  }
+
   return {
     title: `${label}`,
-    records: [
-      {
-        pct,
-        value: `${value} of ${denominator}`,
-      },
-    ],
+    records,
   };
 };
 
@@ -118,7 +127,9 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
             <MetricVizControls
               filters={[
                 <FollowupPeriodFilterSelect metric={metric} />,
-                <DemographicFilterSelect metric={metric} />,
+                metric.includesDemographics && (
+                  <DemographicFilterSelect metric={metric} />
+                ),
               ]}
               metric={metric}
             />

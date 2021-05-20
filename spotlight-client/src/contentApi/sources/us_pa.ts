@@ -69,6 +69,23 @@ const content: TenantContent = {
           </p>`,
           metricTypeId: "PrisonAdmissionReasonsCurrent",
         },
+        {
+          title: "How many people end up back in prison?",
+          body: `<p>
+            After release from prison, a significant proportion of formerly incarcerated
+            individuals end up back in prison or charged with additional crimes. This is
+            typically termed “recidivism.”
+          </p>`,
+          metricTypeId: "PrisonRecidivismRateHistorical",
+        },
+        {
+          title: "How has the recidivism rate changed over time?",
+          body: `<p>
+            We can also observe the recidivism rate over time for a given number of years
+            after original release.
+          </p>`,
+          metricTypeId: "PrisonRecidivismRateSingleFollowupHistorical",
+        },
       ],
     },
     Parole: {
@@ -162,6 +179,24 @@ const content: TenantContent = {
         currently incarcerated in a DOC facility. When an individual is admitted to a
         state prison, the reason for the admission is documented by prison officials.
         These categories are pulled from that documentation.
+      </p>`,
+    },
+    PrisonRecidivismRateHistorical: {
+      name: "Cumulative Recidivism Rates",
+      methodology: `<p>
+        The DOC uses three different measures of recidivism: rearrest, reincarceration,
+        and overall recidivism. This data depicts overall recidivism, which is
+        defined by the DOC as the first instance of any type of rearrest or reincarceration
+        after the individual is released from the DOC.
+      </p>`,
+    },
+    PrisonRecidivismRateSingleFollowupHistorical: {
+      name: "Recidivism Rates Over Time",
+      methodology: `<p>
+        The DOC uses three different measures of recidivism: rearrest, reincarceration,
+        and overall recidivism. This data depicts overall recidivism, which is
+        defined by the DOC as the first instance of any type of rearrest or reincarceration
+        after the individual is released from the DOC.
       </p>`,
     },
 
