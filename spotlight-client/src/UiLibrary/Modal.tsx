@@ -19,50 +19,16 @@ import {
   Modal as ModalBase,
   ModalHeading as ModalHeadingBase,
   ModalProps,
-} from "@recidiviz/case-triage-components";
-import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import { rem, rgba } from "polished";
-import React, { useRef } from "react";
+} from "@recidiviz/design-system";
+import { rem } from "polished";
+import React from "react";
 import styled from "styled-components/macro";
 import { Omit, Required } from "utility-types";
 import iconPath from "../assets/x.svg";
-import { colors } from ".";
 import animation from "./animation";
-import zIndex from "./zIndex";
 
 export const ModalHeading = styled(ModalHeadingBase)`
   margin-bottom: ${rem(16)};
-`;
-
-const StyledModal = styled(ModalBase)`
-  /*
-    the double ampersands are a trick to overcome
-    specificity in the imported component styles
-  */
-  && .ReactModal__Overlay {
-    background: ${rgba(colors.modalOverlay, 0)};
-    transition: background-color ${animation.defaultDuration}ms,
-      backdrop-filter ${animation.defaultDuration}ms;
-    z-index: ${zIndex.modal};
-
-    &.ReactModal__Overlay--after-open {
-      /* not all browsers support backdrop-filter but it's a nice progressive enhancement */
-      backdrop-filter: blur(${rem(4)});
-      background: ${rgba(colors.modalOverlay, 0.7)};
-    }
-
-    &.ReactModal__Overlay--before-close {
-      backdrop-filter: none;
-      background: ${rgba(colors.modalOverlay, 0)};
-    }
-  }
-
-  && .ReactModal__Content {
-    max-height: 90vh;
-    max-width: 90vw;
-    overflow: auto;
-    z-index: ${zIndex.modal + 1};
-  }
 `;
 
 const CloseButton = styled.button.attrs({ type: "button" })`
@@ -86,42 +52,21 @@ export type SpotlightModalProps = Omit<
 
 export const Modal: React.FC<SpotlightModalProps> = ({
   children,
-  onAfterOpen,
   onRequestClose,
   ...passThruProps
 }) => {
-  const modalContentRef = useRef<HTMLDivElement | null>(null);
-
-  const onRequestCloseWithScrollLock: ModalProps["onRequestClose"] = (e) => {
-    if (modalContentRef.current) {
-      enableBodyScroll(modalContentRef.current);
-    }
-    onRequestClose(e);
-  };
-
   return (
-    <StyledModal
+    <ModalBase
       {...passThruProps}
       closeTimeoutMS={animation.defaultDuration}
-      contentRef={(node) => {
-        modalContentRef.current = node;
-      }}
-      onAfterOpen={(opts) => {
-        if (modalContentRef.current) {
-          disableBodyScroll(modalContentRef.current);
-        }
-        if (onAfterOpen) {
-          onAfterOpen(opts);
-        }
-      }}
-      onRequestClose={onRequestCloseWithScrollLock}
+      onRequestClose={onRequestClose}
     >
       <>
-        <CloseButton onClick={(e) => onRequestCloseWithScrollLock(e)}>
+        <CloseButton onClick={(e) => onRequestClose(e)}>
           <CloseIcon alt="close modal" src={iconPath} />
         </CloseButton>
         {children}
       </>
-    </StyledModal>
+    </ModalBase>
   );
 };
