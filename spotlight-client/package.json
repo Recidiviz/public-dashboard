@@ -147,5 +147,8 @@
   "jest": {
     "globalSetup": "./globalTestSetup.js",
     "globalTeardown": "./globalTestTeardown.js"
+  },
+  "resolutions": {
+    "node-notifier": "^8.0.1"
   }
 }
