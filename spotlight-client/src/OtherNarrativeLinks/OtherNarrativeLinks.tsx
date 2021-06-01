@@ -21,6 +21,7 @@ import { rem } from "polished";
 import React from "react";
 import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
+import { track } from "../analytics";
 import { TenantId } from "../contentApi/types";
 import { Narrative } from "../contentModels/types";
 import getUrlForResource from "../routerUtils/getUrlForResource";
@@ -97,6 +98,12 @@ const NarrativeLink: React.FC<{
           page: "narrative",
           params: { tenantId, narrativeTypeId: narrative.id },
         })}
+        onClick={() =>
+          track("narrative_body_link_clicked", {
+            category: "navigation",
+            label: narrative.id,
+          })
+        }
         onMouseOver={() => setAnimationStyles({ opacity: 1 })}
         onFocus={() => setAnimationStyles({ opacity: 1 })}
         onMouseOut={() => setAnimationStyles({ opacity: 0 })}

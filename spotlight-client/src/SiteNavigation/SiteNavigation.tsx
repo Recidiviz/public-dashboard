@@ -17,7 +17,9 @@
 
 import { navigate } from "@reach/router";
 import { observer } from "mobx-react-lite";
-import React from "react";
+import React, { useCallback } from "react";
+import { track } from "../analytics";
+import { NarrativeTypeId } from "../contentApi/types";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
 import { Dropdown } from "../UiLibrary";
@@ -40,24 +42,32 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
 
   const narrativeOptions: DropdownOption[] = [];
 
+  const goToNarrative = useCallback(
+    (narrativeTypeId: NarrativeTypeId) => {
+      if (tenant) {
+        navigate(
+          getUrlForResource({
+            page: "narrative",
+            params: { tenantId: tenant.id, narrativeTypeId },
+          })
+        );
+      }
+    },
+    [tenant]
+  );
+
   if (tenant) {
     Object.values(tenant.systemNarratives).forEach((narrative) => {
       if (narrative) {
         narrativeOptions.push({
-          id: getUrlForResource({
-            page: "narrative",
-            params: { tenantId: tenant.id, narrativeTypeId: narrative.id },
-          }),
+          id: narrative.id,
           label: narrative.title,
         });
       }
     });
     if (tenant.racialDisparitiesNarrative) {
       narrativeOptions.push({
-        id: getUrlForResource({
-          page: "narrative",
-          params: { tenantId: tenant.id, narrativeTypeId: "RacialDisparities" },
-        }),
+        id: "RacialDisparities",
         label: tenant.racialDisparitiesNarrative.title,
       });
     }
@@ -91,7 +101,13 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
               <Dropdown
                 buttonKind="link"
                 label="Data Narratives"
-                onChange={(id) => navigate(id)}
+                onChange={(id) => {
+                  track("narrative_menu_link_clicked", {
+                    category: "navigation",
+                    label: id,
+                  });
+                  goToNarrative(id as NarrativeTypeId);
+                }}
                 options={narrativeOptions}
               />
             </NavGroupItem>
