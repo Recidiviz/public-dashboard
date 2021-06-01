@@ -15,7 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { makeAutoObservable, observable } from "mobx";
+import { autorun, makeAutoObservable, observable } from "mobx";
+import { pageview } from "../analytics";
 import type RootStore from "./RootStore";
 
 export default class UiStore {
@@ -35,6 +36,13 @@ export default class UiStore {
     });
 
     this.rootStore = rootStore;
+
+    autorun(() => {
+      if (this.currentPageTitle) {
+        document.title = this.currentPageTitle;
+        pageview();
+      }
+    });
   }
 
   clearTooltipMobile(): void {
