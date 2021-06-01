@@ -19,6 +19,7 @@ import { rem } from "polished";
 import React, { useEffect } from "react";
 import { animated, useSpring, useSprings } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
+import { track } from "../../analytics";
 import { colors, UnStyledButton } from "../../UiLibrary";
 import { LayoutSection } from "../types";
 import { SectionNavProps } from "./types";
@@ -170,6 +171,10 @@ const SectionLinks: React.FC<
             <SectionListItem key={section.title}>
               <SectionLink
                 onClick={() => {
+                  track(`direct_section_link_clicked`, {
+                    category: "navigation",
+                    label: `${index + 1}`,
+                  });
                   goToSection(index + 1);
                 }}
                 onMouseOver={showLinkLabel(index)}
