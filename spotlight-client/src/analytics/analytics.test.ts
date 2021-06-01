@@ -15,17 +15,21 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { SegmentAnalytics } from "@segment/analytics.js-core";
-import { mock, mockClear, mockReset } from "jest-mock-extended";
+import { segmentMock, clearSegmentMock } from "../testUtils";
+import { pageview, track } from "./analytics";
 
-export const segmentMock = mock<SegmentAnalytics.AnalyticsJS>();
+afterEach(() => {
+  clearSegmentMock();
+});
 
-window.analytics = segmentMock;
+test("track pageview", () => {
+  pageview();
+  expect(segmentMock.page).toHaveBeenCalled();
+});
 
-export function clearSegmentMock(): void {
-  mockClear(segmentMock);
-}
-
-export function resetSegmentMock(): void {
-  mockReset(segmentMock);
-}
+test("track event", () => {
+  const eventName = "testEvent";
+  const eventMetadata = { foo: "bar" };
+  track(eventName, eventMetadata);
+  expect(segmentMock.track).toHaveBeenCalledWith(eventName, eventMetadata);
+});

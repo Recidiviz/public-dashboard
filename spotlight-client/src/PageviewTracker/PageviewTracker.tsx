@@ -17,6 +17,7 @@
 
 import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
+import { pageview } from "../analytics";
 import { useDataStore } from "../StoreProvider";
 
 const PageviewTracker = (): null => {
@@ -27,7 +28,7 @@ const PageviewTracker = (): null => {
   useEffect(() => {
     if (currentPageTitle) {
       document.title = currentPageTitle;
-      window.analytics.page();
+      pageview();
     }
   }, [currentPageTitle]);
 

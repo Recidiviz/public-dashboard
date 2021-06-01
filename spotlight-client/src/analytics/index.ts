@@ -15,17 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { SegmentAnalytics } from "@segment/analytics.js-core";
-import { mock, mockClear, mockReset } from "jest-mock-extended";
-
-export const segmentMock = mock<SegmentAnalytics.AnalyticsJS>();
-
-window.analytics = segmentMock;
-
-export function clearSegmentMock(): void {
-  mockClear(segmentMock);
-}
-
-export function resetSegmentMock(): void {
-  mockReset(segmentMock);
-}
+export * from "./analytics";
