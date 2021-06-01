@@ -19,7 +19,7 @@ import { navigate } from "@reach/router";
 import { observer } from "mobx-react-lite";
 import React, { useCallback } from "react";
 import { track } from "../analytics";
-import { NarrativeTypeId } from "../contentApi/types";
+import { isNarrativeTypeId, NarrativeTypeId } from "../contentApi/types";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
 import { Dropdown } from "../UiLibrary";
@@ -102,11 +102,20 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
                 buttonKind="link"
                 label="Data Narratives"
                 onChange={(id) => {
+                  // in practice this should never happen; if it does,
+                  // most likely an error has been made in this component
+                  // in preparing the options data for this menu
+                  if (!isNarrativeTypeId(id)) {
+                    throw new Error(
+                      "Unable to navigate: narrative type not recognized"
+                    );
+                  }
+
                   track("narrative_menu_link_clicked", {
                     category: "navigation",
                     label: id,
                   });
-                  goToNarrative(id as NarrativeTypeId);
+                  goToNarrative(id);
                 }}
                 options={narrativeOptions}
               />

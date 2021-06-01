@@ -28,8 +28,8 @@ test("track pageview", () => {
 });
 
 test("track event", () => {
-  const eventName = "testEvent";
-  const eventMetadata = { foo: "bar" };
+  const eventName = "advance_section_link_clicked";
+  const eventMetadata = { category: "navigation", label: "previous" } as const;
   track(eventName, eventMetadata);
   expect(segmentMock.track).toHaveBeenCalledWith(eventName, eventMetadata);
 });

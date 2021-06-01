@@ -15,6 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { NarrativeTypeId } from "../contentApi/types";
+
 const { analytics } = window;
 
 const isTrackingActive = process.env.NODE_ENV !== "development";
@@ -56,9 +58,22 @@ type EventProperties = {
   [key: string]: string | undefined;
 };
 
-/**
- * @param eventName - corresponds to Event Action field in Google Analytics
- */
+export function track(
+  eventName: "advance_section_link_clicked",
+  properties: { category: "navigation"; label: string }
+): void;
+export function track(
+  eventName: "direct_section_link_clicked",
+  properties: { category: "navigation"; label: string }
+): void;
+export function track(
+  eventName: "narrative_body_link_clicked",
+  properties: { category: "navigation"; label: NarrativeTypeId }
+): void;
+export function track(
+  eventName: "narrative_menu_link_clicked",
+  properties: { category: "navigation"; label: NarrativeTypeId }
+): void;
 export function track(eventName: string, properties: EventProperties): void {
   if (isTrackingActive) {
     analytics.track(eventName, properties);
