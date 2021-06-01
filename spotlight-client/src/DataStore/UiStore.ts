@@ -70,13 +70,23 @@ export default class UiStore {
     const titleParts: string[] = [];
 
     const { isRouteInvalid } = this;
-    const { tenant, narrative } = this.rootStore;
+    const {
+      tenant,
+      narrative,
+      tenantStore: { currentSectionNumber },
+    } = this.rootStore;
 
     if (tenant) {
       titleParts.unshift(tenant.name);
 
       if (narrative) {
         titleParts.unshift(narrative.title);
+
+        if (currentSectionNumber && currentSectionNumber > 1) {
+          titleParts.unshift(
+            narrative.sections[currentSectionNumber - 2].title
+          );
+        }
       }
     }
 
