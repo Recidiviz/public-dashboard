@@ -156,6 +156,28 @@ export default function createMetricMapping({
           );
         else throw new Error(totalLabelError);
         break;
+      case "CommunityCorrectionsPopulationCurrent":
+        if (!localityLabelMapping?.CommunityCorrections)
+          throw new Error(localityContentError);
+
+        if ("totalLabel" in metadata)
+          metricMapping.set(
+            metricType,
+            new PopulationBreakdownByLocationMetric({
+              ...metadata,
+              demographicFilter,
+              id: metricType,
+              tenantId,
+              defaultDemographicView: NOFILTER_KEY,
+              defaultLocalityId: TOTAL_KEY,
+              localityLabels: localityLabelMapping.CommunityCorrections,
+              dataTransformer: prisonPopulationCurrent,
+              sourceFileName:
+                "community_corrections_population_by_facility_by_demographics",
+            })
+          );
+        else throw new Error(totalLabelError);
+        break;
       case "ProbationPopulationCurrent":
         if (!localityLabelMapping?.Probation)
           throw new Error(localityContentError);
@@ -452,6 +474,7 @@ export default function createMetricMapping({
           })
         );
         break;
+
       default:
         assertNever(metricType);
     }

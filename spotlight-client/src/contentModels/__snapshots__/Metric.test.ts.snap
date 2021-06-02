@@ -58,6 +58,102 @@ Array [
 ]
 `;
 
+exports[`data fetching for metric CommunityCorrectionsPopulationCurrent 1`] = `
+Array [
+  Object {
+    "ageBucket": "ALL",
+    "gender": "ALL",
+    "locality": "ALL",
+    "population": 123,
+    "raceOrEthnicity": "HISPANIC",
+  },
+  Object {
+    "ageBucket": "ALL",
+    "gender": "FEMALE",
+    "locality": "ALL",
+    "population": 67,
+    "raceOrEthnicity": "ALL",
+  },
+  Object {
+    "ageBucket": "ALL",
+    "gender": "ALL",
+    "locality": "ALL",
+    "population": 96,
+    "raceOrEthnicity": "BLACK",
+  },
+  Object {
+    "ageBucket": "ALL",
+    "gender": "MALE",
+    "locality": "ALL",
+    "population": 661,
+    "raceOrEthnicity": "ALL",
+  },
+  Object {
+    "ageBucket": "ALL",
+    "gender": "ALL",
+    "locality": "ALL",
+    "population": 244,
+    "raceOrEthnicity": "AMERICAN_INDIAN_ALASKAN_NATIVE",
+  },
+  Object {
+    "ageBucket": "35-39",
+    "gender": "ALL",
+    "locality": "ALL",
+    "population": 242,
+    "raceOrEthnicity": "ALL",
+  },
+  Object {
+    "ageBucket": "40<",
+    "gender": "ALL",
+    "locality": "ALL",
+    "population": 266,
+    "raceOrEthnicity": "ALL",
+  },
+  Object {
+    "ageBucket": "ALL",
+    "gender": "ALL",
+    "locality": "ALL",
+    "population": 2041,
+    "raceOrEthnicity": "ALL",
+  },
+  Object {
+    "ageBucket": "ALL",
+    "gender": "ALL",
+    "locality": "ALL",
+    "population": 12,
+    "raceOrEthnicity": "OTHER",
+  },
+  Object {
+    "ageBucket": "25-29",
+    "gender": "ALL",
+    "locality": "ALL",
+    "population": 284,
+    "raceOrEthnicity": "ALL",
+  },
+  Object {
+    "ageBucket": "<25",
+    "gender": "ALL",
+    "locality": "ALL",
+    "population": 146,
+    "raceOrEthnicity": "ALL",
+  },
+  Object {
+    "ageBucket": "ALL",
+    "gender": "ALL",
+    "locality": "ALL",
+    "population": 671,
+    "raceOrEthnicity": "WHITE",
+  },
+  Object {
+    "ageBucket": "30-34",
+    "gender": "ALL",
+    "locality": "ALL",
+    "population": 134,
+    "raceOrEthnicity": "ALL",
+  },
+]
+`;
+
 exports[`data fetching for metric ParolePopulationCurrent 1`] = `
 Array [
   Object {

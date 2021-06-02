@@ -24,7 +24,7 @@ import JsZip from "jszip";
 import { when } from "mobx";
 import { fromPromise } from "mobx-utils";
 import { stripHtml } from "string-strip-html";
-import retrieveContent from "../contentApi/retrieveContent";
+import allTestContent from "./__fixtures__/tenant_content_exhaustive";
 import { MetricTypeId, MetricTypeIdList } from "../contentApi/types";
 import { reactImmediately } from "../testUtils";
 import createMetricMapping from "./createMetricMapping";
@@ -33,7 +33,6 @@ jest.mock("downloadjs");
 const downloadjsMock = downloadjs as jest.MockedFunction<typeof downloadjs>;
 
 const testTenantId = "US_ND";
-const allTestContent = retrieveContent({ tenantId: testTenantId });
 const testMetadataMapping = allTestContent.metrics;
 
 const getTestMapping = () =>

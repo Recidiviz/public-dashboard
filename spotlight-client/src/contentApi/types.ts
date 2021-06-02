@@ -50,6 +50,7 @@ export type TenantContent = {
       | "PrisonPopulationCurrent"
       | "ProbationPopulationCurrent"
       | "ParolePopulationCurrent"
+      | "CommunityCorrectionsPopulationCurrent"
     >]?: MetricContent & { totalLabel: string };
   } &
     { [key in MetricTypeId]?: MetricContent };
@@ -59,7 +60,10 @@ export type TenantContent = {
   // this is optional because it is possible (though unlikely)
   // to not have any metrics that actually need it
   localities?: {
-    [key in SystemNarrativeTypeId | "ProgramRegions"]?: LocalityLabels;
+    [key in
+      | SystemNarrativeTypeId
+      | "ProgramRegions"
+      | "CommunityCorrections"]?: LocalityLabels;
   };
   topologies?: {
     ProgramRegions: MapData;
@@ -83,6 +87,7 @@ export const MetricTypeIdList = [
   "PrisonReleaseTypeAggregate",
   "PrisonRecidivismRateHistorical",
   "PrisonRecidivismRateSingleFollowupHistorical",
+  "CommunityCorrectionsPopulationCurrent",
   "ProbationPopulationCurrent",
   "ProbationPopulationHistorical",
   "ProbationSuccessHistorical",
