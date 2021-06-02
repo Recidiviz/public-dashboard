@@ -18,7 +18,6 @@
 import { csvParse } from "d3-dsv";
 import downloadjs from "downloadjs";
 import JsZip from "jszip";
-import { advanceTo, clear } from "jest-date-mock";
 import { runInAction, when } from "mobx";
 import { stripHtml } from "string-strip-html";
 import { DemographicView } from "../demographics";
@@ -68,15 +67,6 @@ async function getPopulatedMetric() {
 
   return metric;
 }
-
-beforeEach(() => {
-  // last month in data fixture
-  advanceTo(new Date(2020, 6, 2));
-});
-
-afterEach(() => {
-  clear();
-});
 
 describe("cohort data", () => {
   test("total", async () => {
@@ -155,61 +145,14 @@ describe("cohort data", () => {
           );
       });
 
-      // does not include current month, as set via jest date mock
-      expect(cohortRecords).toEqual(
-        expect.not.arrayContaining([
-          expect.objectContaining({ year: 2020, month: 7 }),
-        ])
+      // records should be sorted and span 36 months,
+      // ending with the latest date present in the data
+      expect(cohortRecords[0]).toEqual(
+        expect.objectContaining({ year: 2016, month: 10 })
       );
-      // as a result, the start should be shifted back a month
-      expect(cohortRecords).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({ year: 2017, month: 7 }),
-        ])
-      );
-    });
 
-    expect.hasAssertions();
-  });
-
-  test("imputes missing cohorts with current month", async () => {
-    mockedFetchAndTransformMetric.mockResolvedValueOnce([
-      {
-        year: 2020,
-        month: 7,
-        district: "ALL",
-        rateNumerator: 2,
-        rateDenominator: 2,
-        rate: 1,
-      },
-    ]);
-
-    const metric = await getPopulatedMetric();
-
-    reactImmediately(() => {
-      const cohortRecords = metric.cohortRecords as SupervisionSuccessRateMonthlyRecord[];
-      expect(cohortRecords.length).toEqual(36);
-      cohortRecords.forEach((record) => {
-        if (record.year !== 2020 && record.month !== 7)
-          expect(record).toEqual(
-            expect.objectContaining({
-              rate: 0,
-              rateDenominator: 0,
-              rateNumerator: 0,
-            })
-          );
-      });
-      // includes current month, as set via jest date mock
-      expect(cohortRecords).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({ year: 2020, month: 7 }),
-        ])
-      );
-      // as a result, the start is shifted forward a month
-      expect(cohortRecords).toEqual(
-        expect.not.arrayContaining([
-          expect.objectContaining({ year: 2017, month: 7 }),
-        ])
+      expect(cohortRecords[cohortRecords.length - 1]).toEqual(
+        expect.objectContaining({ year: 2019, month: 9 })
       );
     });
 

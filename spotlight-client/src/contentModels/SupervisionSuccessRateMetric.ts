@@ -17,6 +17,7 @@
 
 import { ascending, sum } from "d3-array";
 import { computed, makeObservable, observable, runInAction, when } from "mobx";
+import { isValid, max } from "date-fns";
 import {
   DemographicView,
   recordIsTotalByDimension,
@@ -37,17 +38,11 @@ import getMissingMonths from "./getMissingMonths";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 import { UnknownCounts } from "./types";
 
-function dataIncludesCurrentMonth(
-  records: SupervisionSuccessRateMonthlyRecord[]
-): boolean {
-  const now = new Date();
-  const thisYear = now.getFullYear();
+function latestMonthInData(records: SupervisionSuccessRateMonthlyRecord[]) {
   // JS dates provide a month index, whereas records use calendar months
-  const thisMonth = now.getMonth() + 1;
-
-  return records.some(
-    (record) => record.year === thisYear && record.month === thisMonth
-  );
+  const latestDate = max(records.map((r) => new Date(r.year, r.month - 1)));
+  // an empty record set can result in an invalid date, which will break things
+  return isValid(latestDate) ? latestDate : undefined;
 }
 
 /**
@@ -102,44 +97,44 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
   > {
     const transformedData = await super.fetchAndTransform();
 
-    // if the current month is completely missing from data, we will assume it is
-    // actually missing due to reporting lag. But if any record contains it, we will
-    // assume that it should be replaced with an empty record when it is missing
-    const includeCurrentMonth = dataIncludesCurrentMonth(transformedData);
-
     const missingRecords: SupervisionSuccessRateMonthlyRecord[] = [];
 
-    // isolate each locality and impute any missing records
-    const localityIds = [
-      ...this.localityLabels.entries.map(({ id }) => id),
-      TOTAL_KEY,
-    ];
-    localityIds.forEach((localityId) => {
-      const recordsForLocality = transformedData.filter(
-        recordMatchesLocality(localityId)
-      );
+    // our historical window ends at the latest date seen in the data;
+    // we won't impute anything more recent than that
+    const end = latestMonthInData(transformedData);
+    if (end) {
+      // isolate each locality and impute any missing records
+      const localityIds = [
+        ...this.localityLabels.entries.map(({ id }) => id),
+        TOTAL_KEY,
+      ];
+      localityIds.forEach((localityId) => {
+        const recordsForLocality = transformedData.filter(
+          recordMatchesLocality(localityId)
+        );
 
-      const missingMonths = getMissingMonths({
-        expectedMonths: 36,
-        includeCurrentMonth,
-        records: recordsForLocality.map(({ year, month }) => ({
-          year,
-          monthIndex: month - 1,
-        })),
+        const missingMonths = getMissingMonths({
+          end,
+          expectedMonths: 36,
+          records: recordsForLocality.map(({ year, month }) => ({
+            year,
+            monthIndex: month - 1,
+          })),
+        });
+
+        missingRecords.push(
+          ...missingMonths.map(({ year, monthIndex }) => ({
+            year,
+            month: monthIndex + 1,
+            label: getCohortLabel({ year, month: monthIndex + 1 }),
+            locality: localityId,
+            rate: 0,
+            rateNumerator: 0,
+            rateDenominator: 0,
+          }))
+        );
       });
-
-      missingRecords.push(
-        ...missingMonths.map(({ year, monthIndex }) => ({
-          year,
-          month: monthIndex + 1,
-          label: getCohortLabel({ year, month: monthIndex + 1 }),
-          locality: localityId,
-          rate: 0,
-          rateNumerator: 0,
-          rateDenominator: 0,
-        }))
-      );
-    });
+    }
 
     transformedData.push(...missingRecords);
 

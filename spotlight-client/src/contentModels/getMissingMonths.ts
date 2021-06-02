@@ -32,13 +32,13 @@ const monthFromRecord = (record: MonthRecord) =>
  * demographic category for it to work as expected. The demographicFields prop
  * should reflect that category to ensure generated records have the correct shape.
  */
-export default function getMissingMonths({
+function getMissingMonths({
+  end,
   expectedMonths,
-  includeCurrentMonth,
   records,
 }: {
+  end: Date;
   expectedMonths: number;
-  includeCurrentMonth: boolean;
   records: MonthRecord[];
 }): MonthRecord[] {
   // scan the data to see what months we have
@@ -53,14 +53,6 @@ export default function getMissingMonths({
 
   const missingMonths: MonthRecord[] = [];
 
-  let end = new Date();
-  if (!includeCurrentMonth) {
-    // there may be a reporting lag for the current month; if it's missing,
-    // instead of patching it we should just shift the entire window back one month
-    if (isMonthMissing(end)) {
-      end = subMonths(end, 1);
-    }
-  }
   const start = subMonths(end, expectedMonths - 1);
   eachMonthOfInterval({ start, end }).forEach((monthStart) => {
     if (isMonthMissing(monthStart)) {
@@ -73,3 +65,5 @@ export default function getMissingMonths({
 
   return missingMonths;
 }
+
+export default getMissingMonths;

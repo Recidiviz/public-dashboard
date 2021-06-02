@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { startOfMonth, sub } from "date-fns";
+import { sub } from "date-fns";
 import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
 import { isWindowSizeId, WindowedTimeSeries, WindowSizeId } from "../charts";
@@ -31,10 +31,9 @@ const VizHistoricalPopulationBreakdown: React.FC<{
 }> = ({ metric }) => {
   const [windowSizeId, setWindowSizeId] = useState<WindowSizeId>("20");
 
-  let defaultRangeEnd = startOfMonth(new Date());
-  if (!metric.dataIncludesCurrentMonth) {
-    defaultRangeEnd = sub(defaultRangeEnd, { months: 1 });
-  }
+  if (!metric.latestMonthInData) return null;
+
+  const defaultRangeEnd = metric.latestMonthInData;
 
   let defaultRangeStart: Date | undefined;
   if (windowSizeId !== "custom") {

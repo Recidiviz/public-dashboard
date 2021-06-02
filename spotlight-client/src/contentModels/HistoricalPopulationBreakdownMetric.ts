@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { ascending, groups, sum } from "d3-array";
-import { isSameDay, startOfMonth } from "date-fns";
+import { isValid, max } from "date-fns";
 import { computed, makeObservable, observable, runInAction } from "mobx";
 import { DataSeries } from "../charts";
 import {
@@ -38,11 +38,11 @@ import { UnknownsByDate } from "./types";
 
 const EXPECTED_MONTHS = 240; // 20 years
 
-function dataIncludesCurrentMonth(
-  records: HistoricalPopulationBreakdownRecord[]
-) {
-  const thisMonth = startOfMonth(new Date());
-  return records.some((record) => isSameDay(record.date, thisMonth));
+function latestMonthInData(records: HistoricalPopulationBreakdownRecord[]) {
+  // JS dates provide a month index, whereas records use calendar months
+  const latestDate = max(records.map((r) => r.date));
+  // an empty record set can result in an invalid date, which will break things
+  return isValid(latestDate) ? latestDate : undefined;
 }
 
 /**
@@ -54,16 +54,16 @@ function dataIncludesCurrentMonth(
  */
 function getMissingMonthsForSeries({
   demographicFields,
-  includeCurrentMonth,
+  end,
   records,
 }: {
   demographicFields: DemographicFields;
-  includeCurrentMonth: boolean;
+  end: Date;
   records: HistoricalPopulationBreakdownRecord[];
 }): HistoricalPopulationBreakdownRecord[] {
   const missingMonths = getMissingMonths({
+    end,
     expectedMonths: EXPECTED_MONTHS,
-    includeCurrentMonth,
     records: records.map(({ date }) => ({
       year: date.getFullYear(),
       monthIndex: date.getMonth(),
@@ -79,7 +79,7 @@ function getMissingMonthsForSeries({
 
 export default class HistoricalPopulationBreakdownMetric extends Metric<HistoricalPopulationBreakdownRecord> {
   // UI needs to know this in order to configure proper viewing window
-  dataIncludesCurrentMonth?: boolean;
+  latestMonthInData?: Date;
 
   constructor(
     props: BaseMetricConstructorOptions<HistoricalPopulationBreakdownRecord>
@@ -87,7 +87,7 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
     super(props);
 
     makeObservable(this, {
-      dataIncludesCurrentMonth: observable,
+      latestMonthInData: observable,
       dataSeries: computed,
       unknowns: computed,
     });
@@ -96,56 +96,58 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
   async fetchAndTransform(): Promise<HistoricalPopulationBreakdownRecord[]> {
     const transformedData = await super.fetchAndTransform();
 
-    // if the current month is completely missing from data, we will assume it is
-    // actually missing due to reporting lag. But if any record contains it, we will
-    // assume that it should be replaced with an empty record when it is missing
-    const includeCurrentMonth = dataIncludesCurrentMonth(transformedData);
-    runInAction(() => {
-      this.dataIncludesCurrentMonth = includeCurrentMonth;
-    });
-
     const missingRecords: HistoricalPopulationBreakdownRecord[] = [];
 
-    // isolate each data series and impute any missing records
-    DemographicViewList.forEach((demographicView) => {
-      if (demographicView === "nofilter") return;
+    // our historical window ends at the latest date seen in the data;
+    // we won't impute anything more recent than that
+    const end = latestMonthInData(transformedData);
 
-      const recordsForDemographicView = transformedData.filter(
-        recordIsTotalByDimension(demographicView)
-      );
-
-      const categories = this.getDemographicCategories(demographicView);
-      categories.forEach(({ identifier }) => {
-        let recordsForCategory;
-        if (demographicView !== "total") {
-          recordsForCategory = recordsForDemographicView.filter(
-            (record) => record[demographicView] === identifier
-          );
-        } else {
-          recordsForCategory = recordsForDemographicView;
-        }
-        missingRecords.push(
-          ...getMissingMonthsForSeries({
-            records: recordsForCategory,
-            includeCurrentMonth,
-            demographicFields: {
-              raceOrEthnicity:
-                demographicView === "raceOrEthnicity"
-                  ? (identifier as RaceIdentifier)
-                  : "ALL",
-              gender:
-                demographicView === "gender"
-                  ? (identifier as GenderIdentifier)
-                  : "ALL",
-              ageBucket:
-                demographicView === "ageBucket"
-                  ? (identifier as AgeIdentifier)
-                  : "ALL",
-            },
-          })
-        );
+    if (end) {
+      runInAction(() => {
+        this.latestMonthInData = end;
       });
-    });
+
+      // isolate each data series and impute any missing records
+      DemographicViewList.forEach((demographicView) => {
+        if (demographicView === "nofilter") return;
+
+        const recordsForDemographicView = transformedData.filter(
+          recordIsTotalByDimension(demographicView)
+        );
+
+        const categories = this.getDemographicCategories(demographicView);
+        categories.forEach(({ identifier }) => {
+          let recordsForCategory;
+          if (demographicView !== "total") {
+            recordsForCategory = recordsForDemographicView.filter(
+              (record) => record[demographicView] === identifier
+            );
+          } else {
+            recordsForCategory = recordsForDemographicView;
+          }
+          missingRecords.push(
+            ...getMissingMonthsForSeries({
+              records: recordsForCategory,
+              end,
+              demographicFields: {
+                raceOrEthnicity:
+                  demographicView === "raceOrEthnicity"
+                    ? (identifier as RaceIdentifier)
+                    : "ALL",
+                gender:
+                  demographicView === "gender"
+                    ? (identifier as GenderIdentifier)
+                    : "ALL",
+                ageBucket:
+                  demographicView === "ageBucket"
+                    ? (identifier as AgeIdentifier)
+                    : "ALL",
+              },
+            })
+          );
+        });
+      });
+    }
 
     transformedData.push(...missingRecords);
 

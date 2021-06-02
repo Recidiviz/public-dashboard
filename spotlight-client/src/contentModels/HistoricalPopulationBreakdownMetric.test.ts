@@ -16,7 +16,6 @@
 // =============================================================================
 
 import { isEqual } from "date-fns";
-import { advanceTo, clear } from "jest-date-mock";
 import { runInAction, when } from "mobx";
 import {
   createDemographicCategories,
@@ -72,10 +71,6 @@ const mockTransformer = jest.fn();
 
 beforeEach(() => {
   mockedFetchAndTransformMetric.mockResolvedValue([...mockData]);
-});
-
-afterEach(() => {
-  clear();
 });
 
 const getMetric = async () => {
@@ -135,49 +130,15 @@ test("fills in missing data", async () => {
               );
             }
           });
+
+          // records are sorted and span 240 months
+          expect(series[0].date).toEqual(new Date(2000, 10, 1));
+          expect(series[series.length - 1].date).toEqual(new Date(2020, 9, 1));
         });
       }
     });
   });
 
-  expect.hasAssertions();
-});
-
-test("imputed data does not include the current month", async () => {
-  // later than most recent month present in the fixture
-  advanceTo(new Date(2020, 11, 10));
-  const currentMonth = new Date(2020, 11, 1);
-
-  const metric = await getMetric();
-
-  reactImmediately(() => {
-    const currentMonthRecords = metric.records?.filter((record) =>
-      isEqual(record.date, currentMonth)
-    );
-
-    expect(currentMonthRecords?.length).toBe(0);
-
-    expect(metric.dataIncludesCurrentMonth).toBe(false);
-  });
-  expect.hasAssertions();
-});
-
-test("imputed data includes current month", async () => {
-  // most recent month present in the fixture
-  advanceTo(new Date(2020, 9, 10));
-  const currentMonth = new Date(2020, 9, 1);
-
-  const metric = await getMetric();
-
-  reactImmediately(() => {
-    const currentMonthRecords = metric.records?.filter((record) =>
-      isEqual(record.date, currentMonth)
-    );
-
-    expect(currentMonthRecords?.length).toBe(1);
-
-    expect(metric.dataIncludesCurrentMonth).toBe(true);
-  });
   expect.hasAssertions();
 });
 
