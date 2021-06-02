@@ -16,10 +16,16 @@
 // =============================================================================
 
 import { SegmentAnalytics } from "@segment/analytics.js-core";
-import { mock } from "jest-mock-extended";
+import { mock, mockClear, mockReset } from "jest-mock-extended";
 
-const segmentMock = mock<SegmentAnalytics.AnalyticsJS>();
+export const segmentMock = mock<SegmentAnalytics.AnalyticsJS>();
 
 window.analytics = segmentMock;
 
-export default segmentMock;
+export function clearSegmentMock(): void {
+  mockClear(segmentMock);
+}
+
+export function resetSegmentMock(): void {
+  mockReset(segmentMock);
+}

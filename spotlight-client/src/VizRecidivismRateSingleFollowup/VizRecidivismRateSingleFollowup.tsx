@@ -82,6 +82,7 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
   const {
     demographicView,
     followUpYears,
+    includesDemographics,
     singleFollowupDemographics,
     unknowns,
   } = metric;
@@ -127,7 +128,7 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
             <MetricVizControls
               filters={[
                 <FollowupPeriodFilterSelect metric={metric} />,
-                metric.includesDemographics && (
+                includesDemographics && (
                   <DemographicFilterSelect metric={metric} />
                 ),
               ]}

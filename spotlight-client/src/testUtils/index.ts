@@ -16,4 +16,4 @@
 // =============================================================================
 
 export * from "./testUtils";
-export { default as segmentMock } from "./segmentMock";
+export * from "./segmentMock";

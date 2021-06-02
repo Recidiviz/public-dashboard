@@ -27,7 +27,7 @@ import {
 import { isTenantEnabled } from "./contentApi/isTenantEnabled";
 import testContent from "./contentApi/sources/us_nd";
 import { NarrativesSlug } from "./routerUtils/types";
-import { renderNavigableApp, segmentMock } from "./testUtils";
+import { renderNavigableApp, resetSegmentMock, segmentMock } from "./testUtils";
 
 jest.mock("./contentApi/isTenantEnabled", () => ({
   isTenantEnabled: jest.fn(),
@@ -166,7 +166,7 @@ describe("navigation", () => {
   });
 
   test("pageview tracking", async () => {
-    segmentMock.page.mockReset();
+    resetSegmentMock();
 
     const {
       history: { navigate },

@@ -15,7 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { makeAutoObservable, observable } from "mobx";
+import { autorun, makeAutoObservable, observable } from "mobx";
+import { pageview } from "../analytics";
 import type RootStore from "./RootStore";
 
 export default class UiStore {
@@ -35,6 +36,13 @@ export default class UiStore {
     });
 
     this.rootStore = rootStore;
+
+    autorun(() => {
+      if (this.currentPageTitle) {
+        document.title = this.currentPageTitle;
+        pageview();
+      }
+    });
   }
 
   clearTooltipMobile(): void {
@@ -70,13 +78,23 @@ export default class UiStore {
     const titleParts: string[] = [];
 
     const { isRouteInvalid } = this;
-    const { tenant, narrative } = this.rootStore;
+    const {
+      tenant,
+      narrative,
+      tenantStore: { currentSectionNumber },
+    } = this.rootStore;
 
     if (tenant) {
       titleParts.unshift(tenant.name);
 
       if (narrative) {
         titleParts.unshift(narrative.title);
+
+        if (currentSectionNumber && currentSectionNumber > 1) {
+          titleParts.unshift(
+            narrative.sections[currentSectionNumber - 2].title
+          );
+        }
       }
     }
 

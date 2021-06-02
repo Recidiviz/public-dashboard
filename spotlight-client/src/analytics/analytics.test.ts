@@ -15,23 +15,21 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
-import { useDataStore } from "../StoreProvider";
+import { segmentMock, clearSegmentMock } from "../testUtils";
+import { pageview, track } from "./analytics";
 
-const PageviewTracker = (): null => {
-  const {
-    uiStore: { currentPageTitle },
-  } = useDataStore();
+afterEach(() => {
+  clearSegmentMock();
+});
 
-  useEffect(() => {
-    if (currentPageTitle) {
-      document.title = currentPageTitle;
-      window.analytics.page();
-    }
-  }, [currentPageTitle]);
+test("track pageview", () => {
+  pageview();
+  expect(segmentMock.page).toHaveBeenCalled();
+});
 
-  return null;
-};
-
-export default observer(PageviewTracker);
+test("track event", () => {
+  const eventName = "advance_section_link_clicked";
+  const eventMetadata = { category: "navigation", label: "previous" } as const;
+  track(eventName, eventMetadata);
+  expect(segmentMock.track).toHaveBeenCalledWith(eventName, eventMetadata);
+});

@@ -18,6 +18,7 @@
 import { rem } from "polished";
 import React, { useState } from "react";
 import styled from "styled-components/macro";
+import { track } from "../../analytics";
 import { colors, Chevron, UnStyledButton } from "../../UiLibrary";
 import { SectionNavProps } from "./types";
 
@@ -54,7 +55,15 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = ({
   return (
     <NavLink
       disabled={disabled}
-      onClick={() => !disabled && goToSection(targetSection)}
+      onClick={() => {
+        if (!disabled) {
+          track(`advance_section_link_clicked`, {
+            category: "navigation",
+            label: type,
+          });
+          goToSection(targetSection);
+        }
+      }}
       aria-label={`${type} section`}
       onMouseOver={() => setHovered(true)}
       onFocus={() => setHovered(true)}
