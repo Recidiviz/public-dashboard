@@ -29,9 +29,12 @@ export type DemographicsByCategoryRecord = DemographicFields & {
   count: number;
 };
 
-function getCategoryTransposeFunction(
-  fields: { fieldName: string; categoryLabel: string }[]
-) {
+export type CategoryFieldMapping = {
+  fieldName: string;
+  categoryLabel: string;
+};
+
+function getCategoryTransposeFunction(fields: CategoryFieldMapping[]) {
   return (records: RawMetricData) => {
     // these come in as wide records that we need to transpose to long
     const recordsByCategory = records.map((record) => {
@@ -48,7 +51,7 @@ function getCategoryTransposeFunction(
   };
 }
 
-const revocationReasonFields = [
+const revocationReasonFields: CategoryFieldMapping[] = [
   {
     categoryLabel: REVOCATION_TYPE_LABELS.ABSCOND,
     fieldName: "absconsion_count",
@@ -80,7 +83,7 @@ export function paroleRevocationReasons(
   );
 }
 
-const prisonAdmissionFields = [
+const defaultPrisonAdmissionFields: CategoryFieldMapping[] = [
   { categoryLabel: "New admissions", fieldName: "new_admission_count" },
   { categoryLabel: "Parole revocations", fieldName: "parole_revocation_count" },
   {
@@ -91,12 +94,13 @@ const prisonAdmissionFields = [
 ];
 
 export function prisonAdmissionReasons(
-  rawRecords: RawMetricData
+  rawRecords: RawMetricData,
+  fieldMapping = defaultPrisonAdmissionFields
 ): DemographicsByCategoryRecord[] {
-  return getCategoryTransposeFunction(prisonAdmissionFields)(rawRecords);
+  return getCategoryTransposeFunction(fieldMapping)(rawRecords);
 }
 
-const prisonReleaseFields = [
+const prisonReleaseFields: CategoryFieldMapping[] = [
   {
     categoryLabel: "Transfer out of system",
     fieldName: "external_transfer_count",
@@ -116,7 +120,7 @@ export function prisonReleaseTypes(
   return getCategoryTransposeFunction(prisonReleaseFields)(rawRecords);
 }
 
-export const prisonStayLengthFields = [
+export const prisonStayLengthFields: CategoryFieldMapping[] = [
   { categoryLabel: "<1 year", fieldName: "years_0_1" },
   { categoryLabel: "1–2", fieldName: "years_1_2" },
   { categoryLabel: "2–3", fieldName: "years_2_3" },

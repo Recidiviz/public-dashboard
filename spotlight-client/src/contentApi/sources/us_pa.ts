@@ -191,6 +191,17 @@ const content: TenantContent = {
         state prison, the reason for the admission is documented by prison officials.
         These categories are pulled from that documentation.
       </p>`,
+      fieldMapping: [
+        {
+          categoryLabel: "New admissions and probation revocations",
+          fieldName: "new_admission_count",
+        },
+        {
+          categoryLabel: "Parole revocations",
+          fieldName: "parole_revocation_count",
+        },
+        { categoryLabel: "Other", fieldName: "other_count" },
+      ],
     },
     PrisonRecidivismRateHistorical: {
       name: "Cumulative Recidivism Rates",

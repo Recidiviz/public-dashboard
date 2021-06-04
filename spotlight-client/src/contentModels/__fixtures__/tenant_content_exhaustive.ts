@@ -67,6 +67,18 @@ const content: ExhaustiveTenantContent = {
     PrisonAdmissionReasonsCurrent: {
       name: "test PrisonAdmissionReasonsCurrent name",
       methodology: "test PrisonAdmissionReasonsCurrent methodology",
+      fieldMapping: [
+        { categoryLabel: "New admissions", fieldName: "new_admission_count" },
+        {
+          categoryLabel: "Parole revocations",
+          fieldName: "parole_revocation_count",
+        },
+        {
+          categoryLabel: "Probation revocations",
+          fieldName: "probation_revocation_count",
+        },
+        { categoryLabel: "Other", fieldName: "other_count" },
+      ],
     },
     PrisonStayLengthAggregate: {
       name: "test PrisonStayLengthAggregate name",

@@ -35,6 +35,7 @@ import {
   probationRevocationReasons,
   probationSuccessRateDemographics,
   probationSuccessRateMonthly,
+  RawMetricData,
   recidivismRateAllFollowup,
   recidivismRateConventionalFollowup,
   sentencePopulationCurrent,
@@ -403,7 +404,14 @@ export default function createMetricMapping({
             defaultDemographicView: "total",
             defaultLocalityId: undefined,
             localityLabels: undefined,
-            dataTransformer: prisonAdmissionReasons,
+            dataTransformer: (rawRecords: RawMetricData) => {
+              let fieldMapping;
+
+              if ("fieldMapping" in metadata) {
+                fieldMapping = metadata.fieldMapping;
+              }
+              return prisonAdmissionReasons(rawRecords, fieldMapping);
+            },
             sourceFileName: "incarceration_population_by_admission_reason",
           })
         );
