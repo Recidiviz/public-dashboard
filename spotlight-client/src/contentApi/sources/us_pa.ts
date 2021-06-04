@@ -50,6 +50,17 @@ const content: TenantContent = {
           metricTypeId: "PrisonPopulationCurrent",
         },
         {
+          title: "Who is in a transitional facility?",
+          body: `<p>
+            People who are nearing the end of their prison term may be admitted to a
+            community correction center in advance of their release from incarceration.
+            These residential facilities, operated by the DOC or private contractors,
+            offer supportive programming to help prepare people for a successful
+            return to the community.
+          </p>`,
+          metricTypeId: "CommunityCorrectionsPopulationCurrent",
+        },
+        {
           title: "How has the incarcerated population changed over time?",
           body: `<p>
             Broadly speaking, increased activity in earlier parts of the criminal justice
@@ -198,6 +209,18 @@ const content: TenantContent = {
         defined by the DOC as the first instance of any type of rearrest or reincarceration
         after the individual is released from the DOC.
       </p>`,
+    },
+    CommunityCorrectionsPopulationCurrent: {
+      name: "Community Correction Centers",
+      methodology: `
+      <p>
+        In distributions by age, individuals are counted towards the age group they
+        fall into as of the reporting date. Gender distributions only include male and
+        female due to low numbers of other reported genders. Distributions by race
+        count individuals with more than one reported race or ethnicity towards the
+        racial or ethnic identity that is least represented in the general population.
+      </p>`,
+      totalLabel: "Total people in community correction centers",
     },
 
     ParolePopulationCurrent: {
@@ -533,6 +556,10 @@ const content: TenantContent = {
         { id: "04", label: "Scranton" },
         { id: "05", label: "Williamsport" },
       ],
+    },
+    CommunityCorrections: {
+      label: "Facility",
+      entries: [{ id: "ALL", label: "All Facilities" }],
     },
   },
 };
