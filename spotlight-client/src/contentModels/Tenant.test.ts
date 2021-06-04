@@ -38,6 +38,8 @@ test.each([
   const tenant = createTenant({ tenantId: "US_ND" });
   expect(tenant.name).toBe(fixture.name);
   expect(tenant.description).toBe(fixture.description);
+  expect(tenant.coBrandingCopy).toBe(fixture.coBrandingCopy);
+  expect(tenant.feedbackUrl).toBe(fixture.feedbackUrl);
 });
 
 test.each([

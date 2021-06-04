@@ -44,6 +44,7 @@ export type TenantContent = {
   name: string;
   description: string;
   coBrandingCopy: string;
+  feedbackUrl: string;
   metrics: {
     [key in Extract<
       MetricTypeId,

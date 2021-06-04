@@ -33,6 +33,7 @@ const content: ExhaustiveTenantContent = {
   name: "Test Tenant",
   description: "test tenant description",
   coBrandingCopy: "test tenant co-branding",
+  feedbackUrl: "https://example.com/feedback",
   // tests are based on ND data which has this demo profile
   demographicCategories: {
     raceOrEthnicity: [

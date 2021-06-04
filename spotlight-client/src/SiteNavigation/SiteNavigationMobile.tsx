@@ -34,7 +34,6 @@ import {
   NavGroup,
   NavGroupItem as NavGroupItemBase,
   NavLink as NavLinkBase,
-  FEEDBACK_URL,
   ExternalNavLink as ExternalNavLinkBase,
   NavButton as ExternalNavButton,
   ShareButtonProps,
@@ -203,9 +202,13 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
                   </NavLink>
                 </NavMenuItem>
               )}
-              <NavMenuItem>
-                <ExternalNavLink href={FEEDBACK_URL}>Feedback</ExternalNavLink>
-              </NavMenuItem>
+              {tenant && (
+                <NavMenuItem>
+                  <ExternalNavLink href={tenant.feedbackUrl}>
+                    Feedback
+                  </ExternalNavLink>
+                </NavMenuItem>
+              )}
               <NavMenuItem>
                 <NavButton
                   onClick={() => {

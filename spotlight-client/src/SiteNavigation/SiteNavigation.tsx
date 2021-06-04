@@ -32,7 +32,6 @@ import {
   NavGroupItem,
   NavLink,
   ExternalNavLink,
-  FEEDBACK_URL,
   NavButton,
   ShareButtonProps,
 } from "./shared";
@@ -121,9 +120,13 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
               />
             </NavGroupItem>
           )}
-          <NavGroupItem>
-            <ExternalNavLink href={FEEDBACK_URL}>Feedback</ExternalNavLink>
-          </NavGroupItem>
+          {tenant && (
+            <NavGroupItem>
+              <ExternalNavLink href={tenant.feedbackUrl}>
+                Feedback
+              </ExternalNavLink>
+            </NavGroupItem>
+          )}
           <NavGroupItem>
             <NavButton onClick={openShareModal}>Share</NavButton>
           </NavGroupItem>

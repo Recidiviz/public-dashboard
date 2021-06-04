@@ -81,9 +81,6 @@ export const NavButton = styled(UnStyledButton)`
   ${linkStyles}
 `;
 
-export const FEEDBACK_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLSc3_wV2ltGumMdGTcLehUM41tQri0ZW5RjIKh0JJlhpJGE9Hg/viewform";
-
 export type ShareButtonProps = {
   openShareModal: () => void;
 };
