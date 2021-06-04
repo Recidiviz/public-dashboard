@@ -15,51 +15,10 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { format } from "date-fns";
 import React from "react";
-import { ValuesType } from "utility-types";
-import { UnknownCounts, Unknowns } from "../contentModels/types";
-import { getDemographicViewLabel } from "../demographics";
-import { DemographicFieldKeyList } from "../metricsApi";
+import { Unknowns } from "../contentModels/types";
 import Notes from "../Notes";
-import { formatAsNumber } from "../utils";
-
-function formatUnknownCounts(unknowns: UnknownCounts) {
-  const parts: string[] = [];
-
-  DemographicFieldKeyList.forEach((key) => {
-    const value = unknowns[key];
-    if (!value) return;
-
-    parts.push(
-      `${getDemographicViewLabel(key).toLowerCase()} (${formatAsNumber(value)})`
-    );
-  });
-
-  return parts.join(", ");
-}
-
-function formatUnknowns(unknowns: Unknowns) {
-  if (Array.isArray(unknowns)) {
-    // Typescript freaks out over unions of array types,
-    // but this assertion is functionally identical
-    return (unknowns as ValuesType<typeof unknowns>[])
-      .map((entry) => {
-        const formattedCounts = formatUnknownCounts(entry.unknowns);
-        let label: string;
-
-        if ("date" in entry) {
-          label = format(entry.date, "MMM d y");
-        } else {
-          label = `the ${entry.cohort} cohort`;
-        }
-
-        return `${formattedCounts} for ${label}`;
-      })
-      .join("; ");
-  }
-  return formatUnknownCounts(unknowns);
-}
+import { UnknownsNote } from "./UnknownsNote";
 
 type VizNotesProps = {
   smallData?: boolean;
@@ -77,14 +36,7 @@ const VizNotes: React.FC<VizNotesProps> = ({ smallData, unknowns }) => {
           not indicative of long-term trends.
         </>
       )}
-      {unknowns && (
-        <>
-          This data includes some individuals for whom age, gender, or
-          race/ethnicity is not reported. These individuals count toward the
-          total but are excluded from demographic breakdown views. Unknown
-          values comprise: {formatUnknowns(unknowns)}.
-        </>
-      )}
+      {unknowns && <UnknownsNote unknowns={unknowns} />}
     </Notes>
   );
 };
