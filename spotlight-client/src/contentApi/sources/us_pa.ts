@@ -50,6 +50,16 @@ const content: TenantContent = {
           metricTypeId: "PrisonPopulationCurrent",
         },
         {
+          title: "How has the incarcerated population changed over time?",
+          body: `<p>
+          Broadly speaking, increased activity in earlier parts of the criminal justice
+          system (such as arrests and sentencing) will result in increases in the prison
+          population. Changes in sentence lengths and revocations from community
+          supervision may also contribute to the rise and fall of this number.
+          </p>`,
+          metricTypeId: "PrisonPopulationHistorical",
+        },
+        {
           title: "Who is in a transitional facility?",
           body: `<p>
             People who are nearing the end of their prison term may be admitted to a
@@ -59,16 +69,6 @@ const content: TenantContent = {
             return to the community.
           </p>`,
           metricTypeId: "CommunityCorrectionsPopulationCurrent",
-        },
-        {
-          title: "How has the incarcerated population changed over time?",
-          body: `<p>
-            Broadly speaking, increased activity in earlier parts of the criminal justice
-            system (such as arrests and sentencing) will result in increases in the prison
-            population. Changes in sentence lengths and revocations from community
-            supervision may also contribute to the rise and fall of this number.
-          </p>`,
-          metricTypeId: "PrisonPopulationHistorical",
         },
         {
           title: "How did they get there?",
