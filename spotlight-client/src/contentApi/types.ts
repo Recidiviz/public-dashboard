@@ -18,6 +18,7 @@
 import type { Topology } from "topojson-specification";
 import { SupervisionType } from "../contentModels/RacialDisparitiesNarrative";
 import { AgeValue, GenderValue, RaceOrEthnicityValue } from "../demographics";
+import { CategoryFieldMapping } from "../metricsApi";
 
 export type LocalityLabels = {
   label: string;
@@ -52,6 +53,12 @@ export type TenantContent = {
       | "ParolePopulationCurrent"
     >]?: MetricContent & { totalLabel: string };
   } &
+    {
+      [key in Extract<
+        MetricTypeId,
+        "PrisonAdmissionReasonsCurrent"
+      >]?: MetricContent & { fieldMapping?: CategoryFieldMapping[] };
+    } &
     { [key in MetricTypeId]?: MetricContent };
   systemNarratives: {
     [key in SystemNarrativeTypeId]?: SystemNarrativeContent;
