@@ -22,6 +22,7 @@ const content: TenantContent = {
   description: "",
   coBrandingCopy:
     'Produced in collaboration with <a href="https://www.cor.pa.gov">the Pennsylvania Department of Corrections</a>.',
+  feedbackUrl: "https://forms.gle/7bZMpgGR69uaW1eNA",
   demographicCategories: {
     raceOrEthnicity: [
       "BLACK",

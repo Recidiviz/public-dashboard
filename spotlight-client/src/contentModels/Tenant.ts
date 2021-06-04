@@ -27,6 +27,7 @@ type InitOptions = {
   name: string;
   description: string;
   coBrandingCopy: string;
+  feedbackUrl: string;
   metrics: MetricMapping;
   systemNarratives: SystemNarrativeMapping;
   racialDisparitiesNarrative?: RacialDisparitiesNarrative;
@@ -48,6 +49,8 @@ export default class Tenant {
 
   readonly coBrandingCopy: string;
 
+  readonly feedbackUrl: string;
+
   readonly metrics: InitOptions["metrics"];
 
   readonly systemNarratives: SystemNarrativeMapping;
@@ -59,6 +62,7 @@ export default class Tenant {
     name,
     description,
     coBrandingCopy,
+    feedbackUrl,
     metrics,
     systemNarratives,
     racialDisparitiesNarrative,
@@ -67,6 +71,7 @@ export default class Tenant {
     this.name = name;
     this.description = description;
     this.coBrandingCopy = coBrandingCopy;
+    this.feedbackUrl = feedbackUrl;
     this.metrics = metrics;
     this.systemNarratives = systemNarratives;
     this.racialDisparitiesNarrative = racialDisparitiesNarrative;
@@ -131,6 +136,7 @@ export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
     name: allTenantContent.name,
     description: allTenantContent.description,
     coBrandingCopy: allTenantContent.coBrandingCopy,
+    feedbackUrl: allTenantContent.feedbackUrl,
     metrics,
     systemNarratives: getSystemNarrativesForTenant({
       allTenantContent,

@@ -21,6 +21,7 @@ const content: TenantContent = {
   name: "Test Tenant",
   description: "test tenant description",
   coBrandingCopy: "test tenant co-branding",
+  feedbackUrl: "https://example.com/feedback",
   // this is an intentionally non-exhaustive set of metrics
   metrics: {
     SentencePopulationCurrent: {
