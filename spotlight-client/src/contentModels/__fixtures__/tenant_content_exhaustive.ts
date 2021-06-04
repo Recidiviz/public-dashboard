@@ -85,6 +85,11 @@ const content: ExhaustiveTenantContent = {
       methodology:
         "test PrisonRecidivismRateSingleFollowupHistorical methodology",
     },
+    CommunityCorrectionsPopulationCurrent: {
+      name: "test CommunityCorrectionsPopulationCurrent name",
+      methodology: "test CommunityCorrectionsPopulationCurrent methodology",
+      totalLabel: "test community corrections label",
+    },
     ProbationPopulationCurrent: {
       name: "test ProbationPopulationCurrent name",
       methodology: "test ProbationPopulationCurrent methodology",
@@ -261,6 +266,19 @@ const content: ExhaustiveTenantContent = {
         {
           id: "8",
           label: "Region H",
+        },
+      ],
+    },
+    CommunityCorrections: {
+      label: "community corrections locality",
+      entries: [
+        {
+          id: "101",
+          label: "Facility A",
+        },
+        {
+          id: "201",
+          label: "Facility B",
         },
       ],
     },
