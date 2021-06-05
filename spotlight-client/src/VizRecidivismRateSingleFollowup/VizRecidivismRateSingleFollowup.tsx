@@ -18,7 +18,7 @@
 import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
 import Measure from "react-measure";
-import { animated, useSpring, useTransition } from "react-spring/web.cjs";
+import { animated, useTransition } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import {
   BarChartTrellis,
