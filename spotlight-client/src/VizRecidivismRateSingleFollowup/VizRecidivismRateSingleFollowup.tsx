@@ -29,7 +29,7 @@ import {
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
-import { animation, VerticallyExpandable } from "../UiLibrary";
+import { animation, AutoHeightTransition } from "../UiLibrary";
 import { formatAsNumber, formatAsPct } from "../utils";
 import VizNotes from "../VizNotes";
 import withMetricHydrator from "../withMetricHydrator";
@@ -127,7 +127,7 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
               ]}
               metric={metric}
             />
-            <VerticallyExpandable initialHeight={singleChartHeight}>
+            <AutoHeightTransition initialHeight={singleChartHeight}>
               <ChartsWrapper ref={measureRef}>
                 {chartTransitions.map(({ item, key, props }) => (
                   <animated.div key={key} style={props}>
@@ -146,7 +146,7 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
                   </animated.div>
                 ))}
               </ChartsWrapper>
-            </VerticallyExpandable>
+            </AutoHeightTransition>
             <VizNotes smallData unknowns={unknowns} />
           </>
         )}

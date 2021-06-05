@@ -16,6 +16,7 @@
 // =============================================================================
 
 export { default as animation } from "./animation";
+export * from "./AutoHeightTransition";
 export { default as breakpoints } from "./breakpoints";
 export { default as Check } from "./Check";
 export * from "./Checkbox";
@@ -31,5 +32,4 @@ export * from "./PageSection";
 export { default as PageTitle } from "./PageTitle";
 export * from "./typography";
 export * from "./UnStyledButton";
-export * from "./VerticallyExpandable";
 export { default as zIndex } from "./zIndex";

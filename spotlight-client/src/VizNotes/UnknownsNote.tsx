@@ -23,7 +23,7 @@ import { ValuesType } from "utility-types";
 import { UnknownCounts, Unknowns } from "../contentModels/types";
 import { getDemographicViewLabel } from "../demographics";
 import { DemographicFieldKeyList } from "../metricsApi";
-import { VerticallyExpandable } from "../UiLibrary";
+import { AutoHeightTransition } from "../UiLibrary";
 import { formatAsNumber } from "../utils";
 
 const COLLAPSED_LIMIT = 3;
@@ -106,11 +106,11 @@ type UnknownsNoteProps = {
 
 export const UnknownsNote = ({ unknowns }: UnknownsNoteProps): JSX.Element => {
   return (
-    <VerticallyExpandable>
+    <AutoHeightTransition>
       This data includes some individuals for whom age, gender, or
       race/ethnicity is not reported. These individuals count toward the total
       but are excluded from demographic breakdown views. Unknown values
       comprise: {useFormattedUnknowns(unknowns)}.
-    </VerticallyExpandable>
+    </AutoHeightTransition>
   );
 };

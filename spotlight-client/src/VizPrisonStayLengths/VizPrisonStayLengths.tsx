@@ -29,7 +29,7 @@ import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategor
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
 import { prisonStayLengthFields } from "../metricsApi";
-import { animation, VerticallyExpandable } from "../UiLibrary";
+import { animation, AutoHeightTransition } from "../UiLibrary";
 import withMetricHydrator from "../withMetricHydrator";
 import VizNotes from "../VizNotes";
 
@@ -91,7 +91,7 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
           filters={[<DemographicFilterSelect metric={metric} />]}
           metric={metric}
         />
-        <VerticallyExpandable initialHeight={singleChartHeight}>
+        <AutoHeightTransition initialHeight={singleChartHeight}>
           <ChartsWrapper>
             {chartTransitions.map(({ item, key, props }) => (
               <animated.div key={key} style={props}>
@@ -108,7 +108,7 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
               </animated.div>
             ))}
           </ChartsWrapper>
-        </VerticallyExpandable>
+        </AutoHeightTransition>
         <VizNotes smallData unknowns={unknowns} />
       </>
     );

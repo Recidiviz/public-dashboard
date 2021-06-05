@@ -24,10 +24,10 @@ type VerticallyExpandableProps = {
 };
 
 /**
- * A container that expands smoothly to the height of its children
+ * A container that transitions smoothly to the height of its children
  * as they change size.
  */
-export const VerticallyExpandable: React.FC<VerticallyExpandableProps> = ({
+export const AutoHeightTransition: React.FC<VerticallyExpandableProps> = ({
   children,
   initialHeight = 0,
 }) => {

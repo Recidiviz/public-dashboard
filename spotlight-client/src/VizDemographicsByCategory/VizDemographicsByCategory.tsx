@@ -25,7 +25,7 @@ import { useHighlightedItem } from "../charts/utils";
 import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
-import { animation, VerticallyExpandable, zIndex } from "../UiLibrary";
+import { animation, AutoHeightTransition, zIndex } from "../UiLibrary";
 import VizNotes from "../VizNotes";
 import withMetricHydrator from "../withMetricHydrator";
 
@@ -73,7 +73,7 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
           filters={[<DemographicFilterSelect metric={metric} />]}
           metric={metric}
         />
-        <VerticallyExpandable initialHeight={bubbleChartHeight}>
+        <AutoHeightTransition initialHeight={bubbleChartHeight}>
           {chartTransitions.map(({ item, key, props }) => (
             <ChartWrapper key={key}>
               <animated.div style={props}>
@@ -114,7 +114,7 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
               </animated.div>
             </ChartWrapper>
           ))}
-        </VerticallyExpandable>
+        </AutoHeightTransition>
         <VizNotes smallData unknowns={unknowns} />
       </>
     );
