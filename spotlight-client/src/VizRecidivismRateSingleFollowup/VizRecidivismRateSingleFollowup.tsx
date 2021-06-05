@@ -29,7 +29,7 @@ import {
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
-import { animation } from "../UiLibrary";
+import { animation, VerticallyExpandable } from "../UiLibrary";
 import { formatAsNumber, formatAsPct } from "../utils";
 import VizNotes from "../VizNotes";
 import withMetricHydrator from "../withMetricHydrator";
@@ -87,12 +87,6 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
     unknowns,
   } = metric;
 
-  const [chartContainerStyles, setChartContainerStyles] = useSpring(() => ({
-    from: { height: singleChartHeight },
-    height: singleChartHeight,
-    config: { friction: 40, tension: 220, clamp: true },
-  }));
-
   const chartTransitions = useTransition(
     { demographicView, singleFollowupDemographics },
     (item) => item.demographicView,
@@ -118,7 +112,6 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
         bounds
         onResize={({ bounds }) => {
           if (bounds) {
-            setChartContainerStyles({ height: bounds.height });
             setContainerWidth(bounds.width);
           }
         }}
@@ -134,7 +127,7 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
               ]}
               metric={metric}
             />
-            <animated.div style={chartContainerStyles}>
+            <VerticallyExpandable initialHeight={singleChartHeight}>
               <ChartsWrapper ref={measureRef}>
                 {chartTransitions.map(({ item, key, props }) => (
                   <animated.div key={key} style={props}>
@@ -153,7 +146,7 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
                   </animated.div>
                 ))}
               </ChartsWrapper>
-            </animated.div>
+            </VerticallyExpandable>
             <VizNotes smallData unknowns={unknowns} />
           </>
         )}

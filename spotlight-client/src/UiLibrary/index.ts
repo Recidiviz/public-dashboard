@@ -31,4 +31,5 @@ export * from "./PageSection";
 export { default as PageTitle } from "./PageTitle";
 export * from "./typography";
 export * from "./UnStyledButton";
+export * from "./VerticallyExpandable";
 export { default as zIndex } from "./zIndex";

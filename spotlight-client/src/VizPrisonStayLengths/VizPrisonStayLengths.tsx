@@ -17,8 +17,7 @@
 
 import { observer } from "mobx-react-lite";
 import React from "react";
-import Measure from "react-measure";
-import { animated, useSpring, useTransition } from "react-spring/web.cjs";
+import { animated, useTransition } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import {
   CommonDataPoint,
@@ -30,7 +29,7 @@ import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategor
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
 import { prisonStayLengthFields } from "../metricsApi";
-import { animation } from "../UiLibrary";
+import { animation, VerticallyExpandable } from "../UiLibrary";
 import withMetricHydrator from "../withMetricHydrator";
 import VizNotes from "../VizNotes";
 
@@ -74,12 +73,6 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
 }) => {
   const { dataSeries, demographicView, unknowns } = metric;
 
-  const [chartContainerStyles, setChartContainerStyles] = useSpring(() => ({
-    from: { height: singleChartHeight },
-    height: singleChartHeight,
-    config: { friction: 40, tension: 220, clamp: true },
-  }));
-
   const chartTransitions = useTransition(
     { demographicView, dataSeries },
     (item) => item.demographicView,
@@ -93,40 +86,31 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
 
   if (dataSeries) {
     return (
-      <Measure
-        bounds
-        onResize={({ bounds }) => {
-          if (bounds) setChartContainerStyles({ height: bounds.height });
-        }}
-      >
-        {({ measureRef }) => (
-          <>
-            <MetricVizControls
-              filters={[<DemographicFilterSelect metric={metric} />]}
-              metric={metric}
-            />
-            <animated.div style={chartContainerStyles}>
-              <ChartsWrapper ref={measureRef}>
-                {chartTransitions.map(({ item, key, props }) => (
-                  <animated.div key={key} style={props}>
-                    {
-                      // for type safety we have to check this again
-                      // but it should always be defined if we've gotten this far
-                      item.dataSeries && (
-                        <BarChartTrellis
-                          data={item.dataSeries}
-                          getTooltipProps={getTooltipProps}
-                        />
-                      )
-                    }
-                  </animated.div>
-                ))}
-              </ChartsWrapper>
-            </animated.div>
-            <VizNotes smallData unknowns={unknowns} />
-          </>
-        )}
-      </Measure>
+      <>
+        <MetricVizControls
+          filters={[<DemographicFilterSelect metric={metric} />]}
+          metric={metric}
+        />
+        <VerticallyExpandable initialHeight={singleChartHeight}>
+          <ChartsWrapper>
+            {chartTransitions.map(({ item, key, props }) => (
+              <animated.div key={key} style={props}>
+                {
+                  // for type safety we have to check this again
+                  // but it should always be defined if we've gotten this far
+                  item.dataSeries && (
+                    <BarChartTrellis
+                      data={item.dataSeries}
+                      getTooltipProps={getTooltipProps}
+                    />
+                  )
+                }
+              </animated.div>
+            ))}
+          </ChartsWrapper>
+        </VerticallyExpandable>
+        <VizNotes smallData unknowns={unknowns} />
+      </>
     );
   }
 
