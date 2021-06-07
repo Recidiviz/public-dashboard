@@ -18,15 +18,14 @@
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
-import Measure from "react-measure";
-import { animated, useSpring, useTransition } from "react-spring/web.cjs";
+import { animated, useTransition } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { BubbleChart, ProportionalBar } from "../charts";
 import { useHighlightedItem } from "../charts/utils";
 import DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
-import { animation, zIndex } from "../UiLibrary";
+import { animation, AutoHeightTransition, zIndex } from "../UiLibrary";
 import VizNotes from "../VizNotes";
 import withMetricHydrator from "../withMetricHydrator";
 
@@ -56,12 +55,6 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
 
   const { demographicView, dataSeries, unknowns } = metric;
 
-  const [chartContainerStyles, setChartContainerStyles] = useSpring(() => ({
-    from: { height: bubbleChartHeight },
-    height: bubbleChartHeight,
-    config: { friction: 40, tension: 280, clamp: true },
-  }));
-
   const chartTransitions = useTransition(
     { demographicView, dataSeries },
     (item) => item.demographicView,
@@ -75,65 +68,55 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
 
   if (dataSeries) {
     return (
-      <Measure
-        bounds
-        onResize={({ bounds }) => {
-          if (bounds) setChartContainerStyles({ height: bounds.height });
-        }}
-      >
-        {({ measureRef }) => (
-          <>
-            <MetricVizControls
-              filters={[<DemographicFilterSelect metric={metric} />]}
-              metric={metric}
-            />
-            <animated.div style={chartContainerStyles}>
-              {chartTransitions.map(({ item, key, props }) => (
-                <ChartWrapper key={key} ref={measureRef}>
-                  <animated.div style={props}>
-                    {
-                      // for type safety we have to check this again
-                      // but it should always be defined if we've gotten this far
-                      item.dataSeries &&
-                        (item.demographicView === "total" ? (
-                          <BubbleChart
-                            height={bubbleChartHeight}
-                            data={item.dataSeries[0].records}
-                          />
-                        ) : (
-                          item.dataSeries.map(
-                            ({ label, records }, index, categories) => (
-                              <CategoryBarWrapper
-                                key={label}
-                                style={{
-                                  // prevents subsequent charts from covering up the tooltip for this one
-                                  zIndex:
-                                    zIndex.base + categories.length - index,
-                                }}
-                              >
-                                <ProportionalBar
-                                  data={records}
-                                  height={
-                                    barChartsHeight / categories.length -
-                                    barChartsGutter
-                                  }
-                                  title={label}
-                                  showLegend={index === categories.length - 1}
-                                  {...{ highlighted, setHighlighted }}
-                                />
-                              </CategoryBarWrapper>
-                            )
-                          )
-                        ))
-                    }
-                  </animated.div>
-                </ChartWrapper>
-              ))}
-            </animated.div>
-            <VizNotes smallData unknowns={unknowns} />
-          </>
-        )}
-      </Measure>
+      <>
+        <MetricVizControls
+          filters={[<DemographicFilterSelect metric={metric} />]}
+          metric={metric}
+        />
+        <AutoHeightTransition initialHeight={bubbleChartHeight}>
+          {chartTransitions.map(({ item, key, props }) => (
+            <ChartWrapper key={key}>
+              <animated.div style={props}>
+                {
+                  // for type safety we have to check this again
+                  // but it should always be defined if we've gotten this far
+                  item.dataSeries &&
+                    (item.demographicView === "total" ? (
+                      <BubbleChart
+                        height={bubbleChartHeight}
+                        data={item.dataSeries[0].records}
+                      />
+                    ) : (
+                      item.dataSeries.map(
+                        ({ label, records }, index, categories) => (
+                          <CategoryBarWrapper
+                            key={label}
+                            style={{
+                              // prevents subsequent charts from covering up the tooltip for this one
+                              zIndex: zIndex.base + categories.length - index,
+                            }}
+                          >
+                            <ProportionalBar
+                              data={records}
+                              height={
+                                barChartsHeight / categories.length -
+                                barChartsGutter
+                              }
+                              title={label}
+                              showLegend={index === categories.length - 1}
+                              {...{ highlighted, setHighlighted }}
+                            />
+                          </CategoryBarWrapper>
+                        )
+                      )
+                    ))
+                }
+              </animated.div>
+            </ChartWrapper>
+          ))}
+        </AutoHeightTransition>
+        <VizNotes smallData unknowns={unknowns} />
+      </>
     );
   }
 

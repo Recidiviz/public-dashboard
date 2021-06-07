@@ -16,6 +16,7 @@
 // =============================================================================
 
 export { default as animation } from "./animation";
+export * from "./AutoHeightTransition";
 export { default as breakpoints } from "./breakpoints";
 export { default as Check } from "./Check";
 export * from "./Checkbox";

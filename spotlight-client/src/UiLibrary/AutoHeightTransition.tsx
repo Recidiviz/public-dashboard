@@ -16,29 +16,37 @@
 // =============================================================================
 
 import React from "react";
-import { Unknowns } from "../contentModels/types";
-import Notes from "../Notes";
-import { UnknownsNote } from "./UnknownsNote";
+import Measure from "react-measure";
+import { animated, useSpring } from "react-spring/web.cjs";
 
-type VizNotesProps = {
-  smallData?: boolean;
-  unknowns?: Unknowns;
+type VerticallyExpandableProps = {
+  initialHeight?: number;
 };
 
-const VizNotes: React.FC<VizNotesProps> = ({ smallData, unknowns }) => {
+/**
+ * A container that transitions smoothly to the height of its children
+ * as they change size.
+ */
+export const AutoHeightTransition: React.FC<VerticallyExpandableProps> = ({
+  children,
+  initialHeight = 0,
+}) => {
+  const [containerStyles, setContainerStyles] = useSpring(() => ({
+    from: { height: initialHeight },
+    height: initialHeight,
+    config: { friction: 40, tension: 220, clamp: true },
+  }));
+
   return (
-    <Notes>
-      {smallData && (
-        <>
-          Please always take note of the number of people associated with each
-          proportion presented here; in cases where the counts are especially
-          low, the proportion may not be statistically significant and therefore
-          not indicative of long-term trends.
-        </>
-      )}
-      {unknowns && <UnknownsNote unknowns={unknowns} />}
-    </Notes>
+    <animated.div style={containerStyles}>
+      <Measure
+        bounds
+        onResize={({ bounds }) => {
+          if (bounds) setContainerStyles({ height: bounds.height });
+        }}
+      >
+        {({ measureRef }) => <div ref={measureRef}>{children}</div>}
+      </Measure>
+    </animated.div>
   );
 };
-
-export default VizNotes;
