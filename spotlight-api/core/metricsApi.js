@@ -62,6 +62,8 @@ const ALL_METRIC_FILES = [
   "supervision_revocations_by_period_by_type_by_demographics.json",
   "supervision_success_by_month.json",
   "supervision_success_by_period_by_demographics.json",
+  "supervision_terminations_by_month.json",
+  "supervision_terminations_by_period_by_demographics.json",
 ];
 
 /**
