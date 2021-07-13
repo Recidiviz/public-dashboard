@@ -137,6 +137,10 @@ const content: ExhaustiveTenantContent = {
       name: "test ParoleSuccessHistorical name",
       methodology: "test ParoleSuccessHistorical methodology",
     },
+    ParoleTerminationsHistorical: {
+      name: "test ParoleTerminationsHistorical name",
+      methodology: "test ParoleTerminationsHistorical methodology",
+    },
     ParoleRevocationsAggregate: {
       name: "test ParoleRevocationsAggregate name",
       methodology: "test ParoleRevocationsAggregate methodology",

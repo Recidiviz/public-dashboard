@@ -24,6 +24,8 @@ import {
   paroleRevocationReasons,
   paroleSuccessRateDemographics,
   paroleSuccessRateMonthly,
+  paroleTerminationRateDemographics,
+  paroleTerminationRateMonthly,
   prisonAdmissionReasons,
   prisonPopulationCurrent,
   prisonPopulationHistorical,
@@ -356,6 +358,28 @@ export default function createMetricMapping({
             demographicDataTransformer: paroleSuccessRateDemographics,
             demographicSourceFileName:
               "supervision_success_by_period_by_demographics",
+          })
+        );
+        break;
+      case "ParoleTerminationsHistorical":
+        if (!localityLabelMapping?.Parole)
+          throw new Error(localityContentError);
+
+        metricMapping.set(
+          metricType,
+          new SupervisionSuccessRateMetric({
+            ...metadata,
+            demographicFilter,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: "total",
+            defaultLocalityId: TOTAL_KEY,
+            localityLabels: localityLabelMapping.Parole,
+            dataTransformer: paroleTerminationRateMonthly,
+            sourceFileName: "supervision_terminations_by_month",
+            demographicDataTransformer: paroleTerminationRateDemographics,
+            demographicSourceFileName:
+              "supervision_terminations_by_period_by_demographics",
           })
         );
         break;
