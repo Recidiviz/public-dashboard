@@ -88,7 +88,11 @@ describe("data fetching", () => {
     MetricTypeIdList.filter(
       (id) =>
         // the `records` property is not supported for these metric types
-        !["ProbationSuccessHistorical", "ParoleSuccessHistorical"].includes(id)
+        ![
+          "ProbationSuccessHistorical",
+          "ParoleSuccessHistorical",
+          "ParoleTerminationsHistorical",
+        ].includes(id)
     )
   )("for metric %s", (metricId, done) => {
     expect.hasAssertions();
@@ -198,7 +202,11 @@ describe("data download", () => {
       (id) =>
         // these metric types have multiple data sources, so the files they download will be different;
         // see SupervisionSuccessRateMetric tests for coverage
-        !["ProbationSuccessHistorical", "ParoleSuccessHistorical"].includes(id)
+        ![
+          "ProbationSuccessHistorical",
+          "ParoleSuccessHistorical",
+          "ParoleTerminationsHistorical",
+        ].includes(id)
     )
   )("for metric %s", async (metricId, done) => {
     const metric = getTestMetric(metricId);

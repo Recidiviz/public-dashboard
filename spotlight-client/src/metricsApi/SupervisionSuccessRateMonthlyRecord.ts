@@ -53,6 +53,23 @@ function createSupervisionSuccessRateMonthlyRecord(
   };
 }
 
+function createSupervisionTerminationRateMonthlyRecord(
+  record: ValuesType<RawMetricData>
+) {
+  const year = Number(record.year);
+  const month = Number(record.month);
+
+  return {
+    locality: record.district,
+    year,
+    month,
+    label: getCohortLabel({ year, month }),
+    rateNumerator: Number(record.successful_termination_count),
+    rateDenominator: Number(record.termination_count),
+    rate: Number(record.success_rate),
+  };
+}
+
 export function probationSuccessRateMonthly(
   rawRecords: RawMetricData
 ): SupervisionSuccessRateMonthlyRecord[] {
@@ -67,4 +84,12 @@ export function paroleSuccessRateMonthly(
   return rawRecords
     .filter(recordIsParole)
     .map(createSupervisionSuccessRateMonthlyRecord);
+}
+
+export function paroleTerminationRateMonthly(
+  rawRecords: RawMetricData
+): SupervisionSuccessRateMonthlyRecord[] {
+  return rawRecords
+    .filter(recordIsParole)
+    .map(createSupervisionTerminationRateMonthlyRecord);
 }

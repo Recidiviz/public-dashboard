@@ -40,6 +40,18 @@ function createSupervisionSuccessRateDemographicRecord(
   };
 }
 
+function createSupervisionTerminationRateDemographicRecord(
+  record: ValuesType<RawMetricData>
+) {
+  return {
+    rate: Number(record.success_rate),
+    rateDenominator: Number(record.termination_count),
+    rateNumerator: Number(record.successful_termination_count),
+    locality: record.district,
+    ...extractDemographicFields(record),
+  };
+}
+
 export function probationSuccessRateDemographics(
   rawRecords: RawMetricData
 ): SupervisionSuccessRateDemographicsRecord[] {
@@ -54,4 +66,12 @@ export function paroleSuccessRateDemographics(
   return rawRecords
     .filter(recordIsParole)
     .map(createSupervisionSuccessRateDemographicRecord);
+}
+
+export function paroleTerminationRateDemographics(
+  rawRecords: RawMetricData
+): SupervisionSuccessRateDemographicsRecord[] {
+  return rawRecords
+    .filter(recordIsParole)
+    .map(createSupervisionTerminationRateDemographicRecord);
 }

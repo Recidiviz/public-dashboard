@@ -138,7 +138,7 @@ const content: TenantContent = {
             addressing critical needs of justice-involved individuals, including employment,
             housing, and need-based care.
           </p>`,
-          metricTypeId: "ParoleSuccessHistorical",
+          metricTypeId: "ParoleTerminationsHistorical",
         },
         {
           title: "Why do revocations happen?",
@@ -281,8 +281,8 @@ const content: TenantContent = {
         prison may occasionally serve their parole in a different state.
       </p>`,
     },
-    ParoleSuccessHistorical: {
-      name: "Historical Parole Completion Rates",
+    ParoleTerminationsHistorical: {
+      name: "Historical Parole Successful Termination Rates",
       methodology: `<p>
         This data reports the percentage of people projected to complete parole in a
         given month who have successfully completed parole by the end of that month.
