@@ -16,10 +16,19 @@
 // =============================================================================
 
 import { Auth0ClientOptions } from "@auth0/auth0-spa-js";
-import { computed, makeObservable } from "mobx";
+import { computed, configure, makeObservable } from "mobx";
 import TenantStore from "./TenantStore";
 import UiStore from "./UiStore";
 import UserStore from "./UserStore";
+
+configure({
+  // make proxies optional for IE 11 support
+  useProxies: "ifavailable",
+  // activate runtime linting
+  computedRequiresReaction: true,
+  reactionRequiresObservable: true,
+  observableRequiresReaction: true,
+});
 
 /**
  * Returns the auth settings configured for the current environment, if any.
