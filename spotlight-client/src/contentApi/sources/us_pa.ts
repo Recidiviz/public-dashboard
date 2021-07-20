@@ -321,12 +321,14 @@ const content: TenantContent = {
         month.
       </p>
       <p>
-        Parole is considered successfully completed if an individual is discharged
-        from parole positively or if a parole period expires. Unsuccessful completions
-        of parole occur when the parole ends due to absconsion, a revocation, or a
-        negative termination. Deaths, suspensions, and terminations marked as “other”
-        are excluded from these calculations because they are neither successful nor
-        unsuccessful.
+        Parole is considered successfully completed if an individual is
+        discharged from parole positively, either due to the parole period
+        expiring, a pardon or commutation granted by the Board of Pardons, or an
+        early discharge granted by a judge. Unsuccessful completions of parole
+        occur when the parole ends due to absconsion, a revocation, or a
+        negative termination. Deaths, suspensions, and terminations marked as
+        “other” are excluded from these calculations because they are neither
+        successful nor unsuccessful.
       </p>
       <p>
         The summary percentages show the percentage of people who successfully
@@ -407,10 +409,8 @@ const content: TenantContent = {
     </p>
     <p>
       Black Pennsylvanians are {likelihoodVsWhite.BLACK} times as likely to be under
-      DOC control as their white counterparts, Latino Pennsylvanians are
-      {likelihoodVsWhite.HISPANIC} times as likely, and Native American
-      Pennsylvanians {likelihoodVsWhite.AMERICAN_INDIAN_ALASKAN_NATIVE}
-      times.
+      DOC control as their white counterparts and Latino Pennsylvanians are
+      {likelihoodVsWhite.HISPANIC} times as likely.
     </p>`,
     introductionMethodology: `<p>
       Distributions by race count individuals with more than one reported race or
@@ -557,7 +557,7 @@ const content: TenantContent = {
           justice system in the commonwealth. Under Governor Wolf’s leadership,
           Pennsylvania has enacted a new Clean Slate law, fought against the
           reinstatement of mandatory minimum sentences, and implemented two
-          Justice Reinvestment initiatives. The Black proportion of the
+          Justice Reinvestment initiatives (2012, 2016). The Black proportion of the
           incarcerated population in Pennsylvania is at its lowest point since
           2010 partially due to these efforts.
         </p>`,
