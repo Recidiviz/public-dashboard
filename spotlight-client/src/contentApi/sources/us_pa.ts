@@ -79,7 +79,8 @@ const content: TenantContent = {
             the admissions to prison are not “new admissions” (that is, admitted for the
             first time as part of their sentence), but are actually people who are pulled
             back to prison from community supervision due to a violation or new crime.
-
+          </p>
+          <p>
             Please note that probation revocations are included in the “new admissions” in
             this visualization to the right due to lack of detail in the source data. 
           </p>`,
@@ -221,6 +222,14 @@ const content: TenantContent = {
         and overall recidivism. This data depicts overall recidivism, which is
         defined by the DOC as the first instance of any type of rearrest or reincarceration
         after the individual is released from the DOC.
+      </p>
+      <p>
+        Rearrest is measured as the first instance of arrest after inmates are
+        released from state prison. Reincarceration is measured as the first
+        instance of returning to state prison after inmates are released from
+        state prison. Overall recidivism is measured as the first instance of any
+        type of rearrest or reincarceration after inmates are released from state
+        prison.
       </p>`,
     },
     PrisonRecidivismRateSingleFollowupHistorical: {
