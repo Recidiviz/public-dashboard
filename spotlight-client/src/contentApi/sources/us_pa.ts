@@ -19,7 +19,8 @@ import { TenantContent } from "../types";
 
 const content: TenantContent = {
   name: "Pennsylvania",
-  description: "",
+  description:
+    '<a href="https://www.cor.pa.gov">The Pennsylvania Department of Corrections (DOC)</a> is committed to enhancing public safety. Our mission is to reduce criminal behavior by providing individualized treatment and education to incarcerated individuals, resulting in successful community reintegration through accountability and positive change.',
   coBrandingCopy:
     'Produced in collaboration with <a href="https://www.cor.pa.gov">the Pennsylvania Department of Corrections</a>.',
   feedbackUrl: "https://forms.gle/7bZMpgGR69uaW1eNA",
@@ -37,7 +38,7 @@ const content: TenantContent = {
     Prison: {
       title: "Prison",
       introduction: `<p>
-        People convicted of serious offenses may serve their sentence in a state
+        People convicted of criminal offenses may serve their sentence in a state
         prison or contracted private prison. Prisons run programming to help residents
         work towards rehabilitation and successful reentry.
       </p>`,
@@ -45,8 +46,8 @@ const content: TenantContent = {
         {
           title: "Who is in custody?",
           body: `<p>
-            The DOC runs a number of different facilities and contracts with facilities
-            across the state.
+            The Department of Corrections runs a number of different facilities
+            and contracted facilities across the state.
           </p>`,
           metricTypeId: "PrisonPopulationCurrent",
         },
@@ -78,6 +79,10 @@ const content: TenantContent = {
             the admissions to prison are not “new admissions” (that is, admitted for the
             first time as part of their sentence), but are actually people who are pulled
             back to prison from community supervision due to a violation or new crime.
+          </p>
+          <p>
+            Please note that probation revocations are included in the “new admissions” in
+            this visualization to the right due to lack of detail in the source data. 
           </p>`,
           metricTypeId: "PrisonAdmissionReasonsCurrent",
         },
@@ -191,6 +196,12 @@ const content: TenantContent = {
         currently incarcerated in a DOC facility. When an individual is admitted to a
         state prison, the reason for the admission is documented by prison officials.
         These categories are pulled from that documentation.
+      </p>
+      <p>
+        Please note that the “New Admissions and Probation Revocations” category
+        contains both new prison and probation commitments from court sentences.
+        This is due to limitations in the data available from Pennsylvania
+        Department of Corrections and may be disaggregated at a later date.
       </p>`,
       fieldMapping: [
         {
@@ -211,6 +222,14 @@ const content: TenantContent = {
         and overall recidivism. This data depicts overall recidivism, which is
         defined by the DOC as the first instance of any type of rearrest or reincarceration
         after the individual is released from the DOC.
+      </p>
+      <p>
+        Rearrest is measured as the first instance of arrest after inmates are
+        released from state prison. Reincarceration is measured as the first
+        instance of returning to state prison after inmates are released from
+        state prison. Overall recidivism is measured as the first instance of any
+        type of rearrest or reincarceration after inmates are released from state
+        prison.
       </p>`,
     },
     PrisonRecidivismRateSingleFollowupHistorical: {
@@ -220,11 +239,24 @@ const content: TenantContent = {
         and overall recidivism. This data depicts overall recidivism, which is
         defined by the DOC as the first instance of any type of rearrest or reincarceration
         after the individual is released from the DOC.
+      </p>
+      <p>
+        Rearrest is measured as the first instance of arrest after inmates are
+        released from state prison. Reincarceration is measured as the first
+        instance of returning to state prison after inmates are released from
+        state prison. Overall recidivism is measured as the first instance of any
+        type of rearrest or reincarceration after inmates are released from state
+        prison.
       </p>`,
     },
     CommunityCorrectionsPopulationCurrent: {
       name: "Community Correction Centers",
       methodology: `
+      <p>
+        This data includes all individuals that are currently incarcerated in a
+        specified “community corrections center,” under the supervision of
+        Pennsylvania’s Department of Corrections. 
+      </p>
       <p>
         In distributions by age, individuals are counted towards the age group they
         fall into as of the reporting date. Gender distributions only include male and
@@ -284,26 +316,26 @@ const content: TenantContent = {
     ParoleTerminationsHistorical: {
       name: "Historical Parole Successful Termination Rates",
       methodology: `<p>
-        This data reports the percentage of people projected to complete parole in a
-        given month who have successfully completed parole by the end of that month.
+        This data reports the percentage of people who successfully completed
+        parole in a given month out of all people whose parole was terminated that
+        month.
       </p>
       <p>
-        Parole is considered successfully completed if an individual is discharged
-        from parole positively or if a parole period expires. Unsuccessful completions
-        of parole occur when the parole ends due to absconsion, a revocation, or a
-        negative termination. Deaths, suspensions, and terminations marked as “other”
-        are excluded from these calculations because they are neither successful nor
-        unsuccessful.
+        Parole is considered successfully completed if an individual is
+        discharged from parole positively, either due to the parole period
+        expiring, a pardon or commutation granted by the Board of Pardons, or an
+        early discharge granted by a judge. Unsuccessful completions of parole
+        occur when the parole ends due to absconsion, a revocation, or a
+        negative termination. Deaths, suspensions, and terminations marked as
+        “other” are excluded from these calculations because they are neither
+        successful nor unsuccessful.
       </p>
       <p>
-        Individuals whose parole is terminated prior to their projected completion
-        month are counted in the month in which their parole is scheduled to complete,
-        while individuals who have not yet completed parole by their projected
-        completion date are excluded. For example, if 15 people are projected to
-        complete parole in 12 months, 5 are revoked this month, 3 are discharged early
-        in 8 months, 2 complete parole in 12 months, and 5 do not complete parole, the
-        completion rate in 12 months will be 50%, as 10 of the people projected to
-        complete parole will have actually completed parole, 5 of them successfully.
+        The summary percentages show the percentage of people who successfully
+        completed parole in all of the months shown out of all the people whose
+        parole was terminated in that time period. Individuals with multiple
+        terminations during the period are counted as unsuccessful if any of the
+        terminations were unsuccessful.
       </p>
       <p>
         In distributions by age, individuals are counted towards the age group they
@@ -377,10 +409,8 @@ const content: TenantContent = {
     </p>
     <p>
       Black Pennsylvanians are {likelihoodVsWhite.BLACK} times as likely to be under
-      DOC control as their white counterparts, Latino Pennsylvanians are
-      {likelihoodVsWhite.HISPANIC} times as likely, and Native American
-      Pennsylvanians {likelihoodVsWhite.AMERICAN_INDIAN_ALASKAN_NATIVE}
-      times.
+      DOC control as their white counterparts and Latino Pennsylvanians are
+      {likelihoodVsWhite.HISPANIC} times as likely.
     </p>`,
     introductionMethodology: `<p>
       Distributions by race count individuals with more than one reported race or
@@ -517,6 +547,22 @@ const content: TenantContent = {
           Pennsylvania. Under the same program, individuals placed on supervision in
           Pennsylvania may occasionally complete their supervision in a different state.
         </p>`,
+      },
+      conclusion: {
+        title:
+          "What are we doing to further improve disparities in criminal justice in Pennsylvania?",
+        body: `<p>
+          The Pennsylvania Department of Corrections has supported a
+          series of legislative initiatives that help create a more equitable
+          justice system in the commonwealth. Under Governor Wolf’s leadership,
+          Pennsylvania has enacted a new Clean Slate law, fought against the
+          reinstatement of mandatory minimum sentences, and implemented two
+          Justice Reinvestment initiatives (2012, 2016). The Black proportion of the
+          incarcerated population in Pennsylvania is at its lowest point since
+          2010 partially due to these efforts.
+        </p>`,
+        // empty because there is no chart or data in this section
+        methodology: "",
       },
     },
   },
