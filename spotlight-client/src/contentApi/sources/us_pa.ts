@@ -551,16 +551,21 @@ const content: TenantContent = {
       conclusion: {
         title:
           "What are we doing to further improve disparities in criminal justice in Pennsylvania?",
-        body: `<p>
+        body: `<div>
           The Pennsylvania Department of Corrections has supported a
           series of legislative initiatives that help create a more equitable
           justice system in the commonwealth. Under Governor Wolf’s leadership,
           Pennsylvania has enacted a new Clean Slate law, fought against the
           reinstatement of mandatory minimum sentences, and implemented two
-          Justice Reinvestment initiatives (2012, 2016). The Black proportion of the
+          Justice Reinvestment initiatives (<a
+          href="https://www.pccd.pa.gov/Pages/JRI%20Subpages/JRI-in-Pennsylvania-(2011-2012).aspx">2012</a>,
+          <a
+          href="https://www.pccd.pa.gov/Pages/JRI%20Subpages/Current-JRI-in-Pennsylvania-(2016).aspx">2016</a>).
+          The Black proportion of the
           incarcerated population in Pennsylvania is at its lowest point since
           2010 partially due to these efforts.
-        </p>`,
+        </div>
+        <div></div>`,
         // empty because there is no chart or data in this section
         methodology: "",
       },
