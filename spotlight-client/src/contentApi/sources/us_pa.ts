@@ -599,7 +599,6 @@ const content: TenantContent = {
         { id: "ROC", label: "Rockview" },
         { id: "SMI", label: "Smithfield" },
         { id: "WAM", label: "Waymart" },
-        { id: "CCC", label: "Community Correction Centers" },
         { id: "OTHER", label: "Other Facilities" },
       ],
     },
