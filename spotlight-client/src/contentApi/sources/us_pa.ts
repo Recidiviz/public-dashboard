@@ -62,17 +62,6 @@ const content: TenantContent = {
           metricTypeId: "PrisonPopulationHistorical",
         },
         {
-          title: "Who is in a transitional facility?",
-          body: `<p>
-            People who are nearing the end of their prison term may be admitted to a
-            community correction center in advance of their release from incarceration.
-            These residential facilities, operated by the DOC or private contractors,
-            offer supportive programming to help prepare people for a successful
-            return to the community.
-          </p>`,
-          metricTypeId: "CommunityCorrectionsPopulationCurrent",
-        },
-        {
           title: "How did they get there?",
           body: `<p>
             There are many possible paths for someone to be admitted to prison. Many of
@@ -249,24 +238,6 @@ const content: TenantContent = {
         prison.
       </p>`,
     },
-    CommunityCorrectionsPopulationCurrent: {
-      name: "Community Correction Centers",
-      methodology: `
-      <p>
-        This data includes all individuals that are currently incarcerated in a
-        specified “community corrections center,” under the supervision of
-        Pennsylvania’s Department of Corrections. 
-      </p>
-      <p>
-        In distributions by age, individuals are counted towards the age group they
-        fall into as of the reporting date. Gender distributions only include male and
-        female due to low numbers of other reported genders. Distributions by race
-        count individuals with more than one reported race or ethnicity towards the
-        racial or ethnic identity that is least represented in the general population.
-      </p>`,
-      totalLabel: "Total people in community correction centers",
-    },
-
     ParolePopulationCurrent: {
       name: "Current Parole Population",
       methodology: `<p>
