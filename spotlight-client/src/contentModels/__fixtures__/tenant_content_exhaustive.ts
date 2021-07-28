@@ -31,9 +31,11 @@ type ExhaustiveTenantContent = Required<TenantContent> &
 
 const content: ExhaustiveTenantContent = {
   name: "Test Tenant",
+  landingPageTitle: "test landing page title",
   description: "test tenant description",
   coBrandingCopy: "test tenant co-branding",
   feedbackUrl: "https://example.com/feedback",
+  smallDataDisclaimer: "test small data disclaimer",
   // tests are based on ND data which has this demo profile
   demographicCategories: {
     raceOrEthnicity: [

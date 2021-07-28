@@ -21,7 +21,7 @@ import styled from "styled-components/macro";
 import MeasureWidth from "../MeasureWidth";
 import { isRateFields, RateFields } from "../metricsApi";
 import { animation, colors } from "../UiLibrary";
-import { formatAsPct } from "../utils";
+import { formatAsNumber, formatAsPct } from "../utils";
 import ChartWrapper from "./ChartWrapper";
 import ResponsiveTooltipController from "./ResponsiveTooltipController";
 import { highlightFade, useHighlightedItem } from "./utils";
@@ -95,7 +95,11 @@ export default function RateCohorts({
                   title: originalDataPoint.label,
                   records: [
                     {
-                      value: `${originalDataPoint.rateNumerator} of ${originalDataPoint.rateDenominator}`,
+                      value: `${formatAsNumber(
+                        originalDataPoint.rateNumerator
+                      )} of ${formatAsNumber(
+                        originalDataPoint.rateDenominator
+                      )}`,
                       pct: originalDataPoint.rate,
                     },
                   ],

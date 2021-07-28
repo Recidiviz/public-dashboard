@@ -42,9 +42,11 @@ export type DemographicCategoryFilter = {
 
 export type TenantContent = {
   name: string;
+  landingPageTitle: string;
   description: string;
   coBrandingCopy: string;
   feedbackUrl: string;
+  smallDataDisclaimer: string;
   metrics: {
     [key in Extract<
       MetricTypeId,

@@ -25,9 +25,11 @@ import { MetricMapping, SystemNarrativeMapping } from "./types";
 type InitOptions = {
   id: TenantId;
   name: string;
+  landingPageTitle: string;
   description: string;
   coBrandingCopy: string;
   feedbackUrl: string;
+  smallDataDisclaimer: string;
   metrics: MetricMapping;
   systemNarratives: SystemNarrativeMapping;
   racialDisparitiesNarrative?: RacialDisparitiesNarrative;
@@ -45,11 +47,15 @@ export default class Tenant {
 
   readonly name: string;
 
+  readonly landingPageTitle: string;
+
   readonly description: string;
 
   readonly coBrandingCopy: string;
 
   readonly feedbackUrl: string;
+
+  readonly smallDataDisclaimer: string;
 
   readonly metrics: InitOptions["metrics"];
 
@@ -60,18 +66,22 @@ export default class Tenant {
   constructor({
     id,
     name,
+    landingPageTitle,
     description,
     coBrandingCopy,
     feedbackUrl,
+    smallDataDisclaimer,
     metrics,
     systemNarratives,
     racialDisparitiesNarrative,
   }: InitOptions) {
     this.id = id;
     this.name = name;
+    this.landingPageTitle = landingPageTitle;
     this.description = description;
     this.coBrandingCopy = coBrandingCopy;
     this.feedbackUrl = feedbackUrl;
+    this.smallDataDisclaimer = smallDataDisclaimer;
     this.metrics = metrics;
     this.systemNarratives = systemNarratives;
     this.racialDisparitiesNarrative = racialDisparitiesNarrative;
@@ -134,9 +144,11 @@ export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
   return new Tenant({
     id: tenantId,
     name: allTenantContent.name,
+    landingPageTitle: allTenantContent.landingPageTitle,
     description: allTenantContent.description,
     coBrandingCopy: allTenantContent.coBrandingCopy,
     feedbackUrl: allTenantContent.feedbackUrl,
+    smallDataDisclaimer: allTenantContent.smallDataDisclaimer,
     metrics,
     systemNarratives: getSystemNarrativesForTenant({
       allTenantContent,
