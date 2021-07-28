@@ -82,7 +82,7 @@ const content: TenantContent = {
           </p>
           <p>
             Please note that probation revocations are included in the “new admissions” in
-            this visualization to the right due to lack of detail in the source data. 
+            this visualization due to lack of detail in the source data. 
           </p>`,
           metricTypeId: "PrisonAdmissionReasonsCurrent",
         },
@@ -198,18 +198,18 @@ const content: TenantContent = {
         These categories are pulled from that documentation.
       </p>
       <p>
-        Please note that the “New Admissions and Probation Revocations” category
+        Please note that the “New admissions" category
         contains both new prison and probation commitments from court sentences.
         This is due to limitations in the data available from Pennsylvania
         Department of Corrections and may be disaggregated at a later date.
       </p>`,
       fieldMapping: [
         {
-          categoryLabel: "New admissions and probation revocations",
+          categoryLabel: "New admissions",
           fieldName: "new_admission_count",
         },
         {
-          categoryLabel: "Parole revocations",
+          categoryLabel: "Parole violations",
           fieldName: "parole_revocation_count",
         },
         { categoryLabel: "Other", fieldName: "other_count" },
@@ -428,13 +428,14 @@ const content: TenantContent = {
     chartLabels: {
       totalPopulation: "Proportions of racial/ethnic groups in the state",
       totalSentenced:
-        "Proportions of racial/ethnic groups sentenced and under DOC control",
-      paroleGrant: "People released on parole",
-      incarceratedPopulation: "Overall prison population",
+        "Proportions of racial/ethnic groups in State Correctional Institutions",
+      paroleGrant: "",
+      incarceratedPopulation: "",
       otherGroups: "All other racial/ethnic groups",
       programmingParticipants: "",
-      supervisionPopulation: "All people under supervision",
-      totalPopulationSentences: "All people sentenced and under DOC control",
+      supervisionPopulation: "",
+      totalPopulationSentences: "",
+      revocationProportions: "Proportions of return reasons",
     },
     supervisionTypes: ["parole"],
     sections: {

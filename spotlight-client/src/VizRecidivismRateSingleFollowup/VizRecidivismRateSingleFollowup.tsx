@@ -137,7 +137,7 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
                       item.singleFollowupDemographics && (
                         <BarChartTrellis
                           angledLabels={useAngledLabels}
-                          barAxisLabel="Release Cohort"
+                          barAxisLabel="Release Year"
                           data={item.singleFollowupDemographics}
                           getTooltipProps={getTooltipProps}
                         />

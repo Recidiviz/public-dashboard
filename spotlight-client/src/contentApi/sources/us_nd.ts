@@ -529,6 +529,7 @@ const content: TenantContent = {
       programmingParticipants: "Free Through Recovery active participants",
       supervisionPopulation: "All people under supervision",
       totalPopulationSentences: "All people sentenced and under DOCR control",
+      revocationProportions: "Proportions of revocation reasons",
     },
     introduction: `<p>In North Dakota, people of color are overrepresented in prison,
       on probation, and on parole.</p>

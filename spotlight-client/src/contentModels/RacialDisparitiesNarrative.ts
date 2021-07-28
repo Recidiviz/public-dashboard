@@ -479,7 +479,13 @@ export default class RacialDisparitiesNarrative implements Hydratable {
   }
 
   get revocationsDataSeries(): undefined | DemographicCategoryRecords[] {
-    const { records, selectedCategory, supervisionType, ethnonym } = this;
+    const {
+      chartLabels,
+      records,
+      selectedCategory,
+      supervisionType,
+      ethnonym,
+    } = this;
     if (records === undefined) return undefined;
 
     const selected = records[selectedCategory][supervisionType];
@@ -512,11 +518,11 @@ export default class RacialDisparitiesNarrative implements Hydratable {
 
     return [
       {
-        label: `Proportions of revocation reasons for ${ethnonym}`,
+        label: `${chartLabels.revocationProportions} for ${ethnonym}`,
         records: seriesRecords[0],
       },
       {
-        label: "Proportions of revocation reasons overall",
+        label: `${chartLabels.revocationProportions} overall`,
         records: seriesRecords[1],
       },
     ];

@@ -162,6 +162,7 @@ export type RacialDisparitiesChartLabels = {
   programmingParticipants: string;
   supervisionPopulation: string;
   totalPopulationSentences: string;
+  revocationProportions: string;
 };
 
 type RacialDisparitiesSectionKey =

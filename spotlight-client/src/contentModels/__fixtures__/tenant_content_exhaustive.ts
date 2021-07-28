@@ -317,6 +317,7 @@ const content: ExhaustiveTenantContent = {
       programmingParticipants: "Active program participants",
       supervisionPopulation: "People subject to supervision",
       totalPopulationSentences: "All people sentenced and under DOCR control",
+      revocationProportions: "Proportions of revocation reasons",
     },
     introduction: `introduction {likelihoodVsWhite.BLACK} {likelihoodVsWhite.HISPANIC}
         {likelihoodVsWhite.AMERICAN_INDIAN_ALASKAN_NATIVE}`,
