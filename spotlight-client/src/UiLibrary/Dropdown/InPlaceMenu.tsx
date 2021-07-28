@@ -36,6 +36,7 @@ const InPlaceOptionList = styled.ul`
   border: 1px solid ${colors.rule};
   border-radius: ${rem(BUTTON_HEIGHT / 4)};
   font-size: ${rem(13)};
+  max-height: 70vh;
   white-space: nowrap;
 
   &:focus {
@@ -54,14 +55,22 @@ const InPlaceMenu = ({
   waitForCloseAnimation,
 }: MenuProps): React.ReactElement => {
   const [menuHeight, setMenuHeight] = useState(0);
+  const [listOverflow, setListOverflow] = useState("visible");
 
   const showMenuItems = isOpen || waitForCloseAnimation;
-  const menuStyles = useSpring({
+  const wrapperStyles = useSpring({
     from: { height: 0 },
     height: isOpen ? menuHeight : 0,
     config: { clamp: true, friction: 20, tension: 210 },
     onRest: (props) => {
-      if (props.height === 0) setWaitForCloseAnimation(false);
+      if (props.height === 0) {
+        setWaitForCloseAnimation(false);
+        setListOverflow("visible");
+      } else {
+        // updated at the end of the animation because it will
+        // interfere with menu expansion if it's already set
+        setListOverflow("auto");
+      }
     },
   });
 
@@ -75,8 +84,11 @@ const InPlaceMenu = ({
       }}
     >
       {({ measureRef }) => (
-        <InPlaceMenuWrapper style={menuStyles}>
-          <InPlaceOptionList {...getMenuProps({ ref: measureRef })}>
+        <InPlaceMenuWrapper style={wrapperStyles}>
+          <InPlaceOptionList
+            {...getMenuProps({ ref: measureRef })}
+            style={{ overflow: listOverflow }}
+          >
             {showMenuItems &&
               options.map((option, index) =>
                 renderOption({
