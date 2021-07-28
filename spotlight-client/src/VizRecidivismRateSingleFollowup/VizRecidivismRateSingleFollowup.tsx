@@ -62,7 +62,7 @@ const getTooltipProps: TooltipContentFunction = (columnData) => {
   } else {
     records.push({
       pct,
-      value: `${value} of ${formatAsNumber(denominator)}`,
+      value: `${formatAsNumber(value)} of ${formatAsNumber(denominator)}`,
     });
   }
 
