@@ -31,9 +31,11 @@ type ExhaustiveTenantContent = Required<TenantContent> &
 
 const content: ExhaustiveTenantContent = {
   name: "Test Tenant",
+  landingPageTitle: "test landing page title",
   description: "test tenant description",
   coBrandingCopy: "test tenant co-branding",
   feedbackUrl: "https://example.com/feedback",
+  smallDataDisclaimer: "test small data disclaimer",
   // tests are based on ND data which has this demo profile
   demographicCategories: {
     raceOrEthnicity: [
@@ -317,6 +319,7 @@ const content: ExhaustiveTenantContent = {
       programmingParticipants: "Active program participants",
       supervisionPopulation: "People subject to supervision",
       totalPopulationSentences: "All people sentenced and under DOCR control",
+      revocationProportions: "Proportions of revocation reasons",
     },
     introduction: `introduction {likelihoodVsWhite.BLACK} {likelihoodVsWhite.HISPANIC}
         {likelihoodVsWhite.AMERICAN_INDIAN_ALASKAN_NATIVE}`,

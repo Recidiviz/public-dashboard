@@ -15,12 +15,27 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
+import { runInAction } from "mobx";
 import React from "react";
+import DataStore from "../DataStore";
+import { renderWithStore } from "../testUtils";
 import VizNotes from "./VizNotes";
 
+beforeEach(() => {
+  runInAction(() => {
+    DataStore.tenantStore.currentTenantId = "US_ND";
+  });
+});
+
+afterEach(() => {
+  runInAction(() => {
+    DataStore.tenantStore.currentTenantId = undefined;
+  });
+});
+
 test("all notes", () => {
-  render(
+  renderWithStore(
     <VizNotes
       smallData
       unknowns={{ gender: 1, ageBucket: 0, raceOrEthnicity: 0 }}
@@ -35,7 +50,7 @@ test("all notes", () => {
 });
 
 test("small data only", () => {
-  render(<VizNotes smallData />);
+  renderWithStore(<VizNotes smallData />);
 
   expect(screen.getByRole("listitem")).toHaveTextContent(
     "counts are especially low"
@@ -43,7 +58,7 @@ test("small data only", () => {
 });
 
 test("unknowns only", () => {
-  render(
+  renderWithStore(
     <VizNotes unknowns={{ gender: 1, ageBucket: 0, raceOrEthnicity: 0 }} />
   );
 

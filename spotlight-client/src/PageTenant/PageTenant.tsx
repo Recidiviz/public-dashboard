@@ -66,7 +66,7 @@ const PageTenant: React.FC<RouteComponentProps> = () => {
     // tenant may be briefly undefined during initial page load
     <article>
       <Introduction>
-        <Title>Explore correctional data from {tenant.name}.</Title>
+        <Title>{tenant.landingPageTitle}</Title>
         <Description>{HTMLReactParser(tenant.description)}</Description>
       </Introduction>
       <Links>

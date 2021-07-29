@@ -15,9 +15,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { observer } from "mobx-react-lite";
 import React from "react";
 import { Unknowns } from "../contentModels/types";
 import Notes from "../Notes";
+import { useDataStore } from "../StoreProvider";
 import { UnknownsNote } from "./UnknownsNote";
 
 type VizNotesProps = {
@@ -26,19 +28,13 @@ type VizNotesProps = {
 };
 
 const VizNotes: React.FC<VizNotesProps> = ({ smallData, unknowns }) => {
+  const { tenant } = useDataStore();
   return (
     <Notes>
-      {smallData && (
-        <>
-          Please always take note of the number of people associated with each
-          proportion presented here; in cases where the counts are especially
-          low, the proportion may not be statistically significant and therefore
-          not indicative of long-term trends.
-        </>
-      )}
+      {smallData && <>{tenant?.smallDataDisclaimer}</>}
       {unknowns && <UnknownsNote unknowns={unknowns} />}
     </Notes>
   );
 };
 
-export default VizNotes;
+export default observer(VizNotes);

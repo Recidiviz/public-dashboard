@@ -42,9 +42,11 @@ export type DemographicCategoryFilter = {
 
 export type TenantContent = {
   name: string;
+  landingPageTitle: string;
   description: string;
   coBrandingCopy: string;
   feedbackUrl: string;
+  smallDataDisclaimer: string;
   metrics: {
     [key in Extract<
       MetricTypeId,
@@ -162,6 +164,7 @@ export type RacialDisparitiesChartLabels = {
   programmingParticipants: string;
   supervisionPopulation: string;
   totalPopulationSentences: string;
+  revocationProportions: string;
 };
 
 type RacialDisparitiesSectionKey =

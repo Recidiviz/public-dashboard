@@ -82,6 +82,7 @@ in a North Dakota court may occasionally complete their supervision in a differe
 
 const content: TenantContent = {
   name: "North Dakota",
+  landingPageTitle: "Explore correctional data from North Dakota.",
   description:
     '<a href="https://www.docr.nd.gov">The North Dakota Department of Corrections and Rehabilitation (DOCR)</a> provides correctional services for the state of North Dakota. Our mission is to transform lives, influence change, and strengthen community. Transparency is a critical element of our mission; sharing information builds greater accountability between the DOCR and the communities we serve.',
   coBrandingCopy:
@@ -97,6 +98,10 @@ const content: TenantContent = {
       "OTHER",
     ],
   },
+  smallDataDisclaimer: `Please always take note of the number of people associated with each
+    proportion presented here; in cases where the counts are especially
+    low, the proportion may not be statistically significant and therefore
+    not indicative of long-term trends.`,
   metrics: {
     SentencePopulationCurrent: {
       name: "Sentenced Population",
@@ -529,6 +534,7 @@ const content: TenantContent = {
       programmingParticipants: "Free Through Recovery active participants",
       supervisionPopulation: "All people under supervision",
       totalPopulationSentences: "All people sentenced and under DOCR control",
+      revocationProportions: "Proportions of revocation reasons",
     },
     introduction: `<p>In North Dakota, people of color are overrepresented in prison,
       on probation, and on parole.</p>

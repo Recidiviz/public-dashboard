@@ -62,7 +62,7 @@ const getTooltipProps: TooltipContentFunction = (columnData) => {
   } else {
     records.push({
       pct,
-      value: `${value} of ${formatAsNumber(denominator)}`,
+      value: `${formatAsNumber(value)} of ${formatAsNumber(denominator)}`,
     });
   }
 
@@ -137,7 +137,7 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
                       item.singleFollowupDemographics && (
                         <BarChartTrellis
                           angledLabels={useAngledLabels}
-                          barAxisLabel="Release Cohort"
+                          barAxisLabel="Release Year"
                           data={item.singleFollowupDemographics}
                           getTooltipProps={getTooltipProps}
                         />

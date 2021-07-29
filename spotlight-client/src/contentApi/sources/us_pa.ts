@@ -19,8 +19,13 @@ import { TenantContent } from "../types";
 
 const content: TenantContent = {
   name: "Pennsylvania",
-  description:
-    '<a href="https://www.cor.pa.gov">The Pennsylvania Department of Corrections (DOC)</a> is committed to enhancing public safety. Our mission is to reduce criminal behavior by providing individualized treatment and education to incarcerated individuals, resulting in successful community reintegration through accountability and positive change.',
+  landingPageTitle: "Explore data on corrections in Pennsylvania.",
+  description: `
+    <a href="https://www.cor.pa.gov">The Pennsylvania Department of Corrections (DOC)</a>
+    is committed to enhancing public safety. The DOC's mission is to reduce criminal
+    behavior by providing individualized treatment and education to incarcerated
+    individuals, resulting in successful community reintegration through accountability
+    and positive change.`,
   coBrandingCopy:
     'Produced in collaboration with <a href="https://www.cor.pa.gov">the Pennsylvania Department of Corrections</a>.',
   feedbackUrl: "https://forms.gle/7bZMpgGR69uaW1eNA",
@@ -34,64 +39,67 @@ const content: TenantContent = {
       "OTHER",
     ],
   },
+  smallDataDisclaimer: `Note that in cases where the counts are especially low,
+    rounding may have a significant impact.`,
   systemNarratives: {
     Prison: {
-      title: "Prison",
+      title: "Prisons",
       introduction: `<p>
-        People convicted of criminal offenses may serve their sentence in a state
-        prison or contracted private prison. Prisons run programming to help residents
-        work towards rehabilitation and successful reentry.
-      </p>`,
+        Individuals convicted of a crime may be sentenced to a period of incarceration.
+        The length of the sentence determines the place of confinement.  While
+        incarcerated, individuals are offered a wide variety of educational, treatment,
+        and occupational programming to address rehabilitative needs and prepare for
+        reentry to the community.
+      </p>
+      <aside>
+        All calculations are effective as of 7/1/2021, and will be updated regularly
+        moving forward. Methodologies for these calculations may vary slightly from
+        existing public reports produced by the Pennsylvania Department of Corrections.
+      </aside>`,
       sections: [
         {
-          title: "Who is in custody?",
+          title: "Who is in a State Correctional Institution (SCI)?",
           body: `<p>
-            The Department of Corrections runs a number of different facilities
-            and contracted facilities across the state.
+            The Department of Corrections operates 23 state correctional institutions
+            (SCIs) across the state as well as one motivational boot camp.
           </p>`,
           metricTypeId: "PrisonPopulationCurrent",
         },
         {
           title: "How has the incarcerated population changed over time?",
           body: `<p>
-          Broadly speaking, increased activity in earlier parts of the criminal justice
-          system (such as arrests and sentencing) will result in increases in the prison
-          population. Changes in sentence lengths and revocations from community
-          supervision may also contribute to the rise and fall of this number.
+            Prison populations are impacted by the number of individuals sentenced to
+            incarceration and the length of their sentence balanced with population
+            reduction factors such as parole and diversionary programs. Factors that
+            impact incarceration may include mandatory sentencing, legislation
+            creating new crimes or enhanced penalties, and probation and parole revocations.
           </p>`,
           metricTypeId: "PrisonPopulationHistorical",
         },
         {
-          title: "Who is in a transitional facility?",
-          body: `<p>
-            People who are nearing the end of their prison term may be admitted to a
-            community correction center in advance of their release from incarceration.
-            These residential facilities, operated by the DOC or private contractors,
-            offer supportive programming to help prepare people for a successful
-            return to the community.
-          </p>`,
-          metricTypeId: "CommunityCorrectionsPopulationCurrent",
-        },
-        {
           title: "How did they get there?",
           body: `<p>
-            There are many possible paths for someone to be admitted to prison. Many of
-            the admissions to prison are not “new admissions” (that is, admitted for the
-            first time as part of their sentence), but are actually people who are pulled
-            back to prison from community supervision due to a violation or new crime.
+            Among the current population there are several possible pathways that may have
+            led to the individual being in prison. Many people currently in prison have
+            not been admitted for the first time as part of their sentence, but are
+            actually people who are revoked from community supervision due to a
+            violation or new crime.
           </p>
           <p>
-            Please note that probation revocations are included in the “new admissions” in
-            this visualization to the right due to lack of detail in the source data. 
+            Please note that probation revocations are included in the “new admissions”
+            in this visualization due to lack of detail in the source data.
           </p>`,
           metricTypeId: "PrisonAdmissionReasonsCurrent",
         },
         {
-          title: "How many people end up back in prison?",
+          title: "What do outcomes look like for those released from prison?",
           body: `<p>
             After release from prison, a significant proportion of formerly incarcerated
-            individuals end up back in prison or charged with additional crimes. This is
-            typically termed “recidivism.”
+            individuals end up back in prison or charged with additional crimes. This
+            is typically termed “recidivism.” This data depicts overall recidivism,
+            which is the broadest category and is defined by the DOC as the first event
+            of either rearrest or return to DOC custody within a given time since prior
+            release from DOC custody.
           </p>`,
           metricTypeId: "PrisonRecidivismRateHistorical",
         },
@@ -108,50 +116,60 @@ const content: TenantContent = {
     Parole: {
       title: "Parole",
       introduction: `<p>
-        Parole is a period of supervised release after prison. People on parole must
-        regularly check in with a parole officer, who ensures that they are following
+        Parole is a period of supervised release after prison. Individuals on parole must
+        regularly check in with a parole agent, who ensures that they are following
         all the requirements of the release. If these requirements are violated, the
-        person’s parole may be “revoked” and they will be sent back to prison.
-      </p>`,
+        person’s parole may be revoked and they will be sent back to prison.
+      </p>
+      <aside>
+        All calculations are effective as of 7/1/2021, and will be updated regularly
+        moving forward. Methodologies for these calculations may vary slightly from
+        existing public reports produced by the Pennsylvania Department of Corrections.
+      </aside>`,
       sections: [
         {
           title: "Who is on parole?",
           body: `<p>
             People on parole have generally completed certain requirements of their
             sentence (such as a minimum time spent) and have been approved for
-            release by a parole board. Ideally, the corrections system will ensure
+            release by a parole board. The corrections system works to ensure
             that the person is set up for success before they are released.
           </p>`,
           metricTypeId: "ParolePopulationCurrent",
         },
         {
-          title: "How has the parole population changed over time?",
+          title: "What drives changes in the parole population over time?",
           body: `<p>
-            Broadly speaking, increased activity in earlier parts of the criminal justice
-            system (such as arrests and sentencing) will result in increases in the parole
-            population. Changes in parole sentence lengths and earlier releases from
-            prison may also contribute to the rise and fall of this number.
-          </p>`,
+            There are many drivers that change the parole population over time, including
+            but not limited to:
+          </p>
+          <ul>
+            <li>Number of people sentenced</li>
+            <li>Parole grant rate</li>
+            <li>Internal procedures of the parole board and DOC</li>
+            <li>Legislative activity</li>
+          </ul>
+          `,
           metricTypeId: "ParolePopulationHistorical",
         },
         {
-          title: "What happens after parole?",
+          title: "What proportion of people succeed on parole?",
           body: `<p>
-            A successful end to one’s parole term is a “discharge,” after which they are
-            no longer supervised by a parole officer; failure to succeed generally means
-            a return to prison, or “revocation.” This success rate is improved by
-            addressing critical needs of justice-involved individuals, including employment,
-            housing, and need-based care.
+            A successful end to one’s parole term is a sentence completion, after which
+            the individual is no longer supervised by a parole agent. Failure to succeed
+            generally means a return to prison. This success rate is improved by
+            addressing critical needs of justice-involved individuals, including
+            employment, housing, and need-based care.
           </p>`,
           metricTypeId: "ParoleTerminationsHistorical",
         },
         {
-          title: "Why do revocations happen?",
+          title: "How do returns for parole violations happen?",
           body: `<p>
-            Revocations occur when a person on parole violates a condition of their
-            supervision or commits a new crime and is reincarcerated as a result. Reasons
-            for revocation generally fall into one of three categories: technical violation, new
-            offense, and absconsion.
+            Returns for parole violations occur when a person on parole violates a
+            condition of their supervision or commits a new crime and is reincarcerated
+            as a result. Reasons for returns generally fall into one of three categories:
+            technical violation, new offense, or absconsion.
           </p>`,
           metricTypeId: "ParoleRevocationsAggregate",
         },
@@ -171,6 +189,11 @@ const content: TenantContent = {
         female due to low numbers of other reported genders. Distributions by race
         count individuals with more than one reported race or ethnicity towards the
         racial or ethnic identity that is least represented in the general population.
+      </p>
+      <p>
+        All calculations are effective as of 7/1/2021, and will be updated regularly
+        moving forward. Methodologies for these calculations may vary slightly from
+        existing public reports produced by the Pennsylvania Department of Corrections.
       </p>`,
       totalLabel: "Total people in prison",
     },
@@ -187,6 +210,11 @@ const content: TenantContent = {
         female due to low numbers of other reported genders. Distributions by race
         count individuals with more than one reported race or ethnicity towards the
         racial or ethnic identity that is least represented in the general population.
+      </p>
+      <p>
+        All calculations are effective as of 7/1/2021, and will be updated regularly
+        moving forward. Methodologies for these calculations may vary slightly from
+        existing public reports produced by the Pennsylvania Department of Corrections.
       </p>`,
     },
     PrisonAdmissionReasonsCurrent: {
@@ -198,18 +226,23 @@ const content: TenantContent = {
         These categories are pulled from that documentation.
       </p>
       <p>
-        Please note that the “New Admissions and Probation Revocations” category
-        contains both new prison and probation commitments from court sentences.
-        This is due to limitations in the data available from Pennsylvania
-        Department of Corrections and may be disaggregated at a later date.
+        Please note that the “New admissions" category contains both new prison
+        admissions and probation revocations. This is due to limitations in the
+        data available from Pennsylvania Department of Corrections and may be
+        disaggregated at a later date.
+      </p>
+      <p>
+        All calculations are effective as of 7/1/2021, and will be updated regularly
+        moving forward. Methodologies for these calculations may vary slightly from
+        existing public reports produced by the Pennsylvania Department of Corrections.
       </p>`,
       fieldMapping: [
         {
-          categoryLabel: "New admissions and probation revocations",
+          categoryLabel: "New admissions",
           fieldName: "new_admission_count",
         },
         {
-          categoryLabel: "Parole revocations",
+          categoryLabel: "Parole violations",
           fieldName: "parole_revocation_count",
         },
         { categoryLabel: "Other", fieldName: "other_count" },
@@ -230,6 +263,11 @@ const content: TenantContent = {
         state prison. Overall recidivism is measured as the first instance of any
         type of rearrest or reincarceration after inmates are released from state
         prison.
+      </p>
+      <p>
+        All calculations are effective as of 7/1/2021, and will be updated regularly
+        moving forward. Methodologies for these calculations may vary slightly from
+        existing public reports produced by the Pennsylvania Department of Corrections.
       </p>`,
     },
     PrisonRecidivismRateSingleFollowupHistorical: {
@@ -247,32 +285,20 @@ const content: TenantContent = {
         state prison. Overall recidivism is measured as the first instance of any
         type of rearrest or reincarceration after inmates are released from state
         prison.
-      </p>`,
-    },
-    CommunityCorrectionsPopulationCurrent: {
-      name: "Community Correction Centers",
-      methodology: `
-      <p>
-        This data includes all individuals that are currently incarcerated in a
-        specified “community corrections center,” under the supervision of
-        Pennsylvania’s Department of Corrections. 
       </p>
       <p>
-        In distributions by age, individuals are counted towards the age group they
-        fall into as of the reporting date. Gender distributions only include male and
-        female due to low numbers of other reported genders. Distributions by race
-        count individuals with more than one reported race or ethnicity towards the
-        racial or ethnic identity that is least represented in the general population.
+        All calculations are effective as of 7/1/2021, and will be updated regularly
+        moving forward. Methodologies for these calculations may vary slightly from
+        existing public reports produced by the Pennsylvania Department of Corrections.
       </p>`,
-      totalLabel: "Total people in community correction centers",
     },
-
     ParolePopulationCurrent: {
       name: "Current Parole Population",
       methodology: `<p>
         This data includes people currently on parole in Pennsylvania. The offices
         associated with this data indicate individuals who are being supervised by a
-        parole officer stationed in that office.
+        parole agent stationed in that office. This does not include interstate or
+        special probation.
       </p>
       <p>
         In distributions by age, individuals are counted towards the age group they
@@ -288,6 +314,11 @@ const content: TenantContent = {
         different state, but have a compelling reason to serve their parole in
         Pennsylvania. Under the same program, individuals paroled from a Pennsylvania
         prison may occasionally serve their parole in a different state.
+      </p>
+      <p>
+        All calculations are effective as of 7/1/2021, and will be updated regularly
+        moving forward. Methodologies for these calculations may vary slightly from
+        existing public reports produced by the Pennsylvania Department of Corrections.
       </p>`,
       totalLabel: "Total people on parole",
     },
@@ -295,7 +326,8 @@ const content: TenantContent = {
       name: "Historical Parole Population",
       methodology: `<p>
         This data includes the number of people that were on parole in Pennsylvania on
-        the first day of each month over the last 20 years.
+        the first day of each month over the last 20 years. This does not include
+        interstate or special probation.
       </p>
       <p>
         In distributions by age, individuals are counted towards the age group they
@@ -311,6 +343,11 @@ const content: TenantContent = {
         different state, but have a compelling reason to serve their parole in
         Pennsylvania. Under the same program, individuals paroled from a Pennsylvania
         prison may occasionally serve their parole in a different state.
+      </p>
+      <p>
+        All calculations are effective as of 7/1/2021, and will be updated regularly
+        moving forward. Methodologies for these calculations may vary slightly from
+        existing public reports produced by the Pennsylvania Department of Corrections.
       </p>`,
     },
     ParoleTerminationsHistorical: {
@@ -351,6 +388,11 @@ const content: TenantContent = {
         different state, but have a compelling reason to serve their parole in
         Pennsylvania. Under the same program, individuals paroled from a Pennsylvania
         prison may occasionally serve their parole in a different state.
+      </p>
+      <p>
+        All calculations are effective as of 7/1/2021, and will be updated regularly
+        moving forward. Methodologies for these calculations may vary slightly from
+        existing public reports produced by the Pennsylvania Department of Corrections.
       </p>`,
     },
     ParoleRevocationsAggregate: {
@@ -399,6 +441,11 @@ const content: TenantContent = {
         different state, but have a compelling reason to serve their parole in
         Pennsylvania. Under the same program, individuals paroled from a Pennsylvania
         prison may occasionally serve their parole in a different state.
+      </p>
+      <p>
+        All calculations are effective as of 7/1/2021, and will be updated regularly
+        moving forward. Methodologies for these calculations may vary slightly from
+        existing public reports produced by the Pennsylvania Department of Corrections.
       </p>`,
     },
   },
@@ -411,7 +458,12 @@ const content: TenantContent = {
       Black Pennsylvanians are {likelihoodVsWhite.BLACK} times as likely to be under
       DOC control as their white counterparts and Latino Pennsylvanians are
       {likelihoodVsWhite.HISPANIC} times as likely.
-    </p>`,
+    </p>
+    <aside>
+      All calculations are effective as of 7/1/2021, and will be updated regularly
+      moving forward. Methodologies for these calculations may vary slightly from
+      existing public reports produced by the Pennsylvania Department of Corrections.
+    </aside>`,
     introductionMethodology: `<p>
       Distributions by race count individuals with more than one reported race or
       ethnicity towards the racial or ethnic identity that is least represented in
@@ -424,17 +476,23 @@ const content: TenantContent = {
       different state, but have a compelling reason to serve their supervision in
       Pennsylvania. Under the same program, individuals placed on supervision in
       Pennsylvania may occasionally complete their supervision in a different state.
+    </p>
+    <p>
+      All calculations are effective as of 7/1/2021, and will be updated regularly
+      moving forward. Methodologies for these calculations may vary slightly from
+      existing public reports produced by the Pennsylvania Department of Corrections.
     </p>`,
     chartLabels: {
       totalPopulation: "Proportions of racial/ethnic groups in the state",
       totalSentenced:
-        "Proportions of racial/ethnic groups sentenced and under DOC control",
-      paroleGrant: "People released on parole",
-      incarceratedPopulation: "Overall prison population",
+        "Proportions of racial/ethnic groups in State Correctional Institutions",
+      paroleGrant: "",
+      incarceratedPopulation: "",
       otherGroups: "All other racial/ethnic groups",
       programmingParticipants: "",
-      supervisionPopulation: "All people under supervision",
-      totalPopulationSentences: "All people sentenced and under DOC control",
+      supervisionPopulation: "",
+      totalPopulationSentences: "",
+      revocationProportions: "Proportions of return reasons",
     },
     supervisionTypes: ["parole"],
     sections: {
@@ -449,8 +507,8 @@ const content: TenantContent = {
         </p>
         <p>
           {ethnonymCapitalized} make up {beforeCorrections.populationPctCurrent} of
-          Pennsylvania’s population, but {beforeCorrections.correctionsPctCurrent} of
-          the population sentenced to time under DOC control.
+          Pennsylvania’s population; they represent {beforeCorrections.correctionsPctCurrent}
+          of the population sentenced to time under DOC control.
         </p>`,
         methodology: `<p>
           Individuals are counted as released to parole if they have been released from
@@ -471,6 +529,11 @@ const content: TenantContent = {
           different state, but have a compelling reason to serve their supervision in
           Pennsylvania. Under the same program, individuals placed on supervision in
           Pennsylvania may occasionally complete their supervision in a different state.
+        </p>
+        <p>
+          All calculations are effective as of 7/1/2021, and will be updated regularly
+          moving forward. Methodologies for these calculations may vary slightly from
+          existing public reports produced by the Pennsylvania Department of Corrections.
         </p>`,
       },
       supervision: {
@@ -481,14 +544,14 @@ const content: TenantContent = {
         </p>
         <p>
           {ethnonymCapitalized} represent {supervision.populationProportion36Mo} of the
-          parole population, but were {supervision.revocationProportion36Mo}
-          of revocation admissions to prison in the last 3 years.
+          parole population; in comparison, they represent {supervision.revocationProportion36Mo}
+          of returns to prison in the last 3 years.
         </p>
         <p>
-          Reasons for a revocation can vary: {ethnonym} are revoked
+          Reasons for a parole violator return can vary: {ethnonym} are revoked
           {supervision.technicalProportion36Mo} of the time for technical violations (a
           rule of supervision, rather than a crime),
-          {supervision.absconsionProportion36Mo} of the time for absconsion from
+          {supervision.absconsionProportion36Mo} of the time for absconding while on
           parole, and {supervision.newCrimeProportion36Mo} of the time for
           new crimes. In contrast, overall revocations for technical violations are
           {supervision.overall.technicalProportion36Mo}, revocations for absconsion
@@ -546,6 +609,11 @@ const content: TenantContent = {
           different state, but have a compelling reason to serve their supervision in
           Pennsylvania. Under the same program, individuals placed on supervision in
           Pennsylvania may occasionally complete their supervision in a different state.
+        </p>
+        <p>
+          All calculations are effective as of 7/1/2021, and will be updated regularly
+          moving forward. Methodologies for these calculations may vary slightly from
+          existing public reports produced by the Pennsylvania Department of Corrections.
         </p>`,
       },
       conclusion: {
@@ -599,7 +667,6 @@ const content: TenantContent = {
         { id: "ROC", label: "Rockview" },
         { id: "SMI", label: "Smithfield" },
         { id: "WAM", label: "Waymart" },
-        { id: "CCC", label: "Community Correction Centers" },
         { id: "OTHER", label: "Other Facilities" },
       ],
     },
