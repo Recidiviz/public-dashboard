@@ -61,7 +61,7 @@ const content: TenantContent = {
           title: "Who is in a State Correctional Institution (SCI)?",
           body: `<p>
             The Department of Corrections operates 23 state correctional institutions
-            (SCIs) across the state as well as one motivational boot camp.
+            (SCIs) across the commonwealth as well as one motivational boot camp.
           </p>`,
           metricTypeId: "PrisonPopulationCurrent",
         },
@@ -251,45 +251,39 @@ const content: TenantContent = {
     PrisonRecidivismRateHistorical: {
       name: "Cumulative Recidivism Rates",
       methodology: `<p>
-        The DOC uses three different measures of recidivism: rearrest, reincarceration,
-        and overall recidivism. This data depicts overall recidivism, which is
-        defined by the DOC as the first instance of any type of rearrest or reincarceration
-        after the individual is released from the DOC.
+        The PA DOC uses three different measures of recidivism: rearrest, reincarceration,
+        and overall recidivism. Rearrest is measured as the first instance of arrest
+        after inmates are released from state prison. Reincarceration is measured as
+        the first instance of returning to state prison after inmates are released from
+        state prison. Overall recidivism is measured as the first instance of any type
+        of rearrest or reincarceration after inmates are released from state prison.
       </p>
       <p>
-        Rearrest is measured as the first instance of arrest after inmates are
-        released from state prison. Reincarceration is measured as the first
-        instance of returning to state prison after inmates are released from
-        state prison. Overall recidivism is measured as the first instance of any
-        type of rearrest or reincarceration after inmates are released from state
-        prison.
-      </p>
-      <p>
-        All calculations are effective as of 7/1/2021, and will be updated regularly
-        moving forward. Methodologies for these calculations may vary slightly from
-        existing public reports produced by the Pennsylvania Department of Corrections.
+        The cumulative recidivism rate used here represents PA DOC's “overall recidivism,”
+        which is the first instance of either rearrest or return to DOC custody within
+        3 years after prior release from DOC custody. This is a broad definition of
+        recidivism that includes individuals who are reincarcerated for technical parole
+        violations (not new crimes), as well as individuals who are rearrested but not
+        necessarily convicted or returned to DOC custody.
       </p>`,
     },
     PrisonRecidivismRateSingleFollowupHistorical: {
       name: "Recidivism Rates Over Time",
       methodology: `<p>
-        The DOC uses three different measures of recidivism: rearrest, reincarceration,
-        and overall recidivism. This data depicts overall recidivism, which is
-        defined by the DOC as the first instance of any type of rearrest or reincarceration
-        after the individual is released from the DOC.
+        The PA DOC uses three different measures of recidivism: rearrest, reincarceration,
+        and overall recidivism. Rearrest is measured as the first instance of arrest
+        after inmates are released from state prison. Reincarceration is measured as
+        the first instance of returning to state prison after inmates are released from
+        state prison. Overall recidivism is measured as the first instance of any type
+        of rearrest or reincarceration after inmates are released from state prison.
       </p>
       <p>
-        Rearrest is measured as the first instance of arrest after inmates are
-        released from state prison. Reincarceration is measured as the first
-        instance of returning to state prison after inmates are released from
-        state prison. Overall recidivism is measured as the first instance of any
-        type of rearrest or reincarceration after inmates are released from state
-        prison.
-      </p>
-      <p>
-        All calculations are effective as of 7/1/2021, and will be updated regularly
-        moving forward. Methodologies for these calculations may vary slightly from
-        existing public reports produced by the Pennsylvania Department of Corrections.
+        The cumulative recidivism rate used here represents PA DOC's “overall recidivism,”
+        which is the first instance of either rearrest or return to DOC custody within
+        3 years after prior release from DOC custody. This is a broad definition of
+        recidivism that includes individuals who are reincarcerated for technical parole
+        violations (not new crimes), as well as individuals who are rearrested but not
+        necessarily convicted or returned to DOC custody.
       </p>`,
     },
     ParolePopulationCurrent: {
