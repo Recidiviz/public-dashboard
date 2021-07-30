@@ -660,6 +660,7 @@ const content: TenantContent = {
         { id: "QUE", label: "Quehanna Boot Camp" },
         { id: "ROC", label: "Rockview" },
         { id: "SMI", label: "Smithfield" },
+        { id: "SMR", label: "Somerset" },
         { id: "WAM", label: "Waymart" },
         { id: "OTHER", label: "Other Facilities" },
       ],
