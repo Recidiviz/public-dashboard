@@ -181,7 +181,8 @@ const content: TenantContent = {
       name: "Current Prison Population",
       methodology: `<p>
         This data includes all individuals that are currently incarcerated in a DOC
-        facility. It does not include individuals incarcerated in county jails.
+        facility. It does not include individuals incarcerated in county jails. Other
+        includes individuals such as those that are currently out of state.
       </p>
       <p>
         In distributions by age, individuals are counted towards the age group they
@@ -660,8 +661,9 @@ const content: TenantContent = {
         { id: "QUE", label: "Quehanna Boot Camp" },
         { id: "ROC", label: "Rockview" },
         { id: "SMI", label: "Smithfield" },
+        { id: "SMR", label: "Somerset" },
         { id: "WAM", label: "Waymart" },
-        { id: "OTHER", label: "Other Facilities" },
+        { id: "OTHER", label: "Other" },
       ],
     },
     Parole: {
