@@ -56,23 +56,25 @@ const LinkListItem = styled.li`
   width: 100%;
 
   @media (min-width: ${breakpoints.tablet[0]}px) {
-    width: calc(100% / 2);
+    width: calc(100% / 1);
   }
 
   @media (min-width: ${breakpoints.desktop[0]}px) {
-    width: calc(100% / 3);
+    width: calc(100% / 2);
   }
 
   @media (min-width: ${breakpoints.xl[0]}px) {
-    width: calc(100% / 4);
+    width: calc(100% / 2);
   }
 
   a {
     border-top: 1px solid ${colors.rule};
+    border-bottom: 1px solid ${colors.rule};
     color: ${colors.text};
     display: block;
     padding-right: ${rem(8)};
-    padding-top: ${rem(32)};
+    padding-top: ${rem(24)};
+    padding-bottom: ${rem(24)};
     text-decoration: none;
     width: 100%;
   }
@@ -80,6 +82,10 @@ const LinkListItem = styled.li`
 
 const LinkText = styled.span`
   white-space: normal;
+`;
+
+const ChartTitle = styled.span`
+  font-size: ${rem(16)};
 `;
 
 const NarrativeLink: React.FC<{
@@ -90,6 +96,8 @@ const NarrativeLink: React.FC<{
     opacity: 0,
     from: { opacity: 0 },
   }));
+
+  console.log(narrative);
 
   return (
     <LinkListItem>
@@ -114,6 +122,7 @@ const NarrativeLink: React.FC<{
           <Arrow color={colors.link} direction="right" />
         </animated.span>
       </Link>
+      <ChartTitle>{narrative.subtitle}</ChartTitle>
     </LinkListItem>
   );
 });

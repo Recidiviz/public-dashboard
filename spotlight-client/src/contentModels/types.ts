@@ -90,4 +90,4 @@ export type SystemNarrativeMapping = {
   [key in SystemNarrativeTypeId]?: SystemNarrative;
 };
 
-export type Narrative = SystemNarrative | RacialDisparitiesNarrative;
+export type Narrative = SystemNarrative;

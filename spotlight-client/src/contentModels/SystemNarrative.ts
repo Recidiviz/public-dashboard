@@ -31,6 +31,7 @@ export type SystemNarrativeSection = {
 type ConstructorArgs = {
   id: SystemNarrativeTypeId;
   title: string;
+  subtitle: string;
   introduction: string;
   sections: SystemNarrativeSection[];
 };
@@ -40,13 +41,16 @@ export default class SystemNarrative {
 
   readonly title: string;
 
+  readonly subtitle: string;
+
   readonly introduction: string;
 
   readonly sections: SystemNarrativeSection[];
 
-  constructor({ id, title, introduction, sections }: ConstructorArgs) {
+  constructor({ id, title, subtitle, introduction, sections }: ConstructorArgs) {
     this.id = id;
     this.title = title;
+    this.subtitle = subtitle;
     this.introduction = introduction;
     this.sections = sections;
   }
@@ -74,6 +78,7 @@ export function createSystemNarrative({
   return new SystemNarrative({
     id,
     title: content.title,
+    subtitle: content.subtitle,
     introduction: content.introduction,
     sections,
   });

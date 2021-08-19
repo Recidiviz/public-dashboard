@@ -151,6 +151,7 @@ type SystemNarrativeSection = NarrativeSection & {
 
 export type SystemNarrativeContent = {
   title: string;
+  subtitle: string;
   introduction: string;
   sections: SystemNarrativeSection[];
 };

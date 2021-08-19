@@ -155,6 +155,7 @@ const content: ExhaustiveTenantContent = {
   systemNarratives: {
     Prison: {
       title: "test prison narrative",
+      subtitle: "test prison subtitle",
       introduction: "test prison introduction",
       sections: [
         {
@@ -166,6 +167,7 @@ const content: ExhaustiveTenantContent = {
     },
     Probation: {
       title: "test probation narrative",
+      subtitle: "test probation subtitle",
       introduction: "test probation introduction",
       sections: [
         {
@@ -177,6 +179,7 @@ const content: ExhaustiveTenantContent = {
     },
     Parole: {
       title: "test parole narrative",
+      subtitle: "test parole subtitle",
       introduction: "test parole introduction",
       sections: [
         {
@@ -188,6 +191,7 @@ const content: ExhaustiveTenantContent = {
     },
     Sentencing: {
       title: "test sentencing narrative",
+      subtitle: "test sentencing subtitle",
       introduction: "test sentencing introduction",
       sections: [
         {

@@ -47,6 +47,7 @@ const content: TenantContent = {
   systemNarratives: {
     Parole: {
       title: "test parole narrative",
+      subtitle: "test parole subtitle",
       introduction: "test parole introduction",
       sections: [
         {
@@ -63,6 +64,7 @@ const content: TenantContent = {
     },
     Sentencing: {
       title: "test sentencing narrative",
+      subtitle: "test sentencing subtitle",
       introduction:
         'test sentencing introduction <a href="https://example.com">intro link</a>',
       sections: [

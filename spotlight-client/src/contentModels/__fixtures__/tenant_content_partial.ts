@@ -54,6 +54,7 @@ const content: TenantContent = {
   systemNarratives: {
     Parole: {
       title: "test parole narrative",
+      subtitle: "test parole subtitle",
       introduction: "test parole introduction",
       sections: [
         {
