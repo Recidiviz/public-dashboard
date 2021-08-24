@@ -28,7 +28,8 @@ import withMetricHydrator from "../withMetricHydrator";
 
 const VizHistoricalPopulationBreakdown: React.FC<{
   metric: HistoricalPopulationBreakdownMetric;
-}> = ({ metric }) => {
+  preview?: boolean;
+}> = ({ metric, preview }) => {
   const [windowSizeId, setWindowSizeId] = useState<WindowSizeId>("20");
 
   let defaultRangeEnd = startOfMonth(new Date());
@@ -46,7 +47,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
   }
 
   if (metric.dataSeries)
-    return (
+    return !preview ? (
       <>
         <MetricVizControls
           filters={[
@@ -76,6 +77,13 @@ const VizHistoricalPopulationBreakdown: React.FC<{
         />
         <VizNotes unknowns={metric.unknowns} />
       </>
+    ) : (
+      <WindowedTimeSeries
+        data={metric.dataSeries}
+        setTimeRangeId={setWindowSizeId}
+        defaultRangeEnd={defaultRangeEnd}
+        defaultRangeStart={defaultRangeStart}
+      />
     );
 
   return null;

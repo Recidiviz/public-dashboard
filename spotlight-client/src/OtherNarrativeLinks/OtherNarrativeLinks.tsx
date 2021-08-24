@@ -24,6 +24,7 @@ import styled from "styled-components/macro";
 import { track } from "../analytics";
 import { TenantId } from "../contentApi/types";
 import { Narrative } from "../contentModels/types";
+import MetricVizMapper from "../MetricVizMapper";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
 import { breakpoints, colors } from "../UiLibrary";
@@ -88,6 +89,10 @@ const ChartTitle = styled.span`
   font-size: ${rem(16)};
 `;
 
+const ChartPreview = styled.div`
+  padding-top: ${rem(16)};
+`;
+
 const NarrativeLink: React.FC<{
   narrative: Narrative;
   tenantId: TenantId;
@@ -97,7 +102,40 @@ const NarrativeLink: React.FC<{
     from: { opacity: 0 },
   }));
 
-  console.log(narrative);
+  const renderChartPreview = () => {
+    if (tenantId === "US_ND") {
+      switch (narrative.id) {
+        case "Sentencing":
+          return (
+            <MetricVizMapper preview metric={narrative.sections[0].metric} />
+          );
+        case "Prison":
+          return (
+            <MetricVizMapper preview metric={narrative.sections[1].metric} />
+          );
+        case "Probation":
+          return (
+            <MetricVizMapper preview metric={narrative.sections[3].metric} />
+          );
+        case "Parole":
+          return (
+            <MetricVizMapper preview metric={narrative.sections[4].metric} />
+          );
+      }
+    }
+    if ((tenantId = "US_PA")) {
+      switch (narrative.id) {
+        case "Prison":
+          return (
+            <MetricVizMapper preview metric={narrative.sections[1].metric} />
+          );
+        case "Parole":
+          return (
+            <MetricVizMapper preview metric={narrative.sections[3].metric} />
+          );
+      }
+    }
+  };
 
   return (
     <LinkListItem>
@@ -123,6 +161,7 @@ const NarrativeLink: React.FC<{
         </animated.span>
       </Link>
       <ChartTitle>{narrative.subtitle}</ChartTitle>
+      <ChartPreview>{renderChartPreview()}</ChartPreview>
     </LinkListItem>
   );
 });
@@ -141,7 +180,6 @@ const OtherNarrativeLinks = (): React.ReactElement | null => {
 
   const narrativesToDisplay = [
     ...Object.values(tenant.systemNarratives),
-    tenant.racialDisparitiesNarrative,
   ].filter((narrative): narrative is Narrative => {
     if (narrative === undefined) return false;
     return narrative.id !== currentNarrativeTypeId;

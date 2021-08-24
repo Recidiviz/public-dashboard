@@ -46,10 +46,12 @@ const CategoryBarWrapper = styled.div`
 
 type VizDemographicsByCategoryProps = {
   metric: DemographicsByCategoryMetric;
+  preview?: boolean;
 };
 
 const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
   metric,
+  preview,
 }) => {
   const { highlighted, setHighlighted } = useHighlightedItem();
 
@@ -67,7 +69,7 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
     );
 
   if (dataSeries) {
-    return (
+    return !preview ? (
       <>
         <MetricVizControls
           filters={[<DemographicFilterSelect metric={metric} />]}
@@ -117,6 +119,49 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
         </AutoHeightTransition>
         <VizNotes smallData unknowns={unknowns} />
       </>
+    ) : (
+      <AutoHeightTransition initialHeight={bubbleChartHeight}>
+        {chartTransitions.map(({ item, key, props }) => (
+          <ChartWrapper key={key}>
+            <animated.div style={props}>
+              {
+                // for type safety we have to check this again
+                // but it should always be defined if we've gotten this far
+                item.dataSeries &&
+                  (item.demographicView === "total" ? (
+                    <BubbleChart
+                      height={bubbleChartHeight}
+                      data={item.dataSeries[0].records}
+                    />
+                  ) : (
+                    item.dataSeries.map(
+                      ({ label, records }, index, categories) => (
+                        <CategoryBarWrapper
+                          key={label}
+                          style={{
+                            // prevents subsequent charts from covering up the tooltip for this one
+                            zIndex: zIndex.base + categories.length - index,
+                          }}
+                        >
+                          <ProportionalBar
+                            data={records}
+                            height={
+                              barChartsHeight / categories.length -
+                              barChartsGutter
+                            }
+                            title={label}
+                            showLegend={index === categories.length - 1}
+                            {...{ highlighted, setHighlighted }}
+                          />
+                        </CategoryBarWrapper>
+                      )
+                    )
+                  ))
+              }
+            </animated.div>
+          </ChartWrapper>
+        ))}
+      </AutoHeightTransition>
     );
   }
 

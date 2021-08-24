@@ -24,7 +24,7 @@ import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
 import OtherNarrativeLinks from "../OtherNarrativeLinks";
 import { useDataStore } from "../StoreProvider";
-import { breakpoints, CopyBlock, PageSection, PageTitle } from "../UiLibrary";
+import { breakpoints, PageSection, PageTitle } from "../UiLibrary";
 import withRouteSync from "../withRouteSync";
 
 const Introduction = styled(PageSection)`

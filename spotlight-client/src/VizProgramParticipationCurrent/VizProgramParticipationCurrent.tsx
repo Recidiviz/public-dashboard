@@ -27,15 +27,17 @@ const MapWrapper = styled.figure``;
 
 type VizProgramParticipationCurrentProps = {
   metric: ProgramParticipationCurrentMetric;
+  preview?: boolean;
 };
 
 const VizProgramParticipationCurrent: React.FC<VizProgramParticipationCurrentProps> = ({
   metric,
+  preview,
 }) => {
   const { dataMapping } = metric;
 
   if (dataMapping) {
-    return (
+    return !preview ? (
       <>
         <MetricVizControls filters={[]} metric={metric} />
         <MapWrapper aria-label={`${metric.localityLabels.label} map chart`}>
@@ -46,6 +48,14 @@ const VizProgramParticipationCurrent: React.FC<VizProgramParticipationCurrentPro
           />
         </MapWrapper>
       </>
+    ) : (
+      <MapWrapper aria-label={`${metric.localityLabels.label} map chart`}>
+        <TopologicalMap
+          aspectRatio={metric.mapData.aspectRatio}
+          localityData={dataMapping}
+          topology={metric.mapData.topology}
+        />
+      </MapWrapper>
     );
   }
 
