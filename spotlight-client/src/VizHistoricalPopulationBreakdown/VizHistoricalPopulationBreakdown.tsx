@@ -79,6 +79,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
       </>
     ) : (
       <WindowedTimeSeries
+        preview={preview}
         data={metric.dataSeries}
         setTimeRangeId={setWindowSizeId}
         defaultRangeEnd={defaultRangeEnd}

@@ -50,7 +50,7 @@ const LinkList = styled.ul`
 const LinkListItem = styled.li`
   /* creates gaps */
   border: 0 solid transparent;
-  border-width: 0 ${rem(32)} ${rem(32)} 0;
+  border-width: 0 ${rem(32)} 0 0;
   flex: 0 0 auto;
   white-space: nowrap;
   /* use width to create 1-4 columns, depending on screen size */

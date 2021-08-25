@@ -51,7 +51,7 @@ const VizProgramParticipationCurrent: React.FC<VizProgramParticipationCurrentPro
     ) : (
       <MapWrapper aria-label={`${metric.localityLabels.label} map chart`}>
         <TopologicalMap
-          aspectRatio={metric.mapData.aspectRatio}
+          aspectRatio={1.9}
           localityData={dataMapping}
           topology={metric.mapData.topology}
         />

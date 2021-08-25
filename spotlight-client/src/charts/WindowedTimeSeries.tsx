@@ -20,6 +20,7 @@ import { scaleTime } from "d3-scale";
 import { format, isEqual } from "date-fns";
 import React, { useCallback, useEffect, useState } from "react";
 import MinimapXYFrame from "semiotic/lib/MinimapXYFrame";
+import XYFrame from "semiotic/lib/XYFrame";
 import styled from "styled-components/macro";
 import { animation, colors } from "../UiLibrary";
 import { formatAsNumber } from "../utils";
@@ -103,7 +104,14 @@ const WindowedTimeSeries: React.FC<{
   defaultRangeEnd: Date;
   defaultRangeStart?: Date;
   setTimeRangeId: (id: WindowSizeId) => void;
-}> = ({ data, defaultRangeEnd, defaultRangeStart, setTimeRangeId }) => {
+  preview?: boolean;
+}> = ({
+  data,
+  defaultRangeEnd,
+  defaultRangeStart,
+  setTimeRangeId,
+  preview,
+}) => {
   const { highlighted, setHighlighted } = useHighlightedItem();
   const [dateRangeStart, setDateRangeStart] = useState<Date | undefined>();
   const [dateRangeEnd, setDateRangeEnd] = useState<Date | undefined>();
@@ -134,7 +142,7 @@ const WindowedTimeSeries: React.FC<{
     [dateRangeEnd, dateRangeStart]
   );
 
-  return (
+  return !preview ? (
     <MeasureWidth>
       {({ measureRef, width }) => {
         return (
@@ -237,6 +245,77 @@ const WindowedTimeSeries: React.FC<{
                 setHighlighted={setHighlighted}
               />
             </LegendWrapper>
+          </Wrapper>
+        );
+      }}
+    </MeasureWidth>
+  ) : (
+    <MeasureWidth>
+      {({ measureRef, width }) => {
+        return (
+          <Wrapper ref={measureRef}>
+            <ChartWrapper>
+              <XHoverController
+                lines={data}
+                margin={MARGIN}
+                otherChartProps={{
+                  // @ts-expect-error Semiotic typedefs are wrong,
+                  // we can use dates as long as the scale accepts them
+                  xExtent: [dateRangeStart, dateRangeEnd],
+                  // @ts-expect-error Semiotic typedefs are wrong, we can
+                  // use a time scale here, not just a numeric one.
+                  // xExtent depends on this
+                  xScaleType: scaleTime(),
+                  yExtent: [0],
+                }}
+                size={[width, CHART_HEIGHT]}
+                tooltipControllerProps={{
+                  /**
+                   * This function collects a "vertical slice" of all the areas
+                   * to display all values matching the targeted date
+                   */
+                  getTooltipProps: (d) => {
+                    // d.date is present because it's in our record format
+                    const dateHovered = d.date as Date;
+                    return {
+                      title: getDateLabel(dateHovered),
+                      records: getDataForDate({
+                        date: dateHovered,
+                        dataSeries: data,
+                      }),
+                    };
+                  },
+                }}
+                xAccessor="date"
+              >
+                <XYFrame
+                  axes={[
+                    {
+                      orient: "left",
+                      tickFormat: formatAsNumber,
+                      tickSize: 0,
+                    },
+                  ]}
+                  baseMarkProps={BASE_MARK_PROPS}
+                  lines={data}
+                  lineStyle={(d: DataSeries) => ({
+                    fill:
+                      highlighted && highlighted.label !== d.label
+                        ? highlightFade(d.color)
+                        : d.color,
+                    stroke: colors.background,
+                    strokeWidth: 1,
+                  })}
+                  // @ts-expect-error Semiotic typedefs are incomplete, this works
+                  lineType={{ type: "stackedarea", sort: null }}
+                  // @ts-expect-error Semiotic typedefs are wrong, can be true for default matte
+                  matte
+                  pointStyle={{ display: "none" }}
+                  xAccessor="date"
+                  yAccessor="count"
+                />
+              </XHoverController>
+            </ChartWrapper>
           </Wrapper>
         );
       }}
