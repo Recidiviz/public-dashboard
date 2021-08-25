@@ -312,7 +312,7 @@ const content: TenantContent = {
   systemNarratives: {
     Sentencing: {
       title: "Sentencing Data",
-      subtitle: "Sentencing Types / Age",
+      subtitle: "Demographics of Individuals Sentenced to Prison",
       introduction:
         "When someone is convicted of a crime, they receive a sentence that is meant to correspond with facts, circumstances and the severity of the offense and the offender, to provide retribution to the victim and set a course for rehabilitation. The data below gives an overview of sentences for people who enter the North Dakota corrections system — that is, people who are sentenced to serve time in prison or on supervised probation.",
       sections: [
@@ -332,7 +332,7 @@ const content: TenantContent = {
     },
     Prison: {
       title: "Prison Data",
-      subtitle: "Prison Population / 20 years",
+      subtitle: "Prison Population over Time",
       introduction:
         "People sentenced for a Class A misdemeanor or greater offense may serve their sentence in a DOCR prison or contract facility. Prisons run programming to help residents work towards rehabilitation and successful reentry.",
       sections: [
@@ -382,7 +382,7 @@ const content: TenantContent = {
     },
     Probation: {
       title: "Probation Data",
-      subtitle: "Revocations / Categories",
+      subtitle: "Revocations from Probation, by Type",
       introduction:
         "Probation refers to adults whom the courts place on supervision in the community in lieu of or in addition to incarceration. In North Dakota, probation is managed by the Department of Corrections and Rehabilitation (DOCR).",
       sections: [
@@ -420,7 +420,7 @@ const content: TenantContent = {
     },
     Parole: {
       title: "Parole Data",
-      subtitle: "Parole Population / Race",
+      subtitle: "Free Through Recovery' Program, Participants Statewide",
       introduction:
         "Parole is a period of supervised release after prison. Releases from prison to parole are granted by the parole board. People on parole must regularly check in with their parole officer, who ensures that they are following all the requirements of the release. If these expectations are violated, the person’s parole may be revoked.",
       sections: [

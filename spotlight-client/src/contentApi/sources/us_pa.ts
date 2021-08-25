@@ -44,7 +44,7 @@ const content: TenantContent = {
   systemNarratives: {
     Prison: {
       title: "Prisons",
-      subtitle: "Prison Population / 20 years",
+      subtitle: "Prison Population over Time, by Race or Ethnicity",
       introduction: `<p>
         Individuals convicted of a crime may be sentenced to a period of incarceration.
         The length of the sentence determines the place of confinement.  While
@@ -116,7 +116,7 @@ const content: TenantContent = {
     },
     Parole: {
       title: "Parole",
-      subtitle: "Parole Population / Race",
+      subtitle: "Returns from Parole, by Age Group",
       introduction: `<p>
         Parole is a period of supervised release after prison. Individuals on parole must
         regularly check in with a parole agent, who ensures that they are following
