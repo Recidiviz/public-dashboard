@@ -37,18 +37,7 @@ const VizProgramParticipationCurrent: React.FC<VizProgramParticipationCurrentPro
   const { dataMapping } = metric;
 
   if (dataMapping) {
-    return !preview ? (
-      <>
-        <MetricVizControls filters={[]} metric={metric} />
-        <MapWrapper aria-label={`${metric.localityLabels.label} map chart`}>
-          <TopologicalMap
-            aspectRatio={metric.mapData.aspectRatio}
-            localityData={dataMapping}
-            topology={metric.mapData.topology}
-          />
-        </MapWrapper>
-      </>
-    ) : (
+    const viz = (
       <MapWrapper aria-label={`${metric.localityLabels.label} map chart`}>
         <TopologicalMap
           aspectRatio={1.9}
@@ -56,6 +45,15 @@ const VizProgramParticipationCurrent: React.FC<VizProgramParticipationCurrentPro
           topology={metric.mapData.topology}
         />
       </MapWrapper>
+    );
+
+    return preview ? (
+      viz
+    ) : (
+      <>
+        <MetricVizControls filters={[]} metric={metric} />
+        {viz}
+      </>
     );
   }
 

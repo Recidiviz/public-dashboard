@@ -46,8 +46,20 @@ const VizHistoricalPopulationBreakdown: React.FC<{
     });
   }
 
-  if (metric.dataSeries)
-    return !preview ? (
+  if (metric.dataSeries) {
+    const viz = (
+      <WindowedTimeSeries
+        preview={preview}
+        data={metric.dataSeries}
+        setTimeRangeId={setWindowSizeId}
+        defaultRangeEnd={defaultRangeEnd}
+        defaultRangeStart={defaultRangeStart}
+      />
+    );
+
+    return preview ? (
+      viz
+    ) : (
       <>
         <MetricVizControls
           filters={[
@@ -69,24 +81,11 @@ const VizHistoricalPopulationBreakdown: React.FC<{
           ]}
           metric={metric}
         />
-        <WindowedTimeSeries
-          data={metric.dataSeries}
-          setTimeRangeId={setWindowSizeId}
-          defaultRangeEnd={defaultRangeEnd}
-          defaultRangeStart={defaultRangeStart}
-        />
+        {viz}
         <VizNotes unknowns={metric.unknowns} />
       </>
-    ) : (
-      <WindowedTimeSeries
-        preview={preview}
-        data={metric.dataSeries}
-        setTimeRangeId={setWindowSizeId}
-        defaultRangeEnd={defaultRangeEnd}
-        defaultRangeStart={defaultRangeStart}
-      />
     );
-
+  }
   return null;
 };
 

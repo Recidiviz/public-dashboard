@@ -69,57 +69,7 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
     );
 
   if (dataSeries) {
-    return !preview ? (
-      <>
-        <MetricVizControls
-          filters={[<DemographicFilterSelect metric={metric} />]}
-          metric={metric}
-        />
-        <AutoHeightTransition initialHeight={bubbleChartHeight}>
-          {chartTransitions.map(({ item, key, props }) => (
-            <ChartWrapper key={key}>
-              <animated.div style={props}>
-                {
-                  // for type safety we have to check this again
-                  // but it should always be defined if we've gotten this far
-                  item.dataSeries &&
-                    (item.demographicView === "total" ? (
-                      <BubbleChart
-                        height={bubbleChartHeight}
-                        data={item.dataSeries[0].records}
-                      />
-                    ) : (
-                      item.dataSeries.map(
-                        ({ label, records }, index, categories) => (
-                          <CategoryBarWrapper
-                            key={label}
-                            style={{
-                              // prevents subsequent charts from covering up the tooltip for this one
-                              zIndex: zIndex.base + categories.length - index,
-                            }}
-                          >
-                            <ProportionalBar
-                              data={records}
-                              height={
-                                barChartsHeight / categories.length -
-                                barChartsGutter
-                              }
-                              title={label}
-                              showLegend={index === categories.length - 1}
-                              {...{ highlighted, setHighlighted }}
-                            />
-                          </CategoryBarWrapper>
-                        )
-                      )
-                    ))
-                }
-              </animated.div>
-            </ChartWrapper>
-          ))}
-        </AutoHeightTransition>
-        <VizNotes smallData unknowns={unknowns} />
-      </>
-    ) : (
+    const viz = (
       <AutoHeightTransition initialHeight={bubbleChartHeight}>
         {chartTransitions.map(({ item, key, props }) => (
           <ChartWrapper key={key}>
@@ -163,6 +113,19 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
           </ChartWrapper>
         ))}
       </AutoHeightTransition>
+    );
+
+    return preview ? (
+      viz
+    ) : (
+      <>
+        <MetricVizControls
+          filters={[<DemographicFilterSelect metric={metric} />]}
+          metric={metric}
+        />
+        {viz}
+        <VizNotes smallData unknowns={unknowns} />
+      </>
     );
   }
 

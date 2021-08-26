@@ -46,17 +46,21 @@ const VizPopulationBreakdownByLocation: React.FC<VizPopulationBreakdownByLocatio
   preview,
 }) => {
   if (metric.dataSeries) {
-    return !preview ? (
+    const viz = metric.dataSeries.map(({ label: viewName, records }) => (
+      <ChartWrapper key={viewName}>
+        <ProportionalBar title={viewName} data={records} height={88} />
+      </ChartWrapper>
+    ));
+
+    return preview ? (
+      <>{viz}</>
+    ) : (
       <>
         <MetricVizControls
           filters={[<LocalityFilterSelect metric={metric} />]}
           metric={metric}
         />
-        {metric.dataSeries.map(({ label: viewName, records }) => (
-          <ChartWrapper key={viewName}>
-            <ProportionalBar title={viewName} data={records} height={88} />
-          </ChartWrapper>
-        ))}
+        {viz}
         <StatisticWrapper>
           <Statistic
             label={metric.totalLabel}
@@ -68,14 +72,6 @@ const VizPopulationBreakdownByLocation: React.FC<VizPopulationBreakdownByLocatio
           />
         </StatisticWrapper>
         <VizNotes smallData unknowns={metric.unknowns} />
-      </>
-    ) : (
-      <>
-        {metric.dataSeries.map(({ label: viewName, records }) => (
-          <ChartWrapper key={viewName}>
-            <ProportionalBar title={viewName} data={records} height={88} />
-          </ChartWrapper>
-        ))}
       </>
     );
   }
