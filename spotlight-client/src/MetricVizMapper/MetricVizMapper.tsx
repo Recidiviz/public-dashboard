@@ -40,12 +40,19 @@ type MetricVizMapperProps = {
   preview?: boolean;
 };
 
-const MetricVizMapper: React.FC<MetricVizMapperProps> = ({ metric, preview }) => {
+const MetricVizMapper: React.FC<MetricVizMapperProps> = ({
+  metric,
+  preview,
+}) => {
   if (metric instanceof HistoricalPopulationBreakdownMetric) {
-    return <VizHistoricalPopulationBreakdown preview={preview} metric={metric} />;
+    return (
+      <VizHistoricalPopulationBreakdown preview={preview} metric={metric} />
+    );
   }
   if (metric instanceof PopulationBreakdownByLocationMetric) {
-    return <VizPopulationBreakdownByLocation preview={preview} metric={metric} />;
+    return (
+      <VizPopulationBreakdownByLocation preview={preview} metric={metric} />
+    );
   }
   if (metric instanceof DemographicsByCategoryMetric) {
     if (metric.id === "PrisonStayLengthAggregate") {

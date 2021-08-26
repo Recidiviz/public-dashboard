@@ -53,12 +53,6 @@ const Title = styled(PageTitle)`
   max-width: ${rem(1100)};
 `;
 
-// const Description = styled(CopyBlock)`
-//   font-size: ${rem(20)};
-//   line-height: 1.7;
-//   max-width: ${rem(1240)};
-// `;
-
 const PageTenant: React.FC<RouteComponentProps> = () => {
   const { tenant } = useDataStore();
 

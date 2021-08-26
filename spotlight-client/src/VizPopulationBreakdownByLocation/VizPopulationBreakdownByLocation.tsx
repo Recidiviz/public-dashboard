@@ -48,12 +48,10 @@ const VizPopulationBreakdownByLocation: React.FC<VizPopulationBreakdownByLocatio
   if (metric.dataSeries) {
     return !preview ? (
       <>
-        {
-          <MetricVizControls
-            filters={[<LocalityFilterSelect metric={metric} />]}
-            metric={metric}
-          />
-        }
+        <MetricVizControls
+          filters={[<LocalityFilterSelect metric={metric} />]}
+          metric={metric}
+        />
         {metric.dataSeries.map(({ label: viewName, records }) => (
           <ChartWrapper key={viewName}>
             <ProportionalBar title={viewName} data={records} height={88} />

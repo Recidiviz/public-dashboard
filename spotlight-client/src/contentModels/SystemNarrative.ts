@@ -47,7 +47,13 @@ export default class SystemNarrative {
 
   readonly sections: SystemNarrativeSection[];
 
-  constructor({ id, title, subtitle, introduction, sections }: ConstructorArgs) {
+  constructor({
+    id,
+    title,
+    subtitle,
+    introduction,
+    sections,
+  }: ConstructorArgs) {
     this.id = id;
     this.title = title;
     this.subtitle = subtitle;

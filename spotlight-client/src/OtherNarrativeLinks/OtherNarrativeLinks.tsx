@@ -121,9 +121,11 @@ const NarrativeLink: React.FC<{
           return (
             <MetricVizMapper preview metric={narrative.sections[4].metric} />
           );
+        default:
+          return null;
       }
     }
-    if ((tenantId = "US_PA")) {
+    if (tenantId === "US_PA") {
       switch (narrative.id) {
         case "Prison":
           return (
@@ -133,6 +135,8 @@ const NarrativeLink: React.FC<{
           return (
             <MetricVizMapper preview metric={narrative.sections[3].metric} />
           );
+        default:
+          return null;
       }
     }
   };

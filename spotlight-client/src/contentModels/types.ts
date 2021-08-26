@@ -28,7 +28,6 @@ import {
 } from "../metricsApi";
 import type SystemNarrative from "./SystemNarrative";
 import type Metric from "./Metric";
-import type RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
 
 /**
  * Describes the hydration state and mechanism,
