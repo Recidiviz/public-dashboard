@@ -57,6 +57,7 @@ const content: TenantContent = {
         moving forward. Methodologies for these calculations may vary slightly from
         existing public reports produced by the Pennsylvania Department of Corrections.
       </aside>`,
+      preview: "PrisonPopulationHistorical",
       sections: [
         {
           title: "Who is in a State Correctional Institution (SCI)?",
@@ -128,6 +129,7 @@ const content: TenantContent = {
         moving forward. Methodologies for these calculations may vary slightly from
         existing public reports produced by the Pennsylvania Department of Corrections.
       </aside>`,
+      preview: "ParoleRevocationsAggregate",
       sections: [
         {
           title: "Who is on parole?",

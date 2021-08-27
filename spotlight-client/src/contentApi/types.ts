@@ -151,7 +151,8 @@ type SystemNarrativeSection = NarrativeSection & {
 
 export type SystemNarrativeContent = {
   title: string;
-  subtitle: string;
+  subtitle?: string;
+  preview?: MetricTypeId;
   introduction: string;
   sections: SystemNarrativeSection[];
 };

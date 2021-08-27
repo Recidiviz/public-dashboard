@@ -36,7 +36,7 @@ import ProgramParticipationCurrentMetric from "../contentModels/ProgramParticipa
 import VizProgramParticipationCurrent from "../VizProgramParticipationCurrent";
 
 type MetricVizMapperProps = {
-  metric: Metric<MetricRecord>;
+  metric: Metric<MetricRecord> | undefined;
   preview?: boolean;
 };
 

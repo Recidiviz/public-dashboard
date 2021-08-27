@@ -157,6 +157,7 @@ const content: ExhaustiveTenantContent = {
       title: "test prison narrative",
       subtitle: "test prison subtitle",
       introduction: "test prison introduction",
+      preview: "PrisonPopulationCurrent",
       sections: [
         {
           title: "test first prison section",
@@ -169,6 +170,7 @@ const content: ExhaustiveTenantContent = {
       title: "test probation narrative",
       subtitle: "test probation subtitle",
       introduction: "test probation introduction",
+      preview: "ProbationPopulationCurrent",
       sections: [
         {
           title: "test first probation section",
@@ -181,6 +183,7 @@ const content: ExhaustiveTenantContent = {
       title: "test parole narrative",
       subtitle: "test parole subtitle",
       introduction: "test parole introduction",
+      preview: "ParolePopulationCurrent",
       sections: [
         {
           title: "test first parole section",
@@ -193,6 +196,7 @@ const content: ExhaustiveTenantContent = {
       title: "test sentencing narrative",
       subtitle: "test sentencing subtitle",
       introduction: "test sentencing introduction",
+      preview: "SentencePopulationCurrent",
       sections: [
         {
           title: "test first sentencing section",

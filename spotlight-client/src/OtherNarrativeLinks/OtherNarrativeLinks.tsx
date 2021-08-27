@@ -102,43 +102,21 @@ const NarrativeLink: React.FC<{
     from: { opacity: 0 },
   }));
 
+  console.log(narrative);
+
   const renderChartPreview = () => {
-    if (tenantId === "US_ND") {
-      switch (narrative.id) {
-        case "Sentencing":
-          return (
-            <MetricVizMapper preview metric={narrative.sections[0].metric} />
-          );
-        case "Prison":
-          return (
-            <MetricVizMapper preview metric={narrative.sections[1].metric} />
-          );
-        case "Probation":
-          return (
-            <MetricVizMapper preview metric={narrative.sections[3].metric} />
-          );
-        case "Parole":
-          return (
-            <MetricVizMapper preview metric={narrative.sections[4].metric} />
-          );
-        default:
-          return null;
-      }
-    }
-    if (tenantId === "US_PA") {
-      switch (narrative.id) {
-        case "Prison":
-          return (
-            <MetricVizMapper preview metric={narrative.sections[1].metric} />
-          );
-        case "Parole":
-          return (
-            <MetricVizMapper preview metric={narrative.sections[3].metric} />
-          );
-        default:
-          return null;
-      }
-    }
+    if (narrative.preview)
+      return (
+        <MetricVizMapper
+          preview
+          metric={
+            narrative.sections.find(
+              (section) => section.metric.id === narrative.preview
+            )?.metric
+          }
+        />
+      );
+    return null;
   };
 
   return (
@@ -159,7 +137,7 @@ const NarrativeLink: React.FC<{
         onMouseOut={() => setAnimationStyles({ opacity: 0 })}
         onBlur={() => setAnimationStyles({ opacity: 0 })}
       >
-        <LinkText>{narrative.title}</LinkText>&nbsp;
+        <LinkText>{narrative.title} Data</LinkText>&nbsp;
         <animated.span style={animationStyles}>
           <Arrow color={colors.link} direction="right" />
         </animated.span>
@@ -184,6 +162,7 @@ const OtherNarrativeLinks = (): React.ReactElement | null => {
 
   const narrativesToDisplay = [
     ...Object.values(tenant.systemNarratives),
+    tenant.racialDisparitiesNarrative,
   ].filter((narrative): narrative is Narrative => {
     if (narrative === undefined) return false;
     return narrative.id !== currentNarrativeTypeId;
