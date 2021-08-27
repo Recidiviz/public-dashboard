@@ -102,8 +102,6 @@ const NarrativeLink: React.FC<{
     from: { opacity: 0 },
   }));
 
-  console.log(narrative);
-
   const renderChartPreview = () => {
     if (narrative.preview)
       return (
