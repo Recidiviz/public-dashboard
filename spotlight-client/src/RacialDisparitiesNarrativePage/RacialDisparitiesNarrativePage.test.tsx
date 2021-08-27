@@ -108,5 +108,5 @@ test("renders charts", async () => {
   const charts = await screen.findAllByRole("group", {
     name: /\d+ bars in a bar chart/,
   });
-  expect(charts.length).toBe(12);
+  expect(charts.length).toBe(24);
 });

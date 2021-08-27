@@ -74,14 +74,6 @@ describe("navigation", () => {
     ).toBeVisible();
   });
 
-  test("tenant home", () => {
-    expect.hasAssertions();
-    const targetPath = "/us-nd";
-    const lookupArgs = ["heading", { name: /North Dakota/, level: 1 }] as const;
-
-    return verifyWithNavigation({ targetPath, lookupArgs });
-  });
-
   test("single narrative page", () => {
     expect.hasAssertions();
     const targetPath = `/us-nd/${NarrativesSlug}/prison`;
@@ -128,7 +120,7 @@ describe("navigation", () => {
     const homeLink = inNav.getByRole("link", { name: "Spotlight" });
     const tenantLink = inNav.getByRole("link", { name: "North Dakota" });
     const sentencingLink = await screen.findByRole("link", {
-      name: "Sentencing",
+      name: "Sentencing Data",
     });
 
     fireEvent.click(sentencingLink);
@@ -143,12 +135,12 @@ describe("navigation", () => {
     fireEvent.click(tenantLink);
     await waitFor(async () =>
       expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
-        "Explore correctional data from North Dakota."
+        "Our mission is to transform lives, influence change, and strengthen community. Transparency is a critical element of our mission; sharing information builds greater accountability between the DOCR and the communities we serve."
       )
     );
 
     const disparitiesLink = screen.getByRole("link", {
-      name: "Racial Disparities",
+      name: "Racial Disparities Data",
     });
     fireEvent.click(disparitiesLink);
     await waitFor(async () =>
