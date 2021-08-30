@@ -139,16 +139,6 @@ describe("navigation", () => {
       )
     );
 
-    const disparitiesLink = screen.getByRole("link", {
-      name: "Racial Disparities Data",
-    });
-    fireEvent.click(disparitiesLink);
-    await waitFor(async () =>
-      expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
-        "Racial Disparities"
-      )
-    );
-
     fireEvent.click(homeLink);
     await waitFor(async () =>
       expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
