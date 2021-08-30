@@ -160,7 +160,6 @@ const OtherNarrativeLinks = (): React.ReactElement | null => {
 
   const narrativesToDisplay = [
     ...Object.values(tenant.systemNarratives),
-    tenant.racialDisparitiesNarrative,
   ].filter((narrative): narrative is Narrative => {
     if (narrative === undefined) return false;
     return narrative.id !== currentNarrativeTypeId;
