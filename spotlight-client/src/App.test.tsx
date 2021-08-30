@@ -139,6 +139,10 @@ describe("navigation", () => {
       )
     );
 
+    expect(
+      screen.queryByText("Racial Disparities Data")
+    ).not.toBeInTheDocument();
+
     fireEvent.click(homeLink);
     await waitFor(async () =>
       expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
