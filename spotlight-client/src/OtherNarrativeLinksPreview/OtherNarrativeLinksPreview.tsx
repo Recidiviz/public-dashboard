@@ -23,7 +23,8 @@ import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { track } from "../analytics";
 import { TenantId } from "../contentApi/types";
-import { Narrative } from "../contentModels/types";
+import SystemNarrative from "../contentModels/SystemNarrative";
+import MetricVizMapper from "../MetricVizMapper";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
 import { breakpoints, colors } from "../UiLibrary";
@@ -34,7 +35,9 @@ import Arrow from "../UiLibrary/Arrow";
 
 const Wrapper = styled.div`
   /* prevents the trailing grid gaps from pushing other stuff around */
-  overflow: hidden;
+  @media (max-width: ${breakpoints.tablet[0]}px) {
+    overflow: hidden;
+  }
 `;
 
 const LinkList = styled.ul`
@@ -49,28 +52,37 @@ const LinkList = styled.ul`
 const LinkListItem = styled.li`
   /* creates gaps */
   border: 0 solid transparent;
-  border-width: 0 ${rem(32)} ${rem(32)} 0;
+  border-width: 0 ${rem(32)} 0 0;
   flex: 0 0 auto;
   white-space: nowrap;
   /* use width to create 1-4 columns, depending on screen size */
   width: 100%;
+
   @media (min-width: ${breakpoints.tablet[0]}px) {
+    width: calc(100% / 1);
+  }
+
+  @media (min-width: ${breakpoints.desktop[0]}px) {
+    width: calc(100% / 1);
+  }
+
+  @media (min-width: ${breakpoints.xl[0]}px) {
     width: calc(100% / 2);
   }
-  @media (min-width: ${breakpoints.desktop[0]}px) {
-    width: calc(100% / 3);
-  }
-  @media (min-width: ${breakpoints.xl[0]}px) {
-    width: calc(100% / 4);
-  }
+
   a {
     border-top: 1px solid ${colors.rule};
     color: ${colors.text};
     display: block;
     padding-right: ${rem(8)};
-    padding-top: ${rem(32)};
+    padding-top: ${rem(24)};
+    padding-bottom: ${rem(24)};
     text-decoration: none;
     width: 100%;
+  }
+
+  a:not(:last-child) {
+    border-bottom: 1px solid ${colors.rule};
   }
 `;
 
@@ -78,8 +90,38 @@ const LinkText = styled.span`
   white-space: normal;
 `;
 
+const ChartTitle = styled.span`
+  font-size: ${rem(16)};
+`;
+
+const ChartPreview = styled.div`
+  padding-top: ${rem(16)};
+`;
+
+const ChartPreviewComponent: React.FC<{
+  narrative: SystemNarrative;
+}> = ({ narrative }) => {
+  if (narrative.preview)
+    return (
+      <>
+        <ChartTitle>{narrative.previewTitle}</ChartTitle>
+        <ChartPreview>
+          <MetricVizMapper
+            preview
+            metric={
+              narrative.sections.find(
+                (section) => section.metric.id === narrative.preview
+              )?.metric
+            }
+          />
+        </ChartPreview>
+      </>
+    );
+  return null;
+};
+
 const NarrativeLink: React.FC<{
-  narrative: Narrative;
+  narrative: SystemNarrative;
   tenantId: TenantId;
 }> = observer(({ narrative, tenantId }) => {
   const [animationStyles, setAnimationStyles] = useSpring(() => ({
@@ -105,11 +147,12 @@ const NarrativeLink: React.FC<{
         onMouseOut={() => setAnimationStyles({ opacity: 0 })}
         onBlur={() => setAnimationStyles({ opacity: 0 })}
       >
-        <LinkText>{narrative.title}</LinkText>&nbsp;
+        <LinkText>{narrative.title} Data</LinkText>&nbsp;
         <animated.span style={animationStyles}>
           <Arrow color={colors.link} direction="right" />
         </animated.span>
       </Link>
+      <ChartPreviewComponent narrative={narrative} />
     </LinkListItem>
   );
 });
@@ -118,7 +161,7 @@ const NarrativeLink: React.FC<{
  * Produces a grid of links to available narratives for the current tenant.
  * If there is a current narrative selected, it will be excluded from the grid.
  */
-const OtherNarrativeLinks = (): React.ReactElement | null => {
+const OtherNarrativeLinksPreview = (): React.ReactElement | null => {
   const {
     tenant,
     tenantStore: { currentNarrativeTypeId },
@@ -128,8 +171,7 @@ const OtherNarrativeLinks = (): React.ReactElement | null => {
 
   const narrativesToDisplay = [
     ...Object.values(tenant.systemNarratives),
-    tenant.racialDisparitiesNarrative,
-  ].filter((narrative): narrative is Narrative => {
+  ].filter((narrative): narrative is SystemNarrative => {
     if (narrative === undefined) return false;
     return narrative.id !== currentNarrativeTypeId;
   });
@@ -151,4 +193,4 @@ const OtherNarrativeLinks = (): React.ReactElement | null => {
   );
 };
 
-export default observer(OtherNarrativeLinks);
+export default observer(OtherNarrativeLinksPreview);

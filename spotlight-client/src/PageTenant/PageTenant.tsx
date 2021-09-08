@@ -22,7 +22,7 @@ import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
-import OtherNarrativeLinks from "../OtherNarrativeLinks";
+import OtherNarrativeLinksPreview from "../OtherNarrativeLinksPreview";
 import { useDataStore } from "../StoreProvider";
 import { breakpoints, PageSection, PageTitle } from "../UiLibrary";
 import withRouteSync from "../withRouteSync";
@@ -65,7 +65,7 @@ const PageTenant: React.FC<RouteComponentProps> = () => {
         <Title>{HTMLReactParser(tenant.description)}</Title>
       </Introduction>
       <Links>
-        <OtherNarrativeLinks chartsPreview />
+        <OtherNarrativeLinksPreview />
       </Links>
     </article>
   );

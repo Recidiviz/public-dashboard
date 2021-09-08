@@ -159,6 +159,7 @@ const WindowedTimeSeries: React.FC<{
     pointStyle: { display: "none" },
     xAccessor: "date",
     yAccessor: "count",
+    matte: true,
   };
 
   return (
@@ -238,11 +239,10 @@ const WindowedTimeSeries: React.FC<{
                       xBrushExtent: [dateRangeStart, dateRangeEnd],
                       yBrushable: false,
                     }}
-                    // @ts-expect-error Semiotic typedefs are wrong, can be true for default matte
-                    matte
                     {...chartProps}
                   />
                 ) : (
+                  // @ts-expect-error Semiotic typedefs are wrong, can be true for default matte
                   <XYFrame
                     axes={[
                       {
@@ -251,8 +251,6 @@ const WindowedTimeSeries: React.FC<{
                         tickSize: 0,
                       },
                     ]}
-                    // @ts-expect-error Semiotic typedefs are wrong, can be true for default matte
-                    matte
                     {...chartProps}
                   />
                 )}

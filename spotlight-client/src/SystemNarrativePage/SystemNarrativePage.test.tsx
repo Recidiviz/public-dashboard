@@ -59,7 +59,7 @@ test("includes links to other narratives", () => {
   const nav = screen.getByRole("navigation", { name: "data narratives" });
 
   const otherLink = within(nav).getByRole("link", {
-    name: `${mockContentFixture.systemNarratives.Sentencing?.title} Data`,
+    name: mockContentFixture.systemNarratives.Sentencing?.title,
   });
 
   expect(otherLink).toBeInTheDocument();
