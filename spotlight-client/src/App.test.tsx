@@ -74,6 +74,14 @@ describe("navigation", () => {
     ).toBeVisible();
   });
 
+  test("tenant home", () => {
+    expect.hasAssertions();
+    const targetPath = "/us-nd";
+    const lookupArgs = ["heading", { name: /DOCR/, level: 1 }] as const;
+
+    return verifyWithNavigation({ targetPath, lookupArgs });
+  });
+
   test("single narrative page", () => {
     expect.hasAssertions();
     const targetPath = `/us-nd/${NarrativesSlug}/prison`;
@@ -134,9 +142,7 @@ describe("navigation", () => {
 
     fireEvent.click(tenantLink);
     await waitFor(async () =>
-      expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
-        "Our mission is to transform lives, influence change, and strengthen community. Transparency is a critical element of our mission; sharing information builds greater accountability between the DOCR and the communities we serve."
-      )
+      expect(await screen.findByTestId("PageTitle")).toHaveTextContent("DOCR")
     );
 
     expect(

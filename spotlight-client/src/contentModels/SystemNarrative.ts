@@ -31,8 +31,8 @@ export type SystemNarrativeSection = {
 type ConstructorArgs = {
   id: SystemNarrativeTypeId;
   title: string;
-  subtitle?: string;
-  preview?: string;
+  previewTitle?: string;
+  preview: string;
   introduction: string;
   sections: SystemNarrativeSection[];
 };
@@ -42,9 +42,9 @@ export default class SystemNarrative {
 
   readonly title: string;
 
-  readonly subtitle?: string;
+  readonly previewTitle?: string;
 
-  readonly preview?: string;
+  readonly preview: string;
 
   readonly introduction: string;
 
@@ -53,14 +53,14 @@ export default class SystemNarrative {
   constructor({
     id,
     title,
-    subtitle,
+    previewTitle,
     introduction,
     preview,
     sections,
   }: ConstructorArgs) {
     this.id = id;
     this.title = title;
-    this.subtitle = subtitle;
+    this.previewTitle = previewTitle;
     this.preview = preview;
     this.introduction = introduction;
     this.sections = sections;
@@ -89,7 +89,7 @@ export function createSystemNarrative({
   return new SystemNarrative({
     id,
     title: content.title,
-    subtitle: content.subtitle,
+    previewTitle: content.previewTitle,
     introduction: content.introduction,
     preview: content.preview,
     sections,

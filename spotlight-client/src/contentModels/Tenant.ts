@@ -25,7 +25,6 @@ import { MetricMapping, SystemNarrativeMapping } from "./types";
 type InitOptions = {
   id: TenantId;
   name: string;
-  landingPageTitle: string;
   description: string;
   coBrandingCopy: string;
   feedbackUrl: string;
@@ -47,8 +46,6 @@ export default class Tenant {
 
   readonly name: string;
 
-  readonly landingPageTitle: string;
-
   readonly description: string;
 
   readonly coBrandingCopy: string;
@@ -66,7 +63,6 @@ export default class Tenant {
   constructor({
     id,
     name,
-    landingPageTitle,
     description,
     coBrandingCopy,
     feedbackUrl,
@@ -77,7 +73,6 @@ export default class Tenant {
   }: InitOptions) {
     this.id = id;
     this.name = name;
-    this.landingPageTitle = landingPageTitle;
     this.description = description;
     this.coBrandingCopy = coBrandingCopy;
     this.feedbackUrl = feedbackUrl;
@@ -144,7 +139,6 @@ export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
   return new Tenant({
     id: tenantId,
     name: allTenantContent.name,
-    landingPageTitle: allTenantContent.landingPageTitle,
     description: allTenantContent.description,
     coBrandingCopy: allTenantContent.coBrandingCopy,
     feedbackUrl: allTenantContent.feedbackUrl,

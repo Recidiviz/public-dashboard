@@ -42,7 +42,6 @@ export type DemographicCategoryFilter = {
 
 export type TenantContent = {
   name: string;
-  landingPageTitle: string;
   description: string;
   coBrandingCopy: string;
   feedbackUrl: string;
@@ -151,8 +150,8 @@ type SystemNarrativeSection = NarrativeSection & {
 
 export type SystemNarrativeContent = {
   title: string;
-  subtitle?: string;
-  preview?: MetricTypeId;
+  previewTitle?: string;
+  preview: MetricTypeId;
   introduction: string;
   sections: SystemNarrativeSection[];
 };

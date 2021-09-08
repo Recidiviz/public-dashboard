@@ -19,7 +19,6 @@ import { TenantContent } from "../../contentApi/types";
 
 const content: TenantContent = {
   name: "Test Tenant",
-  landingPageTitle: "test landing page title",
   description: "test tenant description",
   coBrandingCopy: "test tenant co-branding",
   feedbackUrl: "https://example.com/feedback",
@@ -47,7 +46,8 @@ const content: TenantContent = {
   systemNarratives: {
     Parole: {
       title: "test parole narrative",
-      subtitle: "test parole subtitle",
+      previewTitle: "test parole subtitle",
+      preview: "ParolePopulationCurrent",
       introduction: "test parole introduction",
       sections: [
         {
@@ -64,7 +64,8 @@ const content: TenantContent = {
     },
     Sentencing: {
       title: "test sentencing narrative",
-      subtitle: "test sentencing subtitle",
+      previewTitle: "test sentencing subtitle",
+      preview: "SentencePopulationCurrent",
       introduction:
         'test sentencing introduction <a href="https://example.com">intro link</a>',
       sections: [

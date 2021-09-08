@@ -82,7 +82,6 @@ in a North Dakota court may occasionally complete their supervision in a differe
 
 const content: TenantContent = {
   name: "North Dakota",
-  landingPageTitle: "Explore correctional data from North Dakota.",
   description:
     "Our mission is to transform lives, influence change, and strengthen community. Transparency is a critical element of our mission; sharing information builds greater accountability between the DOCR and the communities we serve.",
   coBrandingCopy:
@@ -312,7 +311,7 @@ const content: TenantContent = {
   systemNarratives: {
     Sentencing: {
       title: "Sentencing",
-      subtitle: "Demographics of Individuals Sentenced to Prison",
+      previewTitle: "Demographics of Individuals Sentenced to Prison",
       introduction:
         "When someone is convicted of a crime, they receive a sentence that is meant to correspond with facts, circumstances and the severity of the offense and the offender, to provide retribution to the victim and set a course for rehabilitation. The data below gives an overview of sentences for people who enter the North Dakota corrections system — that is, people who are sentenced to serve time in prison or on supervised probation.",
       sections: [
@@ -333,7 +332,7 @@ const content: TenantContent = {
     },
     Prison: {
       title: "Prison",
-      subtitle: "Prison Population over Time",
+      previewTitle: "Prison Population over Time",
       introduction:
         "People sentenced for a Class A misdemeanor or greater offense may serve their sentence in a DOCR prison or contract facility. Prisons run programming to help residents work towards rehabilitation and successful reentry.",
       preview: "PrisonPopulationHistorical",
@@ -384,7 +383,7 @@ const content: TenantContent = {
     },
     Probation: {
       title: "Probation",
-      subtitle: "Revocations from Probation, by Type",
+      previewTitle: "Revocations from Probation, by Type",
       introduction:
         "Probation refers to adults whom the courts place on supervision in the community in lieu of or in addition to incarceration. In North Dakota, probation is managed by the Department of Corrections and Rehabilitation (DOCR).",
       preview: "ProbationRevocationsAggregate",
@@ -423,7 +422,7 @@ const content: TenantContent = {
     },
     Parole: {
       title: "Parole",
-      subtitle: "Free Through Recovery' Program, Participants Statewide",
+      previewTitle: "Free Through Recovery' Program, Participants Statewide",
       introduction:
         "Parole is a period of supervised release after prison. Releases from prison to parole are granted by the parole board. People on parole must regularly check in with their parole officer, who ensures that they are following all the requirements of the release. If these expectations are violated, the person’s parole may be revoked.",
       preview: "ParoleProgrammingCurrent",

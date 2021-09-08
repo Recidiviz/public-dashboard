@@ -104,13 +104,15 @@ const WindowedTimeSeries: React.FC<{
   defaultRangeEnd: Date;
   defaultRangeStart?: Date;
   setTimeRangeId: (id: WindowSizeId) => void;
-  preview?: boolean;
+  showMinimap?: boolean;
+  showLegend?: boolean;
 }> = ({
   data,
   defaultRangeEnd,
   defaultRangeStart,
   setTimeRangeId,
-  preview,
+  showMinimap,
+  showLegend,
 }) => {
   const { highlighted, setHighlighted } = useHighlightedItem();
   const [dateRangeStart, setDateRangeStart] = useState<Date | undefined>();
@@ -142,96 +144,26 @@ const WindowedTimeSeries: React.FC<{
     [dateRangeEnd, dateRangeStart]
   );
 
+  const chartProps = {
+    baseMarkProps: BASE_MARK_PROPS,
+    lines: data,
+    lineStyle: (d: DataSeries) => ({
+      fill:
+        highlighted && highlighted.label !== d.label
+          ? highlightFade(d.color)
+          : d.color,
+      stroke: colors.background,
+      strokeWidth: 1,
+    }),
+    lineType: { type: "stackedarea", sort: null },
+    pointStyle: { display: "none" },
+    xAccessor: "date",
+    yAccessor: "count",
+  };
+
   return (
     <MeasureWidth>
       {({ measureRef, width }) => {
-        const vizMinimap = (
-          <MinimapXYFrame
-            axes={[
-              {
-                orient: "left",
-                tickFormat: formatAsNumber,
-                tickSize: 0,
-              },
-              {
-                orient: "bottom",
-                tickFormat: (time: Date) =>
-                  time.getDate() === 1 ? format(time, "MMM y") : null,
-                ticks: isMobile ? 5 : 10,
-                tickSize: 0,
-              },
-            ]}
-            baseMarkProps={BASE_MARK_PROPS}
-            lines={data}
-            lineStyle={(d: DataSeries) => ({
-              fill:
-                highlighted && highlighted.label !== d.label
-                  ? highlightFade(d.color)
-                  : d.color,
-              stroke: colors.background,
-              strokeWidth: 1,
-            })}
-            // @ts-expect-error Semiotic typedefs are incomplete, this works
-            lineType={{ type: "stackedarea", sort: null }}
-            // @ts-expect-error Semiotic typedefs are wrong, can be true for default matte
-            matte
-            minimap={{
-              // @ts-expect-error Semiotic typedefs are incomplete
-              axes: [],
-              baseMarkProps: BASE_MARK_PROPS,
-              brushEnd: (brushExtent: Date[]) => {
-                const [start, end] = brushExtent || [];
-                if (start && end) {
-                  if (isNewRange({ start, end })) {
-                    setTimeRangeId("custom");
-                  }
-
-                  setDateRangeStart(new Date(start));
-                  setDateRangeEnd(new Date(end));
-                }
-              },
-              margin: { ...MARGIN, bottom: 0 },
-              size: [width, MINIMAP_HEIGHT],
-              // suppress brush area if width is 0 to prevent SVG rendering errors
-              xBrushable: Boolean(width),
-              xBrushExtent: [dateRangeStart, dateRangeEnd],
-              yBrushable: false,
-            }}
-            pointStyle={{ display: "none" }}
-            xAccessor="date"
-            yAccessor="count"
-          />
-        );
-
-        const vizNoMinimap = (
-          <XYFrame
-            axes={[
-              {
-                orient: "left",
-                tickFormat: formatAsNumber,
-                tickSize: 0,
-              },
-            ]}
-            baseMarkProps={BASE_MARK_PROPS}
-            lines={data}
-            lineStyle={(d: DataSeries) => ({
-              fill:
-                highlighted && highlighted.label !== d.label
-                  ? highlightFade(d.color)
-                  : d.color,
-              stroke: colors.background,
-              strokeWidth: 1,
-            })}
-            // @ts-expect-error Semiotic typedefs are incomplete, this works
-            lineType={{ type: "stackedarea", sort: null }}
-            // @ts-expect-error Semiotic typedefs are wrong, can be true for default matte
-            matte
-            pointStyle={{ display: "none" }}
-            xAccessor="date"
-            yAccessor="count"
-          />
-        );
-
         return (
           <Wrapper ref={measureRef}>
             <ChartWrapper>
@@ -268,10 +200,65 @@ const WindowedTimeSeries: React.FC<{
                 }}
                 xAccessor="date"
               >
-                {preview ? vizNoMinimap : vizMinimap}
+                {showMinimap ? (
+                  <MinimapXYFrame
+                    axes={[
+                      {
+                        orient: "left",
+                        tickFormat: formatAsNumber,
+                        tickSize: 0,
+                      },
+                      {
+                        orient: "bottom",
+                        tickFormat: (time: Date) =>
+                          time.getDate() === 1 ? format(time, "MMM y") : null,
+                        ticks: isMobile ? 5 : 10,
+                        tickSize: 0,
+                      },
+                    ]}
+                    minimap={{
+                      // @ts-expect-error Semiotic typedefs are incomplete
+                      axes: [],
+                      baseMarkProps: BASE_MARK_PROPS,
+                      brushEnd: (brushExtent: Date[]) => {
+                        const [start, end] = brushExtent || [];
+                        if (start && end) {
+                          if (isNewRange({ start, end })) {
+                            setTimeRangeId("custom");
+                          }
+
+                          setDateRangeStart(new Date(start));
+                          setDateRangeEnd(new Date(end));
+                        }
+                      },
+                      margin: { ...MARGIN, bottom: 0 },
+                      size: [width, MINIMAP_HEIGHT],
+                      // suppress brush area if width is 0 to prevent SVG rendering errors
+                      xBrushable: Boolean(width),
+                      xBrushExtent: [dateRangeStart, dateRangeEnd],
+                      yBrushable: false,
+                    }}
+                    // @ts-expect-error Semiotic typedefs are wrong, can be true for default matte
+                    matte
+                    {...chartProps}
+                  />
+                ) : (
+                  <XYFrame
+                    axes={[
+                      {
+                        orient: "left",
+                        tickFormat: formatAsNumber,
+                        tickSize: 0,
+                      },
+                    ]}
+                    // @ts-expect-error Semiotic typedefs are wrong, can be true for default matte
+                    matte
+                    {...chartProps}
+                  />
+                )}
               </XHoverController>
             </ChartWrapper>
-            {preview ? null : (
+            {showLegend ? (
               <LegendWrapper>
                 <ColorLegend
                   highlighted={highlighted}
@@ -279,7 +266,7 @@ const WindowedTimeSeries: React.FC<{
                   setHighlighted={setHighlighted}
                 />
               </LegendWrapper>
-            )}
+            ) : null}
           </Wrapper>
         );
       }}

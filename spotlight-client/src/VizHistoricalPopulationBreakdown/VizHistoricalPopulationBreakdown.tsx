@@ -49,7 +49,8 @@ const VizHistoricalPopulationBreakdown: React.FC<{
   if (metric.dataSeries) {
     const viz = (
       <WindowedTimeSeries
-        preview={preview}
+        showMinimap={!preview}
+        showLegend={!preview}
         data={metric.dataSeries}
         setTimeRangeId={setWindowSizeId}
         defaultRangeEnd={defaultRangeEnd}

@@ -17,3 +17,4 @@
 
 // eslint-disable-next-line import/prefer-default-export
 export const X_PADDING = 176;
+export const X_PADDING_TABLET = 80;

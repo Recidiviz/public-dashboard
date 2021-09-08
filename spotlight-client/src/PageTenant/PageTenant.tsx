@@ -65,7 +65,7 @@ const PageTenant: React.FC<RouteComponentProps> = () => {
         <Title>{HTMLReactParser(tenant.description)}</Title>
       </Introduction>
       <Links>
-        <OtherNarrativeLinks />
+        <OtherNarrativeLinks chartsPreview />
       </Links>
     </article>
   );

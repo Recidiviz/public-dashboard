@@ -27,6 +27,7 @@ import {
   SupervisionSuccessRateMonthlyRecord,
 } from "../metricsApi";
 import type SystemNarrative from "./SystemNarrative";
+import RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
 import type Metric from "./Metric";
 
 /**
@@ -89,4 +90,4 @@ export type SystemNarrativeMapping = {
   [key in SystemNarrativeTypeId]?: SystemNarrative;
 };
 
-export type Narrative = SystemNarrative;
+export type Narrative = SystemNarrative | RacialDisparitiesNarrative;

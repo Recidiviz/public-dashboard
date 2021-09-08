@@ -134,15 +134,13 @@ export default function BubbleChart({
                     size={[width, height]}
                   />
                 </ResponsiveTooltipController>
-                {!preview ? (
-                  <LegendWrapper>
-                    <ColorLegend
-                      highlighted={highlighted}
-                      items={data}
-                      setHighlighted={setHighlighted}
-                    />
-                  </LegendWrapper>
-                ) : null}
+                <LegendWrapper>
+                  <ColorLegend
+                    highlighted={highlighted}
+                    items={data}
+                    setHighlighted={setHighlighted}
+                  />
+                </LegendWrapper>
               </>
             )}
           </BubbleChartWrapper>
