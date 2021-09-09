@@ -311,7 +311,8 @@ const content: TenantContent = {
   systemNarratives: {
     Sentencing: {
       title: "Sentencing",
-      previewTitle: "Demographics of Individuals Sentenced to Prison",
+      previewTitle:
+        "Demographics of Individuals Sentenced to Prison or Probation",
       introduction:
         "When someone is convicted of a crime, they receive a sentence that is meant to correspond with facts, circumstances and the severity of the offense and the offender, to provide retribution to the victim and set a course for rehabilitation. The data below gives an overview of sentences for people who enter the North Dakota corrections system — that is, people who are sentenced to serve time in prison or on supervised probation.",
       sections: [
@@ -422,7 +423,7 @@ const content: TenantContent = {
     },
     Parole: {
       title: "Parole",
-      previewTitle: "Free Through Recovery' Program, Participants Statewide",
+      previewTitle: '"Free Through Recovery" Program, Participants Statewide',
       introduction:
         "Parole is a period of supervised release after prison. Releases from prison to parole are granted by the parole board. People on parole must regularly check in with their parole officer, who ensures that they are following all the requirements of the release. If these expectations are violated, the person’s parole may be revoked.",
       preview: "ParoleProgrammingCurrent",
