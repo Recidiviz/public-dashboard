@@ -36,21 +36,29 @@ import ProgramParticipationCurrentMetric from "../contentModels/ProgramParticipa
 import VizProgramParticipationCurrent from "../VizProgramParticipationCurrent";
 
 type MetricVizMapperProps = {
-  metric: Metric<MetricRecord>;
+  metric: Metric<MetricRecord> | undefined;
+  preview?: boolean;
 };
 
-const MetricVizMapper: React.FC<MetricVizMapperProps> = ({ metric }) => {
+const MetricVizMapper: React.FC<MetricVizMapperProps> = ({
+  metric,
+  preview,
+}) => {
   if (metric instanceof HistoricalPopulationBreakdownMetric) {
-    return <VizHistoricalPopulationBreakdown metric={metric} />;
+    return (
+      <VizHistoricalPopulationBreakdown preview={preview} metric={metric} />
+    );
   }
   if (metric instanceof PopulationBreakdownByLocationMetric) {
-    return <VizPopulationBreakdownByLocation metric={metric} />;
+    return (
+      <VizPopulationBreakdownByLocation preview={preview} metric={metric} />
+    );
   }
   if (metric instanceof DemographicsByCategoryMetric) {
     if (metric.id === "PrisonStayLengthAggregate") {
       return <VizPrisonStayLengths metric={metric} />;
     }
-    return <VizDemographicsByCategory metric={metric} />;
+    return <VizDemographicsByCategory preview={preview} metric={metric} />;
   }
   if (metric instanceof RecidivismRateMetric) {
     if (metric.id === "PrisonRecidivismRateSingleFollowupHistorical") {
@@ -65,7 +73,7 @@ const MetricVizMapper: React.FC<MetricVizMapperProps> = ({ metric }) => {
     return <VizSupervisionSuccessRate metric={metric} />;
   }
   if (metric instanceof ProgramParticipationCurrentMetric) {
-    return <VizProgramParticipationCurrent metric={metric} />;
+    return <VizProgramParticipationCurrent preview={preview} metric={metric} />;
   }
 
   // there are no other metric types, so this should only be reached when developing new ones

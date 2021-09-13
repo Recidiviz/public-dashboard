@@ -31,7 +31,6 @@ type ExhaustiveTenantContent = Required<TenantContent> &
 
 const content: ExhaustiveTenantContent = {
   name: "Test Tenant",
-  landingPageTitle: "test landing page title",
   description: "test tenant description",
   coBrandingCopy: "test tenant co-branding",
   feedbackUrl: "https://example.com/feedback",
@@ -155,7 +154,9 @@ const content: ExhaustiveTenantContent = {
   systemNarratives: {
     Prison: {
       title: "test prison narrative",
+      previewTitle: "test prison subtitle",
       introduction: "test prison introduction",
+      preview: "PrisonPopulationCurrent",
       sections: [
         {
           title: "test first prison section",
@@ -166,7 +167,9 @@ const content: ExhaustiveTenantContent = {
     },
     Probation: {
       title: "test probation narrative",
+      previewTitle: "test probation subtitle",
       introduction: "test probation introduction",
+      preview: "ProbationPopulationCurrent",
       sections: [
         {
           title: "test first probation section",
@@ -177,7 +180,9 @@ const content: ExhaustiveTenantContent = {
     },
     Parole: {
       title: "test parole narrative",
+      previewTitle: "test parole subtitle",
       introduction: "test parole introduction",
+      preview: "ParolePopulationCurrent",
       sections: [
         {
           title: "test first parole section",
@@ -188,7 +193,9 @@ const content: ExhaustiveTenantContent = {
     },
     Sentencing: {
       title: "test sentencing narrative",
+      previewTitle: "test sentencing subtitle",
       introduction: "test sentencing introduction",
+      preview: "SentencePopulationCurrent",
       sections: [
         {
           title: "test first sentencing section",

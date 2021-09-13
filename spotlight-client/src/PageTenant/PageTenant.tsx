@@ -22,9 +22,9 @@ import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
-import OtherNarrativeLinks from "../OtherNarrativeLinks";
+import OtherNarrativeLinksPreview from "../OtherNarrativeLinksPreview";
 import { useDataStore } from "../StoreProvider";
-import { breakpoints, CopyBlock, PageSection, PageTitle } from "../UiLibrary";
+import { breakpoints, PageSection, PageTitle } from "../UiLibrary";
 import withRouteSync from "../withRouteSync";
 
 const Introduction = styled(PageSection)`
@@ -35,6 +35,7 @@ const Introduction = styled(PageSection)`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     /* try to keep the links "above the fold" */
     min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)} - ${rem(130)});
 
@@ -48,13 +49,8 @@ const Introduction = styled(PageSection)`
 const Links = styled(PageSection)``;
 
 const Title = styled(PageTitle)`
-  max-width: ${rem(760)};
-`;
-
-const Description = styled(CopyBlock)`
-  font-size: ${rem(20)};
-  line-height: 1.7;
-  max-width: ${rem(760)};
+  font-size: ${rem(40)};
+  max-width: ${rem(1100)};
 `;
 
 const PageTenant: React.FC<RouteComponentProps> = () => {
@@ -66,11 +62,10 @@ const PageTenant: React.FC<RouteComponentProps> = () => {
     // tenant may be briefly undefined during initial page load
     <article>
       <Introduction>
-        <Title>{tenant.landingPageTitle}</Title>
-        <Description>{HTMLReactParser(tenant.description)}</Description>
+        <Title>{HTMLReactParser(tenant.description)}</Title>
       </Introduction>
       <Links>
-        <OtherNarrativeLinks />
+        <OtherNarrativeLinksPreview />
       </Links>
     </article>
   );

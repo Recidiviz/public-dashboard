@@ -27,8 +27,8 @@ import {
   SupervisionSuccessRateMonthlyRecord,
 } from "../metricsApi";
 import type SystemNarrative from "./SystemNarrative";
+import RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
 import type Metric from "./Metric";
-import type RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
 
 /**
  * Describes the hydration state and mechanism,

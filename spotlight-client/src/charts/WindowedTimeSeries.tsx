@@ -20,6 +20,7 @@ import { scaleTime } from "d3-scale";
 import { format, isEqual } from "date-fns";
 import React, { useCallback, useEffect, useState } from "react";
 import MinimapXYFrame from "semiotic/lib/MinimapXYFrame";
+import XYFrame from "semiotic/lib/XYFrame";
 import styled from "styled-components/macro";
 import { animation, colors } from "../UiLibrary";
 import { formatAsNumber } from "../utils";
@@ -103,7 +104,16 @@ const WindowedTimeSeries: React.FC<{
   defaultRangeEnd: Date;
   defaultRangeStart?: Date;
   setTimeRangeId: (id: WindowSizeId) => void;
-}> = ({ data, defaultRangeEnd, defaultRangeStart, setTimeRangeId }) => {
+  showMinimap?: boolean;
+  showLegend?: boolean;
+}> = ({
+  data,
+  defaultRangeEnd,
+  defaultRangeStart,
+  setTimeRangeId,
+  showMinimap,
+  showLegend,
+}) => {
   const { highlighted, setHighlighted } = useHighlightedItem();
   const [dateRangeStart, setDateRangeStart] = useState<Date | undefined>();
   const [dateRangeEnd, setDateRangeEnd] = useState<Date | undefined>();
@@ -133,6 +143,24 @@ const WindowedTimeSeries: React.FC<{
     },
     [dateRangeEnd, dateRangeStart]
   );
+
+  const chartProps = {
+    baseMarkProps: BASE_MARK_PROPS,
+    lines: data,
+    lineStyle: (d: DataSeries) => ({
+      fill:
+        highlighted && highlighted.label !== d.label
+          ? highlightFade(d.color)
+          : d.color,
+      stroke: colors.background,
+      strokeWidth: 1,
+    }),
+    lineType: { type: "stackedarea", sort: null },
+    pointStyle: { display: "none" },
+    xAccessor: "date",
+    yAccessor: "count",
+    matte: true,
+  };
 
   return (
     <MeasureWidth>
@@ -173,70 +201,70 @@ const WindowedTimeSeries: React.FC<{
                 }}
                 xAccessor="date"
               >
-                <MinimapXYFrame
-                  axes={[
-                    {
-                      orient: "left",
-                      tickFormat: formatAsNumber,
-                      tickSize: 0,
-                    },
-                    {
-                      orient: "bottom",
-                      tickFormat: (time: Date) =>
-                        time.getDate() === 1 ? format(time, "MMM y") : null,
-                      ticks: isMobile ? 5 : 10,
-                      tickSize: 0,
-                    },
-                  ]}
-                  baseMarkProps={BASE_MARK_PROPS}
-                  lines={data}
-                  lineStyle={(d: DataSeries) => ({
-                    fill:
-                      highlighted && highlighted.label !== d.label
-                        ? highlightFade(d.color)
-                        : d.color,
-                    stroke: colors.background,
-                    strokeWidth: 1,
-                  })}
-                  // @ts-expect-error Semiotic typedefs are incomplete, this works
-                  lineType={{ type: "stackedarea", sort: null }}
-                  // @ts-expect-error Semiotic typedefs are wrong, can be true for default matte
-                  matte
-                  minimap={{
-                    // @ts-expect-error Semiotic typedefs are incomplete
-                    axes: [],
-                    baseMarkProps: BASE_MARK_PROPS,
-                    brushEnd: (brushExtent: Date[]) => {
-                      const [start, end] = brushExtent || [];
-                      if (start && end) {
-                        if (isNewRange({ start, end })) {
-                          setTimeRangeId("custom");
-                        }
+                {showMinimap ? (
+                  <MinimapXYFrame
+                    axes={[
+                      {
+                        orient: "left",
+                        tickFormat: formatAsNumber,
+                        tickSize: 0,
+                      },
+                      {
+                        orient: "bottom",
+                        tickFormat: (time: Date) =>
+                          time.getDate() === 1 ? format(time, "MMM y") : null,
+                        ticks: isMobile ? 5 : 10,
+                        tickSize: 0,
+                      },
+                    ]}
+                    minimap={{
+                      // @ts-expect-error Semiotic typedefs are incomplete
+                      axes: [],
+                      baseMarkProps: BASE_MARK_PROPS,
+                      brushEnd: (brushExtent: Date[]) => {
+                        const [start, end] = brushExtent || [];
+                        if (start && end) {
+                          if (isNewRange({ start, end })) {
+                            setTimeRangeId("custom");
+                          }
 
-                        setDateRangeStart(new Date(start));
-                        setDateRangeEnd(new Date(end));
-                      }
-                    },
-                    margin: { ...MARGIN, bottom: 0 },
-                    size: [width, MINIMAP_HEIGHT],
-                    // suppress brush area if width is 0 to prevent SVG rendering errors
-                    xBrushable: Boolean(width),
-                    xBrushExtent: [dateRangeStart, dateRangeEnd],
-                    yBrushable: false,
-                  }}
-                  pointStyle={{ display: "none" }}
-                  xAccessor="date"
-                  yAccessor="count"
-                />
+                          setDateRangeStart(new Date(start));
+                          setDateRangeEnd(new Date(end));
+                        }
+                      },
+                      margin: { ...MARGIN, bottom: 0 },
+                      size: [width, MINIMAP_HEIGHT],
+                      // suppress brush area if width is 0 to prevent SVG rendering errors
+                      xBrushable: Boolean(width),
+                      xBrushExtent: [dateRangeStart, dateRangeEnd],
+                      yBrushable: false,
+                    }}
+                    {...chartProps}
+                  />
+                ) : (
+                  // @ts-expect-error Semiotic typedefs are wrong, can be true for default matte
+                  <XYFrame
+                    axes={[
+                      {
+                        orient: "left",
+                        tickFormat: formatAsNumber,
+                        tickSize: 0,
+                      },
+                    ]}
+                    {...chartProps}
+                  />
+                )}
               </XHoverController>
             </ChartWrapper>
-            <LegendWrapper>
-              <ColorLegend
-                highlighted={highlighted}
-                items={data}
-                setHighlighted={setHighlighted}
-              />
-            </LegendWrapper>
+            {showLegend ? (
+              <LegendWrapper>
+                <ColorLegend
+                  highlighted={highlighted}
+                  items={data}
+                  setHighlighted={setHighlighted}
+                />
+              </LegendWrapper>
+            ) : null}
           </Wrapper>
         );
       }}

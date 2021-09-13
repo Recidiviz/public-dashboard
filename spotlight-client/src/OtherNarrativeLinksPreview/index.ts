@@ -15,5 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export const X_PADDING = 176;
-export const X_PADDING_TABLET = 80;
+export { default } from "./OtherNarrativeLinksPreview";

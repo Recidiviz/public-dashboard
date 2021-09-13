@@ -18,7 +18,7 @@
 import { rem } from "polished";
 import styled from "styled-components/macro";
 import { NAV_BAR_HEIGHT } from "../constants";
-import { X_PADDING } from "../SystemNarrativePage/constants";
+import { X_PADDING, X_PADDING_TABLET } from "../SystemNarrativePage/constants";
 import breakpoints from "./breakpoints";
 
 /**
@@ -31,6 +31,10 @@ export const PageSection = styled.section`
   padding: 0 ${rem(16)};
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
+    padding: 0 ${rem(X_PADDING_TABLET)};
+  }
+
+  @media screen and (min-width: ${breakpoints.desktop[0]}px) {
     padding: 0 ${rem(X_PADDING)};
   }
 `;

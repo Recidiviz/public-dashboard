@@ -77,7 +77,7 @@ describe("navigation", () => {
   test("tenant home", () => {
     expect.hasAssertions();
     const targetPath = "/us-nd";
-    const lookupArgs = ["heading", { name: /North Dakota/, level: 1 }] as const;
+    const lookupArgs = ["heading", { name: /DOCR/, level: 1 }] as const;
 
     return verifyWithNavigation({ targetPath, lookupArgs });
   });
@@ -128,7 +128,7 @@ describe("navigation", () => {
     const homeLink = inNav.getByRole("link", { name: "Spotlight" });
     const tenantLink = inNav.getByRole("link", { name: "North Dakota" });
     const sentencingLink = await screen.findByRole("link", {
-      name: "Sentencing",
+      name: "Sentencing Data",
     });
 
     fireEvent.click(sentencingLink);
@@ -142,20 +142,12 @@ describe("navigation", () => {
 
     fireEvent.click(tenantLink);
     await waitFor(async () =>
-      expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
-        "Explore correctional data from North Dakota."
-      )
+      expect(await screen.findByTestId("PageTitle")).toHaveTextContent("DOCR")
     );
 
-    const disparitiesLink = screen.getByRole("link", {
-      name: "Racial Disparities",
-    });
-    fireEvent.click(disparitiesLink);
-    await waitFor(async () =>
-      expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
-        "Racial Disparities"
-      )
-    );
+    expect(
+      screen.queryByText("Racial Disparities Data")
+    ).not.toBeInTheDocument();
 
     fireEvent.click(homeLink);
     await waitFor(async () =>

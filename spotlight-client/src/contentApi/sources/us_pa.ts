@@ -19,7 +19,6 @@ import { TenantContent } from "../types";
 
 const content: TenantContent = {
   name: "Pennsylvania",
-  landingPageTitle: "Explore data on corrections in Pennsylvania.",
   description: `
     <a href="https://www.cor.pa.gov">The Pennsylvania Department of Corrections (DOC)</a>
     is committed to enhancing public safety. The DOC's mission is to reduce criminal
@@ -44,6 +43,7 @@ const content: TenantContent = {
   systemNarratives: {
     Prison: {
       title: "Prisons",
+      previewTitle: "Prison Population over Time",
       introduction: `<p>
         Individuals convicted of a crime may be sentenced to a period of incarceration.
         The length of the sentence determines the place of confinement.  While
@@ -56,6 +56,7 @@ const content: TenantContent = {
         moving forward. Methodologies for these calculations may vary slightly from
         existing public reports produced by the Pennsylvania Department of Corrections.
       </aside>`,
+      preview: "PrisonPopulationHistorical",
       sections: [
         {
           title: "Who is in a State Correctional Institution (SCI)?",
@@ -115,6 +116,7 @@ const content: TenantContent = {
     },
     Parole: {
       title: "Parole",
+      previewTitle: "Returns from Parole, by Reason",
       introduction: `<p>
         Parole is a period of supervised release after prison. Individuals on parole must
         regularly check in with a parole agent, who ensures that they are following
@@ -126,6 +128,7 @@ const content: TenantContent = {
         moving forward. Methodologies for these calculations may vary slightly from
         existing public reports produced by the Pennsylvania Department of Corrections.
       </aside>`,
+      preview: "ParoleRevocationsAggregate",
       sections: [
         {
           title: "Who is on parole?",
