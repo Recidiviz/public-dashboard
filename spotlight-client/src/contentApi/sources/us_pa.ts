@@ -52,9 +52,9 @@ const content: TenantContent = {
         reentry to the community.
       </p>
       <aside>
-        All calculations are effective as of 8/13/2021, and will be updated regularly
-        moving forward. Methodologies for these calculations may vary slightly from
-        existing public reports produced by the Pennsylvania Department of Corrections.
+        All calculations are updated weekly. Methodologies for these calculations may
+        vary slightly from existing public reports produced by the Pennsylvania
+        Department of Corrections.
       </aside>`,
       sections: [
         {
@@ -122,9 +122,9 @@ const content: TenantContent = {
         person’s parole may be revoked and they will be sent back to prison.
       </p>
       <aside>
-        All calculations are effective as of 8/13/2021, and will be updated regularly
-        moving forward. Methodologies for these calculations may vary slightly from
-        existing public reports produced by the Pennsylvania Department of Corrections.
+        All calculations are updated weekly. Methodologies for these calculations may
+        vary slightly from existing public reports produced by the Pennsylvania
+        Department of Corrections.
       </aside>`,
       sections: [
         {
@@ -192,9 +192,9 @@ const content: TenantContent = {
         racial or ethnic identity that is least represented in the general population.
       </p>
       <p>
-        All calculations are effective as of 8/13/2021, and will be updated regularly
-        moving forward. Methodologies for these calculations may vary slightly from
-        existing public reports produced by the Pennsylvania Department of Corrections.
+        All calculations are updated weekly. Methodologies for these calculations may
+        vary slightly from existing public reports produced by the Pennsylvania
+        Department of Corrections.
       </p>`,
       totalLabel: "Total people in prison",
     },
@@ -213,9 +213,9 @@ const content: TenantContent = {
         racial or ethnic identity that is least represented in the general population.
       </p>
       <p>
-        All calculations are effective as of 8/13/2021, and will be updated regularly
-        moving forward. Methodologies for these calculations may vary slightly from
-        existing public reports produced by the Pennsylvania Department of Corrections.
+        All calculations are updated weekly. Methodologies for these calculations may
+        vary slightly from existing public reports produced by the Pennsylvania
+        Department of Corrections.
       </p>`,
     },
     PrisonAdmissionReasonsCurrent: {
@@ -233,9 +233,9 @@ const content: TenantContent = {
         disaggregated at a later date.
       </p>
       <p>
-        All calculations are effective as of 8/13/2021, and will be updated regularly
-        moving forward. Methodologies for these calculations may vary slightly from
-        existing public reports produced by the Pennsylvania Department of Corrections.
+        All calculations are updated weekly. Methodologies for these calculations may
+        vary slightly from existing public reports produced by the Pennsylvania
+        Department of Corrections.
       </p>`,
       fieldMapping: [
         {
@@ -311,9 +311,9 @@ const content: TenantContent = {
         prison may occasionally serve their parole in a different state.
       </p>
       <p>
-        All calculations are effective as of 8/13/2021, and will be updated regularly
-        moving forward. Methodologies for these calculations may vary slightly from
-        existing public reports produced by the Pennsylvania Department of Corrections.
+        All calculations are updated weekly. Methodologies for these calculations may
+        vary slightly from existing public reports produced by the Pennsylvania
+        Department of Corrections.
       </p>`,
       totalLabel: "Total people on parole",
     },
@@ -340,9 +340,9 @@ const content: TenantContent = {
         prison may occasionally serve their parole in a different state.
       </p>
       <p>
-        All calculations are effective as of 8/13/2021, and will be updated regularly
-        moving forward. Methodologies for these calculations may vary slightly from
-        existing public reports produced by the Pennsylvania Department of Corrections.
+        All calculations are updated weekly. Methodologies for these calculations may
+        vary slightly from existing public reports produced by the Pennsylvania
+        Department of Corrections.
       </p>`,
     },
     ParoleTerminationsHistorical: {
@@ -385,9 +385,9 @@ const content: TenantContent = {
         prison may occasionally serve their parole in a different state.
       </p>
       <p>
-        All calculations are effective as of 8/13/2021, and will be updated regularly
-        moving forward. Methodologies for these calculations may vary slightly from
-        existing public reports produced by the Pennsylvania Department of Corrections.
+        All calculations are updated weekly. Methodologies for these calculations may
+        vary slightly from existing public reports produced by the Pennsylvania
+        Department of Corrections.
       </p>`,
     },
     ParoleRevocationsAggregate: {
@@ -438,9 +438,9 @@ const content: TenantContent = {
         prison may occasionally serve their parole in a different state.
       </p>
       <p>
-        All calculations are effective as of 8/13/2021, and will be updated regularly
-        moving forward. Methodologies for these calculations may vary slightly from
-        existing public reports produced by the Pennsylvania Department of Corrections.
+        All calculations are updated weekly. Methodologies for these calculations may
+        vary slightly from existing public reports produced by the Pennsylvania
+        Department of Corrections.
       </p>`,
     },
   },
@@ -455,9 +455,9 @@ const content: TenantContent = {
       {likelihoodVsWhite.HISPANIC} times as likely.
     </p>
     <aside>
-      All calculations are effective as of 8/13/2021, and will be updated regularly
-      moving forward. Methodologies for these calculations may vary slightly from
-      existing public reports produced by the Pennsylvania Department of Corrections.
+      All calculations are updated weekly. Methodologies for these calculations may
+      vary slightly from existing public reports produced by the Pennsylvania
+      Department of Corrections.
     </aside>`,
     introductionMethodology: `<p>
       Distributions by race count individuals with more than one reported race or
@@ -473,9 +473,9 @@ const content: TenantContent = {
       Pennsylvania may occasionally complete their supervision in a different state.
     </p>
     <p>
-      All calculations are effective as of 8/13/2021, and will be updated regularly
-      moving forward. Methodologies for these calculations may vary slightly from
-      existing public reports produced by the Pennsylvania Department of Corrections.
+      All calculations are updated weekly. Methodologies for these calculations may
+      vary slightly from existing public reports produced by the Pennsylvania
+      Department of Corrections.
     </p>`,
     chartLabels: {
       totalPopulation: "Proportions of racial/ethnic groups in the state",
@@ -526,9 +526,9 @@ const content: TenantContent = {
           Pennsylvania may occasionally complete their supervision in a different state.
         </p>
         <p>
-          All calculations are effective as of 8/13/2021, and will be updated regularly
-          moving forward. Methodologies for these calculations may vary slightly from
-          existing public reports produced by the Pennsylvania Department of Corrections.
+          All calculations are updated weekly. Methodologies for these calculations may
+          vary slightly from existing public reports produced by the Pennsylvania
+          Department of Corrections.
         </p>`,
       },
       supervision: {
@@ -606,9 +606,9 @@ const content: TenantContent = {
           Pennsylvania may occasionally complete their supervision in a different state.
         </p>
         <p>
-          All calculations are effective as of 8/13/2021, and will be updated regularly
-          moving forward. Methodologies for these calculations may vary slightly from
-          existing public reports produced by the Pennsylvania Department of Corrections.
+          All calculations are updated weekly. Methodologies for these calculations may
+          vary slightly from existing public reports produced by the Pennsylvania
+          Department of Corrections.
         </p>`,
       },
       conclusion: {
