@@ -48,5 +48,8 @@
   },
   "jest": {
     "testEnvironment": "node"
+  },
+  "resolutions": {
+    "ansi-regex": "^5.0.1"
   }
 }
