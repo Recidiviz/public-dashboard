@@ -6,6 +6,9 @@
   "repository": "git@github.com:Recidiviz/public-dashboard.git",
   "author": "Recidiviz <team@recidiviz.org>",
   "license": "GNU General Public License v3",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "demo": "IS_DEMO=true yarn dev",
     "dev": "nodemon index.js",
@@ -50,6 +53,7 @@
     "testEnvironment": "node"
   },
   "resolutions": {
-    "ansi-regex": "^5.0.1"
+    "ansi-regex": "^5.0.1",
+    "set-value": "4.0.1"
   }
 }
