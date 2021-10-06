@@ -100,6 +100,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
   error?: Error;
 
   // filter properties
+  // TODO(#479): not readonly so we can swap in legacy categories after fetching data
   private readonly demographicCategories: DemographicCategories;
 
   localityId: RecordFormat extends LocalityFields ? string : undefined;
@@ -159,6 +160,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
    * Fetches the metric data from the server and transforms it.
    */
   protected async fetchAndTransform(): Promise<RecordFormat[]> {
+    // TODO (#479): swap in legacy age buckets when old categories detected
     return fetchAndTransformMetric({
       sourceFileName: this.sourceFileName,
       tenantId: this.tenantId,
