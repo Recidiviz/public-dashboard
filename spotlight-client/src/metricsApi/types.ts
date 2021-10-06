@@ -41,6 +41,16 @@ export type DemographicFields = {
     ? GenderIdentifier
     : AgeIdentifier;
 };
+export function isDemographicFields(
+  record: Record<string, unknown>
+): record is DemographicFields {
+  return (
+    // just verifying key presence and trusting response contents
+    typeof record.ageBucket === "string" &&
+    typeof record.raceOrEthnicity === "string" &&
+    typeof record.gender === "string"
+  );
+}
 
 export type LocalityFields = {
   locality: string;

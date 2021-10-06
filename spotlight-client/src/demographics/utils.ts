@@ -16,11 +16,11 @@
 // =============================================================================
 
 import assertNever from "assert-never";
-import { LegacyAgeValueList } from ".";
 import { DemographicCategoryFilter } from "../contentApi/types";
 import { DemographicFields, isDemographicFieldKey } from "../metricsApi";
 import {
   AgeValue,
+  AgeValueList,
   DemographicView,
   DemographicViewList,
   GenderValue,
@@ -110,7 +110,7 @@ export function createDemographicCategories(
   demographicFilter?: DemographicCategoryFilter
 ): DemographicCategories {
   // TODO(#479): eliminate override once legacy categories are deleted
-  const ageFilter = demographicFilter?.ageBucket || [...LegacyAgeValueList];
+  const ageFilter = demographicFilter?.ageBucket || [...AgeValueList];
   return {
     total: totalCategories,
     // only applying filters if the keys are actually present

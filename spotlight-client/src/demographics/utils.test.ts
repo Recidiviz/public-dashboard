@@ -15,9 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { AgeValueList } from ".";
 import { DemographicFields } from "../metricsApi";
-import { DemographicView } from "./types";
+import { DemographicView, LegacyAgeValueList } from "./types";
 import {
   createDemographicCategories,
   dataIncludesBreakdowns,
@@ -93,9 +92,11 @@ describe("createDemographicCategories", () => {
     expect(categories.ageBucket).toEqual([
       { identifier: "<25", label: "<25" },
       { identifier: "25-29", label: "25-29" },
-      { identifier: "30-34", label: "30-34" },
-      { identifier: "35-39", label: "35-39" },
-      { identifier: "40<", label: "40+" },
+      { identifier: "30-39", label: "30-39" },
+      { identifier: "40-49", label: "40-49" },
+      { identifier: "50-59", label: "50-59" },
+      { identifier: "60-69", label: "60-69" },
+      { identifier: "70<", label: "70+" },
     ]);
   });
 
@@ -123,18 +124,16 @@ describe("createDemographicCategories", () => {
   });
 
   test("customized age", () => {
-    const newCategories = createDemographicCategories({
-      ageBucket: [...AgeValueList],
+    const legacyCategories = createDemographicCategories({
+      ageBucket: [...LegacyAgeValueList],
     });
 
-    expect(newCategories.ageBucket).toEqual([
+    expect(legacyCategories.ageBucket).toEqual([
       { identifier: "<25", label: "<25" },
       { identifier: "25-29", label: "25-29" },
-      { identifier: "30-39", label: "30-39" },
-      { identifier: "40-49", label: "40-49" },
-      { identifier: "50-59", label: "50-59" },
-      { identifier: "60-69", label: "60-69" },
-      { identifier: "70<", label: "70+" },
+      { identifier: "30-34", label: "30-34" },
+      { identifier: "35-39", label: "35-39" },
+      { identifier: "40<", label: "40+" },
     ]);
   });
 });
