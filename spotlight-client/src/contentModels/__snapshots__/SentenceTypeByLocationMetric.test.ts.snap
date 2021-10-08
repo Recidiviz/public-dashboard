@@ -35,48 +35,78 @@ Object {
     },
     Object {
       "source": "Incarceration",
-      "target": "30-34",
-      "value": 1420,
+      "target": "30-39",
+      "value": 3295,
     },
     Object {
       "source": "Probation",
-      "target": "30-34",
+      "target": "30-39",
       "value": 604,
     },
     Object {
       "source": "Both",
-      "target": "30-34",
-      "value": 434,
+      "target": "30-39",
+      "value": 836,
     },
     Object {
       "source": "Incarceration",
-      "target": "35-39",
-      "value": 1875,
+      "target": "40-49",
+      "value": 272,
     },
     Object {
       "source": "Probation",
-      "target": "35-39",
-      "value": 0,
+      "target": "40-49",
+      "value": 795,
     },
     Object {
       "source": "Both",
-      "target": "35-39",
-      "value": 402,
+      "target": "40-49",
+      "value": 369,
     },
     Object {
       "source": "Incarceration",
-      "target": "40+",
-      "value": 337,
+      "target": "50-59",
+      "value": 3,
     },
     Object {
       "source": "Probation",
-      "target": "40+",
-      "value": 1601,
+      "target": "50-59",
+      "value": 55,
     },
     Object {
       "source": "Both",
-      "target": "40+",
-      "value": 416,
+      "target": "50-59",
+      "value": 9,
+    },
+    Object {
+      "source": "Incarceration",
+      "target": "60-69",
+      "value": 19,
+    },
+    Object {
+      "source": "Probation",
+      "target": "60-69",
+      "value": 563,
+    },
+    Object {
+      "source": "Both",
+      "target": "60-69",
+      "value": 32,
+    },
+    Object {
+      "source": "Incarceration",
+      "target": "70+",
+      "value": 43,
+    },
+    Object {
+      "source": "Probation",
+      "target": "70+",
+      "value": 188,
+    },
+    Object {
+      "source": "Both",
+      "target": "70+",
+      "value": 6,
     },
   ],
   "sources": Array [
@@ -98,13 +128,19 @@ Object {
       "id": "25-29",
     },
     Object {
-      "id": "30-34",
+      "id": "30-39",
     },
     Object {
-      "id": "35-39",
+      "id": "40-49",
     },
     Object {
-      "id": "40+",
+      "id": "50-59",
+    },
+    Object {
+      "id": "60-69",
+    },
+    Object {
+      "id": "70+",
     },
   ],
 }

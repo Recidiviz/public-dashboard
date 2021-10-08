@@ -133,7 +133,7 @@ test("demographic charts", async () => {
 
   expect(
     screen.getAllByRole("group", { name: "7 bars in a bar chart" }).length
-  ).toBe(5);
+  ).toBe(7);
 });
 
 test("all bars are the same color", async () => {
