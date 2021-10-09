@@ -128,7 +128,7 @@ describe("navigation", () => {
     const homeLink = inNav.getByRole("link", { name: "Spotlight" });
     const tenantLink = inNav.getByRole("link", { name: "North Dakota" });
     const sentencingLink = await screen.findByRole("link", {
-      name: "Sentencing Data",
+      name: "Racial Disparities Data",
     });
 
     fireEvent.click(sentencingLink);
@@ -136,7 +136,7 @@ describe("navigation", () => {
     // so we are using *ByTestId queries here instead
     await waitFor(async () =>
       expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
-        "Sentencing"
+        "Racial Disparities"
       )
     );
 
@@ -145,9 +145,7 @@ describe("navigation", () => {
       expect(await screen.findByTestId("PageTitle")).toHaveTextContent("DOCR")
     );
 
-    expect(
-      screen.queryByText("Racial Disparities Data")
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Sentencing Data")).not.toBeInTheDocument();
 
     fireEvent.click(homeLink);
     await waitFor(async () =>
