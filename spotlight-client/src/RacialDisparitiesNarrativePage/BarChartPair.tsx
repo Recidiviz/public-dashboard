@@ -28,6 +28,8 @@ const CHART_HEIGHT = 165;
 
 const CHART_HEIGHT_MOBILE = 100;
 
+const CHART_HEIGHT_PREVIEW = 135;
+
 const Wrapper = styled.div`
   padding: ${rem(48)} 0;
 `;
@@ -38,9 +40,10 @@ const Spacer = styled.div`
 
 type BarChartPairProps = {
   data: DemographicCategoryRecords[];
-  download: () => void;
-  filters: VizControlsProps["filters"];
-  methodology: string;
+  download?: () => void;
+  filters?: VizControlsProps["filters"];
+  methodology?: string;
+  preview?: boolean;
 };
 
 export default function BarChartPair({
@@ -48,23 +51,30 @@ export default function BarChartPair({
   download,
   filters,
   methodology,
+  preview,
 }: BarChartPairProps): React.ReactElement {
   const [highlightedCategory, setHighlightedCategory] = useState<
     ItemToHighlight | undefined
   >();
 
-  const chartHeight = useBreakpoint(CHART_HEIGHT, [
+  let chartHeight = useBreakpoint(CHART_HEIGHT, [
     "mobile-",
     CHART_HEIGHT_MOBILE,
   ]);
 
+  if (preview) {
+    chartHeight = CHART_HEIGHT_PREVIEW;
+  }
+
   return (
     <Wrapper>
-      <VizControls
-        filters={filters}
-        methodology={methodology}
-        download={download}
-      />
+      {filters && methodology && download && (
+        <VizControls
+          filters={filters}
+          methodology={methodology}
+          download={download}
+        />
+      )}
       <ProportionalBar
         data={data[0].records}
         title={data[0].label}
@@ -80,7 +90,7 @@ export default function BarChartPair({
         highlighted={highlightedCategory}
         setHighlighted={setHighlightedCategory}
       />
-      <VizNotes smallData />
+      {!preview && <VizNotes smallData />}
     </Wrapper>
   );
 }

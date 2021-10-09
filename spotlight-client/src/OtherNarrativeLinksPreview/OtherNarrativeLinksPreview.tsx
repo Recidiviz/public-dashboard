@@ -16,15 +16,20 @@
 // =============================================================================
 
 import { Link } from "@reach/router";
+import { ascending } from "d3-array";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
 import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { track } from "../analytics";
-import { TenantId } from "../contentApi/types";
+import { NarrativeTypeId, TenantId } from "../contentApi/types";
+import RacialDisparitiesNarrative from "../contentModels/RacialDisparitiesNarrative";
 import SystemNarrative from "../contentModels/SystemNarrative";
+import { Narrative } from "../contentModels/types";
 import MetricVizMapper from "../MetricVizMapper";
+import ModelHydrator from "../ModelHydrator";
+import BarChartPair from "../RacialDisparitiesNarrativePage/BarChartPair";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
 import { breakpoints, colors } from "../UiLibrary";
@@ -98,10 +103,18 @@ const ChartPreview = styled.div`
   padding-top: ${rem(16)};
 `;
 
+const PREVIEW_ORDER: NarrativeTypeId[] = [
+  "Prison",
+  "RacialDisparities",
+  "Parole",
+  "Probation",
+  "Sentencing",
+];
+
 const ChartPreviewComponent: React.FC<{
-  narrative: SystemNarrative;
+  narrative: Narrative;
 }> = ({ narrative }) => {
-  if (narrative.preview)
+  if (narrative instanceof SystemNarrative && narrative.preview)
     return (
       <>
         <ChartTitle>{narrative.previewTitle}</ChartTitle>
@@ -117,11 +130,29 @@ const ChartPreviewComponent: React.FC<{
         </ChartPreview>
       </>
     );
+  if (narrative instanceof RacialDisparitiesNarrative) {
+    return <RacialDisparitiesPreview narrative={narrative} />;
+  }
   return null;
 };
 
+const RacialDisparitiesPreview = observer(
+  ({ narrative }: { narrative: RacialDisparitiesNarrative }): JSX.Element => {
+    return (
+      <ModelHydrator model={narrative}>
+        <>
+          <ChartTitle>Population by Race/Ethnicity</ChartTitle>
+          {narrative.populationDataSeries && (
+            <BarChartPair data={narrative.populationDataSeries} preview />
+          )}
+        </>
+      </ModelHydrator>
+    );
+  }
+);
+
 const NarrativeLink: React.FC<{
-  narrative: SystemNarrative;
+  narrative: Narrative;
   tenantId: TenantId;
 }> = observer(({ narrative, tenantId }) => {
   const [animationStyles, setAnimationStyles] = useSpring(() => ({
@@ -162,24 +193,26 @@ const NarrativeLink: React.FC<{
  * If there is a current narrative selected, it will be excluded from the grid.
  */
 const OtherNarrativeLinksPreview = (): React.ReactElement | null => {
-  const {
-    tenant,
-    tenantStore: { currentNarrativeTypeId },
-  } = useDataStore();
+  const { tenant } = useDataStore();
 
   if (!tenant) return null;
 
   const narrativesToDisplay = [
     ...Object.values(tenant.systemNarratives),
-  ].filter((narrative): narrative is SystemNarrative => {
-    if (narrative === undefined) return false;
-    return narrative.id !== currentNarrativeTypeId;
-  });
+    tenant.racialDisparitiesNarrative,
+  ]
+    .filter((n): n is Narrative => Boolean(n))
+    .sort((a, b) =>
+      ascending(PREVIEW_ORDER.indexOf(a.id), PREVIEW_ORDER.indexOf(b.id))
+    )
+    .slice(0, 4);
 
   return (
     <Wrapper>
       <LinkList>
         {narrativesToDisplay.map((narrative) => {
+          if (!narrative) return null;
+
           return (
             <NarrativeLink
               key={narrative.id}
