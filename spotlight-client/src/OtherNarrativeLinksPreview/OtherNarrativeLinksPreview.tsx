@@ -211,8 +211,6 @@ const OtherNarrativeLinksPreview = (): React.ReactElement | null => {
     <Wrapper>
       <LinkList>
         {narrativesToDisplay.map((narrative) => {
-          if (!narrative) return null;
-
           return (
             <NarrativeLink
               key={narrative.id}
