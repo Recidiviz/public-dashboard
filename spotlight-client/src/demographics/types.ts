@@ -46,8 +46,26 @@ export type GenderIdentifier =
   | UnknownIdentifier
   | GenderValue;
 
-export const AgeValueList = ["<25", "25-29", "30-34", "35-39", "40<"] as const;
-export type AgeValue = typeof AgeValueList[number];
+export const AgeValueList = [
+  "<25",
+  "25-29",
+  "30-39",
+  "40-49",
+  "50-59",
+  "60-69",
+  "70<",
+] as const;
+// TODO(#479): delete these once views are updated
+export const LegacyAgeValueList = [
+  "<25",
+  "25-29",
+  "30-34",
+  "35-39",
+  "40<",
+] as const;
+export type AgeValue =
+  | typeof AgeValueList[number]
+  | typeof LegacyAgeValueList[number];
 export type AgeIdentifier = TotalIdentifier | UnknownIdentifier | AgeValue;
 
 export const DemographicViewList = [

@@ -98,19 +98,21 @@ describe("fetchAndTransformMetric", () => {
     });
 
     expect(transformedData).toEqual([
-      { testField: 346 },
-      { testField: 105 },
       { testField: 22 },
-      { testField: 119 },
-      { testField: 60 },
-      { testField: 64 },
+      { testField: 179 },
+      { testField: 62 },
+      { testField: 1 },
+      { testField: 0 },
+      { testField: 1 },
+      { testField: 105 },
+      { testField: 346 },
       { testField: 3 },
       { testField: 1 },
       { testField: 3 },
+      { testField: 1 },
       { testField: 9 },
-      { testField: 1 },
-      { testField: 17 },
       { testField: 280 },
+      { testField: 17 },
     ]);
   });
 

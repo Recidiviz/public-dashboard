@@ -90,7 +90,7 @@ test("totals", async () => {
   expect(screen.getByText("2020")).toBeInTheDocument();
 
   const stat = screen.getByRole("figure", { name: "Total" });
-  expect(within(stat).getByText("73%")).toBeInTheDocument();
+  expect(within(stat).getByText("58%")).toBeInTheDocument();
 });
 
 test("locality filter", async () => {
@@ -115,7 +115,7 @@ test("locality filter", async () => {
     screen.getByText(
       (content, element) =>
         element.tagName.toLowerCase() === "figure" &&
-        element.textContent === "74%Total"
+        element.textContent === "58%Total"
     )
   ).toBeInTheDocument();
 });

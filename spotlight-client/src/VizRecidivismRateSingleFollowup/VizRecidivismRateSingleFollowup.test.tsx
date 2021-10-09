@@ -77,28 +77,28 @@ test("total chart", async () => {
   const chart = screen.getByRole("group", { name: "8 bars in a bar chart" });
   expect(chart).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2009 bar value 27%" })
+    within(chart).getByRole("img", { name: "2009 bar value 41%" })
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2010 bar value 57%" })
+    within(chart).getByRole("img", { name: "2010 bar value 49%" })
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2011 bar value 39%" })
+    within(chart).getByRole("img", { name: "2011 bar value 31%" })
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2012 bar value 38%" })
+    within(chart).getByRole("img", { name: "2012 bar value 49%" })
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2013 bar value 40%" })
+    within(chart).getByRole("img", { name: "2013 bar value 44%" })
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2014 bar value 37%" })
+    within(chart).getByRole("img", { name: "2014 bar value 40%" })
   ).toBeInTheDocument();
   expect(
     within(chart).getByRole("img", { name: "2015 bar value 30%" })
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2016 bar value 20%" })
+    within(chart).getByRole("img", { name: "2016 bar value 38%" })
   ).toBeInTheDocument();
 });
 
@@ -144,7 +144,7 @@ test("demographic charts", async () => {
 
   expect(
     screen.getAllByRole("group", { name: "8 bars in a bar chart" }).length
-  ).toBe(5);
+  ).toBe(7);
 });
 
 test("followup period filter", async () => {

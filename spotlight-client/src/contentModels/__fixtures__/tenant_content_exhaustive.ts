@@ -45,7 +45,7 @@ const content: ExhaustiveTenantContent = {
       "OTHER",
     ],
     gender: ["MALE", "FEMALE"],
-    ageBucket: ["<25", "25-29", "30-34", "35-39", "40<"],
+    ageBucket: ["<25", "25-29", "30-39", "40-49", "50-59", "60-69", "70<"],
   },
   metrics: {
     SentencePopulationCurrent: {

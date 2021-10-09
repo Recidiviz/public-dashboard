@@ -95,7 +95,7 @@ test("total counts", async () => {
 
   const ageChart = screen.getByRole("figure", { name: "Age Group" });
   expect(
-    within(ageChart).getByRole("group", { name: "5 bars in a bar chart" })
+    within(ageChart).getByRole("group", { name: "7 bars in a bar chart" })
   ).toBeVisible();
   expect(
     within(ageChart).getByRole("img", {
@@ -109,19 +109,29 @@ test("total counts", async () => {
   ).toHaveStyle(`fill: ${colors.dataViz[1]}`);
   expect(
     within(ageChart).getByRole("img", {
-      name: "Age Group bar value 134",
+      name: "Age Group bar value 376",
     })
   ).toHaveStyle(`fill: ${colors.dataViz[2]}`);
   expect(
     within(ageChart).getByRole("img", {
-      name: "Age Group bar value 242",
+      name: "Age Group bar value 45",
     })
   ).toHaveStyle(`fill: ${colors.dataViz[3]}`);
   expect(
     within(ageChart).getByRole("img", {
-      name: "Age Group bar value 266",
+      name: "Age Group bar value 66",
     })
   ).toHaveStyle(`fill: ${colors.dataViz[4]}`);
+  expect(
+    within(ageChart).getByRole("img", {
+      name: "Age Group bar value 104",
+    })
+  ).toHaveStyle(`fill: ${colors.dataViz[5]}`);
+  expect(
+    within(ageChart).getByRole("img", {
+      name: "Age Group bar value 51",
+    })
+  ).toHaveStyle(`fill: ${colors.dataViz[6]}`);
 
   const genderChart = screen.getByRole("figure", { name: "Gender" });
   expect(
@@ -192,7 +202,7 @@ test("counts filtered by locality", async () => {
 
   const ageChart = screen.getByRole("figure", { name: "Age Group" });
   expect(
-    within(ageChart).getByRole("group", { name: "5 bars in a bar chart" })
+    within(ageChart).getByRole("group", { name: "7 bars in a bar chart" })
   ).toBeVisible();
   expect(
     within(ageChart).getByRole("img", {
@@ -206,19 +216,29 @@ test("counts filtered by locality", async () => {
   ).toHaveStyle(`fill: ${colors.dataViz[1]}`);
   expect(
     within(ageChart).getByRole("img", {
-      name: "Age Group bar value 160",
+      name: "Age Group bar value 249",
     })
   ).toHaveStyle(`fill: ${colors.dataViz[2]}`);
   expect(
     within(ageChart).getByRole("img", {
-      name: "Age Group bar value 89",
+      name: "Age Group bar value 172",
     })
   ).toHaveStyle(`fill: ${colors.dataViz[3]}`);
   expect(
     within(ageChart).getByRole("img", {
-      name: "Age Group bar value 236",
+      name: "Age Group bar value 15",
     })
   ).toHaveStyle(`fill: ${colors.dataViz[4]}`);
+  expect(
+    within(ageChart).getByRole("img", {
+      name: "Age Group bar value 26",
+    })
+  ).toHaveStyle(`fill: ${colors.dataViz[5]}`);
+  expect(
+    within(ageChart).getByRole("img", {
+      name: "Age Group bar value 23",
+    })
+  ).toHaveStyle(`fill: ${colors.dataViz[6]}`);
 
   const genderChart = screen.getByRole("figure", { name: "Gender" });
   expect(

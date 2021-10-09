@@ -28,6 +28,7 @@ import allTestContent from "./__fixtures__/tenant_content_exhaustive";
 import { MetricTypeId, MetricTypeIdList } from "../contentApi/types";
 import { reactImmediately } from "../testUtils";
 import createMetricMapping from "./createMetricMapping";
+import { incarcerationReleasesLegacyAgeBuckets } from "./__fixtures__/metricData";
 
 jest.mock("downloadjs");
 const downloadjsMock = downloadjs as jest.MockedFunction<typeof downloadjs>;
@@ -302,4 +303,26 @@ describe("data download", () => {
       ).toMatchSnapshot();
     });
   });
+});
+
+test("switch to legacy age categories after hydration", async () => {
+  // expect any metric that supports demographics to behave the same
+  const metric = getTestMetric("PrisonReleaseTypeAggregate");
+
+  fetchMock.doMock();
+  fetchMock.mockResponse(
+    JSON.stringify({
+      incarceration_releases_by_type_by_period: incarcerationReleasesLegacyAgeBuckets,
+    })
+  );
+
+  await metric.hydrate();
+
+  expect(metric.getDemographicCategories("ageBucket")).toEqual([
+    { identifier: "<25", label: "<25" },
+    { identifier: "25-29", label: "25-29" },
+    { identifier: "30-34", label: "30-34" },
+    { identifier: "35-39", label: "35-39" },
+    { identifier: "40<", label: "40+" },
+  ]);
 });

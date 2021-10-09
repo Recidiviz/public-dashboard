@@ -34,6 +34,7 @@ import {
   DemographicCategories,
   DemographicView,
   getDemographicCategoriesForView,
+  LegacyAgeValueList,
 } from "../demographics";
 import {
   RawMetricData,
@@ -41,6 +42,7 @@ import {
   LocalityFields,
   SupervisionSuccessRateMonthlyRecord,
   fetchAndTransformMetric,
+  isDemographicFields,
 } from "../metricsApi";
 import downloadData from "./downloadData";
 import { MetricRecord, Hydratable } from "./types";
@@ -100,7 +102,11 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
   error?: Error;
 
   // filter properties
-  private readonly demographicCategories: DemographicCategories;
+  // TODO(#479): don't need to store a copy of the filter once legacy age categories are removed
+  private readonly demographicFilter?: DemographicCategoryFilter;
+
+  // TODO(#479): this can become readonly again once legacy age categories are removed
+  private demographicCategories: DemographicCategories;
 
   localityId: RecordFormat extends LocalityFields ? string : undefined;
 
@@ -148,6 +154,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     this.dataTransformer = dataTransformer;
 
     // initialize filters
+    this.demographicFilter = demographicFilter;
     this.demographicCategories = createDemographicCategories(demographicFilter);
     this.getDemographicCategories = this.getDemographicCategories.bind(this);
     this.localityId = defaultLocalityId;
@@ -159,11 +166,24 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
    * Fetches the metric data from the server and transforms it.
    */
   protected async fetchAndTransform(): Promise<RecordFormat[]> {
-    return fetchAndTransformMetric({
+    const records = await fetchAndTransformMetric({
       sourceFileName: this.sourceFileName,
       tenantId: this.tenantId,
       transformFn: this.dataTransformer,
     });
+    // if data has legacy values, use the old categories
+    // TODO (#479): no longer needed once views are updated
+    if (
+      records.some(
+        (record) => isDemographicFields(record) && record.ageBucket === "40<"
+      )
+    ) {
+      this.demographicCategories = createDemographicCategories({
+        ...this.demographicFilter,
+        ageBucket: [...LegacyAgeValueList],
+      });
+    }
+    return records;
   }
 
   /**

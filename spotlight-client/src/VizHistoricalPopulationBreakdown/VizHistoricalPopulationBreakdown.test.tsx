@@ -118,7 +118,7 @@ test("plots demographic categories", async () => {
   await waitFor(() => {
     expect(
       screen.getAllByRole("group", {
-        name: "5 stacked areas in a stacked area chart",
+        name: "7 stacked areas in a stacked area chart",
       }).length
     ).toBe(2);
   });
