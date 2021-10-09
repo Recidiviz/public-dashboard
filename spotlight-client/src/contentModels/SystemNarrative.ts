@@ -16,6 +16,7 @@
 // =============================================================================
 
 import {
+  MetricTypeId,
   SystemNarrativeContent,
   SystemNarrativeTypeId,
 } from "../contentApi/types";
@@ -32,7 +33,7 @@ type ConstructorArgs = {
   id: SystemNarrativeTypeId;
   title: string;
   previewTitle?: string;
-  preview: string;
+  preview: MetricTypeId;
   introduction: string;
   sections: SystemNarrativeSection[];
 };
@@ -44,7 +45,7 @@ export default class SystemNarrative {
 
   readonly previewTitle?: string;
 
-  readonly preview: string;
+  readonly preview: MetricTypeId;
 
   readonly introduction: string;
 
