@@ -72,13 +72,11 @@ const LegendWrapper = styled.div`
 type BubbleChartProps = {
   data: CategoricalChartRecord[];
   height: number;
-  preview?: boolean;
 };
 
 export default function BubbleChart({
   data,
   height,
-  preview,
 }: BubbleChartProps): React.ReactElement {
   const { highlighted, setHighlighted } = useHighlightedItem();
 

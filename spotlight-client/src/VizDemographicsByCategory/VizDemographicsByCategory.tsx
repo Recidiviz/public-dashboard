@@ -82,7 +82,6 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
                     <BubbleChart
                       height={bubbleChartHeight}
                       data={item.dataSeries[0].records}
-                      preview={preview}
                     />
                   ) : (
                     item.dataSeries.map(
