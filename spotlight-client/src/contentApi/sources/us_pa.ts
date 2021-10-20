@@ -678,6 +678,7 @@ const content: TenantContent = {
         { id: "CO", label: "Central Office" },
         { id: "10", label: "Chester" },
         { id: "06", label: "Erie" },
+        { id: "FAST", label: "Fugitive Apprehension Search Teams" },
         { id: "03", label: "Harrisburg" },
         { id: "08", label: "Mercer" },
         { id: "01", label: "Philadelphia" },
