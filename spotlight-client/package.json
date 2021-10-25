@@ -1,7 +1,7 @@
 {
   "name": "spotlight-client",
   "description": "A public-facing dashboard to help educate citizens and build accountability",
-  "version": "2.2.8",
+  "version": "2.3.0",
   "private": true,
   "repository": "git@github.com:Recidiviz/public-dashboard.git",
   "author": "Recidiviz <team@recidiviz.org>",
