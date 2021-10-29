@@ -20,7 +20,6 @@ import { DemographicCategoryFilter } from "../contentApi/types";
 import { DemographicFields, isDemographicFieldKey } from "../metricsApi";
 import {
   AgeValue,
-  AgeValueList,
   DemographicView,
   DemographicViewList,
   GenderValue,
@@ -94,10 +93,6 @@ const ageBucketCategories: AgeCategory[] = [
   { identifier: "50-59", label: "50-59" },
   { identifier: "60-69", label: "60-69" },
   { identifier: "70<", label: "70+" },
-  // TODO(#479): eliminate legacy categories below this line
-  { identifier: "30-34", label: "30-34" },
-  { identifier: "35-39", label: "35-39" },
-  { identifier: "40<", label: "40+" },
 ];
 
 export type DemographicCategories = {
@@ -109,8 +104,6 @@ export type DemographicCategories = {
 export function createDemographicCategories(
   demographicFilter?: DemographicCategoryFilter
 ): DemographicCategories {
-  // TODO(#479): eliminate override once legacy categories are deleted
-  const ageFilter = demographicFilter?.ageBucket || [...AgeValueList];
   return {
     total: totalCategories,
     // only applying filters if the keys are actually present
@@ -123,7 +116,8 @@ export function createDemographicCategories(
         demographicFilter?.gender?.includes(identifier) ?? true
     ),
     ageBucket: ageBucketCategories.filter(
-      ({ identifier }) => ageFilter.includes(identifier) ?? true
+      ({ identifier }) =>
+        demographicFilter?.ageBucket?.includes(identifier) ?? true
     ),
   };
 }

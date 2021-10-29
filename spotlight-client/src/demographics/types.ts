@@ -55,17 +55,7 @@ export const AgeValueList = [
   "60-69",
   "70<",
 ] as const;
-// TODO(#479): delete these once views are updated
-export const LegacyAgeValueList = [
-  "<25",
-  "25-29",
-  "30-34",
-  "35-39",
-  "40<",
-] as const;
-export type AgeValue =
-  | typeof AgeValueList[number]
-  | typeof LegacyAgeValueList[number];
+export type AgeValue = typeof AgeValueList[number];
 export type AgeIdentifier = TotalIdentifier | UnknownIdentifier | AgeValue;
 
 export const DemographicViewList = [
