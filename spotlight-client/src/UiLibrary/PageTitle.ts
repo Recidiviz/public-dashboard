@@ -17,6 +17,7 @@
 
 import { rem } from "polished";
 import styled from "styled-components/macro";
+import colors from "./colors";
 import breakpoints from "./breakpoints";
 import { typefaces } from "./typography";
 
@@ -29,5 +30,9 @@ export default styled.h1.attrs({ "data-testid": "PageTitle" })`
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     font-size: ${rem(52)};
+  }
+
+  a {
+    color: ${colors.accent};
   }
 `;
