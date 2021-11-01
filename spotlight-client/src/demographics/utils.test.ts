@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { DemographicFields } from "../metricsApi";
-import { DemographicView, LegacyAgeValueList } from "./types";
+import { DemographicView } from "./types";
 import {
   createDemographicCategories,
   dataIncludesBreakdowns,
@@ -120,20 +120,6 @@ describe("createDemographicCategories", () => {
       { identifier: "HISPANIC", label: "Hispanic" },
       { identifier: "WHITE", label: "White" },
       { identifier: "OTHER", label: "Other" },
-    ]);
-  });
-
-  test("customized age", () => {
-    const legacyCategories = createDemographicCategories({
-      ageBucket: [...LegacyAgeValueList],
-    });
-
-    expect(legacyCategories.ageBucket).toEqual([
-      { identifier: "<25", label: "<25" },
-      { identifier: "25-29", label: "25-29" },
-      { identifier: "30-34", label: "30-34" },
-      { identifier: "35-39", label: "35-39" },
-      { identifier: "40<", label: "40+" },
     ]);
   });
 });
