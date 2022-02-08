@@ -1,6 +1,36 @@
 # Spotlight Client
 
-This package is a React client application for the next-generation Spotlight public data publishing website (not yet launched). It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and is written in [TypeScript](https://www.typescriptlang.org/docs).
+This package is a React client application for the Spotlight public data publishing website. It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and is written in [TypeScript](https://www.typescriptlang.org/docs).
+
+## Application overview
+
+The Spotlight Client is a single-page web application built with React; most of what you will find in `src/` is React components, organized by feature. The application also contains configuration files, a Metrics API client, and data models, all of which are discussed further below.
+
+The site consumes views of aggregate population data produced by the Recidiviz data platform (referred to here as "Metrics") and organizes them into thematic pages known as "Narratives," each of which contains an ordered set of sections displaying data visualizations and explanatory copy; it is not a "dashboard," really, although that label may be seen sometimes for mostly historical reasons.
+
+While Spotlight is developed and deployed as a single multi-tenant website, it is primarily consumed as separate single-tenant experiences, under `.gov` subdomains owned by our state partners (e.g. [dashboard.docr.nd.gov](https://dashboard.docr.nd.gov)). To keep our infrastructure simple, this "tenant lock" is implemented in application logic within the data models, based on the URL hostname at runtime. This is why the multi-tenant "homepage" is so plain; it is really only used internally, for convenience, in development and staging environments.
+
+### Configuration and content
+
+At its core this application is driven by a set of configuration objects, which are JavaScript objects that determine which states (or "Tenants") are displayed; which Narratives and Metrics will appear for each Tenant and what copy will appear on each of those pages (all of which is collectively referred to here as "Content"); and various other settings that can be changed per Tenant.
+
+There is one configuration file per state, each containing a single configuration object. These files, along with supporting logic, are found in `src/contentApi/`; more information about how to use these files can be found in the [Content README](src/contentApi/README.md).
+
+### The Metrics API
+
+The API client, found in `src/metricsApi/`, is the counterpart to the `spotlight-api` package, which runs our server application. In addition to fetching the metric data, it transforms the raw response contents into strongly typed "Records". These are more generic than the raw responses; multiple metrics may be mapped to the same underlying Record type, which in turn allows our data models to be more generic and makes it easier to visualize different metrics the same way. There is not necessarily a 1:1 correspondence between Record type and chart form, but they are strongly correlated.
+
+**UI components should never be interacting directly with the Metrics API!** This responsibility is handled by the data models, which are in turn consumed by UI components.
+
+### Data models
+
+This application uses [MobX](https://mobx.js.org/README.html) for state management; if you are unfamiliar with this package you should definitely spend some time studying their documentation, as it is quite different from other popular React state management libraries such as React Contexts or Redux. The [TL;DR](https://mobx.js.org/the-gist-of-mobx.html) on it, though, is that it is an object-oriented and reactive framework that encourages developers to centralize application state, decoupling it from the UI entirely, and to treat the UI as a side effect derived from that state. This stands in contrast to other libraries that favor a more functional style and map more closely to React's own internal rendering and state management features.
+
+To that end, state is owned by a group of MobX [data stores](https://mobx.js.org/defining-data-stores.html), found in `src/DataStore`. The `TenantStore` is the one mainly concerned with the content and metrics described above; it owns a set of domain objects, which are Mobx observable classes defined in `src/contentModels` that consume both the configuration objects and responses from `spotlight-api`.
+
+Each Record type defined by the API client has a corresponding Metric class; these classes use the API client to fetch data and own their own filtering and transformation logic. Filters are applied per metric (which, in practice, means per section on a given Narrative page). They are all extensions of the abstract `Metric` class, so start there if you want to understand their inner workings more deeply (e.g. to develop a new Metric type).
+
+We strive to do as much work as possible in these models and as little as possible in the UI components; generally speaking, the UI components connect the filters to their corresponding UI controls, and own the knowledge about how to translate from our relatively generic and descriptive record formats to the APIs of our visualization components (which wrap an external chart library). As much as possible, anything else that isn't purely display logic should be lifted up into the models and data stores.
 
 ## Development
 
@@ -110,7 +140,3 @@ You can also run either TS or ESLint individually; while there are not predefine
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
 This package was bootstrapped with Create React App, which provides the option to `eject` its build tooling and configuration, allowing for full customization. See [the Create React App docs](https://create-react-app.dev/docs/available-scripts#npm-run-eject) for more information.
-
-## Adding new Tenants
-
-In addition to data being available from `spotlight-api`, adding a new tenant to the site also requires content for that tenant to be added to the Content API (which is included in the JS bundle, not served by the backend). See the [Content README](src/contentApi/README.md) for more information.
