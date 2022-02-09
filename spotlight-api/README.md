@@ -10,7 +10,7 @@ The Spotlight API is a thin backend that exposes metric data from the Recidiviz 
 
 This application consumes exported metric views from the Recidiviz data platform, which are just flat files retrieved from Google Cloud Storage. It passes these files through virtually untouched and generally strives to know as little about their contents as possible; all transformation logic — beyond translating them from JSON-Lines to proper JSON — is owned downstream by the frontend.
 
-Metric files are fetched from a designated bucket, specified per environment as discussed below. This allows us to maintain separate staging and production files. To enable a new Spotlight metric, a new metric view be created in the main Recidiviz platform application and exported to these buckets, and then that metric file must be registered in this application by adding it to the list maintained in `core/metricsApi`. This application should never serve an unregistered file to a client, even if it exists in the storage bucket.
+Metric files are fetched from a designated bucket, specified per environment as discussed below. This allows us to maintain separate staging and production files. To enable a new Spotlight metric, a new metric view must be created in the main Recidiviz platform application and exported to these buckets, and then that metric file must be registered in this application by adding it to the list maintained in `core/metricsApi`. This application should never serve an unregistered file to a client, even if it exists in the storage bucket.
 
 ### Caching
 
