@@ -24,7 +24,7 @@ import XYFrame from "semiotic/lib/XYFrame";
 import styled from "styled-components/macro";
 import { animation, colors } from "../UiLibrary";
 import { formatAsNumber } from "../utils";
-import BaseChartWrapper from "./ChartWrapper";
+import { ChartWrapper as BaseChartWrapper } from "@recidiviz/design-system";
 import { highlightFade, useHighlightedItem } from "./utils";
 import ColorLegend from "./ColorLegend";
 import XHoverController from "./XHoverController";
@@ -46,6 +46,10 @@ const LegendWrapper = styled.div`
 
 const ChartWrapper = styled(BaseChartWrapper)`
   .frame {
+    .xyframe-matte {
+      fill: ${colors.background};
+    }
+
     .visualization-layer {
       shape-rendering: geometricPrecision;
 

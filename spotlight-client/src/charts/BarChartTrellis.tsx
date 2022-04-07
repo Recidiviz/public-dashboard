@@ -81,6 +81,7 @@ export function BarChartTrellis({
   return (
     <MeasureWidth>
       {({ measureRef, width }) => (
+        //note for PR
         <ChartWrapper ref={measureRef}>
           {width === 0
             ? null

@@ -19,7 +19,7 @@ import React, { useEffect, useState } from "react";
 import { XYFrameProps } from "semiotic/lib/types/xyTypes";
 import XYFrame from "semiotic/lib/XYFrame";
 import styled from "styled-components/macro";
-import ChartWrapperBase from "./ChartWrapper";
+import { ChartWrapper as BaseChartWrapper } from "@recidiviz/design-system";
 import ColorLegend from "./ColorLegend";
 import { formatAsNumber, formatAsPct } from "../utils";
 import XHoverController from "./XHoverController";
@@ -86,7 +86,7 @@ const MARGIN = { bottom: 65, left: 56, right: 16, top: 48 };
 export const CHART_HEIGHT = 475;
 export const MIN_LEGEND_HEIGHT = 16;
 
-const ChartWrapper = styled(ChartWrapperBase)`
+const ChartWrapper = styled(BaseChartWrapper)`
   .frame {
     .visualization-layer {
       shape-rendering: geometricPrecision;
