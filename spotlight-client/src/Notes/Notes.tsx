@@ -25,7 +25,7 @@ const Wrapper = styled.ol`
   font-size: ${rem(13)};
   font-weight: 500;
   line-height: 1.7;
-  list-style: decimal outside;
+  list-style: none;
   margin-top: ${rem(40)};
   padding-left: 1em;
 `;

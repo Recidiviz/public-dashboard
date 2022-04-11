@@ -1919,6 +1919,13 @@
   resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.11.tgz#2521cc86f69d15c5b90664e4829d84566052c1cf"
   integrity sha512-2koNhpWm3DgWRp5tpkiJ8JGc1xTn2q0l+jUNUE7oMKXUf5NpI9AIdC4kbjGNFBdHtcxBD18LAksoudAVhFKCjw==
 
+"@types/classnames@^2.2.9":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.3.1.tgz#3c2467aa0f1a93f1f021e3b9bcf938bd5dfdc0dd"
+  integrity sha512-zeOWb0JGBoVmlQoznvqXbE0tEC/HONsnoUNH19Hc96NFsTAwTXbTqb8FMYkru1F/iqp7a18Ws3nWJvtA1sHD1A==
+  dependencies:
+    classnames "*"
+
 "@types/d3-array@^2.9.0":
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/@types/d3-array/-/d3-array-2.9.0.tgz#fb6c3d7d7640259e68771cd90cc5db5ac1a1a012"
@@ -2392,6 +2399,16 @@
   dependencies:
     "@typescript-eslint/types" "4.21.0"
     eslint-visitor-keys "^2.0.0"
+
+"@vx/pattern@^0.0.199":
+  version "0.0.199"
+  resolved "https://registry.yarnpkg.com/@vx/pattern/-/pattern-0.0.199.tgz#7fdab172a64d3567cce1507fc58244fc47206128"
+  integrity sha512-BvEb3Gzika70gtB622a3t/ApNS8EBVL3kdhNOXzXHKZOTphYZnogbs5B3ImEAmPi22woUIOq0w88Xw2YTxd9rA==
+  dependencies:
+    "@types/classnames" "^2.2.9"
+    "@types/react" "*"
+    classnames "^2.2.5"
+    prop-types "^15.5.10"
 
 "@w11r/use-breakpoint@^1.8.0":
   version "1.8.0"
@@ -3800,7 +3817,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.5:
+classnames@*, classnames@^2.2.5:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
   integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==

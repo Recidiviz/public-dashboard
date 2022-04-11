@@ -28,6 +28,8 @@ export const NAV_BAR_HEIGHT = 80;
 
 export const FOOTER_HEIGHT = 248;
 
+export const STATISTIC_THRESHOLD = 100;
+
 export const REVOCATION_TYPE_LABELS = {
   ABSCOND: "Absconsion",
   NEW_CRIME: "New offense",

@@ -25,7 +25,9 @@ import { animation, colors, zIndex } from "../UiLibrary";
 import ColorLegend from "./ColorLegend";
 import ResponsiveTooltipController from "./ResponsiveTooltipController";
 import { CategoricalChartRecord, ItemToHighlight } from "./types";
-import { useHighlightedItem, highlightFade } from "./utils";
+import { useHighlightedItem, highlightFade, generateHatchFill } from "./utils";
+import { STATISTIC_THRESHOLD } from "../constants";
+import { useCreateHatchDefs } from "./useCreateHatchDefs";
 
 const ProportionalBarContainer = styled.figure`
   width: 100%;
@@ -95,6 +97,8 @@ export default function ProportionalBar({
 
   const highlighted = localHighlighted || externalHighlighted;
 
+  const hatchDefs = useCreateHatchDefs(data, highlighted);
+
   return (
     <MeasureWidth>
       {({ measureRef, width }) => (
@@ -125,13 +129,21 @@ export default function ProportionalBar({
                     rAccessor="value"
                     renderKey="label"
                     size={[width, height]}
-                    style={(d: ValuesType<ProportionalBarProps["data"]>) => ({
-                      fill:
-                        highlighted && highlighted.label !== d.label
-                          ? highlightFade(d.color)
-                          : d.color,
-                    })}
+                    style={(d: ValuesType<ProportionalBarProps["data"]>) => {
+                      if (d.value < STATISTIC_THRESHOLD) {
+                        return {
+                          fill: generateHatchFill(d.label),
+                        };
+                      }
+                      return {
+                        fill:
+                          highlighted && highlighted.label !== d.label
+                            ? highlightFade(d.color)
+                            : d.color,
+                      };
+                    }}
                     type="bar"
+                    additionalDefs={hatchDefs}
                   />
                 </ResponsiveTooltipController>
               </ProportionalBarChartWrapper>

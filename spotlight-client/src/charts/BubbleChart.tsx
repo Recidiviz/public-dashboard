@@ -32,10 +32,12 @@ import styled from "styled-components/macro";
 import ColorLegend from "./ColorLegend";
 import ResponsiveTooltipController from "./ResponsiveTooltipController";
 import { formatAsPct } from "../utils";
-import { useHighlightedItem, highlightFade } from "./utils";
+import { useHighlightedItem, highlightFade, generateHatchFill } from "./utils";
 import { CategoricalChartRecord } from "./types";
 import { animation, colors, typefaces } from "../UiLibrary";
 import MeasureWidth from "../MeasureWidth";
+import { useCreateHatchDefs } from "./useCreateHatchDefs";
+import { STATISTIC_THRESHOLD } from "../constants";
 
 const margin = { top: 0, left: 0, right: 0, bottom: 40 };
 
@@ -66,6 +68,7 @@ const BUBBLE_VALUE_Y_OFFSET = 8;
 
 const LegendWrapper = styled.div`
   bottom: 0;
+  right: 0;
   position: absolute;
 `;
 
@@ -79,6 +82,7 @@ export default function BubbleChart({
   height,
 }: BubbleChartProps): React.ReactElement {
   const { highlighted, setHighlighted } = useHighlightedItem();
+  const hatchDefs = useCreateHatchDefs(data, highlighted);
 
   return (
     <MeasureWidth>
@@ -121,15 +125,23 @@ export default function BubbleChart({
                       )
                     }
                     nodeSizeAccessor={getRadius}
-                    nodeStyle={(d) => ({
-                      fill:
-                        highlighted && highlighted.label !== d.label
-                          ? highlightFade(d.color)
-                          : d.color,
-                    })}
+                    nodeStyle={(d) => {
+                      if (d.value < STATISTIC_THRESHOLD) {
+                        return {
+                          fill: generateHatchFill(d.label),
+                        };
+                      }
+                      return {
+                        fill:
+                          highlighted && highlighted.label !== d.label
+                            ? highlightFade(d.color)
+                            : d.color,
+                      };
+                    }}
                     nodes={data}
                     renderKey="label"
                     size={[width, height]}
+                    additionalDefs={hatchDefs}
                   />
                 </ResponsiveTooltipController>
                 <LegendWrapper>

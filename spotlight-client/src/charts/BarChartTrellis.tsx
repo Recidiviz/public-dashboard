@@ -23,10 +23,12 @@ import ResponsiveTooltipController, {
   ResponsiveTooltipControllerProps,
 } from "./ResponsiveTooltipController";
 import { formatAsPct } from "../utils";
-import { highlightFade } from "./utils";
+import { generateHatchFill, highlightFade } from "./utils";
 import { animation } from "../UiLibrary";
 import { CategoricalChartRecord, CommonDataPoint } from "./types";
 import MeasureWidth from "../MeasureWidth";
+import { useCreateHatchDefs } from "./useCreateHatchDefs";
+import { STATISTIC_THRESHOLD } from "../constants";
 
 export const singleChartHeight = 300;
 
@@ -77,6 +79,8 @@ export function BarChartTrellis({
     (d) => setHighlightedLabel(d ? d.column.name : undefined),
     [setHighlightedLabel]
   );
+
+  const hatchDefs = useCreateHatchDefs(data[0].records, highlightedLabel);
 
   return (
     <MeasureWidth>
@@ -139,15 +143,23 @@ export function BarChartTrellis({
                     rAccessor="pct"
                     rExtent={[0, 1]}
                     size={[width, singleChartHeight]}
-                    style={(d: CommonDataPoint) => ({
-                      fill:
-                        highlightedLabel && highlightedLabel !== d.label
-                          ? highlightFade(d.color)
-                          : d.color,
-                    })}
+                    style={(d: CommonDataPoint) => {
+                      if (d.value < STATISTIC_THRESHOLD) {
+                        return {
+                          fill: generateHatchFill(d.label),
+                        };
+                      }
+                      return {
+                        fill:
+                          highlightedLabel && highlightedLabel !== d.label
+                            ? highlightFade(d.color)
+                            : d.color,
+                      };
+                    }}
                     // Semiotic centers titles by default; this x offset will align left
                     title={<ChartTitle x={0 - width / 2}>{label}</ChartTitle>}
                     type="bar"
+                    additionalDefs={hatchDefs}
                   />
                 </ResponsiveTooltipController>
               ))}

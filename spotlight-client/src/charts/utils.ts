@@ -23,6 +23,11 @@ import { isItemToHighlight, ItemToHighlight } from "./types";
 
 const FADE_AMOUNT = 0.45;
 
+export function generateHatchFill(id: string): string {
+  const cleanId = id.replace(/[^\w\d]/g, "");
+  return `url(#${cleanId})`;
+}
+
 export function highlightFade(
   baseColor: string,
   { useOpacity = false } = {}
