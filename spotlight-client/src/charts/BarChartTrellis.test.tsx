@@ -27,8 +27,8 @@ const testData = [
   {
     label: "Group 1",
     records: [
-      { label: "Category A", color: "red", value: 30, pct: 0.3 },
-      { label: "Category B", color: "blue", value: 70, pct: 0.7 },
+      { label: "Category A", color: "red", value: 300, pct: 0.3 },
+      { label: "Category B", color: "blue", value: 700, pct: 0.7 },
     ],
   },
   {
@@ -54,7 +54,8 @@ test("renders charts", () => {
   ).toHaveStyle("fill: red");
   expect(
     screen.getByRole("img", { name: "Category A bar value 40%" })
-  ).toHaveStyle("fill: red");
+    // if value is less than certain threshold (e.g. n=100), then the bar is rendered as a hatch
+  ).toHaveStyle("fill: url(#CategoryA)");
   expect(
     screen.getByRole("img", { name: "Category B bar value 70%" })
   ).toHaveStyle("fill: blue");
