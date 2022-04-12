@@ -18,18 +18,15 @@
 import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
-import { colors, zIndex } from "../UiLibrary";
+import { Tooltip as TooltipComponent } from "@recidiviz/design-system";
+import { colors } from "../UiLibrary";
 import { formatAsPct, formatAsNumber } from "../utils";
 
-const TooltipWrapper = styled.div`
+const TooltipWrapper = styled(TooltipComponent)`
   background: ${colors.tooltipBackground};
-  border-radius: ${rem(4)};
   box-shadow: 0 ${rem(2)} ${rem(10)} rgba(0, 0, 0, 0.1);
-  color: ${colors.textLight};
-  font-size: ${rem(14)};
   padding: ${rem(16)};
   position: relative;
-  z-index: ${zIndex.tooltip};
 
   .TooltipMobile & {
     background: transparent;
