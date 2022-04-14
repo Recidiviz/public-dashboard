@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { ascending, groups, sum } from "d3-array";
-import { isSameDay, startOfMonth } from "date-fns";
+import { format, isSameDay, startOfMonth } from "date-fns";
 import { computed, makeObservable, observable, runInAction } from "mobx";
 import { DataSeries } from "../charts";
 import {
@@ -25,8 +25,10 @@ import {
   RaceIdentifier,
   GenderIdentifier,
   AgeIdentifier,
+  getDemographicViewLabel,
 } from "../demographics";
 import {
+  DemographicFieldKeyList,
   DemographicFields,
   HistoricalPopulationBreakdownRecord,
 } from "../metricsApi";
@@ -35,6 +37,7 @@ import { countUnknowns, hasUnknowns } from "./unknowns";
 import getMissingMonths from "./getMissingMonths";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 import { UnknownsByDate } from "./types";
+import { formatAsNumber } from "../utils";
 
 const EXPECTED_MONTHS = 240; // 20 years
 
@@ -195,5 +198,45 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
       .filter((item) => hasUnknowns(item.unknowns));
 
     return countsByDate.length ? countsByDate : undefined;
+  }
+
+  get readme(): string {
+    const unknowns = this.unknowns;
+    if (!unknowns) {
+      return this.methodology;
+    }
+
+    const formattedUnknowns = unknowns
+      .map((entry) => {
+        const parts: string[] = [];
+
+        DemographicFieldKeyList.forEach((key) => {
+          const value = entry.unknowns[key];
+          if (!value) return;
+
+          parts.push(
+            `${getDemographicViewLabel(key).toLowerCase()} (${formatAsNumber(
+              value
+            )})`
+          );
+        });
+        const formattedCounts = parts.join(", ");
+        let label: string;
+
+        label = format(entry.date, "MMM d y");
+
+        return `${formattedCounts} for ${label}`;
+      })
+      .join("; ");
+
+    return (
+      this.methodology +
+      `\n\nVISUALIZATION FOOTNOTES\n\n
+      This data includes some individuals for whom age, gender, or
+    race/ethnicity is not reported. These individuals count toward the total
+    but are excluded from demographic breakdown views. Unknown values
+    comprise: ` +
+      formattedUnknowns
+    );
   }
 }

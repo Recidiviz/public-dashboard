@@ -135,6 +135,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
       hydrate: action,
       isLoading: observable,
       records: computed,
+      readme: computed,
     });
 
     // initialize metadata
@@ -194,11 +195,15 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     return this.allRecords;
   }
 
+  get readme(): string {
+    return this.methodology;
+  }
+
   /**
    * Creates a zip file of all this metric's data in CSV format and
    * initiates a download of that file in the user's browser.
    */
-  async download(): Promise<void> {
+  download = async (): Promise<void> => {
     await when(() => this.allRecords !== undefined);
 
     // we don't really need a reaction here;
@@ -206,12 +211,12 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     return runInAction(() =>
       downloadData({
         archiveName: `${this.tenantId} ${this.id} data`,
-        readmeContents: this.methodology,
+        readmeContents: this.readme,
         // allRecords won't be undefined because we just awaited it
         dataFiles: [{ name: "data", data: this.allRecords as RecordFormat[] }],
       })
     );
-  }
+  };
 
   getDemographicCategories(
     view: Exclude<DemographicView, "nofilter">

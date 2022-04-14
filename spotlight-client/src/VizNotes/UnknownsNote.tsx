@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { Link } from "@reach/router";
 import { Button } from "@recidiviz/design-system";
 import { format } from "date-fns";
 import React, { useState } from "react";
@@ -101,16 +102,21 @@ function useFormattedUnknowns(unknowns: Unknowns) {
 }
 
 type UnknownsNoteProps = {
-  unknowns: Unknowns;
+  download: () => Promise<void>;
 };
 
-export const UnknownsNote = ({ unknowns }: UnknownsNoteProps): JSX.Element => {
+export const UnknownsNote = ({ download }: UnknownsNoteProps): JSX.Element => {
   return (
     <AutoHeightTransition>
       This data includes some individuals for whom age, gender, or
       race/ethnicity is not reported. These individuals count toward the total
-      but are excluded from demographic breakdown views. Unknown values
-      comprise: {useFormattedUnknowns(unknowns)}.
+      but are excluded from demographic breakdown views, counting towards a
+      maximum difference of X% between the total and the sum of broken down
+      figures. For more information,{" "}
+      <Link to="" onClick={download}>
+        download
+      </Link>{" "}
+      the data and view the README.txt.
     </AutoHeightTransition>
   );
 };

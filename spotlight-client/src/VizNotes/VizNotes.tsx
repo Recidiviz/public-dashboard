@@ -25,14 +25,19 @@ import { UnknownsNote } from "./UnknownsNote";
 type VizNotesProps = {
   smallData?: boolean;
   unknowns?: Unknowns;
+  download?: () => Promise<void>;
 };
 
-const VizNotes: React.FC<VizNotesProps> = ({ smallData, unknowns }) => {
+const VizNotes: React.FC<VizNotesProps> = ({
+  smallData,
+  unknowns,
+  download,
+}) => {
   const { tenant } = useDataStore();
   return (
     <Notes>
       {smallData && <>{tenant?.smallDataDisclaimer}</>}
-      {unknowns && <UnknownsNote unknowns={unknowns} />}
+      {unknowns && download && <UnknownsNote download={download} />}
     </Notes>
   );
 };
