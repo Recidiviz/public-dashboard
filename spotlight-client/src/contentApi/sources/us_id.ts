@@ -19,7 +19,7 @@ import { TenantContent } from "../types";
 import { ageGroup, gender, raceOrEthnicity } from "./methodologyBoilerplate";
 
 // localities for both sentencing and probation
-const judicialDistricts: {id: string, label: string }[] = [];
+const judicialDistricts: { id: string; label: string }[] = [];
 
 const demographicsBoilerplate = `<p>${ageGroup} ${gender} ${raceOrEthnicity}</p>`;
 
@@ -66,8 +66,7 @@ in a Idaho court may occasionally complete their supervision in a different stat
 
 const content: TenantContent = {
   name: "Idaho",
-  description:
-    "Placeholder for IDOC Mission",
+  description: "Placeholder for IDOC Mission",
   coBrandingCopy:
     'Produced in collaboration with <a href="https://www.idoc.idaho.gov">the Idaho Department of Correction</a>.',
   feedbackUrl:
@@ -388,7 +387,7 @@ const content: TenantContent = {
     },
     Parole: {
       title: "Parole",
-      previewTitle: 'Who is on parole?',
+      previewTitle: "Who is on parole?",
       introduction:
         "Parole is a period of supervised release after prison. Releases from prison to parole are granted by the parole board. People on parole must regularly check in with their parole officer, who ensures that they are following all the requirements of the release. If these expectations are violated, the person’s parole may be revoked.",
       preview: "ParolePopulationCurrent",
@@ -430,41 +429,98 @@ const content: TenantContent = {
       label: "Facility",
       entries: [
         { id: "ABSENT WITHOUT LEAVE", label: "ABSENT WITHOUT LEAVE" },
-        { id: "ADA COUNTY SHERIFF DEPARTMENT", label: "ADA COUNTY SHERIFF DEPARTMENT" },
-        { id: "ADAMS COUNTY SHERIFF DEPARTMENT", label: "ADAMS COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "ADA COUNTY SHERIFF DEPARTMENT",
+          label: "ADA COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "ADAMS COUNTY SHERIFF DEPARTMENT",
+          label: "ADAMS COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "ALL", label: "ALL" },
         { id: "ARIZONA", label: "ARIZONA" },
-        { id: "BANNOCK COUNTY SHERIFF DEPARTMENT", label: "BANNOCK COUNTY SHERIFF DEPARTMENT" },
-        { id: "BENEWAH COUNTY SHERIFF DEPARTMENT", label: "BENEWAH COUNTY SHERIFF DEPARTMENT" },
-        { id: "BINGHAM COUNTY SHERIFF DEPARTMENT", label: "BINGHAM COUNTY SHERIFF DEPARTMENT" },
-        { id: "BLAINE COUNTY SHERIFF DEPARTMENT", label: "BLAINE COUNTY SHERIFF DEPARTMENT" },
-        { id: "BONNER COUNTY SHERIFF DEPARTMENT", label: "BONNER COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "BANNOCK COUNTY SHERIFF DEPARTMENT",
+          label: "BANNOCK COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "BENEWAH COUNTY SHERIFF DEPARTMENT",
+          label: "BENEWAH COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "BINGHAM COUNTY SHERIFF DEPARTMENT",
+          label: "BINGHAM COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "BLAINE COUNTY SHERIFF DEPARTMENT",
+          label: "BLAINE COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "BONNER COUNTY SHERIFF DEPARTMENT",
+          label: "BONNER COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "BONNEVILLE", label: "BONNEVILLE" },
-        { id: "BUTTE COUNTY SHERIFF DEPARTMENT", label: "BUTTE COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "BUTTE COUNTY SHERIFF DEPARTMENT",
+          label: "BUTTE COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "CALIFORNIA", label: "CALIFORNIA" },
-        { id: "CANYON COUNTY SHERIFF DEPARTMENT", label: "CANYON COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "CANYON COUNTY SHERIFF DEPARTMENT",
+          label: "CANYON COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "CAPP", label: "CAPP" },
-        { id: "CARIBOU COUNTY SHERIFF DEPARTMENT", label: "CARIBOU COUNTY SHERIFF DEPARTMENT" },
-        { id: "CASSIA COUNTY SHERIFF DEPARTMENT", label: "CASSIA COUNTY SHERIFF DEPARTMENT" },
-        { id: "CLEARWATER COUNTY SHERIFF DEPARTMENT", label: "CLEARWATER COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "CARIBOU COUNTY SHERIFF DEPARTMENT",
+          label: "CARIBOU COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "CASSIA COUNTY SHERIFF DEPARTMENT",
+          label: "CASSIA COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "CLEARWATER COUNTY SHERIFF DEPARTMENT",
+          label: "CLEARWATER COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "COLORADO", label: "COLORADO" },
         { id: "COUNTY JAIL", label: "COUNTY JAIL" },
-        { id: "COURT ORDERED RELEASE / BOND APPEAL", label: "COURT ORDERED RELEASE / BOND APPEAL" },
+        {
+          id: "COURT ORDERED RELEASE / BOND APPEAL",
+          label: "COURT ORDERED RELEASE / BOND APPEAL",
+        },
         { id: "CRC EAST BOISE", label: "CRC EAST BOISE" },
         { id: "CRC IDAHO FALLS", label: "CRC IDAHO FALLS" },
         { id: "CRC NAMPA", label: "CRC NAMPA" },
         { id: "CRC TREASURE VALLEY", label: "CRC TREASURE VALLEY" },
-        { id: "CUSTER COUNTY SHERIFF DEPARTMENT", label: "CUSTER COUNTY SHERIFF DEPARTMENT" },
-        { id: "ELMORE COUNTY SHERIFF DEPARTMENT", label: "ELMORE COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "CUSTER COUNTY SHERIFF DEPARTMENT",
+          label: "CUSTER COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "ELMORE COUNTY SHERIFF DEPARTMENT",
+          label: "ELMORE COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "FEDERAL BUREAU OF PRISONS", label: "FEDERAL BUREAU OF PRISONS" },
         { id: "FEDERAL CUSTODY", label: "FEDERAL CUSTODY" },
         { id: "FEDERAL DETAINER", label: "FEDERAL DETAINER" },
         { id: "FLORIDA", label: "FLORIDA" },
-        { id: "FRANKLIN COUNTY SHERIFF DEPARTMENT", label: "FRANKLIN COUNTY SHERIFF DEPARTMENT" },
-        { id: "FREMONT COUNTY SHERIFF DEPARTMENT", label: "FREMONT COUNTY SHERIFF DEPARTMENT" },
-        { id: "GEM COUNTY SHERIFF DEPARTMENT", label: "GEM COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "FRANKLIN COUNTY SHERIFF DEPARTMENT",
+          label: "FRANKLIN COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "FREMONT COUNTY SHERIFF DEPARTMENT",
+          label: "FREMONT COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "GEM COUNTY SHERIFF DEPARTMENT",
+          label: "GEM COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "GEORGIA", label: "GEORGIA" },
-        { id: "GOODING COUNTY SHERIFF DEPARTMENT", label: "GOODING COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "GOODING COUNTY SHERIFF DEPARTMENT",
+          label: "GOODING COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "HAWAII", label: "HAWAII" },
         { id: "ICIO", label: "ICIO" },
         { id: "ILLINOIS", label: "ILLINOIS" },
@@ -472,48 +528,99 @@ const content: TenantContent = {
         { id: "ISCC", label: "ISCC" },
         { id: "ISCI", label: "ISCI" },
         { id: "JEFFERSON", label: "JEFFERSON" },
-        { id: "JEROME COUNTY SHERIFF DEPARTMENT", label: "JEROME COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "JEROME COUNTY SHERIFF DEPARTMENT",
+          label: "JEROME COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "JUDICIAL DISTRICT", label: "JUDICIAL DISTRICT" },
         { id: "KANSAS", label: "KANSAS" },
         { id: "KENTUCKY", label: "KENTUCKY" },
-        { id: "KOOTENAI COUNTY SHERIFF DEPARTMENT", label: "KOOTENAI COUNTY SHERIFF DEPARTMENT" },
-        { id: "LATAH COUNTY SHERIFF DEPARTMENT", label: "LATAH COUNTY SHERIFF DEPARTMENT" },
-        { id: "LEMHI COUNTY SHERIFF DEPARTMENT", label: "LEMHI COUNTY SHERIFF DEPARTMENT" },
-        { id: "MADISON COUNTY SHERIFF DEPARTMENT", label: "MADISON COUNTY SHERIFF DEPARTMENT" },
-        { id: "MINIDOKA COUNTY SHERIFF DEPARTMENT", label: "MINIDOKA COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "KOOTENAI COUNTY SHERIFF DEPARTMENT",
+          label: "KOOTENAI COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "LATAH COUNTY SHERIFF DEPARTMENT",
+          label: "LATAH COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "LEMHI COUNTY SHERIFF DEPARTMENT",
+          label: "LEMHI COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "MADISON COUNTY SHERIFF DEPARTMENT",
+          label: "MADISON COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "MINIDOKA COUNTY SHERIFF DEPARTMENT",
+          label: "MINIDOKA COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "MINNESOTA", label: "MINNESOTA" },
         { id: "MONTANA", label: "MONTANA" },
         { id: "NEVADA", label: "NEVADA" },
         { id: "NEW HAMPSHIRE", label: "NEW HAMPSHIRE" },
-        { id: "NEZ PERCE COUNTY SHERIFF DEPARTMENT", label: "NEZ PERCE COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "NEZ PERCE COUNTY SHERIFF DEPARTMENT",
+          label: "NEZ PERCE COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "NICI", label: "NICI" },
         { id: "OHIO", label: "OHIO" },
         { id: "OREGON", label: "OREGON" },
         { id: "OUT ON OWN RECOGNANCE", label: "OUT ON OWN RECOGNANCE" },
-        { id: "OWYHEE COUNTY SHERIFF DEPARTMENT", label: "OWYHEE COUNTY SHERIFF DEPARTMENT" },
-        { id: "PAYETTE COUNTY SHERIFF DEPARTMENT", label: "PAYETTE COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "OWYHEE COUNTY SHERIFF DEPARTMENT",
+          label: "OWYHEE COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "PAYETTE COUNTY SHERIFF DEPARTMENT",
+          label: "PAYETTE COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "PENNSYLVANIA", label: "PENNSYLVANIA" },
-        { id: "POWER COUNTY SHERIFF DEPARTMENT", label: "POWER COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "POWER COUNTY SHERIFF DEPARTMENT",
+          label: "POWER COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "PWCC", label: "PWCC" },
         { id: "RECORDS BUREAU TRACKING", label: "RECORDS BUREAU TRACKING" },
-        { id: "SAGUARO CORRECTIONAL CENTER, ARIZONA", label: "SAGUARO CORRECTIONAL CENTER, ARIZONA" },
+        {
+          id: "SAGUARO CORRECTIONAL CENTER, ARIZONA",
+          label: "SAGUARO CORRECTIONAL CENTER, ARIZONA",
+        },
         { id: "SAWC", label: "SAWC" },
         { id: "SBWCC", label: "SBWCC" },
         { id: "SECURITY PLACEMENT", label: "SECURITY PLACEMENT" },
-        { id: "SHOSHONE COUNTY SHERIFF DEPARTMENT", label: "SHOSHONE COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "SHOSHONE COUNTY SHERIFF DEPARTMENT",
+          label: "SHOSHONE COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "SICI", label: "SICI" },
         { id: "TENNESSEE", label: "TENNESSEE" },
         { id: "TEXAS", label: "TEXAS" },
-        { id: "TWIN FALLS COMMUNITY WORK CENTER, TWIN FALLS", label: "TWIN FALLS COMMUNITY WORK CENTER, TWIN FALLS" },
-        { id: "TWIN FALLS COUNTY SHERIFF DEPARTMENT", label: "TWIN FALLS COUNTY SHERIFF DEPARTMENT" },
-        { id: "U.S. IMMIGRATION NATURALIZATION DETAINER", label: "U.S. IMMIGRATION NATURALIZATION DETAINER" },
+        {
+          id: "TWIN FALLS COMMUNITY WORK CENTER, TWIN FALLS",
+          label: "TWIN FALLS COMMUNITY WORK CENTER, TWIN FALLS",
+        },
+        {
+          id: "TWIN FALLS COUNTY SHERIFF DEPARTMENT",
+          label: "TWIN FALLS COUNTY SHERIFF DEPARTMENT",
+        },
+        {
+          id: "U.S. IMMIGRATION NATURALIZATION DETAINER",
+          label: "U.S. IMMIGRATION NATURALIZATION DETAINER",
+        },
         { id: "U.S. MARSHAL DETAINER", label: "U.S. MARSHAL DETAINER" },
         { id: "U.S. MARSHALL CUSTODY", label: "U.S. MARSHALL CUSTODY" },
         { id: "UTAH", label: "UTAH" },
-        { id: "VALLEY COUNTY SHERIFF DEPARTMENT", label: "VALLEY COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "VALLEY COUNTY SHERIFF DEPARTMENT",
+          label: "VALLEY COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "VIRGINIA", label: "VIRGINIA" },
         { id: "WASHINGTON", label: "WASHINGTON" },
-        { id: "WASHINGTON COUNTY SHERIFF DEPARTMENT", label: "WASHINGTON COUNTY SHERIFF DEPARTMENT" },
+        {
+          id: "WASHINGTON COUNTY SHERIFF DEPARTMENT",
+          label: "WASHINGTON COUNTY SHERIFF DEPARTMENT",
+        },
         { id: "WYOMING", label: "WYOMING" },
       ],
     },
@@ -526,13 +633,31 @@ const content: TenantContent = {
       entries: [
         { id: "ALL", label: "ALL" },
         { id: "DISTRICT 0", label: "DISTRICT 0" },
-        { id: "DISTRICT OFFICE 1, COEUR D'ALENE", label: "DISTRICT OFFICE 1, COEUR D'ALENE" },
-        { id: "DISTRICT OFFICE 2, LEWISTON", label: "DISTRICT OFFICE 2, LEWISTON" },
-        { id: "DISTRICT OFFICE 3, CALDWELL", label: "DISTRICT OFFICE 3, CALDWELL" },
+        {
+          id: "DISTRICT OFFICE 1, COEUR D'ALENE",
+          label: "DISTRICT OFFICE 1, COEUR D'ALENE",
+        },
+        {
+          id: "DISTRICT OFFICE 2, LEWISTON",
+          label: "DISTRICT OFFICE 2, LEWISTON",
+        },
+        {
+          id: "DISTRICT OFFICE 3, CALDWELL",
+          label: "DISTRICT OFFICE 3, CALDWELL",
+        },
         { id: "DISTRICT OFFICE 4, BOISE", label: "DISTRICT OFFICE 4, BOISE" },
-        { id: "DISTRICT OFFICE 5, TWIN FALLS", label: "DISTRICT OFFICE 5, TWIN FALLS" },
-        { id: "DISTRICT OFFICE 6, POCATELLO", label: "DISTRICT OFFICE 6, POCATELLO" },
-        { id: "DISTRICT OFFICE 7, IDAHO FALLS", label: "DISTRICT OFFICE 7, IDAHO FALLS" },
+        {
+          id: "DISTRICT OFFICE 5, TWIN FALLS",
+          label: "DISTRICT OFFICE 5, TWIN FALLS",
+        },
+        {
+          id: "DISTRICT OFFICE 6, POCATELLO",
+          label: "DISTRICT OFFICE 6, POCATELLO",
+        },
+        {
+          id: "DISTRICT OFFICE 7, IDAHO FALLS",
+          label: "DISTRICT OFFICE 7, IDAHO FALLS",
+        },
       ],
     },
   },

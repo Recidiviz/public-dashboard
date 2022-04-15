@@ -21,7 +21,6 @@ import US_ND from "./sources/us_nd";
 import US_PA from "./sources/us_pa";
 import US_TN from "./sources/us_tn";
 
-
 test("returns content for the specified tenant", () => {
   expect(retrieveContent({ tenantId: "US_ID" })).toEqual(US_ID);
   expect(retrieveContent({ tenantId: "US_ND" })).toEqual(US_ND);

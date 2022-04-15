@@ -19,7 +19,7 @@ import { TenantContent } from "../types";
 import { ageGroup, gender, raceOrEthnicity } from "./methodologyBoilerplate";
 
 // localities for both sentencing and probation
-const judicialDistricts: {id: string, label: string }[] = [];
+const judicialDistricts: { id: string; label: string }[] = [];
 
 const demographicsBoilerplate = `<p>${ageGroup} ${gender} ${raceOrEthnicity}</p>`;
 
@@ -66,8 +66,7 @@ in a Tennessee court may occasionally complete their supervision in a different 
 
 const content: TenantContent = {
   name: "Tennessee",
-  description:
-    "Placeholder for TDOC Mission",
+  description: "Placeholder for TDOC Mission",
   coBrandingCopy:
     'Produced in collaboration with <a href="https://www.TDOC.Tennessee.gov">the Tennessee Department of Correction</a>.',
   feedbackUrl:
@@ -388,7 +387,7 @@ const content: TenantContent = {
     },
     Parole: {
       title: "Parole",
-      previewTitle: 'Who is on parole?',
+      previewTitle: "Who is on parole?",
       introduction:
         "Parole is a period of supervised release after prison. Releases from prison to parole are granted by the parole board. People on parole must regularly check in with their parole officer, who ensures that they are following all the requirements of the release. If these expectations are violated, the person’s parole may be revoked.",
       preview: "ParolePopulationCurrent",
