@@ -15,46 +15,46 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import React, { useState, useEffect } from "react";
+import React, { useCallback } from "react";
 import { PatternLines } from "@vx/pattern";
-import { CategoricalChartRecord, ItemToHighlight } from "./types";
+import { CommonDataPoint } from "./types";
 import { highlightFade } from "./utils";
-import { STATISTIC_THRESHOLD } from "../constants";
 
-export function useCreateHatchDefs(
-  data: CategoricalChartRecord[],
-  highlighted: ItemToHighlight | undefined,
-  type?: "rate"
-): React.ReactNode[] {
-  const [hatchDefs, setHatchDefs] = useState<React.ReactNode[]>([]);
+export function useCreateHatchDefs(): {
+  getHatchDefs: (data: CommonDataPoint[], hlabel?: string) => React.ReactNode;
+  generateHatchFill: (label: string, highlightedLabel?: string) => string;
+} {
+  const getHatchDefs = useCallback((data) => {
+    return data.flatMap((d: CommonDataPoint) => [
+      <PatternLines
+        id={d.label.replace(/[^\w\d]/g, "")}
+        height={5}
+        width={5}
+        background={d.color}
+        stroke="white"
+        strokeWidth={0.5}
+        orientation={["diagonal"]}
+      />,
+      <PatternLines
+        id={`${d.label.replace(/[^\w\d]/g, "")}_highlighted`}
+        height={5}
+        width={5}
+        background={highlightFade(d.color)}
+        stroke="white"
+        strokeWidth={0.5}
+        orientation={["diagonal"]}
+      />,
+    ]);
+  }, []);
 
-  useEffect(() => {
-    const defs = data.reduce(
-      (acc: React.ReactNode[], d: CategoricalChartRecord) => {
-        if (d.value < STATISTIC_THRESHOLD) {
-          acc.push(
-            <PatternLines
-              id={d.label.replace(/[^\w\d]/g, "")}
-              height={5}
-              width={5}
-              background={
-                highlighted && highlighted.label !== d.label
-                  ? highlightFade(d.color)
-                  : d.color
-              }
-              stroke="white"
-              strokeWidth={0.5}
-              orientation={["diagonal"]}
-            />
-          );
-        }
-        return acc;
-      },
-      []
-    );
+  const generateHatchFill = useCallback((label, highlightedLabel) => {
+    const id =
+      highlightedLabel && highlightedLabel !== label
+        ? `${label.replace(/[^\w\d]/g, "")}_highlighted`
+        : label.replace(/[^\w\d]/g, "");
 
-    setHatchDefs(defs);
-  }, [data, highlighted, type]);
+    return `url(#${id})`;
+  }, []);
 
-  return hatchDefs;
+  return { getHatchDefs, generateHatchFill };
 }

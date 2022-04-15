@@ -29,6 +29,7 @@ import MeasureWidth from "../MeasureWidth";
 import { DataSeries, ItemToHighlight, TooltipContentFunction } from "./types";
 import { RateFields } from "../metricsApi";
 import { TooltipContentProps } from "../Tooltip";
+import { STATISTIC_THRESHOLD } from "../constants";
 
 type ChartData = DataSeries<RateFields & { [key: string]: number }>[];
 
@@ -215,6 +216,11 @@ export default function RateTrend({
                               highlightFade(d?.color, { useOpacity: true })
                             : d?.color,
                         strokeWidth: 2,
+                        strokeDasharray:
+                          d?.coordinates[0].rateDenominator <
+                          STATISTIC_THRESHOLD
+                            ? "5,7"
+                            : 0,
                       };
                     }}
                     lines={data}

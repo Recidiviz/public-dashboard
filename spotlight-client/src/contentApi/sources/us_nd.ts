@@ -97,10 +97,9 @@ const content: TenantContent = {
       "OTHER",
     ],
   },
-  smallDataDisclaimer: `Please always take note of the number of people associated with each
-    proportion presented here; in cases where the counts are especially
-    low, the proportion may not be statistically significant and therefore
-    not indicative of long-term trends.`,
+  smallDataDisclaimer: `Please always take note of the number of people associated with each proportion presented here; 
+    in cases where the counts are especially low, the proportion may not be statistically significant and therefore not indicative of long-term trends. 
+    Visualizations with fewer than 100 people will appear hashed, dashed, or with another alternative visual treatment.`,
   metrics: {
     SentencePopulationCurrent: {
       name: "Sentenced Population",

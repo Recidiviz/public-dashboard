@@ -27,7 +27,6 @@ const Wrapper = styled.ol`
   line-height: 1.7;
   list-style: none;
   margin-top: ${rem(40)};
-  padding-left: 1em;
 `;
 
 const Item = styled.li`
