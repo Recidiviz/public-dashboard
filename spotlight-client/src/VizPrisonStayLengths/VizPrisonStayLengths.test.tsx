@@ -136,22 +136,18 @@ test("demographic charts", async () => {
   ).toBe(7);
 });
 
-test("bars has its own styling", async () => {
+test("all bars are the same color", async () => {
   renderWithStore(<VizPrisonStayLengths metric={metric} />);
 
   await when(() => !metric.isLoading);
 
   const chart = screen.getByRole("group", { name: "7 bars in a bar chart" });
 
-  const hatchedBar = within(chart).getByRole("img", {
-    name: "1–2 bar value 1%",
-  });
-  expect(hatchedBar).toHaveStyle(`fill: url(#12)`);
-
-  const solidBar = within(chart).getByRole("img", {
-    name: "2–3 bar value 17%",
-  });
-  expect(solidBar).toHaveStyle(`fill: ${colors.dataVizNamed.teal}`);
+  within(chart)
+    .getAllByRole("img")
+    .forEach((el) =>
+      expect(el).toHaveStyle(`fill: ${colors.dataVizNamed.teal}`)
+    );
 
   expect.hasAssertions();
 });

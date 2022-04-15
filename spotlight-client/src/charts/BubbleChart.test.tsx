@@ -17,10 +17,8 @@
 
 import { screen, within } from "@testing-library/react";
 import React from "react";
-import { STATISTIC_THRESHOLD } from "../constants";
 import { renderWithStore } from "../testUtils";
 import BubbleChart from "./BubbleChart";
-import { generateHatchFill } from "./utils";
 
 jest.mock("../MeasureWidth/MeasureWidth");
 
@@ -37,17 +35,11 @@ test("renders bubbles for data", () => {
   const bubbles = within(chart).getByRole("group", { name: "nodes" });
   expect(bubbles).toBeVisible();
   testData.forEach((record) => {
-    if (record.value < STATISTIC_THRESHOLD) {
-      expect(
-        // these are the only Semiotic labels we have to work with here
-        within(bubbles).getByRole("img", { name: `Node ${record.label}` })
-      ).toHaveStyle(`fill: ${generateHatchFill(record.label)}`);
-    } else {
-      expect(
-        within(bubbles).getByRole("img", { name: `Node ${record.label}` })
-      ).toHaveStyle(`fill: ${record.color}`);
-      // unfortunately there isn't really any sensible way to inspect the bubble size within JSDOM
-    }
+    expect(
+      // these are the only Semiotic labels we have to work with here
+      within(bubbles).getByRole("img", { name: `Node ${record.label}` })
+    ).toHaveStyle(`fill: ${record.color}`);
+    // unfortunately there isn't really any sensible way to inspect the bubble size within JSDOM
   });
 
   // record values should be labeled as percentages

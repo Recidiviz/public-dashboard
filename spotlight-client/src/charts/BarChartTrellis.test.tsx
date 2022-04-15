@@ -55,7 +55,7 @@ test("renders charts", () => {
   expect(
     screen.getByRole("img", { name: "Category A bar value 40%" })
     // if value is less than certain threshold (e.g. n=100), then the bar is rendered as a hatch
-  ).toHaveStyle("fill: url(#CategoryA)");
+  ).toHaveStyle("fill: red");
   expect(
     screen.getByRole("img", { name: "Category B bar value 70%" })
   ).toHaveStyle("fill: blue");
