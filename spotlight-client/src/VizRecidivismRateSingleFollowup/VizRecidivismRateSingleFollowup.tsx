@@ -147,7 +147,11 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
                 ))}
               </ChartsWrapper>
             </AutoHeightTransition>
-            <VizNotes smallData unknowns={unknowns} />
+            <VizNotes
+              smallData
+              unknowns={unknowns}
+              download={metric.download}
+            />
           </>
         )}
       </Measure>

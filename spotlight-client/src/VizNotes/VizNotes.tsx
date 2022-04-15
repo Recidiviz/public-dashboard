@@ -25,7 +25,7 @@ import { UnknownsNote } from "./UnknownsNote";
 type VizNotesProps = {
   smallData?: boolean;
   unknowns?: Unknowns;
-  download?: () => Promise<void>;
+  download?: () => void;
 };
 
 const VizNotes: React.FC<VizNotesProps> = ({

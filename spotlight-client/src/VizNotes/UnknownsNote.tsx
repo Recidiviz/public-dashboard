@@ -20,7 +20,7 @@ import React from "react";
 import { AutoHeightTransition } from "../UiLibrary";
 
 type UnknownsNoteProps = {
-  download: () => Promise<void>;
+  download: () => void;
 };
 
 export const UnknownsNote = ({ download }: UnknownsNoteProps): JSX.Element => {

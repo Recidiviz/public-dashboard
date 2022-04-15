@@ -155,7 +155,11 @@ const VizSupervisionSuccessRate: React.FC<VizSupervisionSuccessRateProps> = ({
             </animated.div>
           )}
         </Measure>
-        <VizNotes smallData unknowns={metric.unknowns} />
+        <VizNotes
+          smallData
+          unknowns={metric.unknowns}
+          download={metric.download}
+        />
       </>
     );
   }
