@@ -89,7 +89,6 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
       allCohortRecords: observable.ref,
       cohortRecords: computed,
       demographicRecords: computed,
-      unknowns: computed,
     });
   }
 

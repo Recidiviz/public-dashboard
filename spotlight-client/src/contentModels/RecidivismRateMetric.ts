@@ -75,7 +75,6 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
       setHighlightedCohort: action,
       setSelectedCohorts: action,
       singleFollowupDemographics: computed,
-      unknowns: computed,
     });
   }
 
