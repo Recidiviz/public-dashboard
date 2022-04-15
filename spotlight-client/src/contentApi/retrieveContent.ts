@@ -23,7 +23,7 @@ import US_PA from "./sources/us_pa";
 import US_TN from "./sources/us_tn";
 import { TenantContent, TenantId } from "./types";
 
-const CONTENT_SOURCES: Record<TenantId, TenantContent> = { US_ID, US_ND, US_PA, US_TN};
+const CONTENT_SOURCES: Record<TenantId, TenantContent> = { US_ID, US_ND, US_PA, US_TN };
 
 type RetrieveContentParams = {
   tenantId: TenantId;
