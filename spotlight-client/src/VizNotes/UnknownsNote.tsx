@@ -28,9 +28,7 @@ export const UnknownsNote = ({ download }: UnknownsNoteProps): JSX.Element => {
     <AutoHeightTransition>
       This data includes some individuals for whom age, gender, or
       race/ethnicity is not reported. These individuals count toward the total
-      but are excluded from demographic breakdown views, counting towards a
-      maximum difference of X% between the total and the sum of broken down
-      figures. For more information,{" "}
+      but are excluded from demographic breakdown views. For more details,{" "}
       <Button kind="link" onClick={download}>
         download
       </Button>{" "}
