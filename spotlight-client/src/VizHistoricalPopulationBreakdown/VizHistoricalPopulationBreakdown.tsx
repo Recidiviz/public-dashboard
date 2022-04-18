@@ -83,7 +83,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
           metric={metric}
         />
         {viz}
-        <VizNotes unknowns={metric.unknowns} />
+        <VizNotes unknowns={metric.unknowns} download={metric.download} />
       </>
     );
   }

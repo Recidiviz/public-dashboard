@@ -48,7 +48,6 @@ export default class PopulationBreakdownByLocationMetric extends Metric<Populati
     makeObservable(this, {
       dataSeries: computed,
       totalPopulation: computed,
-      unknowns: computed,
     });
   }
 
