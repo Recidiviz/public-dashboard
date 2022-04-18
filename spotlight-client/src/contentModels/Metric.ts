@@ -222,12 +222,13 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     return this.allRecords;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   get unknowns(): Unknowns | undefined {
     return undefined;
   }
 
   get readme(): string {
-    const unknowns = this.unknowns;
+    const { unknowns } = this;
     if (!unknowns) {
       return this.methodology;
     }
@@ -250,11 +251,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     } else {
       formattedUnknowns = formatUnknownCounts(unknowns);
     }
-    return (
-      this.methodology +
-      `\n\nVISUALIZATION FOOTNOTES:\n\nValues that count towards the total but are excluded from demographic breakdown views: ` +
-      formattedUnknowns
-    );
+    return `${this.methodology}\n\nVISUALIZATION FOOTNOTES:\n\nValues that count towards the total but are excluded from demographic breakdown views: ${formattedUnknowns}`;
   }
 
   /**

@@ -23,7 +23,6 @@ import fetchMock from "jest-fetch-mock";
 import JsZip from "jszip";
 import { when } from "mobx";
 import { fromPromise } from "mobx-utils";
-import { stripHtml } from "string-strip-html";
 import allTestContent from "./__fixtures__/tenant_content_exhaustive";
 import { MetricTypeId, MetricTypeIdList } from "../contentApi/types";
 import { reactImmediately } from "../testUtils";
@@ -257,9 +256,7 @@ describe("data download", () => {
         expect(recordsFromCsv[0]).toEqual(expectedRecord);
 
         // the file in the archive is plain text but methodology can contain HTML tags
-        expect(readmeContents).toBe(
-          stripHtml(metric.methodology).result.replace(/\s+/g, " ")
-        );
+        expect(readmeContents).toBe(metric.readme);
 
         // @ts-expect-error typedefs for `test.each` are wrong, `done` will be a function
         done();
