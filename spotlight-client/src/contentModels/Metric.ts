@@ -161,6 +161,8 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
       hydrate: action,
       isLoading: observable,
       records: computed,
+      unknowns: computed,
+      readme: computed,
     });
 
     // initialize metadata
@@ -224,7 +226,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     return undefined;
   }
 
-  generateReadme(): string {
+  get readme(): string {
     const unknowns = this.unknowns;
     if (!unknowns) {
       return this.methodology;
@@ -267,7 +269,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     return runInAction(() =>
       downloadData({
         archiveName: `${this.tenantId} ${this.id} data`,
-        readmeContents: this.generateReadme(),
+        readmeContents: this.readme,
         // allRecords won't be undefined because we just awaited it
         dataFiles: [{ name: "data", data: this.allRecords as RecordFormat[] }],
       })
