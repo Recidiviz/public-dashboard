@@ -109,7 +109,7 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
             ))}
           </ChartsWrapper>
         </AutoHeightTransition>
-        <VizNotes smallData unknowns={unknowns} />
+        <VizNotes smallData unknowns={unknowns} download={metric.download} />
       </>
     );
   }

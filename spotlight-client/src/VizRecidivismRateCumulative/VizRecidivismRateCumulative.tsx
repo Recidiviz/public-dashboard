@@ -99,7 +99,7 @@ const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = 
             </animated.div>
           ))}
         </ChartWrapper>
-        <VizNotes smallData unknowns={unknowns} />
+        <VizNotes smallData unknowns={unknowns} download={metric.download} />
       </>
     );
   }

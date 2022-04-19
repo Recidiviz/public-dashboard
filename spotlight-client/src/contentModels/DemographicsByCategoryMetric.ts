@@ -38,7 +38,7 @@ export default class DemographicsByCategoryMetric extends Metric<DemographicsByC
 
     this.color = props.color;
 
-    makeObservable(this, { dataSeries: computed, unknowns: computed });
+    makeObservable(this, { dataSeries: computed });
   }
 
   get records(): DemographicsByCategoryRecord[] | undefined {

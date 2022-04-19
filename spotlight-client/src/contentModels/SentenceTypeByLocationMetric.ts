@@ -43,7 +43,7 @@ export default class SentenceTypeByLocationMetric extends Metric<SentenceTypeByL
   ) {
     super(props);
 
-    makeObservable(this, { dataGraph: computed, unknowns: computed });
+    makeObservable(this, { dataGraph: computed });
   }
 
   get records(): SentenceTypeByLocationRecord[] | undefined {

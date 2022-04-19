@@ -76,10 +76,10 @@ export type LocalityDataMapping = Record<
 >;
 
 export type UnknownCounts = { [key in DemographicFieldKey]: number };
-
-export type UnknownsByDate = { date: Date; unknowns: UnknownCounts }[];
-
-export type UnknownsByCohort = { cohort: number; unknowns: UnknownCounts }[];
+export type UnknownByDate = { date: Date; unknowns: UnknownCounts };
+export type UnknownByCohort = { cohort: number; unknowns: UnknownCounts };
+export type UnknownsByDate = UnknownByDate[];
+export type UnknownsByCohort = UnknownByCohort[];
 
 export type Unknowns = UnknownCounts | UnknownsByDate | UnknownsByCohort;
 

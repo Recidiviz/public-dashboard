@@ -45,10 +45,7 @@ export default function downloadData({
 }: DownloadProps): Promise<void> {
   return new Promise((resolve, reject) => {
     const zip = new JsZip();
-    zip.file(
-      `${archiveName}/README.txt`,
-      stripHtml(readmeContents).result.replace(/\s+/g, " ")
-    );
+    zip.file(`${archiveName}/README.txt`, stripHtml(readmeContents).result);
 
     dataFiles.forEach(({ name, data }) => {
       zip.file(`${archiveName}/${name}.csv`, recordsToCsv(data));
