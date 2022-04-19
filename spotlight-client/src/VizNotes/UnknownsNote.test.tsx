@@ -17,6 +17,7 @@
 
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
+import { renderWithTheme } from "../testUtils";
 import { UnknownsNote } from "./UnknownsNote";
 
 test("format single unknowns", () => {
@@ -72,7 +73,7 @@ test("format unknowns by cohort", () => {
 });
 
 test("truncate long lists", () => {
-  render(
+  renderWithTheme(
     <UnknownsNote
       unknowns={[
         {
@@ -106,7 +107,7 @@ test("truncate long lists", () => {
 });
 
 test("expand and collapse overflowing text", () => {
-  render(
+  renderWithTheme(
     <UnknownsNote
       unknowns={[
         {
