@@ -17,12 +17,12 @@
 
 import React, { useCallback } from "react";
 import OrdinalFrame from "semiotic/lib/OrdinalFrame";
+import { ChartWrapper } from "@recidiviz/design-system";
 import styled from "styled-components/macro";
 import MeasureWidth from "../MeasureWidth";
 import { isRateFields, RateFields } from "../metricsApi";
 import { animation, colors } from "../UiLibrary";
 import { formatAsNumber, formatAsPct } from "../utils";
-import ChartWrapper from "./ChartWrapper";
 import ResponsiveTooltipController from "./ResponsiveTooltipController";
 import { highlightFade, useHighlightedItem } from "./utils";
 
