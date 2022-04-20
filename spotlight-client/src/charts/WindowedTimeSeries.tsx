@@ -22,9 +22,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import MinimapXYFrame from "semiotic/lib/MinimapXYFrame";
 import XYFrame from "semiotic/lib/XYFrame";
 import styled from "styled-components/macro";
+import { ChartWrapper as BaseChartWrapper } from "@recidiviz/design-system";
 import { animation, colors } from "../UiLibrary";
 import { formatAsNumber } from "../utils";
-import BaseChartWrapper from "./ChartWrapper";
 import { highlightFade, useHighlightedItem } from "./utils";
 import ColorLegend from "./ColorLegend";
 import XHoverController from "./XHoverController";
@@ -46,6 +46,10 @@ const LegendWrapper = styled.div`
 
 const ChartWrapper = styled(BaseChartWrapper)`
   .frame {
+    .xyframe-matte {
+      fill: ${colors.background};
+    }
+
     .visualization-layer {
       shape-rendering: geometricPrecision;
 

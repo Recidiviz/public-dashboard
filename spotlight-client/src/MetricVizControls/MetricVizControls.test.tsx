@@ -15,11 +15,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, screen, within } from "@testing-library/react";
 import React from "react";
 import createMetricMapping from "../contentModels/createMetricMapping";
 import HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import contentFixture from "../contentModels/__fixtures__/tenant_content_exhaustive";
+import { renderWithTheme } from "../testUtils";
 import MetricVizControls from "./MetricVizControls";
 
 const testTenantId = "US_ND";
@@ -41,7 +42,7 @@ test("download button", () => {
   const metric = getTestMetric();
   jest.spyOn(metric, "download").mockImplementation(() => Promise.resolve());
 
-  render(<MetricVizControls filters={[]} metric={metric} />);
+  renderWithTheme(<MetricVizControls filters={[]} metric={metric} />);
 
   const download = screen.getByRole("button", { name: "Download Data" });
   expect(download).toBeVisible();
@@ -52,7 +53,7 @@ test("download button", () => {
 
 test("methodology modal", () => {
   const metric = getTestMetric();
-  render(<MetricVizControls filters={[]} metric={metric} />);
+  renderWithTheme(<MetricVizControls filters={[]} metric={metric} />);
 
   const methodology = screen.getByRole("button", { name: "Methodology" });
 

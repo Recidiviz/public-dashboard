@@ -18,7 +18,7 @@
 import React, { useState, useCallback } from "react";
 import { OrdinalFrame } from "semiotic";
 import styled from "styled-components/macro";
-import ChartWrapper from "./ChartWrapper";
+import { ChartWrapper } from "@recidiviz/design-system";
 import ResponsiveTooltipController, {
   ResponsiveTooltipControllerProps,
 } from "./ResponsiveTooltipController";
