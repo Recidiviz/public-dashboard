@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { navigate } from "@reach/router";
+import useBreakpoint from "@w11r/use-breakpoint";
 import { observer } from "mobx-react-lite";
 import React, { useCallback } from "react";
 import { track } from "../analytics";
@@ -38,6 +39,7 @@ import {
 
 const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
   const { tenant } = useDataStore();
+  const isTablet = useBreakpoint(false, ["tablet-", true]);
 
   const narrativeOptions: DropdownOption[] = [];
 
@@ -89,7 +91,7 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
                   params: { tenantId: tenant.id },
                 })}
               >
-                {tenant.name}
+                {isTablet ? tenant.name : tenant.docName}
               </NavLink>
             </NavGroupItem>
           )}

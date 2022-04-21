@@ -64,10 +64,11 @@ describe("on large screens", () => {
       "href",
       "/"
     );
-    expect(inNav.getByRole("link", { name: "North Dakota" })).toHaveAttribute(
-      "href",
-      "/us-nd"
-    );
+    expect(
+      inNav.getByRole("link", {
+        name: "North Dakota Department of Corrections and Rehabilitation",
+      })
+    ).toHaveAttribute("href", "/us-nd");
     expect(
       inNav.getByRole("button", { name: "Data Narratives" })
     ).toBeInTheDocument();

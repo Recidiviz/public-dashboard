@@ -42,6 +42,8 @@ export type DemographicCategoryFilter = {
 
 export type TenantContent = {
   name: string;
+  docName: string;
+  docLink: string;
   description: string;
   coBrandingCopy: string;
   feedbackUrl: string;

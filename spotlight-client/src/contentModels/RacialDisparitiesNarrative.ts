@@ -416,7 +416,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
           return {
             label,
             color: colors.dataViz[index],
-            value: records[identifier as RaceIdentifier].totalStatePopulation,
+            value: records[identifier as RaceIdentifier]?.totalStatePopulation,
           };
         })
       ),
@@ -430,7 +430,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
             label,
             color: colors.dataViz[index],
             value:
-              records[identifier as RaceIdentifier].currentTotalSentencedCount,
+              records[identifier as RaceIdentifier]?.currentTotalSentencedCount,
           };
         })
       ),

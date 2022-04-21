@@ -15,7 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import HTMLReactParser from "html-react-parser";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
@@ -70,6 +69,15 @@ const CoBranding = styled.div`
   flex: 0 0 auto;
   margin-bottom: ${rem(16)};
   width: 100%;
+`;
+
+const DocButton = styled.a`
+  background: ${colors.caption};
+  color: ${colors.footerBackground} !important;
+  border-radius: 5px;
+  padding: ${rem(8)} ${rem(10)};
+  text-decoration: none;
+  font-weight: normal;
 `;
 
 const Legalese = styled.div`
@@ -134,7 +142,11 @@ const SiteFooter: React.FC = () => {
     <Wrapper>
       <Contents>
         {tenant && (
-          <CoBranding>{HTMLReactParser(tenant.coBrandingCopy)}</CoBranding>
+          <CoBranding>
+            <DocButton href={tenant.docLink}>
+              Go to <strong>{tenant.docName}</strong>
+            </DocButton>
+          </CoBranding>
         )}
         <Legalese>
           <span>

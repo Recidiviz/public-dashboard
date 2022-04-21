@@ -126,7 +126,9 @@ describe("navigation", () => {
     const inNav = within(screen.getByRole("navigation"));
 
     const homeLink = inNav.getByRole("link", { name: "Spotlight" });
-    const tenantLink = inNav.getByRole("link", { name: "North Dakota" });
+    const tenantLink = inNav.getByRole("link", {
+      name: "North Dakota Department of Corrections and Rehabilitation",
+    });
     const sentencingLink = await screen.findByRole("link", {
       name: "Racial Disparities Data",
     });
@@ -210,7 +212,11 @@ describe("navigation", () => {
       expect(
         screen.getByRole("button", { name: "Data Narratives" })
       ).toBeVisible();
-      fireEvent.click(screen.getByRole("link", { name: "North Dakota" }));
+      fireEvent.click(
+        screen.getByRole("link", {
+          name: "North Dakota Department of Corrections and Rehabilitation",
+        })
+      );
 
       await waitFor(() =>
         expect(screen.queryByRole(...notFoundRoleArgs)).not.toBeInTheDocument()
@@ -228,7 +234,11 @@ describe("navigation", () => {
       expect(
         screen.getByRole("button", { name: "Data Narratives" })
       ).toBeVisible();
-      fireEvent.click(screen.getByRole("link", { name: "North Dakota" }));
+      fireEvent.click(
+        screen.getByRole("link", {
+          name: "North Dakota Department of Corrections and Rehabilitation",
+        })
+      );
 
       await waitFor(() =>
         expect(screen.queryByRole(...notFoundRoleArgs)).not.toBeInTheDocument()
