@@ -15,12 +15,18 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import {
+  Button as BasicButton,
+  Tabs,
+  TabList as BasicTabList,
+  Tab,
+  TabPanel as BasicTabPanel,
+} from "@recidiviz/design-system";
 import { Link } from "@reach/router";
 import { ascending } from "d3-array";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
-import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { track } from "../analytics";
 import { NarrativeTypeId, TenantId } from "../contentApi/types";
@@ -45,71 +51,59 @@ const Wrapper = styled.div`
   }
 `;
 
-const LinkList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  font-size: ${rem(24)};
-  line-height: 1.5;
-  /* this margin makes the cells flush left and right */
-  margin: ${rem(48)} -${rem(32)} 0 0;
-`;
-
-const LinkListItem = styled.li`
-  /* creates gaps */
-  border: 0 solid transparent;
-  border-width: 0 ${rem(32)} 0 0;
-  flex: 0 0 auto;
-  white-space: nowrap;
-  /* use width to create 1-4 columns, depending on screen size */
-  width: 100%;
-
-  @media (min-width: ${breakpoints.tablet[0]}px) {
-    width: calc(100% / 1);
-  }
-
-  @media (min-width: ${breakpoints.desktop[0]}px) {
-    width: calc(100% / 1);
-  }
-
-  @media (min-width: ${breakpoints.xl[0]}px) {
-    width: calc(100% / 2);
-  }
-
-  a {
-    border-top: 1px solid ${colors.rule};
-    color: ${colors.text};
-    display: block;
-    padding-right: ${rem(8)};
-    padding-top: ${rem(24)};
-    padding-bottom: ${rem(24)};
-    text-decoration: none;
-    width: 100%;
-  }
-
-  a:not(:last-child) {
-    border-bottom: 1px solid ${colors.rule};
-  }
-`;
-
-const LinkText = styled.span`
-  white-space: normal;
-`;
-
 const ChartTitle = styled.span`
   font-size: ${rem(16)};
 `;
 
 const ChartPreview = styled.div`
   padding-top: ${rem(16)};
+  height: 512px;
+`;
+
+const TabList = styled(BasicTabList)`
+  display: flex;
+  align-items: center;
+  padding: 0;
+
+  a {
+    margin-left: auto;
+    text-decoration: none;
+  }
+`;
+
+const Button = styled(BasicButton)`
+  height: 48px;
+  background: ${colors.text};
+  padding: ${rem(16)} ${rem(24)};
+`;
+
+const TabItem = styled(Tab)`
+  padding: ${rem(25)} 0;
+  color: ${colors.caption};
+  font-size: ${rem(18)};
+  border-bottom: 1px solid transparent;
+  font-family: "Libre Baskerville";
+  font-style: normal;
+  font-weight: 400;
+
+  &:first-child {
+    margin-left: 0;
+  }
+`;
+
+const TabPanel = styled(BasicTabPanel)`
+  padding: 0;
 `;
 
 const PREVIEW_ORDER: NarrativeTypeId[] = [
   "Prison",
   "RacialDisparities",
-  "Parole",
   "Probation",
+  "Parole",
   "Sentencing",
 ];
+
+export const DEFAULT_SELECTED_TAB = "Prison";
 
 const ChartPreviewComponent: React.FC<{
   narrative: Narrative;
@@ -117,7 +111,6 @@ const ChartPreviewComponent: React.FC<{
   if (narrative instanceof SystemNarrative && narrative.preview)
     return (
       <>
-        <ChartTitle>{narrative.previewTitle}</ChartTitle>
         <ChartPreview>
           <MetricVizMapper
             preview
@@ -128,6 +121,7 @@ const ChartPreviewComponent: React.FC<{
             }
           />
         </ChartPreview>
+        <ChartTitle>{narrative.previewTitle}</ChartTitle>
       </>
     );
   if (narrative instanceof RacialDisparitiesNarrative) {
@@ -141,50 +135,80 @@ const RacialDisparitiesPreview = observer(
     return (
       <ModelHydrator model={narrative}>
         <>
-          <ChartTitle>Population by Race/Ethnicity</ChartTitle>
           {narrative.populationDataSeries && (
             <BarChartPair data={narrative.populationDataSeries} preview />
           )}
+          <ChartTitle>Population by Race/Ethnicity</ChartTitle>
         </>
       </ModelHydrator>
     );
   }
 );
 
-const NarrativeLink: React.FC<{
-  narrative: Narrative;
+const ExploreNarrativeButton: React.FC<{
+  narrativeId: NarrativeTypeId;
   tenantId: TenantId;
-}> = observer(({ narrative, tenantId }) => {
-  const [animationStyles, setAnimationStyles] = useSpring(() => ({
-    opacity: 0,
-    from: { opacity: 0 },
-  }));
+}> = observer(({ narrativeId, tenantId }) => {
+  return (
+    <Link
+      to={getUrlForResource({
+        page: "narrative",
+        params: { tenantId, narrativeTypeId: narrativeId },
+      })}
+      onClick={() =>
+        track("narrative_body_link_clicked", {
+          category: "navigation",
+          label: narrativeId,
+        })
+      }
+    >
+      <Button>
+        Learn More &nbsp;
+        <Arrow direction="right" />
+      </Button>
+    </Link>
+  );
+});
+
+const NarrativeTabs: React.FC<{
+  narratives: Narrative[];
+  tenantId: TenantId;
+}> = observer(({ narratives, tenantId }) => {
+  const [selectedTab, selectTab] = React.useState<NarrativeTypeId>(
+    DEFAULT_SELECTED_TAB
+  );
+  const [tabIndex, setTabIndex] = React.useState(
+    PREVIEW_ORDER.indexOf(DEFAULT_SELECTED_TAB)
+  );
+
+  React.useEffect(() => {
+    const nextIndex = (tabIndex + 1) % (PREVIEW_ORDER.length - 1);
+
+    const timer = setTimeout(() => {
+      setTabIndex(nextIndex);
+      selectTab(PREVIEW_ORDER[nextIndex]);
+    }, 500000000);
+
+    return () => clearTimeout(timer);
+  }, [tabIndex, selectedTab]);
 
   return (
-    <LinkListItem>
-      <Link
-        to={getUrlForResource({
-          page: "narrative",
-          params: { tenantId, narrativeTypeId: narrative.id },
-        })}
-        onClick={() =>
-          track("narrative_body_link_clicked", {
-            category: "navigation",
-            label: narrative.id,
-          })
-        }
-        onMouseOver={() => setAnimationStyles({ opacity: 1 })}
-        onFocus={() => setAnimationStyles({ opacity: 1 })}
-        onMouseOut={() => setAnimationStyles({ opacity: 0 })}
-        onBlur={() => setAnimationStyles({ opacity: 0 })}
-      >
-        <LinkText>{narrative.title} Data</LinkText>&nbsp;
-        <animated.span style={animationStyles}>
-          <Arrow color={colors.link} direction="right" />
-        </animated.span>
-      </Link>
-      <ChartPreviewComponent narrative={narrative} />
-    </LinkListItem>
+    <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
+      <TabList>
+        {narratives.map((narrative) => (
+          <TabItem key={narrative.id} onClick={() => selectTab(narrative.id)}>
+            {narrative.title}
+          </TabItem>
+        ))}
+        <ExploreNarrativeButton narrativeId={selectedTab} tenantId={tenantId} />
+      </TabList>
+
+      {narratives.map((narrative) => (
+        <TabPanel>
+          <ChartPreviewComponent narrative={narrative} />
+        </TabPanel>
+      ))}
+    </Tabs>
   );
 });
 
@@ -209,17 +233,7 @@ const OtherNarrativeLinksPreview = (): React.ReactElement | null => {
 
   return (
     <Wrapper>
-      <LinkList>
-        {narrativesToDisplay.map((narrative) => {
-          return (
-            <NarrativeLink
-              key={narrative.id}
-              tenantId={tenant.id}
-              narrative={narrative}
-            />
-          );
-        })}
-      </LinkList>
+      <NarrativeTabs tenantId={tenant.id} narratives={narrativesToDisplay} />
     </Wrapper>
   );
 };

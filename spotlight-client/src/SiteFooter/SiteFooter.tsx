@@ -39,7 +39,6 @@ const Wrapper = styled.footer`
   font-weight: 700;
   justify-content: flex-end;
   line-height: 1.25;
-  margin-top: ${rem(120)};
   min-height: ${rem(FOOTER_HEIGHT)};
   padding: ${rem(32)};
   padding-bottom: 0;

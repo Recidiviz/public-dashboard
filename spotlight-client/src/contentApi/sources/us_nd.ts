@@ -85,9 +85,9 @@ const content: TenantContent = {
   docName: "North Dakota Department of Corrections and Rehabilitation",
   docLink: "https://www.docr.nd.gov",
   description:
-    "Our mission is to transform lives, influence change, and strengthen community. Transparency is a critical element of our mission; sharing information builds greater accountability between the DOCR and the communities we serve.",
+    "Our mission is to transform lives, influence change, and strengthen community.",
   coBrandingCopy:
-    'Produced in collaboration with <a href="https://www.docr.nd.gov">the North Dakota Department of Corrections and Rehabilitation</a>.',
+    "At the department of corrections in North Dakota, we belive that sharing information builds greater accountability between us and the communities we serve.",
   feedbackUrl:
     "https://docs.google.com/forms/d/e/1FAIpQLSc3_wV2ltGumMdGTcLehUM41tQri0ZW5RjIKh0JJlhpJGE9Hg/viewform",
   demographicCategories: {

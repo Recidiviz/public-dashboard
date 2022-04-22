@@ -26,7 +26,7 @@ export const ERROR_MESSAGES = {
 
 export const NAV_BAR_HEIGHT = 80;
 
-export const FOOTER_HEIGHT = 248;
+export const FOOTER_HEIGHT = 130;
 
 export const REVOCATION_TYPE_LABELS = {
   ABSCOND: "Absconsion",
