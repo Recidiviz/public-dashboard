@@ -103,7 +103,7 @@ const PREVIEW_ORDER: NarrativeTypeId[] = [
   "Sentencing",
 ];
 
-export const DEFAULT_SELECTED_TAB = "Prison";
+const DEFAULT_SELECTED_TAB = "Prison";
 
 const ChartPreviewComponent: React.FC<{
   narrative: Narrative;
