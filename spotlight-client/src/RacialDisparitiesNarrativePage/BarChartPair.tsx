@@ -28,7 +28,7 @@ const CHART_HEIGHT = 165;
 
 const CHART_HEIGHT_MOBILE = 100;
 
-const CHART_HEIGHT_PREVIEW = 135;
+const CHART_HEIGHT_PREVIEW = 430;
 
 const Wrapper = styled.div`
   padding: ${rem(48)} 0;
@@ -64,6 +64,19 @@ export default function BarChartPair({
 
   if (preview) {
     chartHeight = CHART_HEIGHT_PREVIEW;
+
+    return (
+      <>
+        <ProportionalBar
+          data={data[1].records}
+          title={data[1].label}
+          height={chartHeight}
+          highlighted={highlightedCategory}
+          setHighlighted={setHighlightedCategory}
+          showLegend={false}
+        />
+      </>
+    );
   }
 
   return (
@@ -80,7 +93,6 @@ export default function BarChartPair({
         title={data[0].label}
         height={chartHeight}
         highlighted={highlightedCategory}
-        showLegend={false}
       />
       <Spacer />
       <ProportionalBar

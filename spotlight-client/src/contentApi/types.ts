@@ -46,6 +46,7 @@ export type TenantContent = {
   docName: string;
   docLink: string;
   description: string;
+  ctaCopy?: string;
   coBrandingCopy: string;
   feedbackUrl: string;
   smallDataDisclaimer: string;

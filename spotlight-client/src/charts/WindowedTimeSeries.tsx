@@ -166,6 +166,11 @@ const WindowedTimeSeries: React.FC<{
     matte: true,
   };
 
+  if (!showMinimap) {
+    MARGIN.left = 0;
+    MARGIN.bottom = 0;
+  }
+
   return (
     <MeasureWidth>
       {({ measureRef, width }) => {
@@ -247,16 +252,7 @@ const WindowedTimeSeries: React.FC<{
                   />
                 ) : (
                   // @ts-expect-error Semiotic typedefs are wrong, can be true for default matte
-                  <XYFrame
-                    axes={[
-                      {
-                        orient: "left",
-                        tickFormat: formatAsNumber,
-                        tickSize: 0,
-                      },
-                    ]}
-                    {...chartProps}
-                  />
+                  <XYFrame {...chartProps} />
                 )}
               </XHoverController>
             </ChartWrapper>

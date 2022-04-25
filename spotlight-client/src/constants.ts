@@ -42,3 +42,4 @@ export const SENTENCE_TYPE_LABELS = {
 };
 
 export const AUTH0_APP_METADATA_KEY = "https://recidiviz.org/app_metadata";
+export const DEFAULT_SELECTED_TAB = "Prison";

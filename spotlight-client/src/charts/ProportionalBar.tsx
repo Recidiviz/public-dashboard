@@ -135,12 +135,13 @@ export default function ProportionalBar({
                   />
                 </ResponsiveTooltipController>
               </ProportionalBarChartWrapper>
-              <ProportionalBarMetadata>
-                <ProportionalBarTitle>
-                  {title}
-                  {noData && ", No Data"}
-                </ProportionalBarTitle>
-                {showLegend && (
+              {showLegend && (
+                <ProportionalBarMetadata>
+                  <ProportionalBarTitle>
+                    {title}
+                    {noData && ", No Data"}
+                  </ProportionalBarTitle>
+
                   <ProportionalBarLegendWrapper>
                     <ColorLegend
                       highlighted={highlighted}
@@ -152,8 +153,8 @@ export default function ProportionalBar({
                       }
                     />
                   </ProportionalBarLegendWrapper>
-                )}
-              </ProportionalBarMetadata>
+                </ProportionalBarMetadata>
+              )}
             </>
           )}
         </ProportionalBarContainer>

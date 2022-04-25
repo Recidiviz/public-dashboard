@@ -21,10 +21,12 @@ import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
-import { NAV_BAR_HEIGHT } from "../constants";
+import { DEFAULT_SELECTED_TAB, NAV_BAR_HEIGHT } from "../constants";
+import { NarrativeTypeId } from "../contentApi/types";
 import OtherNarrativeLinksPreview from "../OtherNarrativeLinksPreview";
 import { useDataStore } from "../StoreProvider";
 import { breakpoints, PageSection, PageTitle } from "../UiLibrary";
+import ExploreNarrativeButton from "../UiLibrary/ExploreNarrativeButton";
 import withRouteSync from "../withRouteSync";
 
 const Page = styled.article`
@@ -37,15 +39,24 @@ const Page = styled.article`
     flex-direction: row;
     min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
     padding: 0 ${rem(120)};
-    gap: ${rem(170)};
+    gap: ${rem(70)};
   }
 `;
 
 const Introduction = styled(PageSection)`
   padding-bottom: ${rem(48)};
   padding-top: ${rem(48)};
-  padding-left: 0;
-  padding-right: 0;
+
+  a {
+    margin-right: auto;
+    text-decoration: none;
+  }
+
+  @media screen and (min-width: ${breakpoints.xl[0]}px) {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 40%;
+  }
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     display: flex;
@@ -73,7 +84,6 @@ const Links = styled(PageSection)`
 
 const Title = styled(PageTitle)`
   font-size: ${rem(34)};
-  max-width: ${rem(650)};
 `;
 
 const Subtitle = styled(Title)`
@@ -84,6 +94,9 @@ const Subtitle = styled(Title)`
 
 const PageTenant: React.FC<RouteComponentProps> = () => {
   const { tenant } = useDataStore();
+  const [narrativeId, setNarrativeId] = React.useState<NarrativeTypeId>(
+    DEFAULT_SELECTED_TAB
+  );
 
   if (!tenant) return null;
 
@@ -93,11 +106,17 @@ const PageTenant: React.FC<RouteComponentProps> = () => {
       <Introduction>
         <Title>
           {HTMLReactParser(tenant.description)}
-          <Subtitle>{tenant.coBrandingCopy}</Subtitle>
+          {tenant.ctaCopy && <Subtitle>{tenant.ctaCopy}</Subtitle>}
         </Title>
+        <ExploreNarrativeButton
+          narrativeId={narrativeId}
+          tenantId={tenant.id}
+        />
       </Introduction>
       <Links>
-        <OtherNarrativeLinksPreview />
+        <OtherNarrativeLinksPreview
+          onTabChange={(selectedTab) => setNarrativeId(selectedTab)}
+        />
       </Links>
     </Page>
   );
