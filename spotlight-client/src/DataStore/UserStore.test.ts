@@ -19,7 +19,6 @@ import createAuth0Client from "@auth0/auth0-spa-js";
 import { ERROR_MESSAGES } from "../constants";
 import { reactImmediately } from "../testUtils";
 import RootStore from "./RootStore";
-import TenantStore from "./TenantStore";
 import UserStore, { AUTH0_APP_METADATA_KEY } from "./UserStore";
 
 jest.mock("@auth0/auth0-spa-js");
@@ -82,9 +81,7 @@ test("authorize requires Auth0 client settings", async () => {
 test("authorized when authenticated", async () => {
   mockIsAuthenticated.mockResolvedValue(true);
   mockGetUser.mockResolvedValue({ email_verified: true });
-  mockGetIdTokenClaims.mockResolvedValue({
-    [AUTH0_APP_METADATA_KEY]: {},
-  });
+  mockGetIdTokenClaims.mockResolvedValue({});
 
   const store = new UserStore({
     authSettings: testAuthSettings,
@@ -118,9 +115,7 @@ test("requires email verification", async () => {
 
   mockGetUser.mockResolvedValue({ email_verified: false });
   mockIsAuthenticated.mockResolvedValue(true);
-  mockGetIdTokenClaims.mockResolvedValue({
-    [AUTH0_APP_METADATA_KEY]: {},
-  });
+  mockGetIdTokenClaims.mockResolvedValue({});
 
   const store = new UserStore({
     authSettings: testAuthSettings,
@@ -197,7 +192,7 @@ test("retrieves the state code from app_metadata and sets tenantStore's currentT
   mockGetUser.mockResolvedValue({ email_verified: true });
   mockGetIdTokenClaims.mockResolvedValue({
     [AUTH0_APP_METADATA_KEY]: {
-      state_code: "US_ND",
+      state_code: "us_nd",
     },
   });
 
