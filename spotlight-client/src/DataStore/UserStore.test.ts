@@ -212,3 +212,27 @@ test("retrieves the state code from app_metadata and sets tenantStore's currentT
   });
   expect.hasAssertions();
 });
+
+test("retrieves no state code from app_metadata", async () => {
+  mockIsAuthenticated.mockResolvedValue(true);
+  mockGetUser.mockResolvedValue({ email_verified: true });
+  mockGetIdTokenClaims.mockResolvedValue({
+    [AUTH0_APP_METADATA_KEY]: {},
+  });
+
+  const rootStore = new RootStore();
+
+  const userStore = new UserStore({
+    authSettings: testAuthSettings,
+    isAuthRequired: true,
+    rootStore,
+  });
+  await userStore.authorize();
+  reactImmediately(() => {
+    expect(userStore.isAuthorized).toBe(true);
+    expect(userStore.isLoading).toBe(false);
+    expect(userStore.stateCode).toBe(undefined);
+    expect(rootStore.tenantStore.currentTenantId).toBe(undefined);
+  });
+  expect.hasAssertions();
+});

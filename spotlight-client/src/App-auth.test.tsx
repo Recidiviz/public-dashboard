@@ -79,6 +79,8 @@ afterEach(() => {
 });
 
 test("no auth required", async () => {
+  process.env.REACT_APP_AUTH_ENABLED = "false";
+
   const App = await getApp();
   render(<App />);
   // site home redirects to the ND home
@@ -119,6 +121,7 @@ test("requires email verification", async () => {
   // user is authenticated but not verified
   mockIsAuthenticated.mockResolvedValue(true);
   mockGetUser.mockResolvedValue({ email_verified: false });
+  mockGetIdTokenClaims.mockResolvedValue({});
 
   const App = await getApp();
   render(<App />);
@@ -140,6 +143,7 @@ test("renders when authenticated", async () => {
   // user is authenticated and verified
   mockIsAuthenticated.mockResolvedValue(true);
   mockGetUser.mockResolvedValue({ email_verified: true });
+  mockGetIdTokenClaims.mockResolvedValue({});
   const App = await getApp();
   render(<App />);
   await waitFor(() => {
