@@ -19,7 +19,10 @@ import createAuth0Client, { Auth0ClientOptions } from "@auth0/auth0-spa-js";
 import { makeAutoObservable, runInAction } from "mobx";
 import qs from "qs";
 import { ERROR_MESSAGES } from "../constants";
+import { TenantId } from "../contentApi/types";
 import RootStore from "./RootStore";
+
+const AUTH0_APP_METADATA_KEY = "https://recidiviz.org/app_metadata";
 
 type ConstructorProps = {
   authSettings?: Auth0ClientOptions;
@@ -54,6 +57,8 @@ export default class UserStore {
   isAuthorized: boolean;
 
   isLoading: boolean;
+
+  stateCode?: TenantId;
 
   readonly rootStore?: RootStore;
 
@@ -112,6 +117,10 @@ export default class UserStore {
 
     if (await auth0.isAuthenticated()) {
       const user = await auth0.getUser();
+      const claims = await auth0.getIdTokenClaims();
+      const stateCode = claims[
+        AUTH0_APP_METADATA_KEY
+      ]?.state_code?.toUpperCase();
       runInAction(() => {
         this.isLoading = false;
         if (user.email_verified) {
@@ -120,6 +129,10 @@ export default class UserStore {
         } else {
           this.isAuthorized = false;
           this.awaitingVerification = true;
+        }
+        if (stateCode && this.rootStore) {
+          this.rootStore.tenantStore.locked = true;
+          this.rootStore.tenantStore.currentTenantId = stateCode;
         }
       });
     } else {

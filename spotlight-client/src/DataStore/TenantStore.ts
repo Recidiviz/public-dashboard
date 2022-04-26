@@ -36,7 +36,7 @@ export default class TenantStore {
 
   private validatedSectionNumber?: number;
 
-  readonly locked: boolean = false;
+  locked: boolean = false;
 
   rootStore: RootStore;
 
