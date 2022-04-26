@@ -27,6 +27,7 @@ const mockGetUser = jest.fn();
 const mockHandleRedirectCallback = jest.fn();
 const mockIsAuthenticated = jest.fn();
 const mockLoginWithRedirect = jest.fn();
+const mockGetIdTokenClaims = jest.fn();
 
 const testAuthSettings = {
   domain: "example.com",
@@ -40,6 +41,7 @@ beforeEach(() => {
     handleRedirectCallback: mockHandleRedirectCallback,
     isAuthenticated: mockIsAuthenticated,
     loginWithRedirect: mockLoginWithRedirect,
+    getIdTokenClaims: mockGetIdTokenClaims,
   });
 });
 

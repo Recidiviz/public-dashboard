@@ -36,11 +36,13 @@ export {};
 const mockGetUser = jest.fn();
 const mockIsAuthenticated = jest.fn();
 const mockLoginWithRedirect = jest.fn();
+const mockGetIdTokenClaims = jest.fn();
 jest.mock("@auth0/auth0-spa-js", () =>
   jest.fn().mockResolvedValue({
     getUser: mockGetUser,
     isAuthenticated: mockIsAuthenticated,
     loginWithRedirect: mockLoginWithRedirect,
+    getIdTokenClaims: mockGetIdTokenClaims,
   })
 );
 
