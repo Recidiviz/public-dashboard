@@ -64,9 +64,7 @@ const withRouteSync = <Props extends RouteComponentProps & RouteParams>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(
       action("sync route params", () => {
-        if (!tenantStore.locked) {
-          tenantStore.currentTenantId = normalizedProps.tenantId ?? undefined;
-        }
+        tenantStore.currentTenantId = normalizedProps.tenantId ?? undefined;
         tenantStore.currentNarrativeTypeId =
           normalizedProps.narrativeTypeId ?? undefined;
         tenantStore.currentSectionNumber = Number(

@@ -16,13 +16,13 @@
 // =============================================================================
 
 import createAuth0Client, { Auth0ClientOptions } from "@auth0/auth0-spa-js";
-import { makeAutoObservable, runInAction } from "mobx";
+import { intercept, makeAutoObservable, runInAction } from "mobx";
 import qs from "qs";
 import { ERROR_MESSAGES } from "../constants";
 import { TenantId } from "../contentApi/types";
 import RootStore from "./RootStore";
 
-const AUTH0_APP_METADATA_KEY = "https://recidiviz.org/app_metadata";
+export const AUTH0_APP_METADATA_KEY = "https://recidiviz.org/app_metadata";
 
 type ConstructorProps = {
   authSettings?: Auth0ClientOptions;
@@ -130,9 +130,17 @@ export default class UserStore {
           this.isAuthorized = false;
           this.awaitingVerification = true;
         }
-        if (stateCode && this.rootStore) {
-          this.rootStore.tenantStore.locked = true;
-          this.rootStore.tenantStore.currentTenantId = stateCode;
+        if (stateCode) {
+          this.stateCode = stateCode;
+          if (this.rootStore) {
+            this.rootStore.tenantStore.currentTenantId = stateCode;
+            // returning null renders an observable property immutable
+            intercept(
+              this.rootStore.tenantStore,
+              "currentTenantId",
+              () => null
+            );
+          }
         }
       });
     } else {

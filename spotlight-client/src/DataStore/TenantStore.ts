@@ -36,8 +36,6 @@ export default class TenantStore {
 
   private validatedSectionNumber?: number;
 
-  locked = false;
-
   rootStore: RootStore;
 
   tenants: Map<TenantId, Tenant>;
@@ -52,11 +50,14 @@ export default class TenantStore {
     // tenant mapped from domain should be locked
     const tenantFromDomain = getTenantFromDomain();
     if (tenantFromDomain) {
-      this.locked = true;
       this.currentTenantId = tenantFromDomain;
       // returning null renders an observable property immutable
       intercept(this, "currentTenantId", () => null);
     }
+  }
+
+  get locked(): boolean {
+    return !!this.rootStore.userStore.stateCode || !!getTenantFromDomain();
   }
 
   /**

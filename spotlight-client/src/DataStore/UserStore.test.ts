@@ -18,7 +18,7 @@
 import createAuth0Client from "@auth0/auth0-spa-js";
 import { ERROR_MESSAGES } from "../constants";
 import { reactImmediately } from "../testUtils";
-import UserStore from "./UserStore";
+import UserStore, { AUTH0_APP_METADATA_KEY } from "./UserStore";
 
 jest.mock("@auth0/auth0-spa-js");
 
@@ -80,6 +80,9 @@ test("authorize requires Auth0 client settings", async () => {
 test("authorized when authenticated", async () => {
   mockIsAuthenticated.mockResolvedValue(true);
   mockGetUser.mockResolvedValue({ email_verified: true });
+  mockGetIdTokenClaims.mockResolvedValue({
+    [AUTH0_APP_METADATA_KEY]: {},
+  });
 
   const store = new UserStore({
     authSettings: testAuthSettings,
@@ -113,6 +116,9 @@ test("requires email verification", async () => {
 
   mockGetUser.mockResolvedValue({ email_verified: false });
   mockIsAuthenticated.mockResolvedValue(true);
+  mockGetIdTokenClaims.mockResolvedValue({
+    [AUTH0_APP_METADATA_KEY]: {},
+  });
 
   const store = new UserStore({
     authSettings: testAuthSettings,
@@ -182,4 +188,26 @@ test("passes target URL to callback", async () => {
 
   await store.authorize({ handleTargetUrl: callback });
   expect(callback.mock.calls[0][0]).toBe(targetUrl);
+});
+
+test("retrieves the state code from app_metadata", async () => {
+  mockIsAuthenticated.mockResolvedValue(true);
+  mockGetUser.mockResolvedValue({ email_verified: true });
+  mockGetIdTokenClaims.mockResolvedValue({
+    [AUTH0_APP_METADATA_KEY]: {
+      state_code: "US_ND",
+    },
+  });
+
+  const store = new UserStore({
+    authSettings: testAuthSettings,
+    isAuthRequired: true,
+  });
+  await store.authorize();
+  reactImmediately(() => {
+    expect(store.isAuthorized).toBe(true);
+    expect(store.isLoading).toBe(false);
+    expect(store.stateCode).toBe("US_ND");
+  });
+  expect.hasAssertions();
 });
