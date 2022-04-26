@@ -18,6 +18,8 @@
 import createAuth0Client from "@auth0/auth0-spa-js";
 import { ERROR_MESSAGES } from "../constants";
 import { reactImmediately } from "../testUtils";
+import RootStore from "./RootStore";
+import TenantStore from "./TenantStore";
 import UserStore, { AUTH0_APP_METADATA_KEY } from "./UserStore";
 
 jest.mock("@auth0/auth0-spa-js");
@@ -190,7 +192,7 @@ test("passes target URL to callback", async () => {
   expect(callback.mock.calls[0][0]).toBe(targetUrl);
 });
 
-test("retrieves the state code from app_metadata", async () => {
+test("retrieves the state code from app_metadata and sets tenantStore's currentTenantId", async () => {
   mockIsAuthenticated.mockResolvedValue(true);
   mockGetUser.mockResolvedValue({ email_verified: true });
   mockGetIdTokenClaims.mockResolvedValue({
@@ -199,15 +201,19 @@ test("retrieves the state code from app_metadata", async () => {
     },
   });
 
-  const store = new UserStore({
+  const rootStore = new RootStore();
+
+  const userStore = new UserStore({
     authSettings: testAuthSettings,
     isAuthRequired: true,
+    rootStore,
   });
-  await store.authorize();
+  await userStore.authorize();
   reactImmediately(() => {
-    expect(store.isAuthorized).toBe(true);
-    expect(store.isLoading).toBe(false);
-    expect(store.stateCode).toBe("US_ND");
+    expect(userStore.isAuthorized).toBe(true);
+    expect(userStore.isLoading).toBe(false);
+    expect(userStore.stateCode).toBe("US_ND");
+    expect(rootStore.tenantStore.currentTenantId).toBe("US_ND");
   });
   expect.hasAssertions();
 });
