@@ -26,6 +26,7 @@ import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
+import { DEFAULT_SELECTED_TAB } from "../constants";
 import { NarrativeTypeId } from "../contentApi/types";
 import RacialDisparitiesNarrative from "../contentModels/RacialDisparitiesNarrative";
 import SystemNarrative from "../contentModels/SystemNarrative";
@@ -34,8 +35,7 @@ import MetricVizMapper from "../MetricVizMapper";
 import ModelHydrator from "../ModelHydrator";
 import BarChartPair from "../RacialDisparitiesNarrativePage/BarChartPair";
 import { useDataStore } from "../StoreProvider";
-import { breakpoints, colors } from "../UiLibrary";
-import { DEFAULT_SELECTED_TAB } from "../constants";
+import { breakpoints, colors, fluidFontSizeStyles } from "../UiLibrary";
 
 // grid styles adapted from IE-safe auto placement grid
 // https://css-tricks.com/css-grid-in-ie-faking-an-auto-placement-grid-with-gaps/
@@ -54,9 +54,13 @@ const ChartTitle = styled.div`
 
 const ChartPreview = styled.div`
   margin-top: ${rem(16)};
-  height: ${rem(430)};
-  overflow: hidden;
+  height: ${rem(440)};
   animation: fadeIn 0.5s ease;
+
+  @media screen and (max-width: ${breakpoints.tablet[0]}px) {
+    height: ${rem(330)};
+    overflow: hidden;
+  }
 
   @keyframes fadeIn {
     from {
@@ -65,9 +69,6 @@ const ChartPreview = styled.div`
     to {
       opacity: 1;
     }
-
-  @media screen and (max-width: ${breakpoints.tablet[0]}px) {
-    height: ${rem(330)};
   }
 `;
 
@@ -79,10 +80,9 @@ const TabList = styled(BasicTabList)`
   overflow-x: auto;
 `;
 
-const TabItem = styled(Tab)`
+const TabItem = styled(Tab)<{ minSize: number; maxSize: number }>`
   padding: ${rem(25)} 0;
   color: ${colors.caption};
-  font-size: ${rem(18)};
   border-bottom: 1px solid transparent;
   font-family: "Libre Baskerville";
   font-style: normal;
@@ -91,6 +91,8 @@ const TabItem = styled(Tab)`
   &:first-child {
     margin-left: 0;
   }
+
+  ${(props) => fluidFontSizeStyles(props.minSize, props.maxSize)}
 `;
 
 const TabPanel = styled(BasicTabPanel)`
@@ -151,31 +153,37 @@ const NarrativeTabs: React.FC<{
   narratives: Narrative[];
   onTabChange: (selectedTab: NarrativeTypeId) => void;
 }> = observer(({ narratives, onTabChange }) => {
-  const [selectedTab, selectTab] = React.useState<NarrativeTypeId>(
-    DEFAULT_SELECTED_TAB
-  );
-  const [tabIndex, setTabIndex] = React.useState(
-    PREVIEW_ORDER.indexOf(DEFAULT_SELECTED_TAB)
-  );
+  const tabs = narratives.map((narrative) => narrative.id);
+  const defaultTab = tabs.includes(DEFAULT_SELECTED_TAB)
+    ? DEFAULT_SELECTED_TAB
+    : tabs[0];
+
+  const [selectedTab, selectTab] = React.useState<NarrativeTypeId>(defaultTab);
+  const [tabIndex, setTabIndex] = React.useState(tabs.indexOf(defaultTab));
 
   React.useEffect(() => {
-    const nextIndex = (tabIndex + 1) % (PREVIEW_ORDER.length - 1);
+    const nextIndex = (tabIndex + 1) % tabs.length;
 
     const timer = setTimeout(() => {
       setTabIndex(nextIndex);
-      selectTab(PREVIEW_ORDER[nextIndex]);
+      selectTab(tabs[nextIndex]);
     }, 5000);
 
     onTabChange(selectedTab);
 
     return () => clearTimeout(timer);
-  }, [tabIndex, selectedTab, onTabChange]);
+  }, [tabIndex, selectedTab, onTabChange, tabs]);
 
   return (
     <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
       <TabList>
         {narratives.map((narrative) => (
-          <TabItem key={narrative.id} onClick={() => selectTab(narrative.id)}>
+          <TabItem
+            key={narrative.id}
+            maxSize={24}
+            minSize={16}
+            onClick={() => selectTab(narrative.id)}
+          >
             {narrative.title}
           </TabItem>
         ))}

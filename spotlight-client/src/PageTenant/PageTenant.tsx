@@ -25,7 +25,7 @@ import { DEFAULT_SELECTED_TAB, NAV_BAR_HEIGHT } from "../constants";
 import { NarrativeTypeId } from "../contentApi/types";
 import OtherNarrativeLinksPreview from "../OtherNarrativeLinksPreview";
 import { useDataStore } from "../StoreProvider";
-import { breakpoints, PageSection, PageTitle } from "../UiLibrary";
+import { breakpoints, PageSection, PageTitle, typefaces } from "../UiLibrary";
 import ExploreNarrativeButton from "../UiLibrary/ExploreNarrativeButton";
 import withRouteSync from "../withRouteSync";
 
@@ -86,10 +86,11 @@ const Title = styled(PageTitle)`
   font-size: ${rem(34)};
 `;
 
-const Subtitle = styled(Title)`
+const Subtitle = styled.h2`
+  font-family: ${typefaces.body};
+  letter-spacing: -0.04em;
   font-size: ${rem(18)};
   margin-top: ${rem(24)};
-  margin-bottom: 0;
 `;
 
 const PageTenant: React.FC<RouteComponentProps> = () => {

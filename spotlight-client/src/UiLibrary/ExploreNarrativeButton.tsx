@@ -27,13 +27,14 @@ import { NarrativeTypeId, TenantId } from "../contentApi/types";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import colors from "./colors";
 import Arrow from "./Arrow";
+import { fluidFontSizeStyles } from "./typography";
 
-const Button = styled(BasicButton)`
+const Button = styled(BasicButton)<{ minSize: number; maxSize: number }>`
   background: ${colors.text};
   padding: ${rem(16)} ${rem(24)};
+  box-shadow: 0px 10px 20px rgba(0, 108, 103, 0.3);
 
   strong {
-    min-width: ${rem(115)};
     margin-right: ${rem(16)};
     text-align: left;
     animation: fadeInUp 0.5s ease-in-out;
@@ -49,6 +50,8 @@ const Button = styled(BasicButton)`
       transform: translateY(0);
     }
   }
+
+  ${(props) => fluidFontSizeStyles(props.minSize, props.maxSize)}
 `;
 
 const ExploreNarrativeButton: React.FC<{
@@ -68,7 +71,7 @@ const ExploreNarrativeButton: React.FC<{
         })
       }
     >
-      <Button key={narrativeId}>
+      <Button maxSize={24} minSize={16} key={narrativeId}>
         Explore &nbsp;<strong>{startCase(narrativeId)}</strong>
         <Arrow direction="right" />
       </Button>
