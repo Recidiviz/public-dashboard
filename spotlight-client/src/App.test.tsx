@@ -130,7 +130,7 @@ describe("navigation", () => {
       name: "North Dakota Department of Corrections and Rehabilitation",
     });
     const sentencingLink = await screen.findByRole("link", {
-      name: "Racial Disparities Data",
+      name: "Explore Prison Data",
     });
 
     fireEvent.click(sentencingLink);
@@ -138,7 +138,7 @@ describe("navigation", () => {
     // so we are using *ByTestId queries here instead
     await waitFor(async () =>
       expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
-        "Racial Disparities"
+        "Prison"
       )
     );
 
