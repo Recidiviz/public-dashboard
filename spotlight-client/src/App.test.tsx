@@ -137,9 +137,7 @@ describe("navigation", () => {
     // NOTE: *ByRole queries can be too expensive to run async with this much DOM,
     // so we are using *ByTestId queries here instead
     await waitFor(async () =>
-      expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
-        "Prison"
-      )
+      expect(await screen.findByTestId("PageTitle")).toHaveTextContent("Prison")
     );
 
     fireEvent.click(tenantLink);
