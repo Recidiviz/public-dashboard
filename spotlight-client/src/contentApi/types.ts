@@ -33,6 +33,7 @@ export type TenantId = typeof TenantIdList[number];
 export function isTenantId(x: string): x is TenantId {
   return TenantIdList.includes(x as TenantId);
 }
+export type StateCodes = typeof TenantIdList | "RECIDIVIZ";
 
 export type DemographicCategoryFilter = {
   raceOrEthnicity?: RaceOrEthnicityValue[];

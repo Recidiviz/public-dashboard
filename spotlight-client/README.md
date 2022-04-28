@@ -10,7 +10,11 @@ The site consumes views of aggregate population data produced by the Recidiviz d
 
 While Spotlight is developed and deployed as a single multi-tenant website, it is primarily consumed as separate single-tenant experiences, under `.gov` subdomains owned by our state partners (e.g. [dashboard.docr.nd.gov](https://dashboard.docr.nd.gov)). To keep our infrastructure simple, this "tenant lock" is implemented in application logic within the data models, based on the URL hostname at runtime. This is why the multi-tenant "homepage" is so plain; it is really only used internally, for convenience, in development and staging environments.
 
-We also lock the staging environment to a single tenant depending on how the logged-in user is configured. In the staging environment, a user logs in to view the site, and if their Auth0 account has a `state_code` set in their `app_metadata`, then they will be locked-in to the tenant that correspons with that `state_code`. This is so we can share a fully-functional but private version of the app with contacts of that associated agency, without exposing data to state actors that do not have permission to view other states’ data. The `state_code` can be set by going to the `recidiviz-spotlight-staging` tenant in Auth0, looking up the user and adding the `state_code` to their `app_metadata`.
+We also lock the staging environment to a single tenant depending on how the logged-in user is configured. In the staging environment, if a user logs in to view the site,and their Auth0 account has a `state_code` set in their `app_metadata`, then they will be locked-in to the tenant that correspons with that `state_code`. This is so we can share a fully-functional but private version of the app with contacts of that associated agency, without exposing data to state actors that do not have permission to view other states’ data.
+
+If they do not have a `state_code` set, or if their `state_code` is not one of our Spotlight tenants, they will only see the "Page Not Found" page. If their `state_code` is set to `recidiviz`, they will be able to see all tenants.
+
+The `state_code` can be set by going to the `recidiviz-spotlight-staging` tenant in Auth0, looking up the user and adding the `state_code` to their `app_metadata`.
 
 ### Configuration and content
 

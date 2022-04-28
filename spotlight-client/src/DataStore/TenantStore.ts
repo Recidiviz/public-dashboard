@@ -58,13 +58,20 @@ export default class TenantStore {
 
   /**
    * Whether or not the app is locked to a single state depends on the following factors:
-   * - If the app is deployed on staging, and `state_code` exists in the user account's `app_metadata`, the app should be locked to that state code.
-   *   - If the state_code doesn't exist on their account, the app is not locked and the user can see all states.
-   * - If the app is deployed to production, authentication is turned off, and the app should be locked to the domain of the state that it's deployed on.
+   * - If the app is deployed to production:
+   *   - Authentication is turned off. The app should be locked to the domain of the state that it's deployed on.
+   * - If the app is deployed on staging:
+   *   - Authentication is turned on. When a user logs in, we check for `state_code` in the account's `app_metadata`.
+   *     - If the state_code matches one of our tenantIds, we lock the app to that state_code.
+   *     - If there is no state_code, or it doesn't match any of our tenantIds, the user sees a "Page Not Found" error.
+   *     - If the state_code is `recidiviz`, the app is unlocked.
    * -
    */
   get locked(): boolean {
-    return !!this.rootStore.userStore.stateCode || !!getTenantFromDomain();
+    if (!this.rootStore.userStore.isAuthRequired) {
+      return !!getTenantFromDomain();
+    }
+    return this.rootStore.userStore.stateCode !== "RECIDIVIZ";
   }
 
   /**

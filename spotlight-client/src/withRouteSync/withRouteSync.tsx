@@ -44,9 +44,10 @@ const withRouteSync = <Props extends RouteComponentProps & RouteParams>(
 
     const isTenantForbidden =
       tenantStore.locked &&
-      // we're checking for wrong Tenants, not no Tenant
-      normalizedProps.tenantId &&
-      tenantStore.currentTenantId !== normalizedProps.tenantId;
+      // either currentTenantId is not set, or the route's tenantId doesn't match the currentTenantId
+      (!tenantStore.currentTenantId ||
+        (normalizedProps.tenantId &&
+          tenantStore.currentTenantId !== normalizedProps.tenantId));
 
     const isTenantDisabled = Boolean(
       tenantStore.currentTenantId &&
