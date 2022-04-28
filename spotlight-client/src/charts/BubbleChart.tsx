@@ -78,13 +78,9 @@ type BubbleChartProps = {
 export default function BubbleChart({
   data,
   height,
-  showLegend,
+  showLegend = true,
 }: BubbleChartProps): React.ReactElement {
   const { highlighted, setHighlighted } = useHighlightedItem();
-
-  if (!showLegend) {
-    margin.bottom = 0;
-  }
 
   return (
     <MeasureWidth>

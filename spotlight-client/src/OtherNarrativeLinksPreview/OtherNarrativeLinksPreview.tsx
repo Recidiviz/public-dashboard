@@ -26,7 +26,7 @@ import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
-import { DEFAULT_SELECTED_TAB } from "../constants";
+import { DEFAULT_SELECTED_TAB, DEFAULT_CAROUSEL_INTERVAL } from "../constants";
 import { NarrativeTypeId } from "../contentApi/types";
 import RacialDisparitiesNarrative from "../contentModels/RacialDisparitiesNarrative";
 import SystemNarrative from "../contentModels/SystemNarrative";
@@ -160,22 +160,33 @@ const NarrativeTabs: React.FC<{
 
   const [selectedTab, selectTab] = React.useState<NarrativeTypeId>(defaultTab);
   const [tabIndex, setTabIndex] = React.useState(tabs.indexOf(defaultTab));
+  const [isHovered, setHovered] = React.useState(false);
 
   React.useEffect(() => {
     const nextIndex = (tabIndex + 1) % tabs.length;
 
-    const timer = setTimeout(() => {
-      setTabIndex(nextIndex);
-      selectTab(tabs[nextIndex]);
-    }, 5000);
+    const timer = setTimeout(
+      () => {
+        setTabIndex(nextIndex);
+        selectTab(tabs[nextIndex]);
+      },
+      isHovered ? DEFAULT_CAROUSEL_INTERVAL * 1000 : DEFAULT_CAROUSEL_INTERVAL
+    );
 
     onTabChange(selectedTab);
 
     return () => clearTimeout(timer);
-  }, [tabIndex, selectedTab, onTabChange, tabs]);
+  }, [tabIndex, selectedTab, onTabChange, tabs, isHovered]);
 
   return (
-    <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
+    <Tabs
+      selectedIndex={tabIndex}
+      onSelect={(index) => setTabIndex(index)}
+      onMouseOver={() => setHovered(true)}
+      onFocus={() => setHovered(true)}
+      onMouseOut={() => setHovered(false)}
+      onBlur={() => setHovered(false)}
+    >
       <TabList>
         {narratives.map((narrative) => (
           <TabItem

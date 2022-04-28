@@ -35,6 +35,10 @@ const Page = styled.article`
   align-items: center;
   justify-content: center;
 
+  a {
+    text-decoration: none;
+  }
+
   @media screen and (min-width: ${breakpoints.xl[0]}px) {
     flex-direction: row;
     min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
@@ -44,13 +48,12 @@ const Page = styled.article`
 `;
 
 const Introduction = styled(PageSection)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding-bottom: ${rem(48)};
   padding-top: ${rem(48)};
-
-  a {
-    margin-right: auto;
-    text-decoration: none;
-  }
 
   @media screen and (min-width: ${breakpoints.xl[0]}px) {
     padding-left: 0;
@@ -59,10 +62,10 @@ const Introduction = styled(PageSection)`
   }
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    a {
+      margin-right: auto;
+    }
+
     /* try to keep the links "above the fold" */
     min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)} - ${rem(130)});
 
@@ -84,13 +87,21 @@ const Links = styled(PageSection)`
 
 const Title = styled(PageTitle)`
   font-size: ${rem(34)};
+
+  @media screen and (max-width: ${breakpoints.tablet[0]}px) {
+    font-size: ${rem(28)};
+  }
 `;
 
 const Subtitle = styled.h2`
   font-family: ${typefaces.body};
   letter-spacing: -0.04em;
-  font-size: ${rem(18)};
+  font-size: ${rem(21)};
   margin-top: ${rem(24)};
+
+  @media screen and (max-width: ${breakpoints.tablet[0]}px) {
+    font-size: ${rem(18)};
+  }
 `;
 
 const PageTenant: React.FC<RouteComponentProps> = () => {
@@ -107,7 +118,9 @@ const PageTenant: React.FC<RouteComponentProps> = () => {
       <Introduction>
         <Title>
           {HTMLReactParser(tenant.description)}
-          {tenant.ctaCopy && <Subtitle>{tenant.ctaCopy}</Subtitle>}
+          {tenant.ctaCopy && (
+            <Subtitle>{HTMLReactParser(tenant.ctaCopy)}</Subtitle>
+          )}
         </Title>
         <ExploreNarrativeButton
           narrativeId={narrativeId}

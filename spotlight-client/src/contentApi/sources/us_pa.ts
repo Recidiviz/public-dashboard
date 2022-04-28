@@ -21,12 +21,9 @@ const content: TenantContent = {
   name: "Pennsylvania",
   docName: "Pennsylvania Department of Corrections",
   docLink: "https://cor.pa.gov",
-  description: `
-    <a href="https://www.cor.pa.gov">The Pennsylvania Department of Corrections (DOC)</a>
-    is committed to enhancing public safety. The DOC's mission is to reduce criminal
-    behavior by providing individualized treatment and education to incarcerated
-    individuals, resulting in successful community reintegration through accountability
-    and positive change.`,
+  description: `<a href="https://www.cor.pa.gov" target="_blank" rel="noopener noreferrer">The Pennsylvania Department of Corrections (DOC)</a>
+    is committed to enhancing public safety.`,
+  ctaCopy: `The DOC's mission is to reduce criminal behavior by providing individualized treatment and education to incarcerated individuals, resulting in successful community reintegration through accountability and positive change.`,
   coBrandingCopy:
     'Produced in collaboration with <a href="https://www.cor.pa.gov">the Pennsylvania Department of Corrections</a>.',
   feedbackUrl: "https://forms.gle/7bZMpgGR69uaW1eNA",
