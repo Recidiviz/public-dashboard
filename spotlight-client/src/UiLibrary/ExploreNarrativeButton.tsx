@@ -33,10 +33,16 @@ const Button = styled(BasicButton)<{ minSize: number; maxSize: number }>`
   background: ${colors.text};
   padding: ${rem(16)} ${rem(24)};
   box-shadow: 0px 10px 20px rgba(0, 108, 103, 0.3);
-  animation: fadeInUp 0.5s ease;
 
-  strong {
-    display: contents;
+  span {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    strong {
+      animation: fadeInUp 0.5s ease;
+    }
   }
 
   svg {
@@ -75,7 +81,9 @@ const ExploreNarrativeButton: React.FC<{
       }
     >
       <Button maxSize={24} minSize={16} key={narrativeId}>
-        Explore &nbsp;<strong>{startCase(narrativeId)}</strong>&nbsp; Data
+        <span>
+          Explore &nbsp;<strong>{startCase(narrativeId)}</strong>&nbsp; Data
+        </span>
         <Arrow direction="right" />
       </Button>
     </Link>
