@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import useBreakpoint from "@w11r/use-breakpoint";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
@@ -135,6 +136,7 @@ const BrandLink = styled.a`
 
 const SiteFooter: React.FC = () => {
   const { tenant } = useDataStore();
+  const isMobile = useBreakpoint(false, ["mobile-", true]);
 
   const year = new Date().getFullYear();
 
@@ -144,7 +146,10 @@ const SiteFooter: React.FC = () => {
         {tenant && (
           <CoBranding>
             <DocButton href={tenant.docLink}>
-              Go to <strong>{tenant.docName}</strong>
+              Go to{" "}
+              <strong>
+                {isMobile ? `${tenant.name} DOC` : tenant.docName}
+              </strong>
             </DocButton>
           </CoBranding>
         )}
