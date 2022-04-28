@@ -16,10 +16,10 @@
 // =============================================================================
 
 import createAuth0Client from "@auth0/auth0-spa-js";
-import { ERROR_MESSAGES } from "../constants";
+import { AUTH0_APP_METADATA_KEY, ERROR_MESSAGES } from "../constants";
 import { reactImmediately } from "../testUtils";
 import RootStore from "./RootStore";
-import UserStore, { AUTH0_APP_METADATA_KEY } from "./UserStore";
+import UserStore from "./UserStore";
 
 jest.mock("@auth0/auth0-spa-js");
 
