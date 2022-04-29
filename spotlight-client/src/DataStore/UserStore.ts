@@ -16,9 +16,10 @@
 // =============================================================================
 
 import createAuth0Client, { Auth0ClientOptions } from "@auth0/auth0-spa-js";
-import { makeAutoObservable, runInAction } from "mobx";
+import { intercept, makeAutoObservable, runInAction } from "mobx";
 import qs from "qs";
-import { ERROR_MESSAGES } from "../constants";
+import { AUTH0_APP_METADATA_KEY, ERROR_MESSAGES } from "../constants";
+import { isTenantId, StateCodes } from "../contentApi/types";
 import RootStore from "./RootStore";
 
 type ConstructorProps = {
@@ -51,9 +52,13 @@ export default class UserStore {
 
   awaitingVerification: boolean;
 
+  readonly isAuthRequired: boolean;
+
   isAuthorized: boolean;
 
   isLoading: boolean;
+
+  stateCode?: StateCodes;
 
   readonly rootStore?: RootStore;
 
@@ -64,6 +69,7 @@ export default class UserStore {
     this.rootStore = rootStore;
 
     this.awaitingVerification = false;
+    this.isAuthRequired = isAuthRequired;
     if (!isAuthRequired) {
       this.isAuthorized = true;
       this.isLoading = false;
@@ -112,6 +118,10 @@ export default class UserStore {
 
     if (await auth0.isAuthenticated()) {
       const user = await auth0.getUser();
+      const claims = await auth0.getIdTokenClaims();
+      const stateCode = claims[
+        AUTH0_APP_METADATA_KEY
+      ]?.state_code?.toUpperCase();
       runInAction(() => {
         this.isLoading = false;
         if (user.email_verified) {
@@ -120,6 +130,18 @@ export default class UserStore {
         } else {
           this.isAuthorized = false;
           this.awaitingVerification = true;
+        }
+        if (stateCode) {
+          this.stateCode = stateCode;
+          if (this.rootStore && isTenantId(stateCode)) {
+            this.rootStore.tenantStore.currentTenantId = stateCode;
+            // returning null renders an observable property immutable
+            intercept(
+              this.rootStore.tenantStore,
+              "currentTenantId",
+              () => null
+            );
+          }
         }
       });
     } else {
