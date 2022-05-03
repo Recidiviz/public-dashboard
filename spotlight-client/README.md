@@ -62,9 +62,10 @@ The Create React App documentation explains all the possible [env config files](
 
 Expected environment variables include:
 
-- `REACT_APP_AUTH_ENABLED` - set to `true` or `false` to toggle Auth0 protection per environment. Currently only used in staging to make the entire site private. No need to enable this locally unless you are developing or testing something auth-related. If set to `true` then `REACT_APP_AUTH_ENV` **must** be set to a supported value.
-- `REACT_APP_AUTH_ENV` - a string indicating the "auth environment" used to point to the correct Auth0 tenant. `development` (which also covers staging) is the only supported value, which **must** be set if `REACT_APP_AUTH_ENABLED` is `true`.
 - `REACT_APP_API_URL` - the base URL of the backend API server. This should be set to http://localhost:3001 when running the server locally, and to http://localhost:3002 in the test environment (because some tests will make requests to this URL).
+- `REACT_APP_AUTH_ENABLED` - set to `true` or `false` to toggle Auth0 protection per environment. Currently only used in staging to make the entire site private. No need to enable this locally unless you are developing or testing something auth-related. If set to `true` then `REACT_APP_AUTH_ENV` and `REACT_APP_AUTH_METADATA_KEY` **must** be set to a supported value.
+- `REACT_APP_AUTH_ENV` - a string indicating the "auth environment" used to point to the correct Auth0 tenant. `development` (which also covers staging) is the only supported value, which **must** be set if `REACT_APP_AUTH_ENABLED` is `true`.
+- `REACT_APP_AUTH_METADATA_KEY` - a string that corresponds to the namespace set in the Auth0 custom action to add app_metadata to id tokens. Unless something has changed this should be set to `https://recidiviz.org/app_metadata`. This is only required when auth is enabled.
 - `REACT_APP_ENABLED_TENANTS` - a feature flag for activating individual tenants, in the form of a comma-separated list of tenant IDs (e.g., "US_ND,US_PA") that should be available. Tenants that are configured but not enumerated here will not be accessible to users.
 
 (Note that variables must be prefixed with `REACT_APP_` to be available inside the client application.)

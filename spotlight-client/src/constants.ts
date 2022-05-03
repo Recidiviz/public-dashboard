@@ -40,5 +40,3 @@ export const SENTENCE_TYPE_LABELS = {
   PROBATION: "Probation",
   DUAL_SENTENCE: "Both",
 };
-
-export const AUTH0_APP_METADATA_KEY = "https://recidiviz.org/app_metadata";

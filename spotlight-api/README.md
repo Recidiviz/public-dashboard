@@ -44,6 +44,8 @@ Expected backend environment variables include:
 
 - `GOOGLE_APPLICATION_CREDENTIALS` - a relative path pointing to the JSON file containing the credentials of the service account used to communicate with Google Cloud Storage, for metric retrieval.
 - `METRIC_BUCKET` - the name of the Google Cloud Storage bucket where the metrics reside.
+- `AUTH_ENABLED` - whether or not we should require authentication to access our endpoints. Currently only used in staging to make the entire site private. No need to enable this locally unless you are developing or testing something auth-related. If set to `true` then `AUTH0_APP_METADATA_KEY` **must** be set to a supported value.
+- `AUTH0_APP_METADATA_KEY` - a string that corresponds to the namespace set in the Auth0 custom action to add app_metadata to id tokens. Unless something has changed this should be set to `https://recidiviz.org/app_metadata`. This is only required when auth is enabled.
 - `IS_DEMO` (OPTIONAL) - whether or not to run the backend in demo mode, which will retrieve static fixture data from the `core/demo_data` directory instead of pulling data from dynamic, live sources. This should only be set when running locally and should be provided through the command line.
 
 ### Running the application locally

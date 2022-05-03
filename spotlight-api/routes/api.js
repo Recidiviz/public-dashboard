@@ -25,6 +25,8 @@ const demoMode = require("../utils/demoMode");
 
 const isDemoMode = demoMode.isDemoMode();
 
+const { AUTH_ENABLED, AUTH0_APP_METADATA_KEY } = process.env;
+
 /**
  * A callback which returns either either an error payload or a data payload.
  */
@@ -39,14 +41,26 @@ function responder(res) {
 }
 
 function metricsByName(req, res) {
+  const { tenantId } = req.params;
   const { metrics } = req.body;
+  const stateCode =
+    AUTH0_APP_METADATA_KEY &&
+    req.user?.[AUTH0_APP_METADATA_KEY]?.state_code?.toLowerCase();
   if (!Array.isArray(metrics)) {
     res
       .status(400)
       .json({ error: "request is missing metrics array parameter" });
+  } else if (
+    AUTH_ENABLED === "true" &&
+    stateCode !== tenantId.toLowerCase() &&
+    stateCode !== "recidiviz"
+  ) {
+    res.status(401).json({
+      error: `User is not a member of the requested tenant ${tenantId}`,
+    });
   } else {
     metricsApi.fetchMetricsByName(
-      req.params.tenantId,
+      tenantId,
       metrics,
       isDemoMode,
       responder(res)

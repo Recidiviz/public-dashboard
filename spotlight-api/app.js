@@ -35,20 +35,21 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(zip());
 
-const checkJwt = jwt({
-  secret: jwks.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    jwksUri:
-      "https://recidiviz-spotlight-staging.us.auth0.com/.well-known/jwks.json",
-  }),
-  audience: "recidiviz-spotlight-staging",
-  issuer: "https://spotlight-login-staging.recidiviz.org/",
-  algorithms: ["RS256"],
-});
-
-app.use(checkJwt);
+if (process.env.AUTH_ENABLED === "true") {
+  const checkJwt = jwt({
+    secret: jwks.expressJwtSecret({
+      cache: true,
+      rateLimit: true,
+      jwksRequestsPerMinute: 5,
+      jwksUri:
+        "https://recidiviz-spotlight-staging.us.auth0.com/.well-known/jwks.json",
+    }),
+    audience: "recidiviz-spotlight-staging",
+    issuer: "https://spotlight-login-staging.recidiviz.org/",
+    algorithms: ["RS256"],
+  });
+  app.use(checkJwt);
+}
 
 app.post("/api/:tenantId/public", express.json(), api.metricsByName);
 
