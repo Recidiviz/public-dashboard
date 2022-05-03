@@ -40,6 +40,7 @@ export function getAuthSettings(): Auth0ClientOptions | undefined {
       domain: "spotlight-login-staging.recidiviz.org",
       client_id: "ID9plpd8j4vaUin9rPTGxWlJoknSkDX1",
       redirect_uri: `${window.location.origin}`,
+      audience: "recidiviz-spotlight-staging",
     };
   }
   return undefined;

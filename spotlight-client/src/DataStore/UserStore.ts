@@ -15,7 +15,10 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import createAuth0Client, { Auth0ClientOptions } from "@auth0/auth0-spa-js";
+import createAuth0Client, {
+  Auth0ClientOptions,
+  GetTokenSilentlyOptions,
+} from "@auth0/auth0-spa-js";
 import { intercept, makeAutoObservable, runInAction } from "mobx";
 import qs from "qs";
 import { AUTH0_APP_METADATA_KEY, ERROR_MESSAGES } from "../constants";
@@ -62,11 +65,15 @@ export default class UserStore {
 
   readonly rootStore?: RootStore;
 
+  getToken: (options?: GetTokenSilentlyOptions) => Promise<string>;
+
   constructor({ authSettings, isAuthRequired, rootStore }: ConstructorProps) {
     makeAutoObservable(this, { rootStore: false, authSettings: false });
 
     this.authSettings = authSettings;
     this.rootStore = rootStore;
+
+    this.getToken = () => Promise.resolve("Token not set");
 
     this.awaitingVerification = false;
     this.isAuthRequired = isAuthRequired;
@@ -96,7 +103,6 @@ export default class UserStore {
       this.authError = new Error(ERROR_MESSAGES.auth0Configuration);
       return;
     }
-
     const auth0 = await createAuth0Client(this.authSettings);
 
     const urlQuery = qs.parse(window.location.search, {
@@ -123,7 +129,10 @@ export default class UserStore {
         AUTH0_APP_METADATA_KEY
       ]?.state_code?.toUpperCase();
       runInAction(() => {
-        this.isLoading = false;
+        this.getToken = (options?: GetTokenSilentlyOptions) => {
+          return auth0?.getTokenSilently(options);
+        };
+
         if (user.email_verified) {
           this.isAuthorized = true;
           this.awaitingVerification = false;
@@ -144,6 +153,7 @@ export default class UserStore {
           }
         }
       });
+      this.isLoading = false;
     } else {
       auth0.loginWithRedirect({
         appState: { targetUrl: window.location.href },

@@ -17,6 +17,7 @@
 
 import { ERROR_MESSAGES } from "../constants";
 import { TenantId } from "../contentApi/types";
+import DataStore from "../DataStore";
 
 /**
  * All data comes back from the server as string values;
@@ -39,6 +40,7 @@ export async function fetchMetrics({
   metricNames,
   tenantId,
 }: FetchMetricOptions): Promise<MetricsApiResponse> {
+  const token = await DataStore.userStore.getToken();
   const response = await fetch(
     `${process.env.REACT_APP_API_URL}/api/${tenantId}/public`,
     {
@@ -46,6 +48,7 @@ export async function fetchMetrics({
         metrics: metricNames,
       }),
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       method: "POST",

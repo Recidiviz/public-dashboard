@@ -53,7 +53,7 @@ const PageHome = (): React.ReactElement => {
       <PageTitle>Spotlight</PageTitle>
       <CopyBlock>
         {getTenantList().map(({ id, name }) => (
-          <p>
+          <p key={id}>
             <Link
               to={getUrlForResource({
                 page: "tenant",
