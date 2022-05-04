@@ -15,8 +15,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { AUTH0_APP_METADATA_KEY } from "./constants";
-
 // we have to import everything dynamically to manipulate process.env,
 // which is weird and Typescript doesn't like it, so silence these warnings
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -95,6 +93,7 @@ test("requires authentication", async () => {
   // configure environment for valid authentication
   process.env.REACT_APP_AUTH_ENABLED = "true";
   process.env.REACT_APP_AUTH_ENV = "development";
+  process.env.REACT_APP_AUTH_METADATA_KEY = "TEST_KEY";
 
   // user is not currently authenticated
   mockIsAuthenticated.mockResolvedValue(false);
@@ -119,6 +118,7 @@ test("requires email verification", async () => {
   // configure environment for valid authentication
   process.env.REACT_APP_AUTH_ENABLED = "true";
   process.env.REACT_APP_AUTH_ENV = "development";
+  process.env.REACT_APP_AUTH_METADATA_KEY = "TEST_KEY";
 
   // user is authenticated but not verified
   mockIsAuthenticated.mockResolvedValue(true);
@@ -141,12 +141,13 @@ test("renders when authenticated and state_code is 'recidiviz'", async () => {
   // configure environment for valid authentication
   process.env.REACT_APP_AUTH_ENABLED = "true";
   process.env.REACT_APP_AUTH_ENV = "development";
+  process.env.REACT_APP_AUTH_METADATA_KEY = "TEST_KEY";
 
   // user is authenticated and verified and assigned a valid state_code
   mockIsAuthenticated.mockResolvedValue(true);
   mockGetUser.mockResolvedValue({ email_verified: true });
   mockGetIdTokenClaims.mockResolvedValue({
-    [AUTH0_APP_METADATA_KEY]: {
+    [process.env.REACT_APP_AUTH_METADATA_KEY]: {
       state_code: "recidiviz",
     },
   });
@@ -164,12 +165,13 @@ test("renders when authenticated and state_code is one of our tenants", async ()
   // configure environment for valid authentication
   process.env.REACT_APP_AUTH_ENABLED = "true";
   process.env.REACT_APP_AUTH_ENV = "development";
+  process.env.REACT_APP_AUTH_METADATA_KEY = "TEST_KEY";
 
   // user is authenticated and verified and assigned a valid state_code
   mockIsAuthenticated.mockResolvedValue(true);
   mockGetUser.mockResolvedValue({ email_verified: true });
   mockGetIdTokenClaims.mockResolvedValue({
-    [AUTH0_APP_METADATA_KEY]: {
+    [process.env.REACT_APP_AUTH_METADATA_KEY]: {
       state_code: "us_nd",
     },
   });
@@ -185,12 +187,13 @@ test("renders when authenticated and state_code is NOT one of our tenants", asyn
   // configure environment for valid authentication
   process.env.REACT_APP_AUTH_ENABLED = "true";
   process.env.REACT_APP_AUTH_ENV = "development";
+  process.env.REACT_APP_AUTH_METADATA_KEY = "TEST_KEY";
 
   // user is authenticated and verified and assigned a valid state_code
   mockIsAuthenticated.mockResolvedValue(true);
   mockGetUser.mockResolvedValue({ email_verified: true });
   mockGetIdTokenClaims.mockResolvedValue({
-    [AUTH0_APP_METADATA_KEY]: {
+    [process.env.REACT_APP_AUTH_METADATA_KEY]: {
       state_code: "invalid",
     },
   });
@@ -206,12 +209,13 @@ test("renders when authenticated and state_code is NOT set", async () => {
   // configure environment for valid authentication
   process.env.REACT_APP_AUTH_ENABLED = "true";
   process.env.REACT_APP_AUTH_ENV = "development";
+  process.env.REACT_APP_AUTH_METADATA_KEY = "TEST_KEY";
 
   // user is authenticated and verified and assigned a valid state_code
   mockIsAuthenticated.mockResolvedValue(true);
   mockGetUser.mockResolvedValue({ email_verified: true });
   mockGetIdTokenClaims.mockResolvedValue({
-    [AUTH0_APP_METADATA_KEY]: {},
+    [process.env.REACT_APP_AUTH_METADATA_KEY]: {},
   });
   const App = await getApp();
   render(<App />);

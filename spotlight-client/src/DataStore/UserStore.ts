@@ -25,8 +25,6 @@ import { ERROR_MESSAGES } from "../constants";
 import { isTenantId, StateCodes } from "../contentApi/types";
 import RootStore from "./RootStore";
 
-const { REACT_APP_AUTH_METADATA_KEY } = process.env;
-
 type ConstructorProps = {
   authSettings?: Auth0ClientOptions;
   isAuthRequired: boolean;
@@ -123,6 +121,8 @@ export default class UserStore {
       window.history.replaceState({}, document.title, replacementUrl);
       if (handleTargetUrl) handleTargetUrl(replacementUrl);
     }
+
+    const { REACT_APP_AUTH_METADATA_KEY } = process.env;
 
     if (REACT_APP_AUTH_METADATA_KEY && (await auth0.isAuthenticated())) {
       const user = await auth0.getUser();
