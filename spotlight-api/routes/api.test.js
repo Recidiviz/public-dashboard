@@ -122,7 +122,7 @@ test("retrieves metrics if auth is enabled and user state code matches the reque
 test("returns 401 if auth is enabled and user state code doesn't match the request param", async () => {
   process.env.AUTH_ENABLED = "true";
   process.env.AUTH0_APP_METADATA_KEY = "TEST_KEY";
-  const mockStatusFn = jest.fn((number) => (json) => json);
+  const mockStatusFn = jest.fn();
   const mockSendFn = jest.fn();
   metricsByName(
     {
