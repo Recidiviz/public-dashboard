@@ -16,7 +16,7 @@
 // =============================================================================
 
 import createAuth0Client from "@auth0/auth0-spa-js";
-import { ERROR_MESSAGES } from "../constants";
+import { AUTH0_APP_METADATA_KEY, ERROR_MESSAGES } from "../constants";
 import { reactImmediately } from "../testUtils";
 import RootStore from "./RootStore";
 import UserStore from "./UserStore";
@@ -188,12 +188,10 @@ test("passes target URL to callback", async () => {
 });
 
 test("retrieves the state code from app_metadata and sets tenantStore's currentTenantId", async () => {
-  process.env.REACT_APP_AUTH_METADATA_KEY = "TEST_KEY";
-
   mockIsAuthenticated.mockResolvedValue(true);
   mockGetUser.mockResolvedValue({ email_verified: true });
   mockGetIdTokenClaims.mockResolvedValue({
-    [process.env.REACT_APP_AUTH_METADATA_KEY]: {
+    [AUTH0_APP_METADATA_KEY]: {
       state_code: "us_nd",
     },
   });
@@ -216,12 +214,10 @@ test("retrieves the state code from app_metadata and sets tenantStore's currentT
 });
 
 test("retrieves no state code from app_metadata", async () => {
-  process.env.REACT_APP_AUTH_METADATA_KEY = "TEST_KEY";
-
   mockIsAuthenticated.mockResolvedValue(true);
   mockGetUser.mockResolvedValue({ email_verified: true });
   mockGetIdTokenClaims.mockResolvedValue({
-    [process.env.REACT_APP_AUTH_METADATA_KEY]: {},
+    [AUTH0_APP_METADATA_KEY]: {},
   });
 
   const rootStore = new RootStore();

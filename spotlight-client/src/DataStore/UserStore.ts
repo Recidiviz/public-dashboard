@@ -21,7 +21,7 @@ import createAuth0Client, {
 } from "@auth0/auth0-spa-js";
 import { intercept, makeAutoObservable, runInAction } from "mobx";
 import qs from "qs";
-import { ERROR_MESSAGES } from "../constants";
+import { AUTH0_APP_METADATA_KEY, ERROR_MESSAGES } from "../constants";
 import { isTenantId, StateCodes } from "../contentApi/types";
 import RootStore from "./RootStore";
 
@@ -122,13 +122,11 @@ export default class UserStore {
       if (handleTargetUrl) handleTargetUrl(replacementUrl);
     }
 
-    const { REACT_APP_AUTH_METADATA_KEY } = process.env;
-
-    if (REACT_APP_AUTH_METADATA_KEY && (await auth0.isAuthenticated())) {
+    if (await auth0.isAuthenticated()) {
       const user = await auth0.getUser();
       const claims = await auth0.getIdTokenClaims();
       const stateCode = claims[
-        REACT_APP_AUTH_METADATA_KEY
+        AUTH0_APP_METADATA_KEY
       ]?.state_code?.toUpperCase();
       runInAction(() => {
         this.getToken = (options?: GetTokenSilentlyOptions) => {
