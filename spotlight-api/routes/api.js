@@ -25,8 +25,6 @@ const demoMode = require("../utils/demoMode");
 
 const isDemoMode = demoMode.isDemoMode();
 
-const { AUTH_ENABLED, AUTH0_APP_METADATA_KEY } = process.env;
-
 /**
  * A callback which returns either either an error payload or a data payload.
  */
@@ -41,6 +39,7 @@ function responder(res) {
 }
 
 function metricsByName(req, res) {
+  const { AUTH_ENABLED, AUTH0_APP_METADATA_KEY } = process.env;
   const { tenantId } = req.params;
   const { metrics } = req.body;
   const stateCode =
