@@ -35,7 +35,7 @@ const judicialDistricts = [
 
 const raceOrEthnicityBoilerplate = `${raceOrEthnicity} The “Other” category includes Asian
 and Native Hawaiian or other Pacific Islander individuals due to low counts of these
-reported racial identities in North Dakota.`;
+reported racial identities in Maine.`;
 
 const demographicsBoilerplate = `<p>${ageGroup} ${gender} ${raceOrEthnicityBoilerplate}</p>`;
 
@@ -51,48 +51,49 @@ associated with the controlling charge determines the judicial district in which
 counted. Individuals on supervision are counted in each judicial district for which they
 are serving a sentence.</p>`;
 
-const prisonBoilerplate = `<p>This data concerns individuals in prison in North Dakota.
+const prisonBoilerplate = `<p>This data concerns individuals in prison in Maine.
 It does not include individuals incarcerated in county jails.</p>`;
 
-const probationBoilerplate = `<p>This data may include some individuals on probation in North
-Dakota as part of the interstate compact program, in which North Dakota agrees to supervise
+const probationBoilerplate = `<p>This data may include some individuals on probation in Maine
+as part of the interstate compact program, in which Maine agrees to supervise
 individuals who were charged and sentenced in a different state, but have a compelling reason
-to serve their probation in North Dakota. Under the same program, individuals placed on probation
-from a North Dakota court may occasionally serve their probation in a different state.</p>`;
+to serve their probation in Maine. Under the same program, individuals placed on probation
+from a Maine court may occasionally serve their probation in a different state.</p>`;
 
 const probationDistrictBoilerplate = `<p>The districts associated with this data indicate individuals
 whose probation sentence was imposed by a judge from a particular judicial district, determined by the
 judicial district that encompasses the county in which the offense took place.</p>`;
 
-const paroleBoilerplate = `<p>This data may include some individuals on parole in North
-Dakota as part of the interstate compact program, in which North Dakota agrees to supervise
+const paroleBoilerplate = `<p>This data may include some individuals on parole in Maine
+as part of the interstate compact program, in which Maine agrees to supervise
 the release of individuals who were charged, sentenced, and incarcerated in a different state,
-but have a compelling reason to serve their parole in North Dakota. Under the same program,
-individuals paroled from a North Dakota prison may occasionally serve their parole in a
+but have a compelling reason to serve their parole in Maine. Under the same program,
+individuals paroled from a Maine prison may occasionally serve their parole in a
 different state.</p>`;
 
 const paroleOfficerBoilerplate = `<p>The offices associated with this data indicate individuals
 who are being supervised by a parole officer stationed in that office.</p>`;
 
 const supervisionBoilerplate = `<p>This data may include some individuals on probation or parole in
-North Dakota as part of the interstate compact program, in which North Dakota agrees to supervise
+Maine as part of the interstate compact program, in which Maine agrees to supervise
 individuals who were charged and sentenced in a different state, but have a compelling reason to
-serve their supervision in North Dakota. Under the same program, individuals placed on supervision
-in a North Dakota court may occasionally complete their supervision in a different state.</p>`;
+serve their supervision in Maine. Under the same program, individuals placed on supervision
+in a Maine court may occasionally complete their supervision in a different state.</p>`;
 
 const content: TenantContent = {
   name: "Maine",
-  description:
-    "Our mission is to transform lives, influence change, and strengthen community. Transparency is a critical element of our mission; sharing information builds greater accountability between the DOCR and the communities we serve.",
+  description: "Placeholder for Maine DOC Mission",
   coBrandingCopy:
     'Produced in collaboration with <a href="https://www.maine.gov/corrections/home">the Maine Department of Corrections</a>.',
   feedbackUrl:
     "https://docs.google.com/forms/d/e/1FAIpQLSc3_wV2ltGumMdGTcLehUM41tQri0ZW5RjIKh0JJlhpJGE9Hg/viewform",
   demographicCategories: {
     raceOrEthnicity: [
+      "ASIAN",
       "AMERICAN_INDIAN_ALASKAN_NATIVE",
       "BLACK",
       "HISPANIC",
+      "NATIVE_HAWAIIAN_PACIFIC_ISLANDER",
       "WHITE",
       "OTHER",
     ],
@@ -105,14 +106,14 @@ const content: TenantContent = {
     SentencePopulationCurrent: {
       name: "Sentenced Population",
       methodology: `This data includes all individuals that are currently incarcerated, on parole, or on probation
-        in North Dakota. ${demographicsBoilerplate} ${sentencingBoilerplate}`,
+        in Maine. ${demographicsBoilerplate} ${sentencingBoilerplate}`,
       totalLabel: "Total people sentenced",
     },
     SentenceTypesCurrent: {
       name: "Sentence Types",
-      methodology: `Incarceration includes any sentence that begins with a period of incarceration in a ND DOCR facility.
+      methodology: `Incarceration includes any sentence that begins with a period of incarceration in a Maine DOC facility.
         Probation includes any sentence that begins with a period of probation under the supervision of a
-        ND DOCR probation officer. <p>Of note, individuals’ current status (incarcerated or on supervision)
+        Maine DOC probation officer. <p>Of note, individuals’ current status (incarcerated or on supervision)
         may differ from their sentence category (incarceration or probation). Individuals now on parole after
         being incarcerated are still counted in the incarceration sentence category. Individuals who have had
         their probation revoked and are now in prison are likewise included in the probation sentence category
@@ -122,7 +123,7 @@ const content: TenantContent = {
     },
     PrisonPopulationCurrent: {
       name: "Current Prison Population",
-      methodology: `This data includes all individuals that are currently incarcerated in a ND DOCR facility.
+      methodology: `This data includes all individuals that are currently incarcerated in a Maine DOC facility.
         It does not include individuals incarcerated in county jails nor individuals currently
         serving their prison sentence in the community through the Community Placement Program.
         ${demographicsBoilerplate} ${prisonBoilerplate}`,
@@ -130,7 +131,7 @@ const content: TenantContent = {
     },
     PrisonPopulationHistorical: {
       name: "Historical Prison Population",
-      methodology: `This data includes the number of people that were incarcerated in a ND DOCR facility on the
+      methodology: `This data includes the number of people that were incarcerated in a Maine DOC facility on the
         first day of each month over the last 20 years. It does not include individuals incarcerated
         in county jails nor individuals serving their prison sentence in the community through the
         Community Placement Program. ${demographicsBoilerplate} ${prisonBoilerplate}`,
@@ -138,7 +139,7 @@ const content: TenantContent = {
     PrisonAdmissionReasonsCurrent: {
       name: "Reason for Incarceration",
       methodology: `This data includes the original reason for admission for all individuals currently incarcerated
-        in a ND DOCR facility. When an individual is admitted to a state prison, the reason for the admission
+        in a Maine DOC facility. When an individual is admitted to a state prison, the reason for the admission
         is documented by prison officials. These categories are pulled from that documentation.
         ${demographicsBoilerplate} ${prisonBoilerplate}`,
     },
@@ -167,7 +168,7 @@ const content: TenantContent = {
     PrisonRecidivismRateHistorical: {
       name: "Cumulative Recidivism Rates",
       methodology: `This data reports reincarceration recidivism rates, which is the proportion of individuals
-        released from a ND DOCR facility that return to a ND DOCR facility at some point in the
+        released from a Maine DOC facility that return to a Maine DOC facility at some point in the
         future. The releases are grouped by the calendar year in which the release occurred, and
         the rates are calculated as the percentage of the people released that have returned to
         incarceration after each year since the release. Individuals are included in the release
@@ -184,14 +185,14 @@ const content: TenantContent = {
     },
     ProbationPopulationCurrent: {
       name: "Current Probation Population",
-      methodology: `This data includes people currently on probation in North Dakota.
+      methodology: `This data includes people currently on probation in Maine.
         ${demographicsBoilerplate} ${probationBoilerplate} ${probationDistrictBoilerplate}`,
       totalLabel: "Total people on probation",
     },
     ProbationPopulationHistorical: {
       name: "Historical Probation Population",
       methodology: `This data includes the number of people that were on probation in
-        North Dakota on the first day of each month over the last 20 years.
+        Maine on the first day of each month over the last 20 years.
         ${demographicsBoilerplate} ${probationBoilerplate}`,
     },
     ProbationSuccessHistorical: {
@@ -247,13 +248,13 @@ const content: TenantContent = {
     },
     ParolePopulationCurrent: {
       name: "Current Parole Population",
-      methodology: `This data includes people currently on parole in North Dakota.
+      methodology: `This data includes people currently on parole in Maine.
         ${demographicsBoilerplate} ${paroleBoilerplate} ${paroleOfficerBoilerplate}`,
       totalLabel: "Total people on parole",
     },
     ParolePopulationHistorical: {
       name: "Historical Parole Population",
-      methodology: `This data includes the number of people that were on parole in North Dakota
+      methodology: `This data includes the number of people that were on parole in Maine
         on the first day of each month over the last 20 years. ${demographicsBoilerplate}
         ${paroleBoilerplate}`,
     },
@@ -314,12 +315,12 @@ const content: TenantContent = {
       previewTitle:
         "Demographics of Individuals Sentenced to Prison or Probation",
       introduction:
-        "When someone is convicted of a crime, they receive a sentence that is meant to correspond with facts, circumstances and the severity of the offense and the offender, to provide retribution to the victim and set a course for rehabilitation. The data below gives an overview of sentences for people who enter the North Dakota corrections system — that is, people who are sentenced to serve time in prison or on supervised probation.",
+        "When someone is convicted of a crime, they receive a sentence that is meant to correspond with facts, circumstances and the severity of the offense and the offender, to provide retribution to the victim and set a course for rehabilitation. The data below gives an overview of sentences for people who enter the Maine corrections system — that is, people who are sentenced to serve time in prison or on supervised probation.",
       sections: [
         {
           title: "Who is being sentenced?",
           body:
-            "After being convicted of a Class A misdemeanor or greater offense by a district court, a person may be sentenced to time in prison or probation, at which point they come under the jurisdiction of the Department of Corrections and Rehabilitation (DOCR). These charts show everyone currently involved with the North Dakota DOCR.",
+            "After being convicted of a Class A misdemeanor or greater offense by a district court, a person may be sentenced to time in prison or probation, at which point they come under the jurisdiction of the Department of Corrections and Rehabilitation (DOCR). These charts show everyone currently involved with the Maine DOCR.",
           metricTypeId: "SentencePopulationCurrent",
         },
         {
@@ -342,7 +343,7 @@ const content: TenantContent = {
           metricTypeId: "PrisonPopulationCurrent",
           title: "Who is in custody?",
           body:
-            "The North Dakota Department of Corrections and Rehabilitation (DOCR) runs a number of different facilities and contracts with facilities across the state.",
+            "The Maine Department of Corrections and Rehabilitation (DOCR) runs a number of different facilities and contracts with facilities across the state.",
         },
         {
           metricTypeId: "PrisonPopulationHistorical",
@@ -360,7 +361,7 @@ const content: TenantContent = {
           metricTypeId: "PrisonStayLengthAggregate",
           title: "How long are they there?",
           body:
-            "Each person in prison has a court-decided sentence determining their maximum length of stay. The actual time that someone stays in prison can be reduced through good behavior credits and parole (discretionary decision by Parole Board). While North Dakota requires those convicted of violent offenses to remain in prison for at least 85 percent of their sentence, most people serve less time in prison than their maximum length of stay.",
+            "Each person in prison has a court-decided sentence determining their maximum length of stay. The actual time that someone stays in prison can be reduced through good behavior credits and parole (discretionary decision by Parole Board). While Maine requires those convicted of violent offenses to remain in prison for at least 85 percent of their sentence, most people serve less time in prison than their maximum length of stay.",
         },
         {
           metricTypeId: "PrisonReleaseTypeAggregate",
@@ -386,7 +387,7 @@ const content: TenantContent = {
       title: "Probation",
       previewTitle: "Revocations from Probation, by Type",
       introduction:
-        "Probation refers to adults whom the courts place on supervision in the community in lieu of or in addition to incarceration. In North Dakota, probation is managed by the Department of Corrections and Rehabilitation (DOCR).",
+        "Probation refers to adults whom the courts place on supervision in the community in lieu of or in addition to incarceration. In Maine, probation is managed by the Department of Corrections and Rehabilitation (DOCR).",
       preview: "ProbationRevocationsAggregate",
       sections: [
         {
@@ -410,7 +411,7 @@ const content: TenantContent = {
         {
           title: "Why do revocations happen?",
           body:
-            "Revocations happen when a person on probation violates a condition of their supervision or commits a new crime. In North Dakota, probation revocations fall into one of three categories: technical violation, new offense, and absconsion.",
+            "Revocations happen when a person on probation violates a condition of their supervision or commits a new crime. In Maine, probation revocations fall into one of three categories: technical violation, new offense, and absconsion.",
           metricTypeId: "ProbationRevocationsAggregate",
         },
         {
@@ -449,7 +450,7 @@ const content: TenantContent = {
         {
           title: "Why do revocations happen?",
           body:
-            "Revocations happen when a person on parole violates a condition of their supervision or commits a new crime. In North Dakota, parole revocations fall into one of three categories: technical violation, new offense, and absconsion.",
+            "Revocations happen when a person on parole violates a condition of their supervision or commits a new crime. In Maine, parole revocations fall into one of three categories: technical violation, new offense, and absconsion.",
           metricTypeId: "ParoleRevocationsAggregate",
         },
         {
@@ -480,7 +481,7 @@ const content: TenantContent = {
         { id: "FTPMND", label: "Mandan-Female Transition Program" },
         { id: "MTPMND", label: "Mandan-Male Transition Program" },
         { id: "MRCC", label: "Missouri River Correctional" },
-        { id: "NDSP", label: "North Dakota State Penitentiary" },
+        { id: "NDSP", label: "Maine State Penitentiary" },
         { id: "TRC", label: "Tompkins Rehabilitation And Corrections Center" },
       ],
     },
@@ -544,11 +545,11 @@ const content: TenantContent = {
       totalPopulationSentences: "All people sentenced and under DOCR control",
       revocationProportions: "Proportions of revocation reasons",
     },
-    introduction: `<p>In North Dakota, people of color are overrepresented in prison,
+    introduction: `<p>In Maine, people of color are overrepresented in prison,
       on probation, and on parole.</p>
-      <p>Black North Dakotans are {likelihoodVsWhite.BLACK} times as likely to be under DOCR control
-      as their white counterparts, Latino North Dakotans are {likelihoodVsWhite.HISPANIC} times as
-      likely, and Native American North Dakotans {likelihoodVsWhite.AMERICAN_INDIAN_ALASKAN_NATIVE} times.</p>`,
+      <p>Black Mainens are {likelihoodVsWhite.BLACK} times as likely to be under DOCR control
+      as their white counterparts, Latino Mainens are {likelihoodVsWhite.HISPANIC} times as
+      likely, and Native American Mainens {likelihoodVsWhite.AMERICAN_INDIAN_ALASKAN_NATIVE} times.</p>`,
     introductionMethodology: `${raceOrEthnicityBoilerplate} ${supervisionBoilerplate}`,
     sections: {
       beforeCorrections: {
@@ -558,14 +559,14 @@ const content: TenantContent = {
           and sentenced.<sup>1</sup> Even before contact with the criminal justice system,
           disparities in community investment (education, housing, healthcare) may
           play an important role in creating the disparities that we see in sentencing data.</p>
-          <p>{ethnonymCapitalized} make up {beforeCorrections.populationPctCurrent} of North Dakota’s
+          <p>{ethnonymCapitalized} make up {beforeCorrections.populationPctCurrent} of Maine’s
           population, but {beforeCorrections.correctionsPctCurrent} of the population sentenced
           to time under DOCR control.</p>
           <aside>1. This dashboard only focuses on data from DOCR at the moment, which is why
           disparities in arrests and charging aren’t shown. We’re working with colleagues across
           the state to show the entire criminal justice system end-to-end as this page evolves.</aside>`,
         methodology: `The source of data for racial and ethnic proportions overall in
-          North Dakota is the US Census Bureau. The proportion under DOCR control is the percent of
+          Maine is the US Census Bureau. The proportion under DOCR control is the percent of
           individuals currently incarcerated or under community supervision of a given racial or
           ethnic group.<p>${raceOrEthnicityBoilerplate}</p>${supervisionBoilerplate}`,
       },
@@ -581,8 +582,8 @@ const content: TenantContent = {
           {sentencing.overall.incarcerationPctCurrent} serving incarceration sentences versus
           {sentencing.overall.probationPctCurrent} serving probation sentences.<p>`,
         methodology: `Incarceration includes any sentence that begins with a period of incarceration in a
-          ND DOCR facility. Probation includes any sentence that begins with a period of probation under the
-          supervision of a ND DOCR probation officer.
+          Maine DOC facility. Probation includes any sentence that begins with a period of probation under the
+          supervision of a Maine DOC probation officer.
           <p>Of note, individuals’ current status (incarcerated or on supervision) may differ from their sentence
           category (incarceration or probation). Individuals now on parole after being incarcerated are still counted
           in the incarceration sentence category. Individuals who have had their probation revoked and are now in
@@ -652,7 +653,7 @@ const content: TenantContent = {
         title: "Can programming help reduce disparities?",
         body: `<p>Programming is designed to improve outcomes for justice-involved individuals. If programming is
           utilized more by groups overrepresented in the justice system, it could help close the gap.</p>
-          <p>In 2018, North Dakota launched Free Through Recovery, a wrap-around behavioral health program that
+          <p>In 2018, Maine launched Free Through Recovery, a wrap-around behavioral health program that
           helps those with behavioral health challenges to succeed on community supervision. {ethnonymCapitalized}
           are {programming.participantProportionCurrent} of active participants in FTR, a {programming.comparison}
           representation compared to their overall {programming.supervisionProportionCurrent} of the current
@@ -661,7 +662,7 @@ const content: TenantContent = {
       },
       conclusion: {
         title:
-          "What are we doing to further improve disparities in criminal justice in North Dakota?",
+          "What are we doing to further improve disparities in criminal justice in Maine?",
         body: `<div>In 2019, the DOCR announced participation in the Restoring Promise initiative with the Vera
           Institute of Justice and MILPA. This initiative will focus on strategies to improve outcomes for
           incarcerated individuals age 18-25 with a strong emphasis on addressing racial inequities.</div>
@@ -672,7 +673,7 @@ const content: TenantContent = {
             <li>Re-evaluation of community policing practices</li>
             <li>Looking for and reducing bias in charging, and sentencing practices</li>
           </ul>
-          <p>Finally, progress starts with transparency; this page helps North Dakota and those of us at the
+          <p>Finally, progress starts with transparency; this page helps Maine and those of us at the
           DOCR to continue work to reduce the disparities in our system and create an equitable justice system.</p></div>`,
         // empty because there is no chart or data in this section
         methodology: "",
