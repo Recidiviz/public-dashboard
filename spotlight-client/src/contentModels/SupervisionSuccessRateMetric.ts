@@ -161,6 +161,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
           sourceFileName: this.demographicSourceFileName,
           tenantId: this.tenantId,
           transformFn: this.demographicDataTransformer,
+          rootStore: this.rootStore,
         }),
       ]);
 

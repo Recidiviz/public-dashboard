@@ -30,6 +30,7 @@ import {
   MetricTypeId,
   TenantId,
 } from "../contentApi/types";
+import RootStore from "../DataStore/RootStore";
 import {
   createDemographicCategories,
   DemographicCategories,
@@ -89,6 +90,7 @@ export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   localityLabels: RecordFormat extends LocalityFields
     ? LocalityLabels
     : undefined;
+  rootStore?: RootStore;
 };
 
 /**
@@ -125,6 +127,8 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
 
   error?: Error;
 
+  rootStore?: RootStore;
+
   // filter properties
   private readonly demographicCategories: DemographicCategories;
 
@@ -152,6 +156,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     defaultDemographicView,
     defaultLocalityId,
     localityLabels,
+    rootStore,
   }: BaseMetricConstructorOptions<RecordFormat>) {
     makeObservable<Metric<RecordFormat>, "allRecords">(this, {
       allRecords: observable.ref,
@@ -174,6 +179,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     this.tenantId = tenantId;
     this.sourceFileName = sourceFileName;
     this.dataTransformer = dataTransformer;
+    this.rootStore = rootStore;
 
     // initialize filters
     this.demographicCategories = createDemographicCategories(demographicFilter);
@@ -191,6 +197,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
       sourceFileName: this.sourceFileName,
       tenantId: this.tenantId,
       transformFn: this.dataTransformer,
+      rootStore: this.rootStore,
     });
     return records;
   }

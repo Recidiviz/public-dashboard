@@ -87,7 +87,10 @@ export default class TenantStore {
       try {
         this.tenants.set(
           this.currentTenantId,
-          createTenant({ tenantId: this.currentTenantId })
+          createTenant({
+            tenantId: this.currentTenantId,
+            rootStore: this.rootStore,
+          })
         );
       } catch (error) {
         if (!error.message.includes(ERROR_MESSAGES.disabledTenant)) {

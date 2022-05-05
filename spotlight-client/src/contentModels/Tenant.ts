@@ -17,6 +17,7 @@
 
 import retrieveContent from "../contentApi/retrieveContent";
 import { SystemNarrativeTypeIdList, TenantId } from "../contentApi/types";
+import RootStore from "../DataStore/RootStore";
 import createMetricMapping from "./createMetricMapping";
 import RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
 import { createSystemNarrative } from "./SystemNarrative";
@@ -85,11 +86,13 @@ export default class Tenant {
 
 type TenantFactoryOptions = {
   tenantId: TenantId;
+  rootStore?: RootStore;
 };
 
 function getMetricsForTenant(
   allTenantContent: ReturnType<typeof retrieveContent>,
-  tenantId: TenantId
+  tenantId: TenantId,
+  rootStore?: RootStore
 ) {
   return createMetricMapping({
     localityLabelMapping: allTenantContent.localities,
@@ -97,6 +100,7 @@ function getMetricsForTenant(
     topologyMapping: allTenantContent.topologies,
     tenantId,
     demographicFilter: allTenantContent.demographicCategories,
+    rootStore,
   });
 }
 
@@ -123,10 +127,13 @@ function getSystemNarrativesForTenant({
 /**
  * Factory function for creating an instance of the `Tenant` specified by `tenantId`.
  */
-export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
+export function createTenant({
+  tenantId,
+  rootStore,
+}: TenantFactoryOptions): Tenant {
   const allTenantContent = retrieveContent({ tenantId });
 
-  const metrics = getMetricsForTenant(allTenantContent, tenantId);
+  const metrics = getMetricsForTenant(allTenantContent, tenantId, rootStore);
 
   const racialDisparitiesNarrative =
     allTenantContent.racialDisparitiesNarrative &&
@@ -134,6 +141,7 @@ export function createTenant({ tenantId }: TenantFactoryOptions): Tenant {
       tenantId,
       content: allTenantContent.racialDisparitiesNarrative,
       categoryFilter: allTenantContent.demographicCategories?.raceOrEthnicity,
+      rootStore,
     });
 
   return new Tenant({

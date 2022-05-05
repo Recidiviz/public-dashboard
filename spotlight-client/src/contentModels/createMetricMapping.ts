@@ -54,6 +54,7 @@ import SupervisionSuccessRateMetric from "./SupervisionSuccessRateMetric";
 import { ERROR_MESSAGES } from "../constants";
 import { NOFILTER_KEY, TOTAL_KEY } from "../demographics";
 import { colors } from "../UiLibrary";
+import RootStore from "../DataStore/RootStore";
 
 type MetricMappingFactoryOptions = {
   localityLabelMapping?: TenantContent["localities"];
@@ -61,6 +62,7 @@ type MetricMappingFactoryOptions = {
   topologyMapping?: TenantContent["topologies"];
   tenantId: TenantId;
   demographicFilter?: TenantContent["demographicCategories"];
+  rootStore?: RootStore;
 };
 /**
  * Factory function for converting a mapping of content objects by metric ID
@@ -74,6 +76,7 @@ export default function createMetricMapping({
   topologyMapping,
   tenantId,
   demographicFilter,
+  rootStore,
 }: MetricMappingFactoryOptions): MetricMapping {
   const metricMapping: MetricMapping = new Map();
 
@@ -113,6 +116,7 @@ export default function createMetricMapping({
               localityLabels: localityLabelMapping.Sentencing,
               dataTransformer: sentencePopulationCurrent,
               sourceFileName: "sentence_type_by_district_by_demographics",
+              rootStore,
             })
           );
         else throw new Error(totalLabelError);
@@ -134,6 +138,7 @@ export default function createMetricMapping({
             localityLabels: localityLabelMapping.Sentencing,
             dataTransformer: sentenceTypesCurrent,
             sourceFileName: "sentence_type_by_district_by_demographics",
+            rootStore,
           })
         );
         break;
@@ -155,6 +160,7 @@ export default function createMetricMapping({
               dataTransformer: prisonPopulationCurrent,
               sourceFileName:
                 "incarceration_population_by_facility_by_demographics",
+              rootStore,
             })
           );
         else throw new Error(totalLabelError);
@@ -177,6 +183,7 @@ export default function createMetricMapping({
               dataTransformer: prisonPopulationCurrent,
               sourceFileName:
                 "community_corrections_population_by_facility_by_demographics",
+              rootStore,
             })
           );
         else throw new Error(totalLabelError);
@@ -198,6 +205,7 @@ export default function createMetricMapping({
               dataTransformer: probationPopulationCurrent,
               sourceFileName:
                 "supervision_population_by_district_by_demographics",
+              rootStore,
             })
           );
         else throw new Error(totalLabelError);
@@ -219,6 +227,7 @@ export default function createMetricMapping({
               dataTransformer: parolePopulationCurrent,
               sourceFileName:
                 "supervision_population_by_district_by_demographics",
+              rootStore,
             })
           );
         else throw new Error(totalLabelError);
@@ -236,6 +245,7 @@ export default function createMetricMapping({
             localityLabels: undefined,
             dataTransformer: prisonPopulationHistorical,
             sourceFileName: "incarceration_population_by_month_by_demographics",
+            rootStore,
           })
         );
         break;
@@ -252,6 +262,7 @@ export default function createMetricMapping({
             localityLabels: undefined,
             dataTransformer: probationPopulationHistorical,
             sourceFileName: "supervision_population_by_month_by_demographics",
+            rootStore,
           })
         );
         break;
@@ -268,6 +279,7 @@ export default function createMetricMapping({
             localityLabels: undefined,
             dataTransformer: parolePopulationHistorical,
             sourceFileName: "supervision_population_by_month_by_demographics",
+            rootStore,
           })
         );
         break;
@@ -291,6 +303,7 @@ export default function createMetricMapping({
             mapData: topologyMapping?.ProgramRegions,
             dataTransformer: probationProgramParticipationCurrent,
             sourceFileName: "active_program_participation_by_region",
+            rootStore,
           })
         );
         break;
@@ -314,6 +327,7 @@ export default function createMetricMapping({
             mapData: topologyMapping?.ProgramRegions,
             dataTransformer: paroleProgramParticipationCurrent,
             sourceFileName: "active_program_participation_by_region",
+            rootStore,
           })
         );
         break;
@@ -336,6 +350,7 @@ export default function createMetricMapping({
             demographicDataTransformer: probationSuccessRateDemographics,
             demographicSourceFileName:
               "supervision_success_by_period_by_demographics",
+            rootStore,
           })
         );
         break;
@@ -358,6 +373,7 @@ export default function createMetricMapping({
             demographicDataTransformer: paroleSuccessRateDemographics,
             demographicSourceFileName:
               "supervision_success_by_period_by_demographics",
+            rootStore,
           })
         );
         break;
@@ -380,6 +396,7 @@ export default function createMetricMapping({
             demographicDataTransformer: paroleTerminationRateDemographics,
             demographicSourceFileName:
               "supervision_terminations_by_period_by_demographics",
+            rootStore,
           })
         );
         break;
@@ -397,6 +414,7 @@ export default function createMetricMapping({
             dataTransformer: probationRevocationReasons,
             sourceFileName:
               "supervision_revocations_by_period_by_type_by_demographics",
+            rootStore,
           })
         );
         break;
@@ -414,6 +432,7 @@ export default function createMetricMapping({
             dataTransformer: paroleRevocationReasons,
             sourceFileName:
               "supervision_revocations_by_period_by_type_by_demographics",
+            rootStore,
           })
         );
         break;
@@ -437,6 +456,7 @@ export default function createMetricMapping({
               return prisonAdmissionReasons(rawRecords, fieldMapping);
             },
             sourceFileName: "incarceration_population_by_admission_reason",
+            rootStore,
           })
         );
         break;
@@ -453,6 +473,7 @@ export default function createMetricMapping({
             localityLabels: undefined,
             dataTransformer: prisonReleaseTypes,
             sourceFileName: "incarceration_releases_by_type_by_period",
+            rootStore,
           })
         );
         break;
@@ -469,6 +490,7 @@ export default function createMetricMapping({
             localityLabels: undefined,
             dataTransformer: recidivismRateAllFollowup,
             sourceFileName: "recidivism_rates_by_cohort_by_year",
+            rootStore,
           })
         );
         break;
@@ -486,6 +508,7 @@ export default function createMetricMapping({
             localityLabels: undefined,
             dataTransformer: recidivismRateConventionalFollowup,
             sourceFileName: "recidivism_rates_by_cohort_by_year",
+            rootStore,
           })
         );
         break;
@@ -503,6 +526,7 @@ export default function createMetricMapping({
             dataTransformer: prisonStayLengths,
             sourceFileName: "incarceration_lengths_by_demographics",
             color: colors.dataVizNamed.teal,
+            rootStore,
           })
         );
         break;
