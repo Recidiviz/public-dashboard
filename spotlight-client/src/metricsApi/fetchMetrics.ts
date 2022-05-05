@@ -17,6 +17,7 @@
 
 import { ERROR_MESSAGES } from "../constants";
 import { TenantId } from "../contentApi/types";
+import RootStore from "../DataStore/RootStore";
 
 /**
  * All data comes back from the server as string values;
@@ -30,6 +31,7 @@ type ErrorAPIResponse = { error: string };
 type FetchMetricOptions = {
   metricNames: string[];
   tenantId: TenantId;
+  rootStore?: RootStore;
 };
 
 /**
@@ -38,7 +40,11 @@ type FetchMetricOptions = {
 export async function fetchMetrics({
   metricNames,
   tenantId,
+  rootStore,
 }: FetchMetricOptions): Promise<MetricsApiResponse> {
+  // we need some way to get the auth token from the userStore, so we pass a reference to the method in this way.
+  // ideally fetching metrics should be handled in its own mobx store rather than in the content models. See issue #560
+  const token = await rootStore?.userStore.getToken();
   const response = await fetch(
     `${process.env.REACT_APP_API_URL}/api/${tenantId}/public`,
     {
@@ -46,6 +52,7 @@ export async function fetchMetrics({
         metrics: metricNames,
       }),
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       method: "POST",
@@ -74,14 +81,17 @@ export async function fetchAndTransformMetric<RecordFormat>({
   sourceFileName,
   tenantId,
   transformFn,
+  rootStore,
 }: {
   sourceFileName: string;
   tenantId: TenantId;
   transformFn: (d: RawMetricData) => RecordFormat[];
+  rootStore?: RootStore;
 }): Promise<RecordFormat[]> {
   const apiResponse = await fetchMetrics({
     metricNames: [sourceFileName],
     tenantId,
+    rootStore,
   });
 
   const rawData = apiResponse[sourceFileName];

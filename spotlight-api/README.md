@@ -44,6 +44,7 @@ Expected backend environment variables include:
 
 - `GOOGLE_APPLICATION_CREDENTIALS` - a relative path pointing to the JSON file containing the credentials of the service account used to communicate with Google Cloud Storage, for metric retrieval.
 - `METRIC_BUCKET` - the name of the Google Cloud Storage bucket where the metrics reside.
+- `AUTH_ENABLED` - whether or not we should require authentication to access our endpoints. Currently only used in staging to make the entire site private. No need to enable this locally unless you are developing or testing something auth-related.
 - `IS_DEMO` (OPTIONAL) - whether or not to run the backend in demo mode, which will retrieve static fixture data from the `core/demo_data` directory instead of pulling data from dynamic, live sources. This should only be set when running locally and should be provided through the command line.
 
 ### Running the application locally
