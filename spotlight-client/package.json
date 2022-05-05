@@ -82,7 +82,7 @@
     "react-measure": "^2.5.2",
     "react-modal": "^3.12.1",
     "react-portal": "^4.2.1",
-    "react-scripts": "3.4.3",
+    "react-scripts": "5.0.1",
     "react-share": "^4.4.0",
     "react-simple-maps": "^2.3.0",
     "react-spring": "^8.0.27",
@@ -125,7 +125,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "jest-date-mock": "^1.0.8",
     "jest-environment-jsdom-global": "^2.0.4",
-    "jest-environment-jsdom-sixteen": "^1.0.3",
+    "jest-environment-jsdom": "^27.0.6",
     "jest-fetch-mock": "^3.0.3",
     "jest-mock-extended": "^1.0.13",
     "prettier": "^2.2.1"
