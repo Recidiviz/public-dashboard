@@ -124,7 +124,7 @@ export default class UserStore {
       ]?.state_code?.toUpperCase();
       runInAction(() => {
         this.isLoading = false;
-        if (user.email_verified) {
+        if (user?.email_verified) {
           this.isAuthorized = true;
           this.awaitingVerification = false;
         } else {

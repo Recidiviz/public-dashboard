@@ -34,7 +34,7 @@ test("format single unknowns", () => {
   expect(
     screen.findByText(
       (content, element) =>
-        normalizeContents(element.textContent || "") ===
+        normalizeContents(element?.textContent || "") ===
         "This data includes some individuals for whom age, gender, or race/ethnicity is not reported. These individuals count toward the total but are excluded from demographic breakdown views. For more details, download the data and view the README.txt."
     )
   );

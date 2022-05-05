@@ -58,7 +58,7 @@ test("renders dynamic text", async () => {
   expect(
     await screen.findByText(
       (content, element) =>
-        normalizeContents(element.textContent || "") ===
+        normalizeContents(element?.textContent || "") ===
         "introduction 81.0 26.9 23.1"
     )
   ).toBeInTheDocument();
@@ -66,7 +66,7 @@ test("renders dynamic text", async () => {
   expect(
     screen.getByText(
       (content, element) =>
-        normalizeContents(element.textContent || "") ===
+        normalizeContents(element?.textContent || "") ===
         "beforeCorrections body People who are Black 1% 18%"
     )
   ).toBeInTheDocument();
@@ -74,7 +74,7 @@ test("renders dynamic text", async () => {
   expect(
     screen.getByText(
       (content, element) =>
-        normalizeContents(element.textContent || "") ===
+        normalizeContents(element?.textContent || "") ===
         "sentencing body people who are Black 66% 36% 47% 56% greater"
     )
   ).toBeInTheDocument();
@@ -82,7 +82,7 @@ test("renders dynamic text", async () => {
   expect(
     screen.getByText(
       (content, element) =>
-        normalizeContents(element.textContent || "") ===
+        normalizeContents(element?.textContent || "") ===
         "supervision body supervision 33% 47% 16% 19% 25% 27% 34% 35%"
     )
   ).toBeInTheDocument();
@@ -90,7 +90,7 @@ test("renders dynamic text", async () => {
   expect(
     screen.getByText(
       (content, element) =>
-        normalizeContents(element.textContent || "") ===
+        normalizeContents(element?.textContent || "") ===
         "releasesToParole body 33% 8%"
     )
   ).toBeInTheDocument();
@@ -98,7 +98,7 @@ test("renders dynamic text", async () => {
   expect(
     screen.getByText(
       (content, element) =>
-        normalizeContents(element.textContent || "") ===
+        normalizeContents(element?.textContent || "") ===
         "programming body 21% 11% greater"
     )
   ).toBeInTheDocument();

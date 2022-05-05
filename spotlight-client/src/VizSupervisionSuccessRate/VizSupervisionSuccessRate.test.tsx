@@ -114,8 +114,8 @@ test("locality filter", async () => {
   expect(
     screen.getByText(
       (content, element) =>
-        element.tagName.toLowerCase() === "figure" &&
-        element.textContent === "58%Total"
+        element?.tagName.toLowerCase() === "figure" &&
+        element?.textContent === "58%Total"
     )
   ).toBeInTheDocument();
 });
