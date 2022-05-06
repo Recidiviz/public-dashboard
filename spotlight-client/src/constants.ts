@@ -24,6 +24,8 @@ export const ERROR_MESSAGES = {
   disabledTenant: "This tenant has not been enabled.",
 };
 
+export const PROGRESS_BAR_HEIGHT = 7;
+
 export const NAV_BAR_HEIGHT = 80;
 
 export const FOOTER_HEIGHT = 248;

@@ -15,20 +15,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { rem } from "polished";
-import React, { useState } from "react";
-import styled from "styled-components/macro";
+import { Icon, IconSVG } from "@recidiviz/design-system";
+import React, { useState, useEffect } from "react";
 import { track } from "../../analytics";
-import { colors, Chevron, UnStyledButton } from "../../UiLibrary";
 import { SectionNavProps } from "./types";
-
-const NavLink = styled(UnStyledButton)`
-  padding: ${rem(8)};
-`;
+import { Button } from "./Wayfinder";
 
 type AdvanceLinkProps = SectionNavProps & {
   disabled: boolean;
   type: "previous" | "next";
+  flashing?: boolean;
 };
 
 const AdvanceLink: React.FC<AdvanceLinkProps> = ({
@@ -36,24 +32,38 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = ({
   disabled,
   goToSection,
   type,
+  flashing,
 }) => {
+  const [isFlashing, setFlashing] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFlashing(true);
+    }, 5000);
+
+    return () => {
+      clearTimeout(timer);
+      setFlashing(false);
+    };
+  }, [activeSection]);
+
   let targetSection: number;
-  let direction: "up" | "down";
+  let rotate: 0 | 180;
 
   if (type === "previous") {
     targetSection = activeSection - 1;
-    direction = "up";
+    rotate = 180;
   } else {
     targetSection = activeSection + 1;
-    direction = "down";
+    rotate = 0;
   }
 
-  const [hovered, setHovered] = useState(false);
-
-  const color = hovered && !disabled ? colors.accent : undefined;
-
   return (
-    <NavLink
+    <Button
+      rounded
+      kind="borderless"
+      active={!disabled && flashing && isFlashing}
+      flashing={!disabled && flashing && isFlashing}
       disabled={disabled}
       onClick={() => {
         if (!disabled) {
@@ -65,14 +75,14 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = ({
         }
       }}
       aria-label={`${type} section`}
-      onMouseOver={() => setHovered(true)}
-      onFocus={() => setHovered(true)}
-      onMouseOut={() => setHovered(false)}
-      onBlur={() => setHovered(false)}
     >
-      <Chevron direction={direction} faded={disabled} color={color} />
-    </NavLink>
+      <Icon
+        kind={IconSVG.Arrow}
+        width={20}
+        rotate={rotate}
+        style={{ rotate: `${rotate}deg` }}
+      />
+    </Button>
   );
 };
-
 export default AdvanceLink;

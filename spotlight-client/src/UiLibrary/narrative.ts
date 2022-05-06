@@ -29,7 +29,6 @@ export const NarrativeIntroContainer = styled(FullScreenSection)`
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     padding-bottom: ${rem(172)};
-    padding-left: 0;
     padding-top: ${rem(160)};
   }
 `;

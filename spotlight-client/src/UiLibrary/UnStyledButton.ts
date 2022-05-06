@@ -21,7 +21,7 @@ export const UnStyledButton = styled.button.attrs({ type: "button" })`
   background: none;
   cursor: pointer;
   font-size: 1rem;
-  margin: none;
-  padding: none;
+  margin: 0;
+  padding: 0;
   border: none;
 `;
