@@ -21,6 +21,12 @@ import { ageGroup, gender, raceOrEthnicity } from "./methodologyBoilerplate";
 // localities for both sentencing and probation
 const judicialDistricts: { id: string; label: string }[] = [
   { id: "ALL", label: "All Districts" },
+  { id: "AUGUSTA (MAIN OFFICE), ADULT", label: "Augusta (Main Office)" },
+  { id: "SOUTH PARIS, ADULT", label: "South Paris" },
+  { id: "WISCASSET, ADULT", label: "Wiscasset" },
+  { id: "BIDDEFORD, ADULT", label: "Biddeford" },
+  { id: "ELLSWORTH, ADULT", label: "Ellsworth" },
+  { id: "EXTERNAL_UNKNOWN", label: "Unknown" },
 ];
 
 const demographicsBoilerplate = `<p>${ageGroup} ${gender} ${raceOrEthnicity}</p>`;
