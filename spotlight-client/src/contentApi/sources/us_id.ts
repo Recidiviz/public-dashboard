@@ -66,6 +66,8 @@ in a Idaho court may occasionally complete their supervision in a different stat
 
 const content: TenantContent = {
   name: "Idaho",
+  docName: "Idaho Department of Corrections",
+  docLink: "https://www.idoc.idaho.gov/",
   description: "Placeholder for IDOC Mission",
   coBrandingCopy:
     'Produced in collaboration with <a href="https://www.idoc.idaho.gov">the Idaho Department of Correction</a>.',

@@ -31,6 +31,8 @@ type ExhaustiveTenantContent = Required<TenantContent> &
 
 const content: ExhaustiveTenantContent = {
   name: "Test Tenant",
+  docName: "Test Tenant Department of Corrections",
+  docLink: "https://example.com/feedback",
   description: "test tenant description",
   coBrandingCopy: "test tenant co-branding",
   feedbackUrl: "https://example.com/feedback",
