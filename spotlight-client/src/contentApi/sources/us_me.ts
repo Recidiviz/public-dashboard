@@ -303,12 +303,6 @@ const content: TenantContent = {
           metricTypeId: "ProbationPopulationHistorical",
         },
         {
-          title: "What happens after probation?",
-          body:
-            "After probation, a person may be successfully discharged or revoked to prison. Take a look at how the rate of successful probation completion has changed over time, and how the overall rate of successful probation completion varies by demographic.",
-          metricTypeId: "ProbationSuccessHistorical",
-        },
-        {
           title: "Why do revocations happen?",
           body:
             "Revocations happen when a person on probation violates a condition of their supervision or commits a new crime. In Maine, probation revocations fall into one of three categories: technical violation, new offense, and absconsion.",
@@ -440,11 +434,6 @@ const content: TenantContent = {
           caused the revocation cannot yet be determined. Revocation admissions without a supervision case closed
           via revocation in the 90 day window will always be considered of “Unknown Type”.</p>
           <p>${raceOrEthnicity}</p>${supervisionBoilerplate}`,
-      },
-      programming: {
-        title: "Can programming help reduce disparities?",
-        body: `<p>More programming.</p>`,
-        methodology: `<p>${raceOrEthnicity}</p>${supervisionBoilerplate}`,
       },
       conclusion: {
         title:
