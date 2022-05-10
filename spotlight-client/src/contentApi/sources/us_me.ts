@@ -64,6 +64,8 @@ in a Maine court may occasionally complete their supervision in a different stat
 
 const content: TenantContent = {
   name: "Maine",
+  docName: "Maine Department of Corrections",
+  docLink: "https://www.maine.gov/corrections/home",
   description: "Placeholder for Maine DOC Mission",
   coBrandingCopy:
     'Produced in collaboration with <a href="https://www.maine.gov/corrections/home">the Maine Department of Corrections</a>.',
