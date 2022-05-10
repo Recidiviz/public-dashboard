@@ -21,21 +21,51 @@ import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
-import { NAV_BAR_HEIGHT } from "../constants";
+import { DEFAULT_SELECTED_TAB, NAV_BAR_HEIGHT } from "../constants";
+import { NarrativeTypeId } from "../contentApi/types";
 import OtherNarrativeLinksPreview from "../OtherNarrativeLinksPreview";
 import { useDataStore } from "../StoreProvider";
-import { breakpoints, PageSection, PageTitle } from "../UiLibrary";
+import { breakpoints, PageSection, PageTitle, typefaces } from "../UiLibrary";
+import ExploreNarrativeButton from "../UiLibrary/ExploreNarrativeButton";
 import withRouteSync from "../withRouteSync";
 
+const Page = styled.article`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  a {
+    text-decoration: none;
+  }
+
+  @media screen and (min-width: ${breakpoints.xl[0]}px) {
+    flex-direction: row;
+    min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)});
+    padding: 0 ${rem(120)};
+    gap: ${rem(70)};
+  }
+`;
+
 const Introduction = styled(PageSection)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding-bottom: ${rem(48)};
   padding-top: ${rem(48)};
 
+  @media screen and (min-width: ${breakpoints.xl[0]}px) {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 40%;
+  }
+
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    a {
+      margin-right: auto;
+    }
+
     /* try to keep the links "above the fold" */
     min-height: calc(100vh - ${rem(NAV_BAR_HEIGHT)} - ${rem(130)});
 
@@ -46,28 +76,63 @@ const Introduction = styled(PageSection)`
   }
 `;
 
-const Links = styled(PageSection)``;
+const Links = styled(PageSection)`
+  width: 100%;
+
+  @media screen and (min-width: ${breakpoints.xl[0]}px) {
+    width: 60%;
+    padding: 0;
+  }
+`;
 
 const Title = styled(PageTitle)`
-  font-size: ${rem(40)};
-  max-width: ${rem(1100)};
+  font-size: ${rem(34)};
+
+  @media screen and (max-width: ${breakpoints.tablet[0]}px) {
+    font-size: ${rem(28)};
+  }
+`;
+
+const Subtitle = styled.h2`
+  font-family: ${typefaces.body};
+  letter-spacing: -0.04em;
+  font-size: ${rem(21)};
+  margin-top: ${rem(24)};
+
+  @media screen and (max-width: ${breakpoints.tablet[0]}px) {
+    font-size: ${rem(18)};
+  }
 `;
 
 const PageTenant: React.FC<RouteComponentProps> = () => {
   const { tenant } = useDataStore();
+  const [narrativeId, setNarrativeId] = React.useState<NarrativeTypeId>(
+    DEFAULT_SELECTED_TAB
+  );
 
   if (!tenant) return null;
 
   return (
     // tenant may be briefly undefined during initial page load
-    <article>
+    <Page>
       <Introduction>
-        <Title>{HTMLReactParser(tenant.description)}</Title>
+        <Title>
+          {HTMLReactParser(tenant.description)}
+          {tenant.ctaCopy && (
+            <Subtitle>{HTMLReactParser(tenant.ctaCopy)}</Subtitle>
+          )}
+        </Title>
+        <ExploreNarrativeButton
+          narrativeId={narrativeId}
+          tenantId={tenant.id}
+        />
       </Introduction>
       <Links>
-        <OtherNarrativeLinksPreview />
+        <OtherNarrativeLinksPreview
+          onTabChange={(selectedTab) => setNarrativeId(selectedTab)}
+        />
       </Links>
-    </article>
+    </Page>
   );
 };
 

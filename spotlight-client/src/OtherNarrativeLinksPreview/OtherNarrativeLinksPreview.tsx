@@ -15,25 +15,27 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { Link } from "@reach/router";
+import {
+  Tabs,
+  TabList as BasicTabList,
+  Tab,
+  TabPanel as BasicTabPanel,
+} from "@recidiviz/design-system";
 import { ascending } from "d3-array";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
-import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
-import { track } from "../analytics";
-import { NarrativeTypeId, TenantId } from "../contentApi/types";
+import { DEFAULT_SELECTED_TAB, DEFAULT_CAROUSEL_INTERVAL } from "../constants";
+import { NarrativeTypeId } from "../contentApi/types";
 import RacialDisparitiesNarrative from "../contentModels/RacialDisparitiesNarrative";
 import SystemNarrative from "../contentModels/SystemNarrative";
 import { Narrative } from "../contentModels/types";
 import MetricVizMapper from "../MetricVizMapper";
 import ModelHydrator from "../ModelHydrator";
 import BarChartPair from "../RacialDisparitiesNarrativePage/BarChartPair";
-import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
-import { breakpoints, colors } from "../UiLibrary";
-import Arrow from "../UiLibrary/Arrow";
+import { breakpoints, colors, fluidFontSizeStyles } from "../UiLibrary";
 
 // grid styles adapted from IE-safe auto placement grid
 // https://css-tricks.com/css-grid-in-ie-faking-an-auto-placement-grid-with-gaps/
@@ -45,69 +47,63 @@ const Wrapper = styled.div`
   }
 `;
 
-const LinkList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  font-size: ${rem(24)};
-  line-height: 1.5;
-  /* this margin makes the cells flush left and right */
-  margin: ${rem(48)} -${rem(32)} 0 0;
-`;
-
-const LinkListItem = styled.li`
-  /* creates gaps */
-  border: 0 solid transparent;
-  border-width: 0 ${rem(32)} 0 0;
-  flex: 0 0 auto;
-  white-space: nowrap;
-  /* use width to create 1-4 columns, depending on screen size */
-  width: 100%;
-
-  @media (min-width: ${breakpoints.tablet[0]}px) {
-    width: calc(100% / 1);
-  }
-
-  @media (min-width: ${breakpoints.desktop[0]}px) {
-    width: calc(100% / 1);
-  }
-
-  @media (min-width: ${breakpoints.xl[0]}px) {
-    width: calc(100% / 2);
-  }
-
-  a {
-    border-top: 1px solid ${colors.rule};
-    color: ${colors.text};
-    display: block;
-    padding-right: ${rem(8)};
-    padding-top: ${rem(24)};
-    padding-bottom: ${rem(24)};
-    text-decoration: none;
-    width: 100%;
-  }
-
-  a:not(:last-child) {
-    border-bottom: 1px solid ${colors.rule};
-  }
-`;
-
-const LinkText = styled.span`
-  white-space: normal;
-`;
-
-const ChartTitle = styled.span`
+const ChartTitle = styled.div`
+  margin-top: ${rem(16)};
   font-size: ${rem(16)};
 `;
 
 const ChartPreview = styled.div`
-  padding-top: ${rem(16)};
+  margin-top: ${rem(16)};
+  height: ${rem(440)};
+  animation: fadeIn 0.5s ease;
+
+  @media screen and (max-width: ${breakpoints.tablet[0]}px) {
+    height: ${rem(330)};
+    overflow: hidden;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`;
+
+const TabList = styled(BasicTabList)`
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 0;
+  overflow-x: auto;
+`;
+
+const TabItem = styled(Tab)<{ minSize: number; maxSize: number }>`
+  padding: ${rem(25)} 0;
+  color: ${colors.caption};
+  border-bottom: 1px solid transparent;
+  font-family: "Libre Baskerville";
+  font-style: normal;
+  font-weight: 400;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  ${(props) => fluidFontSizeStyles(props.minSize, props.maxSize)}
+`;
+
+const TabPanel = styled(BasicTabPanel)`
+  padding: 0;
 `;
 
 const PREVIEW_ORDER: NarrativeTypeId[] = [
   "Prison",
   "RacialDisparities",
-  "Parole",
   "Probation",
+  "Parole",
   "Sentencing",
 ];
 
@@ -117,7 +113,6 @@ const ChartPreviewComponent: React.FC<{
   if (narrative instanceof SystemNarrative && narrative.preview)
     return (
       <>
-        <ChartTitle>{narrative.previewTitle}</ChartTitle>
         <ChartPreview>
           <MetricVizMapper
             preview
@@ -128,6 +123,7 @@ const ChartPreviewComponent: React.FC<{
             }
           />
         </ChartPreview>
+        <ChartTitle>{narrative.previewTitle}</ChartTitle>
       </>
     );
   if (narrative instanceof RacialDisparitiesNarrative) {
@@ -141,50 +137,74 @@ const RacialDisparitiesPreview = observer(
     return (
       <ModelHydrator model={narrative}>
         <>
-          <ChartTitle>Population by Race/Ethnicity</ChartTitle>
           {narrative.populationDataSeries && (
-            <BarChartPair data={narrative.populationDataSeries} preview />
+            <ChartPreview>
+              <BarChartPair data={narrative.populationDataSeries} preview />
+            </ChartPreview>
           )}
+          <ChartTitle>Population by Race/Ethnicity</ChartTitle>
         </>
       </ModelHydrator>
     );
   }
 );
 
-const NarrativeLink: React.FC<{
-  narrative: Narrative;
-  tenantId: TenantId;
-}> = observer(({ narrative, tenantId }) => {
-  const [animationStyles, setAnimationStyles] = useSpring(() => ({
-    opacity: 0,
-    from: { opacity: 0 },
-  }));
+const NarrativeTabs: React.FC<{
+  narratives: Narrative[];
+  onTabChange: (selectedTab: NarrativeTypeId) => void;
+}> = observer(({ narratives, onTabChange }) => {
+  const tabs = narratives.map((narrative) => narrative.id);
+  const defaultTab = tabs.includes(DEFAULT_SELECTED_TAB)
+    ? DEFAULT_SELECTED_TAB
+    : tabs[0];
+
+  const [selectedTab, selectTab] = React.useState<NarrativeTypeId>(defaultTab);
+  const [tabIndex, setTabIndex] = React.useState(tabs.indexOf(defaultTab));
+  const [isHovered, setHovered] = React.useState(false);
+
+  React.useEffect(() => {
+    const nextIndex = (tabIndex + 1) % tabs.length;
+
+    const timer = setTimeout(
+      () => {
+        setTabIndex(nextIndex);
+        selectTab(tabs[nextIndex]);
+      },
+      isHovered ? DEFAULT_CAROUSEL_INTERVAL * 1000 : DEFAULT_CAROUSEL_INTERVAL
+    );
+
+    onTabChange(selectedTab);
+
+    return () => clearTimeout(timer);
+  }, [tabIndex, selectedTab, onTabChange, tabs, isHovered]);
 
   return (
-    <LinkListItem>
-      <Link
-        to={getUrlForResource({
-          page: "narrative",
-          params: { tenantId, narrativeTypeId: narrative.id },
-        })}
-        onClick={() =>
-          track("narrative_body_link_clicked", {
-            category: "navigation",
-            label: narrative.id,
-          })
-        }
-        onMouseOver={() => setAnimationStyles({ opacity: 1 })}
-        onFocus={() => setAnimationStyles({ opacity: 1 })}
-        onMouseOut={() => setAnimationStyles({ opacity: 0 })}
-        onBlur={() => setAnimationStyles({ opacity: 0 })}
-      >
-        <LinkText>{narrative.title} Data</LinkText>&nbsp;
-        <animated.span style={animationStyles}>
-          <Arrow color={colors.link} direction="right" />
-        </animated.span>
-      </Link>
-      <ChartPreviewComponent narrative={narrative} />
-    </LinkListItem>
+    <Tabs
+      selectedIndex={tabIndex}
+      onSelect={(index) => setTabIndex(index)}
+      onMouseOver={() => setHovered(true)}
+      onFocus={() => setHovered(true)}
+      onMouseOut={() => setHovered(false)}
+      onBlur={() => setHovered(false)}
+    >
+      <TabList>
+        {narratives.map((narrative) => (
+          <TabItem
+            key={narrative.id}
+            maxSize={24}
+            minSize={16}
+            onClick={() => selectTab(narrative.id)}
+          >
+            {narrative.title}
+          </TabItem>
+        ))}
+      </TabList>
+      {narratives.map((narrative) => (
+        <TabPanel key={narrative.id}>
+          <ChartPreviewComponent narrative={narrative} />
+        </TabPanel>
+      ))}
+    </Tabs>
   );
 });
 
@@ -192,7 +212,9 @@ const NarrativeLink: React.FC<{
  * Produces a grid of links to available narratives for the current tenant.
  * If there is a current narrative selected, it will be excluded from the grid.
  */
-const OtherNarrativeLinksPreview = (): React.ReactElement | null => {
+const OtherNarrativeLinksPreview: React.FC<{
+  onTabChange: (selectedTab: NarrativeTypeId) => void;
+}> = ({ onTabChange }): React.ReactElement | null => {
   const { tenant } = useDataStore();
 
   if (!tenant) return null;
@@ -209,17 +231,10 @@ const OtherNarrativeLinksPreview = (): React.ReactElement | null => {
 
   return (
     <Wrapper>
-      <LinkList>
-        {narrativesToDisplay.map((narrative) => {
-          return (
-            <NarrativeLink
-              key={narrative.id}
-              tenantId={tenant.id}
-              narrative={narrative}
-            />
-          );
-        })}
-      </LinkList>
+      <NarrativeTabs
+        narratives={narrativesToDisplay}
+        onTabChange={onTabChange}
+      />
     </Wrapper>
   );
 };

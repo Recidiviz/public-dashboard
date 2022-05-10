@@ -75,6 +75,7 @@ type ProportionalBarProps = {
   highlighted?: ItemToHighlight;
   setHighlighted?: (item?: ItemToHighlight) => void;
   showLegend?: boolean;
+  preview?: boolean;
   title: string;
 };
 
@@ -84,6 +85,7 @@ export default function ProportionalBar({
   highlighted: externalHighlighted,
   setHighlighted: setExternalHighlighted,
   showLegend = true,
+  preview = false,
   title,
 }: ProportionalBarProps): React.ReactElement {
   const {
@@ -135,12 +137,15 @@ export default function ProportionalBar({
                   />
                 </ResponsiveTooltipController>
               </ProportionalBarChartWrapper>
-              <ProportionalBarMetadata>
-                <ProportionalBarTitle>
-                  {title}
-                  {noData && ", No Data"}
-                </ProportionalBarTitle>
-                {showLegend && (
+              {showLegend && (
+                <ProportionalBarMetadata>
+                  {!preview && (
+                    <ProportionalBarTitle>
+                      {title}
+                      {noData && ", No Data"}
+                    </ProportionalBarTitle>
+                  )}
+
                   <ProportionalBarLegendWrapper>
                     <ColorLegend
                       highlighted={highlighted}
@@ -152,8 +157,8 @@ export default function ProportionalBar({
                       }
                     />
                   </ProportionalBarLegendWrapper>
-                )}
-              </ProportionalBarMetadata>
+                </ProportionalBarMetadata>
+              )}
             </>
           )}
         </ProportionalBarContainer>
