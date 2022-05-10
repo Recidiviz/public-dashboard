@@ -82,6 +82,8 @@ in a North Dakota court may occasionally complete their supervision in a differe
 
 const content: TenantContent = {
   name: "North Dakota",
+  docName: "North Dakota Department of Corrections and Rehabilitation",
+  docLink: "https://www.docr.nd.gov",
   description:
     "Our mission is to transform lives, influence change, and strengthen community. Transparency is a critical element of our mission; sharing information builds greater accountability between the DOCR and the communities we serve.",
   coBrandingCopy:

@@ -19,6 +19,8 @@ import { TenantContent } from "../types";
 
 const content: TenantContent = {
   name: "Pennsylvania",
+  docName: "Pennsylvania Department of Corrections",
+  docLink: "https://cor.pa.gov",
   description: `
     <a href="https://www.cor.pa.gov">The Pennsylvania Department of Corrections (DOC)</a>
     is committed to enhancing public safety. The DOC's mission is to reduce criminal

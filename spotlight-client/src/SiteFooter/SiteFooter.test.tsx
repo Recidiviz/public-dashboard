@@ -45,12 +45,10 @@ afterEach(() => {
   });
 });
 
-test("displays co-branding copy", () => {
+test("displays DOC linking button", () => {
   renderWithStore(<SiteFooter />);
 
-  expect(
-    screen.getByText(exhaustiveFixture.coBrandingCopy)
-  ).toBeInTheDocument();
+  expect(screen.getByText(exhaustiveFixture.docName)).toBeInTheDocument();
 
   runInAction(() => {
     DataStore.tenantStore.currentTenantId = undefined;

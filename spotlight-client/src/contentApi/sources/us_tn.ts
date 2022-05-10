@@ -66,6 +66,8 @@ in a Tennessee court may occasionally complete their supervision in a different 
 
 const content: TenantContent = {
   name: "Tennessee",
+  docName: "Tennessee Department of Corrections",
+  docLink: "https://www.tn.gov/correction.html",
   description: "Placeholder for TDOC Mission",
   coBrandingCopy:
     'Produced in collaboration with <a href="https://www.TDOC.Tennessee.gov">the Tennessee Department of Correction</a>.',
