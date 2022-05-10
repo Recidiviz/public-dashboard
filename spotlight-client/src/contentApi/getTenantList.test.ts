@@ -25,6 +25,10 @@ test("getTenantList", () => {
         "name": "Idaho",
       },
       Object {
+        "id": "US_ME",
+        "name": "Maine",
+      },
+      Object {
         "id": "US_ND",
         "name": "North Dakota",
       },
