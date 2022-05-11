@@ -28,7 +28,7 @@ export const PROGRESS_BAR_HEIGHT = 7;
 
 export const NAV_BAR_HEIGHT = 80;
 
-export const FOOTER_HEIGHT = 248;
+export const FOOTER_HEIGHT = 130;
 
 export const REVOCATION_TYPE_LABELS = {
   ABSCOND: "Absconsion",
@@ -44,3 +44,6 @@ export const SENTENCE_TYPE_LABELS = {
 };
 
 export const AUTH0_APP_METADATA_KEY = "https://recidiviz.org/app_metadata";
+export const DEFAULT_SELECTED_TAB = "Prison";
+
+export const DEFAULT_CAROUSEL_INTERVAL = 5000;

@@ -68,7 +68,9 @@ const content: TenantContent = {
   name: "Idaho",
   docName: "Idaho Department of Corrections",
   docLink: "https://www.idoc.idaho.gov/",
-  description: "Placeholder for IDOC Mission",
+  description: "Explore data from Idaho’s corrections system.",
+  ctaCopy: `<a href="https://www.cor.pa.gov" target="_blank" rel="noopener noreferrer">The Idaho Department of Corrections</a> aims to protect the public, our staff, 
+  and those within our custody and supervision through safety, accountability, partnerships and providing opportunities for change.`,
   coBrandingCopy:
     'Produced in collaboration with <a href="https://www.idoc.idaho.gov">the Idaho Department of Correction</a>.',
   feedbackUrl:
@@ -727,9 +729,7 @@ const content: TenantContent = {
         body: `<p>People sentenced to a prison term can serve the end-portion of their term while supervised
           in the community, through the parole process.</p>
           <p>The parole process is governed by the Parole Board, an independent commission that works closely
-          with the DOC. In 2019, under guidance from Governor Burgum and then-Director of Corrections Leann
-          Bertsch, the DOC and the Parole Board began tracking and reporting racial data for the parole process
-          in order to monitor and reduce disparities in the population granted parole.</p>
+          with the DOC.</p>
           <p>In the last 3 years, {ethnonym} comprised {releasesToParole.paroleReleaseProportion36Mo} of
           the individuals released on parole. They made up {releasesToParole.prisonPopulationProportion36Mo}
           of the overall prison population during that time.</p>`,
@@ -778,11 +778,6 @@ const content: TenantContent = {
           parole revoked within the last 3 years, they will appear in the counts for both supervision types when
           broken out separately.</p>
           <p>${raceOrEthnicity}</p>${supervisionBoilerplate}`,
-      },
-      programming: {
-        title: "Can programming help reduce disparities?",
-        body: `<p>More programming.</p>`,
-        methodology: `<p>${raceOrEthnicity}</p>${supervisionBoilerplate}`,
       },
       conclusion: {
         title:

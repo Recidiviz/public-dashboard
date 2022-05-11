@@ -176,7 +176,7 @@ test("renders when authenticated and state_code is one of our tenants", async ()
   const App = await getApp();
   render(<App />);
   await waitFor(() => {
-    const websiteName = screen.getByRole("heading", /North Dakota/i);
+    const websiteName = screen.getAllByRole("heading", /North Dakota/i)?.[0];
     expect(websiteName).toBeInTheDocument();
   });
 });

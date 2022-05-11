@@ -29,6 +29,7 @@ type InitOptions = {
   docName: string;
   docLink: string;
   description: string;
+  ctaCopy?: string;
   coBrandingCopy: string;
   feedbackUrl: string;
   smallDataDisclaimer: string;
@@ -55,6 +56,8 @@ export default class Tenant {
 
   readonly description: string;
 
+  readonly ctaCopy?: string;
+
   readonly coBrandingCopy: string;
 
   readonly feedbackUrl: string;
@@ -73,6 +76,7 @@ export default class Tenant {
     docName,
     docLink,
     description,
+    ctaCopy,
     coBrandingCopy,
     feedbackUrl,
     smallDataDisclaimer,
@@ -85,6 +89,7 @@ export default class Tenant {
     this.docName = docName;
     this.docLink = docLink;
     this.description = description;
+    this.ctaCopy = ctaCopy;
     this.coBrandingCopy = coBrandingCopy;
     this.feedbackUrl = feedbackUrl;
     this.smallDataDisclaimer = smallDataDisclaimer;
@@ -160,6 +165,7 @@ export function createTenant({
     docName: allTenantContent.docName,
     docLink: allTenantContent.docLink,
     description: allTenantContent.description,
+    ctaCopy: allTenantContent.ctaCopy,
     coBrandingCopy: allTenantContent.coBrandingCopy,
     feedbackUrl: allTenantContent.feedbackUrl,
     smallDataDisclaimer: allTenantContent.smallDataDisclaimer,

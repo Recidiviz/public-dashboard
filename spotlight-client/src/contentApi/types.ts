@@ -28,7 +28,13 @@ export type LocalityLabels = {
 // ============================
 // Tenant types
 
-export const TenantIdList = ["US_ID", "US_ND", "US_PA", "US_TN"] as const;
+export const TenantIdList = [
+  "US_ID",
+  "US_ME",
+  "US_ND",
+  "US_PA",
+  "US_TN",
+] as const;
 export type TenantId = typeof TenantIdList[number];
 export function isTenantId(x: string): x is TenantId {
   return TenantIdList.includes(x as TenantId);
@@ -46,6 +52,7 @@ export type TenantContent = {
   docName: string;
   docLink: string;
   description: string;
+  ctaCopy?: string;
   coBrandingCopy: string;
   feedbackUrl: string;
   smallDataDisclaimer: string;

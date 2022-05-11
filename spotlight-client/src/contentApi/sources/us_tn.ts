@@ -68,7 +68,9 @@ const content: TenantContent = {
   name: "Tennessee",
   docName: "Tennessee Department of Corrections",
   docLink: "https://www.tn.gov/correction.html",
-  description: "Placeholder for TDOC Mission",
+  description: "Explore data from Tennessee’s corrections system.",
+  ctaCopy: `<a href="https://www.cor.pa.gov" target="_blank" rel="noopener noreferrer">The Tennessee Department of Correction</a> has an inherent responsibility to provide those 
+  within our custody with opportunities to grow. Sharing information builds greater accountability between our department and the communities we serve.`,
   coBrandingCopy:
     'Produced in collaboration with <a href="https://www.TDOC.Tennessee.gov">the Tennessee Department of Correction</a>.',
   feedbackUrl:
