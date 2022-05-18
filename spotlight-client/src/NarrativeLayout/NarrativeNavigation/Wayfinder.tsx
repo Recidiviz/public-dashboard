@@ -30,13 +30,7 @@ import styled, { css } from "styled-components/macro";
 import { NAV_BAR_HEIGHT, PROGRESS_BAR_HEIGHT } from "../../constants";
 import { SectionNavProps } from "./types";
 import { LayoutSection } from "../types";
-import {
-  breakpoints,
-  colors,
-  fluidFontSizeStyles,
-  Modal,
-  ModalHeading,
-} from "../../UiLibrary";
+import { breakpoints, colors, fluidFontSizeStyles } from "../../UiLibrary";
 import { NarrativeSectionTitle } from "../../UiLibrary/narrative";
 import SectionLinks from "./SectionLinks";
 import AdvanceLink from "./AdvanceLink";
@@ -162,12 +156,6 @@ const SectionTitle = styled(NarrativeSectionTitle)<{
   ${(props) => fluidFontSizeStyles(props.minSize, props.maxSize)}
 `;
 
-const IntroducingText = styled.div`
-  margin-bottom: ${rem(24)};
-  letter-spacing: -0.01em;
-  line-height: 130%;
-`;
-
 type NavigationProps = SectionNavProps & {
   sections: LayoutSection[];
   isOpen?: boolean;
@@ -181,33 +169,19 @@ const Wayfinder: React.FC<NavigationProps> = ({
 }) => {
   const isMobile = useBreakpoint(false, ["mobile-", true]);
 
-  // used for Wayfinder first-run experience
-  // this tells whether user has visited page or not, depending on its  local store
-  const [hasVisitedPageBefore, setVisited] = useState(
-    localStorage.getItem("isVisited") === "hasVisited" || false
-  );
-  const [isOpenModal, openModal] = useState(false);
   const [isOpenWayfinder, openWayfinder] = useState(isOpen);
   const [isExpanded, setExpanded] = useState(false);
   const [scrolled, setScrolled] = useState(0);
 
-  const visitPage = () => {
-    localStorage.setItem("isVisited", "hasVisited");
-    setVisited(true);
-  };
-
   useEffect(() => {
-    if (!hasVisitedPageBefore) {
-      openModal(true);
-      visitPage();
-    }
-
     if (scrolled > 98) {
       openWayfinder(false);
     } else {
       openWayfinder(true);
     }
-  }, [hasVisitedPageBefore, scrolled]);
+
+    setExpanded(false);
+  }, [scrolled, activeSection]);
 
   const handlers = useSwipeable({
     onSwipedUp: () => setExpanded(true),
@@ -221,79 +195,51 @@ const Wayfinder: React.FC<NavigationProps> = ({
   const disableNext = activeSection === totalPages;
 
   return createPortal(
-    <>
-      <Modal
-        isOpen={isOpenModal}
-        onRequestClose={() => openModal(false)}
-        shouldCloseOnOverlayClick={false}
+    <Wrapper open={isOpenWayfinder} expanded={isExpanded}>
+      <Container
+        {...handlers}
+        aria-hidden={isOpenWayfinder ? "false" : "true"}
+        aria-label="wayfinder"
+        tabIndex={-1}
+        role="dialog"
       >
-        <ModalHeading>
-          Introducing <strong>Wayfinder 2.1</strong>
-        </ModalHeading>
-        <IntroducingText>
-          Use the persistent <strong>Bar</strong> along the bottom of the page
-          to preview all of the sections of a narrative in one go or manage
-          arrowed navigation buttons to proceed to the next/previous section.
-        </IntroducingText>
-        {isMobile && (
-          <IntroducingText>
-            Pull up the <strong>Bar</strong> to see the table of contents.
-          </IntroducingText>
-        )}
-        <BasicButton kind="primary" onClick={() => openModal(false)}>
-          Got it!
-        </BasicButton>
-      </Modal>
-
-      <Wrapper open={isOpenWayfinder} expanded={isExpanded}>
-        <Container
-          {...handlers}
-          aria-hidden={isOpenWayfinder ? "false" : "true"}
-          aria-label="wayfinder"
-          tabIndex={-1}
-          role="dialog"
-        >
-          <ProgressBar
-            percent={(activeSection / totalPages) * 100}
-            onScroll={(v) => setScrolled(v)}
-          />
-          <Header>
-            {!isMobile && (
-              <Button
-                rounded={isMobile}
-                active={isExpanded}
-                kind="borderless"
-                onClick={() => setExpanded(!isExpanded)}
-              >
-                {activeSection}/{totalPages}
-                <Icon kind={IconSVG.Hamburger} width={24} />
-              </Button>
-            )}
-            <SectionTitle maxSize={24} minSize={14}>
-              {sections[activeSection - 1].title}
-            </SectionTitle>
-            <div>
-              <AdvanceLink
-                activeSection={activeSection}
-                disabled={disablePrev}
-                goToSection={goToSection}
-                type="previous"
-              />
-              <AdvanceLink
-                activeSection={activeSection}
-                disabled={disableNext}
-                goToSection={goToSection}
-                type="next"
-                flashing
-              />
-            </div>
-          </Header>
-          <Body>
-            <SectionLinks {...{ activeSection, goToSection, sections }} />
-          </Body>
-        </Container>
-      </Wrapper>
-    </>,
+        <ProgressBar onScroll={(v) => setScrolled(v)} />
+        <Header>
+          {!isMobile && (
+            <Button
+              rounded={isMobile}
+              active={isExpanded}
+              kind="borderless"
+              onClick={() => setExpanded(!isExpanded)}
+            >
+              {activeSection}/{totalPages}
+              <Icon kind={IconSVG.Hamburger} width={24} />
+            </Button>
+          )}
+          <SectionTitle maxSize={24} minSize={14}>
+            {sections[activeSection - 1].title}
+          </SectionTitle>
+          <div>
+            <AdvanceLink
+              activeSection={activeSection}
+              disabled={disablePrev}
+              goToSection={goToSection}
+              type="previous"
+            />
+            <AdvanceLink
+              activeSection={activeSection}
+              disabled={disableNext}
+              goToSection={goToSection}
+              type="next"
+              flashing
+            />
+          </div>
+        </Header>
+        <Body>
+          <SectionLinks {...{ activeSection, goToSection, sections }} />
+        </Body>
+      </Container>
+    </Wrapper>,
     document.body
   );
 };

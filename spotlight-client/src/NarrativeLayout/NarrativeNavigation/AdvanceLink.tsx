@@ -39,7 +39,7 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = ({
   useEffect(() => {
     const timer = setTimeout(() => {
       setFlashing(true);
-    }, 5000);
+    }, 3000);
 
     return () => {
       clearTimeout(timer);
@@ -58,12 +58,15 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = ({
     rotate = 0;
   }
 
+  const isAllowFlashing =
+    !disabled && flashing && isFlashing && activeSection === 1;
+
   return (
     <Button
       rounded
       kind="borderless"
-      active={!disabled && flashing && isFlashing}
-      flashing={!disabled && flashing && isFlashing}
+      active={isAllowFlashing}
+      flashing={isAllowFlashing}
       disabled={disabled}
       onClick={() => {
         if (!disabled) {

@@ -32,13 +32,11 @@ const Bar = styled.div<{ scrolled: number }>`
   height: ${rem(PROGRESS_BAR_HEIGHT)};
   max-width: 100%;
   width: ${(props) => props.scrolled}%;
-  transition: width 0.5s ease;
 `;
 
 const ProgressBar: React.FC<{
-  percent?: number;
   onScroll: (scrolled: number) => void;
-}> = ({ percent, onScroll }) => {
+}> = ({ onScroll }) => {
   const [scrolledPercent, setScrolled] = useState(0);
 
   const scrollProgress = useCallback(() => {
@@ -62,7 +60,7 @@ const ProgressBar: React.FC<{
 
   return (
     <Container>
-      <Bar scrolled={percent || scrolledPercent} />
+      <Bar scrolled={scrolledPercent} />
     </Container>
   );
 };
