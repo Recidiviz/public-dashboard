@@ -80,6 +80,7 @@ const Header = styled.div`
   padding: 0 ${rem(30)};
   height: ${rem(NAV_BAR_HEIGHT)};
   gap: ${rem(16)};
+  cursor: pointer;
 
   @media screen and (max-width: ${breakpoints.tablet[0]}px) {
     padding: 0 ${rem(16)};
@@ -204,7 +205,7 @@ const Wayfinder: React.FC<NavigationProps> = ({
         role="dialog"
       >
         <ProgressBar onScroll={(v) => setScrolled(v)} />
-        <Header>
+        <Header onClick={() => setExpanded(!isExpanded)}>
           {!isMobile && (
             <Button
               rounded={isMobile}

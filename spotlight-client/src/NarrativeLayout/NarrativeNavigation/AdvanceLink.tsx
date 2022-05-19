@@ -68,7 +68,8 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = ({
       active={isAllowFlashing}
       flashing={isAllowFlashing}
       disabled={disabled}
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
         if (!disabled) {
           track(`advance_section_link_clicked`, {
             category: "navigation",
@@ -84,6 +85,9 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = ({
         width={20}
         rotate={rotate}
         style={{ rotate: `${rotate}deg` }}
+        onClick={(e) => {
+          if (disabled) e.stopPropagation();
+        }}
       />
     </Button>
   );
