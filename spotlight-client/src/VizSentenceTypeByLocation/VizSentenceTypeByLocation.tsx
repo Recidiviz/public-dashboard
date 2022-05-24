@@ -77,7 +77,11 @@ const VizSentenceTypeByLocation: React.FC<VizSentenceTypeByLocationProps> = ({
               )
           )}
         </ChartWrapper>
-        <VizNotes smallData unknowns={metric.unknowns} />
+        <VizNotes
+          smallData
+          unknowns={metric.unknowns}
+          download={metric.download}
+        />
       </>
     );
   }

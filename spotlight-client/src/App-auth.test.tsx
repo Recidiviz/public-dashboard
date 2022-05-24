@@ -15,6 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { AUTH0_APP_METADATA_KEY } from "./constants";
+
 // we have to import everything dynamically to manipulate process.env,
 // which is weird and Typescript doesn't like it, so silence these warnings
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,11 +38,13 @@ export {};
 const mockGetUser = jest.fn();
 const mockIsAuthenticated = jest.fn();
 const mockLoginWithRedirect = jest.fn();
+const mockGetIdTokenClaims = jest.fn();
 jest.mock("@auth0/auth0-spa-js", () =>
   jest.fn().mockResolvedValue({
     getUser: mockGetUser,
     isAuthenticated: mockIsAuthenticated,
     loginWithRedirect: mockLoginWithRedirect,
+    getIdTokenClaims: mockGetIdTokenClaims,
   })
 );
 
@@ -77,6 +81,8 @@ afterEach(() => {
 });
 
 test("no auth required", async () => {
+  process.env.REACT_APP_AUTH_ENABLED = "false";
+
   const App = await getApp();
   render(<App />);
   // site home redirects to the ND home
@@ -117,6 +123,7 @@ test("requires email verification", async () => {
   // user is authenticated but not verified
   mockIsAuthenticated.mockResolvedValue(true);
   mockGetUser.mockResolvedValue({ email_verified: false });
+  mockGetIdTokenClaims.mockResolvedValue({});
 
   const App = await getApp();
   render(<App />);
@@ -130,20 +137,86 @@ test("requires email verification", async () => {
   });
 });
 
-test("renders when authenticated", async () => {
+test("renders when authenticated and state_code is 'recidiviz'", async () => {
   // configure environment for valid authentication
   process.env.REACT_APP_AUTH_ENABLED = "true";
   process.env.REACT_APP_AUTH_ENV = "development";
 
-  // user is authenticated and verified
+  // user is authenticated and verified and assigned a valid state_code
   mockIsAuthenticated.mockResolvedValue(true);
   mockGetUser.mockResolvedValue({ email_verified: true });
+  mockGetIdTokenClaims.mockResolvedValue({
+    [AUTH0_APP_METADATA_KEY]: {
+      state_code: "recidiviz",
+    },
+  });
   const App = await getApp();
   render(<App />);
   await waitFor(() => {
     const websiteName = screen.getByRole("heading", {
       name: authenticatedTextMatch,
     });
+    expect(websiteName).toBeInTheDocument();
+  });
+});
+
+test("renders when authenticated and state_code is one of our tenants", async () => {
+  // configure environment for valid authentication
+  process.env.REACT_APP_AUTH_ENABLED = "true";
+  process.env.REACT_APP_AUTH_ENV = "development";
+
+  // user is authenticated and verified and assigned a valid state_code
+  mockIsAuthenticated.mockResolvedValue(true);
+  mockGetUser.mockResolvedValue({ email_verified: true });
+  mockGetIdTokenClaims.mockResolvedValue({
+    [AUTH0_APP_METADATA_KEY]: {
+      state_code: "us_nd",
+    },
+  });
+  const App = await getApp();
+  render(<App />);
+  await waitFor(() => {
+    const websiteName = screen.getAllByRole("heading", /North Dakota/i)?.[0];
+    expect(websiteName).toBeInTheDocument();
+  });
+});
+
+test("renders when authenticated and state_code is NOT one of our tenants", async () => {
+  // configure environment for valid authentication
+  process.env.REACT_APP_AUTH_ENABLED = "true";
+  process.env.REACT_APP_AUTH_ENV = "development";
+
+  // user is authenticated and verified and assigned a valid state_code
+  mockIsAuthenticated.mockResolvedValue(true);
+  mockGetUser.mockResolvedValue({ email_verified: true });
+  mockGetIdTokenClaims.mockResolvedValue({
+    [AUTH0_APP_METADATA_KEY]: {
+      state_code: "invalid",
+    },
+  });
+  const App = await getApp();
+  render(<App />);
+  await waitFor(() => {
+    const websiteName = screen.getByRole("heading", /Page Not Found/i);
+    expect(websiteName).toBeInTheDocument();
+  });
+});
+
+test("renders when authenticated and state_code is NOT set", async () => {
+  // configure environment for valid authentication
+  process.env.REACT_APP_AUTH_ENABLED = "true";
+  process.env.REACT_APP_AUTH_ENV = "development";
+
+  // user is authenticated and verified and assigned a valid state_code
+  mockIsAuthenticated.mockResolvedValue(true);
+  mockGetUser.mockResolvedValue({ email_verified: true });
+  mockGetIdTokenClaims.mockResolvedValue({
+    [AUTH0_APP_METADATA_KEY]: {},
+  });
+  const App = await getApp();
+  render(<App />);
+  await waitFor(() => {
+    const websiteName = screen.getByRole("heading", /Page Not Found/i);
     expect(websiteName).toBeInTheDocument();
   });
 });

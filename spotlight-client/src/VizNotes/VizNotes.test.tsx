@@ -39,6 +39,9 @@ test("all notes", () => {
     <VizNotes
       smallData
       unknowns={{ gender: 1, ageBucket: 0, raceOrEthnicity: 0 }}
+      download={() => {
+        // empty
+      }}
     />
   );
 
@@ -59,7 +62,12 @@ test("small data only", () => {
 
 test("unknowns only", () => {
   renderWithStore(
-    <VizNotes unknowns={{ gender: 1, ageBucket: 0, raceOrEthnicity: 0 }} />
+    <VizNotes
+      unknowns={{ gender: 1, ageBucket: 0, raceOrEthnicity: 0 }}
+      download={() => {
+        // empty
+      }}
+    />
   );
 
   expect(screen.getByRole("listitem")).toHaveTextContent(

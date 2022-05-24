@@ -28,11 +28,18 @@ export type LocalityLabels = {
 // ============================
 // Tenant types
 
-export const TenantIdList = ["US_ND", "US_PA"] as const;
+export const TenantIdList = [
+  "US_ID",
+  "US_ME",
+  "US_ND",
+  "US_PA",
+  "US_TN",
+] as const;
 export type TenantId = typeof TenantIdList[number];
 export function isTenantId(x: string): x is TenantId {
   return TenantIdList.includes(x as TenantId);
 }
+export type StateCodes = typeof TenantIdList | "RECIDIVIZ";
 
 export type DemographicCategoryFilter = {
   raceOrEthnicity?: RaceOrEthnicityValue[];
@@ -42,7 +49,10 @@ export type DemographicCategoryFilter = {
 
 export type TenantContent = {
   name: string;
+  docName: string;
+  docLink: string;
   description: string;
+  ctaCopy?: string;
   coBrandingCopy: string;
   feedbackUrl: string;
   smallDataDisclaimer: string;

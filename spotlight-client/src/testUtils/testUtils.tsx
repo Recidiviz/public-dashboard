@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { AVAILABLE_FONTS } from "@recidiviz/design-system";
 import {
   createHistory,
   createMemorySource,
@@ -24,6 +25,7 @@ import { render, RenderResult } from "@testing-library/react";
 import React from "react";
 import { autorun } from "mobx";
 import waitForLocalhost from "wait-for-localhost";
+import { ThemeProvider } from "styled-components/macro";
 import App from "../App";
 import StoreProvider from "../StoreProvider";
 
@@ -72,4 +74,22 @@ export function renderWithStore(ui: React.ReactElement): RenderResult {
   return render(ui, {
     wrapper: StoreProvider,
   });
+}
+
+const BaseThemeProvider: React.FC = ({ children }) => {
+  return (
+    <ThemeProvider
+      theme={{
+        fonts: {
+          body: AVAILABLE_FONTS.LIBRE_FRANKLIN,
+        },
+      }}
+    >
+      {children}
+    </ThemeProvider>
+  );
+};
+
+export function renderWithTheme(ui: React.ReactElement): RenderResult {
+  return render(ui, { wrapper: BaseThemeProvider });
 }

@@ -22,9 +22,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import MinimapXYFrame from "semiotic/lib/MinimapXYFrame";
 import XYFrame from "semiotic/lib/XYFrame";
 import styled from "styled-components/macro";
+import { ChartWrapper as BaseChartWrapper } from "@recidiviz/design-system";
 import { animation, colors } from "../UiLibrary";
 import { formatAsNumber } from "../utils";
-import BaseChartWrapper from "./ChartWrapper";
 import { highlightFade, useHighlightedItem } from "./utils";
 import ColorLegend from "./ColorLegend";
 import XHoverController from "./XHoverController";
@@ -46,6 +46,10 @@ const LegendWrapper = styled.div`
 
 const ChartWrapper = styled(BaseChartWrapper)`
   .frame {
+    .xyframe-matte {
+      fill: ${colors.background};
+    }
+
     .visualization-layer {
       shape-rendering: geometricPrecision;
 
@@ -162,6 +166,11 @@ const WindowedTimeSeries: React.FC<{
     matte: true,
   };
 
+  if (!showMinimap) {
+    MARGIN.left = 0;
+    MARGIN.bottom = 0;
+  }
+
   return (
     <MeasureWidth>
       {({ measureRef, width }) => {
@@ -243,16 +252,7 @@ const WindowedTimeSeries: React.FC<{
                   />
                 ) : (
                   // @ts-expect-error Semiotic typedefs are wrong, can be true for default matte
-                  <XYFrame
-                    axes={[
-                      {
-                        orient: "left",
-                        tickFormat: formatAsNumber,
-                        tickSize: 0,
-                      },
-                    ]}
-                    {...chartProps}
-                  />
+                  <XYFrame {...chartProps} />
                 )}
               </XHoverController>
             </ChartWrapper>

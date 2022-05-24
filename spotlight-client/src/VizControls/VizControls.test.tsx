@@ -15,15 +15,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, screen, within } from "@testing-library/react";
 import React from "react";
+import { renderWithTheme } from "../testUtils";
 import VizControls from "./VizControls";
 
 const mockDownload = jest.fn();
 const mockMethodology = "test methodology";
 
 beforeEach(() => {
-  render(
+  renderWithTheme(
     <VizControls
       filters={[]}
       download={mockDownload}

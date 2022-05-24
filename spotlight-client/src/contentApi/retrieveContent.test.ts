@@ -16,11 +16,16 @@
 // =============================================================================
 
 import retrieveContent from "./retrieveContent";
+import US_ID from "./sources/us_id";
+import US_ME from "./sources/us_me";
 import US_ND from "./sources/us_nd";
 import US_PA from "./sources/us_pa";
+import US_TN from "./sources/us_tn";
 
 test("returns content for the specified tenant", () => {
+  expect(retrieveContent({ tenantId: "US_ID" })).toEqual(US_ID);
+  expect(retrieveContent({ tenantId: "US_ME" })).toEqual(US_ME);
   expect(retrieveContent({ tenantId: "US_ND" })).toEqual(US_ND);
-
   expect(retrieveContent({ tenantId: "US_PA" })).toEqual(US_PA);
+  expect(retrieveContent({ tenantId: "US_TN" })).toEqual(US_TN);
 });

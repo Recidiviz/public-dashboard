@@ -30,6 +30,7 @@ import {
   TenantId,
   DemographicCategoryFilter,
 } from "../contentApi/types";
+import RootStore from "../DataStore/RootStore";
 import {
   createDemographicCategories,
   RaceIdentifier,
@@ -144,6 +145,7 @@ type ConstructorOpts = {
   defaultCategory?: RaceIdentifier;
   content: RacialDisparitiesNarrativeContent;
   categoryFilter?: DemographicCategoryFilter["raceOrEthnicity"];
+  rootStore?: RootStore;
 };
 
 /**
@@ -183,6 +185,8 @@ export default class RacialDisparitiesNarrative implements Hydratable {
 
   error?: Error;
 
+  rootStore?: RootStore;
+
   // filters
   readonly allCategories: RaceOrEthnicityCategory[];
 
@@ -201,6 +205,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
     defaultCategory,
     content,
     categoryFilter,
+    rootStore,
   }: ConstructorOpts) {
     this.tenantId = tenantId;
     this.selectedCategory = defaultCategory || "BLACK";
@@ -215,6 +220,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
     this.allCategories = createDemographicCategories({
       raceOrEthnicity: categoryFilter,
     }).raceOrEthnicity;
+    this.rootStore = rootStore;
 
     makeAutoObservable<RacialDisparitiesNarrative, "records">(this, {
       records: observable.ref,
@@ -233,6 +239,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
         sourceFileName: "racial_disparities",
         tenantId: this.tenantId,
         transformFn: createRacialDisparitiesRecords,
+        rootStore: this.rootStore,
       });
       runInAction(() => {
         this.records = fetchedData.reduce((mapping, record) => {
@@ -416,7 +423,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
           return {
             label,
             color: colors.dataViz[index],
-            value: records[identifier as RaceIdentifier].totalStatePopulation,
+            value: records[identifier as RaceIdentifier]?.totalStatePopulation,
           };
         })
       ),
@@ -430,7 +437,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
             label,
             color: colors.dataViz[index],
             value:
-              records[identifier as RaceIdentifier].currentTotalSentencedCount,
+              records[identifier as RaceIdentifier]?.currentTotalSentencedCount,
           };
         })
       ),

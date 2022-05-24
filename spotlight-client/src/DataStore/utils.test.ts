@@ -57,11 +57,20 @@ test("other .gov domains error", () => {
 });
 
 test("staging domains matching tenants", () => {
+  jsdom.reconfigure({ url: "https://us-id.spotlight-staging.recidiviz.org" });
+  expect(getTenantFromDomain()).toBe("US_ID");
+
+  jsdom.reconfigure({ url: "https://us-me.spotlight-staging.recidiviz.org" });
+  expect(getTenantFromDomain()).toBe("US_ME");
+
   jsdom.reconfigure({ url: "https://us-nd.spotlight-staging.recidiviz.org" });
   expect(getTenantFromDomain()).toBe("US_ND");
 
   jsdom.reconfigure({ url: "https://us-pa.spotlight-staging.recidiviz.org" });
   expect(getTenantFromDomain()).toBe("US_PA");
+
+  jsdom.reconfigure({ url: "https://us-tn.spotlight-staging.recidiviz.org" });
+  expect(getTenantFromDomain()).toBe("US_TN");
 });
 
 test("no match", () => {

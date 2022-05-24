@@ -71,7 +71,11 @@ const VizPopulationBreakdownByLocation: React.FC<VizPopulationBreakdownByLocatio
             }
           />
         </StatisticWrapper>
-        <VizNotes smallData unknowns={metric.unknowns} />
+        <VizNotes
+          smallData
+          unknowns={metric.unknowns}
+          download={metric.download}
+        />
       </>
     );
   }

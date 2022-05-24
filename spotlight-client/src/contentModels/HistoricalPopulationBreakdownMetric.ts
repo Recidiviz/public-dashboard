@@ -89,7 +89,6 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
     makeObservable(this, {
       dataIncludesCurrentMonth: observable,
       dataSeries: computed,
-      unknowns: computed,
     });
   }
 

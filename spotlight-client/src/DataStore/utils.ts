@@ -29,12 +29,15 @@ export function getTenantFromDomain(): TenantId | undefined {
 
   // production domains
   if (domain.endsWith(".gov")) {
+    // TODO(#530): Add ID here
+    // TODO(#569): Add ME here
     if (domain.endsWith(".nd.gov")) {
       return "US_ND";
     }
     if (domain.endsWith(".pa.gov")) {
       return "US_PA";
     }
+    // TODO(#529): Add TN here
     throw new Error("Unable to proceed; this .gov domain is not supported.");
   }
 

@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import HTMLReactParser from "html-react-parser";
+import useBreakpoint from "@w11r/use-breakpoint";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
@@ -39,7 +39,7 @@ const Wrapper = styled.footer`
   font-weight: 700;
   justify-content: flex-end;
   line-height: 1.25;
-  margin-top: ${rem(120)};
+  margin-top: 130px;
   min-height: ${rem(FOOTER_HEIGHT)};
   padding: ${rem(32)};
   padding-bottom: 0;
@@ -70,6 +70,15 @@ const CoBranding = styled.div`
   flex: 0 0 auto;
   margin-bottom: ${rem(16)};
   width: 100%;
+`;
+
+const DocButton = styled.a`
+  background: ${colors.caption};
+  color: ${colors.footerBackground} !important;
+  border-radius: 5px;
+  padding: ${rem(8)} ${rem(10)};
+  text-decoration: none;
+  font-weight: normal;
 `;
 
 const Legalese = styled.div`
@@ -127,6 +136,7 @@ const BrandLink = styled.a`
 
 const SiteFooter: React.FC = () => {
   const { tenant } = useDataStore();
+  const isMobile = useBreakpoint(false, ["mobile-", true]);
 
   const year = new Date().getFullYear();
 
@@ -134,7 +144,14 @@ const SiteFooter: React.FC = () => {
     <Wrapper>
       <Contents>
         {tenant && (
-          <CoBranding>{HTMLReactParser(tenant.coBrandingCopy)}</CoBranding>
+          <CoBranding>
+            <DocButton href={tenant.docLink}>
+              Go to{" "}
+              <strong>
+                {isMobile ? `${tenant.name} DOC` : tenant.docName}
+              </strong>
+            </DocButton>
+          </CoBranding>
         )}
         <Legalese>
           <span>

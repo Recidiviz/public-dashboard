@@ -19,8 +19,8 @@
  * these are overrides to defaults in @w11r/use-breakpoint
  */
 export default {
-  mobile: [320, 767],
-  tablet: [768, 1023],
+  mobile: [400, 768],
+  tablet: [769, 1023],
   desktop: [1024, 1279],
   xl: [1280, 10000],
 };

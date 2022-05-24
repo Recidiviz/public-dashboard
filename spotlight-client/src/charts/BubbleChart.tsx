@@ -74,11 +74,13 @@ const LegendWrapper = styled.div`
 type BubbleChartProps = {
   data: CategoricalChartRecord[];
   height: number;
+  showLegend?: boolean;
 };
 
 export default function BubbleChart({
   data,
   height,
+  showLegend = true,
 }: BubbleChartProps): React.ReactElement {
   const { highlighted, setHighlighted } = useHighlightedItem();
   const { getHatchDefs, generateHatchFill } = useCreateHatchDefs();
@@ -145,13 +147,15 @@ export default function BubbleChart({
                     additionalDefs={hatchDefs}
                   />
                 </ResponsiveTooltipController>
-                <LegendWrapper>
-                  <ColorLegend
-                    highlighted={highlighted}
-                    items={data}
-                    setHighlighted={setHighlighted}
-                  />
-                </LegendWrapper>
+                {showLegend && (
+                  <LegendWrapper>
+                    <ColorLegend
+                      highlighted={highlighted}
+                      items={data}
+                      setHighlighted={setHighlighted}
+                    />
+                  </LegendWrapper>
+                )}
               </>
             )}
           </BubbleChartWrapper>

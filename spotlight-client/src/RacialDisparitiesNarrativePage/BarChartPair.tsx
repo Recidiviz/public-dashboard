@@ -25,10 +25,10 @@ import VizControls, { VizControlsProps } from "../VizControls";
 import VizNotes from "../VizNotes";
 
 const CHART_HEIGHT = 165;
-
 const CHART_HEIGHT_MOBILE = 100;
 
-const CHART_HEIGHT_PREVIEW = 135;
+const CHART_HEIGHT_PREVIEW = 420;
+const CHART_HEIGHT_PREVIEW_MOBILE = 300;
 
 const Wrapper = styled.div`
   padding: ${rem(48)} 0;
@@ -57,13 +57,30 @@ export default function BarChartPair({
     ItemToHighlight | undefined
   >();
 
-  let chartHeight = useBreakpoint(CHART_HEIGHT, [
+  const chartHeight = useBreakpoint(CHART_HEIGHT, [
     "mobile-",
     CHART_HEIGHT_MOBILE,
   ]);
 
+  const previewChartHeight = useBreakpoint(CHART_HEIGHT_PREVIEW, [
+    "mobile-",
+    CHART_HEIGHT_PREVIEW_MOBILE,
+  ]);
+
   if (preview) {
-    chartHeight = CHART_HEIGHT_PREVIEW;
+    return (
+      <>
+        <ProportionalBar
+          data={data[1].records}
+          title={data[1].label}
+          height={previewChartHeight}
+          highlighted={highlightedCategory}
+          setHighlighted={setHighlightedCategory}
+          showLegend={preview}
+          preview={preview}
+        />
+      </>
+    );
   }
 
   return (
@@ -80,7 +97,6 @@ export default function BarChartPair({
         title={data[0].label}
         height={chartHeight}
         highlighted={highlightedCategory}
-        showLegend={false}
       />
       <Spacer />
       <ProportionalBar

@@ -55,7 +55,7 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
 }) => {
   const { highlighted, setHighlighted } = useHighlightedItem();
 
-  const { demographicView, dataSeries, unknowns } = metric;
+  const { demographicView, dataSeries, unknowns, download } = metric;
 
   const chartTransitions = useTransition(
     { demographicView, dataSeries },
@@ -82,6 +82,7 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
                     <BubbleChart
                       height={bubbleChartHeight}
                       data={item.dataSeries[0].records}
+                      showLegend={preview}
                     />
                   ) : (
                     item.dataSeries.map(
@@ -123,7 +124,7 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
           metric={metric}
         />
         {viz}
-        <VizNotes smallData unknowns={unknowns} />
+        <VizNotes smallData unknowns={unknowns} download={download} />
       </>
     );
   }

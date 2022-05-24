@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { format } from "date-fns";
 import {
   action,
   computed,
@@ -29,11 +30,13 @@ import {
   MetricTypeId,
   TenantId,
 } from "../contentApi/types";
+import RootStore from "../DataStore/RootStore";
 import {
   createDemographicCategories,
   DemographicCategories,
   DemographicView,
   getDemographicCategoriesForView,
+  getDemographicViewLabel,
 } from "../demographics";
 import {
   RawMetricData,
@@ -41,9 +44,33 @@ import {
   LocalityFields,
   SupervisionSuccessRateMonthlyRecord,
   fetchAndTransformMetric,
+  DemographicFieldKeyList,
 } from "../metricsApi";
+import { formatAsNumber } from "../utils";
 import downloadData from "./downloadData";
-import { MetricRecord, Hydratable } from "./types";
+import {
+  MetricRecord,
+  Hydratable,
+  Unknowns,
+  UnknownCounts,
+  UnknownByDate,
+  UnknownByCohort,
+} from "./types";
+
+function formatUnknownCounts(unknowns: UnknownCounts) {
+  const parts: string[] = [];
+
+  DemographicFieldKeyList.forEach((key) => {
+    const value = unknowns[key];
+    if (!value) return;
+
+    parts.push(
+      `${getDemographicViewLabel(key).toLowerCase()} (${formatAsNumber(value)})`
+    );
+  });
+
+  return parts.join(", ");
+}
 
 export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   id: MetricTypeId;
@@ -63,6 +90,7 @@ export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   localityLabels: RecordFormat extends LocalityFields
     ? LocalityLabels
     : undefined;
+  rootStore?: RootStore;
 };
 
 /**
@@ -99,6 +127,8 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
 
   error?: Error;
 
+  rootStore?: RootStore;
+
   // filter properties
   private readonly demographicCategories: DemographicCategories;
 
@@ -126,6 +156,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     defaultDemographicView,
     defaultLocalityId,
     localityLabels,
+    rootStore,
   }: BaseMetricConstructorOptions<RecordFormat>) {
     makeObservable<Metric<RecordFormat>, "allRecords">(this, {
       allRecords: observable.ref,
@@ -135,17 +166,20 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
       hydrate: action,
       isLoading: observable,
       records: computed,
+      unknowns: computed,
+      readme: computed,
     });
 
     // initialize metadata
     this.name = name;
-    this.methodology = methodology;
+    this.methodology = methodology.replace(/\s+/g, " ");
     this.id = id;
 
     // initialize data fetching
     this.tenantId = tenantId;
     this.sourceFileName = sourceFileName;
     this.dataTransformer = dataTransformer;
+    this.rootStore = rootStore;
 
     // initialize filters
     this.demographicCategories = createDemographicCategories(demographicFilter);
@@ -163,6 +197,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
       sourceFileName: this.sourceFileName,
       tenantId: this.tenantId,
       transformFn: this.dataTransformer,
+      rootStore: this.rootStore,
     });
     return records;
   }
@@ -194,11 +229,43 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     return this.allRecords;
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  get unknowns(): Unknowns | undefined {
+    return undefined;
+  }
+
+  get readme(): string {
+    const { unknowns } = this;
+    if (!unknowns) {
+      return this.methodology;
+    }
+    let formattedUnknowns: string;
+    if (Array.isArray(unknowns)) {
+      formattedUnknowns = (unknowns as (UnknownByDate | UnknownByCohort)[])
+        .map((entry) => {
+          const formattedCounts = formatUnknownCounts(entry.unknowns);
+          let label: string;
+
+          if ("date" in entry) {
+            label = format(entry.date, "MMM d y");
+          } else {
+            label = `the ${entry.cohort} cohort`;
+          }
+
+          return `${formattedCounts} for ${label}`;
+        })
+        .join("; ");
+    } else {
+      formattedUnknowns = formatUnknownCounts(unknowns);
+    }
+    return `${this.methodology}\n\nVISUALIZATION FOOTNOTES:\n\nValues that count towards the total but are excluded from demographic breakdown views: ${formattedUnknowns}`;
+  }
+
   /**
    * Creates a zip file of all this metric's data in CSV format and
    * initiates a download of that file in the user's browser.
    */
-  async download(): Promise<void> {
+  download = async (): Promise<void> => {
     await when(() => this.allRecords !== undefined);
 
     // we don't really need a reaction here;
@@ -206,12 +273,12 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     return runInAction(() =>
       downloadData({
         archiveName: `${this.tenantId} ${this.id} data`,
-        readmeContents: this.methodology,
+        readmeContents: this.readme,
         // allRecords won't be undefined because we just awaited it
         dataFiles: [{ name: "data", data: this.allRecords as RecordFormat[] }],
       })
     );
-  }
+  };
 
   getDemographicCategories(
     view: Exclude<DemographicView, "nofilter">

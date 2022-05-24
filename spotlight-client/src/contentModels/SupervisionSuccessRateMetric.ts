@@ -89,7 +89,6 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
       allCohortRecords: observable.ref,
       cohortRecords: computed,
       demographicRecords: computed,
-      unknowns: computed,
     });
   }
 
@@ -162,6 +161,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
           sourceFileName: this.demographicSourceFileName,
           tenantId: this.tenantId,
           transformFn: this.demographicDataTransformer,
+          rootStore: this.rootStore,
         }),
       ]);
 
@@ -240,7 +240,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
    * Creates a zip file of all this metric's data in CSV format and
    * initiates a download of that file in the user's browser.
    */
-  async download(): Promise<void> {
+  download = async (): Promise<void> => {
     await when(
       () =>
         this.allCohortRecords !== undefined &&
@@ -268,7 +268,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
         ],
       })
     );
-  }
+  };
 
   get unknowns(): UnknownCounts | undefined {
     const { allDemographicRecords, localityId } = this;

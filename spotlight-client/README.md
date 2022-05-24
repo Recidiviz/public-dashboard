@@ -1,6 +1,40 @@
 # Spotlight Client
 
-This package is a React client application for the next-generation Spotlight public data publishing website (not yet launched). It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and is written in [TypeScript](https://www.typescriptlang.org/docs).
+This package is a React client application for the Spotlight public data publishing website. It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and is written in [TypeScript](https://www.typescriptlang.org/docs).
+
+## Application overview
+
+The Spotlight Client is a single-page web application built with React; most of what you will find in `src/` is React components, organized by feature. The application also contains configuration files, a Metrics API client, and data models, all of which are discussed further below.
+
+The site consumes views of aggregate population data produced by the Recidiviz data platform (referred to here as "Metrics") and organizes them into thematic pages known as "Narratives," each of which contains an ordered set of sections displaying data visualizations and explanatory copy; it is not a "dashboard," really, although that label may be seen sometimes for mostly historical reasons.
+
+While Spotlight is developed and deployed as a single multi-tenant website, it is primarily consumed as separate single-tenant experiences, under `.gov` subdomains owned by our state partners (e.g. [dashboard.docr.nd.gov](https://dashboard.docr.nd.gov)). To keep our infrastructure simple, this "tenant lock" is implemented in application logic within the data models, based on the URL hostname at runtime. This is why the multi-tenant "homepage" is so plain; it is really only used internally, for convenience, in development and staging environments.
+
+We also lock the staging environment to a single tenant depending on how the logged-in user is configured. In the staging environment, when a user logs in to view the site,we set their `state_code` based on their domain in their `app_metadata` if it's not already set. If their state_code is not `recidiviz`, then they will be locked-in to the tenant that correspons with that `state_code`. This is so we can share a fully-functional but private version of the app with contacts of that associated agency, without exposing data to state actors that do not have permission to view other states’ data.
+
+If their `state_code` is not one of our supported Spotlight tenants, they will only see the "Page Not Found" page. The `state_code` can be configured by going to the `recidiviz-spotlight-staging` tenant in Auth0, looking up the user and modifying the `state_code` in their `app_metadata`.
+
+### Configuration and content
+
+At its core this application is driven by a set of configuration objects, which are JavaScript objects that determine which states (or "Tenants") are displayed; which Narratives and Metrics will appear for each Tenant and what copy will appear on each of those pages (all of which is collectively referred to here as "Content"); and various other settings that can be changed per Tenant.
+
+There is one configuration file per state, each containing a single configuration object. These files, along with supporting logic, are found in `src/contentApi/`; more information about how to use these files can be found in the [Content README](src/contentApi/README.md).
+
+### The Metrics API
+
+The API client, found in `src/metricsApi/`, is the counterpart to the `spotlight-api` package, which runs our server application. In addition to fetching the metric data, it transforms the raw response contents into strongly typed "Records". These are more generic than the raw responses; multiple metrics may be mapped to the same underlying Record type, which in turn allows our data models to be more generic and makes it easier to visualize different metrics the same way. There is not necessarily a 1:1 correspondence between Record type and chart form, but they are strongly correlated.
+
+**UI components should never be interacting directly with the Metrics API!** This responsibility is handled by the data models, which are in turn consumed by UI components.
+
+### Data models
+
+This application uses [MobX](https://mobx.js.org/README.html) for state management; if you are unfamiliar with this package you should definitely spend some time studying their documentation, as it is quite different from other popular React state management libraries such as React Contexts or Redux. The [TL;DR](https://mobx.js.org/the-gist-of-mobx.html) on it, though, is that it is an object-oriented and reactive framework that encourages developers to centralize application state, decoupling it from the UI entirely, and to treat the UI as a side effect derived from that state. This stands in contrast to other libraries that favor a more functional style and map more closely to React's own internal rendering and state management features.
+
+To that end, state is owned by a group of MobX [data stores](https://mobx.js.org/defining-data-stores.html), found in `src/DataStore`. The `TenantStore` is the one mainly concerned with the content and metrics described above; it owns a set of domain objects, which are Mobx observable classes defined in `src/contentModels` that consume both the configuration objects and responses from `spotlight-api`.
+
+Each Record type defined by the API client has a corresponding Metric class; these classes use the API client to fetch data and own their own filtering and transformation logic. Filters are applied per metric (which, in practice, means per section on a given Narrative page). They are all extensions of the abstract `Metric` class, so start there if you want to understand their inner workings more deeply (e.g. to develop a new Metric type).
+
+We strive to do as much work as possible in these models and as little as possible in the UI components; generally speaking, the UI components connect the filters to their corresponding UI controls, and own the knowledge about how to translate from our relatively generic and descriptive record formats to the APIs of our visualization components (which wrap an external chart library). As much as possible, anything else that isn't purely display logic should be lifted up into the models and data stores.
 
 ## Development
 
@@ -28,9 +62,10 @@ The Create React App documentation explains all the possible [env config files](
 
 Expected environment variables include:
 
-- `REACT_APP_AUTH_ENABLED` - set to `true` or `false` to toggle Auth0 protection per environment. Currently only used in staging to make the entire site private. No need to enable this locally unless you are developing or testing something auth-related. If set to `true` then `REACT_APP_AUTH_ENV` **must** be set to a supported value.
-- `REACT_APP_AUTH_ENV` - a string indicating the "auth environment" used to point to the correct Auth0 tenant. `development` (which also covers staging) is the only supported value, which **must** be set if `REACT_APP_AUTH_ENABLED` is `true`.
 - `REACT_APP_API_URL` - the base URL of the backend API server. This should be set to http://localhost:3001 when running the server locally, and to http://localhost:3002 in the test environment (because some tests will make requests to this URL).
+- `REACT_APP_AUTH_ENABLED` - set to `true` or `false` to toggle Auth0 protection per environment. Currently only used in staging to make the entire site private. No need to enable this locally unless you are developing or testing something auth-related. If set to `true` then `REACT_APP_AUTH_ENV` **must** be set to a supported value.
+  - If the `AUTH_ENABLED` environment variable is set to `true` on the backend, then this must be set to `true` otherwise the app won't be able to fetch metrics. Note that `AUTH_ENABLED` is true on staging, but false in production.
+- `REACT_APP_AUTH_ENV` - a string indicating the "auth environment" used to point to the correct Auth0 tenant. `development` (which also covers staging) is the only supported value, which **must** be set if `REACT_APP_AUTH_ENABLED` is `true`.
 - `REACT_APP_ENABLED_TENANTS` - a feature flag for activating individual tenants, in the form of a comma-separated list of tenant IDs (e.g., "US_ND,US_PA") that should be available. Tenants that are configured but not enumerated here will not be accessible to users.
 
 (Note that variables must be prefixed with `REACT_APP_` to be available inside the client application.)
@@ -110,7 +145,3 @@ You can also run either TS or ESLint individually; while there are not predefine
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
 This package was bootstrapped with Create React App, which provides the option to `eject` its build tooling and configuration, allowing for full customization. See [the Create React App docs](https://create-react-app.dev/docs/available-scripts#npm-run-eject) for more information.
-
-## Adding new Tenants
-
-In addition to data being available from `spotlight-api`, adding a new tenant to the site also requires content for that tenant to be added to the Content API (which is included in the JS bundle, not served by the backend). See the [Content README](src/contentApi/README.md) for more information.

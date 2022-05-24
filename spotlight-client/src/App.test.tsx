@@ -126,18 +126,18 @@ describe("navigation", () => {
     const inNav = within(screen.getByRole("navigation"));
 
     const homeLink = inNav.getByRole("link", { name: "Spotlight" });
-    const tenantLink = inNav.getByRole("link", { name: "North Dakota" });
+    const tenantLink = inNav.getByRole("link", {
+      name: "North Dakota Department of Corrections and Rehabilitation",
+    });
     const sentencingLink = await screen.findByRole("link", {
-      name: "Racial Disparities Data",
+      name: "Explore Prison Data",
     });
 
     fireEvent.click(sentencingLink);
     // NOTE: *ByRole queries can be too expensive to run async with this much DOM,
     // so we are using *ByTestId queries here instead
     await waitFor(async () =>
-      expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
-        "Racial Disparities"
-      )
+      expect(await screen.findByTestId("PageTitle")).toHaveTextContent("Prison")
     );
 
     fireEvent.click(tenantLink);
@@ -210,7 +210,11 @@ describe("navigation", () => {
       expect(
         screen.getByRole("button", { name: "Data Narratives" })
       ).toBeVisible();
-      fireEvent.click(screen.getByRole("link", { name: "North Dakota" }));
+      fireEvent.click(
+        screen.getByRole("link", {
+          name: "North Dakota Department of Corrections and Rehabilitation",
+        })
+      );
 
       await waitFor(() =>
         expect(screen.queryByRole(...notFoundRoleArgs)).not.toBeInTheDocument()
@@ -228,7 +232,11 @@ describe("navigation", () => {
       expect(
         screen.getByRole("button", { name: "Data Narratives" })
       ).toBeVisible();
-      fireEvent.click(screen.getByRole("link", { name: "North Dakota" }));
+      fireEvent.click(
+        screen.getByRole("link", {
+          name: "North Dakota Department of Corrections and Rehabilitation",
+        })
+      );
 
       await waitFor(() =>
         expect(screen.queryByRole(...notFoundRoleArgs)).not.toBeInTheDocument()
