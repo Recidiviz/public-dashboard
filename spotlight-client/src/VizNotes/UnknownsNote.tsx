@@ -17,11 +17,16 @@
 
 import { Button } from "@recidiviz/design-system";
 import React from "react";
+import styled from "styled-components/macro";
 import { AutoHeightTransition } from "../UiLibrary";
 
 type UnknownsNoteProps = {
   download: () => void;
 };
+
+const DownloadButton = styled(Button).attrs({ kind: "link" })`
+  font-size: 1em;
+`;
 
 export const UnknownsNote = ({ download }: UnknownsNoteProps): JSX.Element => {
   return (
@@ -29,10 +34,8 @@ export const UnknownsNote = ({ download }: UnknownsNoteProps): JSX.Element => {
       This data includes some individuals for whom age, gender, or
       race/ethnicity is not reported. These individuals count toward the total
       but are excluded from demographic breakdown views. For more details,{" "}
-      <Button kind="link" onClick={download}>
-        download
-      </Button>{" "}
-      the data and view the README.txt.
+      <DownloadButton onClick={download}>download</DownloadButton> the data and
+      view the README.txt.
     </AutoHeightTransition>
   );
 };

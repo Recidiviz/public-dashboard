@@ -34,8 +34,8 @@ const FixedMenuLabel = styled.div`
 `;
 
 const FixedOptionList = styled.ul`
+  ${typography.Sans16}
   color: ${colors.textLight};
-  font-size: ${rem(18)};
   overflow: auto;
   text-align: center;
   width: 100%;

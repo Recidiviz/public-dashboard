@@ -35,18 +35,15 @@ export const NarrativeIntroContainer = styled(FullScreenSection)`
 
 export const NarrativeTitle = styled(PageTitle)`
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
-    font-size: ${rem(88)};
-    margin-bottom: ${rem(64)};
+    ${typography.Header88}
   }
 `;
 
 export const NarrativeIntroCopy = styled(CopyBlock)`
-  font-size: ${rem(18)};
-  line-height: 1.5;
-  letter-spacing: -0.025em;
+  ${typography.Body19}
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
-    font-size: ${rem(48)};
+    ${typography.Body48}
   }
 `;
 
@@ -54,6 +51,4 @@ export const NarrativeSectionTitle = styled.h2`
   ${typography.Header24}
 `;
 
-export const NarrativeSectionBody = styled(CopyBlock)`
-  line-height: 1.67;
-`;
+export const NarrativeSectionBody = styled(CopyBlock)``;

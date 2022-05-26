@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { Link } from "@reach/router";
+import { typography } from "@recidiviz/design-system";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
@@ -38,10 +39,9 @@ const Wrapper = styled.div`
 `;
 
 const LinkList = styled.ul`
+  ${typography.Sans24}
   display: flex;
   flex-wrap: wrap;
-  font-size: ${rem(24)};
-  line-height: 1.5;
   /* this margin makes the cells flush left and right */
   margin: ${rem(48)} -${rem(32)} 0 0;
 `;

@@ -36,11 +36,9 @@ const Value = styled.div<{ minSize: number; maxSize: number }>`
 `;
 
 const LabelWrapper = styled.figcaption`
+  ${typography.Sans14}
+
   color: ${colors.caption};
-  font-size: ${rem(13)};
-  font-weight: 500;
-  letter-spacing: -0.01;
-  line-height: 1.5;
   margin-top: ${rem(8)};
 `;
 

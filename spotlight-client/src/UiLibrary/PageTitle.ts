@@ -21,7 +21,7 @@ import colors from "./colors";
 import breakpoints from "./breakpoints";
 
 export default styled.h1.attrs({ "data-testid": "PageTitle" })`
-  ${typography.Header88}
+  ${typography.Header34}
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     ${typography.Header56}

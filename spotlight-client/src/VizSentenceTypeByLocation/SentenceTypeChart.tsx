@@ -73,14 +73,15 @@ const SourceValue = styled.text`
 const SOURCE_LABEL_SIZE = 16;
 
 const SourceLabel = styled.text`
+  ${typography.Sans16}
   fill: ${colors.text};
   font-size: ${SOURCE_LABEL_SIZE}px;
 `;
 
 const TARGET_LABEL_PADDING = 8;
 const TargetLabel = styled.text`
+  ${typography.Sans16}
   fill: ${colors.text};
-  font-size: 16px;
   text-anchor: start;
 `;
 

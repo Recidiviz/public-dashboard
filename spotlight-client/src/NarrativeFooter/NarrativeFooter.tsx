@@ -31,11 +31,9 @@ const Container = styled.nav`
   padding: ${rem(120)} ${rem(32)} 0;
 
   .NarrativeFooter__BackLink {
+    ${typography.Sans16}
     color: ${colors.link};
     display: inline-block;
-    font-weight: 500;
-    font-size: ${rem(18)};
-    line-height: 1.7;
     margin-top: ${rem(48)};
     text-decoration: none;
   }

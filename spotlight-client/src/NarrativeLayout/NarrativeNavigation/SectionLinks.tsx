@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { palette } from "@recidiviz/design-system";
+import { palette, typography } from "@recidiviz/design-system";
 import { rem } from "polished";
 import React, { useEffect } from "react";
 import { animated, useSpring, useSprings } from "react-spring/web.cjs";
@@ -91,7 +91,7 @@ const SectionLinkLabel = styled(animated.div)<{
   display: flex;
   align-items: center;
   text-align: left;
-  letter-spacing: -0.01em;
+  ${typography.Sans12}
   padding-left: ${rem(16)};
   pointer-events: none;
   position: absolute;

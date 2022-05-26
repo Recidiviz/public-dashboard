@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import useBreakpoint from "@w11r/use-breakpoint";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
@@ -31,15 +32,13 @@ import { useDataStore } from "../StoreProvider";
 import { breakpoints, colors } from "../UiLibrary";
 
 const Wrapper = styled.footer`
+  ${typography.Sans12}
   background: ${colors.footerBackground};
   color: ${colors.caption};
   display: flex;
   flex-direction: column;
-  font-size: ${rem(12)};
-  font-weight: 700;
   justify-content: flex-end;
-  line-height: 1.25;
-  margin-top: 130px;
+  margin-top: ${rem(130)};
   min-height: ${rem(FOOTER_HEIGHT)};
   padding: ${rem(32)};
   padding-bottom: 0;
