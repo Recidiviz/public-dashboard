@@ -18,11 +18,6 @@
 import { rem } from "polished";
 import { breakpoints } from ".";
 
-export const typefaces = {
-  body: "'Libre Franklin', sans-serif",
-  display: "'Libre Baskerville', serif",
-};
-
 const [mobileMin] = breakpoints.mobile;
 const [desktopMin] = breakpoints.desktop;
 

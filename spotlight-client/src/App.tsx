@@ -20,7 +20,8 @@ import { setup as setupBreakpoints } from "@w11r/use-breakpoint";
 import { rem } from "polished";
 import React from "react";
 import { HelmetProvider } from "react-helmet-async";
-import styled from "styled-components/macro";
+import styled, { ThemeProvider } from "styled-components/macro";
+import { AVAILABLE_FONTS } from "@recidiviz/design-system";
 import AuthWall from "./AuthWall";
 import { FOOTER_HEIGHT, NAV_BAR_HEIGHT } from "./constants";
 import GlobalStyles from "./GlobalStyles";
@@ -59,36 +60,44 @@ const Main = styled.div.attrs({ role: "main" })`
 const App: React.FC = () => {
   return (
     <HelmetProvider>
-      <StoreProvider>
-        <GlobalStyles />
-        <AuthWall>
-          <SiteNavigation />
-          <Main>
-            <Router>
-              {/*
+      <ThemeProvider
+        theme={{
+          fonts: {
+            body: AVAILABLE_FONTS.PUBLIC_SANS,
+          },
+        }}
+      >
+        <StoreProvider>
+          <GlobalStyles />
+          <AuthWall>
+            <SiteNavigation />
+            <Main>
+              <Router>
+                {/*
                 NOTE: every leaf route component in this router should be wrapped
                 by the withRouteSync higher-order component to keep data and UI in sync!
               */}
-              {/*
+                {/*
                 this was the ND homepage for v1;
                 let's make sure people who bookmarked it are not lost
               */}
-              <Redirect from="/us_nd/overview" to="/us-nd" noThrow />
-              <PageHome path="/" />
-              <PassThroughPage path="/:tenantId">
-                <PageTenant path="/" />
-                <PageNarrative
-                  path={`/${NarrativesSlug}/:narrativeTypeId/*sectionNumber`}
-                />
-                <PageNotFound path="/*" />
-              </PassThroughPage>
-            </Router>
-            <ScrollManager />
-          </Main>
-          <SiteFooter />
-          <TooltipMobile />
-        </AuthWall>
-      </StoreProvider>
+                <Redirect from="/us_nd/overview" to="/us-nd" noThrow />
+                <PageHome path="/" />
+                <PassThroughPage path="/:tenantId">
+                  <PageTenant path="/" />
+                  <PageNarrative
+                    path={`/${NarrativesSlug}/:narrativeTypeId/*sectionNumber`}
+                  />
+                  <PageNotFound path="/*" />
+                </PassThroughPage>
+              </Router>
+              <ScrollManager />
+            </Main>
+            <SiteFooter />
+            <TooltipMobile />
+          </AuthWall>
+        </StoreProvider>
+      </ThemeProvider>
     </HelmetProvider>
   );
 };

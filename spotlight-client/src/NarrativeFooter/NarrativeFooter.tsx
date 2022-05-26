@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { Link } from "@reach/router";
+import { typography } from "@recidiviz/design-system";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React from "react";
@@ -23,7 +24,7 @@ import styled from "styled-components/macro";
 import OtherNarrativeLinks from "../OtherNarrativeLinks";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
-import { colors, typefaces } from "../UiLibrary";
+import { colors } from "../UiLibrary";
 import Arrow from "../UiLibrary/Arrow";
 
 const Container = styled.nav`
@@ -41,10 +42,7 @@ const Container = styled.nav`
 `;
 
 const Heading = styled.h2`
-  font-family: ${typefaces.display};
-  font-size: ${rem(32)};
-  line-height: 1.75;
-  letter-spacing: -0.04em;
+  ${typography.Serif34}
 `;
 
 const Footer: React.FC = () => {

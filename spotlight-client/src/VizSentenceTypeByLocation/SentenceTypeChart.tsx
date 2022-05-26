@@ -24,10 +24,11 @@ import { GenericObject } from "semiotic/lib/types/generalTypes";
 import { EdgeType } from "semiotic/lib/types/networkTypes";
 import styled from "styled-components/macro";
 import { $Keys } from "utility-types";
+import { typography } from "@recidiviz/design-system";
 import ResponsiveTooltipController from "../charts/ResponsiveTooltipController";
-import { formatAsNumber } from "../utils";
 import MeasureWidth from "../MeasureWidth";
-import { breakpoints, colors, typefaces } from "../UiLibrary";
+import { formatAsNumber } from "../utils";
+import { breakpoints, colors } from "../UiLibrary";
 
 export const CHART_BOTTOM_PADDING = 80;
 export const CHART_HEIGHT = 500;
@@ -63,8 +64,8 @@ const SOURCE_LABEL_X_OFFSET = `-${MARGIN.left + NODE_WIDTH / 2}`;
 const SOURCE_VALUE_SIZE = 48;
 
 const SourceValue = styled.text`
+  ${typography.Serif34}
   fill: ${colors.text};
-  font-family: ${typefaces.display};
   font-size: ${SOURCE_VALUE_SIZE}px;
   letter-spacing: -0.07em;
 `;

@@ -15,21 +15,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { rem } from "polished";
 import styled from "styled-components/macro";
+import { typography } from "@recidiviz/design-system";
 import colors from "./colors";
 import breakpoints from "./breakpoints";
-import { typefaces } from "./typography";
 
 export default styled.h1.attrs({ "data-testid": "PageTitle" })`
-  font-family: ${typefaces.display};
-  font-size: ${rem(32)};
-  letter-spacing: -0.04em;
-  line-height: 1.4;
-  margin-bottom: ${rem(32)};
+  ${typography.Header88}
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
-    font-size: ${rem(52)};
+    ${typography.Header56}
   }
 
   a {

@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React, { useState } from "react";
@@ -38,7 +39,6 @@ import {
   Modal,
   ModalHeading,
   SpotlightModalProps,
-  typefaces,
 } from "../UiLibrary";
 
 const Button = styled.button.attrs({ type: "button" })`
@@ -78,9 +78,8 @@ const ShareActions = styled.div`
 `;
 
 const UrlText = styled.div`
-  font-family: ${typefaces.display};
-  font-size: ${rem(21)};
-  letter-spacing: -0.04em;
+  ${typography.Serif24}
+
   padding-bottom: ${rem(16)};
 `;
 

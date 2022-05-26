@@ -29,6 +29,10 @@ import colors from "./colors";
 import Arrow from "./Arrow";
 import { fluidFontSizeStyles } from "./typography";
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`;
+
 const Button = styled(BasicButton)<{ minSize: number; maxSize: number }>`
   background: ${colors.text};
   padding: ${rem(16)} ${rem(24)};
@@ -68,7 +72,7 @@ const ExploreNarrativeButton: React.FC<{
   tenantId: TenantId;
 }> = observer(({ narrativeId, tenantId }) => {
   return (
-    <Link
+    <StyledLink
       to={getUrlForResource({
         page: "narrative",
         params: { tenantId, narrativeTypeId: narrativeId },
@@ -86,7 +90,7 @@ const ExploreNarrativeButton: React.FC<{
         </span>
         <Arrow direction="right" />
       </Button>
-    </Link>
+    </StyledLink>
   );
 });
 

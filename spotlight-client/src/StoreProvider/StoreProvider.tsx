@@ -15,9 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { AVAILABLE_FONTS } from "@recidiviz/design-system";
 import React, { useContext } from "react";
-import { ThemeProvider } from "styled-components/macro";
 import DataStore from "../DataStore";
 
 const StoreContext = React.createContext<typeof DataStore | undefined>(
@@ -26,17 +24,7 @@ const StoreContext = React.createContext<typeof DataStore | undefined>(
 
 const StoreProvider: React.FC = ({ children }) => {
   return (
-    <ThemeProvider
-      theme={{
-        fonts: {
-          body: AVAILABLE_FONTS.LIBRE_FRANKLIN,
-        },
-      }}
-    >
-      <StoreContext.Provider value={DataStore}>
-        {children}
-      </StoreContext.Provider>
-    </ThemeProvider>
+    <StoreContext.Provider value={DataStore}>{children}</StoreContext.Provider>
   );
 };
 

@@ -15,18 +15,21 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { createGlobalStyle } from "styled-components/macro";
 import reset from "styled-reset";
-import { colors, typefaces } from "../UiLibrary";
+import { colors } from "../UiLibrary";
 
 const BaseStyles = createGlobalStyle`
   ${reset}
 
   html {
+    ${typography.Sans16}
+
     box-sizing: border-box;
-    font-family: ${typefaces.body};
+    
 
     *, *:before, *:after {
       box-sizing: inherit;

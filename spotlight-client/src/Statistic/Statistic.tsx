@@ -15,26 +15,22 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import { rem } from "polished";
 import React from "react";
 import { animated, useTransition } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
-import {
-  animation,
-  colors,
-  fluidFontSizeStyles,
-  typefaces,
-} from "../UiLibrary";
+import { animation, colors, fluidFontSizeStyles } from "../UiLibrary";
 
 const StatisticsWrapper = styled.figure`
   position: relative;
 `;
 
 const Value = styled.div<{ minSize: number; maxSize: number }>`
-  color: ${colors.text};
-  font-family: ${typefaces.display};
-  line-height: 100%;
+  ${typography.Serif34}
   letter-spacing: -0.07em;
+  color: ${colors.text};
+  line-height: 100%;
 
   ${(props) => fluidFontSizeStyles(props.minSize, props.maxSize)}
 `;

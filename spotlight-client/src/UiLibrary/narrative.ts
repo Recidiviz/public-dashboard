@@ -15,13 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import { rem } from "polished";
 import styled from "styled-components/macro";
 import breakpoints from "./breakpoints";
 import CopyBlock from "./CopyBlock";
 import { FullScreenSection } from "./PageSection";
 import PageTitle from "./PageTitle";
-import { typefaces } from "./typography";
 
 export const NarrativeIntroContainer = styled(FullScreenSection)`
   padding-top: ${rem(48)};
@@ -51,11 +51,7 @@ export const NarrativeIntroCopy = styled(CopyBlock)`
 `;
 
 export const NarrativeSectionTitle = styled.h2`
-  font-family: ${typefaces.display};
-  font-size: ${rem(24)};
-  line-height: 1.25;
-  letter-spacing: -0.04em;
-  margin-bottom: ${rem(24)};
+  ${typography.Header24}
 `;
 
 export const NarrativeSectionBody = styled(CopyBlock)`
