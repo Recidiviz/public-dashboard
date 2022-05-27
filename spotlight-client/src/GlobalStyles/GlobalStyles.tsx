@@ -17,7 +17,6 @@
 
 import { typography } from "@recidiviz/design-system";
 import React from "react";
-import { Helmet } from "react-helmet-async";
 import { createGlobalStyle } from "styled-components/macro";
 import reset from "styled-reset";
 import { colors } from "../UiLibrary";
@@ -43,24 +42,13 @@ const BaseStyles = createGlobalStyle`
   }
 
   strong {
-    font-weight: 600;
+    font-weight: 700;
   }
 `;
 
 const GlobalStyles: React.FC = () => {
   return (
     <>
-      <Helmet>
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap"
-          rel="stylesheet"
-        />
-      </Helmet>
       <BaseStyles />
     </>
   );
