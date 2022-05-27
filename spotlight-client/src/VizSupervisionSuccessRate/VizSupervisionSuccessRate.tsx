@@ -108,6 +108,7 @@ const VizSupervisionSuccessRate: React.FC<VizSupervisionSuccessRateProps> = ({
             <DemographicFilterSelect metric={metric} />,
           ]}
           metric={metric}
+          smallData
         />
         <CohortChartWrapper>
           {cohortTransitions.map(({ item, key, props }) => (
@@ -155,11 +156,7 @@ const VizSupervisionSuccessRate: React.FC<VizSupervisionSuccessRateProps> = ({
             </animated.div>
           )}
         </Measure>
-        <VizNotes
-          smallData
-          unknowns={metric.unknowns}
-          download={metric.download}
-        />
+        <VizNotes unknowns={metric.unknowns} download={metric.download} />
       </>
     );
   }

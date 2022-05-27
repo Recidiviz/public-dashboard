@@ -59,6 +59,7 @@ const VizPopulationBreakdownByLocation: React.FC<VizPopulationBreakdownByLocatio
         <MetricVizControls
           filters={[<LocalityFilterSelect metric={metric} />]}
           metric={metric}
+          smallData
         />
         {viz}
         <StatisticWrapper>
@@ -71,11 +72,7 @@ const VizPopulationBreakdownByLocation: React.FC<VizPopulationBreakdownByLocatio
             }
           />
         </StatisticWrapper>
-        <VizNotes
-          smallData
-          unknowns={metric.unknowns}
-          download={metric.download}
-        />
+        <VizNotes unknowns={metric.unknowns} download={metric.download} />
       </>
     );
   }

@@ -15,12 +15,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { TooltipTrigger, Icon, IconSVG } from "@recidiviz/design-system";
 import HTMLReactParser from "html-react-parser";
 import { rem } from "polished";
 import React, { useState } from "react";
 import styled from "styled-components/macro";
 import downloadPath from "../assets/cloud-download.svg";
 import machineLearningPath from "../assets/machine-learning.svg";
+import { useDataStore } from "../StoreProvider";
 import { colors, CopyBlock, Modal, ModalHeading, zIndex } from "../UiLibrary";
 
 const Wrapper = styled.div`
@@ -29,16 +31,16 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   z-index: ${zIndex.control};
+  margin-bottom: ${rem(32)};
 `;
 
 const ControlsGroup = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: ${rem(16)};
+  align-items: center;
 `;
 
 const FilterWrapper = styled.div`
-  margin-bottom: ${rem(16)};
   margin-right: ${rem(32)};
 
   &:last-child {
@@ -53,7 +55,6 @@ const Button = styled.button`
   cursor: pointer;
   font-size: ${rem(14)};
   font-weight: 500;
-  margin-bottom: ${rem(16)};
   padding: none;
 `;
 
@@ -72,14 +73,17 @@ export interface VizControlsProps {
   filters: React.ReactNode[];
   download: () => void;
   methodology: string;
+  smallData?: boolean;
 }
 
 const VizControls = ({
   download,
   filters,
   methodology,
+  smallData,
 }: VizControlsProps): React.ReactElement => {
   const [showMethodology, setShowMethodology] = useState(false);
+  const { tenant } = useDataStore();
 
   return (
     <Wrapper>
@@ -90,6 +94,11 @@ const VizControls = ({
             // so there isn't any real performance concern
             // eslint-disable-next-line react/no-array-index-key
             filter && <FilterWrapper key={index}>{filter}</FilterWrapper>
+        )}
+        {smallData && (
+          <TooltipTrigger maxWidth={232} contents={tenant?.smallDataDisclaimer}>
+            <Icon kind={IconSVG.Info} width={16} height={16} />
+          </TooltipTrigger>
         )}
       </ControlsGroup>
       <ControlsGroup>
