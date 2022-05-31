@@ -76,7 +76,6 @@ export default function BarChartPair({
           height={previewChartHeight}
           highlighted={highlightedCategory}
           setHighlighted={setHighlightedCategory}
-          showLegend={preview}
           preview={preview}
         />
       </>
