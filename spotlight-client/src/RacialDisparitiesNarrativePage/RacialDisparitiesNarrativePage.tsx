@@ -54,7 +54,6 @@ const CopyOnlySection = styled(FullScreenSection)`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 0;
   }
 `;
 

@@ -57,7 +57,6 @@ const NarrativeSection: React.FC<NarrativeSectionProps> = ({
   alwaysExpanded,
   children,
   onInViewChange,
-  onSectionExpanded,
   restrictHeight,
   sectionNumber,
 }) => {
@@ -68,11 +67,6 @@ const NarrativeSection: React.FC<NarrativeSectionProps> = ({
     height: restrictHeight
       ? window.innerHeight - actualNavBarHeight
       : contentHeight,
-    onRest: () => {
-      if (!restrictHeight && onSectionExpanded) {
-        onSectionExpanded();
-      }
-    },
   });
 
   const topSensor = useInView({
