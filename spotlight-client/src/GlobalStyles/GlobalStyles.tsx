@@ -15,18 +15,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { rem } from "polished";
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import { createGlobalStyle, css } from "styled-components/macro";
+import { createGlobalStyle } from "styled-components/macro";
 import reset from "styled-reset";
-import { NAV_BAR_HEIGHT } from "../constants";
 import { colors, typefaces } from "../UiLibrary";
-
-const scrollSnapStyles = css`
-  scroll-padding-top: ${rem(NAV_BAR_HEIGHT)};
-  scroll-snap-type: y proximity;
-`;
 
 const BaseStyles = createGlobalStyle`
   ${reset}
@@ -34,8 +27,6 @@ const BaseStyles = createGlobalStyle`
   html {
     box-sizing: border-box;
     font-family: ${typefaces.body};
-    /* most browsers support full-page scroll snapping with this element */
-    ${scrollSnapStyles}
 
     *, *:before, *:after {
       box-sizing: inherit;
@@ -46,12 +37,6 @@ const BaseStyles = createGlobalStyle`
   body {
     background-color: ${colors.background};
     color: ${colors.text};
-    /*
-      Safari only supports full-page scroll snapping with this element for some reason;
-      see https://stackoverflow.com/a/60470570.
-      Setting it on both elements does not appear to create any conflicts
-    */
-    ${scrollSnapStyles}
   }
 
   strong {

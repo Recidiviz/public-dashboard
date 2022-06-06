@@ -17,7 +17,7 @@
 
 // eslint-disable-next-line import/prefer-default-export
 export const THUMB_SIZE = {
-  height: 22,
-  paddingBottom: 4,
+  height: 40,
+  paddingBottom: 20,
   width: 2,
 };

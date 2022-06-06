@@ -15,20 +15,20 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { palette } from "@recidiviz/design-system";
 import { rem } from "polished";
 import React, { useEffect } from "react";
 import { animated, useSpring, useSprings } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { track } from "../../analytics";
-import { colors, UnStyledButton } from "../../UiLibrary";
+import { colors, fluidFontSizeStyles, UnStyledButton } from "../../UiLibrary";
 import { LayoutSection } from "../types";
 import { SectionNavProps } from "./types";
 import { THUMB_SIZE } from "./utils";
 
 const PageProgressContainer = styled.div`
   display: flex;
-  justify-content: center;
-  margin: ${rem(24)} 0;
+  justify-content: left;
   position: relative;
   width: 100%;
 `;
@@ -69,7 +69,7 @@ const SectionLink = styled(UnStyledButton)`
   color: ${colors.text};
   display: flex;
   height: ${rem(THUMB_SIZE.height)};
-  justify-content: center;
+  justify-content: left;
   margin-bottom: ${rem(THUMB_SIZE.paddingBottom)};
   position: relative;
   width: 100%;
@@ -82,16 +82,22 @@ const SectionLinkBarSegment = styled(animated.div)`
   width: ${rem(THUMB_SIZE.width)};
 `;
 
-const SectionLinkLabel = styled(animated.div)`
-  font-size: ${rem(11)};
-  left: calc(50% + ${rem(THUMB_SIZE.width)});
+const SectionLinkLabel = styled(animated.div)<{
+  active?: boolean;
+  minSize: number;
+  maxSize: number;
+}>`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  text-align: left;
   letter-spacing: -0.01em;
-  line-height: 1.45;
   padding-left: ${rem(16)};
   pointer-events: none;
   position: absolute;
   top: 0;
-  width: ${rem(96)};
+  ${(props) => props.active && `color: ${colors.accent} !important;`}
+  ${(props) => fluidFontSizeStyles(props.minSize, props.maxSize)}
 `;
 
 const getThumbOffset = (activeSection: number) =>
@@ -124,7 +130,7 @@ const SectionLinks: React.FC<
   // animating the section link hover states
   const [linkLabelHoverStyles, setLinkLabelHoverStyles] = useSprings(
     totalPages,
-    () => ({ opacity: 0 })
+    () => ({ color: palette.slate85 })
   );
   const [linkBarSegmentStyles, setLinkBarSegmentStyles] = useSprings(
     totalPages,
@@ -132,11 +138,11 @@ const SectionLinks: React.FC<
   );
 
   // convenience methods for animating one link's hover state at a time
-  const showLinkLabel = (index: number) => () => {
+  const focusLinkLabel = (index: number) => () => {
     // @ts-expect-error type error in current version,
     // https://github.com/pmndrs/react-spring/issues/861
     setLinkLabelHoverStyles((springIndex: number) =>
-      springIndex === index ? { opacity: 1 } : { opacity: 0 }
+      springIndex === index ? { color: palette.signal.links } : {}
     );
     // @ts-expect-error type error in current version,
     // https://github.com/pmndrs/react-spring/issues/861
@@ -146,11 +152,11 @@ const SectionLinks: React.FC<
         : { background: colors.rule }
     );
   };
-  const hideLinkLabel = (index: number) => () => {
+  const blurLinkLabel = (index: number) => () => {
     // @ts-expect-error type error in current version,
     // https://github.com/pmndrs/react-spring/issues/861
     setLinkLabelHoverStyles((springIndex: number) =>
-      springIndex === index ? { opacity: 0 } : {}
+      springIndex === index ? { color: palette.slate85 } : {}
     );
     // @ts-expect-error type error in current version,
     // https://github.com/pmndrs/react-spring/issues/861
@@ -177,13 +183,18 @@ const SectionLinks: React.FC<
                   });
                   goToSection(index + 1);
                 }}
-                onMouseOver={showLinkLabel(index)}
-                onFocus={showLinkLabel(index)}
-                onMouseOut={hideLinkLabel(index)}
-                onBlur={hideLinkLabel(index)}
+                onMouseOver={focusLinkLabel(index)}
+                onFocus={focusLinkLabel(index)}
+                onMouseOut={blurLinkLabel(index)}
+                onBlur={blurLinkLabel(index)}
               >
                 <SectionLinkBarSegment style={linkBarSegmentStyles[index]} />
-                <SectionLinkLabel style={linkLabelHoverStyles[index]}>
+                <SectionLinkLabel
+                  maxSize={20}
+                  minSize={16}
+                  active={index + 1 === activeSection}
+                  style={linkLabelHoverStyles[index]}
+                >
                   {section.title}
                 </SectionLinkLabel>
               </SectionLink>

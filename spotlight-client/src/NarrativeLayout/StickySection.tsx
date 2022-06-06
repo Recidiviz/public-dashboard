@@ -29,7 +29,6 @@ const Container = styled(FullScreenSection)`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 0;
   }
 
   @media screen and (min-width: ${breakpoints.desktop[0]}px) {

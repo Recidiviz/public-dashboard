@@ -31,9 +31,7 @@ import { useDataStore } from "../StoreProvider";
 export const useInternalNavigation = (): {
   alwaysExpanded: boolean;
   currentSectionNumber: number;
-  enableSnapping: boolean;
   fixedHeightSections: number[];
-  getOnSectionExpanded: (s: number) => (() => void) | undefined;
   onSectionInViewChange: (props: {
     inView: boolean;
     sectionNumber: number;
@@ -130,18 +128,6 @@ export const useInternalNavigation = (): {
   // we can skip the height restrictions and animations if we landed at the top
   const alwaysExpanded = initialSection === 1;
 
-  // scroll snapping and fixed-height sections do not play nicely together,
-  // so disable snapping if we have any sections that may need to expand
-  const [enableSnapping, setEnableSnapping] = useState(initialSection === 1);
-  // call this on animation end; when all sections are fully expanded, it will enable snapping
-  const getOnSectionExpanded = (sectionNumber: number) => {
-    if (sectionNumber === 1) {
-      return () => {
-        setEnableSnapping(true);
-      };
-    }
-  };
-
   // remove sections from the fixed-height list as we pass through their range;
   // retain any still above the current section until we get all the way to the top
   useEffect(() => {
@@ -184,9 +170,7 @@ export const useInternalNavigation = (): {
   return {
     alwaysExpanded,
     currentSectionNumber,
-    enableSnapping,
     fixedHeightSections,
-    getOnSectionExpanded,
     onSectionInViewChange,
     scrollToSection,
     sectionsContainerRef,
