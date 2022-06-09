@@ -20,10 +20,11 @@ import { SystemNarrativeTypeIdList, TenantId } from "../contentApi/types";
 import RootStore from "../DataStore/RootStore";
 import createMetricMapping from "./createMetricMapping";
 import RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
+import RidersNarrative, { createRidersNarrative } from "./RidersNarrative";
 import { createSystemNarrative } from "./SystemNarrative";
 import { MetricMapping, SystemNarrativeMapping } from "./types";
 
-type InitOptions = {
+export type InitOptions = {
   id: TenantId;
   name: string;
   docName: string;
@@ -36,6 +37,7 @@ type InitOptions = {
   metrics: MetricMapping;
   systemNarratives: SystemNarrativeMapping;
   racialDisparitiesNarrative?: RacialDisparitiesNarrative;
+  ridersNarrative?: RidersNarrative;
 };
 
 /**
@@ -64,11 +66,13 @@ export default class Tenant {
 
   readonly smallDataDisclaimer: string;
 
-  readonly metrics: InitOptions["metrics"];
+  readonly metrics: MetricMapping;
 
   readonly systemNarratives: SystemNarrativeMapping;
 
   readonly racialDisparitiesNarrative?: RacialDisparitiesNarrative;
+
+  readonly ridersNarrative?: RidersNarrative;
 
   constructor({
     id,
@@ -83,6 +87,7 @@ export default class Tenant {
     metrics,
     systemNarratives,
     racialDisparitiesNarrative,
+    ridersNarrative,
   }: InitOptions) {
     this.id = id;
     this.name = name;
@@ -96,6 +101,7 @@ export default class Tenant {
     this.metrics = metrics;
     this.systemNarratives = systemNarratives;
     this.racialDisparitiesNarrative = racialDisparitiesNarrative;
+    this.ridersNarrative = ridersNarrative;
   }
 }
 
@@ -139,6 +145,18 @@ function getSystemNarrativesForTenant({
   return narrativeMapping;
 }
 
+function getRidersNarrativeForTenant({
+  allTenantContent,
+  metrics: allMetrics,
+}: MetricRelatedModelOptions) {
+  const content = allTenantContent.ridersNarrative;
+  if (content) {
+    return createRidersNarrative({ content, allMetrics });
+  }
+
+  return undefined;
+}
+
 /**
  * Factory function for creating an instance of the `Tenant` specified by `tenantId`.
  */
@@ -175,5 +193,9 @@ export function createTenant({
       metrics,
     }),
     racialDisparitiesNarrative,
+    ridersNarrative: getRidersNarrativeForTenant({
+      allTenantContent,
+      metrics,
+    }),
   });
 }

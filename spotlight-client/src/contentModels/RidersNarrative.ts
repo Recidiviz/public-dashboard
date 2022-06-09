@@ -15,86 +15,63 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import {
-  MetricTypeId,
-  SystemNarrativeContent,
-  SystemNarrativeTypeId,
-} from "../contentApi/types";
+import { RidersNarrativeContent } from "../contentApi/types";
 import Metric from "./Metric";
 import { MetricMapping, MetricRecord } from "./types";
 
-type NarrativeTypeId = SystemNarrativeTypeId;
-
-export type SystemNarrativeSection = {
+export type RidersNarrativeSection = {
   title: string;
   body: string;
-  metric: Metric<MetricRecord>;
+  type?: "text" | "metric";
+  metric?: Metric<MetricRecord>;
 };
 
 type ConstructorArgs = {
-  id: NarrativeTypeId;
   title: string;
-  previewTitle?: string;
-  preview?: MetricTypeId;
+  type?: string;
   introduction: string;
-  sections: SystemNarrativeSection[];
+  sections: RidersNarrativeSection[];
 };
 
-export default class SystemNarrative {
-  readonly id: NarrativeTypeId;
+export default class RidersNarrative {
+  readonly id = "Riders";
 
   readonly title: string;
 
-  readonly previewTitle?: string;
-
-  readonly preview?: MetricTypeId;
-
   readonly introduction: string;
 
-  readonly sections: SystemNarrativeSection[];
+  readonly sections: RidersNarrativeSection[];
 
-  constructor({
-    id,
-    title,
-    previewTitle,
-    introduction,
-    preview,
-    sections,
-  }: ConstructorArgs) {
-    this.id = id;
+  constructor({ title, introduction, sections }: ConstructorArgs) {
     this.title = title;
-    this.previewTitle = previewTitle;
-    this.preview = preview;
     this.introduction = introduction;
     this.sections = sections;
   }
 }
 
-export function createSystemNarrative({
-  id,
+export function createRidersNarrative({
   content,
   allMetrics,
 }: {
-  id: NarrativeTypeId;
-  content: SystemNarrativeContent;
+  content: RidersNarrativeContent;
   allMetrics: MetricMapping;
-}): SystemNarrative {
-  const sections: SystemNarrativeSection[] = [];
+}): RidersNarrative {
+  const sections: RidersNarrativeSection[] = [];
   // building sections in a type-safe way: make sure the related metric
   // actually exists or else the section is omitted
-  content.sections.forEach(({ title, body, metricTypeId }) => {
-    const metric = allMetrics.get(metricTypeId);
+  content.sections.forEach(({ title, body, type, metricTypeId }) => {
+    const metric = metricTypeId && allMetrics.get(metricTypeId);
     if (metric instanceof Metric) {
       sections.push({ title, body, metric });
     }
+    if (!metric) {
+      sections.push({ title, body, type });
+    }
   });
 
-  return new SystemNarrative({
-    id,
+  return new RidersNarrative({
     title: content.title,
-    previewTitle: content.previewTitle,
     introduction: content.introduction,
-    preview: content.preview,
     sections,
   });
 }

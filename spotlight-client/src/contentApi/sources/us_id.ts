@@ -281,6 +281,22 @@ const content: TenantContent = {
         probation revocation admission are included in the probation page.</p>
         ${demographicsBoilerplate} ${paroleBoilerplate}`,
     },
+    RidersPopulationHistorical: {
+      name: "Population Over Time",
+      methodology: `tbd`,
+    },
+    RidersPopulationCurrent: {
+      name: "Current population of Rider",
+      methodology: `tbd`,
+    },
+    RidersOriginalCharge: {
+      name: "Original Charge",
+      methodology: `tbd`,
+    },
+    RidersReincarcerationRate: {
+      name: "Reincarceration Rate",
+      methodology: `tbd`,
+    },
   },
   systemNarratives: {
     Sentencing: {
@@ -787,6 +803,39 @@ const content: TenantContent = {
         methodology: "",
       },
     },
+  },
+  ridersNarrative: {
+    title: "Rider Program",
+    introduction: `Retained jurisdiction or "riders" are individuals whom the court has retained jurisdiction over sentenced to a period of incarceration in an IDOC facility. 
+      The IDOC assesses riders to determine their needs and places them in the appropriate facilities to receive intensive programming and education. Upon completion of a rider, the court determines whether to place the resident on probation or sentence them to term.`,
+    sections: [
+      {
+        title: "How prevalent are “riders” in the IDOC population?",
+        body: `The Rider program was first introduced in 2005 as an alternative to a longer prison sentence. Since then, the Rider population has risen to the point that 16% of IDOC’s institutional population is comprised of people on retained jurisdiction.`,
+        metricTypeId: "RidersPopulationHistorical",
+      },
+      {
+        title: "Who is on a Rider in Idaho?",
+        body:
+          "Some insights about the demographic composition of riders as compared to termers in Idaho.",
+        metricTypeId: "RidersPopulationCurrent",
+      },
+      {
+        title: "Why are people placed on Riders?",
+        body: `In general, riders are considered a last resort” before full incarceration. However, most people placed on riders have not committed a serious or violent offense; XX% of riders in the past three years have been for drug use or possession.`,
+        metricTypeId: "RidersOriginalCharge",
+      },
+      {
+        title: "What is the reincarceration rate for riders?",
+        body: `Despite high programming completion rates during rider sentences, those individuals tend to return to prison at higher rates compared to similar individuals who were simply sent to probation. XX% of riders return to prison within three years as compared to YY% of those on probation in a similar time period.`,
+        metricTypeId: "RidersReincarcerationRate",
+      },
+      {
+        title: "Where do we go from here? ",
+        body: `<div><p>Instead of sending low-level offenders to Riders, IDOC believes that sending the same people to treatment programs outside of prison (as conditions of probation or otherwise) would result in better social outcomes and more money saved that would otherwise be spent on incarceration. Money saved can be reinvested into community-based treatment programs to prevent people from entering the system in the first place.</p></div>`,
+        type: "text",
+      },
+    ],
   },
 };
 

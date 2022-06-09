@@ -19,9 +19,11 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import RacialDisparitiesNarrative from "../contentModels/RacialDisparitiesNarrative";
 import { useDataStore } from "../StoreProvider";
-import RacialDisparitiesNarrativePage from "./RacialDisparitiesNarrativePage";
+import RacialDisparitiesNarrativePage from "../RacialDisparitiesNarrativePage/RacialDisparitiesNarrativePage";
+import RidersNarrative from "../contentModels/RidersNarrative";
+import RidersNarrativePage from "./RidersNarrativePage";
 
-const RacialDisparitiesNarrativePageContainer: React.FC = () => {
+const OtherNarrativesPageContainer: React.FC = () => {
   const { narrative } = useDataStore();
 
   if (narrative instanceof RacialDisparitiesNarrative) {
@@ -29,7 +31,11 @@ const RacialDisparitiesNarrativePageContainer: React.FC = () => {
     return <RacialDisparitiesNarrativePage narrative={narrative} />;
   }
 
+  if (narrative instanceof RidersNarrative && narrative.id === "Riders") {
+    return <RidersNarrativePage narrative={narrative} />;
+  }
+
   return null;
 };
 
-export default observer(RacialDisparitiesNarrativePageContainer);
+export default observer(OtherNarrativesPageContainer);

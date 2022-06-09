@@ -16,7 +16,12 @@
 // =============================================================================
 
 import { assertNever } from "assert-never";
-import { MetricTypeIdList, TenantContent, TenantId } from "../contentApi/types";
+import {
+  MetricTypeIdList,
+  RidersMetricTypeIdList,
+  TenantContent,
+  TenantId,
+} from "../contentApi/types";
 import {
   parolePopulationCurrent,
   parolePopulationHistorical,
@@ -83,7 +88,7 @@ export default function createMetricMapping({
   // to maintain type safety we iterate through all of the known metrics;
   // iterating through the metadata object's keys widens the type to `string`,
   // which prevents us from guaranteeing exhaustiveness at the type level
-  MetricTypeIdList.forEach((metricType) => {
+  [...MetricTypeIdList, ...RidersMetricTypeIdList].forEach((metricType) => {
     // not all metrics are required; metadata object is the source of truth
     // for which metrics to include
     const metadata = metadataMapping[metricType];
@@ -526,6 +531,80 @@ export default function createMetricMapping({
             dataTransformer: prisonStayLengths,
             sourceFileName: "incarceration_lengths_by_demographics",
             color: colors.dataVizNamed.teal,
+            rootStore,
+          })
+        );
+        break;
+      case "RidersPopulationHistorical":
+        metricMapping.set(
+          metricType,
+          new HistoricalPopulationBreakdownMetric({
+            ...metadata,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: "total",
+            defaultLocalityId: undefined,
+            localityLabels: undefined,
+            dataTransformer: prisonPopulationHistorical,
+            sourceFileName: "incarceration_population_by_month_by_demographics",
+            rootStore,
+          })
+        );
+        break;
+      case "RidersPopulationCurrent":
+        // should be bar chart pair
+        metricMapping.set(
+          metricType,
+          new HistoricalPopulationBreakdownMetric({
+            ...metadata,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: "total",
+            defaultLocalityId: undefined,
+            localityLabels: undefined,
+            dataTransformer: prisonPopulationHistorical,
+            sourceFileName: "incarceration_population_by_month_by_demographics",
+            rootStore,
+          })
+        );
+        break;
+      case "RidersOriginalCharge":
+        metricMapping.set(
+          metricType,
+          new DemographicsByCategoryMetric({
+            ...metadata,
+            demographicFilter,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: "total",
+            defaultLocalityId: undefined,
+            localityLabels: undefined,
+            dataTransformer: (rawRecords: RawMetricData) => {
+              let fieldMapping;
+
+              if ("fieldMapping" in metadata) {
+                fieldMapping = metadata.fieldMapping;
+              }
+              return prisonAdmissionReasons(rawRecords, fieldMapping);
+            },
+            sourceFileName: "incarceration_population_by_admission_reason",
+            rootStore,
+          })
+        );
+        break;
+      case "RidersReincarcerationRate":
+        metricMapping.set(
+          metricType,
+          new RecidivismRateMetric({
+            ...metadata,
+            demographicFilter,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: "total",
+            defaultLocalityId: undefined,
+            localityLabels: undefined,
+            dataTransformer: recidivismRateAllFollowup,
+            sourceFileName: "recidivism_rates_by_cohort_by_year",
             rootStore,
           })
         );

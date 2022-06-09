@@ -72,7 +72,8 @@ export type TenantContent = {
         "PrisonAdmissionReasonsCurrent"
       >]?: MetricContent & { fieldMapping?: CategoryFieldMapping[] };
     } &
-    { [key in MetricTypeId]?: MetricContent };
+    { [key in MetricTypeId]?: MetricContent } &
+    { [key in RidersMetricTypeId]?: MetricContent };
   systemNarratives: {
     [key in SystemNarrativeTypeId]?: SystemNarrativeContent;
   };
@@ -88,6 +89,7 @@ export type TenantContent = {
     ProgramRegions: MapData;
   };
   racialDisparitiesNarrative?: RacialDisparitiesNarrativeContent;
+  ridersNarrative?: RidersNarrativeContent;
   // if categories are enumerated for any of the keys here, they will be the only ones used;
   // otherwise categories default to including all values in the associated unions
   demographicCategories?: DemographicCategoryFilter;
@@ -119,9 +121,20 @@ export const MetricTypeIdList = [
   "ParoleRevocationsAggregate",
   "ParoleProgrammingCurrent",
 ] as const;
+export const RidersMetricTypeIdList = [
+  "RidersPopulationHistorical",
+  "RidersPopulationCurrent",
+  "RidersOriginalCharge",
+  "RidersReincarcerationRate",
+] as const;
 export type MetricTypeId = typeof MetricTypeIdList[number];
-export function isMetricTypeId(x: string): x is MetricTypeId {
-  return MetricTypeIdList.includes(x as MetricTypeId);
+export type RidersMetricTypeId = typeof RidersMetricTypeIdList[number];
+
+export type AllMetricsTypeId = MetricTypeId | RidersMetricTypeId;
+export function isMetricTypeId(x: string): x is AllMetricsTypeId {
+  return [...MetricTypeIdList, ...RidersMetricTypeIdList].includes(
+    x as AllMetricsTypeId
+  );
 }
 
 type MetricContent = { name: string; methodology: string };
@@ -144,9 +157,14 @@ export function isSystemNarrativeTypeId(x: string): x is SystemNarrativeTypeId {
   return SystemNarrativeTypeIdList.includes(x as SystemNarrativeTypeId);
 }
 
-export type NarrativeTypeId = SystemNarrativeTypeId | "RacialDisparities";
+export type NarrativeTypeId =
+  | SystemNarrativeTypeId
+  | "RacialDisparities"
+  | "Riders";
 export function isNarrativeTypeId(x: string): x is NarrativeTypeId {
-  return isSystemNarrativeTypeId(x) || x === "RacialDisparities";
+  return (
+    isSystemNarrativeTypeId(x) || x === "RacialDisparities" || x === "Riders"
+  );
 }
 
 type NarrativeSection = {
@@ -158,12 +176,24 @@ type SystemNarrativeSection = NarrativeSection & {
   metricTypeId: MetricTypeId;
 };
 
-export type SystemNarrativeContent = {
+type NarrativeContent = {
   title: string;
-  previewTitle?: string;
-  preview: MetricTypeId;
   introduction: string;
+};
+
+export type SystemNarrativeContent = NarrativeContent & {
+  previewTitle?: string;
+  preview?: MetricTypeId;
   sections: SystemNarrativeSection[];
+};
+
+type RidersNarrativeSection = NarrativeSection & {
+  metricTypeId?: RidersMetricTypeId;
+  type?: "text" | "metric";
+};
+
+export type RidersNarrativeContent = NarrativeContent & {
+  sections: RidersNarrativeSection[];
 };
 
 export type RacialDisparitiesChartLabels = {

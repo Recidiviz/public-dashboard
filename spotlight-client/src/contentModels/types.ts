@@ -15,7 +15,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { MetricTypeId, SystemNarrativeTypeId } from "../contentApi/types";
+import {
+  MetricTypeId,
+  RidersMetricTypeId,
+  SystemNarrativeTypeId,
+} from "../contentApi/types";
 import {
   DemographicFieldKey,
   DemographicsByCategoryRecord,
@@ -54,7 +58,10 @@ export type MetricRecord =
   | SentenceTypeByLocationRecord
   | SupervisionSuccessRateMonthlyRecord;
 
-export type MetricMapping = Map<MetricTypeId, Metric<MetricRecord>>;
+export type MetricMapping = Map<
+  MetricTypeId | RidersMetricTypeId,
+  Metric<MetricRecord>
+>;
 
 export type DemographicCategoryRecords = {
   label: string;
