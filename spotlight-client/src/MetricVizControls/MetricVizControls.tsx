@@ -23,17 +23,20 @@ import VizControls, { VizControlsProps } from "../VizControls";
 type MetricVizControlsProps = {
   filters: VizControlsProps["filters"];
   metric: Metric<MetricRecord>;
+  smallData?: boolean;
 };
 
 const MetricVizControls = ({
   filters,
   metric,
+  smallData,
 }: MetricVizControlsProps): React.ReactElement => {
   return (
     <VizControls
       filters={filters}
       download={() => metric.download()}
       methodology={metric.methodology}
+      smallData={smallData}
     />
   );
 };

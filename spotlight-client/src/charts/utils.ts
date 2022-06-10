@@ -17,11 +17,18 @@
 
 import { color } from "d3-color";
 import { interpolateRgb } from "d3-interpolate";
+import sumBy from "lodash/sumBy";
 import { useCallback, useState } from "react";
+import { STATISTIC_THRESHOLD } from "../constants";
 import { colors } from "../UiLibrary";
-import { isItemToHighlight, ItemToHighlight } from "./types";
+import { CommonDataPoint, isItemToHighlight, ItemToHighlight } from "./types";
 
 const FADE_AMOUNT = 0.45;
+
+export function isSmallData(data: CommonDataPoint[]): boolean {
+  const totalNumber = sumBy(data, ({ value }) => value);
+  return totalNumber < STATISTIC_THRESHOLD;
+}
 
 export function highlightFade(
   baseColor: string,

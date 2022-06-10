@@ -122,9 +122,10 @@ const VizDemographicsByCategory: React.FC<VizDemographicsByCategoryProps> = ({
         <MetricVizControls
           filters={[<DemographicFilterSelect metric={metric} />]}
           metric={metric}
+          smallData
         />
         {viz}
-        <VizNotes smallData unknowns={unknowns} download={download} />
+        <VizNotes unknowns={unknowns} download={download} />
       </>
     );
   }

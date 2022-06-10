@@ -90,6 +90,7 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
         <MetricVizControls
           filters={[<DemographicFilterSelect metric={metric} />]}
           metric={metric}
+          smallData
         />
         <AutoHeightTransition initialHeight={singleChartHeight}>
           <ChartsWrapper>
@@ -109,7 +110,7 @@ const VizPrisonStayLengths: React.FC<VizPrisonStayLengthsProps> = ({
             ))}
           </ChartsWrapper>
         </AutoHeightTransition>
-        <VizNotes smallData unknowns={unknowns} download={metric.download} />
+        <VizNotes unknowns={unknowns} download={metric.download} />
       </>
     );
   }

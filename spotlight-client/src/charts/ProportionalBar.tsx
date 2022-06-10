@@ -25,7 +25,8 @@ import { animation, colors, zIndex } from "../UiLibrary";
 import ColorLegend from "./ColorLegend";
 import ResponsiveTooltipController from "./ResponsiveTooltipController";
 import { CategoricalChartRecord, ItemToHighlight } from "./types";
-import { useHighlightedItem, highlightFade } from "./utils";
+import { useHighlightedItem, highlightFade, isSmallData } from "./utils";
+import { useCreateHatchDefs } from "./useCreateHatchDefs";
 
 const ProportionalBarContainer = styled.figure`
   width: 100%;
@@ -92,10 +93,13 @@ export default function ProportionalBar({
     highlighted: localHighlighted,
     setHighlighted: setLocalHighlighted,
   } = useHighlightedItem();
+  const { getHatchDefs, generateHatchFill } = useCreateHatchDefs();
 
   const noData = data.length === 0 || sum(data.map(({ value }) => value)) === 0;
 
   const highlighted = localHighlighted || externalHighlighted;
+
+  const hatchDefs = getHatchDefs(data);
 
   return (
     <MeasureWidth>
@@ -127,13 +131,21 @@ export default function ProportionalBar({
                     rAccessor="value"
                     renderKey="label"
                     size={[width, height]}
-                    style={(d: ValuesType<ProportionalBarProps["data"]>) => ({
-                      fill:
-                        highlighted && highlighted.label !== d.label
-                          ? highlightFade(d.color)
-                          : d.color,
-                    })}
+                    style={(d: ValuesType<ProportionalBarProps["data"]>) => {
+                      if (isSmallData(data)) {
+                        return {
+                          fill: generateHatchFill(d.label, highlighted?.label),
+                        };
+                      }
+                      return {
+                        fill:
+                          highlighted && highlighted.label !== d.label
+                            ? highlightFade(d.color)
+                            : d.color,
+                      };
+                    }}
                     type="bar"
+                    additionalDefs={hatchDefs}
                   />
                 </ResponsiveTooltipController>
               </ProportionalBarChartWrapper>

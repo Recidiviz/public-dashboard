@@ -72,6 +72,7 @@ const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = 
             ),
           ]}
           metric={metric}
+          smallData
         />
         <ChartWrapper>
           {chartTransitions.map(({ item, props, key }) => (
@@ -99,7 +100,7 @@ const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = 
             </animated.div>
           ))}
         </ChartWrapper>
-        <VizNotes smallData unknowns={unknowns} download={metric.download} />
+        <VizNotes unknowns={unknowns} download={metric.download} />
       </>
     );
   }

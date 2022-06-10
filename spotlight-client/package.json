@@ -43,6 +43,7 @@
     "@types/react-simple-maps": "^1.0.3",
     "@types/styled-components": "^5.1.5",
     "@types/topojson": "^3.2.2",
+    "@vx/pattern": "^0.0.199",
     "@w11r/use-breakpoint": "^1.8.0",
     "assert-never": "^1.2.1",
     "body-scroll-lock": "^3.1.5",

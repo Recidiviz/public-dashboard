@@ -25,7 +25,7 @@ jest.mock("../MeasureWidth/MeasureWidth");
 const testData = [
   { label: "thing 1", color: "red", value: 10, pct: 0.1086956522 },
   { label: "thing 2", color: "blue", value: 50, pct: 0.5434782609 },
-  { label: "thing 3", color: "green", value: 32, pct: 0.347826087 },
+  { label: "thing 3", color: "green", value: 320, pct: 0.347826087 },
 ];
 
 test("renders bubbles for data", () => {

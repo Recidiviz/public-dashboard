@@ -23,8 +23,8 @@ import ProportionalBar from "./ProportionalBar";
 jest.mock("../MeasureWidth/MeasureWidth");
 
 const testData = [
-  { label: "thing 1", color: "red", value: 10, pct: 0.1639344262 },
-  { label: "thing 2", color: "blue", value: 51, pct: 0.8360655738 },
+  { label: "thing 1", color: "red", value: 1000, pct: 0.1639344262 },
+  { label: "thing 2", color: "blue", value: 510, pct: 0.8360655738 },
 ];
 
 test("renders data", () => {

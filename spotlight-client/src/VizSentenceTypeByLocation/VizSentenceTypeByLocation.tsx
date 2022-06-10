@@ -66,6 +66,7 @@ const VizSentenceTypeByLocation: React.FC<VizSentenceTypeByLocationProps> = ({
             <DemographicFilterSelect metric={metric} />,
           ]}
           metric={metric}
+          smallData
         />
         <ChartWrapper>
           {chartTransitions.map(
@@ -77,11 +78,7 @@ const VizSentenceTypeByLocation: React.FC<VizSentenceTypeByLocationProps> = ({
               )
           )}
         </ChartWrapper>
-        <VizNotes
-          smallData
-          unknowns={metric.unknowns}
-          download={metric.download}
-        />
+        <VizNotes unknowns={metric.unknowns} download={metric.download} />
       </>
     );
   }
