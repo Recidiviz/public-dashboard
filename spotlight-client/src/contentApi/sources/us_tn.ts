@@ -93,15 +93,15 @@ const content: TenantContent = {
   metrics: {
     SentencePopulationCurrent: {
       name: "Sentenced Population",
-      methodology: `This data includes all individuals that are currently incarcerated, on parole, or on probation
-        in Tennessee. ${demographicsBoilerplate} ${sentencingBoilerplate}`,
+      methodology: `<p>This data includes all individuals that are currently incarcerated, on parole, or on probation
+        in Tennessee.</p> ${demographicsBoilerplate} ${sentencingBoilerplate}`,
       totalLabel: "Total people sentenced",
     },
     SentenceTypesCurrent: {
       name: "Sentence Types",
-      methodology: `Incarceration includes any sentence that begins with a period of incarceration in a TDOC facility.
+      methodology: `<p>Incarceration includes any sentence that begins with a period of incarceration in a TDOC facility.
         Probation includes any sentence that begins with a period of probation under the supervision of a
-        TDOC probation officer. <p>Of note, individuals’ current status (incarcerated or on supervision)
+        TDOC probation officer.</p> <p>Of note, individuals’ current status (incarcerated or on supervision)
         may differ from their sentence category (incarceration or probation). Individuals now on parole after
         being incarcerated are still counted in the incarceration sentence category. Individuals who have had
         their probation revoked and are now in prison are likewise included in the probation sentence category
@@ -111,29 +111,29 @@ const content: TenantContent = {
     },
     PrisonPopulationCurrent: {
       name: "Current Prison Population",
-      methodology: `This data includes all individuals that are currently incarcerated in a TDOC facility.
+      methodology: `<p>This data includes all individuals that are currently incarcerated in a TDOC facility.
         It does not include individuals incarcerated in county jails nor individuals currently
-        serving their prison sentence in the community through the Community Placement Program.
+        serving their prison sentence in the community through the Community Placement Program.</p>
         ${demographicsBoilerplate} ${prisonBoilerplate}`,
       totalLabel: "Total people in prison",
     },
     PrisonPopulationHistorical: {
       name: "Historical Prison Population",
-      methodology: `This data includes the number of people that were incarcerated in a TDOC facility on the
+      methodology: `<p>This data includes the number of people that were incarcerated in a TDOC facility on the
         first day of each month over the last 20 years. It does not include individuals incarcerated
         in county jails nor individuals serving their prison sentence in the community through the
-        Community Placement Program. ${demographicsBoilerplate} ${prisonBoilerplate}`,
+        Community Placement Program.</p> ${demographicsBoilerplate} ${prisonBoilerplate}`,
     },
     PrisonAdmissionReasonsCurrent: {
       name: "Reason for Incarceration",
-      methodology: `This data includes the original reason for admission for all individuals currently incarcerated
+      methodology: `<p>This data includes the original reason for admission for all individuals currently incarcerated
         in a TDOC facility. When an individual is admitted to a state prison, the reason for the admission
-        is documented by prison officials. These categories are pulled from that documentation.
+        is documented by prison officials. These categories are pulled from that documentation.</p>
         ${demographicsBoilerplate} ${prisonBoilerplate}`,
     },
     PrisonStayLengthAggregate: {
       name: "Length of Prison Stay",
-      methodology: `This data reports how long (in years) individuals spent in prison prior to their
+      methodology: `<p>This data reports how long (in years) individuals spent in prison prior to their
         first official release for a specific sentence. It includes individuals released
         in the past 3 years who, prior to release, were serving a new sentence of
         incarceration or were incarcerated due to revocation of probation. It excludes
@@ -141,52 +141,52 @@ const content: TenantContent = {
         prison for a reason other than completion of sentence, commutation of sentence,
         parole, or death are also excluded. Of note, this data does include time spent
         in the Community Placement Program prior to release as part of time served.
-        Individuals serving life sentences will only be included upon their death.
+        Individuals serving life sentences will only be included upon their death.</p>
         ${demographicsBoilerplate} ${prisonBoilerplate}`,
     },
     PrisonReleaseTypeAggregate: {
       name: "Placement After Prison",
-      methodology: `This data includes all individuals released in the last 3 years, including releases
+      methodology: `<p>This data includes all individuals released in the last 3 years, including releases
         directly from the Community Placement Program. When an individual is released from a
         state prison, the reason for the release is documented by prison officials. These
         categories are pulled from that documentation. Facility release reasons that do not
         typically correlate with an end to the period of incarceration, such as transfers
-        between facilities, are not shown here. ${demographicsBoilerplate} ${prisonBoilerplate}`,
+        between facilities, are not shown here.</p> ${demographicsBoilerplate} ${prisonBoilerplate}`,
     },
     PrisonRecidivismRateHistorical: {
       name: "Cumulative Recidivism Rates",
-      methodology: `This data reports reincarceration recidivism rates, which is the proportion of individuals
+      methodology: `<p>This data reports reincarceration recidivism rates, which is the proportion of individuals
         released from a TDOC facility that return to a TDOC facility at some point in the
         future. The releases are grouped by the calendar year in which the release occurred, and
         the rates are calculated as the percentage of the people released that have returned to
         incarceration after each year since the release. Individuals are included in the release
         cohort if they were released for serving their sentence or were conditionally released into
         supervision. Admissions to incarceration for new court commitments or due to revocations of
-        supervision are counted as instances of reincarceration recidivism. ${demographicsBoilerplate}
+        supervision are counted as instances of reincarceration recidivism.</p> ${demographicsBoilerplate}
         ${prisonBoilerplate}`,
     },
     PrisonRecidivismRateSingleFollowupHistorical: {
       name: "Recidivism Rates Over Time",
-      methodology: `This data reports the reincarceration recidivism rate for a set number of years
-        since the release, for the 10 most recent release cohorts. ${demographicsBoilerplate}
+      methodology: `<p>This data reports the reincarceration recidivism rate for a set number of years
+        since the release, for the 10 most recent release cohorts.</p> ${demographicsBoilerplate}
         ${prisonBoilerplate}`,
     },
     ProbationPopulationCurrent: {
       name: "Current Probation Population",
-      methodology: `This data includes people currently on probation in Tennessee.
+      methodology: `<p>This data includes people currently on probation in Tennessee.</p>
         ${demographicsBoilerplate} ${probationBoilerplate} ${probationDistrictBoilerplate}`,
       totalLabel: "Total people on probation",
     },
     ProbationPopulationHistorical: {
       name: "Historical Probation Population",
-      methodology: `This data includes the number of people that were on probation in
-        Tennessee on the first day of each month over the last 20 years.
+      methodology: `<p>This data includes the number of people that were on probation in
+        Tennessee on the first day of each month over the last 20 years.</p>
         ${demographicsBoilerplate} ${probationBoilerplate}`,
     },
     ProbationSuccessHistorical: {
       name: "Historical Probation Completion Rates",
-      methodology: `This data reports the percentage of people projected to complete probation
-        in a given month who have successfully completed probation by the end of that month.
+      methodology: `<p>This data reports the percentage of people projected to complete probation
+        in a given month who have successfully completed probation by the end of that month.</p>
         <p>Probation is considered successfully completed if the individual is discharged from
         probation positively or if a probation period expires. Unsuccessful completion of probation
         occurs when probation ends due to absconsion, revocation, or negative termination. Deaths,
@@ -203,10 +203,10 @@ const content: TenantContent = {
     },
     ProbationRevocationsAggregate: {
       name: "Reasons for Probation Revocation",
-      methodology: `This data includes people who were incarcerated in a DOC facility within the last
+      methodology: `<p>This data includes people who were incarcerated in a DOC facility within the last
         3 years because their probation was revoked. Revocations are included based on the
         date that the person was admitted to a DOC facility because their probation was
-        revoked, not the date of the probation case closure or causal violation or offense.
+        revoked, not the date of the probation case closure or causal violation or offense.</p>
         <p>Revocation admissions are linked to supervision cases closed via revocation within
         90 days of the admission. Each individual is counted once, even if they had multiple
         violation reasons or revocation proceedings from multiple supervision cases. If an
@@ -228,20 +228,20 @@ const content: TenantContent = {
     },
     ParolePopulationCurrent: {
       name: "Current Parole Population",
-      methodology: `This data includes people currently on parole in Tennessee.
+      methodology: `<p>This data includes people currently on parole in Tennessee.</p>
         ${demographicsBoilerplate} ${paroleBoilerplate} ${paroleOfficerBoilerplate}`,
       totalLabel: "Total people on parole",
     },
     ParolePopulationHistorical: {
       name: "Historical Parole Population",
-      methodology: `This data includes the number of people that were on parole in Tennessee
-        on the first day of each month over the last 20 years. ${demographicsBoilerplate}
+      methodology: `<p>This data includes the number of people that were on parole in Tennessee
+        on the first day of each month over the last 20 years.</p> ${demographicsBoilerplate}
         ${paroleBoilerplate}`,
     },
     ParoleSuccessHistorical: {
       name: "Historical Parole Completion Rates",
-      methodology: `This data reports the percentage of people projected to complete parole
-        in a given month who have successfully completed parole by the end of that month.
+      methodology: `<p>This data reports the percentage of people projected to complete parole
+        in a given month who have successfully completed parole by the end of that month.</p>
         <p>Parole is considered successfully completed if an individual is discharged from
         parole positively or if a parole period expires. Unsuccessful completions of parole occur
         when the parole ends due to absconsion, a revocation, or a negative termination. Deaths,
@@ -258,10 +258,10 @@ const content: TenantContent = {
     },
     ParoleRevocationsAggregate: {
       name: "Reasons for Parole Revocation",
-      methodology: `This data includes people who were incarcerated in a DOC facility within the
+      methodology: `<p>This data includes people who were incarcerated in a DOC facility within the
         last 3 years because their parole was revoked. Revocations are included based on the date
         that the person was admitted to a DOC facility because their parole was revoked, not the
-        date of the parole case closure or causal violation or offense.<p>Revocation admissions
+        date of the parole case closure or causal violation or offense.</p><p>Revocation admissions
         are linked to parole cases closed via revocation within 90 days of the admission. Each
         individual is counted once, even if they had multiple violation reasons or revocation
         proceedings from multiple supervision cases. If an individual has had their parole revoked
@@ -652,7 +652,7 @@ const content: TenantContent = {
       <p>Black Tennesseeans are {likelihoodVsWhite.BLACK} times as likely to be under DOC control
       as their white counterparts, Latino Tennesseeans are {likelihoodVsWhite.HISPANIC} times as
       likely, and Native American Tennesseeans {likelihoodVsWhite.AMERICAN_INDIAN_ALASKAN_NATIVE} times.</p>`,
-    introductionMethodology: `${raceOrEthnicity} ${supervisionBoilerplate}`,
+    introductionMethodology: `<p>${raceOrEthnicity}</p> ${supervisionBoilerplate}`,
     sections: {
       beforeCorrections: {
         title: "Disparities are already present before incarceration",
@@ -667,10 +667,10 @@ const content: TenantContent = {
           <aside>1. This dashboard only focuses on data from DOC at the moment, which is why
           disparities in arrests and charging aren’t shown. We’re working with colleagues across
           the state to show the entire criminal justice system end-to-end as this page evolves.</aside>`,
-        methodology: `The source of data for racial and ethnic proportions overall in
+        methodology: `<p>The source of data for racial and ethnic proportions overall in
           Tennessee is the US Census Bureau. The proportion under DOC control is the percent of
           individuals currently incarcerated or under community supervision of a given racial or
-          ethnic group.<p>${raceOrEthnicity}</p>${supervisionBoilerplate}`,
+          ethnic group.</p><p>${raceOrEthnicity}</p>${supervisionBoilerplate}`,
       },
       sentencing: {
         title: "How can sentencing impact disparities?",
@@ -683,9 +683,9 @@ const content: TenantContent = {
           a {sentencing.comparison} percentage serving incarceration sentences compared to the overall distribution of
           {sentencing.overall.incarcerationPctCurrent} serving incarceration sentences versus
           {sentencing.overall.probationPctCurrent} serving probation sentences.<p>`,
-        methodology: `Incarceration includes any sentence that begins with a period of incarceration in a
+        methodology: `<p>Incarceration includes any sentence that begins with a period of incarceration in a
           TDOC facility. Probation includes any sentence that begins with a period of probation under the
-          supervision of a TDOC probation officer.
+          supervision of a TDOC probation officer.</p>
           <p>Of note, individuals’ current status (incarcerated or on supervision) may differ from their sentence
           category (incarceration or probation). Individuals now on parole after being incarcerated are still counted
           in the incarceration sentence category. Individuals who have had their probation revoked and are now in
@@ -705,10 +705,10 @@ const content: TenantContent = {
           <p>In the last 3 years, {ethnonym} comprised {releasesToParole.paroleReleaseProportion36Mo} of
           the individuals released on parole. They made up {releasesToParole.prisonPopulationProportion36Mo}
           of the overall prison population during that time.</p>`,
-        methodology: `Individuals are counted as released to parole if they have been released from a period
+        methodology: `<p>Individuals are counted as released to parole if they have been released from a period
           of incarceration where parole is documented as the reason for release. This data calculates the percent
           of the overall incarceration population and overall releases to parole over the last 3 years, or
-          36 months, who were of the selected racial or ethnic group.
+          36 months, who were of the selected racial or ethnic group.</p>
           <p>${raceOrEthnicity}</p>${supervisionBoilerplate}`,
       },
       supervision: {
@@ -726,8 +726,8 @@ const content: TenantContent = {
           for technical violations are {supervision.overall.technicalProportion36Mo}, revocations for absconsion
           {supervision.overall.absconsionProportion36Mo} and revocations for new crime
           {supervision.overall.newCrimeProportion36Mo}.</p>`,
-        methodology: `This data includes the overall supervision population and revocation admissions
-          over the last 3 years, or 36 months.
+        methodology: `<p>This data includes the overall supervision population and revocation admissions
+          over the last 3 years, or 36 months.</p>
           <p>Revocation admissions count people who were incarcerated in a DOC facility because their supervision
           was revoked. Revocations are included based on the date that the person was admitted to a DOC facility
           because their supervision was revoked, not the date of the supervision case closure or causal violation
