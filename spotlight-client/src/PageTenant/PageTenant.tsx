@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { RouteComponentProps } from "@reach/router";
-import { Body19, typography } from "@recidiviz/design-system";
+import { typography } from "@recidiviz/design-system";
 import HTMLReactParser from "html-react-parser";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
@@ -90,6 +90,10 @@ const Title = styled.h1`
   }
 `;
 
+const Subtitle = styled.h2`
+  ${typography.Body19}
+`;
+
 const PageTenant: React.FC<RouteComponentProps> = () => {
   const { tenant } = useDataStore();
   const [narrativeId, setNarrativeId] = React.useState<NarrativeTypeId>(
@@ -102,8 +106,12 @@ const PageTenant: React.FC<RouteComponentProps> = () => {
     // tenant may be briefly undefined during initial page load
     <Page>
       <Introduction>
-        <Title>{HTMLReactParser(tenant.description)}</Title>
-        {tenant.ctaCopy && <Body19>{HTMLReactParser(tenant.ctaCopy)}</Body19>}
+        <Title data-testid="PageTitle">
+          {HTMLReactParser(tenant.description)}
+        </Title>
+        {tenant.ctaCopy && (
+          <Subtitle>{HTMLReactParser(tenant.ctaCopy)}</Subtitle>
+        )}
         <ExploreNarrativeButton
           narrativeId={narrativeId}
           tenantId={tenant.id}

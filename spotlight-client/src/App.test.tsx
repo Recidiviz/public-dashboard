@@ -77,7 +77,7 @@ describe("navigation", () => {
   test("tenant home", () => {
     expect.hasAssertions();
     const targetPath = "/us-nd";
-    const lookupArgs = ["heading", { name: /DOCR/, level: 1 }] as const;
+    const lookupArgs = ["heading", { name: /DOCR/, level: 2 }] as const;
 
     return verifyWithNavigation({ targetPath, lookupArgs });
   });
@@ -142,7 +142,9 @@ describe("navigation", () => {
 
     fireEvent.click(tenantLink);
     await waitFor(async () =>
-      expect(await screen.findByTestId("PageTitle")).toHaveTextContent("DOCR")
+      expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
+        "transform lives, influence change,"
+      )
     );
 
     expect(screen.queryByText("Sentencing Data")).not.toBeInTheDocument();
