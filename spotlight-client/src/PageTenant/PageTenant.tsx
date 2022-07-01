@@ -16,7 +16,7 @@
 // =============================================================================
 
 import { RouteComponentProps } from "@reach/router";
-import { typography } from "@recidiviz/design-system";
+import { palette, typography } from "@recidiviz/design-system";
 import HTMLReactParser from "html-react-parser";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
@@ -92,6 +92,7 @@ const Title = styled.h1`
 
 const Subtitle = styled.h2`
   ${typography.Body19}
+  color: ${palette.slate85};
 `;
 
 const PageTenant: React.FC<RouteComponentProps> = () => {

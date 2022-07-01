@@ -15,10 +15,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { typography } from "@recidiviz/design-system";
+import { palette, typography } from "@recidiviz/design-system";
 import { rem } from "polished";
 import styled from "styled-components/macro";
 import breakpoints from "./breakpoints";
+import colors from "./colors";
 import CopyBlock from "./CopyBlock";
 import { FullScreenSection } from "./PageSection";
 import PageTitle from "./PageTitle";
@@ -41,6 +42,7 @@ export const NarrativeTitle = styled(PageTitle)`
 
 export const NarrativeIntroCopy = styled(CopyBlock)`
   ${typography.Body19}
+  color: ${palette.slate85};
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
     ${typography.Body48}
@@ -49,6 +51,9 @@ export const NarrativeIntroCopy = styled(CopyBlock)`
 
 export const NarrativeSectionTitle = styled.h2`
   ${typography.Header24}
+  color: ${colors.text};
 `;
 
-export const NarrativeSectionBody = styled(CopyBlock)``;
+export const NarrativeSectionBody = styled(CopyBlock)`
+  color: ${palette.slate85};
+`;
