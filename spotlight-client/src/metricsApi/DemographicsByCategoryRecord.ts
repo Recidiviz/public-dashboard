@@ -22,6 +22,7 @@ import {
   extractDemographicFields,
   recordIsProbation,
   recordIsParole,
+  getAdmissionLabel,
 } from "./utils";
 
 export type DemographicsByCategoryRecord = DemographicFields & {
@@ -32,6 +33,11 @@ export type DemographicsByCategoryRecord = DemographicFields & {
 export type CategoryFieldMapping = {
   fieldName: string;
   categoryLabel: string;
+};
+
+export type AdmissionMapping = {
+  label: string;
+  value: string;
 };
 
 function getCategoryTransposeFunction(fields: CategoryFieldMapping[]) {
@@ -134,4 +140,50 @@ export function prisonStayLengths(
   rawRecords: RawMetricData
 ): DemographicsByCategoryRecord[] {
   return getCategoryTransposeFunction(prisonStayLengthFields)(rawRecords);
+}
+
+const riderAdmissions: AdmissionMapping[] = [
+  {
+    label: "Alcohol",
+    value: "ALCOHOL_DRUG",
+  },
+  { label: "Assault", value: "ASSAULT" },
+  { label: "Sex", value: "SEX" },
+  {
+    label: "Murder",
+    value: "MURDER_HOMICIDE",
+  },
+  {
+    label: "Property",
+    value: "PROPERTY",
+  },
+  { label: "Unknown", value: "UNKNOWN" },
+];
+
+function getRiderCategoryTransposeFunction(records: RawMetricData) {
+  const recordsByCategory = records.map((record) => {
+    const partialRecord = {
+      count: Number(record.count),
+      ...extractDemographicFields(record),
+    };
+
+    if (record.category === null) {
+      return {
+        category: "Null",
+        ...partialRecord,
+      };
+    }
+    return {
+      category: getAdmissionLabel(record.category, riderAdmissions),
+      ...partialRecord,
+    };
+  });
+
+  return recordsByCategory.flat();
+}
+
+export function riderAdmissionReasons(
+  rawRecords: RawMetricData
+): DemographicsByCategoryRecord[] {
+  return getRiderCategoryTransposeFunction(rawRecords);
 }

@@ -23,6 +23,7 @@ import {
   DemographicView,
   DemographicViewList,
   GenderValue,
+  RiderValue,
   NOFILTER_KEY,
   RaceOrEthnicityValue,
   TOTAL_KEY,
@@ -62,6 +63,13 @@ export function recordIsTotalByDimension(
 type TotalCategory = { identifier: "ALL"; label: string };
 const totalCategories: TotalCategory[] = [
   { identifier: TOTAL_KEY, label: "Total" },
+];
+
+type RiderCategory = { label: string; identifier: RiderValue };
+export const riderCategories: RiderCategory[] = [
+  { identifier: "RIDER", label: "Rider" },
+  { identifier: "TERMER", label: "Termer" },
+  { identifier: "PAROLE_BOARD_HOLD", label: "Parole Board Hold" },
 ];
 
 export type RaceOrEthnicityCategory = {

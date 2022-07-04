@@ -29,6 +29,7 @@ import {
   RecidivismRateRecord,
   SentenceTypeByLocationRecord,
   SupervisionSuccessRateMonthlyRecord,
+  HistoricalPopulationByCategoryRecord,
 } from "../metricsApi";
 import type SystemNarrative from "./SystemNarrative";
 import RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
@@ -56,7 +57,8 @@ export type MetricRecord =
   | ProgramParticipationCurrentRecord
   | RecidivismRateRecord
   | SentenceTypeByLocationRecord
-  | SupervisionSuccessRateMonthlyRecord;
+  | SupervisionSuccessRateMonthlyRecord
+  | HistoricalPopulationByCategoryRecord;
 
 export type MetricMapping = Map<
   MetricTypeId | RidersMetricTypeId,

@@ -22,6 +22,7 @@ import {
   NOFILTER_KEY,
   RaceIdentifier,
 } from "../demographics/types";
+import { AdmissionMapping } from "./DemographicsByCategoryRecord";
 import { RawMetricData } from "./fetchMetrics";
 import { DemographicFields, LocalityFields } from "./types";
 
@@ -54,3 +55,10 @@ export function recordMatchesLocality(
   if (locality === NOFILTER_KEY) return () => true;
   return (record) => record.locality === locality;
 }
+
+export const getAdmissionLabel = (
+  admissionValue: string,
+  admissions: AdmissionMapping[]
+): string =>
+  admissions.find((admission) => admission.value === admissionValue)?.label ??
+  admissions[0].label;

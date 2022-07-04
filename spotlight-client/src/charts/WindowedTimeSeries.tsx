@@ -28,7 +28,10 @@ import { formatAsNumber } from "../utils";
 import { highlightFade, useHighlightedItem } from "./utils";
 import ColorLegend from "./ColorLegend";
 import XHoverController from "./XHoverController";
-import { HistoricalPopulationBreakdownRecord } from "../metricsApi";
+import {
+  HistoricalPopulationBreakdownRecord,
+  HistoricalPopulationByCategoryRecord,
+} from "../metricsApi";
 import { DataSeries } from "./types";
 import MeasureWidth from "../MeasureWidth";
 import calculatePct from "../contentModels/calculatePct";
@@ -71,6 +74,10 @@ const ChartWrapper = styled(BaseChartWrapper)`
   }
 `;
 
+type HistoricalPopulationRecords =
+  | HistoricalPopulationBreakdownRecord
+  | HistoricalPopulationByCategoryRecord;
+
 const getDateLabel = (date: Date) => format(date, "MMM d y");
 
 function getDataForDate({
@@ -78,7 +85,7 @@ function getDataForDate({
   dataSeries,
 }: {
   date: Date;
-  dataSeries: DataSeries<HistoricalPopulationBreakdownRecord>[];
+  dataSeries: DataSeries<HistoricalPopulationRecords>[];
 }) {
   return calculatePct(
     dataSeries.map(({ label, coordinates }) => {
@@ -104,7 +111,7 @@ export function isWindowSizeId(x: string): x is WindowSizeId {
 }
 
 const WindowedTimeSeries: React.FC<{
-  data: DataSeries<HistoricalPopulationBreakdownRecord>[];
+  data: DataSeries<HistoricalPopulationRecords>[];
   defaultRangeEnd: Date;
   defaultRangeStart?: Date;
   setTimeRangeId: (id: WindowSizeId) => void;

@@ -45,6 +45,8 @@ import {
   RawMetricData,
   recidivismRateAllFollowup,
   recidivismRateConventionalFollowup,
+  riderAdmissionReasons,
+  riderPopulationHistorical,
   sentencePopulationCurrent,
   sentenceTypesCurrent,
 } from "../metricsApi";
@@ -60,6 +62,7 @@ import { ERROR_MESSAGES } from "../constants";
 import { NOFILTER_KEY, TOTAL_KEY } from "../demographics";
 import { colors } from "../UiLibrary";
 import RootStore from "../DataStore/RootStore";
+import HistoricalPopulationByCategoryMetric from "./HistoricalPopulationByCategoryMetric";
 
 type MetricMappingFactoryOptions = {
   localityLabelMapping?: TenantContent["localities"];
@@ -538,15 +541,15 @@ export default function createMetricMapping({
       case "RidersPopulationHistorical":
         metricMapping.set(
           metricType,
-          new HistoricalPopulationBreakdownMetric({
+          new HistoricalPopulationByCategoryMetric({
             ...metadata,
             id: metricType,
             tenantId,
-            defaultDemographicView: "total",
+            defaultDemographicView: undefined,
             defaultLocalityId: undefined,
             localityLabels: undefined,
-            dataTransformer: prisonPopulationHistorical,
-            sourceFileName: "incarceration_population_by_month_by_demographics",
+            dataTransformer: riderPopulationHistorical,
+            sourceFileName: "rider_term_average_population",
             rootStore,
           })
         );
@@ -579,15 +582,8 @@ export default function createMetricMapping({
             defaultDemographicView: "total",
             defaultLocalityId: undefined,
             localityLabels: undefined,
-            dataTransformer: (rawRecords: RawMetricData) => {
-              let fieldMapping;
-
-              if ("fieldMapping" in metadata) {
-                fieldMapping = metadata.fieldMapping;
-              }
-              return prisonAdmissionReasons(rawRecords, fieldMapping);
-            },
-            sourceFileName: "incarceration_population_by_admission_reason",
+            dataTransformer: riderAdmissionReasons,
+            sourceFileName: "rider_offense",
             rootStore,
           })
         );

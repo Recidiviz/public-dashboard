@@ -64,6 +64,8 @@ const ALL_METRIC_FILES = [
   "supervision_success_by_period_by_demographics.json",
   "supervision_terminations_by_month.json",
   "supervision_terminations_by_period_by_demographics.json",
+  "rider_term_average_population.json",
+  "rider_offense.json",
 ];
 
 /**
