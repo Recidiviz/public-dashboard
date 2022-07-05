@@ -1283,11 +1283,6 @@
   resolved "https://registry.yarnpkg.com/@fontsource/libre-baskerville/-/libre-baskerville-4.2.1.tgz#1088749068e5ffa1c2689cd5b1318f8429300bb4"
   integrity sha512-ARLzJooty+BuZa8rCYdAiLdINiHI3+JKiitgs7sJm4I39sEC883WjcWhzGQVKIkSsOzmmKfvetxKOWDzuQFE4w==
 
-"@fontsource/libre-franklin@^4.1.0":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@fontsource/libre-franklin/-/libre-franklin-4.2.1.tgz#45b7867c975eeed897f74613564c7c0a03b987b8"
-  integrity sha512-u2qcrPqU38nOhs4YrVuEegOiSl6strEQ+AkjH8D+yrbFzay+wxHqD8W9IeHjFY4Vn84O8d1bvxeNtjVkS+96UQ==
-
 "@fontsource/public-sans@^4.5.3":
   version "4.5.5"
   resolved "https://registry.yarnpkg.com/@fontsource/public-sans/-/public-sans-4.5.5.tgz#ce8e5d214f336e96daf8dcb7af40d1f293e7d3fd"
@@ -1665,13 +1660,12 @@
     "@react-spring/shared" "~9.4.4"
     "@react-spring/types" "~9.4.4"
 
-"@recidiviz/design-system@4.0.0-alpha.2":
-  version "4.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/@recidiviz/design-system/-/design-system-4.0.0-alpha.2.tgz#42842334376f89970c9d86917a98722b3374aa75"
-  integrity sha512-bDm3i203DtEbsJs+Zs9pwKHNSQEvt2i8bXs9AsARARFW7X4DwEfZnwgT9417g/vsXj/o2zSRaNpyDidVpmurQw==
+"@recidiviz/design-system@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@recidiviz/design-system/-/design-system-4.0.0.tgz#cc9d50d0eb5b9dc8e0073494a563697660ceb0c7"
+  integrity sha512-0DCrp0dDaD8G+b3lonbqZ7FbiWJG2Hy9NHchhAidFA9CDZTZ1wJ/duZnPB0dsBW4iTn9rxCYb5pxbRptKvI8Qw==
   dependencies:
     "@fontsource/libre-baskerville" "^4.1.0"
-    "@fontsource/libre-franklin" "^4.1.0"
     "@fontsource/public-sans" "^4.5.3"
     "@types/react-tabs" "^2.3.2"
     body-scroll-lock "^3.1.5"
