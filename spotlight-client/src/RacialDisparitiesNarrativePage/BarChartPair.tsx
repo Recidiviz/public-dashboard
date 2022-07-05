@@ -20,7 +20,7 @@ import { rem } from "polished";
 import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { ItemToHighlight, ProportionalBar } from "../charts";
-import { DemographicCategoryRecords } from "../contentModels/types";
+import { DemographicCategoryRecords, Unknowns } from "../contentModels/types";
 import VizControls, { VizControlsProps } from "../VizControls";
 import VizNotes from "../VizNotes";
 
@@ -43,6 +43,7 @@ type BarChartPairProps = {
   download?: () => void;
   filters?: VizControlsProps["filters"];
   methodology?: string;
+  unknowns?: Unknowns;
   preview?: boolean;
 };
 
@@ -51,6 +52,7 @@ export default function BarChartPair({
   download,
   filters,
   methodology,
+  unknowns,
   preview,
 }: BarChartPairProps): React.ReactElement {
   const [highlightedCategory, setHighlightedCategory] = useState<
@@ -97,6 +99,7 @@ export default function BarChartPair({
         title={data[0].label}
         height={chartHeight}
         highlighted={highlightedCategory}
+        showLegend={false}
       />
       <Spacer />
       <ProportionalBar
@@ -106,7 +109,9 @@ export default function BarChartPair({
         highlighted={highlightedCategory}
         setHighlighted={setHighlightedCategory}
       />
-      {!preview && <VizNotes smallData />}
+      {!preview && (
+        <VizNotes smallData unknowns={unknowns} download={download} />
+      )}
     </Wrapper>
   );
 }

@@ -46,6 +46,7 @@ import {
   recidivismRateAllFollowup,
   recidivismRateConventionalFollowup,
   riderAdmissionReasons,
+  riderCurrentPopulation,
   riderPopulationHistorical,
   sentencePopulationCurrent,
   sentenceTypesCurrent,
@@ -58,11 +59,12 @@ import ProgramParticipationCurrentMetric from "./ProgramParticipationCurrentMetr
 import RecidivismRateMetric from "./RecidivismRateMetric";
 import SentenceTypeByLocationMetric from "./SentenceTypeByLocationMetric";
 import SupervisionSuccessRateMetric from "./SupervisionSuccessRateMetric";
+import HistoricalPopulationByCategoryMetric from "./HistoricalPopulationByCategoryMetric";
+import CategoriesByDemographicMetric from "./CategoriesByDemographicMetric";
 import { ERROR_MESSAGES } from "../constants";
 import { NOFILTER_KEY, TOTAL_KEY } from "../demographics";
 import { colors } from "../UiLibrary";
 import RootStore from "../DataStore/RootStore";
-import HistoricalPopulationByCategoryMetric from "./HistoricalPopulationByCategoryMetric";
 
 type MetricMappingFactoryOptions = {
   localityLabelMapping?: TenantContent["localities"];
@@ -555,18 +557,17 @@ export default function createMetricMapping({
         );
         break;
       case "RidersPopulationCurrent":
-        // should be bar chart pair
         metricMapping.set(
           metricType,
-          new HistoricalPopulationBreakdownMetric({
+          new CategoriesByDemographicMetric({
             ...metadata,
             id: metricType,
             tenantId,
-            defaultDemographicView: "total",
+            defaultDemographicView: "raceOrEthnicity",
             defaultLocalityId: undefined,
             localityLabels: undefined,
-            dataTransformer: prisonPopulationHistorical,
-            sourceFileName: "incarceration_population_by_month_by_demographics",
+            dataTransformer: riderCurrentPopulation,
+            sourceFileName: "rider_term_current_population",
             rootStore,
           })
         );

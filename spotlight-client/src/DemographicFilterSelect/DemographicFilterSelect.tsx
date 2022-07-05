@@ -18,6 +18,7 @@
 import { action } from "mobx";
 import { observer } from "mobx-react-lite";
 import React from "react";
+import CategoriesByDemographicMetric from "../contentModels/CategoriesByDemographicMetric";
 import type DemographicsByCategoryMetric from "../contentModels/DemographicsByCategoryMetric";
 import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
@@ -35,20 +36,26 @@ type DemographicFilterOption = { id: DemographicView; label: string };
 
 type DemographicFilterSelectProps = {
   disabled?: boolean;
+  isTotalAvailable?: boolean;
   metric:
     | HistoricalPopulationBreakdownMetric
     | DemographicsByCategoryMetric
     | RecidivismRateMetric
     | SentenceTypeByLocationMetric
-    | SupervisionSuccessRateMetric;
+    | SupervisionSuccessRateMetric
+    | CategoriesByDemographicMetric;
 };
 
 const DemographicFilterSelect: React.FC<DemographicFilterSelectProps> = ({
   disabled,
+  isTotalAvailable = true,
   metric,
 }) => {
   const options: DemographicFilterOption[] = DemographicViewList.filter(
-    (view): view is Exclude<DemographicView, "nofilter"> => view !== "nofilter"
+    (view): view is Exclude<DemographicView, "nofilter"> =>
+      isTotalAvailable
+        ? view !== "nofilter"
+        : view !== "nofilter" && view !== "total"
   ).map((view) => ({
     id: view,
     label: getDemographicViewLabel(view),

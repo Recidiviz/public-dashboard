@@ -98,8 +98,7 @@ export default class HistoricalPopulationByCategoryMetric extends Metric<Histori
     const categories = riderCategories;
 
     categories.forEach(({ identifier }) => {
-      let recordsForCategory;
-      recordsForCategory = transformedData.filter(
+      const recordsForCategory = transformedData.filter(
         (record) => record.category === identifier
       );
 
@@ -120,7 +119,7 @@ export default class HistoricalPopulationByCategoryMetric extends Metric<Histori
   }
 
   get records(): HistoricalPopulationByCategoryRecord[] | undefined {
-    let recordsToReturn = this.allRecords;
+    const recordsToReturn = this.allRecords;
     if (!recordsToReturn) return undefined;
 
     return recordsToReturn;

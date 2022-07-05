@@ -36,6 +36,8 @@ import ProgramParticipationCurrentMetric from "../contentModels/ProgramParticipa
 import VizProgramParticipationCurrent from "../VizProgramParticipationCurrent";
 import HistoricalPopulationByCategoryMetric from "../contentModels/HistoricalPopulationByCategoryMetric";
 import VizHistoricalPopulationByCategory from "../VizHistoricalPopulationByCategory";
+import CategoriesByDemographicMetric from "../contentModels/CategoriesByDemographicMetric";
+import VizCategoriesByDemographic from "../VizCategoriesByDemographic";
 
 type MetricVizMapperProps = {
   metric: Metric<MetricRecord> | undefined;
@@ -79,6 +81,9 @@ const MetricVizMapper: React.FC<MetricVizMapperProps> = ({
   }
   if (metric instanceof HistoricalPopulationByCategoryMetric) {
     return <VizHistoricalPopulationByCategory metric={metric} />;
+  }
+  if (metric instanceof CategoriesByDemographicMetric) {
+    return <VizCategoriesByDemographic metric={metric} />;
   }
 
   // there are no other metric types, so this should only be reached when developing new ones

@@ -16,13 +16,14 @@
 // =============================================================================
 
 import { REVOCATION_TYPE_LABELS } from "../constants";
+import { riderCategories, RiderCategory } from "../demographics";
 import { RawMetricData } from "./fetchMetrics";
 import { DemographicFields } from "./types";
 import {
   extractDemographicFields,
   recordIsProbation,
   recordIsParole,
-  getAdmissionLabel,
+  getLabelByIdentifier,
 } from "./utils";
 
 export type DemographicsByCategoryRecord = DemographicFields & {
@@ -33,11 +34,6 @@ export type DemographicsByCategoryRecord = DemographicFields & {
 export type CategoryFieldMapping = {
   fieldName: string;
   categoryLabel: string;
-};
-
-export type AdmissionMapping = {
-  label: string;
-  value: string;
 };
 
 function getCategoryTransposeFunction(fields: CategoryFieldMapping[]) {
@@ -142,39 +138,43 @@ export function prisonStayLengths(
   return getCategoryTransposeFunction(prisonStayLengthFields)(rawRecords);
 }
 
-const riderAdmissions: AdmissionMapping[] = [
+const ridersAdmissions: RiderCategory[] = [
   {
     label: "Alcohol",
-    value: "ALCOHOL_DRUG",
+    identifier: "ALCOHOL_DRUG",
   },
-  { label: "Assault", value: "ASSAULT" },
-  { label: "Sex", value: "SEX" },
+  { label: "Assault", identifier: "ASSAULT" },
+  { label: "Sex", identifier: "SEX" },
   {
     label: "Murder",
-    value: "MURDER_HOMICIDE",
+    identifier: "MURDER_HOMICIDE",
   },
   {
     label: "Property",
-    value: "PROPERTY",
+    identifier: "PROPERTY",
   },
-  { label: "Unknown", value: "UNKNOWN" },
+  { label: "Unknown", identifier: "UNKNOWN" },
 ];
 
-function getRiderCategoryTransposeFunction(records: RawMetricData) {
+function getRiderCategoryTransposeFunction(
+  records: RawMetricData,
+  fieldName: string,
+  options: RiderCategory[]
+) {
   const recordsByCategory = records.map((record) => {
     const partialRecord = {
       count: Number(record.count),
       ...extractDemographicFields(record),
     };
 
-    if (record.category === null) {
+    if (record[fieldName] === null) {
       return {
         category: "Null",
         ...partialRecord,
       };
     }
     return {
-      category: getAdmissionLabel(record.category, riderAdmissions),
+      category: getLabelByIdentifier(record[fieldName], options),
       ...partialRecord,
     };
   });
@@ -185,5 +185,15 @@ function getRiderCategoryTransposeFunction(records: RawMetricData) {
 export function riderAdmissionReasons(
   rawRecords: RawMetricData
 ): DemographicsByCategoryRecord[] {
-  return getRiderCategoryTransposeFunction(rawRecords);
+  return getRiderCategoryTransposeFunction(
+    rawRecords,
+    "category",
+    ridersAdmissions
+  );
+}
+
+export function riderCurrentPopulation(
+  rawRecords: RawMetricData
+): DemographicsByCategoryRecord[] {
+  return getRiderCategoryTransposeFunction(rawRecords, "type", riderCategories);
 }

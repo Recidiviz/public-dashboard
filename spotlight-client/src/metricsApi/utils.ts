@@ -16,13 +16,13 @@
 // =============================================================================
 
 import { ValuesType } from "utility-types";
+import { RiderCategory } from "../demographics";
 import {
   AgeIdentifier,
   GenderIdentifier,
   NOFILTER_KEY,
   RaceIdentifier,
 } from "../demographics/types";
-import { AdmissionMapping } from "./DemographicsByCategoryRecord";
 import { RawMetricData } from "./fetchMetrics";
 import { DemographicFields, LocalityFields } from "./types";
 
@@ -56,9 +56,9 @@ export function recordMatchesLocality(
   return (record) => record.locality === locality;
 }
 
-export const getAdmissionLabel = (
-  admissionValue: string,
-  admissions: AdmissionMapping[]
+export const getLabelByIdentifier = (
+  identifier: string,
+  options: RiderCategory[]
 ): string =>
-  admissions.find((admission) => admission.value === admissionValue)?.label ??
-  admissions[0].label;
+  options.find((option) => option.identifier === identifier)?.label ??
+  "no label";

@@ -23,7 +23,6 @@ import {
   DemographicView,
   DemographicViewList,
   GenderValue,
-  RiderValue,
   NOFILTER_KEY,
   RaceOrEthnicityValue,
   TOTAL_KEY,
@@ -65,10 +64,10 @@ const totalCategories: TotalCategory[] = [
   { identifier: TOTAL_KEY, label: "Total" },
 ];
 
-type RiderCategory = { label: string; identifier: RiderValue };
+export type RiderCategory = { label: string; identifier: string };
 export const riderCategories: RiderCategory[] = [
-  { identifier: "RIDER", label: "Rider" },
-  { identifier: "TERMER", label: "Termer" },
+  { identifier: "RIDER", label: "Riders" },
+  { identifier: "TERMER", label: "Termers" },
   { identifier: "PAROLE_BOARD_HOLD", label: "Parole Board Hold" },
 ];
 

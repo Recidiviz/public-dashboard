@@ -811,23 +811,22 @@ const content: TenantContent = {
     sections: [
       {
         title: "How prevalent are “riders” in the IDOC population?",
-        body: `The Rider program was first introduced in 2005 as an alternative to a longer prison sentence. Since then, the Rider population has risen to the point that 16% of IDOC’s institutional population is comprised of people on retained jurisdiction.`,
+        body: `The Rider program was first introduced in 2005 as an alternative to a longer prison sentence. Since then, the Rider population has risen to the point that <strong>16%</strong> of IDOC’s institutional population is comprised of people on retained jurisdiction.`,
         metricTypeId: "RidersPopulationHistorical",
       },
       {
         title: "Who is on a Rider in Idaho?",
-        body:
-          "Some insights about the demographic composition of riders as compared to termers in Idaho.",
+        body: `The demographic composition of individuals on Riders is not significantly different from the general incarcerated population or that of people who recently entered probation.`,
         metricTypeId: "RidersPopulationCurrent",
       },
       {
         title: "Why are people placed on Riders?",
-        body: `In general, riders are considered a last resort” before full incarceration. However, most people placed on riders have not committed a serious or violent offense; XX% of riders in the past three years have been for drug use or possession.`,
+        body: `In general, riders are considered a last resort” before full incarceration. Still, most people placed on riders have not committed a serious or violent offense; for <strong>60%</strong> of riders in the past three years, their most serious offense was related to drug use/possession or property crime.`,
         metricTypeId: "RidersOriginalCharge",
       },
       {
         title: "What is the reincarceration rate for riders?",
-        body: `Despite high programming completion rates during rider sentences, those individuals tend to return to prison at higher rates compared to similar individuals who were simply sent to probation. XX% of riders return to prison within three years as compared to YY% of those on probation in a similar time period.`,
+        body: `Despite high programming completion rates during rider sentences, those individuals tend to return to prison at higher rates compared to similar individuals who were simply sent to probation. <strong>45%</strong> of riders return to prison within three years as compared to <strong>27%</strong> of those on probation in a similar time period. `,
         metricTypeId: "RidersReincarcerationRate",
       },
       {
