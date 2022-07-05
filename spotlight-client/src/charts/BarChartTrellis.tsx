@@ -23,10 +23,11 @@ import ResponsiveTooltipController, {
   ResponsiveTooltipControllerProps,
 } from "./ResponsiveTooltipController";
 import { formatAsPct } from "../utils";
-import { highlightFade } from "./utils";
+import { isSmallData, highlightFade } from "./utils";
 import { animation } from "../UiLibrary";
 import { CategoricalChartRecord, CommonDataPoint } from "./types";
 import MeasureWidth from "../MeasureWidth";
+import { useCreateHatchDefs } from "./useCreateHatchDefs";
 
 export const singleChartHeight = 300;
 
@@ -71,6 +72,7 @@ export function BarChartTrellis({
   getTooltipProps,
 }: BarChartTrellisProps): React.ReactElement {
   const [highlightedLabel, setHighlightedLabel] = useState();
+  const { getHatchDefs, generateHatchFill } = useCreateHatchDefs();
 
   // ResponsiveTooltipController expects this to be a stable reference
   const setHighlighted = useCallback(
@@ -84,73 +86,85 @@ export function BarChartTrellis({
         <ChartWrapper ref={measureRef}>
           {width === 0
             ? null
-            : data.map(({ label, records: chartData }, index) => (
-                <ResponsiveTooltipController
-                  key={label}
-                  getTooltipProps={getTooltipProps}
-                  hoverAnnotation
-                  setHighlighted={setHighlighted}
-                >
-                  <OrdinalFrame
-                    axes={[
-                      {
-                        baseline: false,
-                        orient: "left",
-                        tickFormat: formatAsPct,
-                        tickSize: 0,
-                      },
-                    ]}
-                    backgroundGraphics={
-                      barAxisLabel ? (
-                        // this functions as an axis label, but there is no Semiotic API for this;
-                        // it's hidden from screen readers either way, so not a real a11y concern
-                        <BarAxisLabel
-                          // Semiotic axis labels use this class, we want to pick up those styles here
-                          className="axis-title"
-                          x={
-                            MARGIN.left +
-                            (width - MARGIN.left - MARGIN.right) / 2
+            : data.map(({ label, records: chartData }, index) => {
+                const hatchDefs = getHatchDefs(chartData);
+
+                return (
+                  <ResponsiveTooltipController
+                    key={label}
+                    getTooltipProps={getTooltipProps}
+                    hoverAnnotation
+                    setHighlighted={setHighlighted}
+                  >
+                    <OrdinalFrame
+                      axes={[
+                        {
+                          baseline: false,
+                          orient: "left",
+                          tickFormat: formatAsPct,
+                          tickSize: 0,
+                        },
+                      ]}
+                      backgroundGraphics={
+                        barAxisLabel ? (
+                          // this functions as an axis label, but there is no Semiotic API for this;
+                          // it's hidden from screen readers either way, so not a real a11y concern
+                          <BarAxisLabel
+                            // Semiotic axis labels use this class, we want to pick up those styles here
+                            className="axis-title"
+                            x={
+                              MARGIN.left +
+                              (width - MARGIN.left - MARGIN.right) / 2
+                            }
+                            y={singleChartHeight - MARGIN.bottom / 3}
+                          >
+                            {barAxisLabel}
+                          </BarAxisLabel>
+                        ) : undefined
+                      }
+                      baseMarkProps={{
+                        transitionDuration: { fill: animation.defaultDuration },
+                      }}
+                      data={chartData}
+                      margin={MARGIN}
+                      oAccessor="label"
+                      // @ts-expect-error Semiotic types can't handle a styled component here but it's fine
+                      oLabel={(barLabel) => (
+                        <ColumnLabel
+                          transform={
+                            angledLabels
+                              ? `rotate(-45) translate(-10)`
+                              : undefined
                           }
-                          y={singleChartHeight - MARGIN.bottom / 3}
                         >
-                          {barAxisLabel}
-                        </BarAxisLabel>
-                      ) : undefined
-                    }
-                    baseMarkProps={{
-                      transitionDuration: { fill: animation.defaultDuration },
-                    }}
-                    data={chartData}
-                    margin={MARGIN}
-                    oAccessor="label"
-                    // @ts-expect-error Semiotic types can't handle a styled component here but it's fine
-                    oLabel={(barLabel) => (
-                      <ColumnLabel
-                        transform={
-                          angledLabels
-                            ? `rotate(-45) translate(-10)`
-                            : undefined
+                          {formatBarLabel(barLabel as string)}
+                        </ColumnLabel>
+                      )}
+                      oPadding={2}
+                      rAccessor="pct"
+                      rExtent={[0, 1]}
+                      size={[width, singleChartHeight]}
+                      style={(d: CommonDataPoint) => {
+                        if (isSmallData(chartData)) {
+                          return {
+                            fill: generateHatchFill(d.label, highlightedLabel),
+                          };
                         }
-                      >
-                        {formatBarLabel(barLabel as string)}
-                      </ColumnLabel>
-                    )}
-                    oPadding={2}
-                    rAccessor="pct"
-                    rExtent={[0, 1]}
-                    size={[width, singleChartHeight]}
-                    style={(d: CommonDataPoint) => ({
-                      fill:
-                        highlightedLabel && highlightedLabel !== d.label
-                          ? highlightFade(d.color)
-                          : d.color,
-                    })}
-                    // Semiotic centers titles by default; this x offset will align left
-                    title={<ChartTitle x={0 - width / 2}>{label}</ChartTitle>}
-                    type="bar"
-                  />
-                </ResponsiveTooltipController>
-              ))}
+                        return {
+                          fill:
+                            highlightedLabel && highlightedLabel !== d.label
+                              ? highlightFade(d.color)
+                              : d.color,
+                        };
+                      }}
+                      // Semiotic centers titles by default; this x offset will align left
+                      title={<ChartTitle x={0 - width / 2}>{label}</ChartTitle>}
+                      type="bar"
+                      additionalDefs={hatchDefs}
+                    />
+                  </ResponsiveTooltipController>
+                );
+              })}
         </ChartWrapper>
       )}
     </MeasureWidth>

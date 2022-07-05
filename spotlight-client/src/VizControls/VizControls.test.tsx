@@ -17,14 +17,14 @@
 
 import { fireEvent, screen, within } from "@testing-library/react";
 import React from "react";
-import { renderWithTheme } from "../testUtils";
+import { renderWithStore } from "../testUtils";
 import VizControls from "./VizControls";
 
 const mockDownload = jest.fn();
 const mockMethodology = "test methodology";
 
 beforeEach(() => {
-  renderWithTheme(
+  renderWithStore(
     <VizControls
       filters={[]}
       download={mockDownload}
