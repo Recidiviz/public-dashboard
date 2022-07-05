@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { RouteComponentProps } from "@reach/router";
+import { palette, typography } from "@recidiviz/design-system";
 import HTMLReactParser from "html-react-parser";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
@@ -25,7 +26,7 @@ import { DEFAULT_SELECTED_TAB, NAV_BAR_HEIGHT } from "../constants";
 import { NarrativeTypeId } from "../contentApi/types";
 import OtherNarrativeLinksPreview from "../OtherNarrativeLinksPreview";
 import { useDataStore } from "../StoreProvider";
-import { breakpoints, PageSection, PageTitle, typefaces } from "../UiLibrary";
+import { breakpoints, PageSection } from "../UiLibrary";
 import ExploreNarrativeButton from "../UiLibrary/ExploreNarrativeButton";
 import withRouteSync from "../withRouteSync";
 
@@ -34,10 +35,6 @@ const Page = styled.article`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  a {
-    text-decoration: none;
-  }
 
   @media screen and (min-width: ${breakpoints.xl[0]}px) {
     flex-direction: row;
@@ -85,23 +82,17 @@ const Links = styled(PageSection)`
   }
 `;
 
-const Title = styled(PageTitle)`
-  font-size: ${rem(34)};
+const Title = styled.h1`
+  ${typography.Header34}
 
   @media screen and (max-width: ${breakpoints.tablet[0]}px) {
-    font-size: ${rem(28)};
+    ${typography.Header24}
   }
 `;
 
 const Subtitle = styled.h2`
-  font-family: ${typefaces.body};
-  letter-spacing: -0.04em;
-  font-size: ${rem(21)};
-  margin-top: ${rem(24)};
-
-  @media screen and (max-width: ${breakpoints.tablet[0]}px) {
-    font-size: ${rem(18)};
-  }
+  ${typography.Body19}
+  color: ${palette.slate85};
 `;
 
 const PageTenant: React.FC<RouteComponentProps> = () => {
@@ -116,12 +107,12 @@ const PageTenant: React.FC<RouteComponentProps> = () => {
     // tenant may be briefly undefined during initial page load
     <Page>
       <Introduction>
-        <Title>
+        <Title data-testid="PageTitle">
           {HTMLReactParser(tenant.description)}
-          {tenant.ctaCopy && (
-            <Subtitle>{HTMLReactParser(tenant.ctaCopy)}</Subtitle>
-          )}
         </Title>
+        {tenant.ctaCopy && (
+          <Subtitle>{HTMLReactParser(tenant.ctaCopy)}</Subtitle>
+        )}
         <ExploreNarrativeButton
           narrativeId={narrativeId}
           tenantId={tenant.id}

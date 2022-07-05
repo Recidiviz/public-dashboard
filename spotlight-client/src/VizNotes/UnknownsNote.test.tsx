@@ -15,13 +15,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { getDefaultNormalizer, screen } from "@testing-library/react";
+import { getDefaultNormalizer, screen, render } from "@testing-library/react";
 import React from "react";
-import { renderWithTheme } from "../testUtils";
 import { UnknownsNote } from "./UnknownsNote";
 
 test("format single unknowns", () => {
-  renderWithTheme(
+  render(
     <UnknownsNote
       download={() => {
         // empty

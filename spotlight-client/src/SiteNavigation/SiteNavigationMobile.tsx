@@ -21,8 +21,9 @@ import { rem } from "polished";
 import React, { useRef } from "react";
 import useCollapse from "react-collapsed";
 import { animated, useSpring } from "react-spring/web.cjs";
-import styled, { css } from "styled-components/macro";
-import { animation, colors, typefaces } from "../UiLibrary";
+import styled from "styled-components/macro";
+import { typography } from "@recidiviz/design-system";
+import { animation, colors } from "../UiLibrary";
 import getUrlForResource from "../routerUtils/getUrlForResource";
 import { useDataStore } from "../StoreProvider";
 import { NAV_BAR_HEIGHT } from "../constants";
@@ -64,17 +65,11 @@ const ExternalNavLink = styled(ExternalNavLinkBase)`
   color: ${colors.textLight};
 `;
 
-const menuTextStyles = css`
-  font-size: ${rem(20)};
-  letter-spacing: -0.015em;
-  line-height: 1.3;
-`;
-
 const NavButton = styled(ExternalNavButton)`
   color: ${colors.textLight};
   padding: 0;
 
-  ${menuTextStyles}
+  ${typography.Serif24}
 `;
 
 const NavMenuWrapper = styled.div`
@@ -84,12 +79,11 @@ const NavMenuWrapper = styled.div`
 `;
 
 const NavMenu = styled.ul`
-  font-family: ${typefaces.display};
+  ${typography.Serif24}
+
   margin-left: ${rem(16)};
   /* make room for the bottom UI that may cover part of the page */
   padding-bottom: ${rem(64)};
-
-  ${menuTextStyles}
 `;
 
 const NavMenuItem = styled.li`

@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { palette } from "@recidiviz/design-system";
 import { ValuesType } from "utility-types";
 
 const gray = "#D6DCDC";
@@ -58,7 +59,7 @@ export default {
   background: white,
   buttonBackground: white,
   buttonBackgroundHover: gray,
-  caption: pinePale,
+  caption: palette.text.caption,
   chartAxis: pine,
   chartGridLine: gray,
   chartNoData: gray,

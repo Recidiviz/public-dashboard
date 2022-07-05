@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
@@ -22,11 +23,12 @@ import { colors, zIndex } from "../UiLibrary";
 import { formatAsPct, formatAsNumber } from "../utils";
 
 const TooltipWrapper = styled.div`
+  ${typography.Sans14}
+
   background: ${colors.tooltipBackground};
   border-radius: ${rem(4)};
   box-shadow: 0 ${rem(2)} ${rem(10)} rgba(0, 0, 0, 0.1);
   color: ${colors.textLight};
-  font-size: ${rem(14)};
   padding: ${rem(16)};
   position: relative;
   z-index: ${zIndex.tooltip};
@@ -53,11 +55,10 @@ const LabelColorSwatch = styled.div`
 
 const TooltipTitle = styled.div`
   color: ${colors.accent};
-  letter-spacing: -0.01em;
   margin-bottom: ${rem(16)};
 
   .TooltipMobile & {
-    font-size: ${rem(16)};
+    ${typography.Sans16}
     padding: 0 ${rem(32)};
     margin-bottom: ${rem(24)};
   }
@@ -82,10 +83,9 @@ const TooltipRecord = styled.div`
   }
 
   .TooltipMobile & {
+    ${typography.Sans24}
     display: block;
     flex: 0 0 auto;
-    font-size: ${rem(24)};
-    line-height: 1.3;
     margin-right: ${rem(24)};
     margin-bottom: 0;
     width: auto;
@@ -101,8 +101,8 @@ const RecordLabel = styled.div`
   padding-right: ${rem(24)};
 
   .TooltipMobile & {
+    ${typography.Sans16}
     color: ${colors.caption};
-    font-size: ${rem(15)};
     margin-right: 0;
   }
 `;
@@ -114,7 +114,6 @@ const RecordValue = styled.div`
   .TooltipMobile & {
     display: block;
     font-weight: 400;
-    margin: ${rem(8)} 0;
   }
 `;
 
@@ -132,7 +131,7 @@ const RecordPct = styled.div`
 
   .TooltipMobile & {
     display: block;
-    margin: ${rem(8)} 0;
+    margin: 0;
 
     &::before,
     &::after {

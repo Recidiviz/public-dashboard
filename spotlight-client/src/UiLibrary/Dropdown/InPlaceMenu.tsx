@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import { rem } from "polished";
 import React, { useState } from "react";
 import Measure from "react-measure";
@@ -32,10 +33,10 @@ const InPlaceMenuWrapper = styled(animated.div)`
 `;
 
 const InPlaceOptionList = styled.ul`
+  ${typography.Sans14}
   background: ${colors.buttonBackground};
   border: 1px solid ${colors.rule};
   border-radius: ${rem(BUTTON_HEIGHT / 4)};
-  font-size: ${rem(13)};
   max-height: 70vh;
   white-space: nowrap;
 

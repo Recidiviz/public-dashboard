@@ -15,13 +15,14 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { palette, typography } from "@recidiviz/design-system";
 import { rem } from "polished";
 import styled from "styled-components/macro";
 import breakpoints from "./breakpoints";
+import colors from "./colors";
 import CopyBlock from "./CopyBlock";
 import { FullScreenSection } from "./PageSection";
 import PageTitle from "./PageTitle";
-import { typefaces } from "./typography";
 
 export const NarrativeIntroContainer = styled(FullScreenSection)`
   padding-top: ${rem(48)};
@@ -35,29 +36,24 @@ export const NarrativeIntroContainer = styled(FullScreenSection)`
 
 export const NarrativeTitle = styled(PageTitle)`
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
-    font-size: ${rem(88)};
-    margin-bottom: ${rem(64)};
+    ${typography.Header88}
   }
 `;
 
 export const NarrativeIntroCopy = styled(CopyBlock)`
-  font-size: ${rem(18)};
-  line-height: 1.5;
-  letter-spacing: -0.025em;
+  ${typography.Body19}
+  color: ${palette.slate85};
 
   @media screen and (min-width: ${breakpoints.tablet[0]}px) {
-    font-size: ${rem(48)};
+    ${typography.Body48}
   }
 `;
 
 export const NarrativeSectionTitle = styled.h2`
-  font-family: ${typefaces.display};
-  font-size: ${rem(24)};
-  line-height: 1.25;
-  letter-spacing: -0.04em;
-  margin-bottom: ${rem(24)};
+  ${typography.Header24}
+  color: ${colors.text};
 `;
 
 export const NarrativeSectionBody = styled(CopyBlock)`
-  line-height: 1.67;
+  color: ${palette.slate85};
 `;

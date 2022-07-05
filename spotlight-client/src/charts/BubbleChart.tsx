@@ -25,16 +25,16 @@ import {
 } from "d3-force";
 import forceLimit from "d3-force-limit";
 import { scaleSqrt } from "d3-scale";
-import { rem } from "polished";
 import React from "react";
 import NetworkFrame from "semiotic/lib/NetworkFrame";
 import styled from "styled-components/macro";
+import { typography } from "@recidiviz/design-system";
 import ColorLegend from "./ColorLegend";
 import ResponsiveTooltipController from "./ResponsiveTooltipController";
 import { formatAsPct } from "../utils";
 import { useHighlightedItem, highlightFade, isSmallData } from "./utils";
 import { CategoricalChartRecord } from "./types";
-import { animation, colors, typefaces } from "../UiLibrary";
+import { animation, colors } from "../UiLibrary";
 import MeasureWidth from "../MeasureWidth";
 import { useCreateHatchDefs } from "./useCreateHatchDefs";
 
@@ -52,11 +52,9 @@ const BubbleChartWrapper = styled.figure`
 `;
 
 const BubbleValueLabel = styled.text`
+  ${typography.Serif24}
+
   fill: ${colors.textLight};
-  font-family: ${typefaces.display};
-  font-size: ${rem(32)};
-  letter-spacing: -0.02em;
-  line-height: 1;
   font-size: 20px;
   text-anchor: middle;
 `;

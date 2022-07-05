@@ -20,6 +20,7 @@ import {
   TabList as BasicTabList,
   Tab,
   TabPanel as BasicTabPanel,
+  typography,
 } from "@recidiviz/design-system";
 import { ascending } from "d3-array";
 import { observer } from "mobx-react-lite";
@@ -48,8 +49,8 @@ const Wrapper = styled.div`
 `;
 
 const ChartTitle = styled.div`
+  ${typography.Sans16}
   margin-top: ${rem(16)};
-  font-size: ${rem(16)};
 `;
 
 const ChartPreview = styled.div`

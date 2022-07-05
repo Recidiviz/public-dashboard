@@ -15,8 +15,8 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import classNames from "classnames";
-import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
 import { animation, colors } from "../UiLibrary";
@@ -24,9 +24,9 @@ import { ItemToDisplay, ItemToHighlight } from "./types";
 import { highlightFade } from "./utils";
 
 const ColorLegendWrapper = styled.div`
+  ${typography.Sans12}
   display: flex;
   flex-wrap: wrap;
-  font-size: ${rem(12)};
 `;
 
 const ColorLegendItem = styled.div`

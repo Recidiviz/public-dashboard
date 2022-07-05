@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
@@ -22,10 +23,8 @@ import imgPath from "../assets/loading-error.svg";
 import { colors } from "../UiLibrary";
 
 const Wrapper = styled.div`
+  ${typography.Sans14}
   color: ${colors.caption};
-  font-size: ${rem(14)};
-  font-weight: 500;
-  line-height: 1.5;
   text-align: center;
   width: ${rem(208)};
 `;

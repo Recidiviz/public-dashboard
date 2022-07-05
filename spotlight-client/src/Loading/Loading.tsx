@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import { rem } from "polished";
 import React from "react";
 import styled, { keyframes } from "styled-components/macro";
@@ -46,9 +47,8 @@ const LoadingSpinnerIcon = styled(SpinnerIcon)`
 `;
 
 const LoadingSpinnerText = styled.div`
+  ${typography.Sans14}
   color: ${colors.caption};
-  font-size: ${rem(14)};
-  line-height: 1.5;
 `;
 
 export default function Loading(): JSX.Element {

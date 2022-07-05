@@ -15,17 +15,16 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import { rem } from "polished";
 import React from "react";
 import styled from "styled-components/macro";
 import { colors } from "../UiLibrary";
 
 const Wrapper = styled.ol`
+  ${typography.Sans12}
   color: ${colors.caption};
-  font-size: ${rem(13)};
-  font-weight: 500;
-  line-height: 1.7;
-  list-style: none;
+  list-style: decimal outside;
   margin-top: ${rem(40)};
 `;
 
