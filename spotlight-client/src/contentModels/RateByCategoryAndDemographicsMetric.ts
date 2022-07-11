@@ -52,9 +52,10 @@ export default class RateByCategoryAndDemographicsMetric extends Metric<RateByCa
       return null;
 
     const categories = getDemographicCategories(demographicView);
-    let pivotedData: RateByCategoryAndDemographicsRecords[] = [];
+    const pivotedData: RateByCategoryAndDemographicsRecords[] = [];
 
-    //pivot and group data by category
+    // pivot and group data by category
+    /* eslint-disable no-param-reassign */
     categories
       .map((category) => category.identifier)
       .forEach((item) => {

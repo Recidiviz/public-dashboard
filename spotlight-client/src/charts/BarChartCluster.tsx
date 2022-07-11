@@ -18,14 +18,14 @@
 import React, { useState, useCallback } from "react";
 import OrdinalFrame from "semiotic/lib/OrdinalFrame";
 import useBreakpoint from "@w11r/use-breakpoint";
-import { animated, useTransition } from "react-spring";
+import { animated, useTransition } from "react-spring/web.cjs";
 import styled, { css } from "styled-components/macro";
 import { ChartWrapper as BaseChartWrapper } from "@recidiviz/design-system";
-import ColorLegend from "../charts/ColorLegend";
+import ColorLegend from "./ColorLegend";
 import ResponsiveTooltipController, {
   ResponsiveTooltipControllerProps,
-} from "../charts/ResponsiveTooltipController";
-import { highlightFade, useHighlightedItem } from "../charts/utils";
+} from "./ResponsiveTooltipController";
+import { highlightFade, useHighlightedItem } from "./utils";
 import MeasureWidth from "../MeasureWidth";
 import { animation, colors, zIndex } from "../UiLibrary";
 import { formatAsPct } from "../utils";
@@ -146,11 +146,13 @@ export function BarChartCluster({
                           oPadding={40}
                           margin={{ bottom: 120, left: 56, right: 0, top: 8 }}
                           oAccessor="label"
-                          //@ts-ignore
+                          // @ts-expect-error Semiotic typedefs are wrong,
+                          // we can use label as string here
                           oLabel={(label: string) => (
                             <text textAnchor="end">{label}</text>
                           )}
-                          //@ts-ignore
+                          // @ts-expect-error Semiotic typedefs are wrong,
+                          // we can use array of strings, when type of chart is "clusterbar"
                           rAccessor={accessors}
                           size={[
                             isScrollable ? CHART_MIN_WIDTH : width,
@@ -158,21 +160,20 @@ export function BarChartCluster({
                           ]}
                           style={({ rName, rIndex, renderKey }) => {
                             const color = colors.dataViz[rIndex];
-                            if (highlightedSegmentKey) {
+                            if (highlightedSegmentKey)
                               return {
                                 fill:
                                   highlightedSegmentKey !== renderKey + 1
                                     ? highlightFade(color)
                                     : color,
                               };
-                            } else {
-                              return {
-                                fill:
-                                  highlighted && highlighted.label !== rName
-                                    ? highlightFade(color)
-                                    : color,
-                              };
-                            }
+
+                            return {
+                              fill:
+                                highlighted && highlighted.label !== rName
+                                  ? highlightFade(color)
+                                  : color,
+                            };
                           }}
                           axes={[
                             {
