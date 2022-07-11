@@ -48,6 +48,7 @@ import {
   riderAdmissionReasons,
   riderCurrentPopulation,
   riderPopulationHistorical,
+  riderRateByCategoryAndDemographics,
   sentencePopulationCurrent,
   sentenceTypesCurrent,
 } from "../metricsApi";
@@ -65,6 +66,7 @@ import { ERROR_MESSAGES } from "../constants";
 import { NOFILTER_KEY, TOTAL_KEY } from "../demographics";
 import { colors } from "../UiLibrary";
 import RootStore from "../DataStore/RootStore";
+import RateByCategoryAndDemographicsMetric from "./RateByCategoryAndDemographicsMetric";
 
 type MetricMappingFactoryOptions = {
   localityLabelMapping?: TenantContent["localities"];
@@ -592,16 +594,16 @@ export default function createMetricMapping({
       case "RidersReincarcerationRate":
         metricMapping.set(
           metricType,
-          new RecidivismRateMetric({
+          new RateByCategoryAndDemographicsMetric({
             ...metadata,
             demographicFilter,
             id: metricType,
             tenantId,
-            defaultDemographicView: "total",
+            defaultDemographicView: "raceOrEthnicity",
             defaultLocalityId: undefined,
             localityLabels: undefined,
-            dataTransformer: recidivismRateAllFollowup,
-            sourceFileName: "recidivism_rates_by_cohort_by_year",
+            dataTransformer: riderRateByCategoryAndDemographics,
+            sourceFileName: "rider_reincarceration_rates",
             rootStore,
           })
         );

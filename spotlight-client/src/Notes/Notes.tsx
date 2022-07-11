@@ -31,7 +31,6 @@ const Wrapper = styled.ol`
 
 const Item = styled.li`
   margin-bottom: 1em;
-  padding-left: 0.5em;
 `;
 
 /**

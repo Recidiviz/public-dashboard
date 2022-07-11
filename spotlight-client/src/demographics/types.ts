@@ -76,3 +76,6 @@ export function isDemographicView(x: string): x is DemographicView {
 export const RiderValueList = ["TERMER", "RIDER", "PAROLE_BOARD_HOLD"] as const;
 export type RiderValue = typeof RiderValueList[number];
 export type RiderIdentifier = TotalIdentifier | UnknownIdentifier | RiderValue;
+
+export const RiderCohortList = ["Termers", "Riders", "Probation"];
+export type RiderCohort = typeof RiderCohortList[number];

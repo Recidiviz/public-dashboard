@@ -30,10 +30,12 @@ import {
   SentenceTypeByLocationRecord,
   SupervisionSuccessRateMonthlyRecord,
   HistoricalPopulationByCategoryRecord,
+  RateByCategoryAndDemographicsRecord,
 } from "../metricsApi";
 import type SystemNarrative from "./SystemNarrative";
 import RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
 import type Metric from "./Metric";
+import { RiderCohort } from "../demographics";
 
 /**
  * Describes the hydration state and mechanism,
@@ -58,7 +60,8 @@ export type MetricRecord =
   | RecidivismRateRecord
   | SentenceTypeByLocationRecord
   | SupervisionSuccessRateMonthlyRecord
-  | HistoricalPopulationByCategoryRecord;
+  | HistoricalPopulationByCategoryRecord
+  | RateByCategoryAndDemographicsRecord;
 
 export type MetricMapping = Map<
   MetricTypeId | RidersMetricTypeId,
@@ -73,6 +76,12 @@ export type DemographicCategoryRecords = {
     value: number;
     pct: number;
   }[];
+};
+
+export type RateByCategoryAndDemographicsRecords = {
+  [Property in RiderCohort]: number;
+} & {
+  label: string;
 };
 
 export type DemographicCategoryRateRecords = DemographicCategoryRecords & {

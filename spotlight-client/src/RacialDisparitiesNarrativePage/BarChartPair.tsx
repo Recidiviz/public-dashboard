@@ -22,6 +22,7 @@ import styled from "styled-components/macro";
 import { ItemToHighlight, ProportionalBar } from "../charts";
 import { DemographicCategoryRecords, Unknowns } from "../contentModels/types";
 import VizControls, { VizControlsProps } from "../VizControls";
+import VizNotes from "../VizNotes";
 
 const CHART_HEIGHT = 165;
 const CHART_HEIGHT_MOBILE = 100;
@@ -109,6 +110,7 @@ export default function BarChartPair({
         highlighted={highlightedCategory}
         setHighlighted={setHighlightedCategory}
       />
+      {unknowns && <VizNotes unknowns={unknowns} download={download} />}
     </Wrapper>
   );
 }
