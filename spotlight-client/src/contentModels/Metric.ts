@@ -243,8 +243,16 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     if (Array.isArray(unknowns)) {
       formattedUnknowns = (unknowns as (UnknownByDate | UnknownByCohort)[])
         .map((entry) => {
-          const formattedCounts = formatUnknownCounts(entry.unknowns);
+          let formattedCounts: string;
           let label: string;
+
+          if ("category" in entry.unknowns) {
+            formattedCounts = `category (${formatAsNumber(
+              entry.unknowns.category
+            )})`;
+          } else {
+            formattedCounts = formatUnknownCounts(entry.unknowns);
+          }
 
           if ("date" in entry) {
             label = format(entry.date, "MMM d y");

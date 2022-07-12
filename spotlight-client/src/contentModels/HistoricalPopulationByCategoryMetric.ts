@@ -22,7 +22,7 @@ import { DataSeries } from "../charts";
 import { RiderIdentifier, riderCategories } from "../demographics";
 import { HistoricalPopulationByCategoryRecord } from "../metricsApi";
 import { colors } from "../UiLibrary";
-import { hasUnknowns } from "./unknowns";
+import { countUnknownsByCategory, hasUnknowns } from "./unknowns";
 import getMissingMonths from "./getMissingMonths";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
 import { UnknownsByDate } from "./types";
@@ -138,20 +138,20 @@ export default class HistoricalPopulationByCategoryMetric extends Metric<Histori
     }));
   }
 
-  // get unknowns(): UnknownsByDate | undefined {
-  //   const { allRecords } = this;
+  get unknowns(): UnknownsByDate | undefined {
+    const { allRecords } = this;
 
-  //   if (!allRecords) return undefined;
+    if (!allRecords) return undefined;
 
-  //   const countsByDate = groups(allRecords, (r) => r.date)
-  //     .map(([date, records]) => ({
-  //       date,
-  //       unknowns: countRiderUnknowns(records, (groupedRecords) =>
-  //         sum(groupedRecords, (r) => r.count)
-  //       ),
-  //     }))
-  //     .filter((item) => hasUnknowns(item.unknowns));
+    const countsByDate = groups(allRecords, (r) => r.date)
+      .map(([date, records]) => ({
+        date,
+        unknowns: countUnknownsByCategory(records, (groupedRecords) =>
+          sum(groupedRecords, (r) => r.count)
+        ),
+      }))
+      .filter((item) => hasUnknowns(item.unknowns));
 
-  //   return countsByDate.length ? countsByDate : undefined;
-  // }
+    return countsByDate.length ? countsByDate : undefined;
+  }
 }
