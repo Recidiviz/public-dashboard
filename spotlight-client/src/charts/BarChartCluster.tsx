@@ -99,7 +99,6 @@ export function BarChartCluster({
   getTooltipProps,
 }: BarChartClucterProps): React.ReactElement {
   const isMobile = useBreakpoint(false, ["mobile-", true]);
-
   const chartTransitions = useTransition(
     { demographicView, data },
     (item) => item.demographicView,
@@ -113,6 +112,13 @@ export function BarChartCluster({
     (d) => setHighlightedSegmentKey(d ? d.renderKey + 1 : undefined),
     [setHighlightedSegmentKey]
   );
+
+  const itemsToDisplay = accessors.map((accessor, index) => {
+    return {
+      label: accessor,
+      color: colors.dataViz[index],
+    };
+  });
 
   return (
     <MeasureWidth>
@@ -193,12 +199,7 @@ export function BarChartCluster({
                   <LegendWrapper>
                     <ColorLegend
                       highlighted={highlighted}
-                      items={accessors.map((accessor, index) => {
-                        return {
-                          label: accessor,
-                          color: colors.dataViz[index],
-                        };
-                      })}
+                      items={itemsToDisplay}
                       setHighlighted={setHighlighted}
                     />
                   </LegendWrapper>
