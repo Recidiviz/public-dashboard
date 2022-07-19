@@ -69,7 +69,7 @@ const content: TenantContent = {
   docName: "Idaho Department of Corrections",
   docLink: "https://www.idoc.idaho.gov/",
   description: "Explore data from Idaho’s corrections system.",
-  ctaCopy: `<a href="https://www.cor.pa.gov" target="_blank" rel="noopener noreferrer">The Idaho Department of Corrections</a> aims to protect the public, our staff, 
+  ctaCopy: `<a href="https://www.idoc.idaho.gov/" target="_blank" rel="noopener noreferrer">The Idaho Department of Corrections</a> aims to protect the public, our staff, 
   and those within our custody and supervision through safety, accountability, partnerships and providing opportunities for change.`,
   coBrandingCopy:
     'Produced in collaboration with <a href="https://www.idoc.idaho.gov">the Idaho Department of Correction</a>.',
