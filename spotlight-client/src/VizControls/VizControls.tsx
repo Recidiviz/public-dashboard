@@ -51,6 +51,10 @@ const FilterWrapper = styled.div`
   &:last-child {
     margin-right: 0;
   }
+
+  &:empty {
+    margin-right: 0;
+  }
 `;
 
 const Button = styled.button`
