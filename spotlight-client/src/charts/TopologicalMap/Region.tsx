@@ -16,7 +16,6 @@
 // =============================================================================
 
 import { geoCentroid } from "d3-geo";
-import { rem } from "polished";
 import React, { useState } from "react";
 import { Geography, Marker, GeographyProps } from "react-simple-maps";
 import { Spring } from "react-spring/renderprops.cjs";
@@ -40,9 +39,6 @@ const RegionGeography = styled(Geography)`
 const RegionMarker = styled(Marker)``;
 
 const RegionLabel = styled.text`
-  font-size: ${rem(18)};
-  font-weight: 600;
-  letter-spacing: -0.015em;
   text-anchor: middle;
 `;
 

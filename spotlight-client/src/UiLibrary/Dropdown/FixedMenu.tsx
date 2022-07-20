@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import { rem } from "polished";
 import React from "react";
 import { Portal } from "react-portal";
@@ -22,22 +23,19 @@ import { useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { colors } from "..";
 import FixedBottomPanel from "../FixedBottomPanel";
-import { typefaces } from "../typography";
 import { OptionItemContents } from "./common";
 import { MenuProps } from "./types";
 
 const FixedMenuLabel = styled.div`
+  ${typography.Serif24}
   align-self: center;
   color: ${colors.caption};
-  font-family: ${typefaces.display};
-  font-size: ${rem(26)};
-  letter-spacing: -0.015em;
   margin: ${rem(24)} 0;
 `;
 
 const FixedOptionList = styled.ul`
+  ${typography.Sans16}
   color: ${colors.textLight};
-  font-size: ${rem(18)};
   overflow: auto;
   text-align: center;
   width: 100%;

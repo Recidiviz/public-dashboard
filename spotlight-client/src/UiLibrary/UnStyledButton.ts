@@ -15,13 +15,15 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import styled from "styled-components/macro";
 
 export const UnStyledButton = styled.button.attrs({ type: "button" })`
+  ${typography.Sans16}
+
   background: none;
   cursor: pointer;
-  font-size: 1rem;
-  margin: 0;
-  padding: 0;
+  margin: none;
+  padding: none;
   border: none;
 `;

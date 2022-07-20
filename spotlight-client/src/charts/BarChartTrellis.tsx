@@ -33,12 +33,6 @@ export const singleChartHeight = 300;
 
 const MARGIN = { top: 56, bottom: 80, left: 48, right: 0 };
 
-const ChartTitle = styled.text`
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  text-anchor: start;
-`;
-
 const ColumnLabel = styled.text`
   text-anchor: middle;
 `;
@@ -158,7 +152,7 @@ export function BarChartTrellis({
                         };
                       }}
                       // Semiotic centers titles by default; this x offset will align left
-                      title={<ChartTitle x={0 - width / 2}>{label}</ChartTitle>}
+                      title={<text x={0 - width / 2}>{label}</text>}
                       type="bar"
                       additionalDefs={hatchDefs}
                     />

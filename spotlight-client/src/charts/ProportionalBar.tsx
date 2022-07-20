@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import { sum } from "d3-array";
 import React from "react";
 import OrdinalFrame from "semiotic/lib/OrdinalFrame";
@@ -54,9 +55,9 @@ const ProportionalBarMetadata = styled.figcaption`
 `;
 
 const ProportionalBarTitle = styled.div`
+  ${typography.Sans12}
   color: ${colors.caption};
   flex: 0 1 auto;
-  font-size: 12px;
   margin-right: 15px;
 `;
 

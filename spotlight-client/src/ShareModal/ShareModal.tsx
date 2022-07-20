@@ -15,6 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React, { useState } from "react";
@@ -38,10 +39,10 @@ import {
   Modal,
   ModalHeading,
   SpotlightModalProps,
-  typefaces,
 } from "../UiLibrary";
 
 const Button = styled.button.attrs({ type: "button" })`
+  ${typography.Sans12}
   align-items: center;
   background-color: ${colors.link};
   border-radius: 3em;
@@ -49,7 +50,6 @@ const Button = styled.button.attrs({ type: "button" })`
   color: ${colors.textLight};
   cursor: pointer;
   display: flex;
-  font-size: ${rem(11)};
   justify-content: center;
   padding: ${rem(12)} ${rem(16)};
   transition: background-color ${animation.defaultDuration}ms;
@@ -78,9 +78,8 @@ const ShareActions = styled.div`
 `;
 
 const UrlText = styled.div`
-  font-family: ${typefaces.display};
-  font-size: ${rem(21)};
-  letter-spacing: -0.04em;
+  ${typography.Serif24}
+
   padding-bottom: ${rem(16)};
 `;
 
@@ -116,16 +115,15 @@ const IconFacebook = styled.img.attrs({
 })``;
 
 const CopyConfirmation = styled(animated.div).attrs({ role: "status" })`
+  ${typography.Sans12}
   bottom: ${rem(4)};
-  font-size: ${rem(11)};
   position: absolute;
 `;
 
 const IncludeSectionLabel = styled.label`
-  align-items: baseline;
+  ${typography.Sans14}
+  align-items: center;
   display: flex;
-  font-size: ${rem(14)};
-  line-height: 1.4;
 `;
 
 const SectionTitle = styled.span`

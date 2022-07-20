@@ -15,12 +15,13 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { typography } from "@recidiviz/design-system";
 import useBreakpoint from "@w11r/use-breakpoint";
 import { useSelect, UseSelectProps } from "downshift";
 import { rem } from "polished";
 import React, { useState } from "react";
 import { animated, useSpring } from "react-spring/web.cjs";
-import styled from "styled-components/macro";
+import styled, { css } from "styled-components/macro";
 import { colors } from "..";
 import zIndex from "../zIndex";
 import { BUTTON_HEIGHT } from "./common";
@@ -37,21 +38,32 @@ const DropdownLabel = styled.label`
   display: none;
 `;
 
+const linkButtonKindStyles = css`
+  ${typography.Sans16}
+  border: none;
+  padding: 0 0;
+`;
+
+const defaultButtonKindStyles = css`
+  ${typography.Sans14}
+  border: 1px solid ${colors.rule};
+  padding: 0 ${rem(16)};
+`;
+
 const DropdownButton = styled(animated.button)<{
   kind: DropdownCommonProps["buttonKind"];
 }>`
   align-items: center;
   background: ${colors.buttonBackground};
-  border: ${(props) =>
-    props.kind !== "link" ? `1px solid ${colors.rule}` : "none"};
   border-radius: ${rem(BUTTON_HEIGHT / 2)};
   color: ${colors.text};
   cursor: pointer;
   display: flex;
   height: ${rem(BUTTON_HEIGHT)};
-  font-size: ${(props) => (props.kind === "link" ? "1em" : rem(13))};
-  padding: 0 ${(props) => (props.kind === "link" ? 0 : rem(16))};
   z-index: ${zIndex.control};
+
+  ${(props) =>
+    props.kind === "link" ? linkButtonKindStyles : defaultButtonKindStyles}
 
   &:focus {
     outline: none;

@@ -15,7 +15,12 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { TooltipTrigger, Icon, IconSVG } from "@recidiviz/design-system";
+import {
+  TooltipTrigger,
+  Icon,
+  IconSVG,
+  typography,
+} from "@recidiviz/design-system";
 import HTMLReactParser from "html-react-parser";
 import { rem } from "polished";
 import React, { useState } from "react";
@@ -49,12 +54,12 @@ const FilterWrapper = styled.div`
 `;
 
 const Button = styled.button`
+  ${typography.Sans14}
   background: none;
   border: none;
   color: ${colors.link};
   cursor: pointer;
-  font-size: ${rem(14)};
-  font-weight: 500;
+  margin-bottom: ${rem(16)};
   padding: none;
 `;
 
@@ -65,9 +70,7 @@ const ButtonIcon = styled.img`
   width: ${rem(16)};
 `;
 
-const MethodologyCopy = styled(CopyBlock)`
-  line-height: 1.7;
-`;
+const MethodologyCopy = styled(CopyBlock)``;
 
 export interface VizControlsProps {
   filters: React.ReactNode[];
