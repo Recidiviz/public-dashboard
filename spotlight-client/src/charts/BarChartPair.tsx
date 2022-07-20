@@ -19,7 +19,7 @@ import useBreakpoint from "@w11r/use-breakpoint";
 import { rem } from "polished";
 import React, { useState } from "react";
 import styled from "styled-components/macro";
-import { ItemToHighlight, ProportionalBar } from "../charts";
+import { ItemToHighlight, ProportionalBar } from ".";
 import { DemographicCategoryRecords, Unknowns } from "../contentModels/types";
 import VizControls, { VizControlsProps } from "../VizControls";
 import VizNotes from "../VizNotes";

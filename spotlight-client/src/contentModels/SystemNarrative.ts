@@ -23,8 +23,6 @@ import {
 import Metric from "./Metric";
 import { MetricMapping, MetricRecord } from "./types";
 
-type NarrativeTypeId = SystemNarrativeTypeId;
-
 export type SystemNarrativeSection = {
   title: string;
   body: string;
@@ -32,7 +30,7 @@ export type SystemNarrativeSection = {
 };
 
 type ConstructorArgs = {
-  id: NarrativeTypeId;
+  id: SystemNarrativeTypeId;
   title: string;
   previewTitle?: string;
   preview?: MetricTypeId;
@@ -41,7 +39,7 @@ type ConstructorArgs = {
 };
 
 export default class SystemNarrative {
-  readonly id: NarrativeTypeId;
+  readonly id: SystemNarrativeTypeId;
 
   readonly title: string;
 
@@ -75,7 +73,7 @@ export function createSystemNarrative({
   content,
   allMetrics,
 }: {
-  id: NarrativeTypeId;
+  id: SystemNarrativeTypeId;
   content: SystemNarrativeContent;
   allMetrics: MetricMapping;
 }): SystemNarrative {

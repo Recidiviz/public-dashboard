@@ -82,7 +82,7 @@ const LegendWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-type BarChartClucterProps = {
+type BarChartClusterProps = {
   demographicView: string;
   data: RateByCategoryAndDemographicsRecords[];
   accessors: string[];
@@ -97,7 +97,7 @@ export function BarChartCluster({
   data,
   accessors,
   getTooltipProps,
-}: BarChartClucterProps): React.ReactElement {
+}: BarChartClusterProps): React.ReactElement {
   const isMobile = useBreakpoint(false, ["mobile-", true]);
   const chartTransitions = useTransition(
     { demographicView, data },

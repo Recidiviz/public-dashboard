@@ -202,6 +202,22 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
                   </NavLink>
                 </NavMenuItem>
               )}
+              {tenant.ridersNarrative && (
+                <NavMenuItem>
+                  <NavLink
+                    onClick={() => setExpanded(false)}
+                    to={getUrlForResource({
+                      page: "narrative",
+                      params: {
+                        tenantId: tenant.id,
+                        narrativeTypeId: "Riders",
+                      },
+                    })}
+                  >
+                    {tenant.ridersNarrative.title}
+                  </NavLink>
+                </NavMenuItem>
+              )}
               {tenant && (
                 <NavMenuItem>
                   <ExternalNavLink href={tenant.feedbackUrl}>

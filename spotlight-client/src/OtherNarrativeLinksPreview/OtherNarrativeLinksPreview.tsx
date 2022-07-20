@@ -33,7 +33,7 @@ import SystemNarrative from "../contentModels/SystemNarrative";
 import { Narrative } from "../contentModels/types";
 import MetricVizMapper from "../MetricVizMapper";
 import ModelHydrator from "../ModelHydrator";
-import BarChartPair from "../RacialDisparitiesNarrativePage/BarChartPair";
+import BarChartPair from "../charts/BarChartPair";
 import { useDataStore } from "../StoreProvider";
 import { breakpoints, colors, fluidFontSizeStyles } from "../UiLibrary";
 

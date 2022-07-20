@@ -19,7 +19,7 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import CategoriesByDemographicMetric from "../contentModels/CategoriesByDemographicMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
-import BarChartPair from "../RacialDisparitiesNarrativePage/BarChartPair";
+import BarChartPair from "../charts/BarChartPair";
 import withMetricHydrator from "../withMetricHydrator";
 
 type VizDemographicsByCategoryProps = {
