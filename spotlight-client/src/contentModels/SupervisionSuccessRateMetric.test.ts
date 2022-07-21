@@ -21,7 +21,6 @@ import JsZip from "jszip";
 import { advanceTo, clear } from "jest-date-mock";
 import { runInAction, when } from "mobx";
 import { stripHtml } from "string-strip-html";
-import { DemographicView } from "../demographics";
 import {
   fetchAndTransformMetric,
   SupervisionSuccessRateMonthlyRecord,
