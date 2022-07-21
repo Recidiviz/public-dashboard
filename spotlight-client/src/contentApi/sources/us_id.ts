@@ -392,12 +392,6 @@ const content: TenantContent = {
           metricTypeId: "ProbationPopulationHistorical",
         },
         {
-          title: "What happens after probation?",
-          body:
-            "After probation, a person may be successfully discharged or revoked to prison. Take a look at how the rate of successful probation completion has changed over time, and how the overall rate of successful probation completion varies by demographic.",
-          metricTypeId: "ProbationSuccessHistorical",
-        },
-        {
           title: "Why do revocations happen?",
           body:
             "Revocations happen when a person on probation violates a condition of their supervision or commits a new crime. In Idaho, probation revocations fall into one of three categories: technical violation, new offense, and absconsion.",
@@ -423,12 +417,6 @@ const content: TenantContent = {
           body:
             "Broadly speaking, increased activity in earlier parts of the criminal justice system (such as arrests and sentencing) will result in increases in the parole population. Changes in parole sentence lengths, earlier releases from prison, etc. may also contribute to the rise and fall of this number.",
           metricTypeId: "ParolePopulationHistorical",
-        },
-        {
-          title: "What happens after parole?",
-          body:
-            "After parole, a person may be successfully discharged or revoked to prison. Take a look at how the rate of successful parole completion has changed over time, and how the overall rate of successful parole completion varies by demographic.",
-          metricTypeId: "ParoleSuccessHistorical",
         },
         {
           title: "Why do revocations happen?",

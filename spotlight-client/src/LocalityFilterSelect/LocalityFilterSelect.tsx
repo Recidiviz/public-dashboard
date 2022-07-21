@@ -38,6 +38,11 @@ const LocalityFilterSelect: React.FC<LocalityFilterSelectProps> = ({
     metric.localityId = newFilter;
   });
 
+  // if there are no locality entries, don't display the dropdown. We are skipping this for Idaho launch. See https://github.com/Recidiviz/public-dashboard/issues/582
+  if (metric.localityLabels.entries.length === 0) {
+    return null;
+  }
+
   return (
     <Dropdown
       label={metric.localityLabels.label}
