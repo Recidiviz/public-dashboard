@@ -19,9 +19,10 @@ import useBreakpoint from "@w11r/use-breakpoint";
 import { rem } from "polished";
 import React, { useState } from "react";
 import styled from "styled-components/macro";
-import { ItemToHighlight, ProportionalBar } from "../charts";
-import { DemographicCategoryRecords } from "../contentModels/types";
+import { ItemToHighlight, ProportionalBar } from ".";
+import { DemographicCategoryRecords, Unknowns } from "../contentModels/types";
 import VizControls, { VizControlsProps } from "../VizControls";
+import VizNotes from "../VizNotes";
 
 const CHART_HEIGHT = 165;
 const CHART_HEIGHT_MOBILE = 100;
@@ -42,6 +43,7 @@ type BarChartPairProps = {
   download?: () => void;
   filters?: VizControlsProps["filters"];
   methodology?: string;
+  unknowns?: Unknowns;
   preview?: boolean;
 };
 
@@ -50,6 +52,7 @@ export default function BarChartPair({
   download,
   filters,
   methodology,
+  unknowns,
   preview,
 }: BarChartPairProps): React.ReactElement {
   const [highlightedCategory, setHighlightedCategory] = useState<
@@ -97,6 +100,7 @@ export default function BarChartPair({
         title={data[0].label}
         height={chartHeight}
         highlighted={highlightedCategory}
+        showLegend={false}
       />
       <Spacer />
       <ProportionalBar
@@ -106,6 +110,7 @@ export default function BarChartPair({
         highlighted={highlightedCategory}
         setHighlighted={setHighlightedCategory}
       />
+      {unknowns && <VizNotes unknowns={unknowns} download={download} />}
     </Wrapper>
   );
 }

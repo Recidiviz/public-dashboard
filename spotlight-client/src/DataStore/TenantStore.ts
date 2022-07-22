@@ -24,6 +24,7 @@ import {
   TenantId,
 } from "../contentApi/types";
 import RacialDisparitiesNarrative from "../contentModels/RacialDisparitiesNarrative";
+import RidersNarrative from "../contentModels/RidersNarrative";
 import type SystemNarrative from "../contentModels/SystemNarrative";
 import Tenant, { createTenant } from "../contentModels/Tenant";
 import type RootStore from "./RootStore";
@@ -104,12 +105,17 @@ export default class TenantStore {
   get currentNarrative():
     | SystemNarrative
     | RacialDisparitiesNarrative
+    | RidersNarrative
     | undefined {
     const { currentNarrativeTypeId, currentTenant } = this;
     if (!currentNarrativeTypeId || !currentTenant) return undefined;
 
     if (isSystemNarrativeTypeId(currentNarrativeTypeId)) {
       return currentTenant.systemNarratives[currentNarrativeTypeId];
+    }
+
+    if (currentNarrativeTypeId === "Riders") {
+      return currentTenant.ridersNarrative;
     }
 
     return currentTenant.racialDisparitiesNarrative;

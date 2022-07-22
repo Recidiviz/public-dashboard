@@ -18,7 +18,7 @@
 import { rollup } from "d3-array";
 import { UNKNOWN_KEY } from "../demographics";
 import { DemographicFields } from "../metricsApi";
-import { UnknownCounts } from "./types";
+import { UnknownCounts, UnknownCountsByCategory } from "./types";
 
 export function countUnknowns<Record extends DemographicFields>(
   allRecords: Record[],
@@ -32,6 +32,17 @@ export function countUnknowns<Record extends DemographicFields>(
     ageBucket:
       rollup(allRecords, reducer, (r) => r.ageBucket).get(UNKNOWN_KEY) || 0,
   };
+  return unknownCounts;
+}
+
+export function countUnknownsByCategory<Record extends { category: string }>(
+  allRecords: Record[],
+  reducer: (records: Record[]) => number
+): UnknownCountsByCategory {
+  const unknownCounts = {
+    category:
+      rollup(allRecords, reducer, (r) => r.category).get(UNKNOWN_KEY) || 0,
+  };
 
   return unknownCounts;
 }
@@ -39,6 +50,8 @@ export function countUnknowns<Record extends DemographicFields>(
 /**
  * Returns true if the UnknownCounts object contains any nonzero values.
  */
-export function hasUnknowns(unknowns: UnknownCounts): boolean {
+export function hasUnknowns(
+  unknowns: UnknownCounts | UnknownCountsByCategory
+): boolean {
   return Object.values(unknowns).some((val) => val);
 }

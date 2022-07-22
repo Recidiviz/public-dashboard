@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { ValuesType } from "utility-types";
+import { RiderCategory } from "../demographics";
 import {
   AgeIdentifier,
   GenderIdentifier,
@@ -54,3 +55,10 @@ export function recordMatchesLocality(
   if (locality === NOFILTER_KEY) return () => true;
   return (record) => record.locality === locality;
 }
+
+export const getLabelByIdentifier = (
+  identifier: string,
+  options: RiderCategory[]
+): string =>
+  options.find((option) => option.identifier === identifier)?.label ??
+  "no label";

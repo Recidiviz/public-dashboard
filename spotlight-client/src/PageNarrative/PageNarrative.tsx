@@ -20,7 +20,7 @@ import useBreakpoint from "@w11r/use-breakpoint";
 import React from "react";
 import { isSystemNarrativeTypeId, NarrativeTypeId } from "../contentApi/types";
 import NarrativeFooter from "../NarrativeFooter";
-import RacialDisparitiesNarrativePage from "../RacialDisparitiesNarrativePage";
+import OtherNarrativesPageContainer from "../OtherNarrativesPageContainer";
 import { NarrativesSlug } from "../routerUtils/types";
 import SystemNarrativePage from "../SystemNarrativePage";
 import withRouteSync from "../withRouteSync";
@@ -41,7 +41,7 @@ const PageNarrative: React.FC<PageNarrativeProps> = ({ narrativeTypeId }) => {
       {isSystemNarrativeTypeId(narrativeTypeId) ? (
         <SystemNarrativePage />
       ) : (
-        <RacialDisparitiesNarrativePage />
+        <OtherNarrativesPageContainer />
       )}
       {showFooter && <NarrativeFooter />}
     </>

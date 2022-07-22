@@ -15,16 +15,29 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-export * from "./HistoricalPopulationByCategoryRecord";
-export * from "./RateByCategoryAndDemographicsRecord";
-export * from "./DemographicsByCategoryRecord";
-export * from "./HistoricalPopulationBreakdownRecord";
-export * from "./PopulationBreakdownByLocationRecord";
-export * from "./ProgramParticipationCurrentRecord";
-export * from "./RecidivismRateRecord";
-export * from "./SentenceTypeByLocationRecord";
-export * from "./SupervisionSuccessRateDemographicsRecord";
-export * from "./SupervisionSuccessRateMonthlyRecord";
-export * from "./fetchMetrics";
-export * from "./types";
-export * from "./utils";
+import { parseISO } from "date-fns";
+import { ValuesType } from "utility-types";
+import { RawMetricData } from "./fetchMetrics";
+import { RiderIdentifier } from "../demographics/types";
+
+export type HistoricalPopulationByCategoryRecord = {
+  date: Date;
+  count: number;
+  category: RiderIdentifier;
+};
+
+function createHistoricalPopulationByCategoryRecord(
+  record: ValuesType<RawMetricData>
+) {
+  return {
+    date: parseISO(record.population_date),
+    count: Number(record.value),
+    category: record.variable as RiderIdentifier,
+  };
+}
+
+export function riderPopulationHistorical(
+  rawRecords: RawMetricData
+): HistoricalPopulationByCategoryRecord[] {
+  return rawRecords.map(createHistoricalPopulationByCategoryRecord);
+}

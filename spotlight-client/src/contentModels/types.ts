@@ -15,7 +15,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { MetricTypeId, SystemNarrativeTypeId } from "../contentApi/types";
+import {
+  MetricTypeId,
+  RidersMetricTypeId,
+  SystemNarrativeTypeId,
+} from "../contentApi/types";
 import {
   DemographicFieldKey,
   DemographicsByCategoryRecord,
@@ -25,10 +29,13 @@ import {
   RecidivismRateRecord,
   SentenceTypeByLocationRecord,
   SupervisionSuccessRateMonthlyRecord,
+  HistoricalPopulationByCategoryRecord,
+  RateByCategoryAndDemographicsRecord,
 } from "../metricsApi";
 import type SystemNarrative from "./SystemNarrative";
 import RacialDisparitiesNarrative from "./RacialDisparitiesNarrative";
 import type Metric from "./Metric";
+import { RiderCohort } from "../demographics";
 
 /**
  * Describes the hydration state and mechanism,
@@ -52,9 +59,14 @@ export type MetricRecord =
   | ProgramParticipationCurrentRecord
   | RecidivismRateRecord
   | SentenceTypeByLocationRecord
-  | SupervisionSuccessRateMonthlyRecord;
+  | SupervisionSuccessRateMonthlyRecord
+  | HistoricalPopulationByCategoryRecord
+  | RateByCategoryAndDemographicsRecord;
 
-export type MetricMapping = Map<MetricTypeId, Metric<MetricRecord>>;
+export type MetricMapping = Map<
+  MetricTypeId | RidersMetricTypeId,
+  Metric<MetricRecord>
+>;
 
 export type DemographicCategoryRecords = {
   label: string;
@@ -64,6 +76,12 @@ export type DemographicCategoryRecords = {
     value: number;
     pct: number;
   }[];
+};
+
+export type RateByCategoryAndDemographicsRecords = {
+  [Property in RiderCohort]: number;
+} & {
+  label: string;
 };
 
 export type DemographicCategoryRateRecords = DemographicCategoryRecords & {
@@ -76,7 +94,11 @@ export type LocalityDataMapping = Record<
 >;
 
 export type UnknownCounts = { [key in DemographicFieldKey]: number };
-export type UnknownByDate = { date: Date; unknowns: UnknownCounts };
+export type UnknownCountsByCategory = { category: number };
+export type UnknownByDate = {
+  date: Date;
+  unknowns: UnknownCounts | UnknownCountsByCategory;
+};
 export type UnknownByCohort = { cohort: number; unknowns: UnknownCounts };
 export type UnknownsByDate = UnknownByDate[];
 export type UnknownsByCohort = UnknownByCohort[];

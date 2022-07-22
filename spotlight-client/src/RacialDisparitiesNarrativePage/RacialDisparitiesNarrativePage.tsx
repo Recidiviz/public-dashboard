@@ -37,7 +37,7 @@ import {
   NarrativeTitle,
   wrapExpandedVariable,
 } from "../UiLibrary";
-import BarChartPair from "./BarChartPair";
+import BarChartPair from "../charts/BarChartPair";
 import RaceOrEthnicityFilterSelect from "./RaceOrEthnicityFilterSelect";
 import SupervisionTypeFilterSelect from "./SupervisionTypeFilterSelect";
 

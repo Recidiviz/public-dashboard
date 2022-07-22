@@ -64,6 +64,13 @@ const totalCategories: TotalCategory[] = [
   { identifier: TOTAL_KEY, label: "Total" },
 ];
 
+export type RiderCategory = { label: string; identifier: string };
+export const riderCategories: RiderCategory[] = [
+  { identifier: "RIDER", label: "Riders" },
+  { identifier: "TERMER", label: "Termers" },
+  { identifier: "PAROLE_BOARD_HOLD", label: "Parole Board Hold" },
+];
+
 export type RaceOrEthnicityCategory = {
   label: string;
   identifier: RaceOrEthnicityValue;

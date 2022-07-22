@@ -17,15 +17,15 @@
 
 import React, { useCallback } from "react";
 import { PatternLines } from "@vx/pattern";
-import { CommonDataPoint } from "./types";
+import { ItemToDisplay } from "./types";
 import { highlightFade } from "./utils";
 
 export function useCreateHatchDefs(): {
-  getHatchDefs: (data: CommonDataPoint[], hlabel?: string) => React.ReactNode;
+  getHatchDefs: (data: ItemToDisplay[]) => React.ReactNode;
   generateHatchFill: (label: string, highlightedLabel?: string) => string;
 } {
   const getHatchDefs = useCallback((data) => {
-    return data.flatMap((d: CommonDataPoint) => [
+    return data.flatMap((d: ItemToDisplay) => [
       <PatternLines
         id={d.label.replace(/[^\w\d]/g, "")}
         height={5}

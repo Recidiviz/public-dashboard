@@ -153,6 +153,22 @@ const content: ExhaustiveTenantContent = {
       name: "test ParoleProgrammingCurrent name",
       methodology: "test ParoleProgrammingCurrent methodology",
     },
+    RidersPopulationHistorical: {
+      name: "test RidersPopulationHistorical name",
+      methodology: "test RidersPopulationHistorical methodology",
+    },
+    RidersPopulationCurrent: {
+      name: "test RidersPopulationCurrent name",
+      methodology: "test RidersPopulationCurrent methodology",
+    },
+    RidersOriginalCharge: {
+      name: "test RidersOriginalCharge name",
+      methodology: "test RidersOriginalCharge methodology",
+    },
+    RidersReincarcerationRate: {
+      name: "test RidersReincarcerationRate name",
+      methodology: "test RidersReincarcerationRate methodology",
+    },
   },
   systemNarratives: {
     Prison: {
@@ -376,6 +392,36 @@ const content: ExhaustiveTenantContent = {
         methodology: "programming methodology",
       },
     },
+  },
+  ridersNarrative: {
+    title: "test rider narrative",
+    introduction: `introduction copy`,
+    sections: [
+      {
+        title: "test RidersPopulationHistorical title",
+        body: "test RidersPopulationHistorical body",
+        type: "metric",
+        metricTypeId: "RidersPopulationHistorical",
+      },
+      {
+        title: "test RidersPopulationCurrent title",
+        body: "test RidersPopulationCurrent body",
+        type: "metric",
+        metricTypeId: "RidersPopulationCurrent",
+      },
+      {
+        title: "test RidersOriginalCharge title",
+        body: "test RidersOriginalCharge body",
+        type: "metric",
+        metricTypeId: "RidersOriginalCharge",
+      },
+      {
+        title: "test RidersReincarcerationRate title",
+        body: "test RidersReincarcerationRate body",
+        type: "metric",
+        metricTypeId: "RidersReincarcerationRate",
+      },
+    ],
   },
 };
 

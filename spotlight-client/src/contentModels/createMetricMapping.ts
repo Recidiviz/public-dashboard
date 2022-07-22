@@ -16,7 +16,12 @@
 // =============================================================================
 
 import { assertNever } from "assert-never";
-import { MetricTypeIdList, TenantContent, TenantId } from "../contentApi/types";
+import {
+  MetricTypeIdList,
+  RidersMetricTypeIdList,
+  TenantContent,
+  TenantId,
+} from "../contentApi/types";
 import {
   parolePopulationCurrent,
   parolePopulationHistorical,
@@ -40,6 +45,10 @@ import {
   RawMetricData,
   recidivismRateAllFollowup,
   recidivismRateConventionalFollowup,
+  riderAdmissionReasons,
+  riderCurrentPopulation,
+  riderPopulationHistorical,
+  riderRateByCategoryAndDemographics,
   sentencePopulationCurrent,
   sentenceTypesCurrent,
 } from "../metricsApi";
@@ -51,10 +60,13 @@ import ProgramParticipationCurrentMetric from "./ProgramParticipationCurrentMetr
 import RecidivismRateMetric from "./RecidivismRateMetric";
 import SentenceTypeByLocationMetric from "./SentenceTypeByLocationMetric";
 import SupervisionSuccessRateMetric from "./SupervisionSuccessRateMetric";
+import HistoricalPopulationByCategoryMetric from "./HistoricalPopulationByCategoryMetric";
+import CategoriesByDemographicMetric from "./CategoriesByDemographicMetric";
 import { ERROR_MESSAGES } from "../constants";
 import { NOFILTER_KEY, TOTAL_KEY } from "../demographics";
 import { colors } from "../UiLibrary";
 import RootStore from "../DataStore/RootStore";
+import RateByCategoryAndDemographicsMetric from "./RateByCategoryAndDemographicsMetric";
 
 type MetricMappingFactoryOptions = {
   localityLabelMapping?: TenantContent["localities"];
@@ -83,7 +95,7 @@ export default function createMetricMapping({
   // to maintain type safety we iterate through all of the known metrics;
   // iterating through the metadata object's keys widens the type to `string`,
   // which prevents us from guaranteeing exhaustiveness at the type level
-  MetricTypeIdList.forEach((metricType) => {
+  [...MetricTypeIdList, ...RidersMetricTypeIdList].forEach((metricType) => {
     // not all metrics are required; metadata object is the source of truth
     // for which metrics to include
     const metadata = metadataMapping[metricType];
@@ -526,6 +538,72 @@ export default function createMetricMapping({
             dataTransformer: prisonStayLengths,
             sourceFileName: "incarceration_lengths_by_demographics",
             color: colors.dataVizNamed.teal,
+            rootStore,
+          })
+        );
+        break;
+      case "RidersPopulationHistorical":
+        metricMapping.set(
+          metricType,
+          new HistoricalPopulationByCategoryMetric({
+            ...metadata,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: undefined,
+            defaultLocalityId: undefined,
+            localityLabels: undefined,
+            dataTransformer: riderPopulationHistorical,
+            sourceFileName: "rider_term_average_population",
+            rootStore,
+          })
+        );
+        break;
+      case "RidersPopulationCurrent":
+        metricMapping.set(
+          metricType,
+          new CategoriesByDemographicMetric({
+            ...metadata,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: "raceOrEthnicity",
+            defaultLocalityId: undefined,
+            localityLabels: undefined,
+            dataTransformer: riderCurrentPopulation,
+            sourceFileName: "rider_term_current_population",
+            rootStore,
+          })
+        );
+        break;
+      case "RidersOriginalCharge":
+        metricMapping.set(
+          metricType,
+          new DemographicsByCategoryMetric({
+            ...metadata,
+            demographicFilter,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: "total",
+            defaultLocalityId: undefined,
+            localityLabels: undefined,
+            dataTransformer: riderAdmissionReasons,
+            sourceFileName: "rider_offense",
+            rootStore,
+          })
+        );
+        break;
+      case "RidersReincarcerationRate":
+        metricMapping.set(
+          metricType,
+          new RateByCategoryAndDemographicsMetric({
+            ...metadata,
+            demographicFilter,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: "raceOrEthnicity",
+            defaultLocalityId: undefined,
+            localityLabels: undefined,
+            dataTransformer: riderRateByCategoryAndDemographics,
+            sourceFileName: "rider_reincarceration_rates",
             rootStore,
           })
         );

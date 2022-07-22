@@ -25,9 +25,9 @@ import {
   when,
 } from "mobx";
 import {
+  AllMetricsTypeId,
   DemographicCategoryFilter,
   LocalityLabels,
-  MetricTypeId,
   TenantId,
 } from "../contentApi/types";
 import RootStore from "../DataStore/RootStore";
@@ -73,7 +73,7 @@ function formatUnknownCounts(unknowns: UnknownCounts) {
 }
 
 export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
-  id: MetricTypeId;
+  id: AllMetricsTypeId;
   name: string;
   methodology: string;
   tenantId: TenantId;
@@ -105,7 +105,7 @@ export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
 export default abstract class Metric<RecordFormat extends MetricRecord>
   implements Hydratable {
   // metadata properties
-  readonly id: MetricTypeId;
+  readonly id: AllMetricsTypeId;
 
   readonly methodology: string;
 
@@ -243,8 +243,16 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     if (Array.isArray(unknowns)) {
       formattedUnknowns = (unknowns as (UnknownByDate | UnknownByCohort)[])
         .map((entry) => {
-          const formattedCounts = formatUnknownCounts(entry.unknowns);
+          let formattedCounts: string;
           let label: string;
+
+          if ("category" in entry.unknowns) {
+            formattedCounts = `category (${formatAsNumber(
+              entry.unknowns.category
+            )})`;
+          } else {
+            formattedCounts = formatUnknownCounts(entry.unknowns);
+          }
 
           if ("date" in entry) {
             label = format(entry.date, "MMM d y");

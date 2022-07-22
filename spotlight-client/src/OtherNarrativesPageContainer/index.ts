@@ -15,21 +15,4 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { observer } from "mobx-react-lite";
-import React from "react";
-import RacialDisparitiesNarrative from "../contentModels/RacialDisparitiesNarrative";
-import { useDataStore } from "../StoreProvider";
-import RacialDisparitiesNarrativePage from "./RacialDisparitiesNarrativePage";
-
-const RacialDisparitiesNarrativePageContainer: React.FC = () => {
-  const { narrative } = useDataStore();
-
-  if (narrative instanceof RacialDisparitiesNarrative) {
-    if (narrative.isLoading === undefined) narrative.hydrate();
-    return <RacialDisparitiesNarrativePage narrative={narrative} />;
-  }
-
-  return null;
-};
-
-export default observer(RacialDisparitiesNarrativePageContainer);
+export { default } from "./OtherNarrativesPageContainer";

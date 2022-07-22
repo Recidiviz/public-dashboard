@@ -72,6 +72,12 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
         label: tenant.racialDisparitiesNarrative.title,
       });
     }
+    if (tenant.ridersNarrative) {
+      narrativeOptions.push({
+        id: "Riders",
+        label: tenant.ridersNarrative.title,
+      });
+    }
   }
 
   return (

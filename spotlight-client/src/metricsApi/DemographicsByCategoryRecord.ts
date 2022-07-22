@@ -16,12 +16,14 @@
 // =============================================================================
 
 import { REVOCATION_TYPE_LABELS } from "../constants";
+import { riderCategories, RiderCategory } from "../demographics";
 import { RawMetricData } from "./fetchMetrics";
 import { DemographicFields } from "./types";
 import {
   extractDemographicFields,
   recordIsProbation,
   recordIsParole,
+  getLabelByIdentifier,
 } from "./utils";
 
 export type DemographicsByCategoryRecord = DemographicFields & {
@@ -134,4 +136,64 @@ export function prisonStayLengths(
   rawRecords: RawMetricData
 ): DemographicsByCategoryRecord[] {
   return getCategoryTransposeFunction(prisonStayLengthFields)(rawRecords);
+}
+
+const ridersAdmissions: RiderCategory[] = [
+  {
+    label: "Alcohol",
+    identifier: "ALCOHOL_DRUG",
+  },
+  { label: "Assault", identifier: "ASSAULT" },
+  { label: "Sex", identifier: "SEX" },
+  {
+    label: "Murder",
+    identifier: "MURDER_HOMICIDE",
+  },
+  {
+    label: "Property",
+    identifier: "PROPERTY",
+  },
+  { label: "Unknown", identifier: "UNKNOWN" },
+];
+
+function getRiderCategoryTransposeFunction(
+  records: RawMetricData,
+  fieldName: string,
+  options: RiderCategory[]
+) {
+  const recordsByCategory = records.map((record) => {
+    const partialRecord = {
+      count: Number(record.count),
+      ...extractDemographicFields(record),
+    };
+
+    if (record[fieldName] === null) {
+      return {
+        category: "Null",
+        ...partialRecord,
+      };
+    }
+    return {
+      category: getLabelByIdentifier(record[fieldName], options),
+      ...partialRecord,
+    };
+  });
+
+  return recordsByCategory.flat();
+}
+
+export function riderAdmissionReasons(
+  rawRecords: RawMetricData
+): DemographicsByCategoryRecord[] {
+  return getRiderCategoryTransposeFunction(
+    rawRecords,
+    "category",
+    ridersAdmissions
+  );
+}
+
+export function riderCurrentPopulation(
+  rawRecords: RawMetricData
+): DemographicsByCategoryRecord[] {
+  return getRiderCategoryTransposeFunction(rawRecords, "type", riderCategories);
 }
