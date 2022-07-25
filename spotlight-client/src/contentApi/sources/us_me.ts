@@ -269,7 +269,7 @@ const content: TenantContent = {
           metricTypeId: "PrisonStayLengthAggregate",
           title: "How long are they there?",
           body:
-            "Each person in prison has a court-decided sentence determining their maximum length of stay. The actual time that someone stays in prison can be reduced through good behavior credits. While Maine requires those convicted of violent offenses to remain in prison for at least 85 percent of their sentence, most people serve less time in prison than their maximum length of stay.",
+            "Each person in prison has a court-decided sentence determining their maximum length of stay. The actual time that someone stays in prison can be reduced through good behavior credits. While Maine requires those convicted of violent offenses to remain in prison for at least 85 percent of their sentence, most people serve less time in prison than their maximum length of stay. This chart shows the length of stay for all residents in the past three years.",
         },
         {
           metricTypeId: "PrisonReleaseTypeAggregate",
@@ -313,7 +313,7 @@ const content: TenantContent = {
         {
           title: "Why do revocations happen?",
           body:
-            "Revocations happen when a person on probation violates a condition of their supervision or commits a new crime. In Maine, probation revocations fall into one of three categories: technical violation, new offense, and absconsion.",
+            "Revocations happen when a person on probation violates a condition of their supervision or commits a new crime. In Maine, probation revocations fall into one of three categories: technical violation, new offense, and absconsion. This chart shows the revocation reasons for all individuals who have been on probation in the past three years.",
           metricTypeId: "ProbationRevocationsAggregate",
         },
       ],

@@ -328,7 +328,7 @@ const content: TenantContent = {
           metricTypeId: "PrisonAdmissionReasonsCurrent",
           title: "How did they get there?",
           body:
-            "There are many possible paths for someone to come to prison. “New Admission” represents someone being incarcerated for the first time as part of their sentence. “Revocation” represents when someone on probation or parole is sent to (or back to) prison.",
+            "There are many possible paths for someone to come to prison. “New Admission” represents someone being incarcerated for the first time as part of their sentence. “Revocation” represents when someone on probation or parole is sent to (or back to) prison. This chart shows the admission reasons for all residents in the past three years.",
         },
         {
           metricTypeId: "PrisonStayLengthAggregate",
@@ -340,7 +340,7 @@ const content: TenantContent = {
           metricTypeId: "PrisonReleaseTypeAggregate",
           title: "Where do they go from there?",
           body:
-            "Once released, the DOC’s goal is to help citizens successfully reintegrate into their communities. In most cases, formerly incarcerated people will be placed on community parole or probation supervision.",
+            "Once released, the DOC’s goal is to help citizens successfully reintegrate into their communities. In most cases, formerly incarcerated people will be placed on community parole or probation supervision. This chart shows the post-release destinations for all residents in the past three years.",
         },
         {
           metricTypeId: "PrisonRecidivismRateHistorical",
@@ -384,7 +384,7 @@ const content: TenantContent = {
         {
           title: "Why do revocations happen?",
           body:
-            "Revocations happen when a person on probation violates a condition of their supervision or commits a new crime. In Tennessee, probation revocations fall into one of three categories: technical violation, new offense, and absconsion.",
+            "Revocations happen when a person on probation violates a condition of their supervision or commits a new crime. In Tennessee, probation revocations fall into one of three categories: technical violation, new offense, and absconsion. This chart shows the revocation reasons for all individuals who have been on probation in the past three years.",
           metricTypeId: "ProbationRevocationsAggregate",
         },
       ],
@@ -417,7 +417,7 @@ const content: TenantContent = {
         {
           title: "Why do revocations happen?",
           body:
-            "Revocations happen when a person on parole violates a condition of their supervision or commits a new crime. In Tennessee, parole revocations fall into one of three categories: technical violation, new offense, and absconsion.",
+            "Revocations happen when a person on parole violates a condition of their supervision or commits a new crime. In Tennessee, parole revocations fall into one of three categories: technical violation, new offense, and absconsion. This chart shows the revocation reasons for all individuals who have been on parole in the past three years.",
           metricTypeId: "ParoleRevocationsAggregate",
         },
       ],

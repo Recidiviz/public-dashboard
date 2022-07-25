@@ -355,13 +355,13 @@ const content: TenantContent = {
           metricTypeId: "PrisonAdmissionReasonsCurrent",
           title: "How did they get there?",
           body:
-            "There are many possible paths for someone to come to prison. “New Admission” represents someone being incarcerated for the first time as part of their sentence. “Revocation” represents when someone on probation or parole is sent to (or back to) prison.",
+            "There are many possible paths for someone to come to prison. “New Admission” represents someone being incarcerated for the first time as part of their sentence. “Revocation” represents when someone on probation or parole is sent to (or back to) prison. This chart shows the admission reasons for all residents in the past three years.",
         },
         {
           metricTypeId: "PrisonStayLengthAggregate",
           title: "How long are they there?",
           body:
-            "Each person in prison has a court-decided sentence determining their maximum length of stay. The actual time that someone stays in prison can be reduced through good behavior credits and parole (discretionary decision by Parole Board). While North Dakota requires those convicted of violent offenses to remain in prison for at least 85 percent of their sentence, most people serve less time in prison than their maximum length of stay.",
+            "Each person in prison has a court-decided sentence determining their maximum length of stay. The actual time that someone stays in prison can be reduced through good behavior credits and parole (discretionary decision by Parole Board). While North Dakota requires those convicted of violent offenses to remain in prison for at least 85 percent of their sentence, most people serve less time in prison than their maximum length of stay. This chart shows the length of stay for all residents in the past three years.",
         },
         {
           metricTypeId: "PrisonReleaseTypeAggregate",
@@ -411,7 +411,7 @@ const content: TenantContent = {
         {
           title: "Why do revocations happen?",
           body:
-            "Revocations happen when a person on probation violates a condition of their supervision or commits a new crime. In North Dakota, probation revocations fall into one of three categories: technical violation, new offense, and absconsion.",
+            "Revocations happen when a person on probation violates a condition of their supervision or commits a new crime. In North Dakota, probation revocations fall into one of three categories: technical violation, new offense, and absconsion. This chart shows the revocation reasons for all individuals who have been on probation in the past three years.",
           metricTypeId: "ProbationRevocationsAggregate",
         },
         {
@@ -450,7 +450,7 @@ const content: TenantContent = {
         {
           title: "Why do revocations happen?",
           body:
-            "Revocations happen when a person on parole violates a condition of their supervision or commits a new crime. In North Dakota, parole revocations fall into one of three categories: technical violation, new offense, and absconsion.",
+            "Revocations happen when a person on parole violates a condition of their supervision or commits a new crime. In North Dakota, parole revocations fall into one of three categories: technical violation, new offense, and absconsion. This chart shows the revocation reasons for all individuals who have been on parole in the past three years.",
           metricTypeId: "ParoleRevocationsAggregate",
         },
         {

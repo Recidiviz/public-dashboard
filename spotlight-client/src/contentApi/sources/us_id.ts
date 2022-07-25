@@ -283,19 +283,33 @@ const content: TenantContent = {
     },
     RidersPopulationHistorical: {
       name: "Population Over Time",
-      methodology: `tbd`,
+      methodology: `<p>This data includes the total number of people on Parole Board Hold, or General Term or Rider sentences that were incarcerated in a IDOC facility in a given month over the last 20 years (as of 6/19/22).</p>
+      <p>The population is further broken down into those on a Parole Board Hold, or General Term or Rider sentences. The total population is a sum of these three subgroups and is not the total incarcerated population at that time.</p>
+      <p>This data concerns individuals in prison in Idaho. It does not include individuals incarcerated in county jails.</p>
+      `,
     },
     RidersPopulationCurrent: {
       name: "Current population of Rider",
-      methodology: `tbd`,
+      methodology: `<p>This data includes all individuals on a Rider sentence that were incarcerated in a IDOC facility as of 6/15/22.</p>
+      <p>In distributions by age, individuals are counted towards the age group they fall into as of the start of their Rider term. Gender distributions only include male and female due to low numbers of other reported genders. Distributions by race count individuals with more than one reported race or ethnicity towards the racial or ethnic identity that is least represented in the general population.</p>
+      <p>This data concerns individuals in prison in Idaho. It does not include individuals incarcerated in county jails.</p>
+      `,
     },
     RidersOriginalCharge: {
       name: "Original Charge",
-      methodology: `tbd`,
+      methodology: `<p>This data reports the percentage breakdown of most serious offense types for individuals sentenced to a Rider directly from the community over the last three years (June 2019 - June 2022). It does not include individuals going from term incarceration to a Rider, parole to a Rider, or probation to a Rider.</p>
+      <p>For individuals with more than one charge associated with the Rider sentence, the most severe charge is reported. Charges are ranked in the following order, from most severe to least: Murder_Homicide, Assault, Sex, Alcohol_Drug, Property, Fraud, Other, Unknown, Missing.</p>
+      <p>In distributions by age, individuals are counted towards the age group they fall into as of the start of their Rider term. Gender distributions only include male and female due to low numbers of other reported genders. Distributions by race count individuals with more than one reported race or ethnicity towards the racial or ethnic identity that is least represented in the general population.</p>
+      <p>This data concerns individuals in prison in Idaho. It does not include individuals incarcerated in county jails.</p>
+      `,
     },
     RidersReincarcerationRate: {
       name: "Reincarceration Rate",
-      methodology: `tbd`,
+      methodology: `<p>This data reports the three year incarceration rate for individuals that started supervision in 2019 from the community, or a General Term or Rider sentence. This rate is calculated as the proportion of individuals on supervision that are incarcerated for a General Term or Rider sentence within three years of starting supervision.</p>
+      <p>The cohorts are grouped by the type of original sentence (General Term, Rider, Probation). Admissions to incarceration for new court commitments or due to revocations of supervision are counted as instances of reincarceration recidivism.</p>
+      <p>In distributions by age, individuals are counted towards the age group they fall into at the time of supervision start. Gender distributions only include male and female due to low numbers of other reported genders. Distributions by race count individuals with more than one reported race or ethnicity towards the racial or ethnic identity that is least represented in the general population.</p>
+      <p>This data concerns individuals in prison in Idaho. It does not include individuals incarcerated in county jails.</p>
+      `,
     },
   },
   systemNarratives: {
@@ -309,7 +323,7 @@ const content: TenantContent = {
         {
           title: "Who is being sentenced?",
           body:
-            "After being convicted of a Class A misdemeanor or greater offense by a district court, a person may be sentenced to time in prison or probation, at which point they come under the jurisdiction of the Department of Correction (DOC). These charts show everyone currently involved with the Idaho DOC.",
+            "After being convicted of a felony by a district court, a person may be sentenced to time in prison or probation, at which point they come under the jurisdiction of the Department of Correction (DOC). These charts show everyone currently involved with the Idaho DOC.",
           metricTypeId: "SentencePopulationCurrent",
         },
         {
@@ -325,38 +339,38 @@ const content: TenantContent = {
       title: "Prison",
       previewTitle: "Prison Population over Time",
       introduction:
-        "People sentenced for a Class A misdemeanor or greater offense may serve their sentence in a DOC prison or contract facility. Prisons run programming to help residents work towards rehabilitation and successful reentry.",
+        "People sentenced for a felony may serve their sentence in a DOC prison or contract facility. Prisons run programming to help residents work towards rehabilitation and successful reentry. All of the below data includes Riders, or those on Retained Jurisdiction under the courts for intensive programming; more information about this program is available here.",
       preview: "PrisonPopulationHistorical",
       sections: [
         {
           metricTypeId: "PrisonPopulationCurrent",
           title: "Who is in custody?",
           body:
-            "The Idaho Department of Correction (DOC) runs a number of different facilities and contracts with facilities across the state.",
+            "Residents are housed in a number of different facilities across the state.",
         },
         {
           metricTypeId: "PrisonPopulationHistorical",
           title: "How has the incarcerated population changed over time?",
           body:
-            "Broadly speaking, increased activity in earlier parts of the criminal justice system (such as arrests and sentencing) will result in increases in the prison population. Changes in sentence lengths, revocations from community supervision, etc. may also contribute to the rise and fall of this number.",
+            "Changes in the prison population are closely tied to admissions (from new sentences and revocations from supervision) and releases (associated with sentence lengths, release timing, etc). The sharp rise in the prison population since 2016 can be traced back to stricter sentences and policies (e.g., mandatory minimums) around drug possession.",
         },
         {
           metricTypeId: "PrisonAdmissionReasonsCurrent",
           title: "How did they get there?",
           body:
-            "There are many possible paths for someone to come to prison. “New Admission” represents someone being incarcerated for the first time as part of their sentence. “Revocation” represents when someone on probation or parole is sent to (or back to) prison.",
+            "There are many possible paths for someone to come to prison. “New Admission” represents someone being incarcerated for the first time as part of their sentence. “Revocation” represents when someone on probation or parole is sent to (or back to) prison. This chart shows the admission reasons for all residents in the past three years.",
         },
         {
           metricTypeId: "PrisonStayLengthAggregate",
           title: "How long are they there?",
           body:
-            "Each person in prison has a court-decided sentence determining their maximum length of stay. The actual time that someone stays in prison can be reduced through good behavior credits and parole (discretionary decision by Parole Board). While Idaho requires those convicted of violent offenses to remain in prison for at least 85 percent of their sentence, most people serve less time in prison than their maximum length of stay.",
+            "Every person serves at least the fixed portion of their sentence. The actual time that someone stays in prison can be reduced through good behavior credits and parole (discretionary decision by Parole Board). While Idaho requires those convicted of violent offenses to remain in prison for at least 85 percent of their sentence, most people serve less time in prison than their maximum length of stay. This chart shows the length of stay for all residents in the past three years.",
         },
         {
           metricTypeId: "PrisonReleaseTypeAggregate",
           title: "Where do they go from there?",
           body:
-            "Once released, the DOC’s goal is to help citizens successfully reintegrate into their communities. In most cases, formerly incarcerated people will be placed on community parole or probation supervision.",
+            "Once released, the DOC’s goal is to help citizens successfully reintegrate into their communities. In most cases, formerly incarcerated people will be placed on community parole or probation supervision.  This chart shows the post-release destinations for all residents in the past three years.",
         },
         {
           metricTypeId: "PrisonRecidivismRateHistorical",
@@ -376,25 +390,31 @@ const content: TenantContent = {
       title: "Probation",
       previewTitle: "Revocations from Probation, by Type",
       introduction:
-        "Probation refers to adults whom the courts place on supervision in the community in lieu of or in addition to incarceration. In Idaho, probation is managed by the Department of Correction (DOC).",
+        "Probation refers to adults whom the courts place on supervision in the community in lieu of or in addition to incarceration. In Idaho, only felony probation is managed by the Department of Correction (DOC).",
       preview: "ProbationRevocationsAggregate",
       sections: [
         {
           title: "Who is on probation?",
           body:
-            "Judges may sentence people to a period of probation for a Class A misdemeanor crime or greater. Probation can be either a suspended sentence in which the judge has decided on a carceral sentence but has declined to carry it out unless the defendant does not successfully complete a period of probation supervision, or a deferred sentence, in which the defendant has an opportunity for the crime to be recorded as “dismissed” on the criminal record.",
+            "Judges may sentence people to a period of probation for a felony. Probation can be either a suspended sentence in which the judge has decided on a carceral sentence but has declined to carry it out unless the defendant does not successfully complete a period of probation supervision, or a deferred sentence, in which the defendant has an opportunity for the crime to be recorded as “dismissed” on the criminal record. This population may also include those who have completed a Rider.",
           metricTypeId: "ProbationPopulationCurrent",
         },
         {
           title: "How has the probation population changed over time?",
           body:
-            "Broadly speaking, increased activity in earlier parts of the criminal justice system (such as arrests and sentencing) will result in increases in the probation population. Changes in probation sentence lengths, etc. may also contribute to the rise and fall of this number.",
+            "Changes in probation sentence lengths, conditions, and other factors may contribute to the rise and fall of this number over time.",
           metricTypeId: "ProbationPopulationHistorical",
+        },
+        {
+          title: "What happens after probation?",
+          body:
+            "After probation, a person may be successfully discharged or revoked to prison. Take a look at how the rate of successful probation completion has changed over time, and how the overall rate of successful probation completion varies by demographic.",
+          metricTypeId: "ProbationSuccessHistorical",
         },
         {
           title: "Why do revocations happen?",
           body:
-            "Revocations happen when a person on probation violates a condition of their supervision or commits a new crime. In Idaho, probation revocations fall into one of three categories: technical violation, new offense, and absconsion.",
+            "Revocations happen when a person on probation violates a condition of their supervision or commits a new crime. In Idaho, probation revocations fall into one of three categories: technical violation, new offense, and absconsion. This chart shows the revocation reasons for all individuals who have been on probation in the past three years.",
           metricTypeId: "ProbationRevocationsAggregate",
         },
       ],
@@ -409,19 +429,25 @@ const content: TenantContent = {
         {
           title: "Who is on parole?",
           body:
-            "Parole is granted to people in prison with a track record of good behavior as a way to complete their sentences in their communities.",
+            "Parole is granted to people in prison with a track record of good behavior as a way to complete their sentences in their communities. Some individuals are also on interstate compact, and are therefore under the official jurisdiction of another state’s system.",
           metricTypeId: "ParolePopulationCurrent",
         },
         {
           title: "How has the parole population changed over time?",
           body:
-            "Broadly speaking, increased activity in earlier parts of the criminal justice system (such as arrests and sentencing) will result in increases in the parole population. Changes in parole sentence lengths, earlier releases from prison, etc. may also contribute to the rise and fall of this number.",
+            "Earlier releases from parole, more sentences to prison terms, and other factors may also contribute to the rise and fall of this number over time.",
           metricTypeId: "ParolePopulationHistorical",
+        },
+        {
+          title: "What happens after parole?",
+          body:
+            "After parole, a person may be successfully discharged or revoked to prison. Take a look at how the rate of successful parole completion has changed over time, and how the overall rate of successful parole completion varies by demographic.",
+          metricTypeId: "ParoleSuccessHistorical",
         },
         {
           title: "Why do revocations happen?",
           body:
-            "Revocations happen when a person on parole violates a condition of their supervision or commits a new crime. In Idaho, parole revocations fall into one of three categories: technical violation, new offense, and absconsion.",
+            "Revocations happen when a person on parole violates a condition of their supervision or commits a new crime. In Idaho, parole revocations fall into one of three categories: technical violation, new offense, and absconsion. This chart shows the revocation reasons for all individuals who have been on parole in the past three years.",
           metricTypeId: "ParoleRevocationsAggregate",
         },
       ],
@@ -794,27 +820,27 @@ const content: TenantContent = {
   },
   ridersNarrative: {
     title: "Rider Program",
-    introduction: `Retained jurisdiction or "riders" are individuals whom the court has retained jurisdiction over sentenced to a period of incarceration in an IDOC facility. 
-      The IDOC assesses riders to determine their needs and places them in the appropriate facilities to receive intensive programming and education. Upon completion of a rider, the court determines whether to place the resident on probation or sentence them to term.`,
+    introduction: `A Rider is someone committed to Retained Jurisdiction under the courts for up to 365 days. Upon completion, the courts will determine whether to place the person on probation or incarcerate them for their fixed term.
+    The IDOC assesses Riders to determine their needs and places them in the appropriate facilities to receive intensive programming and education.`,
     sections: [
       {
-        title: "How prevalent are “riders” in the IDOC population?",
+        title: "How prevalent are “Riders” in the IDOC population?",
         body: `The Rider program was first introduced in 2005 as an alternative to a longer prison sentence. Since then, the Rider population has risen to the point that <strong>16%</strong> of IDOC’s institutional population is comprised of people on retained jurisdiction.`,
         metricTypeId: "RidersPopulationHistorical",
       },
       {
         title: "Who is on a Rider in Idaho?",
-        body: `The demographic composition of individuals on Riders is not significantly different from the general incarcerated population or that of people who recently entered probation.`,
+        body: `The Rider population is generally younger and more female than the general incarceration population.`,
         metricTypeId: "RidersPopulationCurrent",
       },
       {
         title: "Why are people placed on Riders?",
-        body: `In general, riders are considered a last resort” before full incarceration. Still, most people placed on riders have not committed a serious or violent offense; for <strong>60%</strong> of riders in the past three years, their most serious offense was related to drug use/possession or property crime.`,
+        body: `In general, Riders are considered a last resort” before full incarceration. Still, most people placed on riders have not committed a serious or violent offense; for <strong>60%</strong> of Riders in the past three years, their most serious offense was related to drug use/possession or property crime.`,
         metricTypeId: "RidersOriginalCharge",
       },
       {
-        title: "What is the reincarceration rate for riders?",
-        body: `Despite high programming completion rates during rider sentences, those individuals tend to return to prison at higher rates compared to similar individuals who were simply sent to probation. <strong>45%</strong> of riders return to prison within three years as compared to <strong>27%</strong> of those on probation in a similar time period. `,
+        title: "What is the reincarceration rate for Riders?",
+        body: `Despite high programming completion rates during Rider sentences, those individuals tend to return to prison at higher rates compared to similar individuals who were sent to probation. <strong>45%</strong> of Riders return to prison within three years as compared to <strong>27%</strong> of those sentenced initially to probation in a similar time period. `,
         metricTypeId: "RidersReincarcerationRate",
       },
       {
