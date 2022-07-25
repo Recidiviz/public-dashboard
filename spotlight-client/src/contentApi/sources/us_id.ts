@@ -812,7 +812,7 @@ const content: TenantContent = {
       conclusion: {
         title:
           "What are we doing to further improve disparities in criminal justice in Idaho?",
-        body: `<div><p>Lorem Ipsum</p></div>`,
+        body: `<div><p>Content TBD</p></div>`,
         // empty because there is no chart or data in this section
         methodology: "",
       },
