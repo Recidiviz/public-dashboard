@@ -357,7 +357,7 @@ const content: TenantContent = {
           metricTypeId: "PrisonStayLengthAggregate",
           title: "How long are they there?",
           body:
-            "Every person serves at least the fixed portion of their sentence. The actual time that someone stays in prison can be reduced through good behavior credits and parole (discretionary decision by Parole Board). While Idaho requires those convicted of violent offenses to remain in prison for at least 85 percent of their sentence, most people serve less time in prison than their maximum length of stay. This chart shows the length of stay for all residents in the past three years.",
+            "Every person serves at least the fixed portion of their sentence. The actual time that someone stays in prison can be reduced through release to parole (discretionary decision by Parole Board). While Idaho requires all incarcerated people to serve 100% of their fixed sentence, most people serve less time in prison than their maximum length of stay. This chart shows the length of stay for all residents in the past three years.",
         },
         {
           metricTypeId: "PrisonReleaseTypeAggregate",
