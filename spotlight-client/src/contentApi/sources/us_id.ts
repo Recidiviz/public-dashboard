@@ -111,18 +111,14 @@ const content: TenantContent = {
     },
     PrisonPopulationCurrent: {
       name: "Current Prison Population",
-      methodology: `<p>This data includes all individuals that are currently incarcerated in a IDOC facility.
-        It does not include individuals incarcerated in county jails nor individuals currently
-        serving their prison sentence in the community through the Community Placement Program.</p>
+      methodology: `<p>This data includes all individuals that are currently incarcerated in a IDOC facility.</p>
         ${demographicsBoilerplate} ${prisonBoilerplate}`,
       totalLabel: "Total people in prison",
     },
     PrisonPopulationHistorical: {
       name: "Historical Prison Population",
       methodology: `<p>This data includes the number of people that were incarcerated in a IDOC facility on the
-        first day of each month over the last 20 years. It does not include individuals incarcerated
-        in county jails nor individuals serving their prison sentence in the community through the
-        Community Placement Program.</p> ${demographicsBoilerplate} ${prisonBoilerplate}`,
+        first day of each month over the last 20 years.</p> ${demographicsBoilerplate} ${prisonBoilerplate}`,
     },
     PrisonAdmissionReasonsCurrent: {
       name: "Reason for Incarceration",
@@ -139,15 +135,12 @@ const content: TenantContent = {
         incarceration or were incarcerated due to revocation of probation. It excludes
         individuals incarcerated due to revocation of parole. Individuals released from
         prison for a reason other than completion of sentence, commutation of sentence,
-        parole, or death are also excluded. Of note, this data does include time spent
-        in the Community Placement Program prior to release as part of time served.
-        Individuals serving life sentences will only be included upon their death.</p>
+        parole, or death are also excluded. Individuals serving life sentences will only be included upon their death.</p>
         ${demographicsBoilerplate} ${prisonBoilerplate}`,
     },
     PrisonReleaseTypeAggregate: {
       name: "Placement After Prison",
-      methodology: `<p>This data includes all individuals released in the last 3 years, including releases
-        directly from the Community Placement Program. When an individual is released from a
+      methodology: `<p>This data includes all individuals released in the last 3 years. When an individual is released from a
         state prison, the reason for the release is documented by prison officials. These
         categories are pulled from that documentation. Facility release reasons that do not
         typically correlate with an end to the period of incarceration, such as transfers
@@ -339,7 +332,7 @@ const content: TenantContent = {
       title: "Prison",
       previewTitle: "Prison Population over Time",
       introduction:
-        "People sentenced for a felony may serve their sentence in a DOC prison or contract facility. Prisons run programming to help residents work towards rehabilitation and successful reentry. All of the below data includes Riders, or those on Retained Jurisdiction under the courts for intensive programming; more information about this program is available here.",
+        "People sentenced for a felony may serve their sentence in a DOC prison or contract facility. Prisons run programming to help residents work towards rehabilitation and successful reentry. All of the below data includes Riders, or those on Retained Jurisdiction under the courts for intensive programming; more information about this program is available <a href='/us-id/narratives/riders'>here</a>.",
       preview: "PrisonPopulationHistorical",
       sections: [
         {
@@ -364,7 +357,7 @@ const content: TenantContent = {
           metricTypeId: "PrisonStayLengthAggregate",
           title: "How long are they there?",
           body:
-            "Every person serves at least the fixed portion of their sentence. The actual time that someone stays in prison can be reduced through good behavior credits and parole (discretionary decision by Parole Board). While Idaho requires those convicted of violent offenses to remain in prison for at least 85 percent of their sentence, most people serve less time in prison than their maximum length of stay. This chart shows the length of stay for all residents in the past three years.",
+            "Every person serves at least the fixed portion of their sentence. The actual time that someone stays in prison can be reduced through release to parole (discretionary decision by Parole Board). While Idaho requires all incarcerated people to serve 100% of their fixed sentence, most people serve less time in prison than their maximum length of stay. This chart shows the length of stay for all residents in the past three years.",
         },
         {
           metricTypeId: "PrisonReleaseTypeAggregate",
