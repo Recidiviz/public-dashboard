@@ -35,11 +35,10 @@ associated with the controlling charge determines the judicial district in which
 counted. Individuals on supervision are counted in each judicial district for which they
 are serving a sentence.</p>`;
 
-const prisonBoilerplate = `<p>This data concerns individuals in prison in Idaho.
-It does not include individuals incarcerated in county jails.</p>`;
+const prisonBoilerplate = `<p>This data concerns individuals in prison in Idaho.</p>`;
 
-const probationBoilerplate = `<p>This data may include some individuals on probation in North
-Dakota as part of the interstate compact program, in which Idaho agrees to supervise
+const probationBoilerplate = `<p>This data may include some individuals on probation in Idaho
+as part of the interstate compact program, in which Idaho agrees to supervise
 individuals who were charged and sentenced in a different state, but have a compelling reason
 to serve their probation in Idaho. Under the same program, individuals placed on probation
 from a Idaho court may occasionally serve their probation in a different state.</p>`;
@@ -48,8 +47,8 @@ const probationDistrictBoilerplate = `<p>The districts associated with this data
 whose probation sentence was imposed by a judge from a particular judicial district, determined by the
 judicial district that encompasses the county in which the offense took place.</p>`;
 
-const paroleBoilerplate = `<p>This data may include some individuals on parole in North
-Dakota as part of the interstate compact program, in which Idaho agrees to supervise
+const paroleBoilerplate = `<p>This data may include some individuals on parole in Idaho
+as part of the interstate compact program, in which Idaho agrees to supervise
 the release of individuals who were charged, sentenced, and incarcerated in a different state,
 but have a compelling reason to serve their parole in Idaho. Under the same program,
 individuals paroled from a Idaho prison may occasionally serve their parole in a
@@ -278,14 +277,14 @@ const content: TenantContent = {
       name: "Population Over Time",
       methodology: `<p>This data includes the total number of people on Parole Board Hold, or General Term or Rider sentences that were incarcerated in a IDOC facility in a given month over the last 20 years (as of 6/19/22).</p>
       <p>The population is further broken down into those on a Parole Board Hold, or General Term or Rider sentences. The total population is a sum of these three subgroups and is not the total incarcerated population at that time.</p>
-      <p>This data concerns individuals in prison in Idaho. It does not include individuals incarcerated in county jails.</p>
+      <p>This data concerns individuals in prison in Idaho.</p>
       `,
     },
     RidersPopulationCurrent: {
       name: "Current population of Rider",
       methodology: `<p>This data includes all individuals on a Rider sentence that were incarcerated in a IDOC facility as of 6/15/22.</p>
       <p>In distributions by age, individuals are counted towards the age group they fall into as of the start of their Rider term. Gender distributions only include male and female due to low numbers of other reported genders. Distributions by race count individuals with more than one reported race or ethnicity towards the racial or ethnic identity that is least represented in the general population.</p>
-      <p>This data concerns individuals in prison in Idaho. It does not include individuals incarcerated in county jails.</p>
+      <p>This data concerns individuals in prison in Idaho.</p>
       `,
     },
     RidersOriginalCharge: {
@@ -293,7 +292,7 @@ const content: TenantContent = {
       methodology: `<p>This data reports the percentage breakdown of most serious offense types for individuals sentenced to a Rider directly from the community over the last three years (June 2019 - June 2022). It does not include individuals going from term incarceration to a Rider, parole to a Rider, or probation to a Rider.</p>
       <p>For individuals with more than one charge associated with the Rider sentence, the most severe charge is reported. Charges are ranked in the following order, from most severe to least: Murder_Homicide, Assault, Sex, Alcohol_Drug, Property, Fraud, Other, Unknown, Missing.</p>
       <p>In distributions by age, individuals are counted towards the age group they fall into as of the start of their Rider term. Gender distributions only include male and female due to low numbers of other reported genders. Distributions by race count individuals with more than one reported race or ethnicity towards the racial or ethnic identity that is least represented in the general population.</p>
-      <p>This data concerns individuals in prison in Idaho. It does not include individuals incarcerated in county jails.</p>
+      <p>This data concerns individuals in prison in Idaho.</p>
       `,
     },
     RidersReincarcerationRate: {
@@ -301,7 +300,7 @@ const content: TenantContent = {
       methodology: `<p>This data reports the three year incarceration rate for individuals that started supervision in 2019 from the community, or a General Term or Rider sentence. This rate is calculated as the proportion of individuals on supervision that are incarcerated for a General Term or Rider sentence within three years of starting supervision.</p>
       <p>The cohorts are grouped by the type of original sentence (General Term, Rider, Probation). Admissions to incarceration for new court commitments or due to revocations of supervision are counted as instances of reincarceration recidivism.</p>
       <p>In distributions by age, individuals are counted towards the age group they fall into at the time of supervision start. Gender distributions only include male and female due to low numbers of other reported genders. Distributions by race count individuals with more than one reported race or ethnicity towards the racial or ethnic identity that is least represented in the general population.</p>
-      <p>This data concerns individuals in prison in Idaho. It does not include individuals incarcerated in county jails.</p>
+      <p>This data concerns individuals in prison in Idaho.</p>
       `,
     },
   },
