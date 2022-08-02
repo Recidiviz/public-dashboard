@@ -34,7 +34,7 @@ import { breakpoints, colors } from "../UiLibrary";
 const Wrapper = styled.footer`
   ${typography.Sans12}
   background: ${colors.footerBackground};
-  color: ${colors.caption};
+  color: ${colors.footerAccent};
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -45,7 +45,7 @@ const Wrapper = styled.footer`
   width: 100%;
 
   a {
-    color: ${colors.caption};
+    color: ${colors.footerAccent};
   }
 
   /*
@@ -72,7 +72,7 @@ const CoBranding = styled.div`
 `;
 
 const DocButton = styled.a`
-  background: ${colors.caption};
+  background: ${colors.footerAccent};
   color: ${colors.footerBackground} !important;
   border-radius: 5px;
   padding: ${rem(8)} ${rem(10)};

@@ -68,6 +68,7 @@ export default {
   dataVizNamed,
   dynamicText: pineAccent2,
   footerBackground: pineDark,
+  footerAccent: "#A6BEBD",
   link: pineAccent2,
   mapFill: "#E9ECEC",
   mapFillHover: "#D8E3E3",
