@@ -476,6 +476,7 @@ const content: TenantContent = {
         { id: "FTPFAR", label: "Fargo-Female Transition Program" },
         { id: "MTPFAR", label: "Fargo-Male Transition Program" },
         { id: "GFC", label: "Grand Forks County Correctional" },
+        { id: "HRCC", label: "Heart River Correctional Center" },
         { id: "JRCC", label: "James River Correctional Center" },
         { id: "LRRP", label: "Lake Region Residential Reentry Center" },
         { id: "FTPMND", label: "Mandan-Female Transition Program" },
