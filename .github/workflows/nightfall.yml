@@ -8,6 +8,7 @@ jobs:
   nightfalldlp:
     name: nightfalldlp
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - name: Checkout Repo Action
         uses: actions/checkout@v2
