@@ -620,7 +620,7 @@ const content: TenantContent = {
           The Pennsylvania Department of Corrections has supported a
           series of legislative initiatives that help create a more equitable
           justice system in the commonwealth. Under Governor Shapiro’s leadership,
-          Pennsylvania has expanded the Clean Slate law. Previously, the state has prevented the
+          Pennsylvania has expanded the Clean Slate law. Previously, the commonwealth has prevented the
           reinstatement of mandatory minimum sentences, and implemented two
           Justice Reinvestment initiatives (<a
           href="https://www.pccd.pa.gov/Pages/JRI%20Subpages/JRI-in-Pennsylvania-(2011-2012).aspx">2012</a>,
