@@ -1,5 +1,6 @@
 name: Spotlight Staging Deploy
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -34,7 +35,7 @@ jobs:
 
         run: yarn build
       - name: Store build artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: spotlight-client/build
@@ -47,7 +48,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Download build artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: build
           path: spotlight-client/build
