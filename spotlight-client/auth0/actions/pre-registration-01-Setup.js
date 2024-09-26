@@ -1,5 +1,5 @@
 // Recidiviz - a data platform for criminal justice reform
-// Copyright (C) 2020 Recidiviz, Inc.
+// Copyright (C) 2024 Recidiviz, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,25 +22,25 @@
  * @param {PreUserRegistrationAPI} api - Interface whose methods can be used to change the behavior of the signup.
  */
 exports.onExecutePreUserRegistration = async (event, api) => {
-  const acceptedStateCodes = ["nd", "pa"];
+  const domainToStateCodeMap = {
+    "recidiviz.org": "recidiviz",
+    // add authorized domains here
+    // DO NOT COMMIT domains to version control
+  };
+
   const emailSplit = event.user.email && event.user.email.split("@");
   const userDomain = emailSplit?.[emailSplit.length - 1].toLowerCase();
   if (userDomain) {
-    if (userDomain === "recidiviz.org") {
-      api.user.setAppMetadata("state_code", "recidiviz");
+    /** Add user's state_code to the app_metadata */
+    if (domainToStateCodeMap[userDomain]) {
+      const stateCode = domainToStateCodeMap[userDomain];
+      api.user.setAppMetadata("state_code", stateCode);
       return;
     }
-
-    /** 2. Add user's state_code to the app_metadata */
-    const domainSplit = userDomain.split(".");
-
-    // assumes the state is always the second to last component of the domain
-    // e.g. @doc.mo.gov or @nd.gov, but not @nd.docr.gov
-    const state = domainSplit[domainSplit.length - 2].toLowerCase();
-
-    if (acceptedStateCodes.includes(state)) {
-      const stateCode = `us_${state}`;
-      api.user.setAppMetadata("state_code", stateCode);
-    }
   }
+  // if we couldn't assign you a state code, you are not authorized
+  api.access.deny(
+    "email does not match list of approved domains",
+    "Access denied"
+  );
 };
