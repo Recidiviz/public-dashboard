@@ -1,6 +1,10 @@
 name: Spotlight Staging Deploy
 on:
   push:
+    branches:
+      - main
+    paths:
+      - "spotlight-client/**"
 defaults:
   run:
     working-directory: spotlight-client
