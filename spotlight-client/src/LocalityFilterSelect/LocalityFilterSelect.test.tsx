@@ -15,12 +15,11 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import React from "react";
+import contentFixture from "../contentModels/__fixtures__/tenant_content_exhaustive";
 import createMetricMapping from "../contentModels/createMetricMapping";
 import type PopulationBreakdownByLocationMetric from "../contentModels/PopulationBreakdownByLocationMetric";
-import contentFixture from "../contentModels/__fixtures__/tenant_content_exhaustive";
-import { reactImmediately } from "../testUtils";
 import LocalityFilterSelect from "./LocalityFilterSelect";
 
 const testTenantId = "US_ND";
@@ -57,40 +56,21 @@ test("has expected options", () => {
   const metric = getTestMetric();
   render(<LocalityFilterSelect metric={metric} />);
 
-  const menuButton = screen.getByRole("button", {
+  const menuButton = screen.queryByRole("button", {
     name: "Judicial District All Districts",
   });
-  fireEvent.click(menuButton);
 
-  const options = screen.getAllByRole("option");
-
-  expect(options.length).toBe(expectedLocalities.length);
-
-  options.forEach((option, index) =>
-    expect(option).toHaveTextContent(expectedLocalities[index].label)
-  );
+  expect(menuButton).toBeNull(); // Jurisdiction Dropdowns should no longer exist as of February 2025
 });
 
 test("changes demographic filter", () => {
   const metric = getTestMetric();
   render(<LocalityFilterSelect metric={metric} />);
 
-  const menuButton = screen.getByRole("button", {
+  const menuButton = screen.queryByRole("button", {
     name: "Judicial District All Districts",
   });
 
-  expectedLocalities.forEach((expectedLocality) => {
-    // open the menu
-    fireEvent.click(menuButton);
-
-    const option = screen.getByRole("option", { name: expectedLocality.label });
-    fireEvent.click(option);
-
-    reactImmediately(() => {
-      expect(metric.localityId).toBe(expectedLocality.id);
-      expect(menuButton).toHaveTextContent(expectedLocality.label);
-    });
-  });
-
+  expect(menuButton).toBeNull(); // Jurisdiction Dropdowns should no longer exist as of February 2025
   expect.hasAssertions();
 });

@@ -134,11 +134,9 @@ test("locality filter", async () => {
 
   await when(() => !metric.isLoading);
 
-  const menuButton = screen.getByRole("button", {
+  const menuButton = screen.queryByRole("button", {
     name: "Judicial District All Districts",
   });
-  fireEvent.click(menuButton);
-  fireEvent.click(screen.getByRole("option", { name: "South Central" }));
 
-  verifySankey(["Total"], ["1,340", "735", "445"]);
+  expect(menuButton).toBeNull(); // Jurisdiction Dropdowns should no longer exist as of February 2025
 });
