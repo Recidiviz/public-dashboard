@@ -39,7 +39,12 @@ const LocalityFilterSelect: React.FC<LocalityFilterSelectProps> = ({
   });
 
   // if there are no locality entries, don't display the dropdown. We are skipping this for Idaho launch. See https://github.com/Recidiviz/public-dashboard/issues/582
-  if (metric.localityLabels.entries.length === 0) {
+  if (
+    metric.localityLabels.entries.length === 0 ||
+    // The judicial district dropdown for ND should no longer be visible in the UI due to unreliable disaggregation data (based on ND dashboard audit)
+    (metric.tenantId === "US_ND" &&
+      metric.localityLabels.label === "Judicial District")
+  ) {
     return null;
   }
 
