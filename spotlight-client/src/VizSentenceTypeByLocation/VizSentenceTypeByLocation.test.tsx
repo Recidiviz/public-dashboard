@@ -138,5 +138,5 @@ test("locality filter", async () => {
     name: "Judicial District All Districts",
   });
 
-  expect(menuButton).toBeNull(); // Jurisdiction Dropdowns should no longer exist as of February 2025
+  expect(menuButton).toBeNull(); // Jurisdiction Dropdowns should no longer display for ND as of February 2025
 });
