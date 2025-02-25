@@ -45,31 +45,38 @@ export async function fetchMetrics({
   // we need some way to get the auth token from the userStore, so we pass a reference to the method in this way.
   // ideally fetching metrics should be handled in its own mobx store rather than in the content models. See issue #560
   const token = await rootStore?.userStore.getToken();
-  const response = await fetch(
-    `${process.env.REACT_APP_API_URL}/api/${tenantId}/public`,
-    {
-      body: JSON.stringify({
-        metrics: metricNames,
-      }),
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      method: "POST",
+
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/api/${tenantId}/public`,
+      {
+        body: JSON.stringify({
+          metrics: metricNames,
+        }),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      }
+    );
+
+    if (response.ok) {
+      const responseData: MetricsApiResponse = await response.json();
+      return responseData;
     }
-  );
 
-  if (response.ok) {
-    const responseData: MetricsApiResponse = await response.json();
-    return responseData;
+    const errorResponse: ErrorAPIResponse = await response.json();
+    throw new Error(
+      `Metrics API responded with status ${response.status}. Error message: ${
+        errorResponse.error || "none"
+      }`
+    );
+  } catch (error) {
+    throw new Error(
+      `There was a network error attempting to fetch metrics: \n${error}`
+    );
   }
-
-  const errorResponse: ErrorAPIResponse = await response.json();
-  throw new Error(
-    `Metrics API responded with status ${response.status}. Error message: ${
-      errorResponse.error || "none"
-    }`
-  );
 }
 
 /**

@@ -16,9 +16,9 @@
 // =============================================================================
 
 import fetchMock from "jest-fetch-mock";
-import { fetchAndTransformMetric, fetchMetrics } from "./fetchMetrics";
-import { waitForTestServer } from "../testUtils";
 import { ERROR_MESSAGES } from "../constants";
+import { waitForTestServer } from "../testUtils";
+import { fetchAndTransformMetric, fetchMetrics } from "./fetchMetrics";
 
 describe("fetchMetrics", () => {
   test("returns fetched metrics", async () => {
@@ -137,5 +137,23 @@ describe("fetchAndTransformMetric", () => {
     // return to its default inactive state
     fetchMock.resetMocks();
     fetchMock.dontMock();
+  });
+
+  test("handles network errors", async () => {
+    expect.hasAssertions();
+    fetchMock.mockReject(new Error("Network error"));
+
+    try {
+      await fetchMetrics({
+        metricNames: ["any_metric"],
+        tenantId: "US_ND",
+      });
+    } catch (e) {
+      expect(e.message).toBe(
+        `There was a network error attempting to fetch metrics: \nError: Network error`
+      );
+    }
+
+    fetchMock.resetMocks();
   });
 });
