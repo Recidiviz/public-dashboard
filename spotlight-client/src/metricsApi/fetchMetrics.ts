@@ -73,9 +73,7 @@ export async function fetchMetrics({
       }`
     );
   } catch (error) {
-    throw new Error(
-      `There was a network error attempting to fetch metrics: \n${error}`
-    );
+    throw new Error(`${error}`);
   }
 }
 

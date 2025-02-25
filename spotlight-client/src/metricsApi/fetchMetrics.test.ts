@@ -149,9 +149,7 @@ describe("fetchAndTransformMetric", () => {
         tenantId: "US_ND",
       });
     } catch (e) {
-      expect(e.message).toBe(
-        `There was a network error attempting to fetch metrics: \nError: Network error`
-      );
+      expect(e.message).toBe(`Error: Network error`);
     }
 
     fetchMock.resetMocks();
