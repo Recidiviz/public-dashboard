@@ -23,9 +23,9 @@ import fetchMock from "jest-fetch-mock";
 import JsZip from "jszip";
 import { when } from "mobx";
 import { fromPromise } from "mobx-utils";
-import allTestContent from "./__fixtures__/tenant_content_exhaustive";
 import { MetricTypeId, MetricTypeIdList } from "../contentApi/types";
 import { reactImmediately } from "../testUtils";
+import allTestContent from "./__fixtures__/tenant_content_exhaustive";
 import createMetricMapping from "./createMetricMapping";
 
 jest.mock("downloadjs");
@@ -170,7 +170,7 @@ test("fetch error state", async () => {
 
   reactImmediately(() => {
     expect(metric.error?.message).toBe(
-      "Metrics API responded with status 500. Error message: test error message"
+      "Error: Metrics API responded with status 500. Error message: test error message"
     );
   });
 

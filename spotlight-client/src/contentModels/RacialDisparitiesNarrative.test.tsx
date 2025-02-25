@@ -79,7 +79,7 @@ test("fetch error state", async () => {
   reactImmediately(() => {
     expect(narrative.isLoading).toBe(false);
     expect(narrative.error?.message).toBe(
-      "Metrics API responded with status 500. Error message: test error message"
+      "Error: Metrics API responded with status 500. Error message: test error message"
     );
   });
 
