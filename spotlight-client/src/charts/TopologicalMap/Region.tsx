@@ -17,7 +17,7 @@
 
 import { geoCentroid } from "d3-geo";
 import React, { useState } from "react";
-import { Geography, Marker, GeographyProps } from "react-simple-maps";
+import { Geography, GeographyProps, Marker } from "react-simple-maps";
 import { Spring } from "react-spring/renderprops.cjs";
 import styled from "styled-components/macro";
 import { ValuesType } from "utility-types";
@@ -50,7 +50,7 @@ const Region = ({
   geography: GeographyProps["geography"];
 }): React.ReactElement => {
   const centroid = geoCentroid(geography);
-  const { label, value } = data;
+  const { label, value } = data || {};
   const [hoverRegion, setHoverRegion] = useState(false);
 
   const setHover = () => {
