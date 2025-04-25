@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "14.x"
-      - uses: c-hive/gha-yarn-cache@v1
+      - uses: actions/cache@v3
       - run: yarn install --frozen-lockfile
       - run: yarn lint
   test-spotlight-client:
@@ -33,7 +33,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "14.x"
-      - uses: c-hive/gha-yarn-cache@v1
+      - uses: actions/cache@v3
       - run: yarn install --frozen-lockfile
       - name: install test server dependencies
         run: yarn install --frozen-lockfile
@@ -57,7 +57,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "14.x"
-      - uses: c-hive/gha-yarn-cache@v1
+      - uses: actions/cache@v3
       - run: yarn install --frozen-lockfile
       - run: yarn lint
   test-spotlight-api:
@@ -71,7 +71,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "14.x"
-      - uses: c-hive/gha-yarn-cache@v1
+      - uses: actions/cache@v3
       - run: yarn install --frozen-lockfile
       - run: yarn test --coverage --runInBand
       - name: Coveralls
