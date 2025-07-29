@@ -17,8 +17,13 @@ jobs:
     environment: staging
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
+      - uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2.5.2
         with:
           node-version: "14.x"
       - name: Install dependencies
@@ -34,7 +39,7 @@ jobs:
 
         run: yarn build
       - name: Store build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: build
           path: spotlight-client/build
@@ -45,28 +50,33 @@ jobs:
     runs-on: ubuntu-latest
     environment: staging
     steps:
-      - uses: actions/checkout@v2
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
       - name: Download build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           name: build
           path: spotlight-client/build
       - name: Wait on lint
-        uses: lewagon/wait-on-check-action@v0.2
+        uses: lewagon/wait-on-check-action@bafe56a6863672c681c3cf671f5e10b20abf2eaa # v0.2
         with:
           ref: ${{ github.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           check-name: Lint Spotlight Client
           wait-interval: 10 # seconds
       - name: Wait on tests
-        uses: lewagon/wait-on-check-action@v0.2
+        uses: lewagon/wait-on-check-action@bafe56a6863672c681c3cf671f5e10b20abf2eaa # v0.2
         with:
           ref: ${{ github.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           check-name: Test Spotlight Client
           wait-interval: 10 # seconds
       - name: Deploy to Firebase
-        uses: w9jds/firebase-action@v2.0.0
+        uses: w9jds/firebase-action@0a5173f97c956332c9e71750526e0ca6f38cbe3a # v2.0.0
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCT_KEY }}
           PROJECT_PATH: ./spotlight-client
