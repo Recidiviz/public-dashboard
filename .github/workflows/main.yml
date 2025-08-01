@@ -4,6 +4,9 @@ on:
   - push
   - pull_request
 
+permissions:
+  contents: read
+
 jobs:
   lint-spotlight-client:
     name: Lint Spotlight Client
@@ -12,13 +15,21 @@ jobs:
       run:
         working-directory: spotlight-client
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
+      - uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2.5.2
         with:
           node-version: "14.x"
       - run: yarn install --frozen-lockfile
       - run: yarn lint
   test-spotlight-client:
+    permissions:
+      checks: write  # for coverallsapp/github-action to create new checks
+      contents: read  # for actions/checkout to fetch code
     name: Test Spotlight Client
     runs-on: ubuntu-latest
     defaults:
@@ -28,8 +39,13 @@ jobs:
       REACT_APP_API_URL: http://localhost:3002
       REACT_APP_ENABLED_TENANTS: US_ID,US_ME,US_ND,US_PA,US_TN
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
+      - uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2.5.2
         with:
           node-version: "14.x"
       - run: yarn install --frozen-lockfile
@@ -38,7 +54,7 @@ jobs:
         working-directory: spotlight-api
       - run: yarn test --coverage --forceExit --runInBand
       - name: Coveralls
-        uses: coverallsapp/github-action@master
+        uses: coverallsapp/github-action@09b709cf6a16e30b0808ba050c7a6e8a5ef13f8d # master
         with:
           flag-name: spotlight-client
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -51,39 +67,59 @@ jobs:
       run:
         working-directory: spotlight-api
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
+      - uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2.5.2
         with:
           node-version: "14.x"
       - run: yarn install --frozen-lockfile
       - run: yarn lint
   test-spotlight-api:
+    permissions:
+      checks: write  # for coverallsapp/github-action to create new checks
+      contents: read  # for actions/checkout to fetch code
     name: Test Spotlight API
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: spotlight-api
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
+      - uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2.5.2
         with:
           node-version: "14.x"
       - run: yarn install --frozen-lockfile
       - run: yarn test --coverage --runInBand
       - name: Coveralls
-        uses: coverallsapp/github-action@master
+        uses: coverallsapp/github-action@09b709cf6a16e30b0808ba050c7a6e8a5ef13f8d # master
         with:
           flag-name: spotlight-api
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: spotlight-api/coverage/lcov.info
   finish-coveralls:
+    permissions:
+      checks: write  # for coverallsapp/github-action to create new checks
     name: Finish Coveralls
     runs-on: ubuntu-latest
     needs: [test-spotlight-client, test-spotlight-api]
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        with:
+          egress-policy: audit
+
       - name: Coveralls Parallel Finished
-        uses: coverallsapp/github-action@master
+        uses: coverallsapp/github-action@09b709cf6a16e30b0808ba050c7a6e8a5ef13f8d # master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
