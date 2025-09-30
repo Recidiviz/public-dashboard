@@ -30,7 +30,6 @@ export type LocalityLabels = {
 
 export const TenantIdList = [
   "US_ID",
-  "US_ME",
   "US_ND",
   "US_PA",
   "US_TN",
