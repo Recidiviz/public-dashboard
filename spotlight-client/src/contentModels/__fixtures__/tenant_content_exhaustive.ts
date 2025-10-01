@@ -116,10 +116,6 @@ const content: ExhaustiveTenantContent = {
       name: "test ProbationPopulationHistorical name",
       methodology: "test ProbationPopulationHistorical methodology",
     },
-    ProbationSuccessHistorical: {
-      name: "test ProbationSuccessHistorical name",
-      methodology: "test ProbationSuccessHistorical methodology",
-    },
     ProbationRevocationsAggregate: {
       name: "test ProbationRevocationsAggregate name",
       methodology: "test ProbationRevocationsAggregate methodology",
@@ -136,10 +132,6 @@ const content: ExhaustiveTenantContent = {
     ParolePopulationHistorical: {
       name: "test ParolePopulationHistorical name",
       methodology: "test ParolePopulationHistorical methodology",
-    },
-    ParoleSuccessHistorical: {
-      name: "test ParoleSuccessHistorical name",
-      methodology: "test ParoleSuccessHistorical methodology",
     },
     ProbationTerminationsHistorical: {
       name: "test ProbationTerminationsHistorical name",

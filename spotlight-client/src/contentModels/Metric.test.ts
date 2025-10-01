@@ -88,8 +88,6 @@ describe("data fetching", () => {
       (id) =>
         // the `records` property is not supported for these metric types
         ![
-          "ProbationSuccessHistorical",
-          "ParoleSuccessHistorical",
           "ProbationTerminationsHistorical",
           "ParoleTerminationsHistorical",
         ].includes(id)
@@ -203,8 +201,6 @@ describe("data download", () => {
         // these metric types have multiple data sources, so the files they download will be different;
         // see SupervisionSuccessRateMetric tests for coverage
         ![
-          "ProbationSuccessHistorical",
-          "ParoleSuccessHistorical",
           "ProbationTerminationsHistorical",
           "ParoleTerminationsHistorical",
         ].includes(id)
