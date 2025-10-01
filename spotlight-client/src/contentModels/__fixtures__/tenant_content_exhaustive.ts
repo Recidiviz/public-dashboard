@@ -16,8 +16,8 @@
 // =============================================================================
 
 import { DeepRequired } from "utility-types";
-import { TenantContent } from "../../contentApi/types";
 import programRegionsTopology from "../../contentApi/sources/usNdProgramRegions";
+import { TenantContent } from "../../contentApi/types";
 
 // some parts of this object are too complex to be deep-required,
 // but for most of it that's desirable
@@ -140,6 +140,10 @@ const content: ExhaustiveTenantContent = {
     ParoleSuccessHistorical: {
       name: "test ParoleSuccessHistorical name",
       methodology: "test ParoleSuccessHistorical methodology",
+    },
+    ProbationTerminationsHistorical: {
+      name: "test ProbationTerminationsHistorical name",
+      methodology: "test ProbationTerminationsHistorical methodology",
     },
     ParoleTerminationsHistorical: {
       name: "test ParoleTerminationsHistorical name",

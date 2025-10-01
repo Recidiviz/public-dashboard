@@ -114,6 +114,7 @@ export const MetricTypeIdList = [
   "ProbationSuccessHistorical",
   "ProbationRevocationsAggregate",
   "ProbationProgrammingCurrent",
+  "ProbationTerminationsHistorical",
   "ParolePopulationCurrent",
   "ParolePopulationHistorical",
   "ParoleSuccessHistorical",

@@ -17,8 +17,8 @@
 
 import { csvParse } from "d3-dsv";
 import downloadjs from "downloadjs";
-import JsZip from "jszip";
 import { advanceTo, clear } from "jest-date-mock";
+import JsZip from "jszip";
 import { runInAction, when } from "mobx";
 import { stripHtml } from "string-strip-html";
 import {
@@ -26,9 +26,9 @@ import {
   SupervisionSuccessRateMonthlyRecord,
 } from "../metricsApi";
 import { reactImmediately } from "../testUtils";
+import contentFixture from "./__fixtures__/tenant_content_exhaustive";
 import createMetricMapping from "./createMetricMapping";
 import SupervisionSuccessRateMetric from "./SupervisionSuccessRateMetric";
-import contentFixture from "./__fixtures__/tenant_content_exhaustive";
 
 jest.mock("../metricsApi", () => {
   const actualModule = jest.requireActual("../metricsApi");
@@ -44,7 +44,7 @@ jest.mock("downloadjs");
 const downloadjsMock = downloadjs as jest.MockedFunction<typeof downloadjs>;
 
 const testTenantId = "US_ND";
-const testMetricId = "ProbationSuccessHistorical";
+const testMetricId = "ProbationTerminationsHistorical";
 const testMetadataMapping = {
   [testMetricId]: contentFixture.metrics[testMetricId],
 };

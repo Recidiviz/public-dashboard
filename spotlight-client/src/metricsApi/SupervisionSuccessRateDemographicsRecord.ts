@@ -68,6 +68,14 @@ export function paroleSuccessRateDemographics(
     .map(createSupervisionSuccessRateDemographicRecord);
 }
 
+export function probationTerminationRateDemographics(
+  rawRecords: RawMetricData
+): SupervisionSuccessRateDemographicsRecord[] {
+  return rawRecords
+    .filter(recordIsProbation)
+    .map(createSupervisionTerminationRateDemographicRecord);
+}
+
 export function paroleTerminationRateDemographics(
   rawRecords: RawMetricData
 ): SupervisionSuccessRateDemographicsRecord[] {

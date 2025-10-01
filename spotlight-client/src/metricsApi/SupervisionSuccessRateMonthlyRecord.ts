@@ -93,3 +93,11 @@ export function paroleTerminationRateMonthly(
     .filter(recordIsParole)
     .map(createSupervisionTerminationRateMonthlyRecord);
 }
+
+export function probationTerminationRateMonthly(
+  rawRecords: RawMetricData
+): SupervisionSuccessRateMonthlyRecord[] {
+  return rawRecords
+    .filter(recordIsProbation)
+    .map(createSupervisionTerminationRateMonthlyRecord);
+}
