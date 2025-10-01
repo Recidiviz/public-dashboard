@@ -28,18 +28,6 @@ export type SupervisionSuccessRateDemographicsRecord = DemographicFields &
   LocalityFields &
   RateFields;
 
-function createSupervisionSuccessRateDemographicRecord(
-  record: ValuesType<RawMetricData>
-) {
-  return {
-    rate: Number(record.success_rate),
-    rateDenominator: Number(record.projected_completion_count),
-    rateNumerator: Number(record.successful_termination_count),
-    locality: record.district,
-    ...extractDemographicFields(record),
-  };
-}
-
 function createSupervisionTerminationRateDemographicRecord(
   record: ValuesType<RawMetricData>
 ) {
@@ -50,22 +38,6 @@ function createSupervisionTerminationRateDemographicRecord(
     locality: record.district,
     ...extractDemographicFields(record),
   };
-}
-
-export function probationSuccessRateDemographics(
-  rawRecords: RawMetricData
-): SupervisionSuccessRateDemographicsRecord[] {
-  return rawRecords
-    .filter(recordIsProbation)
-    .map(createSupervisionSuccessRateDemographicRecord);
-}
-
-export function paroleSuccessRateDemographics(
-  rawRecords: RawMetricData
-): SupervisionSuccessRateDemographicsRecord[] {
-  return rawRecords
-    .filter(recordIsParole)
-    .map(createSupervisionSuccessRateDemographicRecord);
 }
 
 export function probationTerminationRateDemographics(
