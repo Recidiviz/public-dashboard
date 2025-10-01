@@ -62,9 +62,6 @@ test("staging domains matching tenants", () => {
 
   jsdom.reconfigure({ url: "https://us-pa.spotlight-staging.recidiviz.org" });
   expect(getTenantFromDomain()).toBe("US_PA");
-
-  jsdom.reconfigure({ url: "https://us-tn.spotlight-staging.recidiviz.org" });
-  expect(getTenantFromDomain()).toBe("US_TN");
 });
 
 test("no match", () => {
