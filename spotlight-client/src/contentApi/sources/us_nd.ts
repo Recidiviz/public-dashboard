@@ -239,7 +239,7 @@ const content: TenantContent = {
         Probation is considered successfully completed if an individual is
         discharged from probation positively, either due to the probation period
         expiring, a pardon or commutation of the individual's sentence, or an
-        early discharge granted by a judge. Unsuccessful completions of probation
+        early discharge granted by the Board. Unsuccessful completions of probation
         occur when the probation ends due to absconsion, a revocation, or a
         negative termination. Deaths, suspensions, and terminations marked as
         “other” are excluded from these calculations because they are neither
@@ -258,7 +258,7 @@ const content: TenantContent = {
         Parole is considered successfully completed if an individual is
         discharged from parole positively, either due to the parole period
         expiring, a pardon or commutation of the individual's sentence, or an
-        early discharge granted by a judge. Unsuccessful completions of parole
+        early discharge granted by the Board. Unsuccessful completions of parole
         occur when the parole ends due to absconsion, a revocation, or a
         negative termination. Deaths, suspensions, and terminations marked as
         “other” are excluded from these calculations because they are neither
