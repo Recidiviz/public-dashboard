@@ -26,7 +26,7 @@ describe("fetchMetrics", () => {
     // these are arbitrarily chosen to spot-check the API, nothing special about them
     const metricNames = [
       "active_program_participation_by_region",
-      "supervision_success_by_month",
+      "supervision_terminations_by_month",
     ];
 
     const tenantId = "US_ND";
@@ -50,16 +50,16 @@ describe("fetchMetrics", () => {
         },
       ])
     );
-    expect(response.supervision_success_by_month).toEqual(
+    expect(response.supervision_terminations_by_month).toEqual(
       expect.arrayContaining([
         {
           state_code: "US_ND",
-          projected_year: "2019",
-          projected_month: "8",
+          year: "2019",
+          month: "8",
           district: "SOUTH_CENTRAL",
           supervision_type: "PROBATION",
           successful_termination_count: "43",
-          projected_completion_count: "95",
+          termination_count: "95",
           success_rate: 0.45263157894736844,
         },
       ])

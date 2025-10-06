@@ -109,7 +109,7 @@ test.each(["GCS", "filesystem"])(
     // these are not all in the same metric group as defined by other fetch functions
     const multipleNames = [
       "incarceration_releases_by_type_by_period",
-      "supervision_success_by_month",
+      "supervision_terminations_by_month",
       "racial_disparities",
     ];
     await fetchMetricsByName(
@@ -157,7 +157,7 @@ test("caches metric files by name", async () => {
 
   const metricNames = [
     "incarceration_releases_by_type_by_period",
-    "supervision_success_by_month",
+    "supervision_terminations_by_month",
   ];
   await fetchMetricsByName(TENANT_ID, metricNames, isDemo, () => {});
   expect(objectStorageMock.downloadFile.mock.calls.length).toBe(2);
@@ -176,7 +176,7 @@ test("partially cached requests only fetch missed files", async () => {
   // warm the cache with these metrics before requesting others
   const initialMetrics = [
     "incarceration_releases_by_type_by_period",
-    "supervision_success_by_month",
+    "supervision_terminations_by_month",
   ];
   await fetchMetricsByName(TENANT_ID, initialMetrics, isDemo, () => {});
 
@@ -184,7 +184,7 @@ test("partially cached requests only fetch missed files", async () => {
 
   const overlappingMetrics = [
     // this one should already be cached
-    "supervision_success_by_month",
+    "supervision_terminations_by_month",
     // this one should be fetched from GCS
     "racial_disparities",
   ];

@@ -19,7 +19,7 @@ import { format } from "date-fns";
 import { ValuesType } from "utility-types";
 import { RawMetricData } from "./fetchMetrics";
 import { LocalityFields, RateFields } from "./types";
-import { recordIsProbation, recordIsParole } from "./utils";
+import { recordIsParole, recordIsProbation } from "./utils";
 
 export type SupervisionSuccessRateMonthlyRecord = LocalityFields &
   RateFields & {
@@ -37,22 +37,6 @@ export const getCohortLabel = (
   return format(new Date(record.year, record.month - 1), dateFormatString);
 };
 
-function createSupervisionSuccessRateMonthlyRecord(
-  record: ValuesType<RawMetricData>
-) {
-  const year = Number(record.projected_year);
-  const month = Number(record.projected_month);
-  return {
-    locality: record.district,
-    year,
-    month,
-    label: getCohortLabel({ year, month }),
-    rateNumerator: Number(record.successful_termination_count),
-    rateDenominator: Number(record.projected_completion_count),
-    rate: Number(record.success_rate),
-  };
-}
-
 function createSupervisionTerminationRateMonthlyRecord(
   record: ValuesType<RawMetricData>
 ) {
@@ -68,22 +52,6 @@ function createSupervisionTerminationRateMonthlyRecord(
     rateDenominator: Number(record.termination_count),
     rate: Number(record.success_rate),
   };
-}
-
-export function probationSuccessRateMonthly(
-  rawRecords: RawMetricData
-): SupervisionSuccessRateMonthlyRecord[] {
-  return rawRecords
-    .filter(recordIsProbation)
-    .map(createSupervisionSuccessRateMonthlyRecord);
-}
-
-export function paroleSuccessRateMonthly(
-  rawRecords: RawMetricData
-): SupervisionSuccessRateMonthlyRecord[] {
-  return rawRecords
-    .filter(recordIsParole)
-    .map(createSupervisionSuccessRateMonthlyRecord);
 }
 
 export function paroleTerminationRateMonthly(

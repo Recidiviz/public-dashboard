@@ -30,8 +30,6 @@ import {
   parolePopulationHistorical,
   paroleProgramParticipationCurrent,
   paroleRevocationReasons,
-  paroleSuccessRateDemographics,
-  paroleSuccessRateMonthly,
   paroleTerminationRateDemographics,
   paroleTerminationRateMonthly,
   prisonAdmissionReasons,
@@ -43,8 +41,6 @@ import {
   probationPopulationHistorical,
   probationProgramParticipationCurrent,
   probationRevocationReasons,
-  probationSuccessRateDemographics,
-  probationSuccessRateMonthly,
   probationTerminationRateDemographics,
   probationTerminationRateMonthly,
   RawMetricData,
@@ -341,52 +337,6 @@ export default function createMetricMapping({
             mapData: topologyMapping?.ProgramRegions,
             dataTransformer: paroleProgramParticipationCurrent,
             sourceFileName: "active_program_participation_by_region",
-            rootStore,
-          })
-        );
-        break;
-      case "ProbationSuccessHistorical":
-        if (!localityLabelMapping?.Probation)
-          throw new Error(localityContentError);
-
-        metricMapping.set(
-          metricType,
-          new SupervisionSuccessRateMetric({
-            ...metadata,
-            demographicFilter,
-            id: metricType,
-            tenantId,
-            defaultDemographicView: "total",
-            defaultLocalityId: TOTAL_KEY,
-            localityLabels: localityLabelMapping.Probation,
-            dataTransformer: probationSuccessRateMonthly,
-            sourceFileName: "supervision_success_by_month",
-            demographicDataTransformer: probationSuccessRateDemographics,
-            demographicSourceFileName:
-              "supervision_success_by_period_by_demographics",
-            rootStore,
-          })
-        );
-        break;
-      case "ParoleSuccessHistorical":
-        if (!localityLabelMapping?.Parole)
-          throw new Error(localityContentError);
-
-        metricMapping.set(
-          metricType,
-          new SupervisionSuccessRateMetric({
-            ...metadata,
-            demographicFilter,
-            id: metricType,
-            tenantId,
-            defaultDemographicView: "total",
-            defaultLocalityId: TOTAL_KEY,
-            localityLabels: localityLabelMapping.Parole,
-            dataTransformer: paroleSuccessRateMonthly,
-            sourceFileName: "supervision_success_by_month",
-            demographicDataTransformer: paroleSuccessRateDemographics,
-            demographicSourceFileName:
-              "supervision_success_by_period_by_demographics",
             rootStore,
           })
         );
