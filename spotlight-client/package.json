@@ -152,5 +152,9 @@
   },
   "resolutions": {
     "node-notifier": "^8.0.1"
+  },
+  "volta": {
+    "node": "14.21.3",
+    "yarn": "1.22.22"
   }
 }
