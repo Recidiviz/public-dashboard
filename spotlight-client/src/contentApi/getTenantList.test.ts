@@ -28,10 +28,6 @@ test("getTenantList", () => {
         "id": "US_PA",
         "name": "Pennsylvania",
       },
-      Object {
-        "id": "US_TN",
-        "name": "Tennessee",
-      },
     ]
   `);
 });

@@ -19,13 +19,11 @@ import { ERROR_MESSAGES } from "../constants";
 import { isTenantEnabled } from "./isTenantEnabled";
 import US_ND from "./sources/us_nd";
 import US_PA from "./sources/us_pa";
-import US_TN from "./sources/us_tn";
 import { TenantContent, TenantId } from "./types";
 
 const CONTENT_SOURCES: Record<TenantId, TenantContent> = {
   US_ND,
   US_PA,
-  US_TN,
 };
 
 type RetrieveContentParams = {
