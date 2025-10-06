@@ -37,7 +37,7 @@ jobs:
         working-directory: spotlight-client
     env:
       REACT_APP_API_URL: http://localhost:3002
-      REACT_APP_ENABLED_TENANTS: US_ID,US_ND,US_PA,US_TN
+      REACT_APP_ENABLED_TENANTS: US_ND,US_PA,US_TN
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0

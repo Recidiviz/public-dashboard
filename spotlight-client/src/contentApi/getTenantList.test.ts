@@ -21,10 +21,6 @@ test("getTenantList", () => {
   expect(getTenantList()).toMatchInlineSnapshot(`
     Array [
       Object {
-        "id": "US_ID",
-        "name": "Idaho",
-      },
-      Object {
         "id": "US_ND",
         "name": "North Dakota",
       },
