@@ -90,6 +90,7 @@ describe("data fetching", () => {
         ![
           "ProbationSuccessHistorical",
           "ParoleSuccessHistorical",
+          "ProbationTerminationsHistorical",
           "ParoleTerminationsHistorical",
         ].includes(id)
     )
@@ -204,6 +205,7 @@ describe("data download", () => {
         ![
           "ProbationSuccessHistorical",
           "ParoleSuccessHistorical",
+          "ProbationTerminationsHistorical",
           "ParoleTerminationsHistorical",
         ].includes(id)
     )

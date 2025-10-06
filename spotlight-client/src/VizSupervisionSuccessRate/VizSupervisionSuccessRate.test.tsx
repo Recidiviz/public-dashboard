@@ -43,7 +43,7 @@ beforeEach(() => {
   });
   reactImmediately(() => {
     const metricToTest = DataStore.tenant?.metrics.get(
-      "ParoleSuccessHistorical"
+      "ParoleTerminationsHistorical"
     );
     // it will be
     if (metricToTest instanceof SupervisionSuccessRateMetric) {

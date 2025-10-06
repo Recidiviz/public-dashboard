@@ -195,24 +195,6 @@ const content: TenantContent = {
         North Dakota on the first day of each month over the last 20 years.</p>
         ${demographicsBoilerplate} ${probationBoilerplate}`,
     },
-    ProbationSuccessHistorical: {
-      name: "Historical Probation Completion Rates",
-      methodology: `<p>This data reports the percentage of people projected to complete probation
-        in a given month who have successfully completed probation by the end of that month.</p>
-        <p>Probation is considered successfully completed if the individual is discharged from
-        probation positively or if a probation period expires. Unsuccessful completion of probation
-        occurs when probation ends due to absconsion, revocation, or negative termination. Deaths,
-        suspensions, and terminations marked as “other” are excluded from these calculations because
-        they are neither successful nor unsuccessful.</p><p>Individuals whose probation is terminated
-        prior to their projected completion month are counted in the month in which their probation
-        is scheduled to complete, while individuals who have not yet completed probation by their
-        projected completion date are excluded. For example, if 15 people are projected to
-        complete probation in 12 months, 5 are revoked this month, 3 are discharged early in
-        8 months, 2 complete parole in 12 months, and 5 do not complete probation, the completion
-        rate in 12 months will be 50%, as 10 of the people projected to complete probation will
-        have actually completed probation, 5 of them successfully.</p> ${demographicsBoilerplate}
-        ${probationBoilerplate} ${probationDistrictBoilerplate}`,
-    },
     ProbationRevocationsAggregate: {
       name: "Reasons for Probation Revocation",
       methodology: `<p>This data includes people who were incarcerated in a DOCR facility within the last
@@ -246,6 +228,44 @@ const content: TenantContent = {
         is aggregated into the 8 DHS service regions of the provider locations at which
         individuals are enrolled.</p> ${probationBoilerplate}`,
     },
+    ProbationTerminationsHistorical: {
+      name: "Historical Probation Completion Rates",
+      methodology: `<p>
+        This data reports the percentage of people who successfully completed
+        probation in a given month out of all people whose probation was terminated that
+        month.
+      </p>
+      <p>
+        Probation is considered successfully completed if an individual is
+        discharged from probation positively, either due to the probation period
+        expiring, a pardon or commutation of the individual's sentence, or an
+        early discharge granted by the court. Unsuccessful completions of probation
+        occur when the probation ends due to absconsion, a revocation, or a
+        negative termination. Deaths, suspensions, and terminations marked as
+        “other” are excluded from these calculations because they are neither
+        successful nor unsuccessful.
+      </p> ${demographicsBoilerplate}
+        ${probationBoilerplate} ${probationDistrictBoilerplate}`,
+    },
+    ParoleTerminationsHistorical: {
+      name: "Historical Parole Completion Rates",
+      methodology: `<p>
+        This data reports the percentage of people who successfully completed
+        parole in a given month out of all people whose parole was terminated that
+        month.
+      </p>
+      <p>
+        Parole is considered successfully completed if an individual is
+        discharged from parole positively, either due to the parole period
+        expiring, a pardon or commutation of the individual's sentence, or an
+        early discharge granted by the Board. Unsuccessful completions of parole
+        occur when the parole ends due to absconsion, a revocation, or a
+        negative termination. Deaths, suspensions, and terminations marked as
+        “other” are excluded from these calculations because they are neither
+        successful nor unsuccessful.
+      </p> ${demographicsBoilerplate}
+        ${probationBoilerplate} ${probationDistrictBoilerplate}`,
+    },
     ParolePopulationCurrent: {
       name: "Current Parole Population",
       methodology: `<p>This data includes people currently on parole in North Dakota.</p>
@@ -257,24 +277,6 @@ const content: TenantContent = {
       methodology: `<p>This data includes the number of people that were on parole in North Dakota
         on the first day of each month over the last 20 years.</p> ${demographicsBoilerplate}
         ${paroleBoilerplate}`,
-    },
-    ParoleSuccessHistorical: {
-      name: "Historical Parole Completion Rates",
-      methodology: `<p>This data reports the percentage of people projected to complete parole
-        in a given month who have successfully completed parole by the end of that month.</p>
-        <p>Parole is considered successfully completed if an individual is discharged from
-        parole positively or if a parole period expires. Unsuccessful completions of parole occur
-        when the parole ends due to absconsion, a revocation, or a negative termination. Deaths,
-        suspensions, and terminations marked as “other” are excluded from these calculations
-        because they are neither successful nor unsuccessful.</p><p>Individuals whose parole
-        is terminated prior to their projected completion month are counted in the month in
-        which their parole is scheduled to complete, while individuals who have not yet
-        completed parole by their projected completion date are excluded. For example, if 15
-        people are projected to complete parole in 12 months, 5 are revoked this month, 3
-        are discharged early in 8 months, 2 complete parole in 12 months, and 5 do not
-        complete parole, the completion rate in 12 months will be 50%, as 10 of the people
-        projected to complete parole will have actually completed parole, 5 of them
-        successfully.</p> ${demographicsBoilerplate} ${paroleBoilerplate}`,
     },
     ParoleRevocationsAggregate: {
       name: "Reasons for Parole Revocation",
@@ -406,7 +408,7 @@ const content: TenantContent = {
           title: "What happens after probation?",
           body:
             "After probation, a person may be successfully discharged or revoked to prison. Take a look at how the rate of successful probation completion has changed over time, and how the overall rate of successful probation completion varies by demographic.",
-          metricTypeId: "ProbationSuccessHistorical",
+          metricTypeId: "ProbationTerminationsHistorical",
         },
         {
           title: "Why do revocations happen?",
@@ -445,7 +447,7 @@ const content: TenantContent = {
           title: "What happens after parole?",
           body:
             "After parole, a person may be successfully discharged or revoked to prison. Take a look at how the rate of successful parole completion has changed over time, and how the overall rate of successful parole completion varies by demographic.",
-          metricTypeId: "ParoleSuccessHistorical",
+          metricTypeId: "ParoleTerminationsHistorical",
         },
         {
           title: "Why do revocations happen?",

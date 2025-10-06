@@ -16,12 +16,15 @@
 // =============================================================================
 
 import { assertNever } from "assert-never";
+import { ERROR_MESSAGES } from "../constants";
 import {
   MetricTypeIdList,
   RidersMetricTypeIdList,
   TenantContent,
   TenantId,
 } from "../contentApi/types";
+import RootStore from "../DataStore/RootStore";
+import { NOFILTER_KEY, TOTAL_KEY } from "../demographics";
 import {
   parolePopulationCurrent,
   parolePopulationHistorical,
@@ -42,6 +45,8 @@ import {
   probationRevocationReasons,
   probationSuccessRateDemographics,
   probationSuccessRateMonthly,
+  probationTerminationRateDemographics,
+  probationTerminationRateMonthly,
   RawMetricData,
   recidivismRateAllFollowup,
   recidivismRateConventionalFollowup,
@@ -52,21 +57,18 @@ import {
   sentencePopulationCurrent,
   sentenceTypesCurrent,
 } from "../metricsApi";
-import { MetricMapping } from "./types";
+import { colors } from "../UiLibrary";
+import CategoriesByDemographicMetric from "./CategoriesByDemographicMetric";
 import DemographicsByCategoryMetric from "./DemographicsByCategoryMetric";
 import HistoricalPopulationBreakdownMetric from "./HistoricalPopulationBreakdownMetric";
+import HistoricalPopulationByCategoryMetric from "./HistoricalPopulationByCategoryMetric";
 import PopulationBreakdownByLocationMetric from "./PopulationBreakdownByLocationMetric";
 import ProgramParticipationCurrentMetric from "./ProgramParticipationCurrentMetric";
+import RateByCategoryAndDemographicsMetric from "./RateByCategoryAndDemographicsMetric";
 import RecidivismRateMetric from "./RecidivismRateMetric";
 import SentenceTypeByLocationMetric from "./SentenceTypeByLocationMetric";
 import SupervisionSuccessRateMetric from "./SupervisionSuccessRateMetric";
-import HistoricalPopulationByCategoryMetric from "./HistoricalPopulationByCategoryMetric";
-import CategoriesByDemographicMetric from "./CategoriesByDemographicMetric";
-import { ERROR_MESSAGES } from "../constants";
-import { NOFILTER_KEY, TOTAL_KEY } from "../demographics";
-import { colors } from "../UiLibrary";
-import RootStore from "../DataStore/RootStore";
-import RateByCategoryAndDemographicsMetric from "./RateByCategoryAndDemographicsMetric";
+import { MetricMapping } from "./types";
 
 type MetricMappingFactoryOptions = {
   localityLabelMapping?: TenantContent["localities"];
@@ -385,6 +387,29 @@ export default function createMetricMapping({
             demographicDataTransformer: paroleSuccessRateDemographics,
             demographicSourceFileName:
               "supervision_success_by_period_by_demographics",
+            rootStore,
+          })
+        );
+        break;
+      case "ProbationTerminationsHistorical":
+        if (!localityLabelMapping?.Probation)
+          throw new Error(localityContentError);
+
+        metricMapping.set(
+          metricType,
+          new SupervisionSuccessRateMetric({
+            ...metadata,
+            demographicFilter,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: "total",
+            defaultLocalityId: TOTAL_KEY,
+            localityLabels: localityLabelMapping.Probation,
+            dataTransformer: probationTerminationRateMonthly,
+            sourceFileName: "supervision_terminations_by_month",
+            demographicDataTransformer: probationTerminationRateDemographics,
+            demographicSourceFileName:
+              "supervision_terminations_by_period_by_demographics",
             rootStore,
           })
         );
