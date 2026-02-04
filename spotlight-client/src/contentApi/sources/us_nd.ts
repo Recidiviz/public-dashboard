@@ -474,6 +474,7 @@ const content: TenantContent = {
       entries: [
         { id: "ALL", label: "All Facilities" },
         { id: "BTC", label: "Bismarck Transition Center" },
+        { id: "DEFP", label: "Deferred Prioritization" },
         { id: "DWCRC", label: "Dakota Women's Correctional" },
         { id: "FTPFAR", label: "Fargo-Female Transition Program" },
         { id: "MTPFAR", label: "Fargo-Male Transition Program" },
