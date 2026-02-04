@@ -48,6 +48,12 @@ type DemographicFilterSelectProps = {
     | RateByCategoryAndDemographicsMetric;
 };
 
+/**
+ * NOTE: This component uses an optional label override approach for tenant-specific
+ * demographic labels (e.g., PA uses "Race" instead of "Race or Ethnicity").
+ * A more comprehensive approach would be to use React context to provide tenant
+ * configuration globally, but the current approach minimizes code changes.
+ */
 const DemographicFilterSelect: React.FC<DemographicFilterSelectProps> = ({
   disabled,
   isTotalAvailable = true,
@@ -60,7 +66,7 @@ const DemographicFilterSelect: React.FC<DemographicFilterSelectProps> = ({
         : view !== "nofilter" && view !== "total"
   ).map((view) => ({
     id: view,
-    label: getDemographicViewLabel(view),
+    label: getDemographicViewLabel(view, metric.demographicLabels),
   }));
 
   const onChange = action("change demographic filter", (newFilter: string) => {

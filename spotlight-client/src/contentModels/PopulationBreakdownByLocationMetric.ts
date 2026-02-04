@@ -71,7 +71,7 @@ export default class PopulationBreakdownByLocationMetric extends Metric<Populati
         view !== "total" && view !== "nofilter"
     ).map((demographicView) => {
       return {
-        label: getDemographicViewLabel(demographicView),
+        label: getDemographicViewLabel(demographicView, this.demographicLabels),
         records: calculatePct(
           getDemographicCategories(demographicView).map(
             ({ identifier, label }, index) => {

@@ -41,6 +41,11 @@ export type DemographicCategoryFilter = {
   ageBucket?: AgeValue[];
 };
 
+// Optional labels to override default demographic view labels per tenant
+export type DemographicLabels = {
+  raceOrEthnicity?: string;
+};
+
 export type TenantContent = {
   name: string;
   docName: string;
@@ -87,6 +92,8 @@ export type TenantContent = {
   // if categories are enumerated for any of the keys here, they will be the only ones used;
   // otherwise categories default to including all values in the associated unions
   demographicCategories?: DemographicCategoryFilter;
+  // optional overrides for demographic view labels (e.g., "Race" instead of "Race or Ethnicity")
+  demographicLabels?: DemographicLabels;
 };
 
 // ============================

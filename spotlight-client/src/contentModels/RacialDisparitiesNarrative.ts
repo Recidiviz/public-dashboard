@@ -29,6 +29,7 @@ import {
   RacialDisparitiesSection,
   TenantId,
   DemographicCategoryFilter,
+  DemographicLabels,
 } from "../contentApi/types";
 import RootStore from "../DataStore/RootStore";
 import {
@@ -145,6 +146,7 @@ type ConstructorOpts = {
   defaultCategory?: RaceIdentifier;
   content: RacialDisparitiesNarrativeContent;
   categoryFilter?: DemographicCategoryFilter["raceOrEthnicity"];
+  demographicLabels?: DemographicLabels;
   rootStore?: RootStore;
 };
 
@@ -173,6 +175,9 @@ export default class RacialDisparitiesNarrative implements Hydratable {
   readonly chartLabels: RacialDisparitiesChartLabels;
 
   readonly tenantId: TenantId;
+
+  // Label for race/ethnicity demographic view (tenant-specific override)
+  readonly raceOrEthnicityLabel: string;
 
   private readonly focusColor = colors.dataVizNamed.blue;
 
@@ -205,6 +210,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
     defaultCategory,
     content,
     categoryFilter,
+    demographicLabels,
     rootStore,
   }: ConstructorOpts) {
     this.tenantId = tenantId;
@@ -220,6 +226,8 @@ export default class RacialDisparitiesNarrative implements Hydratable {
     this.allCategories = createDemographicCategories({
       raceOrEthnicity: categoryFilter,
     }).raceOrEthnicity;
+    this.raceOrEthnicityLabel =
+      demographicLabels?.raceOrEthnicity || "Race or Ethnicity";
     this.rootStore = rootStore;
 
     makeAutoObservable<RacialDisparitiesNarrative, "records">(this, {

@@ -36,6 +36,9 @@ const content: TenantContent = {
       "OTHER",
     ],
   },
+  demographicLabels: {
+    raceOrEthnicity: "Race",
+  },
   smallDataDisclaimer: `Note that in cases where the counts are especially low,
     rounding may have a significant impact.`,
   systemNarratives: {
