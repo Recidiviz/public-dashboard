@@ -143,7 +143,9 @@ const RacialDisparitiesPreview = observer(
               <BarChartPair data={narrative.populationDataSeries} preview />
             </ChartPreview>
           )}
-          <ChartTitle>Population by {narrative.raceOrEthnicityLabel}</ChartTitle>
+          <ChartTitle>
+            Population by {narrative.raceOrEthnicityLabel}
+          </ChartTitle>
         </>
       </ModelHydrator>
     );

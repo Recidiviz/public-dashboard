@@ -69,7 +69,10 @@ function formatUnknownCounts(
     if (!value) return;
 
     parts.push(
-      `${getDemographicViewLabel(key, demographicLabels).toLowerCase()} (${formatAsNumber(value)})`
+      `${getDemographicViewLabel(
+        key,
+        demographicLabels
+      ).toLowerCase()} (${formatAsNumber(value)})`
     );
   });
 
@@ -261,7 +264,10 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
               entry.unknowns.category
             )})`;
           } else {
-            formattedCounts = formatUnknownCounts(entry.unknowns, this.demographicLabels);
+            formattedCounts = formatUnknownCounts(
+              entry.unknowns,
+              this.demographicLabels
+            );
           }
 
           if ("date" in entry) {

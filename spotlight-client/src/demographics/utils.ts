@@ -16,7 +16,10 @@
 // =============================================================================
 
 import assertNever from "assert-never";
-import { DemographicCategoryFilter, DemographicLabels } from "../contentApi/types";
+import {
+  DemographicCategoryFilter,
+  DemographicLabels,
+} from "../contentApi/types";
 import { DemographicFields, isDemographicFieldKey } from "../metricsApi";
 import {
   AgeValue,
