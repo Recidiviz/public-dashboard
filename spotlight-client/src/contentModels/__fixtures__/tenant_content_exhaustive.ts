@@ -50,6 +50,9 @@ const content: ExhaustiveTenantContent = {
     gender: ["MALE", "FEMALE"],
     ageBucket: ["<25", "25-29", "30-39", "40-49", "50-59", "60-69", "70<"],
   },
+  demographicLabels: {
+    raceOrEthnicity: "Race or Ethnicity",
+  },
   metrics: {
     SentencePopulationCurrent: {
       name: "test SentencePopulationCurrent name",
