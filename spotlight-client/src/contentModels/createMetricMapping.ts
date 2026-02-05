@@ -72,6 +72,7 @@ type MetricMappingFactoryOptions = {
   topologyMapping?: TenantContent["topologies"];
   tenantId: TenantId;
   demographicFilter?: TenantContent["demographicCategories"];
+  demographicLabels?: TenantContent["demographicLabels"];
   rootStore?: RootStore;
 };
 /**
@@ -86,6 +87,7 @@ export default function createMetricMapping({
   topologyMapping,
   tenantId,
   demographicFilter,
+  demographicLabels,
   rootStore,
 }: MetricMappingFactoryOptions): MetricMapping {
   const metricMapping: MetricMapping = new Map();
@@ -119,6 +121,7 @@ export default function createMetricMapping({
             new PopulationBreakdownByLocationMetric({
               ...metadata,
               demographicFilter,
+              demographicLabels,
               id: metricType,
               tenantId,
               defaultDemographicView: NOFILTER_KEY,
@@ -141,6 +144,7 @@ export default function createMetricMapping({
           new SentenceTypeByLocationMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -162,6 +166,7 @@ export default function createMetricMapping({
             new PopulationBreakdownByLocationMetric({
               ...metadata,
               demographicFilter,
+              demographicLabels,
               id: metricType,
               tenantId,
               defaultDemographicView: NOFILTER_KEY,
@@ -185,6 +190,7 @@ export default function createMetricMapping({
             new PopulationBreakdownByLocationMetric({
               ...metadata,
               demographicFilter,
+              demographicLabels,
               id: metricType,
               tenantId,
               defaultDemographicView: NOFILTER_KEY,
@@ -207,6 +213,7 @@ export default function createMetricMapping({
             new PopulationBreakdownByLocationMetric({
               ...metadata,
               demographicFilter,
+              demographicLabels,
               id: metricType,
               tenantId,
               defaultDemographicView: NOFILTER_KEY,
@@ -229,6 +236,7 @@ export default function createMetricMapping({
             new PopulationBreakdownByLocationMetric({
               ...metadata,
               demographicFilter,
+              demographicLabels,
               id: metricType,
               tenantId,
               defaultDemographicView: NOFILTER_KEY,
@@ -248,6 +256,7 @@ export default function createMetricMapping({
           new HistoricalPopulationBreakdownMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -265,6 +274,7 @@ export default function createMetricMapping({
           new HistoricalPopulationBreakdownMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -282,6 +292,7 @@ export default function createMetricMapping({
           new HistoricalPopulationBreakdownMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -305,6 +316,7 @@ export default function createMetricMapping({
           new ProgramParticipationCurrentMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: undefined,
@@ -329,6 +341,7 @@ export default function createMetricMapping({
           new ProgramParticipationCurrentMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: undefined,
@@ -350,6 +363,7 @@ export default function createMetricMapping({
           new SupervisionSuccessRateMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -373,6 +387,7 @@ export default function createMetricMapping({
           new SupervisionSuccessRateMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -393,6 +408,7 @@ export default function createMetricMapping({
           new DemographicsByCategoryMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -411,6 +427,7 @@ export default function createMetricMapping({
           new DemographicsByCategoryMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -429,6 +446,7 @@ export default function createMetricMapping({
           new DemographicsByCategoryMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -453,6 +471,7 @@ export default function createMetricMapping({
           new DemographicsByCategoryMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -470,6 +489,7 @@ export default function createMetricMapping({
           new RecidivismRateMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -487,6 +507,7 @@ export default function createMetricMapping({
           new RecidivismRateMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -505,6 +526,7 @@ export default function createMetricMapping({
           new DemographicsByCategoryMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -555,6 +577,7 @@ export default function createMetricMapping({
           new DemographicsByCategoryMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "total",
@@ -572,6 +595,7 @@ export default function createMetricMapping({
           new RateByCategoryAndDemographicsMetric({
             ...metadata,
             demographicFilter,
+            demographicLabels,
             id: metricType,
             tenantId,
             defaultDemographicView: "raceOrEthnicity",

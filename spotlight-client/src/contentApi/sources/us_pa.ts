@@ -30,12 +30,14 @@ const content: TenantContent = {
   demographicCategories: {
     raceOrEthnicity: [
       "BLACK",
-      "HISPANIC",
       "WHITE",
       "ASIAN",
       "AMERICAN_INDIAN_ALASKAN_NATIVE",
       "OTHER",
     ],
+  },
+  demographicLabels: {
+    raceOrEthnicity: "Race",
   },
   smallDataDisclaimer: `Note that in cases where the counts are especially low,
     rounding may have a significant impact.`,
@@ -190,8 +192,8 @@ const content: TenantContent = {
         In distributions by age, individuals are counted towards the age group they
         fall into as of the reporting date. Gender distributions only include male and
         female due to low numbers of other reported genders. Distributions by race
-        count individuals with more than one reported race or ethnicity towards the
-        racial or ethnic identity that is least represented in the general population.
+        count individuals with more than one reported race towards the
+        racial identity that is least represented in the general population.
       </p>
       <p>
         All calculations are updated weekly. Methodologies for these calculations may
@@ -211,8 +213,8 @@ const content: TenantContent = {
         In distributions by age, individuals are counted towards the age group they
         fall into as of the reporting date. Gender distributions only include male and
         female due to low numbers of other reported genders. Distributions by race
-        count individuals with more than one reported race or ethnicity towards the
-        racial or ethnic identity that is least represented in the general population.
+        count individuals with more than one reported race towards the
+        racial identity that is least represented in the general population.
       </p>
       <p>
         All calculations are updated weekly. Methodologies for these calculations may
@@ -301,8 +303,8 @@ const content: TenantContent = {
         In distributions by age, individuals are counted towards the age group they
         fall into as of the reporting date. Gender distributions only include male and
         female due to low numbers of other reported genders. Distributions by race
-        count individuals with more than one reported race or ethnicity towards the
-        racial or ethnic identity that is least represented in the general population.
+        count individuals with more than one reported race towards the
+        racial identity that is least represented in the general population.
       </p>
       <p>
         This data may include some individuals on parole in Pennsylvania as part of
@@ -330,8 +332,8 @@ const content: TenantContent = {
         In distributions by age, individuals are counted towards the age group they
         fall into as of the reporting date. Gender distributions only include male and
         female due to low numbers of other reported genders. Distributions by race
-        count individuals with more than one reported race or ethnicity towards the
-        racial or ethnic identity that is least represented in the general population.
+        count individuals with more than one reported race towards the
+        racial identity that is least represented in the general population.
       </p>
       <p>
         This data may include some individuals on parole in Pennsylvania as part of
@@ -375,8 +377,8 @@ const content: TenantContent = {
         In distributions by age, individuals are counted towards the age group they
         fall into as of the reporting date. Gender distributions only include male and
         female due to low numbers of other reported genders. Distributions by race
-        count individuals with more than one reported race or ethnicity towards the
-        racial or ethnic identity that is least represented in the general population.
+        count individuals with more than one reported race towards the
+        racial identity that is least represented in the general population.
       </p>
       <p>
         This data may include some individuals on parole in Pennsylvania as part of
@@ -428,8 +430,8 @@ const content: TenantContent = {
         In distributions by age, individuals are counted towards the age group they
         fall into as of the reporting date. Gender distributions only include male and
         female due to low numbers of other reported genders. Distributions by race
-        count individuals with more than one reported race or ethnicity towards the
-        racial or ethnic identity that is least represented in the general population.
+        count individuals with more than one reported race towards the
+        racial identity that is least represented in the general population.
       </p>
       <p>
         This data may include some individuals on parole in Pennsylvania as part of
@@ -453,8 +455,7 @@ const content: TenantContent = {
     </p>
     <p>
       Black Pennsylvanians are {likelihoodVsWhite.BLACK} times as likely to be under
-      DOC control as their white counterparts and Latino Pennsylvanians are
-      {likelihoodVsWhite.HISPANIC} times as likely.
+      DOC control as their white counterparts.
     </p>
     <aside>
       All calculations are updated weekly. Methodologies for these calculations may
@@ -462,9 +463,8 @@ const content: TenantContent = {
       Department of Corrections.
     </aside>`,
     introductionMethodology: `<p>
-      Distributions by race count individuals with more than one reported race or
-      ethnicity towards the racial or ethnic identity that is least represented in
-      the general population.
+      Distributions by race count individuals with more than one reported race towards
+      the racial identity that is least represented in the general population.
     </p>
     <p>
       This data may include some individuals on probation or parole in Pennsylvania
@@ -480,12 +480,12 @@ const content: TenantContent = {
       Department of Corrections.
     </p>`,
     chartLabels: {
-      totalPopulation: "Proportions of racial/ethnic groups in the state",
+      totalPopulation: "Proportions of racial groups in the state",
       totalSentenced:
-        "Proportions of racial/ethnic groups in State Correctional Institutions",
+        "Proportions of racial groups in State Correctional Institutions",
       paroleGrant: "",
       incarceratedPopulation: "",
-      otherGroups: "All other racial/ethnic groups",
+      otherGroups: "All other racial groups",
       programmingParticipants: "",
       supervisionPopulation: "",
       totalPopulationSentences: "",
@@ -512,12 +512,11 @@ const content: TenantContent = {
           a period of incarceration where parole is documented as the reason for
           release. This data calculates the percent of the overall incarceration
           population and overall releases to parole over the last 3 years, or 36 months,
-          who were of the selected racial or ethnic group.
+          who were of the selected racial group.
         </p>
         <p>
-          Distributions by race count individuals with more than one reported race or
-          ethnicity towards the racial or ethnic identity that is least represented in
-          the general population.
+          Distributions by race count individuals with more than one reported race towards
+          the racial identity that is least represented in the general population.
         </p>
         <p>
           This data may include some individuals on probation or parole in Pennsylvania
@@ -595,9 +594,8 @@ const content: TenantContent = {
           both supervision types when broken out separately.
         </p>
         <p>
-          Distributions by race count individuals with more than one reported race or
-          ethnicity towards the racial or ethnic identity that is least represented in
-          the general population.
+          Distributions by race count individuals with more than one reported race towards
+          the racial identity that is least represented in the general population.
         </p>
         <p>
           This data may include some individuals on probation or parole in Pennsylvania

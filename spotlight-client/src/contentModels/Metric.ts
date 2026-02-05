@@ -27,6 +27,7 @@ import {
 import {
   AllMetricsTypeId,
   DemographicCategoryFilter,
+  DemographicLabels,
   LocalityLabels,
   TenantId,
 } from "../contentApi/types";
@@ -57,7 +58,10 @@ import {
   UnknownByCohort,
 } from "./types";
 
-function formatUnknownCounts(unknowns: UnknownCounts) {
+function formatUnknownCounts(
+  unknowns: UnknownCounts,
+  demographicLabels?: DemographicLabels
+) {
   const parts: string[] = [];
 
   DemographicFieldKeyList.forEach((key) => {
@@ -65,7 +69,10 @@ function formatUnknownCounts(unknowns: UnknownCounts) {
     if (!value) return;
 
     parts.push(
-      `${getDemographicViewLabel(key).toLowerCase()} (${formatAsNumber(value)})`
+      `${getDemographicViewLabel(
+        key,
+        demographicLabels
+      ).toLowerCase()} (${formatAsNumber(value)})`
     );
   });
 
@@ -80,6 +87,7 @@ export type BaseMetricConstructorOptions<RecordFormat extends MetricRecord> = {
   sourceFileName: string;
   dataTransformer: (d: RawMetricData) => RecordFormat[];
   demographicFilter?: DemographicCategoryFilter;
+  demographicLabels?: DemographicLabels;
   defaultDemographicView: RecordFormat extends DemographicFields
     ? DemographicView
     : // special case: this metric supports demographics for an alternative record format
@@ -132,6 +140,9 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
   // filter properties
   private readonly demographicCategories: DemographicCategories;
 
+  // tenant-specific label overrides (e.g., PA uses "Race" instead of "Race or Ethnicity")
+  readonly demographicLabels?: DemographicLabels;
+
   localityId: RecordFormat extends LocalityFields ? string : undefined;
 
   localityLabels: RecordFormat extends LocalityFields
@@ -153,6 +164,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     sourceFileName,
     dataTransformer,
     demographicFilter,
+    demographicLabels,
     defaultDemographicView,
     defaultLocalityId,
     localityLabels,
@@ -184,6 +196,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
     // initialize filters
     this.demographicCategories = createDemographicCategories(demographicFilter);
     this.getDemographicCategories = this.getDemographicCategories.bind(this);
+    this.demographicLabels = demographicLabels;
     this.localityId = defaultLocalityId;
     this.localityLabels = localityLabels;
     this.demographicView = defaultDemographicView;
@@ -251,7 +264,10 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
               entry.unknowns.category
             )})`;
           } else {
-            formattedCounts = formatUnknownCounts(entry.unknowns);
+            formattedCounts = formatUnknownCounts(
+              entry.unknowns,
+              this.demographicLabels
+            );
           }
 
           if ("date" in entry) {
@@ -264,7 +280,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
         })
         .join("; ");
     } else {
-      formattedUnknowns = formatUnknownCounts(unknowns);
+      formattedUnknowns = formatUnknownCounts(unknowns, this.demographicLabels);
     }
     return `${this.methodology}\n\nVISUALIZATION FOOTNOTES:\n\nValues that count towards the total but are excluded from demographic breakdown views: ${formattedUnknowns}`;
   }

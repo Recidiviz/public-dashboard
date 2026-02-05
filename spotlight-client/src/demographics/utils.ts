@@ -16,7 +16,10 @@
 // =============================================================================
 
 import assertNever from "assert-never";
-import { DemographicCategoryFilter } from "../contentApi/types";
+import {
+  DemographicCategoryFilter,
+  DemographicLabels,
+} from "../contentApi/types";
 import { DemographicFields, isDemographicFieldKey } from "../metricsApi";
 import {
   AgeValue,
@@ -157,8 +160,13 @@ const demographicViewLabels: {
 };
 
 export function getDemographicViewLabel(
-  view: Exclude<DemographicView, "nofilter">
+  view: Exclude<DemographicView, "nofilter">,
+  labelOverrides?: DemographicLabels
 ): string {
+  // Check for tenant-specific label override (e.g., PA uses "Race" instead of "Race or Ethnicity")
+  if (view === "raceOrEthnicity" && labelOverrides?.raceOrEthnicity) {
+    return labelOverrides.raceOrEthnicity;
+  }
   return demographicViewLabels[view];
 }
 
