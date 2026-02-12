@@ -71,7 +71,7 @@
     "mobx-utils": "^6.0.1",
     "polished": "^4.1.2",
     "pupa": "^2.1.1",
-    "qs": "^6.9.7",
+    "qs": "^6.14.2",
     "react": "^17.0.0",
     "react-app-polyfill": "^1.0.6",
     "react-collapsed": "^3.0.1",
