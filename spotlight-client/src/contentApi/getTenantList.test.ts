@@ -24,10 +24,6 @@ test("getTenantList", () => {
         "id": "US_ND",
         "name": "North Dakota",
       },
-      Object {
-        "id": "US_PA",
-        "name": "Pennsylvania",
-      },
     ]
   `);
 });

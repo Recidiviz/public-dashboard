@@ -121,7 +121,7 @@ test("default section number", () => {
   });
 
   runInAction(() => {
-    tenantStore.currentTenantId = "US_PA";
+    tenantStore.currentTenantId = "US_ND";
     tenantStore.currentNarrativeTypeId = "Prison";
   });
 
@@ -142,7 +142,7 @@ test("can set current section number", () => {
   const { tenantStore } = getDataStore();
 
   runInAction(() => {
-    tenantStore.currentTenantId = "US_PA";
+    tenantStore.currentTenantId = "US_ND";
     tenantStore.currentNarrativeTypeId = "Prison";
     tenantStore.currentSectionNumber = 2;
   });
@@ -156,7 +156,7 @@ test("section number is validated against current narrative", () => {
   const { tenantStore } = getDataStore();
 
   runInAction(() => {
-    tenantStore.currentTenantId = "US_PA";
+    tenantStore.currentTenantId = "US_ND";
     tenantStore.currentNarrativeTypeId = "Prison";
     tenantStore.currentSectionNumber = 3;
   });
@@ -193,6 +193,6 @@ test("section number is validated against current narrative", () => {
   });
 
   reactImmediately(() => {
-    expect(tenantStore.currentSectionNumber).toBe(6);
+    expect(tenantStore.currentSectionNumber).toBe(8);
   });
 });
