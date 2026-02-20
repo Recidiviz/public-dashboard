@@ -21,5 +21,8 @@ import US_PA from "./sources/us_pa";
 
 test("returns content for the specified tenant", () => {
   expect(retrieveContent({ tenantId: "US_ND" })).toEqual(US_ND);
-  expect(retrieveContent({ tenantId: "US_PA" })).toEqual(US_PA);
+});
+
+test("throws for disabled tenant", () => {
+  expect(() => retrieveContent({ tenantId: "US_PA" })).toThrow();
 });
