@@ -28,7 +28,7 @@ jobs:
         run: | 
          corepack enable 
          yarn set version stable
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
       - run: yarn lint
   test-spotlight-client:
     permissions:
@@ -56,7 +56,7 @@ jobs:
          corepack enable 
          yarn set version stable
       - name: install test server dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
         working-directory: spotlight-api
       - run: yarn test --coverage --forceExit --runInBand
       - name: Coveralls
@@ -86,7 +86,7 @@ jobs:
         run: | 
          corepack enable 
          yarn set version stable
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
       - run: yarn lint
   test-spotlight-api:
     permissions:
@@ -111,7 +111,7 @@ jobs:
         run: | 
          corepack enable 
          yarn set version stable
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
       - run: yarn test --coverage --runInBand
       - name: Coveralls
         uses: coverallsapp/github-action@09b709cf6a16e30b0808ba050c7a6e8a5ef13f8d # master

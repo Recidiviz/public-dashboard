@@ -31,7 +31,7 @@ jobs:
          corepack enable 
          yarn set version stable
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: Build
         # in lieu of build-staging, which consumes a .env that is not available in CI,
         # we configure the build for staging here
