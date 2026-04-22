@@ -62,7 +62,7 @@ describe("fetchMetrics", () => {
           termination_count: "95",
           success_rate: 0.45263157894736844,
         },
-      ])
+      ]),
     );
   });
 
@@ -76,7 +76,7 @@ describe("fetchMetrics", () => {
         metricNames: ["this_file_does_not_exist"],
         tenantId: "US_ND",
       });
-    } catch (e) {
+    } catch (e: any) {
       expect(e.message).toMatch("500");
       expect(e.message).toMatch("not registered");
     }
@@ -130,7 +130,7 @@ describe("fetchAndTransformMetric", () => {
         transformFn: jest.fn(),
         tenantId: "US_ND",
       });
-    } catch (e) {
+    } catch (e: any) {
       expect(e.message).toBe(ERROR_MESSAGES.noMetricData);
     }
 
@@ -148,7 +148,7 @@ describe("fetchAndTransformMetric", () => {
         metricNames: ["any_metric"],
         tenantId: "US_ND",
       });
-    } catch (e) {
+    } catch (e: any) {
       expect(e.message).toBe(`Error: Network error`);
     }
 

@@ -43,3 +43,6 @@ package-lock.json
 
 # Typescript build artifacts
 *.tsbuildinfo
+
+# yarn
+*/*/install-state.gz

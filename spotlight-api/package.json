@@ -7,7 +7,7 @@
   "author": "Recidiviz <team@recidiviz.org>",
   "license": "GNU General Public License v3",
   "engines": {
-    "node": "14.x"
+    "node": "22.x"
   },
   "scripts": {
     "demo": "IS_DEMO=true yarn dev",
@@ -30,6 +30,7 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
     "@recidiviz/eslint-config": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
@@ -60,7 +61,7 @@
     "set-value": "4.0.1"
   },
   "volta": {
-    "node": "14.21.3",
+    "node": "22^",
     "yarn": "1.22.22"
   }
 }

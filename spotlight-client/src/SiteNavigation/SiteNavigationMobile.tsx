@@ -19,7 +19,7 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React, { useRef } from "react";
-import useCollapse from "react-collapsed";
+import { useCollapse } from "react-collapsed";
 import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { typography } from "@recidiviz/design-system";
@@ -107,11 +107,12 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
     isExpanded,
     setExpanded,
   } = useCollapse({
-    onCollapseStart: () => {
-      if (menuScrollRef.current) enableBodyScroll(menuScrollRef.current);
-    },
-    onExpandStart: () => {
-      if (menuScrollRef.current) disableBodyScroll(menuScrollRef.current);
+    onTransitionStateChange: (state) => {
+      if (state == "expandStart") {
+        if (menuScrollRef.current) disableBodyScroll(menuScrollRef.current);
+      } else if (state == "collapseStart") {
+        if (menuScrollRef.current) disableBodyScroll(menuScrollRef.current);
+      }
     },
   });
 
@@ -178,7 +179,7 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
                         {narrative.title}
                       </NavLink>
                     </NavMenuItem>
-                  )
+                  ),
               )}
               {tenant.racialDisparitiesNarrative && (
                 <NavMenuItem>

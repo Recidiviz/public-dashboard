@@ -23,13 +23,13 @@ jobs:
       - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
       - uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2.5.2
         with:
-          node-version: "14.x"
+          node-version: "20.x"
       - run: yarn install --frozen-lockfile
       - run: yarn lint
   test-spotlight-client:
     permissions:
-      checks: write  # for coverallsapp/github-action to create new checks
-      contents: read  # for actions/checkout to fetch code
+      checks: write # for coverallsapp/github-action to create new checks
+      contents: read # for actions/checkout to fetch code
     name: Test Spotlight Client
     runs-on: ubuntu-latest
     defaults:
@@ -43,12 +43,12 @@ jobs:
         uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
         with:
           egress-policy: audit
-
       - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
       - uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2.5.2
         with:
-          node-version: "14.x"
-      - run: yarn install --frozen-lockfile
+          node-version: "20.x"
+      - name: upgrade yarn
+        run: yarn set version 4.x
       - name: install test server dependencies
         run: yarn install --frozen-lockfile
         working-directory: spotlight-api
@@ -75,13 +75,13 @@ jobs:
       - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
       - uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2.5.2
         with:
-          node-version: "14.x"
+          node-version: "20.x"
       - run: yarn install --frozen-lockfile
       - run: yarn lint
   test-spotlight-api:
     permissions:
-      checks: write  # for coverallsapp/github-action to create new checks
-      contents: read  # for actions/checkout to fetch code
+      checks: write # for coverallsapp/github-action to create new checks
+      contents: read # for actions/checkout to fetch code
     name: Test Spotlight API
     runs-on: ubuntu-latest
     defaults:
@@ -96,7 +96,7 @@ jobs:
       - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
       - uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2.5.2
         with:
-          node-version: "14.x"
+          node-version: "20.x"
       - run: yarn install --frozen-lockfile
       - run: yarn test --coverage --runInBand
       - name: Coveralls
@@ -108,7 +108,7 @@ jobs:
           path-to-lcov: spotlight-api/coverage/lcov.info
   finish-coveralls:
     permissions:
-      checks: write  # for coverallsapp/github-action to create new checks
+      checks: write # for coverallsapp/github-action to create new checks
     name: Finish Coveralls
     runs-on: ubuntu-latest
     needs: [test-spotlight-client, test-spotlight-api]

@@ -29,11 +29,17 @@ type MenuButtonProps = {
   isOpen: boolean;
 };
 
+type iconProps = {
+  from: number;
+  fill: string;
+  secondLineY: number;
+};
+
 export default function MenuButton({
   isOpen,
   ...buttonProps
 }: MenuButtonProps): React.ReactElement {
-  const iconProps = useSpring({
+  const iconProps = useSpring<iconProps>({
     from: { fill: colors.menuButtonClosed, secondLineY: 5 },
     fill: isOpen ? colors.menuButtonOpen : colors.menuButtonClosed,
     secondLineY: isOpen ? 0 : 5,

@@ -57,7 +57,7 @@ const getCorrectionsRateCurrent = (record: RacialDisparitiesRecord) => {
 const getTotalRevocationsCount = (record: CountsForSupervisionType) =>
   RevocationCountKeyList.reduce(
     (total, currentKey) => total + record[currentKey],
-    0
+    0,
   );
 
 type RevocationProportions = Record<
@@ -76,7 +76,7 @@ const getRevocationTypeProportions = (record: CountsForSupervisionType) => {
       [currentKey.replace("Count", "Proportion")]:
         record[currentKey] / totalRevocations,
     }),
-    {} as RevocationProportions
+    {} as RevocationProportions,
   );
 };
 
@@ -91,7 +91,7 @@ const SupervisionTypeList = ["supervision", "parole", "probation"] as const;
 export type SupervisionType = typeof SupervisionTypeList[number];
 
 function getSentencingMetrics(
-  record: RacialDisparitiesRecord
+  record: RacialDisparitiesRecord,
 ): SentencingMetrics {
   const totalSentencedCurrent = record.currentTotalSentencedCount;
 
@@ -255,7 +255,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
         }, {} as RecordsMapping);
         this.isLoading = false;
       });
-    } catch (e) {
+    } catch (e: any) {
       runInAction(() => {
         this.isLoading = false;
         this.error = e;
@@ -266,7 +266,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
   get selectedCategoryLabel(): string {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this.allCategories.find(
-      ({ identifier }) => identifier === this.selectedCategory
+      ({ identifier }) => identifier === this.selectedCategory,
     )!.label;
   }
 
@@ -289,7 +289,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
     if (records === undefined) return undefined;
 
     const correctionsRates = mapValues(records, (record) =>
-      getCorrectionsRateCurrent(record)
+      getCorrectionsRateCurrent(record),
     );
 
     const getSentenceLikelihood = (category: RaceIdentifier) =>
@@ -433,7 +433,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
             color: colors.dataViz[index],
             value: records[identifier as RaceIdentifier]?.totalStatePopulation,
           };
-        })
+        }),
       ),
     };
 
@@ -447,7 +447,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
             value:
               records[identifier as RaceIdentifier]?.currentTotalSentencedCount,
           };
-        })
+        }),
       ),
     };
 
@@ -468,7 +468,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
       // merge all unselected categories into one
       const splitRecords = group(
         series.records,
-        (record) => record.label === selectedCategoryLabel
+        (record) => record.label === selectedCategoryLabel,
       );
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const focusedRecord = { ...splitRecords.get(true)![0] };
@@ -484,7 +484,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
           color: unfocusedColor,
           value: 0,
           pct: 0,
-        }
+        },
       );
 
       otherRecord.pct = 1 - focusedRecord.pct;
@@ -693,7 +693,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
 
     if (this.likelihoodVsWhite) {
       data.likelihoodVsWhite = mapValues(this.likelihoodVsWhite, (val) =>
-        val.toFixed(1)
+        val.toFixed(1),
       );
     }
 
@@ -708,7 +708,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
         ...mapValues(this.programming, formatAsPct),
         comparison: comparePercentagesAsString(
           this.programming.participantProportionCurrent,
-          this.programming.supervisionProportionCurrent
+          this.programming.supervisionProportionCurrent,
         ),
       };
     }
@@ -719,7 +719,7 @@ export default class RacialDisparitiesNarrative implements Hydratable {
         overall: mapValues(this.sentencingOverall, formatAsPct),
         comparison: comparePercentagesAsString(
           this.sentencing.incarcerationPctCurrent,
-          this.sentencingOverall.incarcerationPctCurrent
+          this.sentencingOverall.incarcerationPctCurrent,
         ),
       };
     }
@@ -826,9 +826,9 @@ export default class RacialDisparitiesNarrative implements Hydratable {
             data: Object.values(
               mapValues(this.records, (record) => {
                 return flatten<Partial<typeof record>, Record<string, unknown>>(
-                  pick(record, ["raceOrEthnicity", ...fieldsToInclude])
+                  pick(record, ["raceOrEthnicity", ...fieldsToInclude]),
                 );
-              })
+              }),
             ),
           },
         ],

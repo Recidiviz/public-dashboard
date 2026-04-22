@@ -1,4 +1,4 @@
-runtime: nodejs14
+runtime: nodejs20
 
 service: {SERVICE_NAME}
 
