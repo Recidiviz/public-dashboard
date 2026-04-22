@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: "22.x"
       - name: upgrade yarn
-        run: yarn set version 4.x
+        run: yarn set version stable
       - run: yarn install --frozen-lockfile
       - run: yarn lint
   test-spotlight-client:
@@ -50,7 +50,7 @@ jobs:
         with:
           node-version: "22.x"
       - name: upgrade yarn
-        run: yarn set version 4.x
+        run: yarn set version stable
       - name: install test server dependencies
         run: yarn install --frozen-lockfile
         working-directory: spotlight-api
@@ -79,7 +79,7 @@ jobs:
         with:
           node-version: "22.x"
       - name: upgrade yarn
-        run: yarn set version 4.x
+        run: yarn set version stable
       - run: yarn install --frozen-lockfile
       - run: yarn lint
   test-spotlight-api:
@@ -102,7 +102,7 @@ jobs:
         with:
           node-version: "22.x"
       - name: upgrade yarn
-        run: yarn set version 4.x
+        run: yarn set version stable
       - run: yarn install --frozen-lockfile
       - run: yarn test --coverage --runInBand
       - name: Coveralls
