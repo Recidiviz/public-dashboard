@@ -108,9 +108,9 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
     setExpanded,
   } = useCollapse({
     onTransitionStateChange: (state) => {
-      if (state == "expandStart") {
+      if (state === "expandStart") {
         if (menuScrollRef.current) disableBodyScroll(menuScrollRef.current);
-      } else if (state == "collapseStart") {
+      } else if (state === "collapseStart") {
         if (menuScrollRef.current) disableBodyScroll(menuScrollRef.current);
       }
     },
