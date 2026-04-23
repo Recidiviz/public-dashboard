@@ -126,7 +126,6 @@ describe("total data", () => {
         () => narrative.supervisionOverall !== undefined,
         () => {
           expect(narrative.supervisionOverall).toMatchSnapshot();
-          // @ts-expect-error jest type definitions are wrong, this will be a callback
           done();
         }
       );
@@ -208,7 +207,6 @@ describe.each([
         () => narrative.supervision !== undefined,
         () => {
           expect(narrative.supervision).toMatchSnapshot();
-          // @ts-expect-error jest type definitions are wrong, this will be a callback
           done();
         }
       );
@@ -266,7 +264,6 @@ describe.each([
         () => narrative.revocationsDataSeries !== undefined,
         () => {
           expect(narrative.revocationsDataSeries).toMatchSnapshot();
-          // @ts-expect-error jest type definitions are wrong, this will be a callback
           done();
         }
       );

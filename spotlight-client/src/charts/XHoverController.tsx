@@ -140,7 +140,6 @@ const XHoverController: React.FC<{
           <XYFrame
             {...otherChartProps}
             customLineMark={() => null}
-            // @ts-expect-error gap in Semiotic typedefs
             htmlAnnotationRules={({ d, xScale }) => {
               if (d.type === "frame-hover") {
                 // we're not going to render anything but we will determine
