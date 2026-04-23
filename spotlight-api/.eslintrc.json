@@ -9,6 +9,6 @@
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true
     },
-    "extends": ["standard", "standard-react"]
+    "plugins": ["react"]
   }
 }
