@@ -3582,7 +3582,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:^7.27.1, eslint-plugin-react@npm:^7.28.0":
+"eslint-plugin-react@npm:^7.27.1, eslint-plugin-react@npm:^7.28.0, eslint-plugin-react@npm:^7.37.5":
   version: 7.37.5
   resolution: "eslint-plugin-react@npm:7.37.5"
   dependencies:
@@ -5853,6 +5853,7 @@ __metadata:
     "@eslint/eslintrc": "npm:^3.3.5"
     "@recidiviz/eslint-config": "npm:^3.0.0"
     axios: "npm:1.15.0"
+    eslint-plugin-react: "npm:^7.37.5"
     husky: "npm:^7.0.0"
     jwks-rsa: "npm:^3.1.0"
     lint-staged: "npm:>=10"
