@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
+import { disableBodyScroll } from "body-scroll-lock";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React, { useRef } from "react";
@@ -101,20 +101,16 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
 
   const menuScrollRef = useRef<HTMLDivElement>(null);
 
-  const {
-    getCollapseProps,
-    getToggleProps,
-    isExpanded,
-    setExpanded,
-  } = useCollapse({
-    onTransitionStateChange: (state) => {
-      if (state === "expandStart") {
-        if (menuScrollRef.current) disableBodyScroll(menuScrollRef.current);
-      } else if (state === "collapseStart") {
-        if (menuScrollRef.current) disableBodyScroll(menuScrollRef.current);
-      }
-    },
-  });
+  const { getCollapseProps, getToggleProps, isExpanded, setExpanded } =
+    useCollapse({
+      onTransitionStateChange: (state) => {
+        if (state === "expandStart") {
+          if (menuScrollRef.current) disableBodyScroll(menuScrollRef.current);
+        } else if (state === "collapseStart") {
+          if (menuScrollRef.current) disableBodyScroll(menuScrollRef.current);
+        }
+      },
+    });
 
   const animatedStyles = useSpring({
     from: { background: colors.background },

@@ -1,0 +1,21 @@
+{
+  // "files": ["**/*.*ts", "**/*.*tsx", "**/*.*js", "**/*.*jsx"],
+  "root": true,
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parserOptions": {
+    "parser": "babel-eslint",
+    "sourceType": "module",
+    "ecmaVersion": "latest",
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "plugins": ["react"],
+  "rules": {
+    "import/no-anonymous-default-export": "error"
+  }
+  // "extends": ["eslint:recommended"]
+}

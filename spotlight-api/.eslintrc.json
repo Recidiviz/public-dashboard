@@ -1,6 +1,14 @@
 {
-  "extends": "@recidiviz",
   "env": {
     "node": true
+  },
+  "parserOptions": {
+    "parser": "babel-eslint",
+    "sourceType": "module",
+    "ecmaVersion": "latest",
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    },
+    "extends": ["standard", "standard-react"]
   }
 }

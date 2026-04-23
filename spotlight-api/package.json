@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@google-cloud/storage": "^5.1.2",
+    "@recidiviz/tsconfig": "^2.0.0",
     "cache-manager": "^3.3.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -30,12 +31,11 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.28.6",
     "@eslint/eslintrc": "^3.3.5",
-    "@recidiviz/eslint-config": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^8.59.0",
     "@typescript-eslint/parser": "^8.59.0",
-    "babel-eslint": "^10.0.0",
-    "eslint": "^7.5.0",
+    "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-import-resolver-typescript": "^4.4.0",

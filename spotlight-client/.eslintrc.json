@@ -1,3 +1,24 @@
 {
-  "extends": ["@recidiviz"]
+  "env": {
+    "browser": true
+  },
+  "parserOptions": {
+    "parser": "typescript-eslint",
+    "sourceType": "module",
+    "ecmaVersion": "latest",
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "ignorePatterns": ["node_modules/", "build/", "public/"],
+  "plugins": ["simple-import-sort"],
+  "extends": [
+    "react-app"
+    // "airbnb",
+    // "airbnb/hooks",
+    // "plugin:prettier/recommended"
+  ],
+  "rules": {
+    " import/no-anonymous-default-export": "off"
+  }
 }

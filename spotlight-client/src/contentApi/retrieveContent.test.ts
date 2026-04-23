@@ -17,7 +17,6 @@
 
 import retrieveContent from "./retrieveContent";
 import US_ND from "./sources/us_nd";
-import US_PA from "./sources/us_pa";
 
 test("returns content for the specified tenant", () => {
   expect(retrieveContent({ tenantId: "US_ND" })).toEqual(US_ND);
