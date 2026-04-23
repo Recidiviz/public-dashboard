@@ -1,4 +1,5 @@
 {
+  "root": true,
   "env": {
     "browser": true
   },
@@ -7,11 +8,13 @@
     "sourceType": "module",
     "ecmaVersion": "latest",
     "ecmaFeatures": {
-      "experimentalObjectRestSpread": true
+      "experimentalObjectRestSpread": true,
+      "jsx": true,
+      "modules": true
     }
   },
   "ignorePatterns": ["node_modules/", "build/", "public/"],
-  "plugins": ["simple-import-sort"],
+  "plugins": ["simple-import-sort", "react"],
   "extends": [
     "react-app"
     // "airbnb",

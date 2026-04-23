@@ -43,7 +43,7 @@ beforeEach(() => {
   });
   reactImmediately(() => {
     const metricToTest = DataStore.tenant?.metrics.get(
-      "ParoleTerminationsHistorical"
+      "ParoleTerminationsHistorical",
     );
     // it will be
     if (metricToTest instanceof SupervisionSuccessRateMetric) {
@@ -81,7 +81,7 @@ test("totals", async () => {
 
   // spot check one bar
   expect(
-    within(chart).getByRole("img", { name: "Oct 2017 bar value 75%" })
+    within(chart).getByRole("img", { name: "Oct 2017 bar value 75%" }),
   ).toBeInTheDocument();
 
   // year boundaries should be labeled
@@ -108,15 +108,15 @@ test("locality filter", async () => {
 
   // spot check one bar
   expect(
-    await screen.findByRole("img", { name: "Oct 2017 bar value 67%" })
+    await screen.findByRole("img", { name: "Oct 2017 bar value 67%" }),
   ).toBeInTheDocument();
 
   expect(
     screen.getByText(
       (content, element) =>
-        element.tagName.toLowerCase() === "figure" &&
-        element.textContent === "58%Total"
-    )
+        element?.tagName.toLowerCase() === "figure" &&
+        element?.textContent === "58%Total",
+    ),
   ).toBeInTheDocument();
 });
 
@@ -127,15 +127,17 @@ test("demographic filter", async () => {
     name: "View Total",
   });
 
-  (["raceOrEthnicity", "gender", "ageBucket"] as Exclude<
-    DemographicView,
-    "nofilter"
-  >[]).forEach((demographicView) => {
+  (
+    ["raceOrEthnicity", "gender", "ageBucket"] as Exclude<
+      DemographicView,
+      "nofilter"
+    >[]
+  ).forEach((demographicView) => {
     fireEvent.click(menuButton);
     fireEvent.click(
       screen.getByRole("option", {
         name: getDemographicViewLabel(demographicView),
-      })
+      }),
     );
 
     metric.getDemographicCategories(demographicView).forEach(({ label }) => {

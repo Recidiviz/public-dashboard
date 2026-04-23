@@ -33,7 +33,7 @@ beforeEach(() => {
 
 test("renders all the sections", async () => {
   expect(await screen.findByTestId("PageTitle")).toHaveTextContent(
-    "Racial Disparities"
+    "Racial Disparities",
   );
 
   return Promise.all(
@@ -43,9 +43,9 @@ test("renders all the sections", async () => {
           name: section.title,
           // include hidden because of crossfade animation
           hidden: true,
-        })
+        }),
       ).toBeInTheDocument();
-    })
+    }),
   );
 });
 
@@ -58,49 +58,49 @@ test("renders dynamic text", async () => {
   expect(
     await screen.findByText(
       (content, element) =>
-        normalizeContents(element.textContent || "") ===
-        "introduction 81.0 26.9 23.1"
-    )
+        normalizeContents(element?.textContent || "") ===
+        "introduction 81.0 26.9 23.1",
+    ),
   ).toBeInTheDocument();
 
   expect(
     screen.getByText(
       (content, element) =>
-        normalizeContents(element.textContent || "") ===
-        "beforeCorrections body People who are Black 1% 18%"
-    )
+        normalizeContents(element?.textContent || "") ===
+        "beforeCorrections body People who are Black 1% 18%",
+    ),
   ).toBeInTheDocument();
 
   expect(
     screen.getByText(
       (content, element) =>
-        normalizeContents(element.textContent || "") ===
-        "sentencing body people who are Black 66% 36% 47% 56% greater"
-    )
+        normalizeContents(element?.textContent || "") ===
+        "sentencing body people who are Black 66% 36% 47% 56% greater",
+    ),
   ).toBeInTheDocument();
 
   expect(
     screen.getByText(
       (content, element) =>
-        normalizeContents(element.textContent || "") ===
-        "supervision body supervision 33% 47% 16% 19% 25% 27% 34% 35%"
-    )
+        normalizeContents(element?.textContent || "") ===
+        "supervision body supervision 33% 47% 16% 19% 25% 27% 34% 35%",
+    ),
   ).toBeInTheDocument();
 
   expect(
     screen.getByText(
       (content, element) =>
-        normalizeContents(element.textContent || "") ===
-        "releasesToParole body 33% 8%"
-    )
+        normalizeContents(element?.textContent || "") ===
+        "releasesToParole body 33% 8%",
+    ),
   ).toBeInTheDocument();
 
   expect(
     screen.getByText(
       (content, element) =>
-        normalizeContents(element.textContent || "") ===
-        "programming body 21% 11% greater"
-    )
+        normalizeContents(element?.textContent || "") ===
+        "programming body 21% 11% greater",
+    ),
   ).toBeInTheDocument();
 });
 

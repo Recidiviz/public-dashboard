@@ -125,15 +125,15 @@ export default class UserStore {
     if (await auth0.isAuthenticated()) {
       const user = await auth0.getUser();
       const claims = await auth0.getIdTokenClaims();
-      const stateCode = claims[
-        AUTH0_APP_METADATA_KEY
-      ]?.state_code?.toUpperCase();
+      const stateCode = claims
+        ? claims[AUTH0_APP_METADATA_KEY]?.state_code?.toUpperCase()
+        : undefined;
       runInAction(() => {
         this.getToken = (options?: GetTokenSilentlyOptions) => {
           return auth0?.getTokenSilently(options);
         };
 
-        if (user.email_verified) {
+        if (user && user.email_verified) {
           this.isAuthorized = true;
           this.awaitingVerification = false;
         } else {
@@ -148,7 +148,7 @@ export default class UserStore {
             intercept(
               this.rootStore.tenantStore,
               "currentTenantId",
-              () => null
+              () => null,
             );
           }
         }
