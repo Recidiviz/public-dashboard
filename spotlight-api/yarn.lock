@@ -1057,15 +1057,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@recidiviz/tsconfig@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@recidiviz/tsconfig@npm:2.0.0"
-  dependencies:
-    "@tsconfig/node16": "npm:^1.0.2"
-  checksum: 10c0/257d14aa382c3b10d6d52ce6007e21a471269e3952be7f554f4cf32852784197da5586a98fee8ecc07cc861196b9ab4b9d4296f76bf6056e36b1e5eb385f2e9e
-  languageName: node
-  linkType: hard
-
 "@rtsao/scc@npm:^1.1.0":
   version: 1.1.0
   resolution: "@rtsao/scc@npm:1.1.0"
@@ -1111,13 +1102,6 @@ __metadata:
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
   checksum: 10c0/8fe4d006e90422883a4fa9339dd05a83ff626806262e1710cee5758d493e8cbddf2db81c0e4690636dc840b02c9fda62877866ea774ebd07c1777ed5fafbdec6
-  languageName: node
-  linkType: hard
-
-"@tsconfig/node16@npm:^1.0.2":
-  version: 1.0.4
-  resolution: "@tsconfig/node16@npm:1.0.4"
-  checksum: 10c0/05f8f2734e266fb1839eb1d57290df1664fe2aa3b0fdd685a9035806daa635f7519bf6d5d9b33f6e69dd545b8c46bd6e2b5c79acb2b1f146e885f7f11a42a5bb
   languageName: node
   linkType: hard
 
@@ -9367,7 +9351,6 @@ __metadata:
     "@babel/eslint-parser": "npm:^7.28.6"
     "@eslint/eslintrc": "npm:^3.3.5"
     "@google-cloud/storage": "npm:^5.1.2"
-    "@recidiviz/tsconfig": "npm:^2.0.0"
     "@typescript-eslint/eslint-plugin": "npm:^8.59.0"
     "@typescript-eslint/parser": "npm:^8.59.0"
     cache-manager: "npm:^3.3.0"

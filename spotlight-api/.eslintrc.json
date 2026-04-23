@@ -8,7 +8,6 @@
     "ecmaVersion": "latest",
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true
-    },
-    "plugins": ["react"]
+    }
   }
 }

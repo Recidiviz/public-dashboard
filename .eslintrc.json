@@ -1,5 +1,4 @@
 {
-  // "files": ["**/*.*ts", "**/*.*tsx", "**/*.*js", "**/*.*jsx"],
   "root": true,
   "env": {
     "browser": true,
@@ -13,9 +12,7 @@
       "experimentalObjectRestSpread": true
     }
   },
-  "plugins": ["react"],
   "rules": {
     "import/no-anonymous-default-export": "off"
   }
-  // "extends": ["eslint:recommended"]
 }

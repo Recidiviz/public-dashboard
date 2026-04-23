@@ -24,10 +24,10 @@ jobs:
       - uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2.5.2
         with:
           node-version: "22.x"
-      - name: upgrade yarn 
-        run: | 
-         corepack enable 
-         yarn set version stable
+      - name: upgrade yarn
+        run: |
+          corepack enable 
+          yarn set version stable
       - run: yarn install --immutable
       - run: yarn lint
   test-spotlight-client:
@@ -52,12 +52,12 @@ jobs:
         with:
           node-version: "22.x"
       - name: upgrade yarn
-        run: | 
-         corepack enable 
-         yarn set version stable
+        run: |
+          corepack enable 
+          yarn set version stable
       - name: install test server dependencies
         run: yarn install --immutable
-        working-directory: spotlight-api
+        working-directory: spotlight-client
       - run: yarn test --coverage --forceExit --runInBand
       - name: Coveralls
         uses: coverallsapp/github-action@09b709cf6a16e30b0808ba050c7a6e8a5ef13f8d # master
@@ -83,9 +83,9 @@ jobs:
         with:
           node-version: "22.x"
       - name: upgrade yarn
-        run: | 
-         corepack enable 
-         yarn set version stable
+        run: |
+          corepack enable 
+          yarn set version stable
       - run: yarn install --immutable
       - run: yarn lint
   test-spotlight-api:
@@ -108,9 +108,9 @@ jobs:
         with:
           node-version: "22.x"
       - name: upgrade yarn
-        run: | 
-         corepack enable 
-         yarn set version stable
+        run: |
+          corepack enable 
+          yarn set version stable
       - run: yarn install --immutable
       - run: yarn test --coverage --runInBand
       - name: Coveralls
