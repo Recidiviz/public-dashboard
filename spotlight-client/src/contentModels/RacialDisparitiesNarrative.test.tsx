@@ -41,7 +41,7 @@ test("file loading state", (done) => {
     () => {
       expect(narrative.isLoading).toBeUndefined();
       expect(narrative.error).toBeUndefined();
-    }
+    },
   );
 
   // initiate the fetch; we react to it below
@@ -52,7 +52,7 @@ test("file loading state", (done) => {
     () => {
       expect(narrative.isLoading).toBe(true);
       expect(narrative.error).toBeUndefined();
-    }
+    },
   );
 
   when(
@@ -61,7 +61,7 @@ test("file loading state", (done) => {
       expect(narrative.isLoading).toBe(false);
       expect(narrative.error).toBeUndefined();
       done();
-    }
+    },
   );
 
   expect.assertions(6);
@@ -79,7 +79,7 @@ test("fetch error state", async () => {
   reactImmediately(() => {
     expect(narrative.isLoading).toBe(false);
     expect(narrative.error?.message).toBe(
-      "Error: Metrics API responded with status 500. Error message: test error message"
+      "Error: Metrics API responded with status 500. Error message: test error message",
     );
   });
 
@@ -101,7 +101,7 @@ describe("total data", () => {
       () => {
         expect(narrative.likelihoodVsWhite).toMatchSnapshot();
         done();
-      }
+      },
     );
   });
 
@@ -111,7 +111,7 @@ describe("total data", () => {
       () => {
         expect(narrative.sentencingOverall).toMatchSnapshot();
         done();
-      }
+      },
     );
   });
 
@@ -124,12 +124,13 @@ describe("total data", () => {
 
       when(
         () => narrative.supervisionOverall !== undefined,
-        () => {
+        async () => {
           expect(narrative.supervisionOverall).toMatchSnapshot();
+          // @ts-expect-error jest type definitions are wrong, this will be a callback
           done();
-        }
+        },
       );
-    }
+    },
   );
 
   test("population data series", (done) => {
@@ -138,7 +139,7 @@ describe("total data", () => {
       () => {
         expect(narrative.populationDataSeries).toMatchSnapshot();
         done();
-      }
+      },
     );
   });
 });
@@ -162,7 +163,7 @@ describe.each([
       () => {
         expect(narrative.beforeCorrections).toMatchSnapshot();
         done();
-      }
+      },
     );
   });
 
@@ -172,7 +173,7 @@ describe.each([
       () => {
         expect(narrative.sentencing).toMatchSnapshot();
         done();
-      }
+      },
     );
   });
 
@@ -182,7 +183,7 @@ describe.each([
       () => {
         expect(narrative.releasesToParole).toMatchSnapshot();
         done();
-      }
+      },
     );
   });
 
@@ -192,7 +193,7 @@ describe.each([
       () => {
         expect(narrative.programming).toMatchSnapshot();
         done();
-      }
+      },
     );
   });
 
@@ -207,10 +208,11 @@ describe.each([
         () => narrative.supervision !== undefined,
         () => {
           expect(narrative.supervision).toMatchSnapshot();
+          // @ts-expect-error jest type definitions are wrong, this will be a callback
           done();
-        }
+        },
       );
-    }
+    },
   );
 
   test("for focused population data series", (done) => {
@@ -219,7 +221,7 @@ describe.each([
       () => {
         expect(narrative.focusedPopulationDataSeries).toMatchSnapshot();
         done();
-      }
+      },
     );
   });
 
@@ -229,7 +231,7 @@ describe.each([
       () => {
         expect(narrative.paroleReleaseDataSeries).toMatchSnapshot();
         done();
-      }
+      },
     );
   });
 
@@ -239,7 +241,7 @@ describe.each([
       () => {
         expect(narrative.programmingDataSeries).toMatchSnapshot();
         done();
-      }
+      },
     );
   });
 
@@ -249,7 +251,7 @@ describe.each([
       () => {
         expect(narrative.sentencingDataSeries).toMatchSnapshot();
         done();
-      }
+      },
     );
   });
 
@@ -264,10 +266,11 @@ describe.each([
         () => narrative.revocationsDataSeries !== undefined,
         () => {
           expect(narrative.revocationsDataSeries).toMatchSnapshot();
+          // @ts-expect-error jest type definitions are wrong, this will be a callback
           done();
-        }
+        },
       );
-    }
+    },
   );
 });
 

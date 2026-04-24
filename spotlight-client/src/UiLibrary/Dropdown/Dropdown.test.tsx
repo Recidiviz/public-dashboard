@@ -50,11 +50,11 @@ describe.each([["mobile", true], ["desktop"]])(
           options={testOptions}
           onChange={mockOnChange}
           selectedId="1"
-        />
+        />,
       );
 
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel} ${testOptions[0].label}`,
+        name: `${testLabel}`,
       });
 
       screen
@@ -78,7 +78,7 @@ describe.each([["mobile", true], ["desktop"]])(
       await waitFor(() =>
         screen.queryAllByRole("option").forEach((opt) => {
           expect(opt).not.toBeInTheDocument();
-        })
+        }),
       );
     });
 
@@ -89,11 +89,11 @@ describe.each([["mobile", true], ["desktop"]])(
           options={testOptions}
           onChange={mockOnChange}
           selectedId="1"
-        />
+        />,
       );
 
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel} ${testOptions[0].label}`,
+        name: `${testLabel}`,
       });
 
       rerender(
@@ -102,7 +102,7 @@ describe.each([["mobile", true], ["desktop"]])(
           options={testOptions}
           onChange={mockOnChange}
           selectedId="2"
-        />
+        />,
       );
 
       expect(menuButton).toHaveTextContent(testOptions[1].label);
@@ -116,10 +116,10 @@ describe.each([["mobile", true], ["desktop"]])(
           onChange={mockOnChange}
           selectedId="1"
           disabled
-        />
+        />,
       );
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel} ${testOptions[0].label}`,
+        name: `${testLabel}`,
       });
       expect(menuButton).toBeDisabled();
 
@@ -138,17 +138,17 @@ describe.each([["mobile", true], ["desktop"]])(
           options={testOptionsHidden}
           onChange={mockOnChange}
           selectedId="1"
-        />
+        />,
       );
 
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel} ${testOptions[0].label}`,
+        name: `${testLabel}`,
       });
 
       fireEvent.click(menuButton);
 
       expect(
-        screen.queryByRole("option", { name: hiddenOption.label })
+        screen.queryByRole("option", { name: hiddenOption.label }),
       ).not.toBeInTheDocument();
 
       // can still be set by controlling component
@@ -158,7 +158,7 @@ describe.each([["mobile", true], ["desktop"]])(
           options={testOptionsHidden}
           onChange={mockOnChange}
           selectedId={hiddenOption.id}
-        />
+        />,
       );
 
       expect(menuButton).toHaveTextContent(hiddenOption.label);
@@ -170,7 +170,7 @@ describe.each([["mobile", true], ["desktop"]])(
           label={testLabel}
           options={testOptions}
           onChange={mockOnChange}
-        />
+        />,
       );
       const menuButton = screen.getByRole("button", {
         name: testLabel,
@@ -178,5 +178,5 @@ describe.each([["mobile", true], ["desktop"]])(
 
       expect(menuButton).toHaveTextContent(testLabel);
     });
-  }
+  },
 );

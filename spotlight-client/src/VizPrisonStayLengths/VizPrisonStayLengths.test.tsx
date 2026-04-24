@@ -39,7 +39,7 @@ beforeEach(() => {
   });
   reactImmediately(() => {
     const metricToTest = DataStore.tenant?.metrics.get(
-      "PrisonStayLengthAggregate"
+      "PrisonStayLengthAggregate",
     );
     // it will be
     if (metricToTest instanceof DemographicsByCategoryMetric) {
@@ -69,25 +69,25 @@ test("total chart", async () => {
   const chart = screen.getByRole("group", { name: "7 bars in a bar chart" });
   expect(chart).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "<1 year bar value 15%" })
+    within(chart).getByRole("img", { name: "<1 year bar value 15%" }),
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "1–2 bar value 1%" })
+    within(chart).getByRole("img", { name: "1–2 bar value 1%" }),
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2–3 bar value 17%" })
+    within(chart).getByRole("img", { name: "2–3 bar value 17%" }),
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "3–5 bar value 31%" })
+    within(chart).getByRole("img", { name: "3–5 bar value 31%" }),
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "5–10 bar value 26%" })
+    within(chart).getByRole("img", { name: "5–10 bar value 26%" }),
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "10–20 bar value 1%" })
+    within(chart).getByRole("img", { name: "10–20 bar value 1%" }),
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "20+ bar value 9%" })
+    within(chart).getByRole("img", { name: "20+ bar value 9%" }),
   ).toBeInTheDocument();
 });
 
@@ -101,7 +101,7 @@ test("demographic charts", async () => {
   });
 
   const menuButton = screen.getByRole("button", {
-    name: "View Total",
+    name: "View",
   });
   fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: "Race or Ethnicity" }));
@@ -132,7 +132,7 @@ test("demographic charts", async () => {
   await waitForElementToBeRemoved(genderCharts[0]);
 
   expect(
-    screen.getAllByRole("group", { name: "7 bars in a bar chart" }).length
+    screen.getAllByRole("group", { name: "7 bars in a bar chart" }).length,
   ).toBe(7);
 });
 
@@ -146,7 +146,7 @@ test("all bars are the same color", async () => {
   within(chart)
     .getAllByRole("img")
     .forEach((el) =>
-      expect(el).toHaveStyle(`fill: ${colors.dataVizNamed.teal}`)
+      expect(el).toHaveStyle(`fill: ${colors.dataVizNamed.teal}`),
     );
 
   expect.hasAssertions();

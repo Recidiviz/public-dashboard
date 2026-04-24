@@ -51,7 +51,7 @@ test("download button", () => {
   expect(metric.download).toHaveBeenCalled();
 });
 
-test("methodology modal", () => {
+test("methodology modal", async () => {
   const metric = getTestMetric();
   renderWithStore(<MetricVizControls filters={[]} metric={metric} />);
 
@@ -61,10 +61,12 @@ test("methodology modal", () => {
 
   const modal = screen.getByRole("dialog");
 
-  expect(modal).toBeVisible();
+  // this is conditionally rendered & visibility isn't altered
+  // so this won't have changing visibility
+  expect(modal).toBeInTheDocument();
   expect(
-    within(modal).getByRole("heading", { name: "Methodology" })
-  ).toBeVisible();
+    within(modal).getByRole("heading", { name: "Methodology" }),
+  ).toBeInTheDocument();
   // this only works because the test metric has no HTML in it
-  expect(within(modal).getByText(metric.methodology)).toBeVisible();
+  expect(within(modal).getByText(metric.methodology)).toBeInTheDocument();
 });

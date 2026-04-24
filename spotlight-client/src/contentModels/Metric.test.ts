@@ -90,8 +90,8 @@ describe("data fetching", () => {
         ![
           "ProbationTerminationsHistorical",
           "ParoleTerminationsHistorical",
-        ].includes(id)
-    )
+        ].includes(id),
+    ),
   )("for metric %s", (metricId, done) => {
     expect.hasAssertions();
     const metric = getTestMetric(metricId);
@@ -108,8 +108,10 @@ describe("data fetching", () => {
         // Be especially careful inspecting snapshots for Metrics that filter their sources,
         // e.g. Parole/Probation metrics. Verify that they use the right rows!
         expect(metric.records).toMatchSnapshot();
+
+        // @ts-expect-error jest type definitions are wrong, this will be a callback
         done();
-      }
+      },
     );
   });
 });
@@ -128,7 +130,7 @@ test("file loading state", (done) => {
       expect(metric.records).toBeUndefined();
       // the fetch is initiated here; this will trigger the reactions below
       dataPromise = fromPromise(metric.hydrate());
-    }
+    },
   );
 
   when(
@@ -136,7 +138,7 @@ test("file loading state", (done) => {
     () => {
       expect(metric.isLoading).toBe(true);
       expect(metric.records).toBeUndefined();
-    }
+    },
   );
 
   when(
@@ -145,7 +147,7 @@ test("file loading state", (done) => {
       expect(metric.isLoading).toBe(false);
       expect(metric.records).toBeDefined();
       done();
-    }
+    },
   );
 
   expect.assertions(5);
@@ -168,7 +170,7 @@ test("fetch error state", async () => {
 
   reactImmediately(() => {
     expect(metric.error?.message).toBe(
-      "Error: Metrics API responded with status 500. Error message: test error message"
+      "Error: Metrics API responded with status 500. Error message: test error message",
     );
   });
 
@@ -202,8 +204,8 @@ describe("data download", () => {
         ![
           "ProbationTerminationsHistorical",
           "ParoleTerminationsHistorical",
-        ].includes(id)
-    )
+        ].includes(id),
+    ),
   )("for metric %s", async (metricId, done) => {
     const metric = getTestMetric(metricId);
     metric.hydrate();
@@ -247,7 +249,7 @@ describe("data download", () => {
             }
 
             expectedRecord[key] = valueAsString;
-          }
+          },
         );
 
         expect(recordsFromCsv[0]).toEqual(expectedRecord);
@@ -255,6 +257,7 @@ describe("data download", () => {
         // the file in the archive is plain text but methodology can contain HTML tags
         expect(readmeContents).toBe(metric.readme);
 
+        // @ts-expect-error jest type definitions are wrong, this will be a callback
         done();
       }
     });
@@ -268,7 +271,7 @@ describe("data download", () => {
       const metric = getTestMetric("PrisonPopulationCurrent");
 
       expect(
-        metric.getDemographicCategories("raceOrEthnicity")
+        metric.getDemographicCategories("raceOrEthnicity"),
       ).toMatchSnapshot();
     });
 
@@ -291,7 +294,7 @@ describe("data download", () => {
       }).get("PrisonPopulationCurrent");
 
       expect(
-        metric?.getDemographicCategories("raceOrEthnicity")
+        metric?.getDemographicCategories("raceOrEthnicity"),
       ).toMatchSnapshot();
     });
   });
