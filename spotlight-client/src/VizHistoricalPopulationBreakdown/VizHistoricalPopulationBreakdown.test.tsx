@@ -35,7 +35,7 @@ beforeEach(() => {
   });
   reactImmediately(() => {
     const metricToTest = DataStore.tenant?.metrics.get(
-      "PrisonPopulationHistorical"
+      "PrisonPopulationHistorical",
     );
     // it will be
     if (metricToTest instanceof HistoricalPopulationBreakdownMetric) {
@@ -63,7 +63,7 @@ test("renders total", async () => {
     expect(
       screen.getAllByRole("group", {
         name: "1 stacked areas in a stacked area chart",
-      }).length
+      }).length,
     ).toBe(2); // there are 2 because one is the minimap
   });
 
@@ -73,9 +73,8 @@ test("renders total", async () => {
       // is not totally realistic (the real one has near-daily updates to keep moving
       // the 20-year window to the current month). It will include more than 240 points
       // if they are present in the data.
-      name:
-        "248 point stacked area starting value 961 at Jan 2000 ending value 1,321 at Aug 2020",
-    })
+      name: "248 point stacked area starting value 961 at Jan 2000 ending value 1,321 at Aug 2020",
+    }),
   ).toBeInTheDocument();
 });
 
@@ -83,7 +82,7 @@ test("plots demographic categories", async () => {
   renderWithStore(<VizHistoricalPopulationBreakdown metric={metric} />);
 
   const menuButton = screen.getByRole("button", {
-    name: "View Total",
+    name: "View",
   });
   fireEvent.click(menuButton);
 
@@ -96,7 +95,7 @@ test("plots demographic categories", async () => {
       screen.getAllByRole("group", {
         // 5 because there are 5 expected race categories
         name: "5 stacked areas in a stacked area chart",
-      }).length
+      }).length,
     ).toBe(2); // there are 2 because one is the minimap
   });
 
@@ -107,7 +106,7 @@ test("plots demographic categories", async () => {
   expect(
     screen.getAllByRole("group", {
       name: "2 stacked areas in a stacked area chart",
-    }).length
+    }).length,
   ).toBe(2);
 
   fireEvent.click(menuButton);
@@ -119,7 +118,7 @@ test("plots demographic categories", async () => {
     expect(
       screen.getAllByRole("group", {
         name: "7 stacked areas in a stacked area chart",
-      }).length
+      }).length,
     ).toBe(2);
   });
 });

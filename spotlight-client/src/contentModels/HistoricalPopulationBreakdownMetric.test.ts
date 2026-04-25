@@ -63,9 +63,10 @@ const imputedRecordBase = {
   count: 0,
 };
 
-const mockedFetchAndTransformMetric = fetchAndTransformMetric as jest.MockedFunction<
-  typeof fetchAndTransformMetric
->;
+const mockedFetchAndTransformMetric =
+  fetchAndTransformMetric as jest.MockedFunction<
+    typeof fetchAndTransformMetric
+  >;
 const mockSourceFileName = "test_metric_response";
 // we are mocking this so it won't be called anyway
 const mockTransformer = jest.fn();
@@ -110,7 +111,7 @@ test("fills in missing data", async () => {
       if (data) {
         const categories = getDemographicCategoriesForView(
           demographicView,
-          createDemographicCategories()
+          createDemographicCategories(),
         );
         categories.forEach(({ identifier }, index) => {
           const series = data[index].coordinates;
@@ -125,13 +126,13 @@ test("fills in missing data", async () => {
             if (
               demographicView === "total" &&
               datesPresent.some((presentDate) =>
-                isEqual(presentDate, record.date)
+                isEqual(presentDate, record.date),
               )
             ) {
               expect(mockData).toContainEqual(record);
             } else {
               expect(record).toEqual(
-                expect.objectContaining(expectedRecordShape)
+                expect.objectContaining(expectedRecordShape),
               );
             }
           });
@@ -152,7 +153,7 @@ test("imputed data does not include the current month", async () => {
 
   reactImmediately(() => {
     const currentMonthRecords = metric.records?.filter((record) =>
-      isEqual(record.date, currentMonth)
+      isEqual(record.date, currentMonth),
     );
 
     expect(currentMonthRecords?.length).toBe(0);
@@ -171,7 +172,7 @@ test("imputed data includes current month", async () => {
 
   reactImmediately(() => {
     const currentMonthRecords = metric.records?.filter((record) =>
-      isEqual(record.date, currentMonth)
+      isEqual(record.date, currentMonth),
     );
 
     expect(currentMonthRecords?.length).toBe(1);
@@ -191,7 +192,7 @@ test("no unknowns", async () => {
   expect.hasAssertions();
 });
 
-test("report unknowns", async (done) => {
+test("report unknowns", async () => {
   // mock unknowns in response
   mockedFetchAndTransformMetric.mockResolvedValue([
     {
@@ -248,7 +249,6 @@ test("report unknowns", async (done) => {
           },
         },
       ]);
-      done();
-    }
+    },
   );
 });

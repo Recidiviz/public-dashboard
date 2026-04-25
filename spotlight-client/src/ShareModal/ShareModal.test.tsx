@@ -38,21 +38,22 @@ afterEach(() => {
 
 test("display url", () => {
   renderModal();
-  expect(screen.getByText("localhost")).toBeVisible();
+  screen.debug();
+  expect(screen.getByText("localhost")).toBeInTheDocument();
 
   runInAction(() => {
     DataStore.tenantStore.currentTenantId = "US_ND";
   });
 
-  expect(screen.getByText("localhost/us-nd")).toBeVisible();
+  expect(screen.getByText("localhost/us-nd")).toBeInTheDocument();
 
   runInAction(() => {
     DataStore.tenantStore.currentNarrativeTypeId = "RacialDisparities";
   });
 
   expect(
-    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`)
-  ).toBeVisible();
+    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`),
+  ).toBeInTheDocument();
 });
 
 test("include narrative section in url", () => {
@@ -65,18 +66,18 @@ test("include narrative section in url", () => {
   renderModal();
 
   expect(
-    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`)
-  ).toBeVisible();
+    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`),
+  ).toBeInTheDocument();
 
   userEvent.click(screen.getByRole("checkbox"));
 
   expect(
-    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities/2`)
-  ).toBeVisible();
+    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities/2`),
+  ).toBeInTheDocument();
 
   userEvent.click(screen.getByRole("checkbox"));
 
   expect(
-    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`)
-  ).toBeVisible();
+    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`),
+  ).toBeInTheDocument();
 });

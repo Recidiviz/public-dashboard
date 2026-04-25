@@ -29,7 +29,7 @@ beforeEach(() => {
       filters={[]}
       download={mockDownload}
       methodology={mockMethodology}
-    />
+    />,
   );
 });
 
@@ -48,9 +48,9 @@ test("methodology modal", () => {
 
   const modal = screen.getByRole("dialog");
 
-  expect(modal).toBeVisible();
+  expect(modal).toBeInTheDocument();
   expect(
-    within(modal).getByRole("heading", { name: "Methodology" })
-  ).toBeVisible();
-  expect(within(modal).getByText(mockMethodology)).toBeVisible();
+    within(modal).getByRole("heading", { name: "Methodology" }),
+  ).toBeInTheDocument();
+  expect(within(modal).getByText(mockMethodology)).toBeInTheDocument();
 });

@@ -206,7 +206,7 @@ describe("data download", () => {
           "ParoleTerminationsHistorical",
         ].includes(id),
     ),
-  )("for metric %s", async (metricId, done) => {
+  )("for metric %s", async (metricId) => {
     const metric = getTestMetric(metricId);
     metric.hydrate();
 
@@ -256,9 +256,6 @@ describe("data download", () => {
 
         // the file in the archive is plain text but methodology can contain HTML tags
         expect(readmeContents).toBe(metric.readme);
-
-        // @ts-expect-error jest type definitions are wrong, this will be a callback
-        done();
       }
     });
   });

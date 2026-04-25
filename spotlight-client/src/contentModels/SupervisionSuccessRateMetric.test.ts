@@ -36,9 +36,10 @@ jest.mock("../metricsApi", () => {
   return { ...actualModule, fetchAndTransformMetric: mockFetch };
 });
 
-const mockedFetchAndTransformMetric = fetchAndTransformMetric as jest.MockedFunction<
-  typeof fetchAndTransformMetric
->;
+const mockedFetchAndTransformMetric =
+  fetchAndTransformMetric as jest.MockedFunction<
+    typeof fetchAndTransformMetric
+  >;
 
 jest.mock("downloadjs");
 const downloadjsMock = downloadjs as jest.MockedFunction<typeof downloadjs>;
@@ -141,7 +142,8 @@ describe("cohort data", () => {
     const metric = await getPopulatedMetric();
 
     reactImmediately(() => {
-      const cohortRecords = metric.cohortRecords as SupervisionSuccessRateMonthlyRecord[];
+      const cohortRecords =
+        metric.cohortRecords as SupervisionSuccessRateMonthlyRecord[];
       expect(cohortRecords.length).toEqual(36);
       cohortRecords.forEach((record) => {
         if (record.year !== 2019 && record.month !== 9)
@@ -150,7 +152,7 @@ describe("cohort data", () => {
               rate: 0,
               rateDenominator: 0,
               rateNumerator: 0,
-            })
+            }),
           );
       });
 
@@ -158,13 +160,13 @@ describe("cohort data", () => {
       expect(cohortRecords).toEqual(
         expect.not.arrayContaining([
           expect.objectContaining({ year: 2020, month: 7 }),
-        ])
+        ]),
       );
       // as a result, the start should be shifted back a month
       expect(cohortRecords).toEqual(
         expect.arrayContaining([
           expect.objectContaining({ year: 2017, month: 7 }),
-        ])
+        ]),
       );
     });
 
@@ -186,7 +188,8 @@ describe("cohort data", () => {
     const metric = await getPopulatedMetric();
 
     reactImmediately(() => {
-      const cohortRecords = metric.cohortRecords as SupervisionSuccessRateMonthlyRecord[];
+      const cohortRecords =
+        metric.cohortRecords as SupervisionSuccessRateMonthlyRecord[];
       expect(cohortRecords.length).toEqual(36);
       cohortRecords.forEach((record) => {
         if (record.year !== 2020 && record.month !== 7)
@@ -195,20 +198,20 @@ describe("cohort data", () => {
               rate: 0,
               rateDenominator: 0,
               rateNumerator: 0,
-            })
+            }),
           );
       });
       // includes current month, as set via jest date mock
       expect(cohortRecords).toEqual(
         expect.arrayContaining([
           expect.objectContaining({ year: 2020, month: 7 }),
-        ])
+        ]),
       );
       // as a result, the start is shifted forward a month
       expect(cohortRecords).toEqual(
         expect.not.arrayContaining([
           expect.objectContaining({ year: 2017, month: 7 }),
-        ])
+        ]),
       );
     });
 
@@ -260,7 +263,7 @@ describe("cohort data", () => {
 //   });
 // });
 
-test("data download", async (done) => {
+test("data download", async () => {
   expect.hasAssertions();
   const metric = await getPopulatedMetric();
 
@@ -308,7 +311,7 @@ test("data download", async (done) => {
         } else {
           throw new Error("unable to retrieve CSV data from zip file");
         }
-      })
+      }),
     );
 
     const readmeContents = await zip
@@ -316,8 +319,6 @@ test("data download", async (done) => {
       ?.async("string");
     // the file in the archive is plain text but methodology can contain HTML tags
     expect(readmeContents).toBe(stripHtml(metric.methodology).result);
-
-    done();
   });
 });
 
@@ -398,6 +399,6 @@ test("report unknowns", (done) => {
         ageBucket: 1,
       });
       done();
-    }
+    },
   );
 });

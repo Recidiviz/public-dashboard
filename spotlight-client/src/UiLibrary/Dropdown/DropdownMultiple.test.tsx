@@ -21,6 +21,8 @@ import useBreakpoint from "@w11r/use-breakpoint";
 import React from "react";
 import DropdownMultiple from "./DropdownMultiple";
 
+import { log } from "console";
+
 jest.mock("@w11r/use-breakpoint");
 
 const useBreakpointMock = useBreakpoint as jest.Mock;
@@ -44,7 +46,7 @@ beforeEach(() => {
       onChange={mockOnChange}
       onHighlight={mockOnHighlight}
       selectedIds={["1", "2", "3"]}
-    />
+    />,
   );
 });
 
@@ -61,27 +63,27 @@ describe.each([["mobile", true], ["desktop"]])(
 
     test("selects multiple", () => {
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel} ${testOptions[0].label} and 2 others`,
+        name: `${testLabel}`,
       });
 
       fireEvent.click(menuButton);
 
       testOptions.forEach((opt) => {
         expect(
-          screen.getByRole("option", { name: opt.label, selected: true })
+          screen.getByRole("option", { name: opt.label, selected: true }),
         ).toBeVisible();
       });
     });
 
     test("menu stays open after selection", async () => {
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel} ${testOptions[0].label} and 2 others`,
+        name: `${testLabel}`,
       });
 
       fireEvent.click(menuButton);
 
       fireEvent.click(
-        screen.getByRole("option", { name: testOptions[0].label })
+        screen.getByRole("option", { name: testOptions[0].label }),
       );
       expect(mockOnChange).toHaveBeenLastCalledWith([
         testOptions[1].id,
@@ -94,7 +96,7 @@ describe.each([["mobile", true], ["desktop"]])(
           options={testOptions}
           onChange={mockOnChange}
           selectedIds={["2", "3"]}
-        />
+        />,
       );
 
       // let's give the animation some time to run;
@@ -110,9 +112,12 @@ describe.each([["mobile", true], ["desktop"]])(
       expect(mockOnChange).toHaveBeenLastCalledWith([testOptions[2].id]);
     });
 
+    //  ${testOptions[0].label} and 2 others
+    // ^ had to remove content like above because it
+    // is in the innerHTML and not the label which is what this is searching for
     test("select all", () => {
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel} ${testOptions[0].label} and 2 others`,
+        name: `${testLabel}`,
       });
 
       fireEvent.click(menuButton);
@@ -130,39 +135,39 @@ describe.each([["mobile", true], ["desktop"]])(
           options={testOptions}
           onChange={mockOnChange}
           selectedIds={[]}
-        />
+        />,
       );
 
       expect(selectAll).toHaveTextContent("Select all");
       expect(
-        screen.queryByRole("option", { selected: true })
+        screen.queryByRole("option", { selected: true }),
       ).not.toBeInTheDocument();
 
       fireEvent.click(selectAll);
       expect(mockOnChange).toHaveBeenLastCalledWith(
-        testOptions.map(({ id }) => id)
+        testOptions.map(({ id }) => id),
       );
     });
 
     test("callback for highlighted item", async () => {
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel} ${testOptions[0].label} and 2 others`,
+        name: `${testLabel}`,
       });
 
       userEvent.click(menuButton);
 
       userEvent.hover(
-        await screen.findByRole("option", { name: "Deselect all" })
+        await screen.findByRole("option", { name: "Deselect all" }),
       );
       // it does get called but indicates that nothing should be highlighted
       // (e.g. to clear an existing one)
       expect(mockOnHighlight).toHaveBeenLastCalledWith();
 
       userEvent.hover(
-        screen.getByRole("option", { name: testOptions[0].label })
+        screen.getByRole("option", { name: testOptions[0].label }),
       );
 
       expect(mockOnHighlight).toHaveBeenLastCalledWith(testOptions[0].id);
     });
-  }
+  },
 );

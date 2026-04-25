@@ -45,7 +45,7 @@ jest.mock("@auth0/auth0-spa-js", () =>
     isAuthenticated: mockIsAuthenticated,
     loginWithRedirect: mockLoginWithRedirect,
     getIdTokenClaims: mockGetIdTokenClaims,
-  })
+  }),
 );
 
 /**
@@ -65,9 +65,10 @@ beforeEach(async () => {
   process.env = { ...ORIGINAL_ENV };
 
   jest.resetModules();
-  // reimport all modules except the test module
+  // reimport all modules except the test module; use /pure to avoid
+  // auto-registering afterEach(cleanup) which causes "nested hook" errors
   React = (await import("react")).default;
-  const reactTestingLibrary = await import("@testing-library/react");
+  const reactTestingLibrary = await import("@testing-library/react/pure");
   render = reactTestingLibrary.render;
   screen = reactTestingLibrary.screen;
   cleanup = reactTestingLibrary.cleanup;
@@ -103,14 +104,14 @@ test("requires authentication", async () => {
   render(<App />);
 
   expect(
-    screen.queryByRole("heading", { name: authenticatedTextMatch })
+    screen.queryByRole("heading", { name: authenticatedTextMatch }),
   ).not.toBeInTheDocument();
   expect(screen.getByRole("status")).toHaveTextContent(/loading/i);
   await waitFor(() => {
     expect(mockLoginWithRedirect.mock.calls.length).toBe(1);
     // this should ... continue not being in the document
     expect(
-      screen.queryByRole("heading", { name: authenticatedTextMatch })
+      screen.queryByRole("heading", { name: authenticatedTextMatch }),
     ).not.toBeInTheDocument();
   });
 });
@@ -132,7 +133,7 @@ test("requires email verification", async () => {
     expect(screen.queryByTestId("PageTitle")).not.toBeInTheDocument();
     // there should be a message about the verification requirement
     expect(
-      screen.getByRole("heading", { name: /verification/i, hidden: true })
+      screen.getByRole("heading", { name: /verification/i, hidden: true }),
     ).toBeInTheDocument();
   });
 });
@@ -176,7 +177,9 @@ test("renders when authenticated and state_code is one of our tenants", async ()
   const App = await getApp();
   render(<App />);
   await waitFor(() => {
-    const websiteName = screen.getAllByRole("heading", /North Dakota/i)?.[0];
+    const websiteName = screen.getAllByRole("heading", {
+      name: /North Dakota/i,
+    })?.[0];
     expect(websiteName).toBeInTheDocument();
   });
 });
@@ -197,7 +200,9 @@ test("renders when authenticated and state_code is NOT one of our tenants", asyn
   const App = await getApp();
   render(<App />);
   await waitFor(() => {
-    const websiteName = screen.getByRole("heading", /Page Not Found/i);
+    const websiteName = screen.getByRole("heading", {
+      name: /Page Not Found/i,
+    });
     expect(websiteName).toBeInTheDocument();
   });
 });
@@ -216,7 +221,9 @@ test("renders when authenticated and state_code is NOT set", async () => {
   const App = await getApp();
   render(<App />);
   await waitFor(() => {
-    const websiteName = screen.getByRole("heading", /Page Not Found/i);
+    const websiteName = screen.getByRole("heading", {
+      name: /Page Not Found/i,
+    });
     expect(websiteName).toBeInTheDocument();
   });
 });
@@ -233,10 +240,12 @@ test("handles an Auth0 configuration error", async () => {
 
   await waitFor(() => {
     expect(
-      screen.getByRole("heading", /an error occurred/i)
+      screen.getByRole("heading", {
+        name: /An error has occurred./i,
+      }),
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: authenticatedTextMatch })
+      screen.queryByRole("heading", { name: authenticatedTextMatch }),
     ).not.toBeInTheDocument();
   });
 });

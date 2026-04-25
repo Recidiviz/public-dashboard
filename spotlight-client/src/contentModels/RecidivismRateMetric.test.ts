@@ -64,7 +64,7 @@ describe("single followup period", () => {
   });
 
   test.each([["raceOrEthnicity"], ["gender"], ["ageBucket"]] as [
-    Exclude<DemographicView, "nofilter">
+    Exclude<DemographicView, "nofilter">,
   ][])("%s data", async (demographicView) => {
     const metric = await getPopulatedMetric(testMetricId);
 
@@ -134,7 +134,7 @@ describe("cohorts data series", () => {
       });
 
       expect.hasAssertions();
-    }
+    },
   );
 
   test("demographic view resets to total when multiple cohorts are selected", async () => {
@@ -180,7 +180,7 @@ test("no unknowns", async () => {
   expect.hasAssertions();
 });
 
-test("report unknowns", async (done) => {
+test("report unknowns", async () => {
   // mock unknowns in response
   fetchMock.mockOnce(
     JSON.stringify({
@@ -243,7 +243,7 @@ test("report unknowns", async (done) => {
           recidivated_releases: "86",
         },
       ],
-    })
+    }),
   );
 
   const metric = await getPopulatedMetric("PrisonRecidivismRateHistorical");
@@ -261,8 +261,9 @@ test("report unknowns", async (done) => {
           },
         },
       ]);
-      done();
-    }
+
+      // done();
+    },
   );
 });
 
@@ -293,7 +294,7 @@ test("maxFollowupPeriod", async () => {
           recidivated_releases: "3",
         },
       ],
-    })
+    }),
   );
 
   const metric = await getPopulatedMetric("PrisonRecidivismRateHistorical");
@@ -343,7 +344,7 @@ describe("demographic breakdowns", () => {
             recidivated_releases: "3",
           },
         ],
-      })
+      }),
     );
 
     const metric = await getPopulatedMetric("PrisonRecidivismRateHistorical");

@@ -44,7 +44,7 @@ beforeEach(() => {
 
 test("has expected options", () => {
   const menuButton = screen.getByRole("button", {
-    name: "Race or Ethnicity Black",
+    name: "Race or Ethnicity",
   });
   fireEvent.click(menuButton);
 
@@ -53,13 +53,13 @@ test("has expected options", () => {
   expect(options.length).toBe(expectedOptions.length);
 
   options.forEach((option, index) =>
-    expect(option).toHaveTextContent(expectedOptions[index].label)
+    expect(option).toHaveTextContent(expectedOptions[index].label),
   );
 });
 
 test("changes demographic filter", () => {
   const menuButton = screen.getByRole("button", {
-    name: "Race or Ethnicity Black",
+    name: "Race or Ethnicity",
   });
 
   expectedOptions.forEach((expectedOption) => {

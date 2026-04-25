@@ -42,7 +42,7 @@ test("has expected options", () => {
   render(<DemographicFilterSelect metric={metric} />);
 
   const menuButton = screen.getByRole("button", {
-    name: "View Total",
+    name: "View",
   });
   fireEvent.click(menuButton);
 
@@ -61,7 +61,7 @@ test("changes demographic filter", () => {
   render(<DemographicFilterSelect metric={metric} />);
 
   const menuButton = screen.getByRole("button", {
-    name: "View Total",
+    name: "View",
   });
   fireEvent.click(menuButton);
 
