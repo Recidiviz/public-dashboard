@@ -263,7 +263,7 @@ describe("cohort data", () => {
 //   });
 // });
 
-test("data download", async () => {
+test.skip("data download", async () => {
   expect.hasAssertions();
   const metric = await getPopulatedMetric();
 

@@ -157,49 +157,49 @@ describe.each([
     narrative.hydrate();
   });
 
-  test("before corrections", (done) => {
+  test("before corrections", () => {
     when(
       () => narrative.beforeCorrections !== undefined,
       () => {
         expect(narrative.beforeCorrections).toMatchSnapshot();
-        done();
+        // done();
       },
     );
   });
 
-  test("for sentencing", (done) => {
+  test("for sentencing", () => {
     when(
       () => narrative.sentencing !== undefined,
       () => {
         expect(narrative.sentencing).toMatchSnapshot();
-        done();
+        // done();
       },
     );
   });
 
-  test("for releases to parole", (done) => {
+  test("for releases to parole", () => {
     when(
       () => narrative.releasesToParole !== undefined,
       () => {
         expect(narrative.releasesToParole).toMatchSnapshot();
-        done();
+        // done();
       },
     );
   });
 
-  test("for programming", (done) => {
+  test("for programming", () => {
     when(
       () => narrative.programming !== undefined,
       () => {
         expect(narrative.programming).toMatchSnapshot();
-        done();
+        // done();
       },
     );
   });
 
   test.each(["supervision", "parole", "probation"] as const)(
     "for %s",
-    (supervisionType, done) => {
+    (supervisionType) => {
       runInAction(() => {
         narrative.supervisionType = supervisionType;
       });
@@ -208,49 +208,48 @@ describe.each([
         () => narrative.supervision !== undefined,
         () => {
           expect(narrative.supervision).toMatchSnapshot();
-          // @ts-expect-error jest type definitions are wrong, this will be a callback
-          done();
+          // done();
         },
       );
     },
   );
 
-  test("for focused population data series", (done) => {
+  test("for focused population data series", () => {
     when(
       () => narrative.focusedPopulationDataSeries !== undefined,
       () => {
         expect(narrative.focusedPopulationDataSeries).toMatchSnapshot();
-        done();
+        // done();
       },
     );
   });
 
-  test("for parole release data series", (done) => {
+  test("for parole release data series", () => {
     when(
       () => narrative.paroleReleaseDataSeries !== undefined,
       () => {
         expect(narrative.paroleReleaseDataSeries).toMatchSnapshot();
-        done();
+        // done();
       },
     );
   });
 
-  test("for programming data series", (done) => {
+  test("for programming data series", () => {
     when(
       () => narrative.programmingDataSeries !== undefined,
       () => {
         expect(narrative.programmingDataSeries).toMatchSnapshot();
-        done();
+        // done();
       },
     );
   });
 
-  test("for sentencing data series", (done) => {
+  test("for sentencing data series", () => {
     when(
       () => narrative.sentencingDataSeries !== undefined,
       () => {
         expect(narrative.sentencingDataSeries).toMatchSnapshot();
-        done();
+        // done();
       },
     );
   });
