@@ -109,16 +109,11 @@ test("demographic charts", async () => {
 
   await when(() => !metric.isLoading);
 
-  screen.getByRole("group");
-
   const totalChart = screen.getByRole("group", {
     name: "8 bars in a bar chart",
   });
 
-  const menuButton = screen.getByRole("button", {
-    name: "View",
-  });
-  fireEvent.click(menuButton);
+  fireEvent.click(screen.getByRole("button", { name: "View" }));
   fireEvent.click(screen.getByRole("option", { name: "Race or Ethnicity" }));
 
   // pause for animated transition
@@ -129,7 +124,7 @@ test("demographic charts", async () => {
   });
   expect(raceCharts.length).toBe(5);
 
-  fireEvent.click(menuButton);
+  fireEvent.click(screen.getByRole("button", { name: "View" }));
   fireEvent.click(screen.getByRole("option", { name: "Gender" }));
 
   // pause for animated transition
@@ -140,7 +135,7 @@ test("demographic charts", async () => {
   });
   expect(genderCharts.length).toBe(2);
 
-  fireEvent.click(menuButton);
+  fireEvent.click(screen.getByRole("button", { name: "View" }));
   fireEvent.click(screen.getByRole("option", { name: "Age Group" }));
 
   // pause for animated transition

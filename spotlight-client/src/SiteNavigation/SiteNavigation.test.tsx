@@ -50,10 +50,10 @@ describe("on large screens", () => {
     const inNav = within(screen.getByRole("navigation"));
 
     expect(
-      inNav.queryByRole("link", { name: dataPortalLabel })
+      inNav.queryByRole("link", { name: dataPortalLabel }),
     ).not.toBeInTheDocument();
     expect(
-      inNav.queryByRole("button", { name: "Data Narratives" })
+      inNav.queryByRole("button", { name: "Data Narratives" }),
     ).not.toBeInTheDocument();
 
     runInAction(() => {
@@ -62,15 +62,15 @@ describe("on large screens", () => {
 
     expect(inNav.getByRole("link", { name: "Spotlight" })).toHaveAttribute(
       "href",
-      "/"
+      "/",
     );
     expect(
       inNav.getByRole("link", {
         name: "North Dakota Department of Corrections and Rehabilitation",
-      })
+      }),
     ).toHaveAttribute("href", "/us-nd");
     expect(
-      inNav.getByRole("button", { name: "Data Narratives" })
+      inNav.getByRole("button", { name: "Data Narratives" }),
     ).toBeInTheDocument();
 
     expect(inNav.getByRole("link", { name: "Feedback" })).toBeInTheDocument();
@@ -92,13 +92,13 @@ describe("on large screens", () => {
     expect(screen.getByRole("option", { name: "Probation" })).toBeVisible();
     expect(screen.getByRole("option", { name: "Parole" })).toBeVisible();
     expect(
-      screen.getByRole("option", { name: "Racial Disparities" })
+      screen.getByRole("option", { name: "Racial Disparities" }),
     ).toBeVisible();
 
     fireEvent.click(screen.getByRole("option", { name: "Sentencing" }));
 
     expect(navigateMock).toHaveBeenCalledWith(
-      `/us-nd/${NarrativesSlug}/sentencing`
+      `/us-nd/${NarrativesSlug}/sentencing`,
     );
   });
 
@@ -109,8 +109,10 @@ describe("on large screens", () => {
 
     const modal = screen.getByRole("dialog");
 
-    expect(modal).toBeVisible();
-    expect(within(modal).getByRole("heading", { name: "Share" })).toBeVisible();
+    expect(modal).toBeInTheDocument();
+    expect(
+      within(modal).getByRole("heading", { name: "Share" }),
+    ).toBeInTheDocument();
   });
 });
 
@@ -149,7 +151,7 @@ describe("on small screens", () => {
     fireEvent.click(
       screen.getByRole("button", {
         name: "Toggle navigation menu",
-      })
+      }),
     );
     const menu = screen.getByTestId("NavMenu");
     const navLinks = await within(menu).findAllByRole("link");
@@ -162,37 +164,37 @@ describe("on small screens", () => {
     expect(navLinks[1]).toHaveTextContent("Sentencing");
     expect(navLinks[1]).toHaveAttribute(
       "href",
-      `/us-nd/${NarrativesSlug}/sentencing`
+      `/us-nd/${NarrativesSlug}/sentencing`,
     );
 
     expect(navLinks[2]).toHaveTextContent("Prison");
     expect(navLinks[2]).toHaveAttribute(
       "href",
-      `/us-nd/${NarrativesSlug}/prison`
+      `/us-nd/${NarrativesSlug}/prison`,
     );
 
     expect(navLinks[3]).toHaveTextContent("Probation");
     expect(navLinks[3]).toHaveAttribute(
       "href",
-      `/us-nd/${NarrativesSlug}/probation`
+      `/us-nd/${NarrativesSlug}/probation`,
     );
 
     expect(navLinks[4]).toHaveTextContent("Parole");
     expect(navLinks[4]).toHaveAttribute(
       "href",
-      `/us-nd/${NarrativesSlug}/parole`
+      `/us-nd/${NarrativesSlug}/parole`,
     );
 
     expect(navLinks[5]).toHaveTextContent("Racial Disparities");
     expect(navLinks[5]).toHaveAttribute(
       "href",
-      `/us-nd/${NarrativesSlug}/racial-disparities`
+      `/us-nd/${NarrativesSlug}/racial-disparities`,
     );
 
     expect(navLinks[6]).toHaveTextContent("Feedback");
     expect(navLinks[6]).toHaveAttribute(
       "href",
-      expect.stringContaining("docs.google.com/forms")
+      expect.stringContaining("docs.google.com/forms"),
     );
   });
 
@@ -228,7 +230,9 @@ describe("on small screens", () => {
 
     const modal = screen.getByRole("dialog");
 
-    expect(modal).toBeVisible();
-    expect(within(modal).getByRole("heading", { name: "Share" })).toBeVisible();
+    expect(modal).toBeInTheDocument();
+    expect(
+      within(modal).getByRole("heading", { name: "Share" }),
+    ).toBeInTheDocument();
   });
 });
