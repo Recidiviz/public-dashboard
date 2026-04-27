@@ -16,6 +16,7 @@
 // =============================================================================
 
 import { AUTH0_APP_METADATA_KEY } from "./constants";
+// import {render} from "@testing-library/react/pure"
 
 // we have to import everything dynamically to manipulate process.env,
 // which is weird and Typescript doesn't like it, so silence these warnings

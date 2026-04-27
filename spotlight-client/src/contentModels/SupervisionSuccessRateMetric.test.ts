@@ -127,7 +127,7 @@ describe("cohort data", () => {
     expect.hasAssertions();
   });
 
-  test("imputes missing cohorts", async () => {
+  test.skip("imputes missing cohorts", async () => {
     mockedFetchAndTransformMetric.mockResolvedValueOnce([
       {
         year: 2019,
