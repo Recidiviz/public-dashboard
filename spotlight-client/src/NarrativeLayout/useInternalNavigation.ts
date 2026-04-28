@@ -62,10 +62,10 @@ export const useInternalNavigation = (): {
             sectionNumber: newSectionNumber,
           },
         }),
-        { replace: true }
+        { replace: true },
       );
     },
-    [narrativeTypeId, tenantId]
+    [narrativeTypeId, tenantId],
   );
 
   // attach this to the element containing sections so we can inspect its children
@@ -75,20 +75,22 @@ export const useInternalNavigation = (): {
   const scrollToSection = useCallback(
     (targetSection: number) => {
       const sectionEl = sectionsContainerRef.current?.querySelector(
-        `#section${targetSection}`
+        `#section${targetSection}`,
       );
 
       if (sectionEl) {
         const { top } = sectionEl.getBoundingClientRect();
         // NOTE: we are using a polyfill to make sure this method works in all browsers;
         // native support is spotty as of this writing
-        window.scrollBy({
-          top: top - NAV_BAR_HEIGHT,
-          behavior: "smooth",
-        });
+        if (window) {
+          window.scrollBy({
+            top: top - NAV_BAR_HEIGHT,
+            behavior: "smooth",
+          });
+        }
       }
     },
-    [sectionsContainerRef]
+    [sectionsContainerRef],
   );
 
   // needed for handling direct section links without layout jank
@@ -108,8 +110,8 @@ export const useInternalNavigation = (): {
       },
       () => {
         initialState.initialSection = tenantStore.currentSectionNumber || 1;
-      }
-    )
+      },
+    ),
   );
   // dereference for the sake of brevity
   const { initialSection } = initialState;
@@ -123,7 +125,7 @@ export const useInternalNavigation = (): {
   // restrict the heights of any sections above it
   // to prevent them from pushing other content down the page as they load
   const [fixedHeightSections, setFixedHeightSections] = useState(
-    range(1, initialSection)
+    range(1, initialSection),
   );
   // we can skip the height restrictions and animations if we landed at the top
   const alwaysExpanded = initialSection === 1;
@@ -135,7 +137,7 @@ export const useInternalNavigation = (): {
     if (fixedHeightSections.length) {
       setFixedHeightSections(
         // make sure we don't add any sections back when we scroll down again
-        range(1, fixedHeightEnd).slice(0, fixedHeightSections.length)
+        range(1, fixedHeightEnd).slice(0, fixedHeightSections.length),
       );
     }
   }, [currentSectionNumber, initialSection, fixedHeightSections.length]);
@@ -144,7 +146,7 @@ export const useInternalNavigation = (): {
   // the initial section indicated by the URL is in the viewport, so let's keep track of that
   const [initialScrollComplete, setInitialScrollComplete] = useState(
     // if we have landed on the first section there won't be any initial scroll
-    initialSection === 1
+    initialSection === 1,
   );
 
   // call this when new sections come into view; it makes sure the initial section is aligned
@@ -164,7 +166,7 @@ export const useInternalNavigation = (): {
         }
       }
     },
-    [initialScrollComplete, initialSection, navigateToSection, scrollToSection]
+    [initialScrollComplete, initialSection, navigateToSection, scrollToSection],
   );
 
   return {
