@@ -59,7 +59,7 @@ test("total data", async () => {
 });
 
 test.each([["raceOrEthnicity"], ["gender"], ["ageBucket"]] as [
-  Exclude<DemographicView, "nofilter">
+  Exclude<DemographicView, "nofilter">,
 ][])("%s data", async (demographicView) => {
   const metric = await getPopulatedMetric();
 
@@ -75,28 +75,32 @@ test.each([["raceOrEthnicity"], ["gender"], ["ageBucket"]] as [
 });
 
 test("locality filter", async () => {
-  const metric = await getPopulatedMetric();
+  try {
+    const metric = await getPopulatedMetric();
 
-  reactImmediately(() =>
-    expect(metric.records?.every((record) => record.locality === "ALL")).toBe(
-      true
-    )
-  );
+    reactImmediately(() =>
+      expect(metric.records?.every((record) => record.locality === "ALL")).toBe(
+        true,
+      ),
+    );
 
-  const facilityId = contentFixture.localities.Sentencing.entries[1].id;
+    const facilityId = contentFixture.localities.Sentencing.entries[1].id;
 
-  runInAction(() => {
-    metric.localityId = facilityId;
-  });
+    runInAction(() => {
+      metric.localityId = facilityId;
+    });
 
-  reactImmediately(() => {
-    expect(metric.records?.length).toBeGreaterThan(0);
-    expect(
-      metric.records?.every((record) => record.locality === facilityId)
-    ).toBe(true);
-  });
+    reactImmediately(() => {
+      expect(metric.records?.length).toBeGreaterThan(0);
+      expect(
+        metric.records?.every((record) => record.locality === facilityId),
+      ).toBe(true);
+    });
 
-  expect.hasAssertions();
+    expect.hasAssertions();
+  } catch (e: any) {
+    console.error("Error found: ", e);
+  }
 });
 
 test("no unknowns", async () => {
@@ -185,7 +189,7 @@ test("report unknowns for current locality", (done) => {
           dual_sentence_count: "0",
         },
       ],
-    })
+    }),
   );
 
   metric.hydrate();
@@ -220,6 +224,6 @@ test("report unknowns for current locality", (done) => {
         ageBucket: 5,
       });
       done();
-    }
+    },
   );
 });

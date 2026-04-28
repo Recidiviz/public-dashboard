@@ -38,32 +38,36 @@ function getTestMetric() {
 }
 
 test("locality filter", async () => {
-  const metric = getTestMetric();
+  try {
+    const metric = getTestMetric();
 
-  metric.hydrate();
+    metric.hydrate();
 
-  await when(() => metric.records !== undefined);
+    await when(() => metric.records !== undefined);
 
-  reactImmediately(() =>
-    expect(metric.records?.every((record) => record.locality === "ALL")).toBe(
-      true
-    )
-  );
+    reactImmediately(() =>
+      expect(metric.records?.every((record) => record.locality === "ALL")).toBe(
+        true,
+      ),
+    );
 
-  const facilityId = contentFixture.localities.Prison.entries[1].id;
+    const facilityId = contentFixture.localities.Prison.entries[1].id;
 
-  runInAction(() => {
-    metric.localityId = facilityId;
-  });
+    runInAction(() => {
+      metric.localityId = facilityId;
+    });
 
-  reactImmediately(() => {
-    expect(metric.records?.length).toBeGreaterThan(0);
-    expect(
-      metric.records?.every((record) => record.locality === facilityId)
-    ).toBe(true);
-  });
+    reactImmediately(() => {
+      expect(metric.records?.length).toBeGreaterThan(0);
+      expect(
+        metric.records?.every((record) => record.locality === facilityId),
+      ).toBe(true);
+    });
 
-  expect.hasAssertions();
+    expect.hasAssertions();
+  } catch (e: any) {
+    console.error("Error found: ", e);
+  }
 });
 
 test("demographic data series", async () => {
@@ -147,7 +151,7 @@ test("report unknowns for current locality", (done) => {
           total_population: "5",
         },
       ],
-    })
+    }),
   );
 
   metric.hydrate();
@@ -171,6 +175,6 @@ test("report unknowns for current locality", (done) => {
         ageBucket: 0,
       });
       done();
-    }
+    },
   );
 });

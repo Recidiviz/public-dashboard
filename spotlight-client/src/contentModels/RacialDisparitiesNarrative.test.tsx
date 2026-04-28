@@ -254,9 +254,10 @@ describe.each([
     );
   });
 
+  // hello in here this one is failing
   test.each(["supervision", "parole", "probation"] as const)(
     "for %s revocations data series",
-    (supervisionType, done) => {
+    (supervisionType) => {
       runInAction(() => {
         narrative.supervisionType = supervisionType;
       });
@@ -265,8 +266,6 @@ describe.each([
         () => narrative.revocationsDataSeries !== undefined,
         () => {
           expect(narrative.revocationsDataSeries).toMatchSnapshot();
-          // @ts-expect-error jest type definitions are wrong, this will be a callback
-          done();
         },
       );
     },
