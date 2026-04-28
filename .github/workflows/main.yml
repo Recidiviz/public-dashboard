@@ -62,7 +62,7 @@ jobs:
       - name: install test client dependencies
         run: yarn install --immutable
         working-directory: spotlight-client
-      - run: yarn test  --forceExit  --detectOpenHandles --maxWorkers=2
+      - run: yarn test --forceExit --runInBand --detectOpenHandles
       - name: Coveralls
         uses: coverallsapp/github-action@09b709cf6a16e30b0808ba050c7a6e8a5ef13f8d # master
         with:
