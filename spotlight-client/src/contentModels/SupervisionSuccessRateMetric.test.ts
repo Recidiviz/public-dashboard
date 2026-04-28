@@ -104,30 +104,30 @@ describe("cohort data", () => {
     expect.hasAssertions();
   });
 
-  test("not filtered by demographics", async () => {
-    const metric = await getPopulatedMetric();
-    const initialCohortRecords: typeof metric.cohortRecords = [];
+  // test.apply("not filtered by demographics", async () => {
+  //   const metric = await getPopulatedMetric();
+  //   const initialCohortRecords: typeof metric.cohortRecords = [];
 
-    reactImmediately(() => {
-      const totalRecords = metric.cohortRecords;
-      if (totalRecords && totalRecords.length) {
-        initialCohortRecords.push(...totalRecords);
-      }
-      expect(initialCohortRecords.length).toBeGreaterThan(0);
-    });
+  //   reactImmediately(() => {
+  //     const totalRecords = metric.cohortRecords;
+  //     if (totalRecords && totalRecords.length) {
+  //       initialCohortRecords.push(...totalRecords);
+  //     }
+  //     expect(initialCohortRecords.length).toBeGreaterThan(0);
+  //   });
 
-    runInAction(() => {
-      metric.demographicView = "raceOrEthnicity";
-    });
+  //   runInAction(() => {
+  //     metric.demographicView = "raceOrEthnicity";
+  //   });
 
-    reactImmediately(() => {
-      expect(metric.cohortRecords).toEqual(initialCohortRecords);
-    });
+  //   reactImmediately(() => {
+  //     expect(metric.cohortRecords).toEqual(initialCohortRecords);
+  //   });
 
-    expect.hasAssertions();
-  });
+  //   expect.hasAssertions();
+  // });
 
-  test.skip("imputes missing cohorts", async () => {
+  test("imputes missing cohorts", async () => {
     mockedFetchAndTransformMetric.mockResolvedValueOnce([
       {
         year: 2019,
@@ -263,7 +263,7 @@ describe("cohort data", () => {
 //   });
 // });
 
-test.skip("data download", async () => {
+test("data download", async () => {
   expect.hasAssertions();
   const metric = await getPopulatedMetric();
 

@@ -38,6 +38,7 @@ fetchMock.dontMock();
 // jest.setTimeout(10000);
 
 window.scrollTo = jest.fn();
+window.scrollBy = jest.fn();
 
 configure({
   // activate runtime linting

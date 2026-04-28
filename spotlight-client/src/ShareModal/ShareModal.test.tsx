@@ -38,7 +38,6 @@ afterEach(() => {
 
 test("display url", () => {
   renderModal();
-  screen.debug();
   expect(screen.getByText("localhost")).toBeInTheDocument();
 
   runInAction(() => {

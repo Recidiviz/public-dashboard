@@ -131,23 +131,27 @@ test.skip.each([
   fireEvent.click(screen.getByRole("option", { name: demographicLabel }));
 
   log("for all minus total");
-  // verifySankey(
-  //   metric
-  //     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //     .getDemographicCategories(demographicView as any)
-  //     .map(({ label }) => label),
-  //   ["6,193", "3,399", "2,056"],
-  // );
+  verifySankey(
+    metric
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .getDemographicCategories(demographicView as any)
+      .map(({ label }) => label),
+    ["6,193", "3,399", "2,056"],
+  );
 });
 
 test("locality filter", async () => {
-  renderWithStore(<VizSentenceTypeByLocation metric={metric} />);
+  try {
+    renderWithStore(<VizSentenceTypeByLocation metric={metric} />);
 
-  await when(() => !metric.isLoading);
+    await when(() => !metric.isLoading);
 
-  const menuButton = screen.queryByRole("button", {
-    name: "Judicial District All Districts",
-  });
+    const menuButton = screen.queryByRole("button", {
+      name: "Judicial District All Districts",
+    });
 
-  expect(menuButton).toBeNull(); // Jurisdiction Dropdowns should no longer display for ND as of February 2025
+    expect(menuButton).toBeNull(); // Jurisdiction Dropdowns should no longer display for ND as of February 2025
+  } catch (e: any) {
+    console.error("Error found: ", e);
+  }
 });

@@ -37,7 +37,7 @@ test("renders bubbles for data", () => {
   testData.forEach((record) => {
     expect(
       // these are the only Semiotic labels we have to work with here
-      within(bubbles).getByRole("img", { name: `Node ${record.label}` })
+      within(bubbles).getByRole("img", { name: `Node ${record.label}` }),
     ).toHaveStyle(`fill: ${record.color}`);
     // unfortunately there isn't really any sensible way to inspect the bubble size within JSDOM
   });
