@@ -124,7 +124,7 @@ describe("total data", () => {
 
       when(
         () => narrative.supervisionOverall !== undefined,
-        async () => {
+        () => {
           expect(narrative.supervisionOverall).toMatchSnapshot();
           // @ts-expect-error jest type definitions are wrong, this will be a callback
           done();
@@ -157,42 +157,42 @@ describe.each([
     narrative.hydrate();
   });
 
-  test("before corrections", () => {
+  test("before corrections", (done) => {
     when(
       () => narrative.beforeCorrections !== undefined,
       () => {
         expect(narrative.beforeCorrections).toMatchSnapshot();
-        // done();
+        done();
       },
     );
   });
 
-  test("for sentencing", () => {
+  test("for sentencing", (done) => {
     when(
       () => narrative.sentencing !== undefined,
       () => {
         expect(narrative.sentencing).toMatchSnapshot();
-        // done();
+        done();
       },
     );
   });
 
-  test("for releases to parole", () => {
+  test("for releases to parole", (done) => {
     when(
       () => narrative.releasesToParole !== undefined,
       () => {
         expect(narrative.releasesToParole).toMatchSnapshot();
-        // done();
+        done();
       },
     );
   });
 
-  test("for programming", () => {
+  test("for programming", (done) => {
     when(
       () => narrative.programming !== undefined,
       () => {
         expect(narrative.programming).toMatchSnapshot();
-        // done();
+        done();
       },
     );
   });
@@ -208,48 +208,49 @@ describe.each([
         () => narrative.supervision !== undefined,
         () => {
           expect(narrative.supervision).toMatchSnapshot();
-          // done();
+          // @ts-expect-error jest type definitions are wrong, this will be a callback
+          done();
         },
       );
     },
   );
 
-  test("for focused population data series", () => {
+  test("for focused population data series", (done) => {
     when(
       () => narrative.focusedPopulationDataSeries !== undefined,
       () => {
         expect(narrative.focusedPopulationDataSeries).toMatchSnapshot();
-        // done();
+        done();
       },
     );
   });
 
-  test("for parole release data series", () => {
+  test("for parole release data series", (done) => {
     when(
       () => narrative.paroleReleaseDataSeries !== undefined,
       () => {
         expect(narrative.paroleReleaseDataSeries).toMatchSnapshot();
-        // done();
+        done();
       },
     );
   });
 
-  test("for programming data series", () => {
+  test("for programming data series", (done) => {
     when(
       () => narrative.programmingDataSeries !== undefined,
       () => {
         expect(narrative.programmingDataSeries).toMatchSnapshot();
-        // done();
+        done();
       },
     );
   });
 
-  test("for sentencing data series", () => {
+  test("for sentencing data series", (done) => {
     when(
       () => narrative.sentencingDataSeries !== undefined,
       () => {
         expect(narrative.sentencingDataSeries).toMatchSnapshot();
-        // done();
+        done();
       },
     );
   });
@@ -257,7 +258,7 @@ describe.each([
   // hello in here this one is failing
   test.each(["supervision", "parole", "probation"] as const)(
     "for %s revocations data series",
-    (supervisionType) => {
+    (supervisionType, done) => {
       runInAction(() => {
         narrative.supervisionType = supervisionType;
       });
@@ -266,6 +267,8 @@ describe.each([
         () => narrative.revocationsDataSeries !== undefined,
         () => {
           expect(narrative.revocationsDataSeries).toMatchSnapshot();
+          // @ts-expect-error jest type definitions are wrong, this will be a callback
+          done();
         },
       );
     },
