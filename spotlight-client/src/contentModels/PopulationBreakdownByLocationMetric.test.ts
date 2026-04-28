@@ -38,36 +38,32 @@ function getTestMetric() {
 }
 
 test("locality filter", async () => {
-  try {
-    const metric = getTestMetric();
+  const metric = getTestMetric();
 
-    metric.hydrate();
+  metric.hydrate();
 
-    await when(() => metric.records !== undefined);
+  await when(() => metric.records !== undefined);
 
-    reactImmediately(() =>
-      expect(metric.records?.every((record) => record.locality === "ALL")).toBe(
-        true,
-      ),
-    );
+  reactImmediately(() =>
+    expect(metric.records?.every((record) => record.locality === "ALL")).toBe(
+      true,
+    ),
+  );
 
-    const facilityId = contentFixture.localities.Prison.entries[1].id;
+  const facilityId = contentFixture.localities.Prison.entries[1].id;
 
-    runInAction(() => {
-      metric.localityId = facilityId;
-    });
+  runInAction(() => {
+    metric.localityId = facilityId;
+  });
 
-    reactImmediately(() => {
-      expect(metric.records?.length).toBeGreaterThan(0);
-      expect(
-        metric.records?.every((record) => record.locality === facilityId),
-      ).toBe(true);
-    });
+  reactImmediately(() => {
+    expect(metric.records?.length).toBeGreaterThan(0);
+    expect(
+      metric.records?.every((record) => record.locality === facilityId),
+    ).toBe(true);
+  });
 
-    expect.hasAssertions();
-  } catch (e: any) {
-    console.error("Error found: ", e);
-  }
+  expect.hasAssertions();
 });
 
 test("demographic data series", async () => {

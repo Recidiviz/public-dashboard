@@ -75,32 +75,28 @@ test.each([["raceOrEthnicity"], ["gender"], ["ageBucket"]] as [
 });
 
 test("locality filter", async () => {
-  try {
-    const metric = await getPopulatedMetric();
+  const metric = await getPopulatedMetric();
 
-    reactImmediately(() =>
-      expect(metric.records?.every((record) => record.locality === "ALL")).toBe(
-        true,
-      ),
-    );
+  reactImmediately(() =>
+    expect(metric.records?.every((record) => record.locality === "ALL")).toBe(
+      true,
+    ),
+  );
 
-    const facilityId = contentFixture.localities.Sentencing.entries[1].id;
+  const facilityId = contentFixture.localities.Sentencing.entries[1].id;
 
-    runInAction(() => {
-      metric.localityId = facilityId;
-    });
+  runInAction(() => {
+    metric.localityId = facilityId;
+  });
 
-    reactImmediately(() => {
-      expect(metric.records?.length).toBeGreaterThan(0);
-      expect(
-        metric.records?.every((record) => record.locality === facilityId),
-      ).toBe(true);
-    });
+  reactImmediately(() => {
+    expect(metric.records?.length).toBeGreaterThan(0);
+    expect(
+      metric.records?.every((record) => record.locality === facilityId),
+    ).toBe(true);
+  });
 
-    expect.hasAssertions();
-  } catch (e: any) {
-    console.error("Error found: ", e);
-  }
+  expect.hasAssertions();
 });
 
 test("no unknowns", async () => {

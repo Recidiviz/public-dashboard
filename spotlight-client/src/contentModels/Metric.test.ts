@@ -83,7 +83,7 @@ describe("data fetching", () => {
     clear();
   });
 
-  test.skip.each(
+  test.each(
     MetricTypeIdList.filter(
       (id) =>
         // the `records` property is not supported for these metric types
@@ -113,7 +113,7 @@ describe("data fetching", () => {
   });
 });
 
-test.skip("file loading state", (done) => {
+test("file loading state", (done) => {
   testMetricMapping = getTestMapping();
   // not really necessary to test this once per type; we just pick one arbitrarily
   const metric = getTestMetric("PrisonReleaseTypeAggregate");
@@ -150,7 +150,7 @@ test.skip("file loading state", (done) => {
   expect.assertions(5);
 });
 
-test.skip("fetch error state", async () => {
+test("fetch error state", async () => {
   // mocking the backend for this test so we can simulate an error response
   fetchMock.doMock();
 
@@ -193,7 +193,7 @@ describe("data download", () => {
     downloadjsMock.mockReset();
   });
 
-  test.skip.each(
+  test.each(
     MetricTypeIdList.filter(
       (id) =>
         // these metric types have multiple data sources, so the files they download will be different;
@@ -258,7 +258,7 @@ describe("data download", () => {
   });
 
   describe("demographic categories", () => {
-    test.skip("default", () => {
+    test("default", () => {
       testMetricMapping = getTestMapping();
 
       // arbitrary choice, they should all be the same

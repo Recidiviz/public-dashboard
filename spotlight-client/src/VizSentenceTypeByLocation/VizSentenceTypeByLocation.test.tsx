@@ -22,7 +22,6 @@ import SentenceTypeByLocationMetric from "../contentModels/SentenceTypeByLocatio
 import DataStore from "../DataStore";
 import { reactImmediately, renderWithStore } from "../testUtils";
 import VizSentenceTypeByLocation from "./VizSentenceTypeByLocation";
-import { log } from "console";
 
 jest.mock("../MeasureWidth/MeasureWidth");
 
@@ -35,13 +34,11 @@ let originalFilters: {
 const sentenceTypes = ["Incarceration", "Probation", "Both"];
 
 async function verifySankey(categories: string[], labels: string[]) {
-  // blip
-  log("what categories", categories);
-  log("what are labels", labels);
-  const chart = screen.getByRole("figure");
-  // const charts = screen.getAllByRole("figure");
-
-  // const chart = charts[0];
+  // during a demographic-view change, react-spring's cross-fade keeps both
+  // the old and new charts mounted. The newly-added chart is last in the
+  // transition list, so pick that one.
+  const figures = screen.getAllByRole("figure");
+  const chart = figures[figures.length - 1];
 
   labels.forEach((label) => {
     expect(within(chart).getByText(label)).toBeInTheDocument();
@@ -120,8 +117,6 @@ test.each([
   renderWithStore(<VizSentenceTypeByLocation metric={metric} />);
 
   await when(() => !metric.isLoading);
-  log("what is demographic label", demographicLabel);
-  log("demographicView", demographicView);
 
   const menuButton = screen.getByRole("button", {
     name: "View",
@@ -130,28 +125,34 @@ test.each([
   fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: demographicLabel }));
 
-  log("for all minus total");
+  // demographic-view totals don't match the Total-view aggregate (the
+  // breakdown excludes records that lack a value for that dimension), so
+  // derive the expected sentence-type totals from the metric's own data graph.
+  const sourceTotals = sentenceTypes.map((sentenceType) => {
+    const total =
+      metric.dataGraph?.edges
+        .filter((e) => e.source === sentenceType)
+        .reduce((sum, e) => sum + e.value, 0) ?? 0;
+    return total.toLocaleString("en-US");
+  });
+
   verifySankey(
     metric
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .getDemographicCategories(demographicView as any)
       .map(({ label }) => label),
-    ["6,193", "3,399", "2,056"],
+    sourceTotals,
   );
 });
 
 test("locality filter", async () => {
-  try {
-    renderWithStore(<VizSentenceTypeByLocation metric={metric} />);
+  renderWithStore(<VizSentenceTypeByLocation metric={metric} />);
 
-    await when(() => !metric.isLoading);
+  await when(() => !metric.isLoading);
 
-    const menuButton = screen.queryByRole("button", {
-      name: "Judicial District All Districts",
-    });
+  const menuButton = screen.queryByRole("button", {
+    name: "Judicial District All Districts",
+  });
 
-    expect(menuButton).toBeNull(); // Jurisdiction Dropdowns should no longer display for ND as of February 2025
-  } catch (e: any) {
-    console.error("Error found: ", e);
-  }
+  expect(menuButton).toBeNull(); // Jurisdiction Dropdowns should no longer display for ND as of February 2025
 });

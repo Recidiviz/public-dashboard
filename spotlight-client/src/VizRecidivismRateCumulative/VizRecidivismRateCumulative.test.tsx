@@ -54,7 +54,7 @@ afterEach(() => {
   runInAction(() => {
     DataStore.tenantStore.currentTenantId = undefined;
     metric.demographicView = originalFilters.demographicView;
-    metric.setSelectedCohorts([]);
+    metric.setSelectedCohorts(undefined);
   });
 });
 
@@ -67,12 +67,16 @@ test("total chart", async () => {
   renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
 
   await when(() => !metric.isLoading);
+  let chart;
 
-  // there are multiple charts due to how interactions are implemented;
-  // the first one should be the one we care about
-  const chart = screen.getAllByRole("group", {
-    name: "10 lines in a line chart",
-  })[0];
+  await waitFor(() => {
+    // there are multiple charts due to how interactions are implemented;
+    // the first one should be the one we care about
+    chart = screen.getAllByRole("group", {
+      name: "10 lines in a line chart",
+    })[0];
+  });
+
   expect(chart).toBeInTheDocument();
   // don't have to deeply inspect the values but let's make sure the lines have the proper shape
   for (let numPoints = 2; numPoints <= 11; numPoints += 1) {
@@ -133,7 +137,7 @@ test("demographic charts", async () => {
 
   await waitFor(() => {
     [lineChart] = screen.getAllByRole("group", {
-      name: "5 lines in a line chart",
+      name: "7 lines in a line chart",
     });
   });
 
@@ -141,7 +145,7 @@ test("demographic charts", async () => {
     within(lineChart).getAllByRole("img", {
       name: /^3 point line starting value 0% at 0 ending value \d+% at 2/,
     }).length,
-  ).toBe(5);
+  ).toBe(7);
 });
 
 test("release cohorts filter", async () => {
@@ -220,6 +224,8 @@ test("highlight release cohort", async () => {
 test("highlighted release cohorts are visible even if not selected", async () => {
   renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
 
+  await when(() => !metric.isLoading);
+
   const menuButton = screen.getByRole("button", {
     name: "Cohort",
   });
@@ -227,7 +233,7 @@ test("highlighted release cohorts are visible even if not selected", async () =>
   userEvent.click(menuButton);
   userEvent.click(screen.getByRole("option", { name: "2012" }));
 
-  // still selected
+  // still selected (hover from the click keeps it visible)
   await screen.findAllByRole("group", {
     name: "10 lines in a line chart",
   });
