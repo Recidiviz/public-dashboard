@@ -46,3 +46,6 @@ package-lock.json
 
 # yarn
 */*/install-state.gz
+
+# Claude
+.claude/settings.local.json
