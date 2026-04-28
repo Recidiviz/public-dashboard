@@ -57,7 +57,7 @@ jobs:
           yarn set version stable
       - name: install test server dependencies
         run: yarn install --immutable
-        working-directory: spotlight-client
+        working-directory: spotlight-api
       - run: yarn test --coverage --forceExit --runInBand
       - name: Coveralls
         uses: coverallsapp/github-action@09b709cf6a16e30b0808ba050c7a6e8a5ef13f8d # master
