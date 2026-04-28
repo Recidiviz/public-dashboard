@@ -63,7 +63,7 @@ test("loading", () => {
   expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
-test.skip("total chart", async () => {
+test("total chart", async () => {
   renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
 
   await when(() => !metric.isLoading);
@@ -88,7 +88,7 @@ test.skip("total chart", async () => {
   }
 });
 
-test.skip("demographic charts", async () => {
+test("demographic charts", async () => {
   renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
 
   await when(() => !metric.isLoading);
@@ -144,7 +144,7 @@ test.skip("demographic charts", async () => {
   ).toBe(5);
 });
 
-test.skip("release cohorts filter", async () => {
+test("release cohorts filter", async () => {
   renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
 
   await when(() => !metric.isLoading);
@@ -193,7 +193,7 @@ test.skip("release cohorts filter", async () => {
   ).toBeVisible();
 });
 
-test.skip("highlight release cohort", async () => {
+test("highlight release cohort", async () => {
   renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
 
   await screen.findAllByRole("group", {
@@ -217,7 +217,7 @@ test.skip("highlight release cohort", async () => {
   ).toBe(7);
 });
 
-test.skip("highlighted release cohorts are visible even if not selected", async () => {
+test("highlighted release cohorts are visible even if not selected", async () => {
   renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
 
   const menuButton = screen.getByRole("button", {

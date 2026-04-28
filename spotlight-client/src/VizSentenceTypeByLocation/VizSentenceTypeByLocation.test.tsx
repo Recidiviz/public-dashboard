@@ -102,7 +102,7 @@ test("loading", () => {
   expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
-test.skip("total chart", async () => {
+test("total chart", async () => {
   const categories = ["Total"];
 
   renderWithStore(<VizSentenceTypeByLocation metric={metric} />);
@@ -112,7 +112,7 @@ test.skip("total chart", async () => {
   await verifySankey(categories, ["6,193", "3,399", "2,056"]);
 });
 
-test.skip.each([
+test.each([
   ["Race or Ethnicity", "raceOrEthnicity"],
   ["Gender", "gender"],
   ["Age Group", "ageBucket"],

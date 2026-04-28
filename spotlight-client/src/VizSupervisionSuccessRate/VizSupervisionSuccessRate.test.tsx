@@ -93,7 +93,7 @@ test("totals", async () => {
   expect(within(stat).getByText("58%")).toBeInTheDocument();
 });
 
-test.skip("locality filter", async () => {
+test("locality filter", async () => {
   renderWithStore(<VizSupervisionSuccessRate metric={metric} />);
 
   const menuButton = screen.getByRole("button", {
