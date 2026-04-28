@@ -54,7 +54,7 @@ afterEach(() => {
   runInAction(() => {
     DataStore.tenantStore.currentTenantId = undefined;
     metric.demographicView = originalFilters.demographicView;
-    metric.setSelectedCohorts(undefined);
+    metric.setSelectedCohorts([]);
   });
 });
 
