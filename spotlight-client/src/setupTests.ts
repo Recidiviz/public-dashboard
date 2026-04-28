@@ -35,11 +35,15 @@ import "./testUtils/segmentMock";
 fetchMock.enableMocks();
 fetchMock.dontMock();
 
+jest.setTimeout(15000);
+
+// window.scrollTo = jest.fn();
+
 configure({
   // activate runtime linting
   computedRequiresReaction: true,
   reactionRequiresObservable: true,
   observableRequiresReaction: true,
   // debug setting to avoid silent failures in reactive code
-  disableErrorBoundaries: true,
+  // disableErrorBoundaries: true,
 });

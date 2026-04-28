@@ -130,7 +130,6 @@ test.skip.each([
   fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: demographicLabel }));
 
-  // screen.debug(undefined, 1000000);
   log("for all minus total");
   // verifySankey(
   //   metric

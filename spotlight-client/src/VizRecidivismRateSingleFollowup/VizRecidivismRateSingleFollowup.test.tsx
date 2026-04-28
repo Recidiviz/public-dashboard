@@ -74,8 +74,6 @@ test("total chart", async () => {
 
   await when(() => !metric.isLoading);
 
-  screen.debug();
-
   const chart = screen.getByRole("group", { name: "8 bars in a bar chart" });
   expect(chart).toBeInTheDocument();
   expect(
