@@ -35,9 +35,9 @@ import "./testUtils/segmentMock";
 fetchMock.enableMocks();
 fetchMock.dontMock();
 
-jest.setTimeout(15000);
+// jest.setTimeout(10000);
 
-// window.scrollTo = jest.fn();
+window.scrollTo = jest.fn();
 
 configure({
   // activate runtime linting
