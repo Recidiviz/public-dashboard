@@ -67,15 +67,12 @@ test("total chart", async () => {
   renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
 
   await when(() => !metric.isLoading);
-  let chart;
 
-  await waitFor(() => {
-    // there are multiple charts due to how interactions are implemented;
-    // the first one should be the one we care about
-    chart = screen.getAllByRole("group", {
-      name: "10 lines in a line chart",
-    })[0];
-  });
+  // there are multiple charts due to how interactions are implemented;
+  // the first one should be the one we care about
+  const chart = screen.getAllByRole("group", {
+    name: "10 lines in a line chart",
+  })[0];
 
   expect(chart).toBeInTheDocument();
   // don't have to deeply inspect the values but let's make sure the lines have the proper shape
