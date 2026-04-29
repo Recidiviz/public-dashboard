@@ -16820,7 +16820,7 @@ __metadata:
     styled-reset: "npm:^4.3.3"
     topojson: "npm:^3.0.2"
     ts-node: "npm:^10.9.2"
-    typescript: "npm:^4.0.0"
+    typescript: "npm:^4.9.5"
     typescript-eslint: "npm:^8.59.0"
     upper-case-first: "npm:^2.0.2"
     utility-types: "npm:^3.10.0"
@@ -18047,23 +18047,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.0.0":
-  version: 4.0.5
-  resolution: "typescript@npm:4.0.5"
+"typescript@npm:^4.9.5":
+  version: 4.9.5
+  resolution: "typescript@npm:4.9.5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/c2d5a2d56ad7ac9ca6e9b740b56e685649ebd1cad11d1cbc438a92c9a00caf899dbc630aba3cf9687180d963ad426ae20032e04bb622fcb5c6de98d84d9279ae
+  checksum: 10c0/5f6cad2e728a8a063521328e612d7876e12f0d8a8390d3b3aaa452a6a65e24e9ac8ea22beb72a924fd96ea0a49ea63bb4e251fb922b12eedfb7f7a26475e5c56
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^4.0.0#optional!builtin<compat/typescript>":
-  version: 4.0.5
-  resolution: "typescript@patch:typescript@npm%3A4.0.5#optional!builtin<compat/typescript>::version=4.0.5&hash=ed6a74"
+"typescript@patch:typescript@npm%3A^4.9.5#optional!builtin<compat/typescript>":
+  version: 4.9.5
+  resolution: "typescript@patch:typescript@npm%3A4.9.5#optional!builtin<compat/typescript>::version=4.9.5&hash=289587"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/439e8f46a0a035ecfba4eb2c05e7572b4bb6e1a163468e4c550d7eedd7cf567d9898677ae5b92ac44ebd35d717beacb633b69eaf02483776b0eff787299daa22
+  checksum: 10c0/e3333f887c6829dfe0ab6c1dbe0dd1e3e2aeb56c66460cb85c5440c566f900c833d370ca34eb47558c0c69e78ced4bfe09b8f4f98b6de7afed9b84b8d1dd06a1
   languageName: node
   linkType: hard
 

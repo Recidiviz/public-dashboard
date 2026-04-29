@@ -30,6 +30,7 @@ jobs:
           yarn set version stable
       - run: yarn install --immutable
       - run: yarn lint
+      - run: yarn typecheck
   test-spotlight-client:
     permissions:
       checks: write # for coverallsapp/github-action to create new checks
