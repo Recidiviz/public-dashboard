@@ -98,7 +98,7 @@ test("demographic charts", async () => {
   await when(() => !metric.isLoading);
 
   const menuButton = screen.getByRole("button", {
-    name: "View",
+    name: "View Total",
   });
 
   // must select a single cohort to enable this filter
@@ -160,7 +160,7 @@ test("release cohorts filter", async () => {
   ).toBe(2);
 
   const menuButton = screen.getByRole("button", {
-    name: "Cohort",
+    name: "Cohort 2009 and 9 others",
   });
   fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: "2012" }));
@@ -205,7 +205,7 @@ test("highlight release cohort", async () => {
   });
 
   const menuButton = screen.getByRole("button", {
-    name: "Cohort",
+    name: "Cohort 2009 and 9 others",
   });
 
   userEvent.click(menuButton);
@@ -227,7 +227,7 @@ test("highlighted release cohorts are visible even if not selected", async () =>
   await when(() => !metric.isLoading);
 
   const menuButton = screen.getByRole("button", {
-    name: "Cohort",
+    name: "Cohort 2009 and 9 others",
   });
 
   userEvent.click(menuButton);

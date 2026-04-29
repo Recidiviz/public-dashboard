@@ -97,7 +97,7 @@ test("locality filter", async () => {
   renderWithStore(<VizSupervisionSuccessRate metric={metric} />);
 
   const menuButton = screen.getByRole("button", {
-    name: "Office",
+    name: "Office All Offices",
   });
   fireEvent.click(menuButton);
 
@@ -124,7 +124,7 @@ test("demographic filter", async () => {
   renderWithStore(<VizSupervisionSuccessRate metric={metric} />);
 
   const menuButton = await screen.findByRole("button", {
-    name: "View",
+    name: "View Total",
   });
 
   (
