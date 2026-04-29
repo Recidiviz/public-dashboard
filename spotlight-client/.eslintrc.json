@@ -26,7 +26,6 @@
       "always",
       { "js": "never", "ts": "never", "tsx": "never" }
     ],
-    "import/no-extraneous-dependencies": ["error", { "packageDir": "./" }],
     "import/prefer-default-export": "off",
     "jsx-a11y/label-has-associated-control": [
       "error",
