@@ -145,7 +145,7 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
     this.appliedCohortFilter = cohorts;
 
     // demographic views are not supported for multiple cohorts; reset
-    if (cohorts?.length !== 1) {
+    if (cohorts === undefined || cohorts.length > 1) {
       this.demographicView = "total";
     }
   }
