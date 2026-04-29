@@ -21,11 +21,6 @@ import TenantStore from "./TenantStore";
 import UiStore from "./UiStore";
 import UserStore from "./UserStore";
 
-const isLocal = () => {
-  if (process.env.REACT_APP_API_URL.includes("localhost")) return true;
-  return false;
-};
-
 configure({
   // make proxies optional for IE 11 support
   useProxies: "ifavailable",
@@ -37,8 +32,6 @@ configure({
   // other noise occurring - should bring this back
   disableErrorBoundaries: false,
 });
-
-// if react REACT_APP_API_URL={URL} contains 'localhost' then it means it's env
 
 /**
  * Returns the auth settings configured for the current environment, if any.

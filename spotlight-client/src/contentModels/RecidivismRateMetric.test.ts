@@ -86,7 +86,7 @@ describe("cohorts data series", () => {
   const testMetricId = "PrisonRecidivismRateHistorical";
 
   afterEach(() => {
-    metric.setSelectedCohorts([]);
+    metric.setSelectedCohorts(undefined);
   });
 
   test("all cohorts", async () => {
@@ -261,8 +261,7 @@ test("report unknowns", async () => {
           },
         },
       ]);
-
-      // done();
+      
     },
   );
 });

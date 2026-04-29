@@ -29,7 +29,7 @@ const ScrollManager = (): null => {
   } = useDataStore();
 
   useLayoutEffect(() => {
-    if (window) window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, [currentPageId]);
 
   return null;

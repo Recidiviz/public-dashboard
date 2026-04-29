@@ -38,13 +38,13 @@ afterEach(() => {
 
 test("display url", () => {
   renderModal();
-  expect(screen.getByText("localhost")).toBeInTheDocument();
+  expect(screen.getByText("localhost")).toBeVisible();
 
   runInAction(() => {
     DataStore.tenantStore.currentTenantId = "US_ND";
   });
 
-  expect(screen.getByText("localhost/us-nd")).toBeInTheDocument();
+  expect(screen.getByText("localhost/us-nd")).toBeVisible();
 
   runInAction(() => {
     DataStore.tenantStore.currentNarrativeTypeId = "RacialDisparities";
@@ -52,7 +52,7 @@ test("display url", () => {
 
   expect(
     screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`),
-  ).toBeInTheDocument();
+  ).toBeVisible();
 });
 
 test("include narrative section in url", () => {
@@ -66,17 +66,17 @@ test("include narrative section in url", () => {
 
   expect(
     screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`),
-  ).toBeInTheDocument();
+  ).toBeVisible();
 
   userEvent.click(screen.getByRole("checkbox"));
 
   expect(
     screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities/2`),
-  ).toBeInTheDocument();
+  ).toBeVisible();
 
   userEvent.click(screen.getByRole("checkbox"));
 
   expect(
     screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`),
-  ).toBeInTheDocument();
+  ).toBeVisible();
 });

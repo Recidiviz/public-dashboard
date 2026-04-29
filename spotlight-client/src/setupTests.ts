@@ -35,10 +35,6 @@ import "./testUtils/segmentMock";
 fetchMock.enableMocks();
 fetchMock.dontMock();
 
-// jest.setTimeout(10000);
-
-window.scrollTo = jest.fn();
-window.scrollBy = jest.fn();
 
 configure({
   // activate runtime linting
@@ -46,5 +42,5 @@ configure({
   reactionRequiresObservable: true,
   observableRequiresReaction: true,
   // debug setting to avoid silent failures in reactive code
-  // disableErrorBoundaries: true,
+  disableErrorBoundaries: true,
 });

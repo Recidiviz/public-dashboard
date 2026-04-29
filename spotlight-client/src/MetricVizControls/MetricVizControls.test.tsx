@@ -63,10 +63,10 @@ test("methodology modal", async () => {
 
   // this is conditionally rendered & visibility isn't altered
   // so this won't have changing visibility
-  expect(modal).toBeInTheDocument();
+  expect(modal).toBeVisible();
   expect(
     within(modal).getByRole("heading", { name: "Methodology" }),
-  ).toBeInTheDocument();
+  ).toBeVisible();
   // this only works because the test metric has no HTML in it
-  expect(within(modal).getByText(metric.methodology)).toBeInTheDocument();
+  expect(within(modal).getByText(metric.methodology)).toBeVisible();
 });

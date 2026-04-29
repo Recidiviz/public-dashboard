@@ -109,10 +109,10 @@ describe("on large screens", () => {
 
     const modal = screen.getByRole("dialog");
 
-    expect(modal).toBeInTheDocument();
+    expect(modal).toBeVisible();
     expect(
       within(modal).getByRole("heading", { name: "Share" }),
-    ).toBeInTheDocument();
+    ).toBeVisible();
   });
 });
 

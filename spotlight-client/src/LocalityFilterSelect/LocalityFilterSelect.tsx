@@ -58,4 +58,4 @@ const LocalityFilterSelect: React.FC<LocalityFilterSelectProps> = ({
   );
 };
 
-export default LocalityFilterSelect;
+export default observer(LocalityFilterSelect);

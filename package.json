@@ -7,14 +7,13 @@
     "dev:api": "cd spotlight-api && yarn dev",
     "dev:sc": "cd spotlight-client && yarn dev",
     "demo": "IS_DEMO=true REACT_APP_API_URL=http://localhost:3001 yarn dev",
-    "dev": "yarn dev:api & yarn dev:sc",
+    "dev": "run-p dev:api dev:sc",
     "install:api": "cd spotlight-api && yarn",
     "install:sc": "cd spotlight-client && yarn",
     "test": "run-p \"test:* -- {@}\" --",
     "test:api": "cd spotlight-api && yarn test",
     "test:sc": "cd spotlight-client && yarn test",
-    "prepare": "husky install",
-    "i": "yarn install:api & yarn install:sc"
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
@@ -36,10 +35,6 @@
     "axios": "1.15.0",
     "jwks-rsa": "^3.1.0",
     "typescript-eslint": "^8.59.0"
-  },
-  "volta": {
-    "node": "22.22.2",
-    "yarn": "1.22.22"
   },
   "packageManager": "yarn@4.14.1"
 }

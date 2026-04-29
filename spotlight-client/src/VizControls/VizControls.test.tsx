@@ -48,9 +48,9 @@ test("methodology modal", () => {
 
   const modal = screen.getByRole("dialog");
 
-  expect(modal).toBeInTheDocument();
+  expect(modal).toBeVisible();
   expect(
     within(modal).getByRole("heading", { name: "Methodology" }),
-  ).toBeInTheDocument();
-  expect(within(modal).getByText(mockMethodology)).toBeInTheDocument();
+  ).toBeVisible();
+  expect(within(modal).getByText(mockMethodology)).toBeVisible();
 });

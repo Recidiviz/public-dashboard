@@ -21,8 +21,6 @@ import useBreakpoint from "@w11r/use-breakpoint";
 import React from "react";
 import DropdownMultiple from "./DropdownMultiple";
 
-import { log } from "console";
-
 jest.mock("@w11r/use-breakpoint");
 
 const useBreakpointMock = useBreakpoint as jest.Mock;
@@ -112,9 +110,6 @@ describe.each([["mobile", true], ["desktop"]])(
       expect(mockOnChange).toHaveBeenLastCalledWith([testOptions[2].id]);
     });
 
-    //  ${testOptions[0].label} and 2 others
-    // ^ had to remove content like above because it
-    // is in the innerHTML and not the label which is what this is searching for
     test("select all", () => {
       const menuButton = screen.getByRole("button", {
         name: `${testLabel} ${testOptions[0].label} and 2 others`,

@@ -29,7 +29,6 @@ import downloadPath from "../assets/cloud-download.svg";
 import machineLearningPath from "../assets/machine-learning.svg";
 import { useDataStore } from "../StoreProvider";
 import { colors, CopyBlock, Modal, ModalHeading, zIndex } from "../UiLibrary";
-import { observer } from "mobx-react-lite";
 
 const Wrapper = styled.div`
   background: ${colors.background};
@@ -128,4 +127,4 @@ const VizControls = ({
   );
 };
 
-export default observer(VizControls);
+export default VizControls;
