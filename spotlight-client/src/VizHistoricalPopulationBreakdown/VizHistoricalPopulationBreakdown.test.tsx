@@ -82,7 +82,7 @@ test("plots demographic categories", async () => {
   renderWithStore(<VizHistoricalPopulationBreakdown metric={metric} />);
 
   const menuButton = screen.getByRole("button", {
-    name: "View",
+    name: "View Total",
   });
   fireEvent.click(menuButton);
 

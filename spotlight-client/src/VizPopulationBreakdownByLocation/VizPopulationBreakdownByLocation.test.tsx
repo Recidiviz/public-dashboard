@@ -156,7 +156,7 @@ test("counts filtered by locality", async () => {
 
   // locality filter
   const menuButton = screen.getByRole("button", {
-    name: "Facility",
+    name: "Facility All Facilities",
   });
   fireEvent.click(menuButton);
 

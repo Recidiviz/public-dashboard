@@ -54,7 +54,7 @@ describe.each([["mobile", true], ["desktop"]])(
       );
 
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel}`,
+        name: `${testLabel} ${testOptions[0].label}`,
       });
 
       screen
@@ -93,7 +93,7 @@ describe.each([["mobile", true], ["desktop"]])(
       );
 
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel}`,
+        name: `${testLabel} ${testOptions[0].label}`,
       });
 
       rerender(
@@ -119,7 +119,7 @@ describe.each([["mobile", true], ["desktop"]])(
         />,
       );
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel}`,
+        name: `${testLabel} ${testOptions[0].label}`,
       });
       expect(menuButton).toBeDisabled();
 
@@ -142,7 +142,7 @@ describe.each([["mobile", true], ["desktop"]])(
       );
 
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel}`,
+        name: `${testLabel} ${testOptions[0].label}`,
       });
 
       fireEvent.click(menuButton);

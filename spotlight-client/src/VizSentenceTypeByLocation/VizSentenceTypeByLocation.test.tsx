@@ -119,7 +119,7 @@ test.each([
   await when(() => !metric.isLoading);
 
   const menuButton = screen.getByRole("button", {
-    name: "View",
+    name: "View Total",
   });
 
   fireEvent.click(menuButton);

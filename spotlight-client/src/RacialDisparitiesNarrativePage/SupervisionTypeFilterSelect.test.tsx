@@ -41,7 +41,7 @@ beforeEach(() => {
 
 test("has expected options", () => {
   const menuButton = screen.getByRole("button", {
-    name: "Supervision Type",
+    name: "Supervision Type All Supervision",
   });
   fireEvent.click(menuButton);
 
@@ -56,7 +56,7 @@ test("has expected options", () => {
 
 test("changes demographic filter", () => {
   const menuButton = screen.getByRole("button", {
-    name: "Supervision Type",
+    name: "Supervision Type All Supervision",
   });
 
   expectedOptions.forEach((expectedOption) => {
