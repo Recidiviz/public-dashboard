@@ -67,15 +67,12 @@ test("total chart", async () => {
   renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
 
   await when(() => !metric.isLoading);
-  let chart;
 
-  await waitFor(() => {
-    // there are multiple charts due to how interactions are implemented;
-    // the first one should be the one we care about
-    chart = screen.getAllByRole("group", {
-      name: "10 lines in a line chart",
-    })[0];
-  });
+  // there are multiple charts due to how interactions are implemented;
+  // the first one should be the one we care about
+  const chart = screen.getAllByRole("group", {
+    name: "10 lines in a line chart",
+  })[0];
 
   expect(chart).toBeInTheDocument();
   // don't have to deeply inspect the values but let's make sure the lines have the proper shape
@@ -98,7 +95,7 @@ test("demographic charts", async () => {
   await when(() => !metric.isLoading);
 
   const menuButton = screen.getByRole("button", {
-    name: "View",
+    name: "View Total",
   });
 
   // must select a single cohort to enable this filter
@@ -160,7 +157,7 @@ test("release cohorts filter", async () => {
   ).toBe(2);
 
   const menuButton = screen.getByRole("button", {
-    name: "Cohort",
+    name: "Cohort 2009 and 9 others",
   });
   fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: "2012" }));
@@ -205,7 +202,7 @@ test("highlight release cohort", async () => {
   });
 
   const menuButton = screen.getByRole("button", {
-    name: "Cohort",
+    name: "Cohort 2009 and 9 others",
   });
 
   userEvent.click(menuButton);
@@ -227,7 +224,7 @@ test("highlighted release cohorts are visible even if not selected", async () =>
   await when(() => !metric.isLoading);
 
   const menuButton = screen.getByRole("button", {
-    name: "Cohort",
+    name: "Cohort 2009 and 9 others",
   });
 
   userEvent.click(menuButton);

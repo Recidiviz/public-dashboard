@@ -63,7 +63,7 @@ describe.each([["mobile", true], ["desktop"]])(
 
     test("selects multiple", () => {
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel}`,
+        name: `${testLabel} ${testOptions[0].label} and 2 others`,
       });
 
       fireEvent.click(menuButton);
@@ -77,7 +77,7 @@ describe.each([["mobile", true], ["desktop"]])(
 
     test("menu stays open after selection", async () => {
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel}`,
+        name: `${testLabel} ${testOptions[0].label} and 2 others`,
       });
 
       fireEvent.click(menuButton);
@@ -117,7 +117,7 @@ describe.each([["mobile", true], ["desktop"]])(
     // is in the innerHTML and not the label which is what this is searching for
     test("select all", () => {
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel}`,
+        name: `${testLabel} ${testOptions[0].label} and 2 others`,
       });
 
       fireEvent.click(menuButton);
@@ -151,7 +151,7 @@ describe.each([["mobile", true], ["desktop"]])(
 
     test("callback for highlighted item", async () => {
       const menuButton = screen.getByRole("button", {
-        name: `${testLabel}`,
+        name: `${testLabel} ${testOptions[0].label} and 2 others`,
       });
 
       userEvent.click(menuButton);

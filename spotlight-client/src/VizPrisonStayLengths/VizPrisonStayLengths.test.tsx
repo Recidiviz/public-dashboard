@@ -101,7 +101,7 @@ test("demographic charts", async () => {
   });
 
   const menuButton = screen.getByRole("button", {
-    name: "View",
+    name: "View Total",
   });
   fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: "Race or Ethnicity" }));

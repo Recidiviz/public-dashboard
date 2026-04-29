@@ -18,6 +18,7 @@
     // "strict": true,
     "target": "es6",
     "useDefineForClassFields": true,
+    "types": ["jest", "node", "testing-library__jest-dom"],
     "paths": {
       "react": ["./node_modules/@types/react"]
     }

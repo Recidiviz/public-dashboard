@@ -111,7 +111,10 @@ test("demographic charts", async () => {
     name: "8 bars in a bar chart",
   });
 
-  fireEvent.click(screen.getByRole("button", { name: "View" }));
+  const menuButton = screen.getByRole("button", {
+    name: "View Total",
+  });
+  fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: "Race or Ethnicity" }));
 
   // pause for animated transition
@@ -122,7 +125,7 @@ test("demographic charts", async () => {
   });
   expect(raceCharts.length).toBe(5);
 
-  fireEvent.click(screen.getByRole("button", { name: "View" }));
+  fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: "Gender" }));
 
   // pause for animated transition
@@ -133,7 +136,7 @@ test("demographic charts", async () => {
   });
   expect(genderCharts.length).toBe(2);
 
-  fireEvent.click(screen.getByRole("button", { name: "View" }));
+  fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: "Age Group" }));
 
   // pause for animated transition
@@ -150,7 +153,7 @@ test("followup period filter", async () => {
   await when(() => !metric.isLoading);
 
   const menuButton = screen.getByRole("button", {
-    name: "Follow-up Period",
+    name: "Follow-up Period 3 Years",
   });
   fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: "1 Year" }));
