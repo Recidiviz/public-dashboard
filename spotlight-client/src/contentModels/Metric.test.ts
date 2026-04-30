@@ -108,6 +108,8 @@ describe("data fetching", () => {
         // Be especially careful inspecting snapshots for Metrics that filter their sources,
         // e.g. Parole/Probation metrics. Verify that they use the right rows!
         expect(metric.records).toMatchSnapshot();
+        // @ts-expect-error typedefs for `test.each` are wrong, `done` will be a function
+        done();
       },
     );
   });

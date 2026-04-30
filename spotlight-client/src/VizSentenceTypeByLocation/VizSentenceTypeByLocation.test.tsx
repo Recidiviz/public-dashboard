@@ -133,6 +133,11 @@ test.each([
       metric.dataGraph?.edges
         .filter((e) => e.source === sentenceType)
         .reduce((sum, e) => sum + e.value, 0) ?? 0;
+
+      expect(
+        total.toLocaleString("en-US"),
+      ).toMatchSnapshot();
+      
     return total.toLocaleString("en-US");
   });
 

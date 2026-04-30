@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Age Group charts 1`] = `"6,041"`;
+
+exports[`Age Group charts 2`] = `"3,549"`;
+
+exports[`Age Group charts 3`] = `"2,057"`;
+
+exports[`Gender charts 1`] = `"6,193"`;
+
+exports[`Gender charts 2`] = `"3,397"`;
+
+exports[`Gender charts 3`] = `"2,057"`;
+
+exports[`Race or Ethnicity charts 1`] = `"6,092"`;
+
+exports[`Race or Ethnicity charts 2`] = `"3,498"`;
+
+exports[`Race or Ethnicity charts 3`] = `"2,057"`;
