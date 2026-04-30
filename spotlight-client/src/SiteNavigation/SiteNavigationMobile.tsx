@@ -15,7 +15,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
-import { disableBodyScroll } from "body-scroll-lock";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React, { useRef } from "react";
@@ -107,7 +107,7 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
         if (state === "expandStart") {
           if (menuScrollRef.current) disableBodyScroll(menuScrollRef.current);
         } else if (state === "collapseStart") {
-          if (menuScrollRef.current) disableBodyScroll(menuScrollRef.current);
+          if (menuScrollRef.current) enableBodyScroll(menuScrollRef.current);
         }
       },
     });

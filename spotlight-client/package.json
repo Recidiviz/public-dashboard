@@ -172,5 +172,6 @@
   },
   "resolutions": {
     "node-notifier": "^8.0.1"
-  }
+  },
+  "packageManager": "yarn@4.14.1"
 }

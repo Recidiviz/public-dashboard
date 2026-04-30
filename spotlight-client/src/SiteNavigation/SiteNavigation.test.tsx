@@ -230,7 +230,7 @@ describe("on small screens", () => {
 
     const modal = screen.getByRole("dialog");
 
-    expect(modal).toBeInTheDocument();
+    expect(modal).toBeVisible();
     expect(
       within(modal).getByRole("heading", { name: "Share" }),
     ).toBeInTheDocument();

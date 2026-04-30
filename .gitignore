@@ -45,7 +45,8 @@ package-lock.json
 *.tsbuildinfo
 
 # yarn
-*/*/install-state.gz
+.yarn
+.yarn/
 
 # Claude
 .claude/settings.local.json
