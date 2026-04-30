@@ -4466,7 +4466,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:8.59.1, @typescript-eslint/eslint-plugin@npm:^8.59.1":
+"@typescript-eslint/eslint-plugin@npm:8.59.1":
   version: 8.59.1
   resolution: "@typescript-eslint/eslint-plugin@npm:8.59.1"
   dependencies:
@@ -4521,7 +4521,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:8.59.1, @typescript-eslint/parser@npm:^8.59.1":
+"@typescript-eslint/parser@npm:8.59.1":
   version: 8.59.1
   resolution: "@typescript-eslint/parser@npm:8.59.1"
   dependencies:
@@ -16513,8 +16513,8 @@ __metadata:
     "@types/react-simple-maps": "npm:^1.0.3"
     "@types/styled-components": "npm:^5.1.5"
     "@types/topojson": "npm:^3.2.2"
-    "@typescript-eslint/eslint-plugin": "npm:^8.59.1"
-    "@typescript-eslint/parser": "npm:^8.59.1"
+    "@typescript-eslint/eslint-plugin": "npm:8.59.1"
+    "@typescript-eslint/parser": "npm:8.59.1"
     "@vx/pattern": "npm:^0.0.199"
     "@w11r/use-breakpoint": "npm:^1.8.0"
     assert-never: "npm:^1.2.1"
@@ -16586,7 +16586,7 @@ __metadata:
     topojson: "npm:^3.0.2"
     ts-node: "npm:^10.9.2"
     typescript: "npm:^4.9.5"
-    typescript-eslint: "npm:^8.59.0"
+    typescript-eslint: "npm:8.59.1"
     upper-case-first: "npm:^2.0.2"
     utility-types: "npm:^3.10.0"
     wait-for-localhost: "npm:^3.3.0"
@@ -17797,7 +17797,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript-eslint@npm:^8.59.0":
+"typescript-eslint@npm:8.59.1":
   version: 8.59.1
   resolution: "typescript-eslint@npm:8.59.1"
   dependencies:

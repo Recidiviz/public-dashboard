@@ -15,7 +15,8 @@
     "lint": "eslint .",
     "start": "node index.js",
     "start-test-server": "PORT=3002 IS_DEMO=true yarn start",
-    "test": "jest"
+    "test": "jest",
+    "build": "react-scripts build"
   },
   "dependencies": {
     "@google-cloud/storage": "^5.1.2",
@@ -32,8 +33,8 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.28.6",
     "@eslint/eslintrc": "^3.3.5",
-    "@typescript-eslint/eslint-plugin": "^8.59.0",
-    "@typescript-eslint/parser": "^8.59.0",
+    "@typescript-eslint/eslint-plugin": "8.59.1",
+    "@typescript-eslint/parser": "8.59.1",
     "eslint": "^8.0.0",
     "eslint-config-prettier": "^10.1.0",
     "eslint-config-react-app": "^6.0.0",
