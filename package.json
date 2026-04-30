@@ -10,7 +10,7 @@
     "dev": "run-p dev:api dev:sc",
     "install:api": "cd spotlight-api && yarn",
     "install:sc": "cd spotlight-client && yarn",
-    "postinstall": "yarn install:sc && yarn install:api",
+    "postinstall": "run-p install:sc install:api",
     "test": "run-p \"test:* -- {@}\" --",
     "test:api": "cd spotlight-api && yarn test",
     "test:sc": "cd spotlight-client && yarn test",
