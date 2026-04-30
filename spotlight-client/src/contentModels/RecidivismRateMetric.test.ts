@@ -248,22 +248,17 @@ test("report unknowns", async () => {
 
   const metric = await getPopulatedMetric("PrisonRecidivismRateHistorical");
 
-  when(
-    () => metric.unknowns !== undefined,
-    () => {
-      expect(metric.unknowns).toEqual([
-        {
-          cohort: 2018,
-          unknowns: {
-            raceOrEthnicity: 10,
-            gender: 2,
-            ageBucket: 1,
-          },
-        },
-      ]);
-      
+  expect(metric.unknowns).toEqual([
+    {
+      cohort: 2018,
+      unknowns: {
+        raceOrEthnicity: 10,
+        gender: 2,
+        ageBucket: 1,
+      },
     },
-  );
+  ]);
+
 });
 
 test("maxFollowupPeriod", async () => {

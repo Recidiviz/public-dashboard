@@ -28,9 +28,6 @@ configure({
   computedRequiresReaction: true,
   reactionRequiresObservable: true,
   observableRequiresReaction: true,
-  // reducing amount of warnings in console just to see if any
-  // other noise occurring - should bring this back
-  disableErrorBoundaries: false,
 });
 
 /**

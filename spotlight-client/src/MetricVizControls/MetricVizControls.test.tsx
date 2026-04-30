@@ -51,7 +51,7 @@ test("download button", () => {
   expect(metric.download).toHaveBeenCalled();
 });
 
-test("methodology modal", async () => {
+test("methodology modal", () => {
   const metric = getTestMetric();
   renderWithStore(<MetricVizControls filters={[]} metric={metric} />);
 

@@ -220,9 +220,7 @@ test("report unknowns", async () => {
 
   const metric = await getMetric();
 
-  when(
-    () => metric.unknowns !== undefined,
-    () => {
+
       expect(metric.unknowns).toEqual([
         {
           date: new Date(2020, 4, 1),
@@ -249,6 +247,4 @@ test("report unknowns", async () => {
           },
         },
       ]);
-    },
-  );
 });

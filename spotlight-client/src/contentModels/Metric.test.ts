@@ -96,22 +96,9 @@ describe("data fetching", () => {
     expect.hasAssertions();
     const metric = getTestMetric(metricId);
 
-    await metric.hydrate();
+   await metric.hydrate();
 
-    when(
-      () => metric.records !== undefined,
-      () => {
-        // Be advised, these snapshots are huge! However, the only expected failure cases here are:
-        // 1. you intentionally changed the contents of the fixture in spotlight-api
-        // 2. you intentionally changed the record format for this Metric type
-        // 3. you intentionally changed the default filtering or sorting options for this Metric type
-        // Be especially careful inspecting snapshots for Metrics that filter their sources,
-        // e.g. Parole/Probation metrics. Verify that they use the right rows!
-        expect(metric.records).toMatchSnapshot();
-        // @ts-expect-error typedefs for `test.each` are wrong, `done` will be a function
-        done();
-      },
-    );
+   expect(metric.records).toMatchSnapshot();
   });
 });
 
