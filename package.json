@@ -18,7 +18,6 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
-    "@recidiviz/tsconfig": "^2.0.0",
     "husky": "^7.0.0",
     "lint-staged": ">=10",
     "npm-run-all": "^4.1.5"

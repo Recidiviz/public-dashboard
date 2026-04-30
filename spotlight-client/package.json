@@ -113,7 +113,6 @@
     "@babel/preset-env": "^7.29.2",
     "@babel/preset-typescript": "^7.28.5",
     "@eslint/eslintrc": "^3.3.5",
-    "@recidiviz/tsconfig": "^2.0.0",
     "@segment/analytics.js-core": "^4.1.5",
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^11.1.1",
@@ -162,9 +161,6 @@
     "resetMocks": false,
     "globalSetup": "./globalTestSetup.js",
     "globalTeardown": "./globalTestTeardown.js",
-    "transformIgnorePatterns": [
-      "/node_modules/(?!(d3-force-limit)/)"
-    ],
     "moduleNameMapper": {
       "^@fontsource/.*": "identity-obj-proxy",
       "\\.(css|less|sass|scss)$": "identity-obj-proxy"

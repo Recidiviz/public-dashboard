@@ -17,7 +17,7 @@
 
 import { isEqual } from "date-fns";
 import { advanceTo, clear } from "jest-date-mock";
-import { runInAction, when } from "mobx";
+import { runInAction } from "mobx";
 import {
   createDemographicCategories,
   DemographicViewList,
