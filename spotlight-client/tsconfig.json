@@ -1,4 +1,26 @@
 {
-  "extends": "@recidiviz/tsconfig/react",
-  "include": ["src", "@types"]
+  "include": ["src", "@types"],
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "jsx": "react",
+    "lib": ["esnext", "dom.iterable", "dom"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es6",
+    "useDefineForClassFields": true,
+    "types": ["jest", "node", "testing-library__jest-dom"],
+    "paths": {
+      "react": ["./node_modules/@types/react"]
+    }
+  },
 }

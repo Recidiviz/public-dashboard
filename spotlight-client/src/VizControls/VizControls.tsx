@@ -100,7 +100,7 @@ const VizControls = ({
             // there's nothing else to use as a key, but these should be pretty static
             // so there isn't any real performance concern
             // eslint-disable-next-line react/no-array-index-key
-            filter && <FilterWrapper key={index}>{filter}</FilterWrapper>
+            filter && <FilterWrapper key={index}>{filter}</FilterWrapper>,
         )}
         {smallData && (
           <TooltipTrigger maxWidth={232} contents={tenant?.smallDataDisclaimer}>

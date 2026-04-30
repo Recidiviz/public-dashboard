@@ -53,7 +53,7 @@ test("has expected options", () => {
   expect(options.length).toBe(expectedOptions.length);
 
   options.forEach((option, index) =>
-    expect(option).toHaveTextContent(expectedOptions[index].label)
+    expect(option).toHaveTextContent(expectedOptions[index].label),
   );
 });
 

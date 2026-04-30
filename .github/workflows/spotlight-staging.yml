@@ -25,9 +25,13 @@ jobs:
       - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
       - uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2.5.2
         with:
-          node-version: "14.x"
+          node-version: "22.x"
+      - name: upgrade yarn
+        run: |
+          corepack enable 
+          yarn set version stable
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: Build
         # in lieu of build-staging, which consumes a .env that is not available in CI,
         # we configure the build for staging here

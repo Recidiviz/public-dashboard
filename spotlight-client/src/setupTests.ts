@@ -20,7 +20,7 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 
-import "@testing-library/jest-dom/extend-expect";
+import "@testing-library/jest-dom";
 import "intersection-observer";
 import fetchMock from "jest-fetch-mock";
 import "jest-date-mock";
@@ -34,6 +34,7 @@ import "./testUtils/segmentMock";
 // but can mock it per test to simulate errors, etc
 fetchMock.enableMocks();
 fetchMock.dontMock();
+
 
 configure({
   // activate runtime linting

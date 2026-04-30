@@ -38,7 +38,7 @@ import Metric, { BaseMetricConstructorOptions } from "./Metric";
 import { UnknownCounts } from "./types";
 
 function dataIncludesCurrentMonth(
-  records: SupervisionSuccessRateMonthlyRecord[]
+  records: SupervisionSuccessRateMonthlyRecord[],
 ): boolean {
   const now = new Date();
   const thisYear = now.getFullYear();
@@ -46,7 +46,7 @@ function dataIncludesCurrentMonth(
   const thisMonth = now.getMonth() + 1;
 
   return records.some(
-    (record) => record.year === thisYear && record.month === thisMonth
+    (record) => record.year === thisYear && record.month === thisMonth,
   );
 }
 
@@ -61,7 +61,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
   private readonly demographicSourceFileName: string;
 
   private demographicDataTransformer: (
-    d: RawMetricData
+    d: RawMetricData,
   ) => SupervisionSuccessRateDemographicsRecord[];
 
   allCohortRecords?: SupervisionSuccessRateMonthlyRecord[];
@@ -72,9 +72,9 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
     props: BaseMetricConstructorOptions<SupervisionSuccessRateMonthlyRecord> & {
       demographicSourceFileName: string;
       demographicDataTransformer: (
-        d: RawMetricData
+        d: RawMetricData,
       ) => SupervisionSuccessRateDemographicsRecord[];
-    }
+    },
   ) {
     super(props);
 
@@ -115,7 +115,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
     ];
     localityIds.forEach((localityId) => {
       const recordsForLocality = transformedData.filter(
-        recordMatchesLocality(localityId)
+        recordMatchesLocality(localityId),
       );
 
       const missingMonths = getMissingMonths({
@@ -136,14 +136,14 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
           rate: 0,
           rateNumerator: 0,
           rateDenominator: 0,
-        }))
+        })),
       );
     });
 
     transformedData.push(...missingRecords);
 
     transformedData.sort(
-      (a, b) => ascending(a.year, b.year) || ascending(a.month, b.month)
+      (a, b) => ascending(a.year, b.year) || ascending(a.month, b.month),
     );
 
     return transformedData;
@@ -170,7 +170,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
         this.allDemographicRecords = demographicData;
         this.isLoading = false;
       });
-    } catch (e) {
+    } catch (e: any) {
       runInAction(() => {
         this.allCohortRecords = undefined;
         this.allDemographicRecords = undefined;
@@ -183,7 +183,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
   // eslint-disable-next-line class-methods-use-this
   get records(): SupervisionSuccessRateMonthlyRecord[] | undefined {
     throw new Error(
-      "Method not supported. Use cohortRecords or demographicRecords for a specific record stream."
+      "Method not supported. Use cohortRecords or demographicRecords for a specific record stream.",
     );
   }
 
@@ -192,7 +192,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
     if (recordsToReturn === undefined) return undefined;
 
     recordsToReturn = recordsToReturn.filter(
-      recordMatchesLocality(this.localityId)
+      recordMatchesLocality(this.localityId),
     );
 
     return recordsToReturn;
@@ -218,7 +218,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
           [matchingRecord] = filteredRecords;
         } else {
           matchingRecord = filteredRecords.find(
-            (record) => record[demographicView] === identifier
+            (record) => record[demographicView] === identifier,
           );
         }
         if (matchingRecord) {
@@ -232,7 +232,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
         }
 
         return { label, rate: 0, rateNumerator: 0, rateDenominator: 0 };
-      }
+      },
     );
   }
 
@@ -244,7 +244,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
     await when(
       () =>
         this.allCohortRecords !== undefined &&
-        this.allDemographicRecords !== undefined
+        this.allDemographicRecords !== undefined,
     );
 
     // we don't really need a reaction here;
@@ -266,7 +266,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
               .allDemographicRecords as SupervisionSuccessRateDemographicsRecord[],
           },
         ],
-      })
+      }),
     );
   };
 
@@ -277,7 +277,7 @@ export default class SupervisionSuccessRateMetric extends Metric<SupervisionSucc
     const counts = countUnknowns(
       allDemographicRecords.filter(recordMatchesLocality(localityId)),
       (groupedRecords: SupervisionSuccessRateDemographicsRecord[]) =>
-        sum(groupedRecords, (r) => r.rateDenominator)
+        sum(groupedRecords, (r) => r.rateDenominator),
     );
 
     return hasUnknowns(counts) ? counts : undefined;

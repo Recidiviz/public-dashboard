@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { resolve } = require("path");
 const { spawn } = require("child_process");
+const waitForLocalhost = require("wait-for-localhost");
 
 module.exports = async () => {
   // start the API test server. save reference so we can kill it in teardown
@@ -10,4 +11,7 @@ module.exports = async () => {
 
   // set the timezone for all tests to UTC for consistency across environments
   process.env.TZ = "UTC";
+
+  // block until the test server is ready so individual tests don't race startup
+  await waitForLocalhost({ path: "/health", port: 3002 });
 };

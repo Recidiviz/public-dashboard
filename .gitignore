@@ -43,3 +43,10 @@ package-lock.json
 
 # Typescript build artifacts
 *.tsbuildinfo
+
+# yarn
+.yarn
+.yarn/
+
+# Claude
+.claude/settings.local.json

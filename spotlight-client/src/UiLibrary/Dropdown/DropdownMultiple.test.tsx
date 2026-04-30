@@ -44,7 +44,7 @@ beforeEach(() => {
       onChange={mockOnChange}
       onHighlight={mockOnHighlight}
       selectedIds={["1", "2", "3"]}
-    />
+    />,
   );
 });
 
@@ -68,7 +68,7 @@ describe.each([["mobile", true], ["desktop"]])(
 
       testOptions.forEach((opt) => {
         expect(
-          screen.getByRole("option", { name: opt.label, selected: true })
+          screen.getByRole("option", { name: opt.label, selected: true }),
         ).toBeVisible();
       });
     });
@@ -81,7 +81,7 @@ describe.each([["mobile", true], ["desktop"]])(
       fireEvent.click(menuButton);
 
       fireEvent.click(
-        screen.getByRole("option", { name: testOptions[0].label })
+        screen.getByRole("option", { name: testOptions[0].label }),
       );
       expect(mockOnChange).toHaveBeenLastCalledWith([
         testOptions[1].id,
@@ -94,7 +94,7 @@ describe.each([["mobile", true], ["desktop"]])(
           options={testOptions}
           onChange={mockOnChange}
           selectedIds={["2", "3"]}
-        />
+        />,
       );
 
       // let's give the animation some time to run;
@@ -130,17 +130,17 @@ describe.each([["mobile", true], ["desktop"]])(
           options={testOptions}
           onChange={mockOnChange}
           selectedIds={[]}
-        />
+        />,
       );
 
       expect(selectAll).toHaveTextContent("Select all");
       expect(
-        screen.queryByRole("option", { selected: true })
+        screen.queryByRole("option", { selected: true }),
       ).not.toBeInTheDocument();
 
       fireEvent.click(selectAll);
       expect(mockOnChange).toHaveBeenLastCalledWith(
-        testOptions.map(({ id }) => id)
+        testOptions.map(({ id }) => id),
       );
     });
 
@@ -152,17 +152,17 @@ describe.each([["mobile", true], ["desktop"]])(
       userEvent.click(menuButton);
 
       userEvent.hover(
-        await screen.findByRole("option", { name: "Deselect all" })
+        await screen.findByRole("option", { name: "Deselect all" }),
       );
       // it does get called but indicates that nothing should be highlighted
       // (e.g. to clear an existing one)
       expect(mockOnHighlight).toHaveBeenLastCalledWith();
 
       userEvent.hover(
-        screen.getByRole("option", { name: testOptions[0].label })
+        screen.getByRole("option", { name: testOptions[0].label }),
       );
 
       expect(mockOnHighlight).toHaveBeenLastCalledWith(testOptions[0].id);
     });
-  }
+  },
 );

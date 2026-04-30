@@ -43,7 +43,7 @@ beforeEach(() => {
   });
   reactImmediately(() => {
     const metricToTest = DataStore.tenant?.metrics.get(
-      "PrisonRecidivismRateSingleFollowupHistorical"
+      "PrisonRecidivismRateSingleFollowupHistorical",
     );
     // it will be
     if (metricToTest instanceof RecidivismRateMetric) {
@@ -77,28 +77,28 @@ test("total chart", async () => {
   const chart = screen.getByRole("group", { name: "8 bars in a bar chart" });
   expect(chart).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2009 bar value 41%" })
+    within(chart).getByRole("img", { name: "2009 bar value 41%" }),
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2010 bar value 49%" })
+    within(chart).getByRole("img", { name: "2010 bar value 49%" }),
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2011 bar value 31%" })
+    within(chart).getByRole("img", { name: "2011 bar value 31%" }),
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2012 bar value 49%" })
+    within(chart).getByRole("img", { name: "2012 bar value 49%" }),
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2013 bar value 44%" })
+    within(chart).getByRole("img", { name: "2013 bar value 44%" }),
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2014 bar value 40%" })
+    within(chart).getByRole("img", { name: "2014 bar value 40%" }),
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2015 bar value 30%" })
+    within(chart).getByRole("img", { name: "2015 bar value 30%" }),
   ).toBeInTheDocument();
   expect(
-    within(chart).getByRole("img", { name: "2016 bar value 38%" })
+    within(chart).getByRole("img", { name: "2016 bar value 38%" }),
   ).toBeInTheDocument();
 });
 
@@ -143,7 +143,7 @@ test("demographic charts", async () => {
   await waitForElementToBeRemoved(genderCharts[0]);
 
   expect(
-    screen.getAllByRole("group", { name: "8 bars in a bar chart" }).length
+    screen.getAllByRole("group", { name: "8 bars in a bar chart" }).length,
   ).toBe(7);
 });
 
@@ -169,7 +169,7 @@ test("followup period filter", async () => {
   fireEvent.click(screen.getByRole("option", { name: "5 Years" }));
 
   expect(
-    screen.getByRole("group", { name: "6 bars in a bar chart" })
+    screen.getByRole("group", { name: "6 bars in a bar chart" }),
   ).toBeVisible();
   expect(menuButton).toHaveTextContent("5 Years");
 });

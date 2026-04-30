@@ -19,7 +19,7 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { observer } from "mobx-react-lite";
 import { rem } from "polished";
 import React, { useRef } from "react";
-import useCollapse from "react-collapsed";
+import { useCollapse } from "react-collapsed";
 import { animated, useSpring } from "react-spring/web.cjs";
 import styled from "styled-components/macro";
 import { typography } from "@recidiviz/design-system";
@@ -101,19 +101,16 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
 
   const menuScrollRef = useRef<HTMLDivElement>(null);
 
-  const {
-    getCollapseProps,
-    getToggleProps,
-    isExpanded,
-    setExpanded,
-  } = useCollapse({
-    onCollapseStart: () => {
-      if (menuScrollRef.current) enableBodyScroll(menuScrollRef.current);
-    },
-    onExpandStart: () => {
-      if (menuScrollRef.current) disableBodyScroll(menuScrollRef.current);
-    },
-  });
+  const { getCollapseProps, getToggleProps, isExpanded, setExpanded } =
+    useCollapse({
+      onTransitionStateChange: (state) => {
+        if (state === "expandStart") {
+          if (menuScrollRef.current) disableBodyScroll(menuScrollRef.current);
+        } else if (state === "collapseStart") {
+          if (menuScrollRef.current) enableBodyScroll(menuScrollRef.current);
+        }
+      },
+    });
 
   const animatedStyles = useSpring({
     from: { background: colors.background },
@@ -178,7 +175,7 @@ const SiteNavigation: React.FC<ShareButtonProps> = ({ openShareModal }) => {
                         {narrative.title}
                       </NavLink>
                     </NavMenuItem>
-                  )
+                  ),
               )}
               {tenant.racialDisparitiesNarrative && (
                 <NavMenuItem>

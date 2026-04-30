@@ -41,7 +41,7 @@ test("file loading state", (done) => {
     () => {
       expect(narrative.isLoading).toBeUndefined();
       expect(narrative.error).toBeUndefined();
-    }
+    },
   );
 
   // initiate the fetch; we react to it below
@@ -52,7 +52,7 @@ test("file loading state", (done) => {
     () => {
       expect(narrative.isLoading).toBe(true);
       expect(narrative.error).toBeUndefined();
-    }
+    },
   );
 
   when(
@@ -61,7 +61,7 @@ test("file loading state", (done) => {
       expect(narrative.isLoading).toBe(false);
       expect(narrative.error).toBeUndefined();
       done();
-    }
+    },
   );
 
   expect.assertions(6);
@@ -79,7 +79,7 @@ test("fetch error state", async () => {
   reactImmediately(() => {
     expect(narrative.isLoading).toBe(false);
     expect(narrative.error?.message).toBe(
-      "Error: Metrics API responded with status 500. Error message: test error message"
+      "Error: Metrics API responded with status 500. Error message: test error message",
     );
   });
 
@@ -101,7 +101,7 @@ describe("total data", () => {
       () => {
         expect(narrative.likelihoodVsWhite).toMatchSnapshot();
         done();
-      }
+      },
     );
   });
 
@@ -111,7 +111,7 @@ describe("total data", () => {
       () => {
         expect(narrative.sentencingOverall).toMatchSnapshot();
         done();
-      }
+      },
     );
   });
 
@@ -128,9 +128,9 @@ describe("total data", () => {
           expect(narrative.supervisionOverall).toMatchSnapshot();
           // @ts-expect-error jest type definitions are wrong, this will be a callback
           done();
-        }
+        },
       );
-    }
+    },
   );
 
   test("population data series", (done) => {
@@ -139,7 +139,7 @@ describe("total data", () => {
       () => {
         expect(narrative.populationDataSeries).toMatchSnapshot();
         done();
-      }
+      },
     );
   });
 });
@@ -157,120 +157,68 @@ describe.each([
     narrative.hydrate();
   });
 
-  test("before corrections", (done) => {
-    when(
-      () => narrative.beforeCorrections !== undefined,
-      () => {
-        expect(narrative.beforeCorrections).toMatchSnapshot();
-        done();
-      }
-    );
+  test("before corrections", async () => {
+    await when(() => narrative.beforeCorrections !== undefined);
+    expect(narrative.beforeCorrections).toMatchSnapshot();
   });
 
-  test("for sentencing", (done) => {
-    when(
-      () => narrative.sentencing !== undefined,
-      () => {
-        expect(narrative.sentencing).toMatchSnapshot();
-        done();
-      }
-    );
+  test("for sentencing", async () => {
+    await when(() => narrative.sentencing !== undefined);
+    expect(narrative.sentencing).toMatchSnapshot();
   });
 
-  test("for releases to parole", (done) => {
-    when(
-      () => narrative.releasesToParole !== undefined,
-      () => {
-        expect(narrative.releasesToParole).toMatchSnapshot();
-        done();
-      }
-    );
+  test("for releases to parole", async () => {
+    await when(() => narrative.releasesToParole !== undefined);
+    expect(narrative.releasesToParole).toMatchSnapshot();
   });
 
-  test("for programming", (done) => {
-    when(
-      () => narrative.programming !== undefined,
-      () => {
-        expect(narrative.programming).toMatchSnapshot();
-        done();
-      }
-    );
+  test("for programming", async () => {
+    await when(() => narrative.programming !== undefined);
+    expect(narrative.programming).toMatchSnapshot();
   });
 
   test.each(["supervision", "parole", "probation"] as const)(
     "for %s",
-    (supervisionType, done) => {
+    async (supervisionType) => {
       runInAction(() => {
         narrative.supervisionType = supervisionType;
       });
 
-      when(
-        () => narrative.supervision !== undefined,
-        () => {
-          expect(narrative.supervision).toMatchSnapshot();
-          // @ts-expect-error jest type definitions are wrong, this will be a callback
-          done();
-        }
-      );
-    }
+      await when(() => narrative.supervision !== undefined);
+      expect(narrative.supervision).toMatchSnapshot();
+    },
   );
 
-  test("for focused population data series", (done) => {
-    when(
-      () => narrative.focusedPopulationDataSeries !== undefined,
-      () => {
-        expect(narrative.focusedPopulationDataSeries).toMatchSnapshot();
-        done();
-      }
-    );
+  test("for focused population data series", async () => {
+    await when(() => narrative.focusedPopulationDataSeries !== undefined);
+    expect(narrative.focusedPopulationDataSeries).toMatchSnapshot();
   });
 
-  test("for parole release data series", (done) => {
-    when(
-      () => narrative.paroleReleaseDataSeries !== undefined,
-      () => {
-        expect(narrative.paroleReleaseDataSeries).toMatchSnapshot();
-        done();
-      }
-    );
+  test("for parole release data series", async () => {
+    await when(() => narrative.paroleReleaseDataSeries !== undefined);
+    expect(narrative.paroleReleaseDataSeries).toMatchSnapshot();
   });
 
-  test("for programming data series", (done) => {
-    when(
-      () => narrative.programmingDataSeries !== undefined,
-      () => {
-        expect(narrative.programmingDataSeries).toMatchSnapshot();
-        done();
-      }
-    );
+  test("for programming data series", async () => {
+    await when(() => narrative.programmingDataSeries !== undefined);
+    expect(narrative.programmingDataSeries).toMatchSnapshot();
   });
 
-  test("for sentencing data series", (done) => {
-    when(
-      () => narrative.sentencingDataSeries !== undefined,
-      () => {
-        expect(narrative.sentencingDataSeries).toMatchSnapshot();
-        done();
-      }
-    );
+  test("for sentencing data series", async () => {
+    await when(() => narrative.sentencingDataSeries !== undefined);
+    expect(narrative.sentencingDataSeries).toMatchSnapshot();
   });
 
   test.each(["supervision", "parole", "probation"] as const)(
     "for %s revocations data series",
-    (supervisionType, done) => {
+    async (supervisionType) => {
       runInAction(() => {
         narrative.supervisionType = supervisionType;
       });
 
-      when(
-        () => narrative.revocationsDataSeries !== undefined,
-        () => {
-          expect(narrative.revocationsDataSeries).toMatchSnapshot();
-          // @ts-expect-error jest type definitions are wrong, this will be a callback
-          done();
-        }
-      );
-    }
+      await when(() => narrative.revocationsDataSeries !== undefined);
+      expect(narrative.revocationsDataSeries).toMatchSnapshot();
+    },
   );
 });
 

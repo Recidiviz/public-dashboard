@@ -61,9 +61,11 @@ test("methodology modal", () => {
 
   const modal = screen.getByRole("dialog");
 
+  // this is conditionally rendered & visibility isn't altered
+  // so this won't have changing visibility
   expect(modal).toBeVisible();
   expect(
-    within(modal).getByRole("heading", { name: "Methodology" })
+    within(modal).getByRole("heading", { name: "Methodology" }),
   ).toBeVisible();
   // this only works because the test metric has no HTML in it
   expect(within(modal).getByText(metric.methodology)).toBeVisible();

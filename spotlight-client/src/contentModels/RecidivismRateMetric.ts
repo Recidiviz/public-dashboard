@@ -53,7 +53,7 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
   constructor(
     props: BaseMetricConstructorOptions<RecidivismRateRecord> & {
       followUpYears?: number;
-    }
+    },
   ) {
     super(props);
 
@@ -83,12 +83,12 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
     if (!recordsToReturn) return undefined;
 
     recordsToReturn = recordsToReturn.filter(
-      recordIsTotalByDimension(this.demographicView)
+      recordIsTotalByDimension(this.demographicView),
     );
 
     if (this.followUpYears !== undefined) {
       recordsToReturn = recordsToReturn.filter(
-        (record) => record.followupYears === this.followUpYears
+        (record) => record.followupYears === this.followUpYears,
       );
     }
 
@@ -108,7 +108,7 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
           .filter((record) =>
             demographicView === "total"
               ? true
-              : record[demographicView] === identifier
+              : record[demographicView] === identifier,
           )
           .sort((a, b) => ascending(a.releaseCohort, b.releaseCohort))
           .map((record) => {
@@ -127,7 +127,7 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
   get allCohorts(): number[] | undefined {
     if (this.allRecords !== undefined) {
       return Array.from(
-        new Set(this.allRecords.map((d) => d.releaseCohort))
+        new Set(this.allRecords.map((d) => d.releaseCohort)),
       ).sort((a, b) => ascending(a, b));
     }
     // if we don't have records yet, provide nothing
@@ -215,7 +215,7 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
         .filter(
           (record) =>
             record[demographicView] === category.identifier &&
-            record.releaseCohort === selectedCohorts[0]
+            record.releaseCohort === selectedCohorts[0],
         )
         .sort((a, b) => ascending(a.followupYears, b.followupYears));
 
@@ -239,7 +239,7 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
         unknowns: countUnknowns(
           records,
           // count should be the same across followup periods so we just need one
-          (groupedRecords) => groupedRecords[0].rateDenominator
+          (groupedRecords) => groupedRecords[0].rateDenominator,
         ),
       }))
       .filter((item) => Object.values(item.unknowns).some((val) => val));

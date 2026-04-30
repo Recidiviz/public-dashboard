@@ -46,8 +46,8 @@ test("locality filter", async () => {
 
   reactImmediately(() =>
     expect(metric.records?.every((record) => record.locality === "ALL")).toBe(
-      true
-    )
+      true,
+    ),
   );
 
   const facilityId = contentFixture.localities.Prison.entries[1].id;
@@ -59,7 +59,7 @@ test("locality filter", async () => {
   reactImmediately(() => {
     expect(metric.records?.length).toBeGreaterThan(0);
     expect(
-      metric.records?.every((record) => record.locality === facilityId)
+      metric.records?.every((record) => record.locality === facilityId),
     ).toBe(true);
   });
 
@@ -147,7 +147,7 @@ test("report unknowns for current locality", (done) => {
           total_population: "5",
         },
       ],
-    })
+    }),
   );
 
   metric.hydrate();
@@ -171,6 +171,6 @@ test("report unknowns for current locality", (done) => {
         ageBucket: 0,
       });
       done();
-    }
+    },
   );
 });

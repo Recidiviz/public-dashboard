@@ -51,7 +51,7 @@ test("display url", () => {
   });
 
   expect(
-    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`)
+    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`),
   ).toBeVisible();
 });
 
@@ -65,18 +65,18 @@ test("include narrative section in url", () => {
   renderModal();
 
   expect(
-    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`)
+    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`),
   ).toBeVisible();
 
   userEvent.click(screen.getByRole("checkbox"));
 
   expect(
-    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities/2`)
+    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities/2`),
   ).toBeVisible();
 
   userEvent.click(screen.getByRole("checkbox"));
 
   expect(
-    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`)
+    screen.getByText(`localhost/us-nd/${NarrativesSlug}/racial-disparities`),
   ).toBeVisible();
 });

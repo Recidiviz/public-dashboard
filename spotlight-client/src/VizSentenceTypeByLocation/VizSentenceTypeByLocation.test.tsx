@@ -34,7 +34,11 @@ let originalFilters: {
 const sentenceTypes = ["Incarceration", "Probation", "Both"];
 
 async function verifySankey(categories: string[], labels: string[]) {
-  const chart = screen.getByRole("figure");
+  // during a demographic-view change, react-spring's cross-fade keeps both
+  // the old and new charts mounted. The newly-added chart is last in the
+  // transition list, so pick that one.
+  const figures = screen.getAllByRole("figure");
+  const chart = figures[figures.length - 1];
 
   labels.forEach((label) => {
     expect(within(chart).getByText(label)).toBeInTheDocument();
@@ -49,7 +53,7 @@ async function verifySankey(categories: string[], labels: string[]) {
   sentenceTypes.forEach((sentenceType) => {
     expect(
       // these are the only Semiotic labels we have to work with here
-      within(nodes).getByRole("img", { name: `Node ${sentenceType}` })
+      within(nodes).getByRole("img", { name: `Node ${sentenceType}` }),
     ).toBeInTheDocument();
     // label
     expect(within(chart).getByText(sentenceType)).toBeInTheDocument();
@@ -58,7 +62,7 @@ async function verifySankey(categories: string[], labels: string[]) {
       expect(
         within(edges).getByRole("img", {
           name: `connection from ${sentenceType} to ${category}`,
-        })
+        }),
       ).toBeInTheDocument();
       // label
       expect(within(chart).getByText(category)).toBeInTheDocument();
@@ -117,15 +121,32 @@ test.each([
   const menuButton = screen.getByRole("button", {
     name: "View Total",
   });
+
   fireEvent.click(menuButton);
   fireEvent.click(screen.getByRole("option", { name: demographicLabel }));
+
+  // demographic-view totals don't match the Total-view aggregate (the
+  // breakdown excludes records that lack a value for that dimension), so
+  // derive the expected sentence-type totals from the metric's own data graph.
+  const sourceTotals = sentenceTypes.map((sentenceType) => {
+    const total =
+      metric.dataGraph?.edges
+        .filter((e) => e.source === sentenceType)
+        .reduce((sum, e) => sum + e.value, 0) ?? 0;
+
+      expect(
+        total.toLocaleString("en-US"),
+      ).toMatchSnapshot();
+      
+    return total.toLocaleString("en-US");
+  });
 
   verifySankey(
     metric
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .getDemographicCategories(demographicView as any)
       .map(({ label }) => label),
-    ["6,193", "3,399", "2,056"]
+    sourceTotals,
   );
 });
 

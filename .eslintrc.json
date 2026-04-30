@@ -1,14 +1,19 @@
 {
   "root": true,
   "env": {
+    "browser": true,
     "node": true
   },
   "parserOptions": {
-    "parser": "babel-eslint",
+    "parser": "typescript-eslint",
     "sourceType": "module",
     "ecmaVersion": "latest",
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true
     }
-  }
+  },
+  "rules": {
+    "import/no-anonymous-default-export": "off"
+  },
+  "plugins": ["react"]
 }

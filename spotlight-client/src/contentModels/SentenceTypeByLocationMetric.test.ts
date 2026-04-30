@@ -59,7 +59,7 @@ test("total data", async () => {
 });
 
 test.each([["raceOrEthnicity"], ["gender"], ["ageBucket"]] as [
-  Exclude<DemographicView, "nofilter">
+  Exclude<DemographicView, "nofilter">,
 ][])("%s data", async (demographicView) => {
   const metric = await getPopulatedMetric();
 
@@ -79,8 +79,8 @@ test("locality filter", async () => {
 
   reactImmediately(() =>
     expect(metric.records?.every((record) => record.locality === "ALL")).toBe(
-      true
-    )
+      true,
+    ),
   );
 
   const facilityId = contentFixture.localities.Sentencing.entries[1].id;
@@ -92,7 +92,7 @@ test("locality filter", async () => {
   reactImmediately(() => {
     expect(metric.records?.length).toBeGreaterThan(0);
     expect(
-      metric.records?.every((record) => record.locality === facilityId)
+      metric.records?.every((record) => record.locality === facilityId),
     ).toBe(true);
   });
 
@@ -185,7 +185,7 @@ test("report unknowns for current locality", (done) => {
           dual_sentence_count: "0",
         },
       ],
-    })
+    }),
   );
 
   metric.hydrate();
@@ -220,6 +220,6 @@ test("report unknowns for current locality", (done) => {
         ageBucket: 5,
       });
       done();
-    }
+    },
   );
 });

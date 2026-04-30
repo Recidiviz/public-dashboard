@@ -60,7 +60,7 @@ import {
 
 function formatUnknownCounts(
   unknowns: UnknownCounts,
-  demographicLabels?: DemographicLabels
+  demographicLabels?: DemographicLabels,
 ) {
   const parts: string[] = [];
 
@@ -71,8 +71,8 @@ function formatUnknownCounts(
     parts.push(
       `${getDemographicViewLabel(
         key,
-        demographicLabels
-      ).toLowerCase()} (${formatAsNumber(value)})`
+        demographicLabels,
+      ).toLowerCase()} (${formatAsNumber(value)})`,
     );
   });
 
@@ -226,7 +226,7 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
         this.allRecords = fetchedData;
         this.isLoading = false;
       });
-    } catch (e) {
+    } catch (e: any) {
       runInAction(() => {
         this.isLoading = false;
         this.error = e;
@@ -261,12 +261,12 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
 
           if ("category" in entry.unknowns) {
             formattedCounts = `category (${formatAsNumber(
-              entry.unknowns.category
+              entry.unknowns.category,
             )})`;
           } else {
             formattedCounts = formatUnknownCounts(
               entry.unknowns,
-              this.demographicLabels
+              this.demographicLabels,
             );
           }
 
@@ -300,12 +300,12 @@ export default abstract class Metric<RecordFormat extends MetricRecord>
         readmeContents: this.readme,
         // allRecords won't be undefined because we just awaited it
         dataFiles: [{ name: "data", data: this.allRecords as RecordFormat[] }],
-      })
+      }),
     );
   };
 
   getDemographicCategories(
-    view: Exclude<DemographicView, "nofilter">
+    view: Exclude<DemographicView, "nofilter">,
   ): ReturnType<typeof getDemographicCategoriesForView> {
     return getDemographicCategoriesForView(view, this.demographicCategories);
   }

@@ -38,7 +38,7 @@ beforeEach(() => {
   });
   reactImmediately(() => {
     const metricToTest = DataStore.tenant?.metrics.get(
-      "PrisonRecidivismRateHistorical"
+      "PrisonRecidivismRateHistorical",
     );
     // it will be
     if (metricToTest instanceof RecidivismRateMetric) {
@@ -73,6 +73,7 @@ test("total chart", async () => {
   const chart = screen.getAllByRole("group", {
     name: "10 lines in a line chart",
   })[0];
+
   expect(chart).toBeInTheDocument();
   // don't have to deeply inspect the values but let's make sure the lines have the proper shape
   for (let numPoints = 2; numPoints <= 11; numPoints += 1) {
@@ -81,9 +82,9 @@ test("total chart", async () => {
         name: new RegExp(
           `^${numPoints} point line starting value 0% at 0 ending value \\d+% at ${
             numPoints - 1
-          }`
+          }`,
         ),
-      })
+      }),
     ).toBeInTheDocument();
   }
 });
@@ -112,7 +113,7 @@ test("demographic charts", async () => {
   expect(
     within(lineChart).getAllByRole("img", {
       name: /^3 point line starting value 0% at 0 ending value \d+% at 2/,
-    }).length
+    }).length,
   ).toBe(5);
 
   fireEvent.click(menuButton);
@@ -125,7 +126,7 @@ test("demographic charts", async () => {
   expect(
     within(lineChart).getAllByRole("img", {
       name: /^3 point line starting value 0% at 0 ending value \d+% at 2/,
-    }).length
+    }).length,
   ).toBe(2);
 
   fireEvent.click(menuButton);
@@ -133,15 +134,15 @@ test("demographic charts", async () => {
 
   await waitFor(() => {
     [lineChart] = screen.getAllByRole("group", {
-      name: "5 lines in a line chart",
+      name: "7 lines in a line chart",
     });
   });
 
   expect(
     within(lineChart).getAllByRole("img", {
       name: /^3 point line starting value 0% at 0 ending value \d+% at 2/,
-    }).length
-  ).toBe(5);
+    }).length,
+  ).toBe(7);
 });
 
 test("release cohorts filter", async () => {
@@ -152,7 +153,7 @@ test("release cohorts filter", async () => {
   expect(
     screen.getAllByRole("group", {
       name: "10 lines in a line chart",
-    }).length
+    }).length,
   ).toBe(2);
 
   const menuButton = screen.getByRole("button", {
@@ -164,10 +165,10 @@ test("release cohorts filter", async () => {
   expect(
     screen.getAllByRole("group", {
       name: "9 lines in a line chart",
-    }).length
+    }).length,
   ).toBe(2);
   expect(
-    screen.getByRole("option", { name: "2012", selected: false })
+    screen.getByRole("option", { name: "2012", selected: false }),
   ).toBeVisible();
 
   fireEvent.click(screen.getByRole("option", { name: "2014" }));
@@ -176,20 +177,20 @@ test("release cohorts filter", async () => {
   expect(
     screen.getAllByRole("group", {
       name: "7 lines in a line chart",
-    }).length
+    }).length,
   ).toBe(2);
   expect(
-    screen.getAllByRole("option", { name: /201[45]/, selected: false }).length
+    screen.getAllByRole("option", { name: /201[45]/, selected: false }).length,
   ).toBe(2);
 
   fireEvent.click(screen.getByRole("option", { name: "2012" }));
   expect(
     screen.getAllByRole("group", {
       name: "8 lines in a line chart",
-    }).length
+    }).length,
   ).toBe(2);
   expect(
-    screen.getByRole("option", { name: "2012", selected: true })
+    screen.getByRole("option", { name: "2012", selected: true }),
   ).toBeVisible();
 });
 
@@ -213,12 +214,14 @@ test("highlight release cohort", async () => {
   });
 
   expect(
-    screen.getAllByRole("img", { name: /^Point at x \d and y 0\.\d+/ }).length
+    screen.getAllByRole("img", { name: /^Point at x \d and y 0\.\d+/ }).length,
   ).toBe(7);
 });
 
 test("highlighted release cohorts are visible even if not selected", async () => {
   renderWithStore(<VizRecidivismRateCumulative metric={metric} />);
+
+  await when(() => !metric.isLoading);
 
   const menuButton = screen.getByRole("button", {
     name: "Cohort 2009 and 9 others",
@@ -227,7 +230,7 @@ test("highlighted release cohorts are visible even if not selected", async () =>
   userEvent.click(menuButton);
   userEvent.click(screen.getByRole("option", { name: "2012" }));
 
-  // still selected
+  // still selected (hover from the click keeps it visible)
   await screen.findAllByRole("group", {
     name: "10 lines in a line chart",
   });
@@ -236,12 +239,12 @@ test("highlighted release cohorts are visible even if not selected", async () =>
   userEvent.hover(screen.getByRole("option", { name: "2013" }));
   expect(
     (await screen.findAllByRole("group", { name: "9 lines in a line chart" }))
-      .length
+      .length,
   ).toBe(2);
 
   // move the mouse back on
   userEvent.hover(screen.getByRole("option", { name: "2012" }));
   expect(
-    screen.getAllByRole("group", { name: "10 lines in a line chart" }).length
+    screen.getAllByRole("group", { name: "10 lines in a line chart" }).length,
   ).toBe(2);
 });

@@ -10,13 +10,14 @@
     "dev": "run-p dev:api dev:sc",
     "install:api": "cd spotlight-api && yarn",
     "install:sc": "cd spotlight-client && yarn",
-    "postinstall": "run-p install:*",
+    "postinstall": "run-p install:sc install:api",
     "test": "run-p \"test:* -- {@}\" --",
     "test:api": "cd spotlight-api && yarn test",
     "test:sc": "cd spotlight-client && yarn test",
     "prepare": "husky install"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
     "husky": "^7.0.0",
     "lint-staged": ">=10",
     "npm-run-all": "^4.1.5"
@@ -32,10 +33,8 @@
   },
   "dependencies": {
     "axios": "1.15.0",
-    "jwks-rsa": "^3.1.0"
+    "jwks-rsa": "^3.1.0",
+    "typescript-eslint": "^8.59.0"
   },
-  "volta": {
-    "node": "14.21.3",
-    "yarn": "1.22.22"
-  }
+  "packageManager": "yarn@4.14.1"
 }

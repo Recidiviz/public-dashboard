@@ -140,8 +140,7 @@ const XHoverController: React.FC<{
           <XYFrame
             {...otherChartProps}
             customLineMark={() => null}
-            // @ts-expect-error gap in Semiotic typedefs
-            htmlAnnotationRules={({ d, xScale }) => {
+            htmlAnnotationRules={( d: any, xScale: any ) => {
               if (d.type === "frame-hover") {
                 // we're not going to render anything but we will determine
                 // whether the tooltip should be on the left or right, based

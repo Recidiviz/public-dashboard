@@ -93,7 +93,7 @@ export default class TenantStore {
             rootStore: this.rootStore,
           })
         );
-      } catch (error) {
+      } catch (error: any) {
         if (!error.message.includes(ERROR_MESSAGES.disabledTenant)) {
           throw error;
         }
