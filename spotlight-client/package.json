@@ -14,8 +14,6 @@
     "lint": "eslint '**/*.{js,ts,tsx}'",
     "typecheck": "tsc",
     "test": "react-scripts test --env=jest-environment-jsdom-global",
-    "jest-list": "react-scripts test --listTests",
-    "jest-one": "react-scripts test ${0}",
     "cicd": "yarn test --coverage --forceExit --runInBand",
     "cicdone": "yarn test ${0} --coverage --forceExit --runInBand"
   },
