@@ -86,4 +86,4 @@ export default {
   timeWindowFill: pine,
   timeWindowStroke: pine,
   tooltipBackground: pineDark,
-};
+} as const
