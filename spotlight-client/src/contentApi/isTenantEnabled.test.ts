@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
+import { cleanup } from "@testing-library/react"
 
 // we have to import everything dynamically to manipulate process.env,
 // which is weird and Typescript doesn't like it, so silence these warnings
@@ -47,6 +48,7 @@ describe("is tenant enabled", () => {
 
   afterEach(() => {
     process.env = ORIGINAL_ENV;
+    cleanup()
   });
 
   test("all tenants enabled", async () => {
