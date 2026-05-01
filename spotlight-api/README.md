@@ -81,8 +81,6 @@ Deploy to staging Google App Engine with `gcloud app deploy gae-staging.yaml --p
 
 Similarly to above, deploy to production GAE with `gcloud app deploy gae-production.yaml --project [production_project_id]`.
 
-The production project id is currently recidiviz-dashboard-production. 
-
 Test vigorously! Don't be afraid to rollback the deploy through the GAE console.
 
 ## Available Scripts
