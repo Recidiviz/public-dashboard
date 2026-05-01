@@ -63,6 +63,7 @@ export type TenantContent = {
       | "ProbationPopulationCurrent"
       | "ParolePopulationCurrent"
       | "CommunityCorrectionsPopulationCurrent"
+      | "PretrialPopulationCurrent"
     >]?: MetricContent & { totalLabel: string };
   } &
     {
@@ -120,6 +121,8 @@ export const MetricTypeIdList = [
   "ParoleTerminationsHistorical",
   "ParoleRevocationsAggregate",
   "ParoleProgrammingCurrent",
+  "PretrialPopulationCurrent",
+  "PretrialPopulationHistorical",
 ] as const;
 export const RidersMetricTypeIdList = [
   "RidersPopulationHistorical",
@@ -151,6 +154,7 @@ export const SystemNarrativeTypeIdList = [
   "Prison",
   "Probation",
   "Parole",
+  "Pretrial",
 ] as const;
 export type SystemNarrativeTypeId = typeof SystemNarrativeTypeIdList[number];
 export function isSystemNarrativeTypeId(x: string): x is SystemNarrativeTypeId {

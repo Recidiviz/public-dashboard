@@ -54,6 +54,9 @@ are serving a sentence.</p>`;
 const prisonBoilerplate = `<p>This data concerns individuals in prison in North Dakota.
 It does not include individuals incarcerated in county jails.</p>`;
 
+const pretrialBoilerplate = `<p>This data concerns individuals in pretrial in North Dakota.
+It does not include individuals on supervision or on parole.</p>`;
+
 const probationBoilerplate = `<p>This data may include some individuals on probation in North
 Dakota as part of the interstate compact program, in which North Dakota agrees to supervise
 individuals who were charged and sentenced in a different state, but have a compelling reason
@@ -182,6 +185,18 @@ const content: TenantContent = {
       methodology: `<p>This data reports the reincarceration recidivism rate for a set number of years
         since the release, for the 10 most recent release cohorts.</p> ${demographicsBoilerplate}
         ${prisonBoilerplate}`,
+    },
+    PretrialPopulationCurrent: {
+      name: "Current Pretrial Population",
+      methodology: `<p>This data includes people currently on pretrial in North Dakota.</p>
+        ${demographicsBoilerplate} ${pretrialBoilerplate}`,
+      totalLabel: "Total people on pretrial",
+    },
+    PretrialPopulationHistorical: {
+      name: "Historical Pretrial Population",
+      methodology: `<p>This data includes the number of people that were on pretrial in
+        North Dakota on the first day of each month over the last 20 years.</p>
+        ${demographicsBoilerplate} ${pretrialBoilerplate}`,
     },
     ProbationPopulationCurrent: {
       name: "Current Probation Population",
@@ -382,6 +397,30 @@ const content: TenantContent = {
           title: "How has the recidivism rate changed over time?",
           body:
             "We can also observe the recidivism rate over time for a given number of years after original release.",
+        },
+      ],
+    },
+    Pretrial: {
+      title: "Pretrial",
+      previewTitle: "Revocations from Pretrial, by Type",
+      introduction:
+        "After a person is arrested, the court decides whether they can be released while their case moves forward, and under what conditions. This is often called setting bond, and it can range from no financial requirement to a high monetary bond. At a bond (or detention) hearing, the court considers factors such as public safety and the likelihood that the individual will appear for future hearings.",
+      preview: "PretrialPopulationCurrent",
+      sections: [
+        {
+          title: "Who is on pretrial?",
+          body:
+            `After an arrest, the court sets the conditions of bond, which may range from no financial requirement to a high monetary bond. These conditions determine whether a person is able to secure release while their case proceeds. At the bond (detention) hearing, the court considers factors such as public safety and the likelihood that the individual will appear for future hearings. 
+              If released, individuals may be placed on pretrial supervision with the DOCR, which can include requirements such as regular check-ins, compliance with specific conditions, and attending all court hearings. Pretrial services officers gather information about the individual to inform the court's decision and may supervise individuals throughout this period.
+              Pretrial supervision typically lasts until a case is resolved. If a person is found not guilty or charges are dropped, supervision ends. If a person is convicted or pleads guilty, supervision may continue until a sentence begins. In some cases, individuals may be under both pretrial and post-conviction supervision at the same time.
+              `,
+          metricTypeId: "PretrialPopulationCurrent",
+        },
+        {
+          title: "How has the pretrial population changed over time?",
+          body:
+            "Changes in the pretrial population are driven by activity earlier in the justice system, including arrests, charging decisions, and court practices related to release and detention. Judicial decisions about who is eligible for release, as well as the conditions placed on that release, can significantly impact the number of people supervised in the community before trial.",
+          metricTypeId: "PretrialPopulationHistorical",
         },
       ],
     },

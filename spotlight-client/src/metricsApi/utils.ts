@@ -45,6 +45,10 @@ export function recordIsProbation(record: ValuesType<RawMetricData>): boolean {
   return record.supervision_type === "PROBATION";
 }
 
+export function recordIsPretrial(record: ValuesType<RawMetricData>): boolean {
+  return record.supervision_type === "PRETRIAL";
+}
+
 /**
  * Returns a filter predicate for the specified locality value
  * that respects a special bypass value (see `NOFILTER_KEY`)

@@ -22,6 +22,7 @@ import { DemographicFields } from "./types";
 import {
   extractDemographicFields,
   recordIsParole,
+  recordIsPretrial,
   recordIsProbation,
 } from "./utils";
 
@@ -36,6 +37,14 @@ function createHistoricalPopulationRecord(record: ValuesType<RawMetricData>) {
     count: Number(record.population_count),
     ...extractDemographicFields(record),
   };
+}
+
+export function pretrialPopulationHistorical(
+  rawRecords: RawMetricData
+): HistoricalPopulationBreakdownRecord[] {
+  return rawRecords
+  .filter(recordIsPretrial)
+  .map(createHistoricalPopulationRecord);
 }
 
 export function prisonPopulationHistorical(
