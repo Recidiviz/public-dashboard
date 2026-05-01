@@ -24,7 +24,9 @@ const crossFade = {
   config: { friction: 40, tension: 280 },
 } as const;
 
-export default {
-  defaultDuration,
-  crossFade,
-};
+const exports = {  
+  defaultDuration,  
+  crossFade
+}
+  
+export default exports

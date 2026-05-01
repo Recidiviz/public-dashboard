@@ -17,4 +17,6 @@
 
 import RootStore from "./RootStore";
 
-export default new RootStore();
+const RootStoreExport = new RootStore();
+
+export default RootStoreExport;

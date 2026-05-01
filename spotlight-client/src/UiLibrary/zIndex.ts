@@ -22,4 +22,4 @@ export default {
   menu: 100,
   modal: 1000,
   tooltip: 500,
-};
+} as const
