@@ -11,7 +11,7 @@
     "install:api": "cd spotlight-api && yarn",
     "install:sc": "cd spotlight-client && yarn",
     "postinstall": "run-p install:sc install:api",
-    "test": "run-p \"test:* -- {@}\" --",
+    "test": "CI=true run-p test:api test:sc",
     "test:api": "cd spotlight-api && yarn test",
     "test:sc": "cd spotlight-client && yarn test",
     "prepare": "husky install"
