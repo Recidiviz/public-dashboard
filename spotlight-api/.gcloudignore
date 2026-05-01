@@ -28,5 +28,4 @@ __mocks__/
 archive/
 build/report.html
 coverage/
-yarn.lock
 *.md
