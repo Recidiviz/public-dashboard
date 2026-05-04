@@ -159,7 +159,7 @@ export default function createMetricMapping({
         );
         break;
       case "PretrialPopulationCurrent":
-        if (!localityLabelMapping?.Prison)
+        if (!localityLabelMapping?.Pretrial)
           throw new Error(localityContentError);
 
         if ("totalLabel" in metadata)
@@ -173,10 +173,11 @@ export default function createMetricMapping({
               tenantId,
               defaultDemographicView: NOFILTER_KEY,
               defaultLocalityId: TOTAL_KEY,
-              localityLabels: localityLabelMapping.Prison,
+              localityLabels: localityLabelMapping.Pretrial,
               dataTransformer: pretrialPopulationCurrent,
               sourceFileName:
-                "incarceration_population_by_facility_by_demographics",
+                // "pretrial_population_by_facility_by_demographics",
+                "supervision_population_by_district_by_demographics",
               rootStore,
             })
           );
@@ -195,6 +196,7 @@ export default function createMetricMapping({
             defaultLocalityId: undefined,
             localityLabels: undefined,
             dataTransformer: pretrialPopulationHistorical,
+            // sourceFileName: "pretrial_population_by_month_by_demographics",
             sourceFileName: "supervision_population_by_month_by_demographics",
             rootStore,
           })

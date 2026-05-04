@@ -17,7 +17,7 @@
 
 import { startOfMonth, sub } from "date-fns";
 import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { isWindowSizeId, WindowedTimeSeries, WindowSizeId } from "../charts";
 import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
@@ -32,6 +32,11 @@ const VizHistoricalPopulationBreakdown: React.FC<{
 }> = ({ metric, preview }) => {
   const [windowSizeId, setWindowSizeId] = useState<WindowSizeId>("20");
 
+  useEffect(()=> {
+    const val = metric.id === "PretrialPopulationHistorical" ? "5": "20" 
+    setWindowSizeId(val)
+  }, [metric.id])
+
   let defaultRangeEnd = startOfMonth(new Date());
   if (!metric.dataIncludesCurrentMonth) {
     defaultRangeEnd = sub(defaultRangeEnd, { months: 1 });
@@ -45,6 +50,20 @@ const VizHistoricalPopulationBreakdown: React.FC<{
       months: -1,
     });
   }
+
+  const timeOptions = [
+    { id: "20", label: "20 years" },
+    { id: "10", label: "10 years" },
+    { id: "5", label: "5 years" },
+    { id: "1", label: "1 year" },
+    { id: "custom", label: "Custom", hidden: true },
+  ]
+
+  const pretrialOptions = [
+    { id: "5", label: "5 years" },
+    { id: "1", label: "1 year" },
+    { id: "custom", label: "Custom", hidden: true },
+  ]
 
   if (metric.dataSeries) {
     const viz = (
@@ -69,13 +88,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
               onChange={(id) => {
                 if (isWindowSizeId(id)) setWindowSizeId(id);
               }}
-              options={[
-                { id: "20", label: "20 years" },
-                { id: "10", label: "10 years" },
-                { id: "5", label: "5 years" },
-                { id: "1", label: "1 year" },
-                { id: "custom", label: "Custom", hidden: true },
-              ]}
+              options={metric.id === "PretrialPopulationHistorical" ? pretrialOptions : timeOptions}
               selectedId={windowSizeId}
             />,
             <DemographicFilterSelect metric={metric} />,

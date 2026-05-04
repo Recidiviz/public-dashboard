@@ -66,6 +66,8 @@ const ALL_METRIC_FILES = [
   "rider_term_current_population.json",
   "rider_offense.json",
   "rider_reincarceration_rates.json",
+  "pretrial_population_by_month_by_demographics",
+  "pretrial_population_by_facility_by_demographics"
 ];
 
 /**

@@ -46,7 +46,7 @@ export function recordIsProbation(record: ValuesType<RawMetricData>): boolean {
 }
 
 export function recordIsPretrial(record: ValuesType<RawMetricData>): boolean {
-  return record.supervision_type === "PRETRIAL";
+  return record.supervision_type === "INVESTIGATION";
 }
 
 /**

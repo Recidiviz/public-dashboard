@@ -556,6 +556,10 @@ const content: TenantContent = {
         { label: "Williston", id: "10" },
       ],
     },
+    Pretrial: {
+      label: "Judicial District",
+      entries: judicialDistricts,
+    },
     ProgramRegions: {
       label: "Region",
       entries: [
