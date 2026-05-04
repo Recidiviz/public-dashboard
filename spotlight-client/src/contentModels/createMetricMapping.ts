@@ -176,7 +176,6 @@ export default function createMetricMapping({
               localityLabels: localityLabelMapping.Pretrial,
               dataTransformer: pretrialPopulationCurrent,
               sourceFileName:
-                // "pretrial_population_by_facility_by_demographics",
                 "supervision_population_by_district_by_demographics",
               rootStore,
             })
@@ -196,7 +195,6 @@ export default function createMetricMapping({
             defaultLocalityId: undefined,
             localityLabels: undefined,
             dataTransformer: pretrialPopulationHistorical,
-            // sourceFileName: "pretrial_population_by_month_by_demographics",
             sourceFileName: "supervision_population_by_month_by_demographics",
             rootStore,
           })
