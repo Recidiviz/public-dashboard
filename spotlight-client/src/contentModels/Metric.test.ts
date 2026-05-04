@@ -90,6 +90,7 @@ describe("data fetching", () => {
         ![
           "ProbationTerminationsHistorical",
           "ParoleTerminationsHistorical",
+          "PretrialCurrentPopulation",
         ].includes(id),
     ),
   )("for metric %s", async (metricId) => {
@@ -190,6 +191,7 @@ describe("data download", () => {
         ![
           "ProbationTerminationsHistorical",
           "ParoleTerminationsHistorical",
+          "PretrialCurrentPopulation",
         ].includes(id),
     ),
   )("for metric %s", async (metricId) => {

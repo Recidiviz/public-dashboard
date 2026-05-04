@@ -81,9 +81,6 @@ export function parolePopulationCurrent(
 export function pretrialPopulationCurrent(
   rawRecords: RawMetricData
 ): PopulationBreakdownByLocationRecord[] {
-  console.log('hello what are raw recirds', rawRecords)
-  console.log('hello what is raw Recirds', rawRecords.filter(recordIsPretrial))
-  console.log('what about wtihout filter', rawRecords.map(createSupervisionPopulationRecord))
   return rawRecords
     .filter(recordIsPretrial)
     .map(createSupervisionPopulationRecord);
