@@ -65,7 +65,14 @@ const VizHistoricalPopulationBreakdown: React.FC<{
     { id: "custom", label: "Custom", hidden: true },
   ]
 
+  // we don't start counting pre-trial until 2020 but we have data series
+  // counts that go back until 2006 because of other supervision types
+  // this makes the mini map verryyyyy long and not representative of the data listed
   if (metric.dataSeries) {
+    if(metric.id === "PretrialPopulationHistorical") {
+      metric.dataSeries[0].coordinates = metric.dataSeries[0].coordinates.filter((x)=> x.count !== 0)
+    }
+
     const viz = (
       <WindowedTimeSeries
         showMinimap={!preview}

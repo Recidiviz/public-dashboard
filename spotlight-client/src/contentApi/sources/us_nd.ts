@@ -195,7 +195,7 @@ const content: TenantContent = {
     PretrialPopulationHistorical: {
       name: "Historical Pretrial Population",
       methodology: `<p>This data includes the number of people that were on pretrial in
-        North Dakota on the first day of each month over the last 20 years.</p>
+        North Dakota on the first day of each month over the last 5 years.</p>
         ${demographicsBoilerplate} ${pretrialBoilerplate}`,
     },
     ProbationPopulationCurrent: {
@@ -402,7 +402,6 @@ const content: TenantContent = {
     },
     Pretrial: {
       title: "Pretrial",
-      previewTitle: "Revocations from Pretrial, by Type",
       introduction:
         "After a person is arrested, the court decides whether they can be released while their case moves forward, and under what conditions. This is often called setting bond, and it can range from no financial requirement to a high monetary bond. At a bond (or detention) hearing, the court considers factors such as public safety and the likelihood that the individual will appear for future hearings.",
       preview: "PretrialPopulationCurrent",
