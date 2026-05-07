@@ -153,6 +153,20 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
     return transformedData;
   }
 
+  get vizNote(): string| undefined {
+    if(this.isNDPretrial){
+      return "The significant increase in the pretrial population in 2020 reflects a major policy change: prior to 2020, the DOCR was not responsible for supervising the pretrial population. In 2021 and 2023 the legislative assembly provided additional funding which allowed the DOCR to expand the pretrial services to cover more defendants."
+    }
+
+    return undefined
+  }
+
+  get isNDPretrial(): boolean {
+    const { id, tenantId } = this;
+    if(id.includes("Pretrial") && tenantId === 'US_ND') return true
+    return false
+  }
+
   get records(): HistoricalPopulationBreakdownRecord[] | undefined {
     let recordsToReturn = this.allRecords;
     if (!recordsToReturn) return undefined;
@@ -163,19 +177,43 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
     return recordsToReturn;
   }
 
+  get timeWindow(): any {
+    const base = [
+      { id: "20", label: "20 years" },
+      { id: "10", label: "10 years" },
+      { id: "5", label: "5 years" },
+      { id: "1", label: "1 year" },
+      { id: "custom", label: "Custom", hidden: true },
+    ]
+
+    if(this.isNDPretrial) {
+      base.shift()
+    }
+  
+    return base
+  }
+
   get dataSeries(): DataSeries<HistoricalPopulationBreakdownRecord>[] | null {
     const { records, demographicView, getDemographicCategories } = this;
     if (!records || demographicView === "nofilter") return null;
+    let result = records
 
     const categories = getDemographicCategories(demographicView);
+
+    // filtering on this date to retain the 1, 5, and 10 year
+    // options we currently see in the historical data viz
+    if(this.isNDPretrial) {
+      const start = new Date("January 1, 2016")
+      result = records.filter((x)=> x.date >= start)
+    }
 
     return categories.map(({ identifier, label }, index) => ({
       label,
       color: colors.dataViz[index],
       coordinates:
         demographicView === "total"
-          ? records
-          : records.filter((record) => record[demographicView] === identifier),
+          ? result
+          : result.filter((record) => record[demographicView] === identifier),
     }));
   }
 

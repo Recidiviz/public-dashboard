@@ -17,7 +17,7 @@
 
 import { startOfMonth, sub } from "date-fns";
 import { observer } from "mobx-react-lite";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { isWindowSizeId, WindowedTimeSeries, WindowSizeId } from "../charts";
 import type HistoricalPopulationBreakdownMetric from "../contentModels/HistoricalPopulationBreakdownMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
@@ -30,13 +30,8 @@ const VizHistoricalPopulationBreakdown: React.FC<{
   metric: HistoricalPopulationBreakdownMetric;
   preview?: boolean;
 }> = ({ metric, preview }) => {
-  const [windowSizeId, setWindowSizeId] = useState<WindowSizeId>("20");
-  const pretrial = metric.id === "PretrialPopulationHistorical"
-
-  useEffect(()=> {
-    const val = metric.id === "PretrialPopulationHistorical" ? "10": "20" 
-    setWindowSizeId(val)
-  }, [metric.id])
+  const options = metric.timeWindow
+  const [windowSizeId, setWindowSizeId] = useState<WindowSizeId>(options[0].id);
 
   let defaultRangeEnd = startOfMonth(new Date());
   if (!metric.dataIncludesCurrentMonth) {
@@ -51,21 +46,6 @@ const VizHistoricalPopulationBreakdown: React.FC<{
       months: -1,
     });
   }
-
-  const timeOptions = [
-    { id: "20", label: "20 years" },
-    { id: "10", label: "10 years" },
-    { id: "5", label: "5 years" },
-    { id: "1", label: "1 year" },
-    { id: "custom", label: "Custom", hidden: true },
-  ]
-
-  const pretrialOptions = [
-    { id: "10", label: "10 years" },
-    { id: "5", label: "5 years" },
-    { id: "1", label: "1 year" },
-    { id: "custom", label: "Custom", hidden: true },
-  ]
 
   if (metric.dataSeries) {
     const viz = (
@@ -90,7 +70,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
               onChange={(id) => {
                 if (isWindowSizeId(id)) setWindowSizeId(id);
               }}
-              options={pretrial ? pretrialOptions : timeOptions}
+              options={options}
               selectedId={windowSizeId}
             />,
             <DemographicFilterSelect metric={metric} />,
@@ -98,7 +78,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
           metric={metric}
         />
         {viz}
-        <VizNotes pretrial={pretrial} unknowns={metric.unknowns} download={metric.download} />
+        <VizNotes custom={metric.vizNote} unknowns={metric.unknowns} download={metric.download} />
       </>
     );
   }
