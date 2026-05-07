@@ -21,23 +21,27 @@ import { Unknowns } from "../contentModels/types";
 import Notes from "../Notes";
 import { useDataStore } from "../StoreProvider";
 import { UnknownsNote } from "./UnknownsNote";
+import { PretrialNote } from "./PretrialNote";
 
 type VizNotesProps = {
   smallData?: boolean;
   unknowns?: Unknowns;
   download?: () => void;
+  pretrial?: boolean;
 };
 
 const VizNotes: React.FC<VizNotesProps> = ({
   smallData,
   unknowns,
   download,
+  pretrial
 }) => {
   const { tenant } = useDataStore();
   return (
     <Notes>
       {smallData && <>{tenant?.smallDataDisclaimer}</>}
       {unknowns && download && <UnknownsNote download={download} />}
+      {pretrial && <PretrialNote/>}
     </Notes>
   );
 };

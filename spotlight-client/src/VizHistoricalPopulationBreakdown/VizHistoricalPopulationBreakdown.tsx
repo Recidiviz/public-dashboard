@@ -31,9 +31,10 @@ const VizHistoricalPopulationBreakdown: React.FC<{
   preview?: boolean;
 }> = ({ metric, preview }) => {
   const [windowSizeId, setWindowSizeId] = useState<WindowSizeId>("20");
+  const pretrial = metric.id === "PretrialPopulationHistorical"
 
   useEffect(()=> {
-    const val = metric.id === "PretrialPopulationHistorical" ? "5": "20" 
+    const val = metric.id === "PretrialPopulationHistorical" ? "10": "20" 
     setWindowSizeId(val)
   }, [metric.id])
 
@@ -60,19 +61,13 @@ const VizHistoricalPopulationBreakdown: React.FC<{
   ]
 
   const pretrialOptions = [
+    { id: "10", label: "10 years" },
     { id: "5", label: "5 years" },
     { id: "1", label: "1 year" },
     { id: "custom", label: "Custom", hidden: true },
   ]
 
-  // we don't start counting pre-trial until 2020 but we have data series
-  // counts that go back until 2006 because of other supervision types
-  // this makes the mini map verryyyyy long and not representative of the data listed
   if (metric.dataSeries) {
-    if(metric.id === "PretrialPopulationHistorical") {
-      metric.dataSeries[0].coordinates = metric.dataSeries[0].coordinates.filter((x)=> x.count !== 0)
-    }
-
     const viz = (
       <WindowedTimeSeries
         showMinimap={!preview}
@@ -95,7 +90,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
               onChange={(id) => {
                 if (isWindowSizeId(id)) setWindowSizeId(id);
               }}
-              options={metric.id === "PretrialPopulationHistorical" ? pretrialOptions : timeOptions}
+              options={pretrial ? pretrialOptions : timeOptions}
               selectedId={windowSizeId}
             />,
             <DemographicFilterSelect metric={metric} />,
@@ -103,7 +98,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
           metric={metric}
         />
         {viz}
-        <VizNotes unknowns={metric.unknowns} download={metric.download} />
+        <VizNotes pretrial={pretrial} unknowns={metric.unknowns} download={metric.download} />
       </>
     );
   }
