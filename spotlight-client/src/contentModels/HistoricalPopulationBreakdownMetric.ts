@@ -82,17 +82,20 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
   dataIncludesCurrentMonth?: boolean;
   readonly note: string | undefined;
   readonly options: string[] | undefined;
+  readonly startDate: string | undefined;
 
   constructor(
     props: BaseMetricConstructorOptions<HistoricalPopulationBreakdownRecord> & {
     note?: string | undefined;
     options?: string[] | undefined;
+    startDate?: string | undefined;
     }
   ) {
     super(props);
 
     this.note = props.note
     this.options = props.options
+    this.startDate = props.startDate
 
     makeObservable(this, {
       dataIncludesCurrentMonth: observable,
@@ -166,12 +169,6 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
     return undefined
   }
 
-  get isNDPretrial(): boolean {
-    const { id, tenantId } = this;
-    if(id.includes("Pretrial") && tenantId === 'US_ND') return true
-    return false
-  }
-
   get records(): HistoricalPopulationBreakdownRecord[] | undefined {
     let recordsToReturn = this.allRecords;
     if (!recordsToReturn) return undefined;
@@ -204,10 +201,8 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
 
     const categories = getDemographicCategories(demographicView);
 
-    // filtering on this date to retain the 1, 5, and 10 year
-    // options we currently see in the historical data viz
-    if(this.isNDPretrial) {
-      const start = new Date("January 1, 2016")
+    if(this.startDate) {
+      const start = new Date(this.startDate)
       result = records.filter((x)=> x.date >= start)
     }
 
