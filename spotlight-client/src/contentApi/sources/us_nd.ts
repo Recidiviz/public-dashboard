@@ -199,7 +199,8 @@ const content: TenantContent = {
       methodology: `<p>This data includes the number of people that were on pretrial in
         North Dakota on the first day of each month over the last 5 years.</p>
         ${demographicsBoilerplate} ${pretrialBoilerplate}`,
-      note: `${pretrialHistoricalNote}`
+      note: `${pretrialHistoricalNote}`,
+      options: ["1", "5", "10"]
     },
     ProbationPopulationCurrent: {
       name: "Current Probation Population",

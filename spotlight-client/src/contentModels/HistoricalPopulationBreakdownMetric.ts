@@ -81,15 +81,18 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
   // UI needs to know this in order to configure proper viewing window
   dataIncludesCurrentMonth?: boolean;
   readonly note: string | undefined;
+  readonly options: string[] | undefined;
 
   constructor(
     props: BaseMetricConstructorOptions<HistoricalPopulationBreakdownRecord> & {
-    note?: string;
+    note?: string | undefined;
+    options?: string[] | undefined;
     }
   ) {
     super(props);
 
     this.note = props.note
+    this.options = props.options
 
     makeObservable(this, {
       dataIncludesCurrentMonth: observable,
@@ -180,16 +183,15 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
   }
 
   get timeWindow(): any {
-    const base = [
+    let base = [
       { id: "20", label: "20 years" },
       { id: "10", label: "10 years" },
       { id: "5", label: "5 years" },
       { id: "1", label: "1 year" },
       { id: "custom", label: "Custom", hidden: true },
     ]
-
-    if(this.isNDPretrial) {
-      base.shift()
+    if(this.options){
+      base = base.filter((x) => this.options?.includes(x.id))
     }
   
     return base

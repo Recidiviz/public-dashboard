@@ -76,7 +76,7 @@ export type TenantContent = {
       [key in Extract<
         MetricTypeId,
         "PretrialPopulationHistorical"
-      >]?: MetricContent & { note?: string };
+      >]?: MetricContent & { note: string, options: string[] };
     } &
     { [key in MetricTypeId]?: MetricContent } &
     { [key in RidersMetricTypeId]?: MetricContent };
