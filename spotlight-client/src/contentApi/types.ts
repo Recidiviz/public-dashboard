@@ -72,6 +72,12 @@ export type TenantContent = {
         "PrisonAdmissionReasonsCurrent"
       >]?: MetricContent & { fieldMapping?: CategoryFieldMapping[] };
     } &
+    {
+      [key in Extract<
+        MetricTypeId,
+        "PretrialPopulationHistorical"
+      >]?: MetricContent & { note?: string };
+    } &
     { [key in MetricTypeId]?: MetricContent } &
     { [key in RidersMetricTypeId]?: MetricContent };
   systemNarratives: {

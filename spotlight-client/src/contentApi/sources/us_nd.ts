@@ -33,6 +33,8 @@ const judicialDistricts = [
   { id: "OTHER", label: "Other" },
 ];
 
+const pretrialHistoricalNote = "The significant increase in the pretrial population in 2020 reflects a major policy change: prior to 2020, the DOCR was not responsible for supervising the pretrial population. In 2021 and 2023 the legislative assembly provided additional funding which allowed the DOCR to expand the pretrial services to cover more defendants."
+
 const raceOrEthnicityBoilerplateInline = `${raceOrEthnicity} The “Other” category includes Asian
 and Native Hawaiian or other Pacific Islander individuals due to low counts of these
 reported racial identities in North Dakota.`;
@@ -197,6 +199,7 @@ const content: TenantContent = {
       methodology: `<p>This data includes the number of people that were on pretrial in
         North Dakota on the first day of each month over the last 5 years.</p>
         ${demographicsBoilerplate} ${pretrialBoilerplate}`,
+      note: `${pretrialHistoricalNote}`
     },
     ProbationPopulationCurrent: {
       name: "Current Probation Population",

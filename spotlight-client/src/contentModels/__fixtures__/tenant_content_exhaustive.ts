@@ -176,6 +176,7 @@ const content: ExhaustiveTenantContent = {
     PretrialPopulationHistorical: {
       name: "test PretrialPopulationHistorical name",
       methodology: "test PretrialPopulationHistorical methodology",
+      note: "test PretrialPopulationHistorical methodology",
     },
   },
   systemNarratives: {

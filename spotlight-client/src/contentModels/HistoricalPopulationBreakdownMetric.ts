@@ -80,11 +80,16 @@ function getMissingMonthsForSeries({
 export default class HistoricalPopulationBreakdownMetric extends Metric<HistoricalPopulationBreakdownRecord> {
   // UI needs to know this in order to configure proper viewing window
   dataIncludesCurrentMonth?: boolean;
+  readonly note: string | undefined;
 
   constructor(
-    props: BaseMetricConstructorOptions<HistoricalPopulationBreakdownRecord>
+    props: BaseMetricConstructorOptions<HistoricalPopulationBreakdownRecord> & {
+    note?: string;
+    }
   ) {
     super(props);
+
+    this.note = props.note
 
     makeObservable(this, {
       dataIncludesCurrentMonth: observable,
@@ -154,10 +159,7 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
   }
 
   get vizNote(): string| undefined {
-    if(this.isNDPretrial){
-      return "The significant increase in the pretrial population in 2020 reflects a major policy change: prior to 2020, the DOCR was not responsible for supervising the pretrial population. In 2021 and 2023 the legislative assembly provided additional funding which allowed the DOCR to expand the pretrial services to cover more defendants."
-    }
-
+    if(this.note) return this.note
     return undefined
   }
 
