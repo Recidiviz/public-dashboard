@@ -87,14 +87,12 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
   constructor(
     props: BaseMetricConstructorOptions<HistoricalPopulationBreakdownRecord> & {
     note?: string | undefined;
-    options?: string[] | undefined;
     startDate?: string | undefined;
     }
   ) {
     super(props);
 
     this.note = props.note
-    this.options = props.options
     this.startDate = props.startDate
 
     makeObservable(this, {
@@ -187,8 +185,11 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
       { id: "1", label: "1 year" },
       { id: "custom", label: "Custom", hidden: true },
     ]
-    if(this.options){
-      base = base.filter((x) => this.options?.includes(x.id))
+    if(this.startDate){
+      const start = new Date(this.startDate).getFullYear()
+      const today = new Date(Date.now()).getFullYear()
+      const difference = today - start
+      base = base.filter((x) => Number(x.id) <= difference || x.id === "custom")
     }
   
     return base

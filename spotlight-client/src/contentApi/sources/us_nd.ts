@@ -198,7 +198,6 @@ const content: TenantContent = {
         North Dakota on the first day of each month since January 2020.</p>
         ${demographicsBoilerplate} ${pretrialBoilerplate}`,
       note: `The significant increase in the pretrial population in 2020 reflects a major policy change: prior to 2020, the DOCR was not responsible for supervising the pretrial population. In 2021 and 2023 the legislative assembly provided additional funding which allowed the DOCR to expand the pretrial services to cover more defendants.`,
-      options: ["1", "5", "10"],
       startDate: "January 1, 2016",
     },
     ProbationPopulationCurrent: {
