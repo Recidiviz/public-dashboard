@@ -94,6 +94,7 @@ describe("on large screens", () => {
     expect(
       screen.getByRole("option", { name: "Racial Disparities" }),
     ).toBeVisible();
+    expect(screen.getByRole("option", { name: "Pretrial" })).toBeVisible();
 
     fireEvent.click(screen.getByRole("option", { name: "Sentencing" }));
 
@@ -156,8 +157,7 @@ describe("on small screens", () => {
     const menu = screen.getByTestId("NavMenu");
     const navLinks = await within(menu).findAllByRole("link");
 
-    expect(navLinks.length).toBe(7);
-
+    expect(navLinks.length).toBe(8);
     expect(navLinks[0]).toHaveTextContent("Home");
     expect(navLinks[0]).toHaveAttribute("href", "/us-nd");
 
@@ -185,14 +185,20 @@ describe("on small screens", () => {
       `/us-nd/${NarrativesSlug}/parole`,
     );
 
-    expect(navLinks[5]).toHaveTextContent("Racial Disparities");
+    expect(navLinks[5]).toHaveTextContent("Pretrial");
     expect(navLinks[5]).toHaveAttribute(
+      "href",
+      `/us-nd/${NarrativesSlug}/pretrial`,
+    );
+
+    expect(navLinks[6]).toHaveTextContent("Racial Disparities");
+    expect(navLinks[6]).toHaveAttribute(
       "href",
       `/us-nd/${NarrativesSlug}/racial-disparities`,
     );
 
-    expect(navLinks[6]).toHaveTextContent("Feedback");
-    expect(navLinks[6]).toHaveAttribute(
+    expect(navLinks[7]).toHaveTextContent("Feedback");
+    expect(navLinks[7]).toHaveAttribute(
       "href",
       expect.stringContaining("docs.google.com/forms"),
     );

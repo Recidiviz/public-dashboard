@@ -30,7 +30,8 @@ const VizHistoricalPopulationBreakdown: React.FC<{
   metric: HistoricalPopulationBreakdownMetric;
   preview?: boolean;
 }> = ({ metric, preview }) => {
-  const [windowSizeId, setWindowSizeId] = useState<WindowSizeId>("20");
+  const options = metric.timeWindow
+  const [windowSizeId, setWindowSizeId] = useState<WindowSizeId>(options[0].id);
 
   let defaultRangeEnd = startOfMonth(new Date());
   if (!metric.dataIncludesCurrentMonth) {
@@ -69,13 +70,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
               onChange={(id) => {
                 if (isWindowSizeId(id)) setWindowSizeId(id);
               }}
-              options={[
-                { id: "20", label: "20 years" },
-                { id: "10", label: "10 years" },
-                { id: "5", label: "5 years" },
-                { id: "1", label: "1 year" },
-                { id: "custom", label: "Custom", hidden: true },
-              ]}
+              options={options}
               selectedId={windowSizeId}
             />,
             <DemographicFilterSelect metric={metric} />,
@@ -83,7 +78,7 @@ const VizHistoricalPopulationBreakdown: React.FC<{
           metric={metric}
         />
         {viz}
-        <VizNotes unknowns={metric.unknowns} download={metric.download} />
+        <VizNotes custom={metric.vizNote} unknowns={metric.unknowns} download={metric.download} />
       </>
     );
   }

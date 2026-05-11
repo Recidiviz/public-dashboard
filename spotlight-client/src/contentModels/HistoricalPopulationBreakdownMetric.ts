@@ -80,11 +80,20 @@ function getMissingMonthsForSeries({
 export default class HistoricalPopulationBreakdownMetric extends Metric<HistoricalPopulationBreakdownRecord> {
   // UI needs to know this in order to configure proper viewing window
   dataIncludesCurrentMonth?: boolean;
+  readonly note: string | undefined;
+  readonly options: string[] | undefined;
+  readonly startDate: string | undefined;
 
   constructor(
-    props: BaseMetricConstructorOptions<HistoricalPopulationBreakdownRecord>
+    props: BaseMetricConstructorOptions<HistoricalPopulationBreakdownRecord> & {
+    note?: string | undefined;
+    startDate?: string | undefined;
+    }
   ) {
     super(props);
+
+    this.note = props.note
+    this.startDate = props.startDate
 
     makeObservable(this, {
       dataIncludesCurrentMonth: observable,
@@ -153,6 +162,10 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
     return transformedData;
   }
 
+  get vizNote(): string| undefined {
+    return this.note
+  }
+
   get records(): HistoricalPopulationBreakdownRecord[] | undefined {
     let recordsToReturn = this.allRecords;
     if (!recordsToReturn) return undefined;
@@ -163,19 +176,43 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
     return recordsToReturn;
   }
 
+  get timeWindow(): any {
+    let base = [
+      { id: "20", label: "20 years" },
+      { id: "10", label: "10 years" },
+      { id: "5", label: "5 years" },
+      { id: "1", label: "1 year" },
+      { id: "custom", label: "Custom", hidden: true },
+    ]
+    if(this.startDate){
+      const start = new Date(this.startDate).getFullYear()
+      const today = new Date(Date.now()).getFullYear()
+      const difference = today - start
+      base = base.filter((x) => Number(x.id) <= difference || x.id === "custom")
+    }
+  
+    return base
+  }
+
   get dataSeries(): DataSeries<HistoricalPopulationBreakdownRecord>[] | null {
     const { records, demographicView, getDemographicCategories } = this;
     if (!records || demographicView === "nofilter") return null;
+    let result = records
 
     const categories = getDemographicCategories(demographicView);
+
+    if(this.startDate) {
+      const start = new Date(this.startDate)
+      result = records.filter((x)=> x.date >= start)
+    }
 
     return categories.map(({ identifier, label }, index) => ({
       label,
       color: colors.dataViz[index],
       coordinates:
         demographicView === "total"
-          ? records
-          : records.filter((record) => record[demographicView] === identifier),
+          ? result
+          : result.filter((record) => record[demographicView] === identifier),
     }));
   }
 

@@ -84,7 +84,6 @@ const AdvanceLink: React.FC<AdvanceLinkProps> = ({
         kind={IconSVG.Arrow}
         width={20}
         rotate={rotate}
-        style={{ rotate: `${rotate}deg` }}
         onClick={(e) => {
           if (disabled) e.stopPropagation();
         }}

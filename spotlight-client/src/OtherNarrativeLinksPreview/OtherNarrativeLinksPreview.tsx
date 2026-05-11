@@ -106,6 +106,7 @@ const PREVIEW_ORDER: NarrativeTypeId[] = [
   "Probation",
   "Parole",
   "Sentencing",
+  "Pretrial",
 ];
 
 const ChartPreviewComponent: React.FC<{

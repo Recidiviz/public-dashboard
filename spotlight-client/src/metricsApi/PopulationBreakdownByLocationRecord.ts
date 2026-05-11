@@ -21,6 +21,7 @@ import { RawMetricData } from "./fetchMetrics";
 import {
   extractDemographicFields,
   recordIsParole,
+  recordIsPretrial,
   recordIsProbation,
 } from "./utils";
 
@@ -76,3 +77,12 @@ export function parolePopulationCurrent(
     .filter(recordIsParole)
     .map(createSupervisionPopulationRecord);
 }
+
+export function pretrialPopulationCurrent(
+  rawRecords: RawMetricData
+): PopulationBreakdownByLocationRecord[] {
+  return rawRecords
+    .filter(recordIsPretrial)
+    .map(createSupervisionPopulationRecord);
+}
+

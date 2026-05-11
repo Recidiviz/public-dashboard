@@ -168,6 +168,17 @@ const content: ExhaustiveTenantContent = {
       name: "test RidersReincarcerationRate name",
       methodology: "test RidersReincarcerationRate methodology",
     },
+    PretrialPopulationCurrent: {
+      name: "test PretrialPopulationCurrent name",
+      methodology: "test PretrialPopulationCurrent methodology",
+      totalLabel: "test pretrial population label",
+    },
+    PretrialPopulationHistorical: {
+      name: "test PretrialPopulationHistorical name",
+      methodology: "test PretrialPopulationHistorical methodology",
+      note: "test PretrialPopulationHistorical methodology",
+      startDate: "2016-01-01"
+    },
   },
   systemNarratives: {
     Prison: {
@@ -180,6 +191,19 @@ const content: ExhaustiveTenantContent = {
           title: "test first prison section",
           body: "test prison section copy",
           metricTypeId: "PrisonPopulationCurrent",
+        },
+      ],
+    },
+    Pretrial: {
+      title: "test pretrial narrative",
+      previewTitle: "test pretrial subtitle",
+      introduction: "test pretrial introduction",
+      preview: "PretrialPopulationCurrent",
+      sections: [
+        {
+          title: "test first pretrial section",
+          body: "test pretrial section copy",
+          metricTypeId: "PretrialPopulationCurrent",
         },
       ],
     },
@@ -224,6 +248,19 @@ const content: ExhaustiveTenantContent = {
     },
   },
   localities: {
+    Pretrial: {
+      label: "sentencing locality",
+      entries: [
+        {
+          id: "NORTHEAST",
+          label: "Northeast",
+        },
+        {
+          id: "SOUTHWEST",
+          label: "Southwest",
+        },
+      ],
+    },
     Sentencing: {
       label: "sentencing locality",
       entries: [

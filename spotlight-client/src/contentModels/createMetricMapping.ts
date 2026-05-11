@@ -32,6 +32,8 @@ import {
   paroleRevocationReasons,
   paroleTerminationRateDemographics,
   paroleTerminationRateMonthly,
+  pretrialPopulationCurrent,
+  pretrialPopulationHistorical,
   prisonAdmissionReasons,
   prisonPopulationCurrent,
   prisonPopulationHistorical,
@@ -152,6 +154,48 @@ export default function createMetricMapping({
             localityLabels: localityLabelMapping.Sentencing,
             dataTransformer: sentenceTypesCurrent,
             sourceFileName: "sentence_type_by_district_by_demographics",
+            rootStore,
+          })
+        );
+        break;
+      case "PretrialPopulationCurrent":
+        if (!localityLabelMapping?.Pretrial)
+          throw new Error(localityContentError);
+
+        if ("totalLabel" in metadata)
+          metricMapping.set(
+            metricType,
+            new PopulationBreakdownByLocationMetric({
+              ...metadata,
+              demographicFilter,
+              demographicLabels,
+              id: metricType,
+              tenantId,
+              defaultDemographicView: NOFILTER_KEY,
+              defaultLocalityId: TOTAL_KEY,
+              localityLabels: localityLabelMapping.Pretrial,
+              dataTransformer: pretrialPopulationCurrent,
+              sourceFileName:
+                "supervision_population_by_district_by_demographics",
+              rootStore,
+            })
+          );
+        else throw new Error(totalLabelError);
+        break;
+      case "PretrialPopulationHistorical":
+        metricMapping.set(
+          metricType,
+          new HistoricalPopulationBreakdownMetric({
+            ...metadata,
+            demographicFilter,
+            demographicLabels,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: "total",
+            defaultLocalityId: undefined,
+            localityLabels: undefined,
+            dataTransformer: pretrialPopulationHistorical,
+            sourceFileName: "supervision_population_by_month_by_demographics",
             rootStore,
           })
         );
