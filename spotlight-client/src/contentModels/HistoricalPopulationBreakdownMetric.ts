@@ -163,8 +163,7 @@ export default class HistoricalPopulationBreakdownMetric extends Metric<Historic
   }
 
   get vizNote(): string| undefined {
-    if(this.note) return this.note
-    return undefined
+    return this.note
   }
 
   get records(): HistoricalPopulationBreakdownRecord[] | undefined {

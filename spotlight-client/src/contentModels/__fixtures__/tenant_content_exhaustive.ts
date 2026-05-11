@@ -177,7 +177,7 @@ const content: ExhaustiveTenantContent = {
       name: "test PretrialPopulationHistorical name",
       methodology: "test PretrialPopulationHistorical methodology",
       note: "test PretrialPopulationHistorical methodology",
-      startDate: "January 1, 2016"
+      startDate: "2016-01-01"
     },
   },
   systemNarratives: {
