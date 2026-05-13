@@ -17,7 +17,8 @@
     "jest-list": "react-scripts test --listTests",
     "jest-one": "react-scripts test ${0}",
     "cicd": "yarn test --coverage --forceExit --runInBand",
-    "cicdone": "yarn test ${0} --coverage --forceExit --runInBand"
+    "cicdone": "yarn test ${0} --coverage --forceExit --runInBand",
+    "serve": "firebase serve"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.13.1",

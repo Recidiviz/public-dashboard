@@ -98,13 +98,19 @@ This React application is deployed to Firebase. To have deploy access, you need 
 
 Once you have the required permissions, you can set up your environment for deploys by following [these instructions](https://firebase.google.com/docs/cli?install-cli-mac-linux). Specifically, follow the steps entitled "Install the Firebase CLI" and "Log in and test the Firebase CLI."
 
+
+### Deploying Pre-Reqs
+
+If you are getting the error when trying to deploy that there is no project currently active but there are firebase aliases (.firebaserc) listed - you may need to reauth by running the commands especially if you are getting command out of scope or token retrieval errors:
+`firebase logout` & `firebase login --reauth`
+
 ### Deploying to Staging
 
 All commits to `main` are automatically deployed to the staging environment by the `spotlight-staging` Github CI workflow, keeping staging up to date as pull requests are merged. (It thus bears mentioning that you should not merge anything to `main` that isn't immediately deployable!)
 
 You can also generate and deploy staging builds locally as needed. To generate a staging build, invoke the following yarn script: `yarn build-staging`. This will include the appropriate environment variables from `.env.development`. Each time this is run, the `/build` directory will be wiped clean.
 
-You should then test this locally by running `firebase serve`: it will run the staging build locally, pointed to the staging API backend. (Note that this means you will have to deploy the backend to staging first if your build requires unreleased backend features.)
+You should then test this locally by running `yarn serve`: it will run the staging build locally, pointed to the staging API backend. (Note that this means you will have to deploy the backend to staging first if your build requires unreleased backend features.)
 
 When you're satisfied, deploy the frontend to staging with `firebase deploy -P staging`. Test vigorously on staging before deploying to production.
 
@@ -112,7 +118,7 @@ When you're satisfied, deploy the frontend to staging with `firebase deploy -P s
 
 Similar to above, but with slightly different commands:
 
-Generate a production build with `yarn build`. Test locally with `firebase serve`. Deploy the frontend with `firebase deploy -P production`.
+Generate a production build with `yarn build`. Test locally with `yarn serve`. Deploy the frontend with `firebase deploy -P production`.
 
 Test vigorously! Don't be afraid to rollback the deploy through the Firebase console.
 
