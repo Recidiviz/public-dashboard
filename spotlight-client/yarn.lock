@@ -7388,10 +7388,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-color@npm:1 - 2, d3-color@npm:^2.0.0":
+"d3-color@npm:1 - 2":
   version: 2.0.0
   resolution: "d3-color@npm:2.0.0"
   checksum: 10c0/5aa58dfb78e3db764373a904eabb643dc024ff6071128a41e86faafa100e0e17a796e06ac3f2662e9937242bb75b8286788629773d76936f11c17bd5fe5e15cd
+  languageName: node
+  linkType: hard
+
+"d3-color@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "d3-color@npm:3.1.0"
+  checksum: 10c0/a4e20e1115fa696fce041fbe13fbc80dc4c19150fa72027a7c128ade980bc0eeeba4bcf28c9e21f0bce0e0dbfe7ca5869ef67746541dcfda053e4802ad19783c
   languageName: node
   linkType: hard
 
@@ -16523,7 +16530,7 @@ __metadata:
     change-case: "npm:^4.1.2"
     classnames: "npm:^2.2.6"
     d3-array: "npm:^2.12.0"
-    d3-color: "npm:^2.0.0"
+    d3-color: "npm:^3.1.0"
     d3-dsv: "npm:^2.0.0"
     d3-force: "npm:^2.1.1"
     d3-force-limit: "npm:^1.1.3"
