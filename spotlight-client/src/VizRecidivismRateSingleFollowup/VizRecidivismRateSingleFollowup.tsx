@@ -29,6 +29,7 @@ import {
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
+import ReturnTypeFilterSelect from "../ReturnTypeFilterSelect";
 import { animation, AutoHeightTransition } from "../UiLibrary";
 import { formatAsNumber, formatAsPct } from "../utils";
 import VizNotes from "../VizNotes";
@@ -121,6 +122,9 @@ const VizRecidivismRateSingleFollowup: React.FC<VizRecidivismRateSingleFollowupP
             <MetricVizControls
               filters={[
                 <FollowupPeriodFilterSelect metric={metric} />,
+                metric.returnType !== undefined && (
+                  <ReturnTypeFilterSelect metric={metric} />
+                ),
                 includesDemographics && (
                   <DemographicFilterSelect metric={metric} />
                 ),

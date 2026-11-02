@@ -15,35 +15,99 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // =============================================================================
 
+import { ValuesType } from "utility-types";
 import { RawMetricData } from "./fetchMetrics";
 import { DemographicFields, RateFields } from "./types";
-import { extractDemographicFields } from "./utils";
+import {
+  extractDemographicFields,
+  recordIsParole,
+  recordIsProbation,
+} from "./utils";
+
+export const ReturnTypeList = ["ALL", "INCARCERATION", "SUPERVISION"] as const;
+export type ReturnType = typeof ReturnTypeList[number];
+export function isReturnType(x: string): x is ReturnType {
+  return ReturnTypeList.includes(x as ReturnType);
+}
 
 export type RecidivismRateRecord = DemographicFields &
   RateFields & {
     releaseCohort: number;
     followupYears: number;
+    // only present for supervision recidivism, where a return can be to
+    // incarceration or to supervision
+    returnType?: ReturnType;
   };
+
+const CONVENTIONAL_FOLLOWUP_YEARS = [1, 3, 5];
+
+function isConventionalFollowup({ followupYears }: RecidivismRateRecord) {
+  return CONVENTIONAL_FOLLOWUP_YEARS.includes(followupYears);
+}
+
+function createRecidivismRateRecord(
+  record: ValuesType<RawMetricData>
+): RecidivismRateRecord {
+  return {
+    followupYears: Number(record.followup_years),
+    rateNumerator: Number(record.recidivated_releases),
+    rate: Number(record.recidivism_rate),
+    rateDenominator: Number(record.releases),
+    releaseCohort: Number(record.release_cohort),
+    ...extractDemographicFields(record),
+  };
+}
+
+function createSupervisionRecidivismRateRecord(
+  record: ValuesType<RawMetricData>
+): RecidivismRateRecord {
+  return {
+    ...createRecidivismRateRecord(record),
+    // we are trusting the API to return valid strings here, not validating them
+    returnType: record.return_type as ReturnType,
+  };
+}
 
 export function recidivismRateAllFollowup(
   rawRecords: RawMetricData
 ): RecidivismRateRecord[] {
-  return rawRecords.map((record) => {
-    return {
-      followupYears: Number(record.followup_years),
-      rateNumerator: Number(record.recidivated_releases),
-      rate: Number(record.recidivism_rate),
-      rateDenominator: Number(record.releases),
-      releaseCohort: Number(record.release_cohort),
-      ...extractDemographicFields(record),
-    };
-  });
+  return rawRecords.map(createRecidivismRateRecord);
 }
 
 export function recidivismRateConventionalFollowup(
   rawRecords: RawMetricData
 ): RecidivismRateRecord[] {
-  return recidivismRateAllFollowup(rawRecords).filter(({ followupYears }) =>
-    [1, 3, 5].includes(followupYears)
+  return recidivismRateAllFollowup(rawRecords).filter(isConventionalFollowup);
+}
+
+export function paroleRecidivismRateAllFollowup(
+  rawRecords: RawMetricData
+): RecidivismRateRecord[] {
+  return rawRecords
+    .filter(recordIsParole)
+    .map(createSupervisionRecidivismRateRecord);
+}
+
+export function paroleRecidivismRateConventionalFollowup(
+  rawRecords: RawMetricData
+): RecidivismRateRecord[] {
+  return paroleRecidivismRateAllFollowup(rawRecords).filter(
+    isConventionalFollowup
+  );
+}
+
+export function probationRecidivismRateAllFollowup(
+  rawRecords: RawMetricData
+): RecidivismRateRecord[] {
+  return rawRecords
+    .filter(recordIsProbation)
+    .map(createSupervisionRecidivismRateRecord);
+}
+
+export function probationRecidivismRateConventionalFollowup(
+  rawRecords: RawMetricData
+): RecidivismRateRecord[] {
+  return probationRecidivismRateAllFollowup(rawRecords).filter(
+    isConventionalFollowup
   );
 }

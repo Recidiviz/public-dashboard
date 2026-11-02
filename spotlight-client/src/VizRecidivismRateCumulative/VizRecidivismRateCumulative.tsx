@@ -26,6 +26,7 @@ import RateTrend, {
 import RecidivismRateMetric from "../contentModels/RecidivismRateMetric";
 import DemographicFilterSelect from "../DemographicFilterSelect";
 import MetricVizControls from "../MetricVizControls";
+import ReturnTypeFilterSelect from "../ReturnTypeFilterSelect";
 import { animation } from "../UiLibrary";
 import VizNotes from "../VizNotes";
 import withMetricHydrator from "../withMetricHydrator";
@@ -64,6 +65,9 @@ const VizRecidivismRateCumulative: React.FC<VizRecidivismRateCumulativeProps> = 
         <MetricVizControls
           filters={[
             <CohortFilterSelect metric={metric} />,
+            metric.returnType !== undefined && (
+              <ReturnTypeFilterSelect metric={metric} />
+            ),
             metric.includesDemographics && (
               <DemographicFilterSelect
                 disabled={selectedCohorts.length !== 1}

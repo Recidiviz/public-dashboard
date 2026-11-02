@@ -105,6 +105,22 @@ const content: ExhaustiveTenantContent = {
       methodology:
         "test PrisonRecidivismRateSingleFollowupHistorical methodology",
     },
+    ProbationRecidivismRateHistorical: {
+      name: "test ProbationRecidivismRateHistorical name",
+      methodology: "test ProbationRecidivismRateHistorical methodology",
+    },
+    ProbationRecidivismRateSingleFollowupHistorical: {
+      name: "test ProbationRecidivismRateSingleFollowupHistorical name",
+      methodology: "test ProbationRecidivismRateSingleFollowupHistorical methodology",
+    },
+    ParoleRecidivismRateHistorical: {
+      name: "test ParoleRecidivismRateHistorical name",
+      methodology: "test ParoleRecidivismRateHistorical methodology",
+    },
+    ParoleRecidivismRateSingleFollowupHistorical: {
+      name: "test ParoleRecidivismRateSingleFollowupHistorical name",
+      methodology: "test ParoleRecidivismRateSingleFollowupHistorical methodology",
+    },
     CommunityCorrectionsPopulationCurrent: {
       name: "test CommunityCorrectionsPopulationCurrent name",
       methodology: "test CommunityCorrectionsPopulationCurrent methodology",

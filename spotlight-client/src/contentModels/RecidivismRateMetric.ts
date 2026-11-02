@@ -22,7 +22,7 @@ import {
   dataIncludesBreakdowns,
   recordIsTotalByDimension,
 } from "../demographics";
-import { RateFields, RecidivismRateRecord } from "../metricsApi";
+import { RateFields, RecidivismRateRecord, ReturnType } from "../metricsApi";
 import { colors } from "../UiLibrary";
 import { countUnknowns } from "./unknowns";
 import Metric, { BaseMetricConstructorOptions } from "./Metric";
@@ -45,6 +45,9 @@ function prependZeroRecord(records: RecidivismRateRecord[]) {
 export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
   followUpYears?: number;
 
+  // only defined for metrics whose records have a returnType
+  returnType?: ReturnType;
+
   private appliedCohortFilter?: number[];
 
   // this is not strictly a UI concern because it affects the cohort filter
@@ -53,11 +56,13 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
   constructor(
     props: BaseMetricConstructorOptions<RecidivismRateRecord> & {
       followUpYears?: number;
+      returnType?: ReturnType;
     },
   ) {
     super(props);
 
     this.followUpYears = props.followUpYears;
+    this.returnType = props.returnType;
 
     makeObservable<
       RecidivismRateMetric,
@@ -71,6 +76,7 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
       highlightedCohort: observable,
       includesDemographics: computed,
       maxFollowupPeriod: computed,
+      returnType: observable,
       selectedCohorts: computed,
       setHighlightedCohort: action,
       setSelectedCohorts: action,
@@ -89,6 +95,12 @@ export default class RecidivismRateMetric extends Metric<RecidivismRateRecord> {
     if (this.followUpYears !== undefined) {
       recordsToReturn = recordsToReturn.filter(
         (record) => record.followupYears === this.followUpYears,
+      );
+    }
+
+    if (this.returnType !== undefined) {
+      recordsToReturn = recordsToReturn.filter(
+        (record) => record.returnType === this.returnType,
       );
     }
 

@@ -67,7 +67,11 @@ const MetricVizMapper: React.FC<MetricVizMapperProps> = ({
     return <VizDemographicsByCategory preview={preview} metric={metric} />;
   }
   if (metric instanceof RecidivismRateMetric) {
-    if (metric.id === "PrisonRecidivismRateSingleFollowupHistorical") {
+    if (
+      metric.id === "PrisonRecidivismRateSingleFollowupHistorical" ||
+      metric.id === "ParoleRecidivismRateSingleFollowupHistorical" ||
+      metric.id === "ProbationRecidivismRateSingleFollowupHistorical"
+    ) {
       return <VizRecidivismRateSingleFollowup metric={metric} />;
     }
     return <VizRecidivismRateCumulative metric={metric} />;
