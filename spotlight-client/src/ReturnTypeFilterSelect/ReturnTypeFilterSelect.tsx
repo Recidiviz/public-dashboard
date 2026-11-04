@@ -23,9 +23,9 @@ import { isReturnType, ReturnType } from "../metricsApi";
 import { Dropdown } from "../UiLibrary";
 
 const OPTIONS: { id: ReturnType; label: string }[] = [
-  { id: "ALL", label: "Any" },
-  { id: "INCARCERATION", label: "Prison" },
-  { id: "SUPERVISION", label: "Supervision" },
+  { id: "ALL", label: "Any return" },
+  { id: "INCARCERATION", label: "Return to prison" },
+  { id: "SUPERVISION", label: "Return to supervision" },
 ];
 
 type ReturnTypeFilterSelectProps = {

@@ -86,8 +86,8 @@ const supervisionRecidivismBoilerplate = (supervision: "probation" | "parole") =
   supervision or were admitted to a DOCR facility within each year since that day. If a
   person completed ${supervision} more than once in a calendar year, only their first
   completion that year is counted.</p>
-  <p>The “Type of Return” filter shows returns to prison and returns to supervision
-  separately. Each person is counted by the first place they returned to. Admissions to
+  <p>Returns to prison and returns to supervision can also be viewed separately using the
+  return filter above the chart. Each person is counted by the first place they returned to. Admissions to
   incarceration for temporary custody or parole board holds are not counted as returns.</p>
   <p>Individuals supervised under the interstate compact program are not included, because
   the state that sentenced them determines the outcome of their supervision. Individuals
