@@ -2,6 +2,12 @@ runtime: nodejs22
 
 service: {SERVICE_NAME}
 
+# Cap scaling so a traffic spike can't run up costs. Vanta's App Engine
+# autoscaling test needs max_instances above 1.
+automatic_scaling:
+  min_instances: {MIN_INSTANCES}
+  max_instances: {MAX_INSTANCES}
+
 includes:
 - base-gae-handlers.yaml
 
