@@ -75,11 +75,11 @@ The Recidiviz environment configuration settings (including GCP project IDs) are
 
 We deploy this application to Google App Engine with configured yaml files. Copy the `gae.yaml.example` file into files named `gae-staging.yaml` and `gae-production.yaml`, and set environment variables accordingly.
 
-Deploy to staging Google App Engine with `gcloud app deploy gae-staging.yaml --project [staging_project_id]`. This will upload any updated backend code/configuration to GAE and start the server (GAE runs `npm start` only once the deploy succeeds and is stable). Test vigorously on staging before continuing to production.
+Deploy to staging Google App Engine with `./deploy.sh staging [staging_project_id]`. This runs `gcloud app deploy gae-staging.yaml` and then deletes old versions that get no traffic, keeping the newest two for rollback. The deploy will upload any updated backend code/configuration to GAE and start the server (GAE runs `npm start` only once the deploy succeeds and is stable). Test vigorously on staging before continuing to production.
 
 ### Deploying to Production
 
-Similarly to above, deploy to production GAE with `gcloud app deploy gae-production.yaml --project [production_project_id]`.
+Similarly to above, deploy to production GAE with `./deploy.sh production [production_project_id]`.
 
 Test vigorously! Don't be afraid to rollback the deploy through the GAE console.
 
