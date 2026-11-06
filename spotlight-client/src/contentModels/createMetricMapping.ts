@@ -29,6 +29,8 @@ import {
   parolePopulationCurrent,
   parolePopulationHistorical,
   paroleProgramParticipationCurrent,
+  paroleRecidivismRateAllFollowup,
+  paroleRecidivismRateConventionalFollowup,
   paroleRevocationReasons,
   paroleTerminationRateDemographics,
   paroleTerminationRateMonthly,
@@ -42,6 +44,8 @@ import {
   probationPopulationCurrent,
   probationPopulationHistorical,
   probationProgramParticipationCurrent,
+  probationRecidivismRateAllFollowup,
+  probationRecidivismRateConventionalFollowup,
   probationRevocationReasons,
   probationTerminationRateDemographics,
   probationTerminationRateMonthly,
@@ -560,6 +564,84 @@ export default function createMetricMapping({
             localityLabels: undefined,
             dataTransformer: recidivismRateConventionalFollowup,
             sourceFileName: "recidivism_rates_by_cohort_by_year",
+            rootStore,
+          })
+        );
+        break;
+      case "ProbationRecidivismRateHistorical":
+        metricMapping.set(
+          metricType,
+          new RecidivismRateMetric({
+            ...metadata,
+            demographicFilter,
+            demographicLabels,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: "total",
+            returnType: "ALL",
+            defaultLocalityId: undefined,
+            localityLabels: undefined,
+            dataTransformer: probationRecidivismRateAllFollowup,
+            sourceFileName: "supervision_recidivism_rates_by_cohort_by_year",
+            rootStore,
+          })
+        );
+        break;
+      case "ProbationRecidivismRateSingleFollowupHistorical":
+        metricMapping.set(
+          metricType,
+          new RecidivismRateMetric({
+            ...metadata,
+            demographicFilter,
+            demographicLabels,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: "total",
+            followUpYears: 3,
+            returnType: "ALL",
+            defaultLocalityId: undefined,
+            localityLabels: undefined,
+            dataTransformer: probationRecidivismRateConventionalFollowup,
+            sourceFileName: "supervision_recidivism_rates_by_cohort_by_year",
+            rootStore,
+          })
+        );
+        break;
+      case "ParoleRecidivismRateHistorical":
+        metricMapping.set(
+          metricType,
+          new RecidivismRateMetric({
+            ...metadata,
+            demographicFilter,
+            demographicLabels,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: "total",
+            returnType: "ALL",
+            defaultLocalityId: undefined,
+            localityLabels: undefined,
+            dataTransformer: paroleRecidivismRateAllFollowup,
+            sourceFileName: "supervision_recidivism_rates_by_cohort_by_year",
+            rootStore,
+          })
+        );
+        break;
+      case "ParoleRecidivismRateSingleFollowupHistorical":
+        metricMapping.set(
+          metricType,
+          new RecidivismRateMetric({
+            ...metadata,
+            demographicFilter,
+            demographicLabels,
+            id: metricType,
+            tenantId,
+            defaultDemographicView: "total",
+            followUpYears: 3,
+            returnType: "ALL",
+            defaultLocalityId: undefined,
+            localityLabels: undefined,
+            dataTransformer: paroleRecidivismRateConventionalFollowup,
+            sourceFileName: "supervision_recidivism_rates_by_cohort_by_year",
             rootStore,
           })
         );

@@ -77,6 +77,23 @@ different state.</p>`;
 const paroleOfficerBoilerplate = `<p>The offices associated with this data indicate individuals
 who are being supervised by a parole officer stationed in that office.</p>`;
 
+const supervisionRecidivismBoilerplate = (supervision: "probation" | "parole") =>
+  `<p>This data reports recidivism rates for people who successfully completed ${supervision},
+  meaning their ${supervision} ended in a discharge or expiration and they were not
+  immediately incarcerated or placed on another period of DOCR supervision. Completions are
+  grouped by the calendar year of the person's first day after ${supervision} ended, and the
+  rates are calculated as the percentage of those people who began a new period of DOCR
+  supervision or were admitted to a DOCR facility within each year since that day. If a
+  person completed ${supervision} more than once in a calendar year, only their first
+  completion that year is counted.</p>
+  <p>Returns to prison and returns to supervision can also be viewed separately using the
+  return filter above the chart. Each person is counted by the first place they returned to. Admissions to
+  incarceration for temporary custody or parole board holds are not counted as returns.</p>
+  <p>Individuals supervised under the interstate compact program are not included, because
+  the state that sentenced them determines the outcome of their supervision. Individuals
+  serving probation and parole at the same time are also not included. This data does not
+  include returns to county jails.</p>`;
+
 const supervisionBoilerplate = `<p>This data may include some individuals on probation or parole in
 North Dakota as part of the interstate compact program, in which North Dakota agrees to supervise
 individuals who were charged and sentenced in a different state, but have a compelling reason to
@@ -283,6 +300,28 @@ const content: TenantContent = {
       </p> ${demographicsBoilerplate}
         ${probationBoilerplate} ${probationDistrictBoilerplate}`,
     },
+    ProbationRecidivismRateHistorical: {
+      name: "Cumulative Recidivism Rates After Probation",
+      methodology: `${supervisionRecidivismBoilerplate("probation")}
+        ${demographicsBoilerplate}`,
+    },
+    ProbationRecidivismRateSingleFollowupHistorical: {
+      name: "Recidivism Rates After Probation Over Time",
+      methodology: `<p>This data reports the recidivism rate for a set number of years after completing probation, for each completion cohort.</p>
+        ${supervisionRecidivismBoilerplate("probation")}
+        ${demographicsBoilerplate}`,
+    },
+    ParoleRecidivismRateHistorical: {
+      name: "Cumulative Recidivism Rates After Parole",
+      methodology: `${supervisionRecidivismBoilerplate("parole")}
+        ${demographicsBoilerplate}`,
+    },
+    ParoleRecidivismRateSingleFollowupHistorical: {
+      name: "Recidivism Rates After Parole Over Time",
+      methodology: `<p>This data reports the recidivism rate for a set number of years after completing parole, for each completion cohort.</p>
+        ${supervisionRecidivismBoilerplate("parole")}
+        ${demographicsBoilerplate}`,
+    },
     ParolePopulationCurrent: {
       name: "Current Parole Population",
       methodology: `<p>This data includes people currently on parole in North Dakota.</p>
@@ -451,6 +490,18 @@ const content: TenantContent = {
           metricTypeId: "ProbationTerminationsHistorical",
         },
         {
+          title: "How many people return after completing probation?",
+          body:
+            "Some people who successfully complete probation later return to the justice system, either on a new period of supervision or in prison. This chart shows the proportion of people who return at some point after completing probation.<p><strong>Note:</strong> Race or Ethnicity, Gender, and Age Group views are disabled unless a single Cohort is selected.</p>",
+          metricTypeId: "ProbationRecidivismRateHistorical",
+        },
+        {
+          title: "How has the rate of return after probation changed over time?",
+          body:
+            "We can also observe the rate of return over time for a given number of years after completing probation.",
+          metricTypeId: "ProbationRecidivismRateSingleFollowupHistorical",
+        },
+        {
           title: "Why do revocations happen?",
           body:
             "Revocations happen when a person on probation violates a condition of their supervision or commits a new crime. In North Dakota, probation revocations fall into one of three categories: technical violation, new offense, and absconsion. This chart shows the revocation reasons for all individuals who have been on probation in the past three years.",
@@ -488,6 +539,18 @@ const content: TenantContent = {
           body:
             "After parole, a person may be successfully discharged or revoked to prison. Take a look at how the rate of successful parole completion has changed over time, and how the overall rate of successful parole completion varies by demographic.",
           metricTypeId: "ParoleTerminationsHistorical",
+        },
+        {
+          title: "How many people return after completing parole?",
+          body:
+            "Some people who successfully complete parole later return to the justice system, either on a new period of supervision or in prison. This chart shows the proportion of people who return at some point after completing parole.<p><strong>Note:</strong> Race or Ethnicity, Gender, and Age Group views are disabled unless a single Cohort is selected.</p>",
+          metricTypeId: "ParoleRecidivismRateHistorical",
+        },
+        {
+          title: "How has the rate of return after parole changed over time?",
+          body:
+            "We can also observe the rate of return over time for a given number of years after completing parole.",
+          metricTypeId: "ParoleRecidivismRateSingleFollowupHistorical",
         },
         {
           title: "Why do revocations happen?",

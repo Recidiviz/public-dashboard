@@ -34,6 +34,10 @@ function getTestMetric(id: MetricTypeId) {
         testMetadataMapping.PrisonRecidivismRateHistorical,
       PrisonRecidivismRateSingleFollowupHistorical:
         testMetadataMapping.PrisonRecidivismRateSingleFollowupHistorical,
+      ParoleRecidivismRateHistorical:
+        testMetadataMapping.ParoleRecidivismRateHistorical,
+      ProbationRecidivismRateSingleFollowupHistorical:
+        testMetadataMapping.ProbationRecidivismRateSingleFollowupHistorical,
     },
     tenantId: testTenantId,
     demographicFilter: contentFixture.demographicCategories,
@@ -348,5 +352,141 @@ describe("demographic breakdowns", () => {
     });
 
     expect.hasAssertions();
+  });
+});
+
+describe("supervision recidivism", () => {
+  function supervisionRecord({
+    supervisionType,
+    returnType,
+    followupYears,
+    recidivatedReleases,
+  }: {
+    supervisionType: string;
+    returnType: string;
+    followupYears: number;
+    recidivatedReleases: number;
+  }) {
+    return {
+      state_code: "US_DEMO",
+      supervision_type: supervisionType,
+      return_type: returnType,
+      gender: "ALL",
+      age_bucket: "ALL",
+      race_or_ethnicity: "ALL",
+      releases: "100",
+      release_cohort: "2018",
+      followup_years: `${followupYears}`,
+      recidivism_rate: `${recidivatedReleases / 100}`,
+      recidivated_releases: `${recidivatedReleases}`,
+    };
+  }
+
+  function mockSupervisionResponse() {
+    fetchMock.mockOnce(
+      JSON.stringify({
+        supervision_recidivism_rates_by_cohort_by_year: [1, 2, 3].flatMap(
+          (followupYears) => [
+            supervisionRecord({
+              supervisionType: "PAROLE",
+              returnType: "ALL",
+              followupYears,
+              recidivatedReleases: 30 + followupYears,
+            }),
+            supervisionRecord({
+              supervisionType: "PAROLE",
+              returnType: "INCARCERATION",
+              followupYears,
+              recidivatedReleases: 10 + followupYears,
+            }),
+            supervisionRecord({
+              supervisionType: "PAROLE",
+              returnType: "SUPERVISION",
+              followupYears,
+              recidivatedReleases: 20,
+            }),
+            supervisionRecord({
+              supervisionType: "PROBATION",
+              returnType: "ALL",
+              followupYears,
+              recidivatedReleases: 5 + followupYears,
+            }),
+            supervisionRecord({
+              supervisionType: "PROBATION",
+              returnType: "INCARCERATION",
+              followupYears,
+              recidivatedReleases: 1,
+            }),
+            supervisionRecord({
+              supervisionType: "PROBATION",
+              returnType: "SUPERVISION",
+              followupYears,
+              recidivatedReleases: 4 + followupYears,
+            }),
+          ],
+        ),
+      }),
+    );
+  }
+
+  test("shows only the page's supervision type and any return by default", async () => {
+    mockSupervisionResponse();
+    const metric = await getPopulatedMetric("ParoleRecidivismRateHistorical");
+
+    reactImmediately(() => {
+      expect(metric.returnType).toBe("ALL");
+      expect(
+        metric.records?.map(({ followupYears, rateNumerator }) => [
+          followupYears,
+          rateNumerator,
+        ]),
+      ).toEqual([
+        [1, 31],
+        [2, 32],
+        [3, 33],
+      ]);
+    });
+
+    expect.hasAssertions();
+  });
+
+  test("filters records by return type", async () => {
+    mockSupervisionResponse();
+    const metric = await getPopulatedMetric("ParoleRecidivismRateHistorical");
+
+    runInAction(() => {
+      metric.returnType = "INCARCERATION";
+    });
+
+    reactImmediately(() => {
+      expect(metric.records?.map(({ rateNumerator }) => rateNumerator)).toEqual(
+        [11, 12, 13],
+      );
+    });
+
+    expect.hasAssertions();
+  });
+
+  test("single followup only offers periods present in the data", async () => {
+    mockSupervisionResponse();
+    const metric = await getPopulatedMetric(
+      "ProbationRecidivismRateSingleFollowupHistorical",
+    );
+
+    reactImmediately(() => {
+      expect(metric.followUpYears).toBe(3);
+      expect(metric.maxFollowupPeriod).toBe(3);
+      expect(metric.records?.map(({ rateNumerator }) => rateNumerator)).toEqual(
+        [8],
+      );
+    });
+
+    expect.hasAssertions();
+  });
+
+  test("prison metrics have no return type filter", () => {
+    const metric = getTestMetric("PrisonRecidivismRateHistorical");
+
+    expect(metric.returnType).toBeUndefined();
   });
 });
