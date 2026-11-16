@@ -28,8 +28,7 @@ jobs:
           node-version-file: ".nvmrc"
       - name: upgrade yarn
         run: |
-          corepack enable 
-          yarn set version stable
+          corepack enable
       - name: Install dependencies
         run: yarn install --immutable
       - name: Build
