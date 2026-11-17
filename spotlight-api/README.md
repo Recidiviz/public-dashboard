@@ -65,7 +65,7 @@ The API server app can be run locally, in staging, and in production. Deploying 
 
 ### Pre-requisites
 
-This application is deployed to Google App Engine. To have deploy access, you need to be an admin on the backend Google Cloud Platform project.
+This application is deployed to Google App Engine. To have deploy access, you need to request elevated permissions on the target Google Cloud Platform project. **Note that this backend, unlike the frontend, lives on the same GCP projects as our staff app backends, not the public-dashboard or Spotlight projects.**
 
 Once you have the required permissions, you can set up your environment for deploys by following [these instructions](https://cloud.google.com/appengine/docs/standard/nodejs/setting-up-environment).
 
