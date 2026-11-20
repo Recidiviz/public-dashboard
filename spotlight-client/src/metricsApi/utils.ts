@@ -32,7 +32,10 @@ export function extractDemographicFields(
   return {
     // we are trusting the API to return valid strings here, not validating them
     raceOrEthnicity: record.race_or_ethnicity as RaceIdentifier,
-    gender: record.gender as GenderIdentifier,
+    // The public dashboard BigQuery views renamed the `gender` column to `sex`
+    // (see Recidiviz/public-dashboard#686); prefer `sex` when it is present
+    // and fall back to `gender` for views that have not been migrated yet.
+    gender: (record.sex ?? record.gender) as GenderIdentifier,
     ageBucket: record.age_bucket as AgeIdentifier,
   };
 }
