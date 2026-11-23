@@ -1,0 +1,247 @@
+name: Dependency bump auto-merge
+# Approves and merges routine dependency bumps from Dependabot, the Claude bot
+# and Aikido AutoFix under one set of rules.
+#
+# The approve job runs on each PR event. It dismisses HelperBot's earlier
+# approvals, then approves the head commit only if
+# .github/scripts/dependency_bump_gate.js passes it. The gate runs from the
+# base commit, so a PR cannot change the rules that judge it, and no PR code is
+# checked out.
+#
+# The merge job runs on a schedule. It merges a bot PR only when HelperBot
+# approved its exact head commit and every check on that commit has passed,
+# and pins the merge to that commit with expectedHeadOid. It does not use
+# GitHub's auto-merge, which would merge whatever commit is head when the
+# required checks pass. Do not trigger it on workflow_run of CI workflows;
+# those finish for every PR, and each run would boot a runner only to find no
+# bump PR to merge.
+on:
+  pull_request:
+    # labeled lets a Claude PR qualify when "Type: Dependency Upgrade" is
+    # added after the PR is opened.
+    types: [opened, synchronize, reopened, ready_for_review, labeled]
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # Keep in sync with SOURCES in .github/scripts/dependency_bump_gate.js.
+  BOT_AUTHORS: '["dependabot[bot]", "claude[bot]", "aikido-autofix[bot]"]'
+
+jobs:
+  approve:
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      !github.event.pull_request.draft &&
+      contains(fromJSON('["dependabot[bot]", "claude[bot]", "aikido-autofix[bot]"]'), github.event.pull_request.user.login) &&
+      (github.event.action != 'labeled' || github.event.label.name == 'Type: Dependency Upgrade')
+    concurrency:
+      group: dependency-bump-approve-${{ github.event.pull_request.number }}
+      cancel-in-progress: false
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
+        with:
+          egress-policy: audit
+
+      # Branch protection keeps approvals across pushes, so before checking a
+      # new commit, turn off any auto-merge and dismiss HelperBot's approvals.
+      # A push the gate rejects then cannot merge on an earlier approval; one
+      # it accepts is approved again below.
+      - name: Withdraw earlier auto-merge and approval
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+        with:
+          github-token: ${{ secrets.HELPERBOT_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            const { data: current } = await github.rest.pulls.get({ owner, repo, pull_number: pr.number });
+            if (current.auto_merge) {
+              await github.graphql(
+                "mutation($id: ID!) { disablePullRequestAutoMerge(input: { pullRequestId: $id }) { clientMutationId } }",
+                { id: current.node_id },
+              );
+              core.notice("Disabled auto-merge.");
+            }
+            const { data: me } = await github.rest.users.getAuthenticated();
+            const reviews = await github.paginate(github.rest.pulls.listReviews, {
+              owner,
+              repo,
+              pull_number: pr.number,
+              per_page: 100,
+            });
+            for (const r of reviews) {
+              if (r.user?.login !== me.login || r.state !== "APPROVED") continue;
+              await github.rest.pulls.dismissReview({
+                owner,
+                repo,
+                pull_number: pr.number,
+                review_id: r.id,
+                message: "A new commit needs the dependency-bump checks again.",
+              });
+              core.notice(`Dismissed HelperBot approval ${r.id}.`);
+            }
+
+      - name: Check out the gate from the base commit
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          sparse-checkout: .github/scripts
+          persist-credentials: false
+
+      - name: Approve if the gate passes
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+        with:
+          github-token: ${{ secrets.HELPERBOT_TOKEN }}
+          script: |
+            const gate = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/dependency_bump_gate.js`);
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            const headSha = pr.head.sha;
+            const list = (fn) => github.paginate(fn, { owner, repo, pull_number: pr.number, per_page: 100 });
+            const getPr = async () => (await github.rest.pulls.get({ owner, repo, pull_number: pr.number })).data;
+
+            // Read the PR before and after its files and commits, so the gate
+            // sees a head that did not move while they were read.
+            const before = await getPr();
+            const files = await list(github.rest.pulls.listFiles);
+            const commits = await list(github.rest.pulls.listCommits);
+            const current = await getPr();
+            const dependencies =
+              pr.user.login === "dependabot[bot]" && commits.length > 0
+                ? gate.parseDependabotDependencies({
+                    title: current.title,
+                    message: commits[0].commit.message,
+                    headRef: current.head.ref,
+                  })
+                : null;
+
+            const reason = gate.checkPr({
+              author: current.user.login,
+              title: current.title,
+              labels: current.labels.map((l) => l.name),
+              state: current.state,
+              draft: current.draft,
+              head_sha: before.head.sha === current.head.sha ? current.head.sha : null,
+              event_head_sha: headSha,
+              event: { action: context.payload.action, actor: context.actor },
+              dependencies,
+              files,
+              commits: commits.map((c) => ({
+                sha: c.sha,
+                author: c.author?.login ?? null,
+                verified: Boolean(c.commit.verification?.verified),
+              })),
+            });
+            if (reason) {
+              core.notice(`Not approving: ${reason}.`);
+              return;
+            }
+
+            const { data: me } = await github.rest.users.getAuthenticated();
+            const reviews = await list(github.rest.pulls.listReviews);
+            if (reviews.some((r) => r.user?.login === me.login && r.state === "APPROVED" && r.commit_id === headSha)) {
+              core.notice("Already approved at this commit.");
+              return;
+            }
+            await github.rest.pulls.createReview({
+              owner,
+              repo,
+              pull_number: pr.number,
+              commit_id: headSha,
+              event: "APPROVE",
+              body: "HelperBot is automatically approving this dependency bump: it passed the checks in .github/scripts/dependency_bump_gate.js. dependency-bump-automerge.yml merges it once every check on this commit passes.",
+            });
+
+  merge:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    concurrency:
+      group: dependency-bump-merge
+      cancel-in-progress: false
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
+        with:
+          egress-policy: audit
+
+      - name: Merge approved PRs whose checks have all passed
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+        with:
+          github-token: ${{ secrets.HELPERBOT_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo;
+            const PASSING = new Set(["success", "skipped", "neutral"]);
+            const AUTHORS = new Set(JSON.parse(process.env.BOT_AUTHORS));
+            const { data: me } = await github.rest.users.getAuthenticated();
+
+            const prs = (
+              await github.paginate(github.rest.pulls.list, { owner, repo, state: "open", per_page: 100 })
+            ).filter(
+              (pr) => AUTHORS.has(pr.user?.login) && pr.head.repo?.full_name === `${owner}/${repo}` && !pr.draft,
+            );
+
+            for (const pr of prs) {
+              const sha = pr.head.sha;
+              const label = `#${pr.number} at ${sha.slice(0, 8)}`;
+
+              const reviews = await github.paginate(github.rest.pulls.listReviews, {
+                owner,
+                repo,
+                pull_number: pr.number,
+                per_page: 100,
+              });
+              if (!reviews.some((r) => r.user?.login === me.login && r.state === "APPROVED" && r.commit_id === sha)) {
+                core.info(`${label}: HelperBot has not approved this commit; skipping.`);
+                continue;
+              }
+
+              // Every check on the commit must have finished and passed. A
+              // check that ran more than once (the label check reruns when a
+              // label is added) counts by its latest run.
+              const runs = await github.paginate(github.rest.checks.listForRef, {
+                owner,
+                repo,
+                ref: sha,
+                per_page: 100,
+              });
+              const latest = new Map();
+              for (const run of runs) {
+                const prev = latest.get(run.name);
+                if (!prev || run.id > prev.id) latest.set(run.name, run);
+              }
+              const notPassing = [...latest.values()].filter(
+                (run) => run.status !== "completed" || !PASSING.has(run.conclusion),
+              );
+              const { data: status } = await github.rest.repos.getCombinedStatusForRef({ owner, repo, ref: sha });
+              const statusNotPassing = status.statuses.filter((s) => s.state !== "success");
+              if (latest.size === 0 || notPassing.length > 0 || statusNotPassing.length > 0) {
+                const names = [...notPassing.map((r) => r.name), ...statusNotPassing.map((s) => s.context)];
+                core.info(`${label}: waiting on ${names.join(", ") || "checks to start"}.`);
+                continue;
+              }
+
+              const { data: current } = await github.rest.pulls.get({ owner, repo, pull_number: pr.number });
+              if (current.head.sha !== sha || current.state !== "open" || current.draft) {
+                core.info(`${label}: the PR changed while checking; leaving it for the next run.`);
+                continue;
+              }
+              try {
+                await github.graphql(
+                  `mutation($id: ID!, $oid: GitObjectID!) {
+                    mergePullRequest(input: { pullRequestId: $id, mergeMethod: SQUASH, expectedHeadOid: $oid }) {
+                      clientMutationId
+                    }
+                  }`,
+                  { id: current.node_id, oid: sha },
+                );
+                core.notice(`${label}: merged.`);
+              } catch (e) {
+                core.warning(`${label}: merge refused: ${e.message}`);
+              }
+            }
