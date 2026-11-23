@@ -47,7 +47,7 @@
     "@types/react-modal": "^3.16.3",
     "@types/react-portal": "^4.0.7",
     "@types/react-simple-maps": "^1.0.3",
-    "@types/styled-components": "^5.1.36",
+    "@types/styled-components": "5.1.32",
     "@types/topojson": "^3.2.6",
     "@vx/pattern": "^0.0.199",
     "@w11r/use-breakpoint": "^1.8.0",
@@ -59,7 +59,7 @@
     "d3-color": "^2.0.0",
     "d3-dsv": "^2.0.0",
     "d3-force": "^2.1.1",
-    "d3-force-limit": "^1.2.2",
+    "d3-force-limit": "~1.1.8",
     "d3-format": "^2.0.0",
     "d3-geo": "^2.0.2",
     "d3-interpolate": "^2.0.1",
@@ -168,7 +168,8 @@
     }
   },
   "resolutions": {
-    "node-notifier": "^8.0.1"
+    "node-notifier": "^8.0.1",
+    "dom-accessibility-api": "0.5.5"
   },
   "packageManager": "yarn@4.14.1"
 }

@@ -5527,14 +5527,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/styled-components@npm:^5.1.36":
-  version: 5.1.36
-  resolution: "@types/styled-components@npm:5.1.36"
+"@types/styled-components@npm:5.1.32":
+  version: 5.1.32
+  resolution: "@types/styled-components@npm:5.1.32"
   dependencies:
     "@types/hoist-non-react-statics": "npm:*"
     "@types/react": "npm:*"
-    csstype: "npm:^3.2.2"
-  checksum: 10c0/bbbf65e22a852a5bc3e1839aa591372febe084e33b8d4f44712f790e0675df9f5a327c6c6a262bbf5fd08032afe2ac9b265de92c72efca0bfa5dea09d7127c28
+    csstype: "npm:^3.0.2"
+  checksum: 10c0/eae113f504a5c3803cac2be32c04c1e447603b4cd41ee013545aa4932a32b787622650a84f800dd491ecd2bc3c0289481cfa87fc379439517df48bf2b474d348
   languageName: node
   linkType: hard
 
@@ -8494,13 +8494,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csstype@npm:^3.2.2":
-  version: 3.2.3
-  resolution: "csstype@npm:3.2.3"
-  checksum: 10c0/cd29c51e70fa822f1cecd8641a1445bed7063697469d35633b516e60fe8c1bde04b08f6c5b6022136bb669b64c63d4173af54864510fbb4ee23281801841a3ce
-  languageName: node
-  linkType: hard
-
 "d3-array@npm:1, d3-array@npm:^1.1.1, d3-array@npm:^1.2.0, d3-array@npm:^1.2.1":
   version: 1.2.4
   resolution: "d3-array@npm:1.2.4"
@@ -8655,10 +8648,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-force-limit@npm:^1.2.2":
-  version: 1.2.2
-  resolution: "d3-force-limit@npm:1.2.2"
-  checksum: 10c0/9195f5c6e53d2a942f93164bd05c3b9505f6e63515cf32195855b80baf612c25448646b2a89bd0269568c87cb2aca75be2baa7121d611926cb5fc4525a0d23b0
+"d3-force-limit@npm:~1.1.8":
+  version: 1.1.8
+  resolution: "d3-force-limit@npm:1.1.8"
+  checksum: 10c0/a13771e35c4efda96aa4dcc54c7c437df783cbdbad37a2ec0ecd70e9914a9b29caec8a6591564f8311646327baa1fcdfa6b0e9ffea8f284104b5a48407203a60
   languageName: node
   linkType: hard
 
@@ -9283,10 +9276,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dom-accessibility-api@npm:^0.5.6":
-  version: 0.5.16
-  resolution: "dom-accessibility-api@npm:0.5.16"
-  checksum: 10c0/b2c2eda4fae568977cdac27a9f0c001edf4f95a6a6191dfa611e3721db2478d1badc01db5bb4fa8a848aeee13e442a6c2a4386d65ec65a1436f24715a2f8d053
+"dom-accessibility-api@npm:0.5.5":
+  version: 0.5.5
+  resolution: "dom-accessibility-api@npm:0.5.5"
+  checksum: 10c0/8a93963f78c02549518a9c6c6986e87e4675297153a492e5f5d61da8fd51b0b4bf2e995578a780d3ff34177b460c63669e911ae4339574b8b1291d72be6c6f59
   languageName: node
   linkType: hard
 
@@ -17690,7 +17683,7 @@ __metadata:
     "@types/react-modal": "npm:^3.16.3"
     "@types/react-portal": "npm:^4.0.7"
     "@types/react-simple-maps": "npm:^1.0.3"
-    "@types/styled-components": "npm:^5.1.36"
+    "@types/styled-components": "npm:5.1.32"
     "@types/topojson": "npm:^3.2.6"
     "@typescript-eslint/eslint-plugin": "npm:^8.73.0"
     "@typescript-eslint/parser": "npm:^8.73.0"
@@ -17705,7 +17698,7 @@ __metadata:
     d3-color: "npm:^2.0.0"
     d3-dsv: "npm:^2.0.0"
     d3-force: "npm:^2.1.1"
-    d3-force-limit: "npm:^1.2.2"
+    d3-force-limit: "npm:~1.1.8"
     d3-format: "npm:^2.0.0"
     d3-geo: "npm:^2.0.2"
     d3-interpolate: "npm:^2.0.1"
