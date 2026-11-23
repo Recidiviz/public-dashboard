@@ -1,0 +1,34 @@
+# Dependabot version updates. Options reference:
+# https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference
+#
+# Minor and patch bumps are grouped into one weekly PR per ecosystem and
+# directory, which .github/workflows/dependency-bump-automerge.yml approves and
+# merges once CI passes, if the PR passes .github/scripts/dependency_bump_gate.js.
+# Major bumps are not proposed: a major bump is a migration that a person plans.
+# Security updates are configured separately in the repository's Code security
+# settings, and the ignore rule below does not apply to them.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directories:
+      - "/"
+      - "/spotlight-api"
+      - "/spotlight-client"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    # A release must be 7 days old before Dependabot proposes it, which gives
+    # the registry time to pull a compromised version. It also matches the
+    # StepSecurity cooldown check on npm PRs.
+    cooldown:
+      default-days: 7
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      npm-minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
