@@ -136,7 +136,11 @@ function isSameMajorUpgrade(
 const AIKIDO_TITLE =
   /^\[Aikido\] Fix (?:security issue|\d+ security issues) in (\S+) via (?:patch|minor) version upgrade from v?(\d+)\.\S* to v?(\d+)\.\S*(?: in \S+)?$/;
 // Dependabot titles a single bump like "Bump dnspython from 2.9.0 to 2.9.2 in /apps/@reentry/backend".
-const DEPENDABOT_TITLE = /^Bump (\S+) from (\S+) to (\S+)(?: in \S+)?$/;
+// In a repo whose history uses conventional commits it adds a prefix and
+// lowercases the verb: "build(deps): bump qs from 6.16.0 to 6.17.1 in /app".
+// A pip requirement reads "update celery requirement from ~=5.4.0 to ~=5.7.0".
+const DEPENDABOT_TITLE =
+  /^(?:[\w-]+(?:\([\w-]+\))?!?: )?(?:[Bb]ump (\S+)|[Uu]pdate (\S+) requirement) from (\S+) to (\S+)(?: in \S+)?$/;
 
 const reject = (code, message) => `[${code}] ${message}`;
 
@@ -157,7 +161,11 @@ function parseDependabotDependencies({ title, message, headRef }) {
   const ecosystem = /^dependabot\/([^/]+)\//.exec(headRef)?.[1] ?? null;
   const dependencies = [];
   for (const entry of block[1].split(/^- /m).slice(1)) {
-    const name = /^dependency-name: (\S+)$/m.exec(entry)?.[1];
+    // YAML quotes a name that starts with "@", so a scoped npm package reads
+    // dependency-name: "@linear/sdk". The quotes are not part of the name.
+    const name = /^dependency-name: (\S+)$/m
+      .exec(entry)?.[1]
+      ?.replace(/^(["'])(.+)\1$/, "$2");
     if (!name) return null;
     const updateType =
       /^\s*update-type: (\S+)$/m.exec(entry)?.[1] ??
@@ -176,7 +184,7 @@ function parseDependabotDependencies({ title, message, headRef }) {
 function updateTypeFromVersions(title, message, name) {
   const pairs = [];
   const t = DEPENDABOT_TITLE.exec(title);
-  if (t && t[1] === name) pairs.push([t[2], t[3]]);
+  if (t && (t[1] ?? t[2]) === name) pairs.push([t[3], t[4]]);
   for (const line of message.split("\n")) {
     const m = /^Updates `([^`]+)` from (\S+) to (\S+)$/.exec(line);
     if (m && m[1] === name) pairs.push([m[2], m[3]]);
