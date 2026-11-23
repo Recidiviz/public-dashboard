@@ -101,6 +101,22 @@ updated-dependencies:
     }),
     null,
   );
+  const scoped =
+    'Bump @linear/sdk from 88.0.0 to 88.3.0\n\n---\nupdated-dependencies:\n- dependency-name: "@linear/sdk"\n  dependency-version: 88.3.0\n  dependency-type: direct:production\n...\n';
+  assert.deepEqual(
+    parseDependabotDependencies({
+      title: "Bump @linear/sdk from 88.0.0 to 88.3.0",
+      message: scoped,
+      headRef: "dependabot/npm_and_yarn/linear/sdk-88.3.0",
+    }),
+    [
+      {
+        dependencyName: "@linear/sdk",
+        updateType: "version-update:semver-minor",
+        packageEcosystem: "npm_and_yarn",
+      },
+    ],
+  );
 });
 
 test("accepts more real manifest and lockfile shapes", () => {

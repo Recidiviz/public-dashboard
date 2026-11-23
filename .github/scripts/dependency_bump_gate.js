@@ -157,7 +157,11 @@ function parseDependabotDependencies({ title, message, headRef }) {
   const ecosystem = /^dependabot\/([^/]+)\//.exec(headRef)?.[1] ?? null;
   const dependencies = [];
   for (const entry of block[1].split(/^- /m).slice(1)) {
-    const name = /^dependency-name: (\S+)$/m.exec(entry)?.[1];
+    // YAML quotes a name that starts with "@", so a scoped npm package reads
+    // dependency-name: "@linear/sdk". The quotes are not part of the name.
+    const name = /^dependency-name: (\S+)$/m
+      .exec(entry)?.[1]
+      ?.replace(/^(["'])(.+)\1$/, "$2");
     if (!name) return null;
     const updateType =
       /^\s*update-type: (\S+)$/m.exec(entry)?.[1] ??
