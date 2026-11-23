@@ -94,6 +94,20 @@ updated-dependencies:
   );
   assert.equal(parse("Bump something else"), null);
   assert.equal(
+    parse("build(deps): bump dnspython from 2.9.0 to 2.9.2 in /apps/backend"),
+    "version-update:semver-patch",
+  );
+  assert.equal(
+    parse("chore(deps)!: bump dnspython from 2.9.0 to 3.0.0"),
+    "version-update:semver-major",
+  );
+  assert.equal(
+    parse(
+      "build(deps): update dnspython requirement from ~=2.8.0 to ~=2.9.2 in /app",
+    ),
+    "version-update:semver-minor",
+  );
+  assert.equal(
     parseDependabotDependencies({
       title: "x",
       message: "no block",
