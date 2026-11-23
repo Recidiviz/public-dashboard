@@ -2,15 +2,21 @@ name: Dependency bump auto-merge
 # Approves and merges routine dependency bumps from Dependabot, the Claude bot
 # and Aikido AutoFix under one set of rules.
 #
-# The approve job runs on each PR event. It dismisses HelperBot's earlier
+# This copy approves and merges with the workflow's GITHUB_TOKEN, as
+# github-actions[bot], because a public repo cannot read the org
+# HELPERBOT_TOKEN secret. A merge made with GITHUB_TOKEN does not start other
+# workflows, so push-triggered workflows do not run for these merges.
+#
+# The approve job runs on each PR event. It dismisses its own earlier
 # approvals, then approves the head commit only if
 # .github/scripts/dependency_bump_gate.js passes it. The gate runs from the
 # base commit, so a PR cannot change the rules that judge it, and no PR code is
 # checked out.
 #
-# The merge job runs on a schedule. It merges a bot PR only when HelperBot
-# approved its exact head commit and every check on that commit has passed,
-# and pins the merge to that commit with expectedHeadOid. It does not use
+# The merge job runs on a schedule. It merges a bot PR only when
+# github-actions[bot] approved its exact head commit and every check on that
+# commit has passed, and pins the merge to that commit with expectedHeadOid.
+# It does not use
 # GitHub's auto-merge, which would merge whatever commit is head when the
 # required checks pass. Do not trigger it on workflow_run of CI workflows;
 # those finish for every PR, and each run would boot a runner only to find no
@@ -30,10 +36,16 @@ permissions:
 env:
   # Keep in sync with SOURCES in .github/scripts/dependency_bump_gate.js.
   BOT_AUTHORS: '["dependabot[bot]", "claude[bot]", "aikido-autofix[bot]"]'
+  # The login that GITHUB_TOKEN reviews as. GITHUB_TOKEN cannot call
+  # users.getAuthenticated, so the login is set here.
+  APPROVER_LOGIN: github-actions[bot]
 
 jobs:
   approve:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     if: >-
       github.event_name == 'pull_request' &&
       github.event.pull_request.head.repo.full_name == github.repository &&
@@ -50,13 +62,13 @@ jobs:
           egress-policy: audit
 
       # Branch protection keeps approvals across pushes, so before checking a
-      # new commit, turn off any auto-merge and dismiss HelperBot's approvals.
+      # new commit, turn off any auto-merge and dismiss this workflow's approvals.
       # A push the gate rejects then cannot merge on an earlier approval; one
       # it accepts is approved again below.
       - name: Withdraw earlier auto-merge and approval
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
         with:
-          github-token: ${{ secrets.HELPERBOT_TOKEN }}
+          github-token: ${{ github.token }}
           script: |
             const { owner, repo } = context.repo;
             const pr = context.payload.pull_request;
@@ -68,7 +80,7 @@ jobs:
               );
               core.notice("Disabled auto-merge.");
             }
-            const { data: me } = await github.rest.users.getAuthenticated();
+            const me = { login: process.env.APPROVER_LOGIN };
             const reviews = await github.paginate(github.rest.pulls.listReviews, {
               owner,
               repo,
@@ -84,7 +96,7 @@ jobs:
                 review_id: r.id,
                 message: "A new commit needs the dependency-bump checks again.",
               });
-              core.notice(`Dismissed HelperBot approval ${r.id}.`);
+              core.notice(`Dismissed approval ${r.id}.`);
             }
 
       - name: Check out the gate from the base commit
@@ -97,7 +109,7 @@ jobs:
       - name: Approve if the gate passes
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
         with:
-          github-token: ${{ secrets.HELPERBOT_TOKEN }}
+          github-token: ${{ github.token }}
           script: |
             const gate = require(`${process.env.GITHUB_WORKSPACE}/.github/scripts/dependency_bump_gate.js`);
             const { owner, repo } = context.repo;
@@ -143,7 +155,7 @@ jobs:
               return;
             }
 
-            const { data: me } = await github.rest.users.getAuthenticated();
+            const me = { login: process.env.APPROVER_LOGIN };
             const reviews = await list(github.rest.pulls.listReviews);
             if (reviews.some((r) => r.user?.login === me.login && r.state === "APPROVED" && r.commit_id === headSha)) {
               core.notice("Already approved at this commit.");
@@ -155,11 +167,16 @@ jobs:
               pull_number: pr.number,
               commit_id: headSha,
               event: "APPROVE",
-              body: "HelperBot is automatically approving this dependency bump: it passed the checks in .github/scripts/dependency_bump_gate.js. dependency-bump-automerge.yml merges it once every check on this commit passes.",
+              body: "GitHub Actions is automatically approving this dependency bump: it passed the checks in .github/scripts/dependency_bump_gate.js. dependency-bump-automerge.yml merges it once every check on this commit passes.",
             });
 
   merge:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: read
+      statuses: read
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     concurrency:
       group: dependency-bump-merge
@@ -173,12 +190,12 @@ jobs:
       - name: Merge approved PRs whose checks have all passed
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
         with:
-          github-token: ${{ secrets.HELPERBOT_TOKEN }}
+          github-token: ${{ github.token }}
           script: |
             const { owner, repo } = context.repo;
             const PASSING = new Set(["success", "skipped", "neutral"]);
             const AUTHORS = new Set(JSON.parse(process.env.BOT_AUTHORS));
-            const { data: me } = await github.rest.users.getAuthenticated();
+            const me = { login: process.env.APPROVER_LOGIN };
 
             const prs = (
               await github.paginate(github.rest.pulls.list, { owner, repo, state: "open", per_page: 100 })
@@ -197,7 +214,7 @@ jobs:
                 per_page: 100,
               });
               if (!reviews.some((r) => r.user?.login === me.login && r.state === "APPROVED" && r.commit_id === sha)) {
-                core.info(`${label}: HelperBot has not approved this commit; skipping.`);
+                core.info(`${label}: github-actions[bot] has not approved this commit; skipping.`);
                 continue;
               }
 
