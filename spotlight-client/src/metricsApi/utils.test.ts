@@ -16,7 +16,38 @@
 // =============================================================================
 
 import { LocalityFields } from "./types";
-import { recordMatchesLocality } from "./utils";
+import { extractDemographicFields, recordMatchesLocality } from "./utils";
+
+describe("extractDemographicFields", () => {
+  const baseRecord = {
+    race_or_ethnicity: "HISPANIC",
+    age_bucket: "25-29",
+  };
+
+  test("prefers the sex column over gender", () => {
+    expect(
+      extractDemographicFields({
+        ...baseRecord,
+        sex: "FEMALE",
+        gender: "MALE",
+      })
+    ).toEqual({
+      raceOrEthnicity: "HISPANIC",
+      gender: "FEMALE",
+      ageBucket: "25-29",
+    });
+  });
+
+  test("falls back to gender for views that have not migrated yet", () => {
+    expect(
+      extractDemographicFields({ ...baseRecord, gender: "MALE" })
+    ).toEqual({
+      raceOrEthnicity: "HISPANIC",
+      gender: "MALE",
+      ageBucket: "25-29",
+    });
+  });
+});
 
 describe("recordMatchesLocality", () => {
   const testData = [
